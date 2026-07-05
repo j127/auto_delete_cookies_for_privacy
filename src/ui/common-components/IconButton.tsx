@@ -37,13 +37,7 @@ interface IconButtonProps {
 }
 
 export default class IconButton extends React.Component<IconButtonProps> {
-  public render(): Partial<
-    | HTMLButtonElement
-    | HTMLInputElement
-    | HTMLLabelElement
-    | HTMLBaseElement
-    | HTMLElement
-  > {
+  public render(): React.ReactNode {
     const {
       className,
       iconName,

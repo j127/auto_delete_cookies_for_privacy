@@ -14,7 +14,7 @@
 // Must be the first import: provides the `browser`/`browserDetect` globals
 // that MV2 supplied via script tags.
 import "../../init-globals";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { createUIStore } from "../../redux/ui-store-bridge";
 import { sleep } from "../../services/libs";
@@ -32,11 +32,10 @@ async function initApp() {
   const mountNode = document.createElement("div");
   document.body.appendChild(mountNode);
 
-  ReactDOM.render(
+  createRoot(mountNode).render(
     <Provider store={store as any}>
       <App />
-    </Provider>,
-    mountNode
+    </Provider>
   );
 }
 
