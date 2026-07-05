@@ -112,17 +112,18 @@ class About extends React.Component<AboutProps> {
           cols={40}
           readOnly={true}
           style={{ resize: "none" }}
-        >
-          {`- Browser Info: (Please add version number on paste)\n- ADCP Version: ${
+          value={`- Browser Info: (Please add version number on paste)\n- ADCP Version: ${
             browser.runtime.getManifest().version
           }`}
-        </textarea>
+        />
         <br />
         <IconButton
           className="btn-primary"
           role="button"
           onClick={() => {
-            const textDebug = document.getElementById("debugInfo");
+            const textDebug = document.getElementById(
+              "debugInfo"
+            ) as HTMLTextAreaElement | null;
             const spanCopy = document.getElementById("copy-debugInfo");
             if (!textDebug || !spanCopy) {
               adcpLog(
@@ -134,17 +135,17 @@ class About extends React.Component<AboutProps> {
               );
               return;
             }
-            if (!textDebug.textContent) {
+            if (!textDebug.value) {
               adcpLog(
                 {
                   type: "error",
-                  msg: "Could not get textContent from textarea for debugInfo",
+                  msg: "Could not get value from textarea for debugInfo",
                 },
                 true
               );
               return;
             }
-            navigator.clipboard.writeText(textDebug.textContent).then(
+            navigator.clipboard.writeText(textDebug.value).then(
               () => {
                 spanCopy.classList.add("text-success");
                 spanCopy.innerText = browser.i18n.getMessage("copySuccessText");
@@ -174,13 +175,16 @@ class About extends React.Component<AboutProps> {
           cols={40}
           readOnly={true}
           style={{ resize: "none" }}
-        >{`${settingSlim.join("\n")}`}</textarea>
+          value={settingSlim.join("\n")}
+        />
         <br />
         <IconButton
           className="btn-primary"
           role="button"
           onClick={() => {
-            const textDebug = document.getElementById("debugSettings");
+            const textDebug = document.getElementById(
+              "debugSettings"
+            ) as HTMLTextAreaElement | null;
             const spanCopy = document.getElementById("copy-debugSettings");
             if (!textDebug || !spanCopy) {
               adcpLog(
@@ -192,17 +196,17 @@ class About extends React.Component<AboutProps> {
               );
               return;
             }
-            if (!textDebug.textContent) {
+            if (!textDebug.value) {
               adcpLog(
                 {
                   type: "error",
-                  msg: "Could not get textContent from textarea for debugSettings",
+                  msg: "Could not get value from textarea for debugSettings",
                 },
                 true
               );
               return;
             }
-            navigator.clipboard.writeText(textDebug.textContent).then(
+            navigator.clipboard.writeText(textDebug.value).then(
               () => {
                 spanCopy.classList.add("text-success");
                 spanCopy.innerText = browser.i18n.getMessage("copySuccessText");
