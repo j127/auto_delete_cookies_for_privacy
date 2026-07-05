@@ -10,7 +10,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  FontAwesomeIcon,
+  FontAwesomeIconProps,
+} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 interface OwnProps {
   inline?: boolean;
@@ -22,7 +25,7 @@ interface OwnProps {
 const styles = {
   checkbox: {
     marginRight: "5px",
-  } as React.CSSProperties,
+  } as FontAwesomeIconProps["style"],
 };
 
 const CheckboxSetting: React.FunctionComponent<OwnProps> = ({
