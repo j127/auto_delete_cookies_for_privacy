@@ -29,13 +29,13 @@ const defaultCookie: browser.cookies.Cookie = {
   sameSite: "no_restriction",
   secure: false,
   session: true,
-  storeId: "firefox-default",
+  storeId: "0",
   value: "CookieValue",
 };
 
 const defaultTab: browser.tabs.Tab = {
   active: true,
-  cookieStoreId: "firefox-container-00",
+  cookieStoreId: "0",
   hidden: false,
   highlighted: false,
   incognito: false,

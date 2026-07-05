@@ -65,8 +65,8 @@ body:
   - type: input
     attributes:
       label: System Info - Browser Info
-      description: "** If you are using a browser edition that is not standard/public release, please include the edition alongside the version number (e.g. Chrome Dev, Chrome Canary, Firefox Dev, Firefox Nightly)"
-      placeholder: e.g. Chrome 88.9.1234.567, Firefox 88.0.1
+      description: "** If you are using a browser edition that is not standard/public release, please include the edition alongside the version number (e.g. Chrome Dev, Chrome Canary, Brave Beta)"
+      placeholder: e.g. Chrome 120.0.6099.109, Brave 1.61.104
     validations:
       required: true
   - type: input

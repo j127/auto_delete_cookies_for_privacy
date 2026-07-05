@@ -23,10 +23,7 @@ import {
   extractMainDomain,
   getAllCookiesForDomain,
   getHostname,
-  getSetting,
   isAnIP,
-  isChrome,
-  isFirefoxNotAndroid,
   localFileToRegex,
   parseCookieStoreId,
 } from "../../services/libs";
@@ -45,7 +42,6 @@ interface DispatchProps {
 }
 
 interface StateProps {
-  contextualIdentities: boolean;
   state: State;
 }
 
@@ -66,26 +62,21 @@ class App extends Component<PopupAppComponentProps, InitialState> {
     document.documentElement.style.fontSize = `${
       (this.props.state.settings[SettingID.SIZE_POPUP].value as number) || 16
     }px`;
-    if (isChrome(this.props.state.cache)) {
-      // Chrome requires min width otherwise the layout is messed up
-      document.documentElement.style.minWidth = `${
-        430 +
-        (((this.props.state.settings[SettingID.SIZE_POPUP].value as number) ||
-          16) -
-          10) *
-          35
-      }px`;
-    }
+    // Chrome requires min width otherwise the layout is messed up
+    document.documentElement.style.minWidth = `${
+      430 +
+      (((this.props.state.settings[SettingID.SIZE_POPUP].value as number) ||
+        16) -
+        10) *
+        35
+    }px`;
     const tabs = await browser.tabs.query({
       active: true,
       currentWindow: true,
     });
 
     this.setState({
-      storeId: parseCookieStoreId(
-        this.props.contextualIdentities,
-        tabs[0].cookieStoreId
-      ),
+      storeId: parseCookieStoreId(tabs[0].cookieStoreId),
       tab: tabs[0],
     });
   }
@@ -117,14 +108,9 @@ class App extends Component<PopupAppComponentProps, InitialState> {
     if (!tab) {
       return "Loading";
     }
-    const {
-      onNewExpression,
-      onCookieCleanup,
-      onUpdateSetting,
-      contextualIdentities,
-      state,
-    } = this.props;
-    const { cache, settings } = state;
+    const { onNewExpression, onCookieCleanup, onUpdateSetting, state } =
+      this.props;
+    const { settings } = state;
     const hostname = getHostname(tab.url);
     const mainDomain = extractMainDomain(hostname);
     const addableHostnames = [
@@ -293,18 +279,10 @@ class App extends Component<PopupAppComponentProps, InitialState> {
             iconName="cog"
             className="btn-info m-1"
             onClick={() => {
-              if (isFirefoxNotAndroid(cache)) {
-                browser.tabs.create({
-                  cookieStoreId: tab.cookieStoreId,
-                  index: tab.index + 1,
-                  url: "/settings/settings.html#tabSettings",
-                });
-              } else {
-                browser.tabs.create({
-                  index: tab.index + 1,
-                  url: "/settings/settings.html#tabSettings",
-                });
-              }
+              browser.tabs.create({
+                index: tab.index + 1,
+                url: "/settings/settings.html#tabSettings",
+              });
               window.close();
             }}
             title={browser.i18n.getMessage("preferencesText")}
@@ -340,11 +318,7 @@ class App extends Component<PopupAppComponentProps, InitialState> {
                 verticalAlign: "middle",
               }}
             >
-              {`${hostname}${
-                contextualIdentities && cache[storeId] !== undefined
-                  ? ` (${cache[storeId]})`
-                  : ""
-              }`}
+              {hostname}
             </span>
           </div>
           <div
@@ -439,10 +413,6 @@ class App extends Component<PopupAppComponentProps, InitialState> {
 
 const mapStateToProps = (state: State) => {
   return {
-    contextualIdentities: getSetting(
-      state,
-      SettingID.CONTEXTUAL_IDENTITIES
-    ) as boolean,
     state,
   };
 };

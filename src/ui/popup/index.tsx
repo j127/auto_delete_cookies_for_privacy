@@ -12,13 +12,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-// Must be the first import: provides the `browser`/`browserDetect` globals
+// Must be the first import: provides the `browser` global
 // that MV2 supplied via script tags.
 import "../../init-globals";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createUIStore } from "../../redux/ui-store-bridge";
-import { isChrome, sleep } from "../../services/libs";
+import { sleep } from "../../services/libs";
 import ErrorBoundary from "../common-components/ErrorBoundary";
 import fontAwesomeImports from "../font-awesome-imports";
 import App from "./App";
@@ -34,9 +34,7 @@ async function initApp() {
   const mountNode = document.createElement("div");
   document.body.appendChild(mountNode);
 
-  if (isChrome(store.getState().cache)) {
-    await new Promise((resolve) => setTimeout(resolve, 100));
-  }
+  await new Promise((resolve) => setTimeout(resolve, 100));
 
   ReactDOM.render(
     <Provider store={store as any}>

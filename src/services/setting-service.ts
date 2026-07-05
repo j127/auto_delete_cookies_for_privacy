@@ -13,7 +13,6 @@
 
 import { SettingID, SiteDataType } from "../typings/enums";
 import StoreUser from "./store-user";
-import ContextualIdentitiesEvents from "./contextual-identities-events";
 import { validateSettings } from "../redux/actions";
 import { cadLog, siteDataToBrowser, SITEDATATYPES } from "./libs";
 import { checkIfProtected, setGlobalIcon } from "./browser-action-service";
@@ -32,15 +31,6 @@ export default class SettingService extends StoreUser {
     }
     const previous = SettingService.current;
     SettingService.current = StoreUser.store.getState().settings;
-
-    // Container Mode Changes
-    if (SettingService.hasNewValue(previous, SettingID.CONTEXTUAL_IDENTITIES)) {
-      if (SettingService.getCurrent(SettingID.CONTEXTUAL_IDENTITIES)) {
-        await ContextualIdentitiesEvents.init();
-      } else {
-        await ContextualIdentitiesEvents.deInit();
-      }
-    }
 
     // BrowsingData Settings Check
     for (const siteData of SITEDATATYPES) {

@@ -10,7 +10,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { browserName, ListType, SettingID } from "../../../typings/enums";
+import { ListType, SettingID } from "../../../typings/enums";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -47,8 +47,6 @@ interface OwnProps {
 }
 
 interface StateProps {
-  bName: browserName;
-  contextualIdentities: boolean;
   debug: boolean;
   lists: StoreIdToExpressionList;
 }
@@ -62,8 +60,6 @@ interface DispatchProps {
 type ExpressionProps = OwnProps & StateProps & DispatchProps;
 
 class InitialState {
-  public contextualIdentitiesObjects: browser.contextualIdentities.ContextualIdentity[] =
-    [];
   public error = "";
   public expressionInput = "";
   public storeId = "default";
@@ -303,26 +299,9 @@ class Expressions extends React.Component<ExpressionProps> {
   }
 
   public createDefaultOptions() {
-    const { bName, contextualIdentities, lists, onNewExpression } = this.props;
-    const { contextualIdentitiesObjects } = this.state;
+    const { lists, onNewExpression } = this.props;
     const containers = new Set<string>(Object.keys(lists));
-    if (contextualIdentities) {
-      contextualIdentitiesObjects.forEach((c) =>
-        containers.add(c.cookieStoreId)
-      );
-    }
-    containers.add(
-      ((browser) => {
-        switch (browser) {
-          case browserName.Chrome:
-          case browserName.Opera:
-            return "0";
-          case browserName.Firefox:
-          default:
-            return "firefox-default";
-        }
-      })(bName)
-    );
+    containers.add("0");
     containers.forEach((id) => {
       [ListType.GREY, ListType.WHITE].forEach((lt) => {
         onNewExpression({
@@ -334,10 +313,8 @@ class Expressions extends React.Component<ExpressionProps> {
     });
   }
 
-  public getDerivedStateFromProps(nextProps: ExpressionProps) {
-    if (!nextProps.contextualIdentities) {
-      this.changeStoreIdTab("default");
-    }
+  public getDerivedStateFromProps() {
+    this.changeStoreIdTab("default");
   }
 
   // Change the id of the storeId for the container tabs
@@ -347,34 +324,9 @@ class Expressions extends React.Component<ExpressionProps> {
     });
   }
 
-  public async componentDidMount() {
-    if (this.props.contextualIdentities) {
-      const contextualIdentitiesObjects =
-        await browser.contextualIdentities.query({});
-      this.setState({
-        contextualIdentitiesObjects,
-      });
-    }
-  }
-
   public render() {
-    const { style, lists, contextualIdentities } = this.props;
-    const { error, contextualIdentitiesObjects, storeId, success } = this.state;
-    const mapIDtoName: { [k: string]: string | undefined } = {};
-    if (contextualIdentities) {
-      contextualIdentitiesObjects.forEach((c) => {
-        mapIDtoName[c.cookieStoreId] = c.name;
-      });
-      Object.keys(lists).forEach((list) => {
-        if (list === "default") return;
-        const container = contextualIdentitiesObjects.find((c) => {
-          return c.cookieStoreId === list;
-        });
-        if (!container) {
-          mapIDtoName[list] = undefined;
-        }
-      });
-    }
+    const { style, lists } = this.props;
+    const { error, storeId, success } = this.state;
 
     return (
       <div className="col" style={style}>
@@ -493,23 +445,6 @@ class Expressions extends React.Component<ExpressionProps> {
                 )}
                 styleReact={styles.buttonStyle}
               />
-              {contextualIdentities && (
-                <IconButton
-                  tag="button"
-                  className="btn-danger"
-                  iconName="trash"
-                  role="button"
-                  onClick={() => {
-                    this.removeListConfirmation(
-                      storeId,
-                      this.props.lists[storeId]
-                    );
-                  }}
-                  text={browser.i18n.getMessage("removeListText")}
-                  title={browser.i18n.getMessage("removeListText")}
-                  styleReact={styles.buttonStyle}
-                />
-              )}
             </div>
           </div>
           <div
@@ -572,57 +507,6 @@ class Expressions extends React.Component<ExpressionProps> {
         ) : (
           ""
         )}
-        {contextualIdentities && (
-          <h5>
-            {browser.i18n.getMessage("currentContainerInfo", [
-              storeId === "default"
-                ? browser.i18n.getMessage("defaultText")
-                : storeId,
-              mapIDtoName[storeId] ||
-                browser.i18n.getMessage(
-                  storeId === "default"
-                    ? "defaultContainerText"
-                    : "missingContainerText"
-                ),
-            ])}
-          </h5>
-        )}
-        {contextualIdentities && (
-          <ul className="row nav nav-tabs flex-column flex-sm-row">
-            <li
-              onClick={() => {
-                this.changeStoreIdTab("default");
-              }}
-              className="nav-item"
-            >
-              <a
-                className={`nav-link ${storeId === "default" ? "active" : ""}`}
-                href="#tabExpressionList"
-              >
-                {browser.i18n.getMessage("defaultText")}
-              </a>
-            </li>
-            {Object.entries(mapIDtoName).map(([cookieStoreId, name]) => (
-              <li
-                key={`navTab-${cookieStoreId}`}
-                onClick={() => {
-                  this.changeStoreIdTab(cookieStoreId);
-                }}
-                className="nav-item"
-              >
-                <a
-                  className={`nav-link ${
-                    storeId === cookieStoreId ? "active" : ""
-                  } ${name ? "" : "text-danger"}`}
-                  href="#tabExpressionList"
-                >
-                  {name || browser.i18n.getMessage("missingContainerText")}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
-
         <div className="row" style={styles.tableContainer}>
           <ExpressionTable
             expressionColumnTitle={browser.i18n.getMessage(
@@ -659,14 +543,8 @@ class Expressions extends React.Component<ExpressionProps> {
 }
 
 const mapStateToProps = (state: State) => {
-  const { cache, lists } = state;
+  const { lists } = state;
   return {
-    bName: cache.browserDetect || (browserDetect() as browserName),
-    cache,
-    contextualIdentities: getSetting(
-      state,
-      SettingID.CONTEXTUAL_IDENTITIES
-    ) as boolean,
     debug: getSetting(state, SettingID.DEBUG_MODE) as boolean,
     lists,
   };

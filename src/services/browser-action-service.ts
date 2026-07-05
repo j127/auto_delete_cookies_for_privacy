@@ -39,14 +39,10 @@ export const showNumberOfCookiesInTitle = async (
   otherInfo: {
     cookieLength?: number;
     listType?: string;
-    platformOS?: string;
   }
 ): Promise<void> => {
   const mf = browser.runtime.getManifest();
-  // Use Shortened Extension name for mobile.
-  const tabTitle = `${otherInfo.platformOS === "android" ? "CAD" : mf.name} ${
-    mf.version
-  }`;
+  const tabTitle = `${mf.name} ${mf.version}`;
 
   const curData = /\[(.*)] \((\d*)\)/.exec(
     await browser.action.getTitle({
@@ -154,20 +150,15 @@ export const checkIfProtected = async (
 
     if (matchedExpression) {
       showNumberOfCookiesInTitle(aTab, {
-        platformOS: state.cache.platformOs,
         listType: matchedExpression.listType,
         cookieLength,
       });
     } else {
       showNumberOfCookiesInTitle(aTab, {
-        platformOS: state.cache.platformOs,
         listType: "NO LIST",
         cookieLength,
       });
     }
-
-    // Can't set icons on Android.
-    if (state.cache.platformOs && state.cache.platformOs === "android") return;
 
     if (matchedExpression) {
       switch (matchedExpression.listType) {

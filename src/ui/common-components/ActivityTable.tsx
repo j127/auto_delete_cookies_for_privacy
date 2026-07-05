@@ -17,11 +17,17 @@ import { removeActivity } from "../../redux/actions";
 import {
   cadLog,
   getSetting,
-  returnOptionalCookieAPIAttributes,
   siteDataToBrowser,
   throwErrorNotification,
 } from "../../services/libs";
-import { FilterOptions, ListType, ReasonClean, ReasonKeep, SettingID, SiteDataType } from "../../typings/enums";
+import {
+  FilterOptions,
+  ListType,
+  ReasonClean,
+  ReasonKeep,
+  SettingID,
+  SiteDataType,
+} from "../../typings/enums";
 import { ReduxAction } from "../../typings/redux-constants";
 import IconButton from "./IconButton";
 
@@ -173,7 +179,6 @@ const restoreCookies = async (
       const {
         domain,
         expirationDate,
-        firstPartyDomain,
         hostOnly,
         httpOnly,
         name,
@@ -189,9 +194,6 @@ const restoreCookies = async (
       // and url should already start with https://
       // Only modify cookie names starting with __Host- as it shouldn't have domain.
       const cookieProperties = {
-        ...returnOptionalCookieAPIAttributes(state, {
-          firstPartyDomain,
-        }),
         domain: name.startsWith("__Host-") || hostOnly ? undefined : domain,
         expirationDate,
         httpOnly,
@@ -338,8 +340,7 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
                 {storeIdEntries.map(([storeId, cleanReasonObjects]) => {
                   return (
                     <div key={`${storeId}-${log.dateTime}`}>
-                      {(storeIdEntries.length > 1 ||
-                        getSetting(state, SettingID.CONTEXTUAL_IDENTITIES)) && (
+                      {storeIdEntries.length > 1 && (
                         <h6>
                           {cache[storeId] !== undefined
                             ? `${cache[storeId]} `

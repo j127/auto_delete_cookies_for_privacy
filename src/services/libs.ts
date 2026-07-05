@@ -11,7 +11,12 @@
  * SOFTWARE.
  */
 
-import { browserName, EventListenerAction, ListType, SettingID, SiteDataType } from "../typings/enums";
+import {
+  EventListenerAction,
+  ListType,
+  SettingID,
+  SiteDataType,
+} from "../typings/enums";
 import ipaddr from "ipaddr.js";
 
 /* --- CONSTANTS --- */
@@ -206,14 +211,11 @@ export const getAllCookiesForDomain = async (
     return;
   }
   const cookies: browser.cookies.Cookie[] = [];
-  const mainDomain = extractMainDomain(hostname);
 
   if (hostname.startsWith("file:")) {
-    const allCookies = await browser.cookies.getAll(
-      returnOptionalCookieAPIAttributes(state, {
-        storeId: cookieStoreId,
-      })
-    );
+    const allCookies = await browser.cookies.getAll({
+      storeId: cookieStoreId,
+    });
     const regExp = new RegExp(hostname.slice(7)); // take out 'file://'
     cadLog(
       {
@@ -225,76 +227,7 @@ export const getAllCookiesForDomain = async (
     allCookies
       .filter((c) => c.domain === "" && regExp.test(c.path))
       .forEach((cc) => cookies.push(cc));
-  } else if (await isFirstPartyIsolate()) {
-    // Firefox Only - FirstPartyIsolation - original method
-    cadLog(
-      {
-        msg: "Libs.getAllCookiesForDomain:  browser.cookies.getAll for domain (firstPartyIsolation).",
-        x: {
-          partialTabInfo,
-          domain: hostname,
-          firstPartyDomain: mainDomain,
-        },
-      },
-      debug
-    );
-    const cookiesFPI = await browser.cookies.getAll(
-      returnOptionalCookieAPIAttributes(state, {
-        domain: hostname,
-        firstPartyDomain: mainDomain,
-        storeId: cookieStoreId,
-      })
-    );
-    cookiesFPI.forEach((c) => cookies.push(c));
-    // Try to get additional firstParty Isolation cookies if
-    // firstparty.isolation.use_site was enabled, to which we don't know
-    const siteURL = new URL(url);
-    const proto = siteURL.protocol.replace(":", "");
-    // firstPartyDomain = (https,domain.com)
-    cadLog(
-      {
-        msg: "Libs.getAllCookiesForDomain:  browser.cookies.getAll for domain (FirstPartyIsolation - use_site).",
-        x: {
-          partialTabInfo,
-          domain: hostname,
-          firstPartyDomain: `(${proto},${mainDomain})`,
-        },
-      },
-      debug
-    );
-    const cookiesFPIUseSite = await browser.cookies.getAll(
-      returnOptionalCookieAPIAttributes(state, {
-        domain: hostname,
-        firstPartyDomain: `(${proto},${mainDomain})`,
-        storeId: cookieStoreId,
-      })
-    );
-    cookiesFPIUseSite.forEach((c) => cookies.push(c));
-    // firstPartyDomain = (https,domain.com,2048)
-    // Should only be used when domain is an IP, but just in case.
-    if (siteURL.port) {
-      cadLog(
-        {
-          msg: "Libs.getAllCookiesForDomain:  browser.cookies.getAll for domain (FirstPartyIsolation - use_site + port).",
-          x: {
-            partialTabInfo,
-            domain: hostname,
-            firstPartyDomain: `(${proto},${mainDomain},${siteURL.port})`,
-          },
-        },
-        debug
-      );
-      const cookiesFPIUseSitePort = await browser.cookies.getAll(
-        returnOptionalCookieAPIAttributes(state, {
-          domain: hostname,
-          firstPartyDomain: `(${proto},${mainDomain},${siteURL.port})`,
-          storeId: cookieStoreId,
-        })
-      );
-      cookiesFPIUseSitePort.forEach((c) => cookies.push(c));
-    }
   } else {
-    // Chrome / Firefox non-firstPartyIsolation
     cadLog(
       {
         msg: "Libs.getAllCookiesForDomain:  browser.cookies.getAll for domain.",
@@ -305,12 +238,10 @@ export const getAllCookiesForDomain = async (
       },
       debug
     );
-    const cookiesDomain = await browser.cookies.getAll(
-      returnOptionalCookieAPIAttributes(state, {
-        domain: hostname,
-        storeId: cookieStoreId,
-      })
-    );
+    const cookiesDomain = await browser.cookies.getAll({
+      domain: hostname,
+      storeId: cookieStoreId,
+    });
     cookiesDomain.forEach((c) => cookies.push(c));
   }
 
@@ -358,11 +289,7 @@ export const getContainerExpressionDefault = (
     listType: ListType.WHITE,
     storeId: "",
   };
-  const expDefault =
-    storeId !== "default" && getSetting(state, SettingID.CONTEXTUAL_IDENTITIES)
-      ? getExpression("default") || exp
-      : exp;
-  return getExpression(storeId) || expDefault;
+  return getExpression(storeId) || exp;
 };
 
 /**
@@ -480,20 +407,14 @@ export const getSetting = (
 ): string | number | boolean => state.settings[settingName].value;
 
 /**
- * Gets a sanitized cookieStoreId
+ * Gets a sanitized cookieStoreId (Chrome semantics: "0" is the default
+ * store, "1" is the incognito store).
  */
-export const getStoreId = (state: State, storeId: string): string => {
-  if (
-    storeId === "firefox-default" ||
-    (!getSetting(state, SettingID.CONTEXTUAL_IDENTITIES) &&
-      storeId !== "firefox-private" &&
-      isFirefox(state.cache)) ||
-    (isChrome(state.cache) && storeId === "0") ||
-    (state.cache.browserDetect === browserName.Opera && storeId === "0")
-  ) {
+export const getStoreId = (storeId: string): string => {
+  if (storeId === "0") {
     return "default";
   }
-  if (isChrome(state.cache) && storeId === "1") {
+  if (storeId === "1") {
     return "private";
   }
 
@@ -540,71 +461,6 @@ export const isAWebpage = (URL: string | undefined): boolean => {
     return false;
   }
   return !!(URL.match(/^http:/) || URL.match(/^https:/) || URL.match(/^file:/));
-};
-
-/**
- * Test if browser is Chrome
- * @param cache Cache containing browserDetect
- */
-export const isChrome = (cache: CacheMap): boolean => {
-  return (
-    Object.prototype.hasOwnProperty.call(cache, "browserDetect") &&
-    cache.browserDetect === browserName.Chrome
-  );
-};
-
-/**
- * Test if browser is Firefox (Desktop or Mobile/Android)
- * @param cache Cache containing browserDetect
- */
-export const isFirefox = (cache: CacheMap): boolean => {
-  return (
-    Object.prototype.hasOwnProperty.call(cache, "browserDetect") &&
-    cache.browserDetect === browserName.Firefox
-  );
-};
-
-/**
- * Test if browser is Firefox Mobile/Android
- * @param cache Cache containing browserDetect and platformOs
- */
-export const isFirefoxAndroid = (cache: CacheMap): boolean => {
-  return (
-    isFirefox(cache) &&
-    Object.prototype.hasOwnProperty.call(cache, "platformOs") &&
-    cache.platformOs === "android"
-  );
-};
-
-/**
- * Test if browser is Firefox but not Android/mobile version
- * @param cache Cache containing browserDetect and platformOs
- */
-export const isFirefoxNotAndroid = (cache: CacheMap): boolean => {
-  return (
-    isFirefox(cache) &&
-    Object.prototype.hasOwnProperty.call(cache, "platformOs") &&
-    cache.platformOs !== "android"
-  );
-};
-
-/**
- * Test for FirstPartyIsolation (Firefox).
- * Workaround for not needing Firefox 'Privacy' permission.
- */
-export const isFirstPartyIsolate = async (): Promise<boolean> => {
-  return browser.cookies
-    .getAll({
-      domain: "",
-    })
-    .then(() => {
-      // No error = most likely not enabled.
-      return Promise.resolve(false);
-    })
-    .catch((e) => {
-      // Error usually if firstPartyIsolate is enabled as it requires firstPartyDomain Property.
-      return Promise.resolve(e.message.indexOf("firstPartyDomain") !== -1);
-    });
 };
 
 /*
@@ -670,25 +526,17 @@ export const matchIPInExpression = (
 };
 
 /**
- * Parse cookieStoreId for use in addExpressionUI...
+ * Parse cookieStoreId for use in addExpressionUI. Chrome tabs don't expose a
+ * cookieStoreId, so expressions added from a tab context land in the
+ * "default" store.
  */
-export const parseCookieStoreId = (
-  contextualIdentities: boolean,
-  cookieStoreId: string | undefined
-): string => {
-  return !contextualIdentities ||
-    (cookieStoreId && cookieStoreId === "firefox-default")
-    ? "default"
-    : cookieStoreId || "default";
-};
+export const parseCookieStoreId = (cookieStoreId: string | undefined): string =>
+  cookieStoreId || "default";
 
 /**
  * Prepare Domains for all cleanups.
  */
-export const prepareCleanupDomains = (
-  domain: string,
-  bName: browserName = browserDetect() as browserName
-): string[] => {
+export const prepareCleanupDomains = (domain: string): string[] => {
   if (domain.trim() === "") return [];
   let d: string = domain.trim();
   const domains = new Set<string>();
@@ -714,16 +562,13 @@ export const prepareCleanupDomains = (
     }
   }
 
-  if (bName === browserName.Chrome || bName === browserName.Opera) {
-    const origins: string[] = [];
-    for (const d of domains) {
-      origins.push(`http://${d}`);
-      origins.push(`https://${d}`);
-    }
-    return origins;
+  // Chrome's browsingData API takes full origins.
+  const origins: string[] = [];
+  for (const d of domains) {
+    origins.push(`http://${d}`);
+    origins.push(`https://${d}`);
   }
-
-  return Array.from(domains);
+  return origins;
 };
 
 /**
@@ -758,42 +603,9 @@ export const returnMatchedExpressionObject = (
 ): Expression | undefined => {
   return getMatchedExpressions(
     state.lists,
-    getStoreId(state, cookieStoreId),
+    getStoreId(cookieStoreId),
     hostname
   )[0];
-};
-
-/**
- * Return optional attributes for the Cookie API calls
- */
-export const returnOptionalCookieAPIAttributes = (
-  state: State | CacheMap,
-  cookieAPIAttributes: Partial<CookiePropertiesCleanup> & {
-    [x: string]: any;
-  }
-): Partial<CookiePropertiesCleanup> => {
-  // Add optional firstPartyDomain attribute
-  // To fetch firstPartyIsolation cookies even if FPI is off,
-  // set firstPartyDomain to null.
-  if (
-    isFirefox(state.cache) &&
-    !Object.prototype.hasOwnProperty.call(
-      cookieAPIAttributes,
-      "firstPartyDomain"
-    )
-  ) {
-    return {
-      ...cookieAPIAttributes,
-      firstPartyDomain: undefined,
-    };
-  }
-  // Only remove FPI Property if it is NOT firefox.
-  if (!isFirefox(state.cache)) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { firstPartyDomain, ...rest } = cookieAPIAttributes;
-    return rest;
-  }
-  return cookieAPIAttributes;
 };
 
 /**

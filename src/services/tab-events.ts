@@ -26,8 +26,6 @@ import {
   getHostname,
   getSetting,
   isAWebpage,
-  isFirstPartyIsolate,
-  returnOptionalCookieAPIAttributes,
   uid,
 } from "./libs";
 import StoreUser from "./store-user";
@@ -303,20 +301,13 @@ export default class TabEvents extends StoreUser {
       isAWebpage(tab.url) &&
       !tab.url.startsWith("file:")
     ) {
-      const cookiesAttributes = returnOptionalCookieAPIAttributes(
-        StoreUser.store.getState(),
-        {
-          expirationDate: Math.floor(Date.now() / 1000 + 31557600),
-          firstPartyDomain: (await isFirstPartyIsolate())
-            ? extractMainDomain(getHostname(tab.url))
-            : "",
-          name: CADCOOKIENAME,
-          path: `/${uid()}`,
-          storeId: tab.cookieStoreId,
-          url: tab.url,
-          value: CADCOOKIENAME,
-        }
-      );
+      const cookiesAttributes = {
+        expirationDate: Math.floor(Date.now() / 1000 + 31557600),
+        name: CADCOOKIENAME,
+        path: `/${uid()}`,
+        storeId: tab.cookieStoreId,
+        value: CADCOOKIENAME,
+      };
       await browser.cookies.set({ ...cookiesAttributes, url: tab.url });
       cadLog(
         {
@@ -345,11 +336,7 @@ export default class TabEvents extends StoreUser {
     );
     await checkIfProtected(StoreUser.store.getState(), tab, cookieLength);
 
-    // Exclude Firefox Android for browser icons and badge texts
-    if (
-      getSetting(StoreUser.store.getState(), SettingID.NUM_COOKIES_ICON) &&
-      (StoreUser.store.getState().cache.platformOs || "") !== "android"
-    ) {
+    if (getSetting(StoreUser.store.getState(), SettingID.NUM_COOKIES_ICON)) {
       cadLog(
         {
           msg: "TabEvents.getAllCookieActions: executing showNumberOfCookiesInIcon.",

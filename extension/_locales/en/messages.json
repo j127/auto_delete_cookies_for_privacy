@@ -115,10 +115,6 @@
     "message": "Click on the Console Tab",
     "description": "Click on the Console Tab. Found after enabling debug mode."
   },
-  "containerSiteDataWarning": {
-    "message": "WARNING: Enabling Container Tabs with any of the additional browsing data cleanups above may cause unwanted side effects due to browser API limitations. Site data types, with the exception of cookies, will be cleared by hostname for ALL containers.",
-    "description": "WARNING: Enabling Container Tabs with any of the additional browsing data cleanups above may cause unwanted side effects due to browser API limitations. Site data types, with the exception of cookies, will be cleared by hostname for ALL containers. Found in CAD Settings."
-  },
   "contextMenusParentClean": {
     "message": "Manual Cleaning Menu",
     "description": "Manual Cleaning Menu. Shown on right-clicks of Page/Browser Action."
@@ -162,14 +158,6 @@
         "example": "github.com"
       }
     }
-  },
-  "contextualIdentitiesAutoRemoveText": {
-    "message": "Enable Automatic Removal of Expression List when its Container is Removed.",
-    "description": "Enable Automatic Removal of Expression List when its Container is Removed. Only in Firefox."
-  },
-  "contextualIdentitiesEnabledText": {
-    "message": "Enable Support for Container Tabs",
-    "description": "Enable Support for Container Tabs. Currently only in Firefox."
   },
   "contributorsText": {
     "message": "Contributors",
@@ -215,20 +203,6 @@
     "message": "Create Default Expression Options",
     "description": "Create Default Expression Options. Used in 'List of Expressions'"
   },
-  "currentContainerInfo": {
-    "message": "Current Container Selected: $ID$ ( $Name$ )",
-    "description": "Current Container Selected: $ID$ ( $Name ). Found in List of Expressions only if Firefox containers enabled.",
-    "placeholders": {
-      "ID": {
-        "content": "$1",
-        "example": "firefox-container-1"
-      },
-      "Name": {
-        "content": "$2",
-        "example": "Personal (whatever the user has named the container) - or - translated version of 'Invalid Container'"
-      }
-    }
-  },
   "debugMode": {
     "message": "Enable Debug Mode (Additional Console Outputs)",
     "description": "Enable Debug Mode (Additional Console Outputs). Found in CAD Settings."
@@ -236,14 +210,6 @@
   "debugTitle": {
     "message": "Debug Information",
     "description": "Debug Information.  Header shown on About page."
-  },
-  "defaultText": {
-    "message": "Default",
-    "description": "Default. Used in List of Expression in Firefox for Default / No Container."
-  },
-  "defaultContainerText": {
-    "message": "No Container",
-    "description": "No Container. This will be in brackets. Used in List of Expression in Firefox for Default / No Container"
   },
   "defaultSettingsText": {
     "message": "Restore Default Settings",
@@ -699,10 +665,6 @@
     "message": "minute(s)",
     "description": "minute(s)"
   },
-  "missingContainerText": {
-    "message": "INVALID CONTAINER",
-    "description": "INVALID CONTAINER. Shown when a CAD list exists but cannot link id to available containers (Firefox)."
-  },
   "noCleanupLogText": {
     "message": "No Cleanup Logs Found",
     "description": "No Cleanup Logs Found"
@@ -984,16 +946,6 @@
   "restoreText": {
     "message": "Restore",
     "description": "Restore. Restores cookies that was cleaned up by this extension. Found in Activity Log entries."
-  },
-  "reviewLinkMessage": {
-    "message": "Thanks for trying out $cadTitle$. If you liked it, then please give a review.",
-    "description": "Thanks for trying out Cookie AutoDelete. If you liked it, then please give a review.",
-    "placeholders": {
-      "cadTitle": {
-        "content": "$1",
-        "example": "Cookie AutoDelete"
-      }
-    }
   },
   "saveExpressionText": {
     "message": "Save expression",
