@@ -32,10 +32,10 @@ import {
 } from "../../services/libs";
 import { FilterOptions, ListType, SettingID } from "../../typings/enums";
 import { ReduxAction } from "../../typings/redux-constants";
-import ActivityTable from "../common-components/activity-table";
-import IconButton from "../common-components/icon-button";
-import CleanCollapseGroup from "./components/clean-collapse-group";
-import FilteredExpression from "./components/filtered-expression";
+import ActivityTable from "../common-components/ActivityTable";
+import IconButton from "../common-components/IconButton";
+import CleanCollapseGroup from "./components/CleanCollapseGroup";
+import FilteredExpression from "./components/FilteredExpression";
 import { animateFlash } from "./popup-lib";
 
 interface DispatchProps {

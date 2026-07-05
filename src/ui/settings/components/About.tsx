@@ -14,7 +14,7 @@ import { browserName, SettingID } from "../../../typings/enums";
 import * as React from "react";
 import { connect } from "react-redux";
 import { cadLog, isFirefox } from "../../../services/libs";
-import IconButton from "../../common-components/icon-button";
+import IconButton from "../../common-components/IconButton";
 
 const styles = {
   buttonStyle: {

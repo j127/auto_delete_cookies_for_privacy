@@ -23,7 +23,7 @@ import {
 } from "../../services/libs";
 import { FilterOptions, ListType, ReasonClean, ReasonKeep, SettingID, SiteDataType } from "../../typings/enums";
 import { ReduxAction } from "../../typings/redux-constants";
-import IconButton from "./icon-button";
+import IconButton from "./IconButton";
 
 const createSummary = (cleanupObj: ActivityLog) => {
   const domainSet = new Set<string>();

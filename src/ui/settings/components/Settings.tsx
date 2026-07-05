@@ -23,11 +23,11 @@ import {
   isFirefoxNotAndroid,
 } from "../../../services/libs";
 import { ReduxAction } from "../../../typings/redux-constants";
-import CheckboxSetting from "../../common-components/checkbox-setting";
-import IconButton from "../../common-components/icon-button";
-import SelectInput from "../../common-components/select-input";
+import CheckboxSetting from "../../common-components/CheckboxSetting";
+import IconButton from "../../common-components/IconButton";
+import SelectInput from "../../common-components/SelectInput";
 import { downloadObjectAsJSON } from "../../ui-libs";
-import SettingsTooltip from "./settings-tooltip";
+import SettingsTooltip from "./SettingsTooltip";
 
 const styles = {
   buttonStyle: {

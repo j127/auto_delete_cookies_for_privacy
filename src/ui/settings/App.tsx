@@ -13,13 +13,13 @@
 import { SettingID } from "../../typings/enums";
 import { Component } from "react";
 import { connect } from "react-redux";
-import ErrorBoundary from "../common-components/error-boundary";
-import About from "./components/about";
-import ActivityLog from "./components/activity-log";
-import Expressions from "./components/expressions";
-import Settings from "./components/settings";
-import SideBar from "./components/side-bar";
-import Welcome from "./components/welcome";
+import ErrorBoundary from "../common-components/ErrorBoundary";
+import About from "./components/About";
+import ActivityLog from "./components/ActivityLog";
+import Expressions from "./components/Expressions";
+import Settings from "./components/Settings";
+import SideBar from "./components/SideBar";
+import Welcome from "./components/Welcome";
 
 interface OwnProps {
   sizeSetting: number;

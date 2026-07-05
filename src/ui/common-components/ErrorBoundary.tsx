@@ -17,7 +17,7 @@ import { resetAll } from "../../redux/actions";
 import { cadLog } from "../../services/libs";
 import { ReduxAction } from "../../typings/redux-constants";
 import { downloadObjectAsJSON } from "../ui-libs";
-import IconButton from "./icon-button";
+import IconButton from "./IconButton";
 
 // This fixes the error thrown when upgrading react-redux from 7.1.7 to 7.1.8
 interface ChildrenProps {

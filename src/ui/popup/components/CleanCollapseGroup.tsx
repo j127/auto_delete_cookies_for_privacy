@@ -21,7 +21,7 @@ import {
   clearLocalStorageForThisDomain,
 } from "../../../services/cleanup-service";
 import { ReduxAction } from "../../../typings/redux-constants";
-import CleanDataButton from "./clean-data-button";
+import CleanDataButton from "./CleanDataButton";
 
 interface DispatchProps {
   onCookieCleanup: (payload: CleanupProperties) => void;
