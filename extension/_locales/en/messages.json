@@ -171,10 +171,6 @@
     "message": "Enable Support for Container Tabs",
     "description": "Enable Support for Container Tabs. Currently only in Firefox."
   },
-  "contributeText": {
-    "message": "Contribute",
-    "description": "Contribute"
-  },
   "contributorsText": {
     "message": "Contributors",
     "description": "Contributors"
