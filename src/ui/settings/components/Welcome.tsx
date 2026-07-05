@@ -10,7 +10,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { browserName } from "../../../typings/enums";
 import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -43,25 +42,10 @@ const displayReleaseNotes = (releases: ReleaseNote[]) => {
   );
 };
 
-// Get the review link for different browsers
-const getReviewLink = (bName: browserName = browserDetect() as browserName) => {
-  switch (bName) {
-    case browserName.Chrome:
-      return "https://chrome.google.com/webstore/detail/cookie-autodelete/fhcgjolkccmbidfldomjliifgaodjagh/reviews";
-    case browserName.EdgeChromium:
-      return "https://microsoftedge.microsoft.com/addons/detail/djkjpnciiommncecmdefpdllknjdmmmo#reviewList";
-    case browserName.Firefox:
-      return "https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/reviews/";
-    default:
-      return "";
-  }
-};
-
 interface OwnProps {
   style?: React.CSSProperties;
   cookieDeletedCounterSession: number;
   cookieDeletedCounterTotal: number;
-  bName: browserName;
 }
 
 interface DispatchProps {
@@ -74,7 +58,6 @@ const Welcome: React.FunctionComponent<WelcomeProps> = ({
   style,
   cookieDeletedCounterTotal,
   cookieDeletedCounterSession,
-  bName,
   onResetCounterButtonClick,
 }) => {
   const { releases } = ReleaseNotes as { releases: ReleaseNote[] };
@@ -103,14 +86,6 @@ const Welcome: React.FunctionComponent<WelcomeProps> = ({
       <a href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/FAQ:-Common-Questions-and-Issues">
         <span>{`${browser.i18n.getMessage("faqText")}`}</span>
       </a>
-      <br />
-      <br />
-      <a href={getReviewLink(bName)}>
-        {browser.i18n.getMessage(
-          "reviewLinkMessage",
-          browser.i18n.getMessage("extensionName")
-        )}
-      </a>
       <hr />
       <h2>{browser.i18n.getMessage("releaseNotesText")}</h2>
 
@@ -136,10 +111,8 @@ const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
 });
 
 const mapStateToProps = (state: State) => {
-  const { cookieDeletedCounterTotal, cookieDeletedCounterSession, cache } =
-    state;
+  const { cookieDeletedCounterTotal, cookieDeletedCounterSession } = state;
   return {
-    bName: cache.browserDetect || (browserDetect() as browserName),
     cookieDeletedCounterSession,
     cookieDeletedCounterTotal,
   };

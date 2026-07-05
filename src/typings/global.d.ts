@@ -15,13 +15,11 @@ declare module "*.json";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 declare const global: any;
-declare const browserDetect: () => browserName;
 
 // The enums live in ./enums.ts as real runtime objects (Bun.build cannot
 // inline ambient const enums the way ts-loader/ts-jest did). These aliases
 // keep the names usable in TYPE positions without imports; VALUE usage
 // (Enum.MEMBER) requires importing from src/typings/enums.
-declare type browserName = import("./enums").browserName;
 declare type SiteDataType = import("./enums").SiteDataType;
 declare type SettingID = import("./enums").SettingID;
 declare type ListType = import("./enums").ListType;
@@ -33,9 +31,7 @@ type StoreIdToExpressionList = Readonly<{
 
 type MapToSettingObject = Readonly<{ [setting: string]: Setting }>;
 
-type CacheMap = Readonly<
-  { [browserDetect: string]: browserName } & { [key: string]: any }
->;
+type CacheMap = Readonly<{ [key: string]: any }>;
 
 type GetState = () => State;
 

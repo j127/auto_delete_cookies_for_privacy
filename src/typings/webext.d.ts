@@ -32,10 +32,7 @@ declare namespace browser.browsingData {
 }
 
 declare namespace browser.cookies {
-  interface CookieProperties extends browser.cookies.Cookie {
-    firstPartyDomain?: string;
-  }
-  type OptionalCookieProperties = Partial<CookieProperties>;
+  type OptionalCookieProperties = Partial<browser.cookies.Cookie>;
 }
 
 // MV3 namespaces missing from the dead web-ext-types package. These stubs
@@ -115,16 +112,6 @@ declare namespace browser.contextMenus {
   const onClicked: typeof browser.menus.onClicked;
   const onHidden: typeof browser.menus.onHidden;
   const onShown: typeof browser.menus.onShown;
-}
-
-// Until web-ext-types land events into it.
-declare namespace browser.contextualIdentities {
-  type contextualIdentitiesChangeInfo = {
-    contextualIdentity: ContextualIdentity;
-  };
-  const onCreated: Listener<contextualIdentitiesChangeInfo>;
-  const onRemoved: Listener<contextualIdentitiesChangeInfo>;
-  const onUpdated: Listener<contextualIdentitiesChangeInfo>;
 }
 
 declare namespace browser.tabs {

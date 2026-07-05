@@ -11,14 +11,9 @@
  * SOFTWARE.
  */
 
-// Must be the first import: provides the `browser` and `browserDetect`
-// globals that MV2 supplied via script tags (see src/init-globals.ts).
-import {
-  browserName,
-  ListType,
-  SettingID,
-  SiteDataType,
-} from "./typings/enums";
+// Must be the first import: provides the `browser` global that MV2 supplied
+// via script tags (see src/init-globals.ts).
+import { ListType, SettingID, SiteDataType } from "./typings/enums";
 import "./init-globals";
 
 import { Store } from "redux";
@@ -47,7 +42,6 @@ import {
 import StoreUser from "./services/store-user";
 import TabEvents from "./services/tab-events";
 import { ReduxAction, ReduxConstants } from "./typings/redux-constants";
-import ContextualIdentitiesEvents from "./services/contextual-identities-events";
 import SettingService from "./services/setting-service";
 
 let store: Store<State, ReduxAction>;
@@ -89,51 +83,6 @@ const init = async (): Promise<Store<State, ReduxAction>> => {
   }
   store = createStore(stateFromStorage);
 
-  // Store the FF version in cache
-  if (browserDetect() === browserName.Firefox) {
-    const browserInfo = await browser.runtime.getBrowserInfo();
-    const browserVersion = Number.parseInt(browserInfo.version);
-    store.dispatch({
-      payload: {
-        key: "browserVersion",
-        value: browserVersion,
-      },
-      type: ReduxConstants.ADD_CACHE,
-    });
-    store.dispatch({
-      payload: {
-        key: "browserInfo",
-        value: browserInfo,
-      },
-      type: ReduxConstants.ADD_CACHE,
-    });
-  }
-  // Store which browser environment in cache
-  store.dispatch({
-    payload: {
-      key: "browserDetect",
-      value: browserDetect(),
-    },
-    type: ReduxConstants.ADD_CACHE,
-  });
-
-  // Store platform in cache
-  const platformInfo = await browser.runtime.getPlatformInfo();
-  store.dispatch({
-    payload: {
-      key: "platformInfo",
-      value: platformInfo,
-    },
-    type: ReduxConstants.ADD_CACHE,
-  });
-  store.dispatch({
-    payload: {
-      key: "platformOs",
-      value: platformInfo.os,
-    },
-    type: ReduxConstants.ADD_CACHE,
-  });
-
   // This is important to initialize the Store for all classes that extend from this
   StoreUser.init(store);
 
@@ -162,14 +111,10 @@ const init = async (): Promise<Store<State, ReduxAction>> => {
     if (browser.contextMenus) {
       await ContextMenuEvents.menuInit();
     }
-
-    if (browser.contextualIdentities) {
-      await ContextualIdentitiesEvents.init();
-    }
   } catch (e) {
     cadLog(
       {
-        msg: `background.init: non-critical initialization failed (icons/menus/containers): ${e}`,
+        msg: `background.init: non-critical initialization failed (icons/menus): ${e}`,
         type: "error",
       },
       true
@@ -355,22 +300,7 @@ browser.runtime.onStartup.addListener(async () => {
   });
   if (getSetting(store.getState(), SettingID.ACTIVE_MODE) === true) {
     if (getSetting(store.getState(), SettingID.ENABLE_GREYLIST) === true) {
-      let isFFSessionRestore = false;
-      const startupTabs = await browser.tabs.query({ windowType: "normal" });
-      startupTabs.forEach((tab) => {
-        if (tab.url === "about:sessionrestore") isFFSessionRestore = true;
-      });
-      if (!isFFSessionRestore) {
-        greyCleanup();
-      } else {
-        cadLog(
-          {
-            msg: "Found a tab with [ about:sessionrestore ] in Firefox. Skipping Grey startup cleanup this time.",
-            type: "info",
-          },
-          getSetting(store.getState(), SettingID.DEBUG_MODE) === true
-        );
-      }
+      greyCleanup();
     } else {
       cadLog(
         {
@@ -440,13 +370,6 @@ browser.runtime.onInstalled.addListener(async (details) => {
               Object.keys(store.getState().lists)
             );
             containers.add("default");
-            if (getSetting(store.getState(), SettingID.CONTEXTUAL_IDENTITIES)) {
-              const contextualIdentitiesObjects =
-                await browser.contextualIdentities.query({});
-              contextualIdentitiesObjects.forEach((c) =>
-                containers.add(c.cookieStoreId)
-              );
-            }
             containers.forEach((list) => {
               store.dispatch({
                 payload: {

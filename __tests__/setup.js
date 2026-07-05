@@ -13,7 +13,7 @@
 
 /**
  * This setup file for jest testing essentially mimics the
- * Firefox WebExtension APIs with jest mock functions.
+ * browser WebExtension APIs with jest mock functions.
  *
  * Use global.browser for testing for calls to webextension API.
  * If you are expecting values to be returned, use jest-when
@@ -82,10 +82,6 @@ const apis = {
       "removePluginData",
     ],
   },
-  contextualIdentities: {
-    fn: ["create", "get", "query", "remove", "update"],
-    events: ["onCreated", "onRemoved", "onUpdated"],
-  },
   cookies: {
     fn: ["get", "getAll", "getAllCookieStores", "remove", "set"],
     events: ["onChanged"],
@@ -120,9 +116,7 @@ const apis = {
     fn: [
       "connect",
       "getBackgroundPage",
-      "getBrowserInfo",
       "getManifest",
-      "getPlatformInfo",
       "getURL",
       "openOptionsPage",
       "reload",
@@ -162,11 +156,6 @@ const browser = {
     isAllowedIncognitoAccess: jest.fn(),
     lastError: undefined,
   },
-  privacy: {
-    websites: {
-      firstPartyIsolate: jest.fn(),
-    },
-  },
   storage: {
     local: storageArea,
     managed: storageArea,
@@ -200,16 +189,6 @@ Object.keys(apis).forEach((api) => {
 
 global.browser = browser;
 global.chrome = browser;
-
-/**
- * Simple browerDetect function for testing purposes.
- * Should only be called if cache's browserDetect was undefined
- * @returns {string} 'UnknownBrowser'
- */
-function browserDetect() {
-  return "UnknownBrowser";
-}
-global.browserDetect = browserDetect;
 
 /**
  * This hides the test console debug logs from jest results.

@@ -40,14 +40,6 @@ export const initialState: State = {
       name: SettingID.CONTEXT_MENUS,
       value: true,
     },
-    [SettingID.CONTEXTUAL_IDENTITIES]: {
-      name: SettingID.CONTEXTUAL_IDENTITIES,
-      value: false,
-    },
-    [SettingID.CONTEXTUAL_IDENTITIES_AUTOREMOVE]: {
-      name: SettingID.CONTEXTUAL_IDENTITIES_AUTOREMOVE,
-      value: true,
-    },
     [SettingID.DEBUG_MODE]: {
       name: SettingID.DEBUG_MODE,
       value: false,

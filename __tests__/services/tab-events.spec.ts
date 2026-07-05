@@ -11,7 +11,7 @@
  * SOFTWARE.
  */
 
-import { browserName, SettingID } from "../../src/typings/enums";
+import { SettingID } from "../../src/typings/enums";
 import { when } from "jest-when";
 import { Store } from "redux";
 
@@ -81,7 +81,7 @@ const sampleChangeInfo: browser.tabs.TabChangeInfo = {
 
 const sampleTab: browser.tabs.Tab = {
   active: true,
-  cookieStoreId: "firefox-default",
+  cookieStoreId: "0",
   discarded: false,
   hidden: false,
   highlighted: false,
@@ -122,7 +122,7 @@ describe("TabEvents", () => {
         .calledWith({ domain: "" })
         .mockResolvedValue([] as never);
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "domain.com", storeId: "firefox-default" })
+        .calledWith({ domain: "domain.com", storeId: "0" })
         .mockResolvedValue([testCookie] as never);
     });
 
@@ -135,7 +135,7 @@ describe("TabEvents", () => {
       sameSite: "no_restriction",
       secure: true,
       session: true,
-      storeId: "firefox-default",
+      storeId: "0",
       value: "test value",
     };
 
@@ -173,7 +173,7 @@ describe("TabEvents", () => {
 
     it("should create a cookie if clean cache was enabled and no CAD cookie was found", async () => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "firefox-default" })
+        .calledWith({ domain: "cookie.net", storeId: "0" })
         .mockResolvedValue([] as never);
       TestStore.changeSetting(SettingID.CLEANUP_CACHE, true);
       await TabEvents.getAllCookieActions({
@@ -185,7 +185,7 @@ describe("TabEvents", () => {
 
     it("should create a cookie if clean indexedDB was enabled and no CAD cookie was found", async () => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "firefox-default" })
+        .calledWith({ domain: "cookie.net", storeId: "0" })
         .mockResolvedValue([] as never);
       TestStore.changeSetting(SettingID.CLEANUP_INDEXEDDB, true);
       await TabEvents.getAllCookieActions({
@@ -197,7 +197,7 @@ describe("TabEvents", () => {
 
     it("should create a cookie if clean localStorage was enabled and no CAD cookie was found", async () => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "firefox-default" })
+        .calledWith({ domain: "cookie.net", storeId: "0" })
         .mockResolvedValue([] as never);
       TestStore.changeSetting(SettingID.CLEANUP_LOCALSTORAGE, true);
       await TabEvents.getAllCookieActions({
@@ -209,7 +209,7 @@ describe("TabEvents", () => {
 
     it("should create a cookie if clean plugin data was enabled and no CAD cookie was found", async () => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "firefox-default" })
+        .calledWith({ domain: "cookie.net", storeId: "0" })
         .mockResolvedValue([] as never);
       TestStore.changeSetting(SettingID.CLEANUP_PLUGINDATA, true);
       await TabEvents.getAllCookieActions({
@@ -221,7 +221,7 @@ describe("TabEvents", () => {
 
     it("should create a cookie if clean service workers was enabled and no CAD cookie was found", async () => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "firefox-default" })
+        .calledWith({ domain: "cookie.net", storeId: "0" })
         .mockResolvedValue([] as never);
       TestStore.changeSetting(SettingID.CLEANUP_SERVICEWORKERS, true);
       await TabEvents.getAllCookieActions({
@@ -233,7 +233,7 @@ describe("TabEvents", () => {
 
     it("should filter out CAD browsingDataCleanup cookie from total cookie count", async () => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "firefox-default" })
+        .calledWith({ domain: "cookie.net", storeId: "0" })
         .mockResolvedValue([
           { ...testCookie, name: Lib.CADCOOKIENAME },
         ] as never);
@@ -242,38 +242,6 @@ describe("TabEvents", () => {
         url: "http://cookie.net",
       });
       expect(spyBrowserActions.checkIfProtected.mock.calls[0][2]).toBe(0);
-    });
-
-    it("should not show cookie count in non-existent icon in Firefox Android", async () => {
-      TestStore.addCache({ key: "platformOs", value: "android" });
-      await TabEvents.getAllCookieActions({
-        ...sampleTab,
-        url: "http://domain.com",
-      });
-      expect(
-        spyBrowserActions.showNumberOfCookiesInIcon
-      ).not.toHaveBeenCalled();
-    });
-
-    it("should create a cookie with firstPartyDomain if FPI is enabled", async () => {
-      when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "firefox-default" })
-        .mockResolvedValue([] as never);
-      when(global.browser.cookies.getAll)
-        .calledWith({ domain: "" })
-        .mockResolvedValueOnce([] as never)
-        .mockRejectedValue(new Error("firstPartyDomain") as never);
-      TestStore.changeSetting(SettingID.CLEANUP_CACHE, true);
-      TestStore.addCache({ key: "browserDetect", value: browserName.Firefox });
-
-      await TabEvents.getAllCookieActions({
-        ...sampleTab,
-        url: "http://cookie.net",
-      });
-      expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
-      expect(global.browser.cookies.set.mock.calls[0][0]).toHaveProperty(
-        "firstPartyDomain"
-      );
     });
   });
 

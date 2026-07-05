@@ -11,7 +11,12 @@
  * SOFTWARE.
  */
 
-import { browserName, EventListenerAction, ListType, SettingID, SiteDataType } from "../../src/typings/enums";
+import {
+  EventListenerAction,
+  ListType,
+  SettingID,
+  SiteDataType,
+} from "../../src/typings/enums";
 import { when } from "jest-when";
 import { initialState } from "../../src/redux/state";
 import {
@@ -30,18 +35,12 @@ import {
   globExpressionToRegExp,
   isAnIP,
   isAWebpage,
-  isChrome,
-  isFirefox,
-  isFirefoxAndroid,
-  isFirefoxNotAndroid,
-  isFirstPartyIsolate,
   localFileToRegex,
   matchIPInExpression,
   parseCookieStoreId,
   prepareCleanupDomains,
   prepareCookieDomain,
   returnMatchedExpressionObject,
-  returnOptionalCookieAPIAttributes,
   showNotification,
   sleep,
   throwErrorNotification,
@@ -266,7 +265,7 @@ describe("Library Functions", () => {
   describe("createPartialTabInfo()", () => {
     const testTab: Partial<browser.tabs.Tab> = {
       active: true,
-      cookieStoreId: "firefox-default",
+      cookieStoreId: "default",
       discarded: false,
       height: 123,
       hidden: false,
@@ -281,9 +280,9 @@ describe("Library Functions", () => {
       width: 321,
       windowId: 1,
     };
-    it("should extract information relevant to debug in Firefox", () => {
+    it("should extract information relevant to debug from a tab with a cookieStoreId", () => {
       expect(createPartialTabInfo(testTab)).toMatchObject({
-        cookieStoreId: "firefox-default",
+        cookieStoreId: "default",
         discarded: false,
         id: 1,
         incognito: false,
@@ -292,7 +291,7 @@ describe("Library Functions", () => {
         windowId: 1,
       });
     });
-    it("should extract information relevant to debug in Chrome", () => {
+    it("should extract information relevant to debug from a tab without a cookieStoreId", () => {
       expect(
         createPartialTabInfo({ ...testTab, cookieStoreId: undefined })
       ).toMatchObject({
@@ -451,39 +450,16 @@ describe("Library Functions", () => {
   describe("getAllCookiesForDomain()", () => {
     beforeAll(() => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: expect.any(String), storeId: "firefox-default" })
+        .calledWith({ domain: expect.any(String), storeId: "default" })
         .mockResolvedValue([] as never);
       when(global.browser.cookies.getAll)
-        .calledWith({
-          domain: expect.any(String),
-          firstPartyDomain: expect.any(String),
-          storeId: "firefox-default",
-        })
-        .mockResolvedValue([] as never);
-      when(global.browser.cookies.getAll)
-        .calledWith({ storeId: "firefox-default" })
+        .calledWith({ storeId: "default" })
         .mockResolvedValue([
           testCookie,
           { ...testCookie, domain: "", path: "/test/" },
         ] as never);
       when(global.browser.cookies.getAll)
-        .calledWith({ storeId: "firefox-default", firstPartyDomain: undefined })
-        .mockResolvedValue([
-          testCookie,
-          { ...testCookie, domain: "", path: "/test/" },
-        ] as never);
-      when(global.browser.cookies.getAll)
-        .calledWith({ domain: "" })
-        .mockResolvedValue([] as never);
-      when(global.browser.cookies.getAll)
-        .calledWith({ domain: "domain.com", storeId: "firefox-default" })
-        .mockResolvedValue([testCookie] as never);
-      when(global.browser.cookies.getAll)
-        .calledWith({
-          domain: "10.1.1.1",
-          firstPartyDomain: "10.1.1.1",
-          storeId: "firefox-default",
-        })
+        .calledWith({ domain: "domain.com", storeId: "default" })
         .mockResolvedValue([testCookie] as never);
     });
 
@@ -496,13 +472,13 @@ describe("Library Functions", () => {
       sameSite: "no_restriction",
       secure: true,
       session: true,
-      storeId: "firefox-default",
+      storeId: "default",
       value: "test value",
     };
 
     const sampleTab: browser.tabs.Tab = {
       active: true,
-      cookieStoreId: "firefox-default",
+      cookieStoreId: "default",
       discarded: false,
       hidden: false,
       highlighted: false,
@@ -517,26 +493,12 @@ describe("Library Functions", () => {
       windowId: 1,
     };
 
-    const chromeState: State = {
-      ...initialState,
-      cache: {
-        browserDetect: browserName.Chrome,
-      },
-    };
-
-    const firefoxState: State = {
-      ...initialState,
-      cache: {
-        browserDetect: browserName.Firefox,
-      },
-    };
-
     it("should do nothing if url is an internal page", async () => {
-      const result = await getAllCookiesForDomain(chromeState, {
+      const result = await getAllCookiesForDomain(initialState, {
         ...sampleTab,
         url: "about:home",
       });
-      const result2 = await getAllCookiesForDomain(chromeState, {
+      const result2 = await getAllCookiesForDomain(initialState, {
         ...sampleTab,
         url: "chrome:newtab",
       });
@@ -545,7 +507,7 @@ describe("Library Functions", () => {
     });
 
     it("should do nothing if url is empty string", async () => {
-      const result = await getAllCookiesForDomain(chromeState, {
+      const result = await getAllCookiesForDomain(initialState, {
         ...sampleTab,
         url: "",
       });
@@ -553,7 +515,7 @@ describe("Library Functions", () => {
     });
 
     it("should do nothing if url is undefined", async () => {
-      const result = await getAllCookiesForDomain(chromeState, {
+      const result = await getAllCookiesForDomain(initialState, {
         ...sampleTab,
         url: undefined,
       });
@@ -561,90 +523,36 @@ describe("Library Functions", () => {
     });
 
     it("should do nothing if url is not valid", async () => {
-      const result = await getAllCookiesForDomain(firefoxState, {
+      const result = await getAllCookiesForDomain(initialState, {
         ...sampleTab,
         url: "bad",
       });
       expect(result).toBeUndefined();
     });
 
-    // Test in Chrome, though both FF and Chrome should return same thing.
     it("should work on local files", async () => {
-      const result = await getAllCookiesForDomain(chromeState, {
+      const result = await getAllCookiesForDomain(initialState, {
         ...sampleTab,
         url: "file:///test/file.html",
       });
       expect(result).toStrictEqual(
         expect.arrayContaining([{ ...testCookie, domain: "", path: "/test/" }])
       );
+      expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
+        storeId: "default",
+      });
     });
 
-    it("should fetch additional FPI Cookies (use_site enabled) as needed", async () => {
-      when(global.browser.cookies.getAll)
-        .calledWith({
-          domain: "",
-        })
-        .mockRejectedValueOnce(new Error("firstPartyDomain") as never);
-      when(global.browser.cookies.getAll)
-        .calledWith({
-          domain: "domain.com",
-          firstPartyDomain: "domain.com",
-          storeId: "firefox-default",
-        })
-        .mockResolvedValue([{ ...testCookie, name: "old FPI" }] as never);
-      when(global.browser.cookies.getAll)
-        .calledWith({
-          domain: "domain.com",
-          firstPartyDomain: "(https,domain.com)",
-          storeId: "firefox-default",
-        })
-        .mockResolvedValue([{ ...testCookie, name: "FPI_use_case" }] as never);
-      const result = await getAllCookiesForDomain(firefoxState, {
+    it("should fetch cookies for the tab domain", async () => {
+      const result = await getAllCookiesForDomain(initialState, {
         ...sampleTab,
         url: "https://domain.com",
       });
-      expect(result).toStrictEqual([
-        { ...testCookie, name: "old FPI" },
-        { ...testCookie, name: "FPI_use_case" },
-      ]);
-    });
-    it("should fetch additional FPI Cookies (use_site enabled) with a port in URL as needed", async () => {
-      when(global.browser.cookies.getAll)
-        .calledWith({
-          domain: "",
-        })
-        .mockRejectedValueOnce(new Error("firstPartyDomain") as never);
-      when(global.browser.cookies.getAll)
-        .calledWith({
-          domain: "10.1.1.1",
-          firstPartyDomain: "10.1.1.1",
-          storeId: "firefox-default",
-        })
-        .mockResolvedValue([testCookie] as never);
-      when(global.browser.cookies.getAll)
-        .calledWith({
-          domain: "10.1.1.1",
-          firstPartyDomain: "(https,10.1.1.1)",
-          storeId: "firefox-default",
-        })
-        .mockResolvedValue([] as never);
-      when(global.browser.cookies.getAll)
-        .calledWith({
-          domain: "10.1.1.1",
-          firstPartyDomain: "(https,10.1.1.1,8080)",
-          storeId: "firefox-default",
-        })
-        .mockResolvedValue([
-          { ...testCookie, name: "FPI_usecase_port" },
-        ] as never);
-      const result = await getAllCookiesForDomain(firefoxState, {
-        ...sampleTab,
-        url: "https://10.1.1.1:8080",
+      expect(result).toStrictEqual([testCookie]);
+      expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
+        domain: "domain.com",
+        storeId: "default",
       });
-      expect(result).toStrictEqual([
-        testCookie,
-        { ...testCookie, name: "FPI_usecase_port" },
-      ]);
     });
   });
 
@@ -691,50 +599,34 @@ describe("Library Functions", () => {
         expect.objectContaining({ cleanSiteData: [SiteDataType.PLUGINDATA] })
       );
     });
-    it("should return customized default expression for non-default container from default container if non-default container is missing defaults", () => {
+    it("should return customized default expression for non-default container if its list contains default expression key", () => {
       expect(
         getContainerExpressionDefault(
           {
             ...initialState,
-            settings: {
-              ...initialState.settings,
-              [SettingID.CONTEXTUAL_IDENTITIES]: {
-                name: SettingID.CONTEXTUAL_IDENTITIES,
-                value: true,
-              },
-            },
             lists: {
-              default: [
+              "container-1": [
                 {
                   expression: `_Default:${ListType.WHITE}`,
                   cleanSiteData: [SiteDataType.PLUGINDATA],
                   listType: ListType.WHITE,
-                  storeId: "default",
+                  storeId: "container-1",
                 },
               ],
             },
           },
-          "firefox-container-1",
+          "container-1",
           ListType.WHITE
         )
       ).toEqual(
         expect.objectContaining({ cleanSiteData: [SiteDataType.PLUGINDATA] })
       );
     });
-    it("should return default expression for non-default container if non-default and default container is missing defaults", () => {
+    it("should return default expression for non-default container if non-default container is missing defaults", () => {
       expect(
         getContainerExpressionDefault(
-          {
-            ...initialState,
-            settings: {
-              ...initialState.settings,
-              [SettingID.CONTEXTUAL_IDENTITIES]: {
-                name: SettingID.CONTEXTUAL_IDENTITIES,
-                value: true,
-              },
-            },
-          },
-          "firefox-container-1",
+          initialState,
+          "container-1",
           ListType.WHITE
         )
       ).toEqual(mockExpression);
@@ -882,103 +774,23 @@ describe("Library Functions", () => {
   });
 
   describe("getStoreId()", () => {
-    const contextualIdentitiesFalseChrome = {
-      ...initialState,
-      cache: {
-        browserDetect: browserName.Chrome,
-      },
-      settings: {
-        [SettingID.CONTEXTUAL_IDENTITIES]: {
-          id: 7,
-          name: SettingID.CONTEXTUAL_IDENTITIES,
-          value: false,
-        },
-      },
-    };
-    const contextualIdentitiesFalseFF = {
-      ...initialState,
-      cache: {
-        browserDetect: browserName.Firefox,
-      },
-      settings: {
-        [SettingID.CONTEXTUAL_IDENTITIES]: {
-          id: 7,
-          name: SettingID.CONTEXTUAL_IDENTITIES,
-          value: false,
-        },
-      },
-    };
-    const contextualIdentitiesTrue = {
-      ...initialState,
-      cache: {
-        browserDetect: browserName.Firefox,
-      },
-      settings: {
-        [SettingID.CONTEXTUAL_IDENTITIES]: {
-          id: 7,
-          name: SettingID.CONTEXTUAL_IDENTITIES,
-          value: true,
-        },
-      },
-    };
-
     // Default storeIds
-    it("should return default from firefox-default", () => {
-      expect(
-        getStoreId(contextualIdentitiesFalseFF, "firefox-default")
-      ).toEqual("default");
+    it("should return default from storeId 0", () => {
+      expect(getStoreId("0")).toEqual("default");
     });
 
-    it("should return default from Chrome and storeId 0", () => {
-      expect(getStoreId(contextualIdentitiesFalseChrome, "0")).toEqual(
-        "default"
-      );
-    });
-
-    it("should return default from Chrome and storeId 0", () => {
-      expect(
-        getStoreId(
-          {
-            ...contextualIdentitiesFalseChrome,
-            cache: {
-              browserDetect: browserName.Opera,
-            },
-          },
-          "0"
-        )
-      ).toEqual("default");
+    it("should return default from storeId default", () => {
+      expect(getStoreId("default")).toEqual("default");
     });
 
     // Private storeIds
-    it("should return firefox-private from Firefox and storeId firefox-private (private)", () => {
-      expect(
-        getStoreId(contextualIdentitiesFalseFF, "firefox-private")
-      ).toEqual("firefox-private");
+    it("should return private from storeId 1 (private)", () => {
+      expect(getStoreId("1")).toEqual("private");
     });
 
-    it("should return firefox-private from Firefox and storeId firefox-private (private) with containers", () => {
-      expect(getStoreId(contextualIdentitiesTrue, "firefox-private")).toEqual(
-        "firefox-private"
-      );
-    });
-
-    it("should return private from Chrome and storeId 1 (private)", () => {
-      expect(getStoreId(contextualIdentitiesFalseChrome, "1")).toEqual(
-        "private"
-      );
-    });
-
-    // Containers
-    it("should return firefox-container-1 from Firefox and Containers on", () => {
-      expect(
-        getStoreId(contextualIdentitiesTrue, "firefox-container-1")
-      ).toEqual("firefox-container-1");
-    });
-
-    it("should return default from Firefox and storeId firefox-container-1 with Containers off", () => {
-      expect(
-        getStoreId(contextualIdentitiesFalseFF, "firefox-container-1")
-      ).toEqual("default");
+    // Any other storeId passes through untouched.
+    it("should return some-id from storeId some-id", () => {
+      expect(getStoreId("some-id")).toEqual("some-id");
     });
   });
 
@@ -1139,95 +951,6 @@ describe("Library Functions", () => {
     });
   });
 
-  describe("isChrome()", () => {
-    it("should return false if browserDetect is undefined", () => {
-      expect(isChrome({})).toBe(false);
-    });
-    it("should return false if browserDetect is not Chrome", () => {
-      expect(isChrome({ browserDetect: browserName.Unknown })).toBe(false);
-    });
-    it("should return true if browserDetect is Chrome", () => {
-      expect(isChrome({ browserDetect: browserName.Chrome })).toBe(true);
-    });
-  });
-
-  describe("isFirefox()", () => {
-    it("should return false if browserDetect is undefined", () => {
-      expect(isFirefox({})).toBe(false);
-    });
-    it("should return false if browserDetect is not Firefox", () => {
-      expect(isFirefox({ browserDetect: browserName.Unknown })).toBe(false);
-    });
-    it("should return true if browserDetect is Firefox", () => {
-      expect(isFirefox({ browserDetect: browserName.Firefox })).toBe(true);
-    });
-  });
-
-  describe("isFirefoxAndroid()", () => {
-    it("should return false if platformOs is undefined", () => {
-      expect(isFirefoxAndroid({})).toBe(false);
-    });
-    it("should return false if platformOs is not android", () => {
-      expect(
-        isFirefoxAndroid({
-          browserDetect: browserName.Unknown,
-          platformOs: "linux",
-        })
-      ).toBe(false);
-    });
-    it("should return true if platformOs is android", () => {
-      expect(
-        isFirefoxAndroid({
-          browserDetect: browserName.Firefox,
-          platformOs: "android",
-        })
-      ).toBe(true);
-    });
-  });
-
-  describe("isFirefoxNotAndroid()", () => {
-    it("should return false if platformOs is undefined", () => {
-      expect(isFirefoxNotAndroid({ browserDetect: browserName.Unknown })).toBe(
-        false
-      );
-    });
-    it("should return true if platformOs is not android", () => {
-      expect(
-        isFirefoxNotAndroid({
-          browserDetect: browserName.Firefox,
-          platformOs: "linux",
-        })
-      ).toBe(true);
-    });
-    it("should return false if platformOs is android", () => {
-      expect(
-        isFirefoxNotAndroid({
-          browserDetect: browserName.Firefox,
-          platformOs: "android",
-        })
-      ).toBe(false);
-    });
-  });
-
-  describe("isFirstPartyIsolate()", () => {
-    beforeEach(() => {
-      when(global.browser.cookies.getAll)
-        .calledWith({ domain: "" })
-        .mockResolvedValueOnce([] as never)
-        .mockRejectedValueOnce(new Error("firstPartyDomain") as never)
-        .mockRejectedValueOnce(new Error("Error") as never);
-    });
-    it("should return false if no error was caught", () => {
-      return expect(isFirstPartyIsolate()).resolves.toEqual(false);
-    });
-    it('should return true if error was caught and message contained "firstPartyDomain"', () => {
-      return expect(isFirstPartyIsolate()).resolves.toEqual(true);
-    });
-    it('should return false if error was caught and message did not contain "firstPartyIsolate"', () => {
-      return expect(isFirstPartyIsolate()).resolves.toEqual(false);
-    });
-  });
-
   describe("localFileToRegex()", () => {
     it("should return itself if not a local file url (https://example.com)", () => {
       expect(localFileToRegex("https://example.com")).toEqual(
@@ -1262,59 +985,39 @@ describe("Library Functions", () => {
   });
 
   describe("parseCookieStoreId()", () => {
-    it("should return default if contextualIdentities is false", () => {
-      expect(parseCookieStoreId(false, "abcde")).toEqual("default");
+    it("should return default if cookieStoreId was undefined", () => {
+      expect(parseCookieStoreId(undefined)).toEqual("default");
     });
 
-    it('should return default if contextualIdentities is true and cookieStoreId is "firefox-default"', () => {
-      expect(parseCookieStoreId(true, "firefox-default")).toEqual("default");
+    it("should return default if cookieStoreId was an empty string", () => {
+      expect(parseCookieStoreId("")).toEqual("default");
     });
 
-    it('should return specified cookieStoreId if contextualIdentities is true and cookieStoreId is not "firefox-default"', () => {
-      expect(parseCookieStoreId(true, "test-container")).toEqual(
-        "test-container"
-      );
-    });
-
-    it("should return default if contextualIdentities is true but cookieStoreId was undefined", () => {
-      expect(parseCookieStoreId(true, undefined)).toEqual("default");
+    it("should return the specified cookieStoreId if given", () => {
+      expect(parseCookieStoreId("test-container")).toEqual("test-container");
     });
   });
 
   describe("prepareCleanupDomains()", () => {
     it("should return empty array for empty domain", () => {
-      expect(prepareCleanupDomains("", browserName.Firefox)).toEqual([]);
+      expect(prepareCleanupDomains("")).toEqual([]);
     });
 
     it("should return empty array for domains with only whitespaces", () => {
-      expect(prepareCleanupDomains(" ", browserName.Firefox)).toEqual([]);
+      expect(prepareCleanupDomains(" ")).toEqual([]);
     });
 
-    it("should return cleanup domains from www.example.com", () => {
-      expect(
-        prepareCleanupDomains("www.example.com", browserName.Firefox)
-      ).toEqual(["www.example.com", ".www.example.com"]);
-    });
-
-    it("should return cleanup domains from .example.com", () => {
-      expect(
-        prepareCleanupDomains(".example.com", browserName.Firefox)
-      ).toEqual([
-        "example.com",
-        ".example.com",
-        "www.example.com",
-        ".www.example.com",
+    it("should return cleanup origins from www.example.com", () => {
+      expect(prepareCleanupDomains("www.example.com")).toEqual([
+        "http://www.example.com",
+        "https://www.example.com",
+        "http://.www.example.com",
+        "https://.www.example.com",
       ]);
     });
 
-    it("should return cleanup domains from example.com", () => {
-      expect(prepareCleanupDomains("example.com", browserName.Firefox)).toEqual(
-        ["example.com", ".example.com", "www.example.com", ".www.example.com"]
-      );
-    });
-
-    it("should return cleanup domains from example.com for Chrome", () => {
-      expect(prepareCleanupDomains("example.com", browserName.Chrome)).toEqual([
+    it("should return cleanup origins from .example.com", () => {
+      expect(prepareCleanupDomains(".example.com")).toEqual([
         "http://example.com",
         "https://example.com",
         "http://.example.com",
@@ -1326,25 +1029,28 @@ describe("Library Functions", () => {
       ]);
     });
 
-    it("should return proper IPv4 address", () => {
-      expect(prepareCleanupDomains("127.0.0.1", browserName.Firefox)).toEqual([
-        "127.0.0.1",
+    it("should return cleanup origins from example.com", () => {
+      expect(prepareCleanupDomains("example.com")).toEqual([
+        "http://example.com",
+        "https://example.com",
+        "http://.example.com",
+        "https://.example.com",
+        "http://www.example.com",
+        "https://www.example.com",
+        "http://.www.example.com",
+        "https://.www.example.com",
       ]);
     });
 
-    it("should return proper IPv4 address for Chrome", () => {
-      expect(prepareCleanupDomains("127.0.0.1", browserName.Chrome)).toEqual([
+    it("should return proper IPv4 address origins", () => {
+      expect(prepareCleanupDomains("127.0.0.1")).toEqual([
         "http://127.0.0.1",
         "https://127.0.0.1",
       ]);
     });
-    it("should return proper IPv6 address", () => {
-      expect(prepareCleanupDomains("::1", browserName.Firefox)).toEqual([
-        "[::1]",
-      ]);
-    });
-    it("should return proper IPv6 address for Chrome", () => {
-      expect(prepareCleanupDomains("::1", browserName.Chrome)).toEqual([
+
+    it("should return proper IPv6 address origins", () => {
+      expect(prepareCleanupDomains("::1")).toEqual([
         "http://[::1]",
         "https://[::1]",
       ]);
@@ -1439,77 +1145,10 @@ describe("Library Functions", () => {
     it("should return undefined", () => {
       const results = returnMatchedExpressionObject(
         state,
-        "firefox-container-1",
+        "container-1",
         "expression.com"
       );
       expect(results).toEqual(undefined);
-    });
-  });
-
-  describe("returnOptionalCookieAPIAttributes()", () => {
-    it("should return an object with an undefined firstPartyDomain if browser was Firefox and firstPartyDomain was not already defined.", () => {
-      const state = {
-        ...initialState,
-        cache: {
-          browserDetect: browserName.Firefox,
-        },
-      };
-      const cookieAPIAttributes = {
-        ...mockCookie,
-        domain: "example.com",
-      };
-      const results = returnOptionalCookieAPIAttributes(
-        state,
-        cookieAPIAttributes
-      );
-      expect(results).toEqual(
-        expect.objectContaining({
-          domain: "example.com",
-          firstPartyDomain: undefined,
-        })
-      );
-    });
-
-    it("should return an object the same object with a firstPartyDomain if browser was firefox and firstPartyDomain was given", () => {
-      const state = {
-        ...initialState,
-        cache: {
-          browserDetect: browserName.Firefox,
-        },
-      };
-      const cookieAPIAttributes = {
-        ...mockCookie,
-        domain: "example.com",
-        firstPartyDomain: "example.com",
-      };
-      const results = returnOptionalCookieAPIAttributes(
-        state,
-        cookieAPIAttributes
-      );
-      expect(results).toEqual(
-        expect.objectContaining({
-          domain: "example.com",
-          firstPartyDomain: "example.com",
-        })
-      );
-    });
-
-    it("should return an object with no firstPartyDomain (Browser other than FF)", () => {
-      const state = {
-        ...initialState,
-        cache: {
-          browserDetect: browserName.Chrome,
-        },
-      };
-      const cookieAPIAttributes = {
-        ...mockCookie,
-        firstPartyDomain: "",
-      };
-      const results = returnOptionalCookieAPIAttributes(
-        state,
-        cookieAPIAttributes
-      );
-      expect(results).not.toHaveProperty("firstPartyDomain");
     });
   });
 

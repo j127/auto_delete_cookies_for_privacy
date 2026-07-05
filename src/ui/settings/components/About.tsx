@@ -10,10 +10,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { browserName, SettingID } from "../../../typings/enums";
+import { SettingID } from "../../../typings/enums";
 import * as React from "react";
 import { connect } from "react-redux";
-import { cadLog, isFirefox } from "../../../services/libs";
+import { cadLog } from "../../../services/libs";
 import IconButton from "../../common-components/IconButton";
 
 const styles = {
@@ -28,18 +28,7 @@ interface OwnProps {
 }
 
 interface StateProps {
-  bName: browserName;
-  cache: CacheMap;
-  platformInfo: browser.runtime.PlatformInfo;
   settings: MapToSettingObject;
-}
-enum platformOS {
-  mac = "Mac OS",
-  win = "Windows",
-  android = "Android",
-  cros = "Chrome OS",
-  linux = "Linux",
-  openbsd = "Open/FreeBSD",
 }
 
 const settingOrder = [
@@ -56,8 +45,6 @@ const settingOrder = [
   SettingID.CLEANUP_LOCALSTORAGE,
   SettingID.CLEANUP_PLUGINDATA,
   SettingID.CLEANUP_SERVICEWORKERS,
-  SettingID.CONTEXTUAL_IDENTITIES,
-  SettingID.CONTEXTUAL_IDENTITIES_AUTOREMOVE,
   SettingID.STAT_LOGGING,
   SettingID.NUM_COOKIES_ICON,
   SettingID.KEEP_DEFAULT_ICON,
@@ -75,7 +62,7 @@ type AboutProps = OwnProps & StateProps;
 
 class About extends React.Component<AboutProps> {
   public render() {
-    const { bName, cache, platformInfo, settings, style } = this.props;
+    const { settings, style } = this.props;
     const settingSlim = settingOrder.map((s) => {
       const so = settings[s];
       return `- ${so.name}: ${so.value}`;
@@ -122,16 +109,6 @@ class About extends React.Component<AboutProps> {
           ])}`}</span>{" "}
         </a>{" "}
         <br />
-        <a
-          href="https://addons.mozilla.org/firefox/addon/cookie-autodelete/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span>{`${browser.i18n.getMessage("versionText", [
-            "Mozilla Firefox",
-          ])}`}</span>{" "}
-        </a>{" "}
-        <br />
         <br />
         <span>{`${browser.i18n.getMessage("contributorsText")}`}:</span>
         <ul>
@@ -161,13 +138,7 @@ class About extends React.Component<AboutProps> {
           readOnly={true}
           style={{ resize: "none" }}
         >
-          {`- OS: ${platformInfo.arch} ${
-            platformOS[platformInfo.os]
-          } (Please add OS version on paste)\n- Browser Info: ${bName} ${
-            isFirefox(cache)
-              ? `${cache.browserVersion} (${cache.browserInfo.buildID})`
-              : `(Please add version number on paste)`
-          }\n- CookieAutoDelete Version: ${
+          {`- Browser Info: (Please add version number on paste)\n- CookieAutoDelete Version: ${
             browser.runtime.getManifest().version
           }`}
         </textarea>
@@ -285,11 +256,8 @@ class About extends React.Component<AboutProps> {
 }
 
 const mapStateToProps = (state: State) => {
-  const { cache, settings } = state;
+  const { settings } = state;
   return {
-    bName: cache.browserDetect || (browserDetect() as browserName),
-    cache,
-    platformInfo: cache.platformInfo,
     settings,
   };
 };

@@ -323,7 +323,7 @@ export default class ContextMenuEvents extends StoreUser {
       cadLog(
         {
           msg: `ContextMenuEvents.onCreatedOrUpdated received an error: ${
-            // Chrome gives {message}; web-ext-types (and Firefox) say string.
+            // Chrome gives {message}; web-ext-types says string.
             (browser.runtime.lastError as { message?: string }).message ??
             browser.runtime.lastError
           }`,
@@ -348,10 +348,6 @@ export default class ContextMenuEvents extends StoreUser {
     const debug = getSetting(
       StoreUser.store.getState(),
       SettingID.DEBUG_MODE
-    ) as boolean;
-    const contextualIdentities = getSetting(
-      StoreUser.store.getState(),
-      SettingID.CONTEXTUAL_IDENTITIES
     ) as boolean;
     cadLog(
       {
@@ -544,10 +540,7 @@ export default class ContextMenuEvents extends StoreUser {
               pageURL: info.pageUrl,
               hostname: getHostname(info.pageUrl),
               cookieStoreId,
-              parsedCookieStoreId: parseCookieStoreId(
-                contextualIdentities,
-                cookieStoreId
-              ),
+              parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
             },
           },
           debug
@@ -566,10 +559,7 @@ export default class ContextMenuEvents extends StoreUser {
               pageURL: info.pageUrl,
               hostname: getHostname(info.pageUrl),
               cookieStoreId,
-              parsedCookieStoreId: parseCookieStoreId(
-                contextualIdentities,
-                cookieStoreId
-              ),
+              parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
             },
           },
           debug
@@ -588,10 +578,7 @@ export default class ContextMenuEvents extends StoreUser {
               pageURL: info.pageUrl,
               hostname: getHostname(info.pageUrl),
               cookieStoreId,
-              parsedCookieStoreId: parseCookieStoreId(
-                contextualIdentities,
-                cookieStoreId
-              ),
+              parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
             },
           },
           debug
@@ -610,10 +597,7 @@ export default class ContextMenuEvents extends StoreUser {
               pageURL: info.pageUrl,
               hostname: getHostname(info.pageUrl),
               cookieStoreId,
-              parsedCookieStoreId: parseCookieStoreId(
-                contextualIdentities,
-                cookieStoreId
-              ),
+              parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
             },
           },
           debug
@@ -634,10 +618,7 @@ export default class ContextMenuEvents extends StoreUser {
                 selectionText: info.selectionText,
                 texts,
                 cookieStoreId,
-                parsedCookieStoreId: parseCookieStoreId(
-                  contextualIdentities,
-                  cookieStoreId
-                ),
+                parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
               },
             },
             debug
@@ -671,10 +652,7 @@ export default class ContextMenuEvents extends StoreUser {
                 selectionText: info.selectionText,
                 texts,
                 cookieStoreId,
-                parsedCookieStoreId: parseCookieStoreId(
-                  contextualIdentities,
-                  cookieStoreId
-                ),
+                parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
               },
             },
             debug
@@ -708,10 +686,7 @@ export default class ContextMenuEvents extends StoreUser {
                 selectionText: info.selectionText,
                 texts,
                 cookieStoreId,
-                parsedCookieStoreId: parseCookieStoreId(
-                  contextualIdentities,
-                  cookieStoreId
-                ),
+                parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
               },
             },
             debug
@@ -745,10 +720,7 @@ export default class ContextMenuEvents extends StoreUser {
                 selectionText: info.selectionText,
                 texts,
                 cookieStoreId,
-                parsedCookieStoreId: parseCookieStoreId(
-                  contextualIdentities,
-                  cookieStoreId
-                ),
+                parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
               },
             },
             debug
@@ -837,13 +809,7 @@ export default class ContextMenuEvents extends StoreUser {
     const payload = {
       expression: localFileToRegex(input.trim()),
       listType,
-      storeId: parseCookieStoreId(
-        getSetting(
-          StoreUser.store.getState(),
-          SettingID.CONTEXTUAL_IDENTITIES
-        ) as boolean,
-        cookieStoreId
-      ),
+      storeId: parseCookieStoreId(cookieStoreId),
     };
     cadLog(
       {
@@ -852,7 +818,6 @@ export default class ContextMenuEvents extends StoreUser {
       },
       getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean
     );
-    const cache = StoreUser.store.getState().cache;
     showNotification({
       duration: getSetting(
         StoreUser.store.getState(),
@@ -861,16 +826,7 @@ export default class ContextMenuEvents extends StoreUser {
       msg: `${browser.i18n.getMessage("addNewExpressionNotification", [
         payload.expression,
         payload.listType,
-        `${payload.storeId}${
-          (getSetting(
-            StoreUser.store.getState(),
-            SettingID.CONTEXTUAL_IDENTITIES
-          ) as boolean)
-            ? cache[payload.storeId] !== undefined
-              ? ` (${cache[payload.storeId]})`
-              : ""
-            : ""
-        }`,
+        payload.storeId,
       ])}\n${browser.i18n.getMessage("addNewExpressionNotificationIgnore")}`,
     });
     StoreUser.store.dispatch<any>(addExpressionUI(payload));

@@ -20,8 +20,6 @@ import {
   getContainerExpressionDefault,
   getSetting,
   getStoreId,
-  isChrome,
-  isFirefoxAndroid,
   showNotification,
   sleep,
 } from "../services/libs";
@@ -76,7 +74,7 @@ export const addExpression =
   (payload: Expression) =>
   (dispatch: Dispatch<ReduxAction>, getState: GetState): void => {
     // Sanitize the payload's storeId
-    const storeId = getStoreId(getState(), payload.storeId);
+    const storeId = getStoreId(payload.storeId);
     const defaultOptions = getContainerExpressionDefault(
       getState(),
       storeId,
@@ -117,7 +115,7 @@ export const removeExpression =
       payload: {
         ...payload,
         // Sanitize the payload's storeId
-        storeId: getStoreId(getState(), payload.storeId),
+        storeId: getStoreId(payload.storeId),
       },
       type: ReduxConstants.REMOVE_EXPRESSION,
     });
@@ -128,7 +126,7 @@ export const updateExpression =
   (payload: Expression) =>
   (dispatch: Dispatch<ReduxAction>, getState: GetState): void => {
     // Sanitize the payload's storeId
-    const sanitizedStoreId = getStoreId(getState(), payload.storeId);
+    const sanitizedStoreId = getStoreId(payload.storeId);
     dispatch({
       payload: {
         ...payload,
@@ -232,7 +230,7 @@ export const resetAll = (): RESET_ALL => ({
 export const validateSettings: ActionCreator<
   ThunkAction<void, State, null, ReduxAction>
 > = () => (dispatch, getState) => {
-  const { cache, settings } = getState();
+  const { settings } = getState();
   const initialSettings = initialState.settings;
   const settingKeys = Object.keys(settings);
   const initialSettingKeys = Object.keys(initialSettings);
@@ -275,19 +273,6 @@ export const validateSettings: ActionCreator<
         type: ReduxConstants.UPDATE_SETTING,
       });
     }
-  }
-
-  // Disable unusable setting in Chrome
-  if (isChrome(cache)) {
-    disableSettingIfTrue(settings[SettingID.CONTEXTUAL_IDENTITIES]);
-  }
-  // Disable unusable setting in Firefox Android
-  if (isFirefoxAndroid(cache)) {
-    disableSettingIfTrue(settings[SettingID.NUM_COOKIES_ICON]);
-    disableSettingIfTrue(settings[SettingID.CLEANUP_LOCALSTORAGE_OLD]);
-    disableSettingIfTrue(settings[SettingID.CLEANUP_LOCALSTORAGE]);
-    disableSettingIfTrue(settings[SettingID.CONTEXTUAL_IDENTITIES]);
-    disableSettingIfTrue(settings[SettingID.CONTEXT_MENUS]);
   }
 
   // Minimum 1 second autoclean delay.

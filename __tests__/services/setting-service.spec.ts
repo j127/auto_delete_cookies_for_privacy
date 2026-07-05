@@ -18,7 +18,6 @@ import { initialState } from "../../src/redux/state";
 // tslint:disable-next-line: import-name
 import createStore from "../../src/redux/store";
 import * as BrowserActionService from "../../src/services/browser-action-service";
-import ContextualIdentitiesEvents from "../../src/services/contextual-identities-events";
 import SettingService from "../../src/services/setting-service";
 import StoreUser from "../../src/services/store-user";
 import { ReduxAction } from "../../src/typings/redux-constants";
@@ -32,13 +31,6 @@ jest.requireActual("../../src/services/context-menu-events");
 class TestContextMenus extends ContextMenuEvents {
   public static isInit(): boolean {
     return ContextMenuEvents.isInitialized;
-  }
-}
-
-jest.requireActual("../../src/services/contextual-identities-events");
-class TestContextualIdentities extends ContextualIdentitiesEvents {
-  public static isInit(): boolean {
-    return ContextualIdentitiesEvents.isInitialized;
   }
 }
 
@@ -75,7 +67,7 @@ class TestSettingService extends SettingService {
 
 const defaultTab: browser.tabs.Tab = {
   active: true,
-  cookieStoreId: "firefox-container-5",
+  cookieStoreId: "0",
   hidden: false,
   highlighted: false,
   incognito: false,
@@ -95,9 +87,6 @@ describe("SettingService", () => {
     when(global.browser.runtime.getManifest)
       .calledWith()
       .mockReturnValue({ version: "0.12.34" });
-    when(global.browser.contextualIdentities.query)
-      .calledWith({})
-      .mockResolvedValue([] as never);
     when(global.browser.tabs.query)
       .calledWith({ windowType: "normal" })
       .mockResolvedValue([] as never);
@@ -131,18 +120,6 @@ describe("SettingService", () => {
       expect(TestSettingService.getIsInitialized()).toEqual(false);
       await SettingService.onSettingsChange();
       expect(TestSettingService.getIsInitialized()).toEqual(true);
-    });
-    it("should initialize ContextualIdentities if recently enabled", async () => {
-      expect(TestContextualIdentities.isInit()).toEqual(false);
-      TestStore.changeSetting(SettingID.CONTEXTUAL_IDENTITIES, true);
-      await SettingService.onSettingsChange();
-      expect(TestContextualIdentities.isInit()).toEqual(true);
-    });
-    it("should de-init ContextualIdentities if recently disabled", async () => {
-      expect(TestContextualIdentities.isInit()).toEqual(true);
-      TestStore.changeSetting(SettingID.CONTEXTUAL_IDENTITIES, false);
-      await SettingService.onSettingsChange();
-      expect(TestContextualIdentities.isInit()).toEqual(false);
     });
     it("should not clean localstorage if migrating from old setting", async () => {
       TestStore.changeSetting(SettingID.CLEANUP_LOCALSTORAGE_OLD, true);

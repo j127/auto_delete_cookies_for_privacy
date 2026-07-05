@@ -17,12 +17,6 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { updateExpressionUI } from "../../redux/actions";
-import {
-  isChrome,
-  isFirefox,
-  isFirefoxNotAndroid,
-  returnOptionalCookieAPIAttributes,
-} from "../../services/libs";
 import { ReduxAction } from "../../typings/redux-constants";
 interface DispatchProps {
   onUpdateExpression: (payload: Expression) => void;
@@ -35,7 +29,7 @@ interface OwnProps {
 }
 
 class InitialState {
-  public cookies: browser.cookies.CookieProperties[] = [];
+  public cookies: browser.cookies.Cookie[] = [];
 }
 
 type ExpressionOptionsProps = OwnProps & DispatchProps & StateProps;
@@ -72,11 +66,8 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
   }
   /** Converts an expression default storeId to the defaults of the browser */
   public toPublicStoreId(storeId: string) {
-    if (storeId === "default" && isChrome(this.props.state.cache)) {
+    if (storeId === "default") {
       return "0";
-    }
-    if (storeId === "default" && isFirefox(this.props.state.cache)) {
-      return "firefox-default";
     }
     return storeId;
   }
@@ -84,14 +75,12 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
   public async getAllCookies() {
     const { expression } = this.props;
     const exp = expression.expression;
-    let cookies: browser.cookies.CookieProperties[] = [];
+    let cookies: browser.cookies.Cookie[] = [];
     if (exp.startsWith("/") && exp.endsWith("/")) {
       // Treat expression as regular expression.  Get all cookies then regex domain.
-      const allCookies = await browser.cookies.getAll(
-        returnOptionalCookieAPIAttributes(this.props.state, {
-          storeId: this.toPublicStoreId(expression.storeId),
-        })
-      );
+      const allCookies = await browser.cookies.getAll({
+        storeId: this.toPublicStoreId(expression.storeId),
+      });
       if (exp.slice(1).startsWith("file:")) {
         // Regex with Local Directories
         const regExp = new RegExp(exp.slice(8, -1)); // take out file://
@@ -103,11 +92,9 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
         cookies = allCookies.filter((cookie) => regExp.test(cookie.domain));
       }
     } else if (exp.startsWith("file:")) {
-      const allCookies = await browser.cookies.getAll(
-        returnOptionalCookieAPIAttributes(this.props.state, {
-          storeId: this.toPublicStoreId(expression.storeId),
-        })
-      );
+      const allCookies = await browser.cookies.getAll({
+        storeId: this.toPublicStoreId(expression.storeId),
+      });
       const regExp = new RegExp(exp.slice(7)); // take out file://
       cookies = allCookies.filter(
         (cookie) => cookie.domain === "" && regExp.test(cookie.path)
@@ -118,19 +105,15 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
       try {
         // Check if expression was a CIDR Notation
         cidrEXP = ipaddr.parseCIDR(exp);
-        allCookies = await browser.cookies.getAll(
-          returnOptionalCookieAPIAttributes(this.props.state, {
-            storeId: this.toPublicStoreId(expression.storeId),
-          })
-        );
+        allCookies = await browser.cookies.getAll({
+          storeId: this.toPublicStoreId(expression.storeId),
+        });
       } catch {
         // Not valid CIDR.  Proceed with default fetch.  Also applies to IP Addresses with no CIDR.
-        cookies = await browser.cookies.getAll(
-          returnOptionalCookieAPIAttributes(this.props.state, {
-            domain: `${trimDotAndStar(exp)}${exp.endsWith(".") ? "." : ""}`,
-            storeId: this.toPublicStoreId(expression.storeId),
-          })
-        );
+        cookies = await browser.cookies.getAll({
+          domain: `${trimDotAndStar(exp)}${exp.endsWith(".") ? "." : ""}`,
+          storeId: this.toPublicStoreId(expression.storeId),
+        });
       }
       if (allCookies) {
         cookies = allCookies.filter((cookie) => {
@@ -149,7 +132,7 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
   }
 
   public createCookieList(
-    cookies: browser.cookies.CookieProperties[],
+    cookies: browser.cookies.Cookie[],
     expression: Expression
   ) {
     const { onUpdateExpression } = this.props;
@@ -272,32 +255,21 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
 
   public render() {
     const { cookies } = this.state;
-    const { expression, state } = this.props;
+    const { expression } = this.props;
     const keyCleanAllCookies = `${expression.id}-cleanAllCookies`;
-    const ffVersion = Number.parseInt(state.cache.browserVersion);
 
     const dropList = coerceBoolean(expression.cleanAllCookies);
     return (
       <div>
         {!expression.expression.startsWith("file:") &&
-          ((isFirefoxNotAndroid(state.cache) && ffVersion >= 78) ||
-            isChrome(state.cache)) &&
           this.createSiteDataCheckbox(SiteDataType.CACHE)}
         {!expression.expression.startsWith("file:") &&
-          ((isFirefoxNotAndroid(state.cache) && ffVersion >= 77) ||
-            isChrome(state.cache)) &&
           this.createSiteDataCheckbox(SiteDataType.INDEXEDDB)}
         {!expression.expression.startsWith("file:") &&
-          ((isFirefoxNotAndroid(state.cache) && ffVersion >= 58) ||
-            isChrome(state.cache)) &&
           this.createSiteDataCheckbox(SiteDataType.LOCALSTORAGE)}
         {!expression.expression.startsWith("file:") &&
-          ((isFirefoxNotAndroid(state.cache) && ffVersion >= 78) ||
-            isChrome(state.cache)) &&
           this.createSiteDataCheckbox(SiteDataType.PLUGINDATA)}
         {!expression.expression.startsWith("file:") &&
-          ((isFirefoxNotAndroid(state.cache) && ffVersion >= 77) ||
-            isChrome(state.cache)) &&
           this.createSiteDataCheckbox(SiteDataType.SERVICEWORKERS)}
         <div className={"checkbox"}>
           <span

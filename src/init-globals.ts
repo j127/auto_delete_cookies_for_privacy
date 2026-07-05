@@ -5,14 +5,12 @@
  */
 
 /**
- * Provides the ambient globals (`browser`, `browserDetect`) that Manifest V2
- * supplied through loose <script> tags in extension/global_files/. Every
- * bundle entry point must import this module FIRST so the globals exist
- * before any other module runs. Jest keeps providing its own stubs via
- * __tests__/setup.js, which is why nothing else imports these directly.
+ * Provides the ambient `browser` global that Manifest V2 supplied through
+ * loose <script> tags in extension/global_files/. Every bundle entry point
+ * must import this module FIRST so the global exists before any other module
+ * runs. Jest keeps providing its own stubs via __tests__/setup.js, which is
+ * why nothing else imports this directly.
  */
 import browserPolyfill from "webextension-polyfill";
-import browserDetectImpl from "./services/browser-detect";
 
 (globalThis as any).browser = browserPolyfill;
-(globalThis as any).browserDetect = browserDetectImpl;

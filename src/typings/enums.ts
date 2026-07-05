@@ -25,21 +25,6 @@ export enum FilterOptions {
   KEEP,
 }
 
-/**
- * This only works if browserDetect function doesn't change its return method/string.
- */
-export enum browserName {
-  Firefox = "Firefox",
-  Chrome = "Chrome",
-  Safari = "Safari",
-  Opera = "Opera",
-  IE = "IE",
-  Edge = "Edge",
-  EdgeChromium = "EdgeChromium",
-  Blink = "Blink",
-  Unknown = "UnknownBrowser",
-}
-
 export enum SiteDataType {
   CACHE = "Cache",
   INDEXEDDB = "IndexedDB",
@@ -62,8 +47,6 @@ export enum SettingID {
   CLEANUP_PLUGINDATA = "pluginDataCleanup",
   CLEANUP_SERVICEWORKERS = "serviceWorkersCleanup",
   CONTEXT_MENUS = "contextMenus",
-  CONTEXTUAL_IDENTITIES = "contextualIdentities",
-  CONTEXTUAL_IDENTITIES_AUTOREMOVE = "contextualIdentitiesAutoRemove",
   DEBUG_MODE = "debugMode",
   ENABLE_GREYLIST = "enableGreyListCleanup",
   ENABLE_NEW_POPUP = "enableNewVersionPopup",

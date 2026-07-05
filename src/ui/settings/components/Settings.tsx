@@ -16,12 +16,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { resetSettings, updateSetting } from "../../../redux/actions";
 import { initialState } from "../../../redux/state";
-import {
-  cadLog,
-  isChrome,
-  isFirefox,
-  isFirefoxNotAndroid,
-} from "../../../services/libs";
+import { cadLog } from "../../../services/libs";
 import { ReduxAction } from "../../../typings/redux-constants";
 import CheckboxSetting from "../../common-components/CheckboxSetting";
 import IconButton from "../../common-components/IconButton";
@@ -46,7 +41,6 @@ interface OwnProps {
 }
 
 interface StateProps {
-  cache: CacheMap;
   settings: MapToSettingObject;
 }
 
@@ -209,10 +203,8 @@ class Settings extends React.Component<SettingProps> {
   }
 
   public render() {
-    const { cache, onResetButtonClick, onUpdateSetting, settings, style } =
-      this.props;
+    const { onResetButtonClick, onUpdateSetting, settings, style } = this.props;
     const { error, success } = this.state;
-    const ffVersion = Number.parseInt(cache.browserVersion);
     return (
       <div style={style}>
         <h1>{browser.i18n.getMessage("settingsText")}</h1>
@@ -382,152 +374,87 @@ class Settings extends React.Component<SettingProps> {
           </div>
         </fieldset>
         <hr />
-        {(isFirefoxNotAndroid(cache) || isChrome(cache)) && (
-          <fieldset>
-            <legend>
-              {browser.i18n.getMessage("settingGroupOtherBrowsing")}
-            </legend>
-            <div className="form-group">
-              <CheckboxSetting
-                text={browser.i18n.getMessage("siteDataEmptyOnEnable")}
-                settingObject={settings[SettingID.SITEDATA_EMPTY_ON_ENABLE]}
-                inline={true}
-                updateSetting={(payload) => onUpdateSetting(payload)}
-              />
-              <SettingsTooltip
-                hrefURL={
-                  "#clean-existing-data-for-newly-enabled-browsing-data-types"
-                }
-              />
-            </div>
-            <div
-              className={`alert alert-${
+        <fieldset>
+          <legend>
+            {browser.i18n.getMessage("settingGroupOtherBrowsing")}
+          </legend>
+          <div className="form-group">
+            <CheckboxSetting
+              text={browser.i18n.getMessage("siteDataEmptyOnEnable")}
+              settingObject={settings[SettingID.SITEDATA_EMPTY_ON_ENABLE]}
+              inline={true}
+              updateSetting={(payload) => onUpdateSetting(payload)}
+            />
+            <SettingsTooltip
+              hrefURL={
+                "#clean-existing-data-for-newly-enabled-browsing-data-types"
+              }
+            />
+          </div>
+          <div
+            className={`alert alert-${
+              settings[SettingID.SITEDATA_EMPTY_ON_ENABLE].value === true
+                ? "warning"
+                : "danger"
+            }`}
+          >
+            {browser.i18n.getMessage(
+              `browsingData${
                 settings[SettingID.SITEDATA_EMPTY_ON_ENABLE].value === true
-                  ? "warning"
-                  : "danger"
-              }`}
-            >
-              {browser.i18n.getMessage(
-                `browsingData${
-                  settings[SettingID.SITEDATA_EMPTY_ON_ENABLE].value === true
-                    ? ""
-                    : "NoEmpty"
-                }Warning`
-              )}
-            </div>
-            {((isFirefoxNotAndroid(cache) && ffVersion >= 78) ||
-              isChrome(cache)) && (
-              <div className="form-group">
-                <CheckboxSetting
-                  text={browser.i18n.getMessage("cacheCleanupText")}
-                  settingObject={settings[SettingID.CLEANUP_CACHE]}
-                  inline={true}
-                  updateSetting={(payload) => onUpdateSetting(payload)}
-                />
-                <SettingsTooltip
-                  hrefURL={"#other-browsing-data-cleanup-options"}
-                />
-              </div>
+                  ? ""
+                  : "NoEmpty"
+              }Warning`
             )}
-            {((isFirefoxNotAndroid(cache) && ffVersion >= 77) ||
-              isChrome(cache)) && (
-              <div className="form-group">
-                <CheckboxSetting
-                  text={browser.i18n.getMessage("indexedDBCleanupText")}
-                  settingObject={settings[SettingID.CLEANUP_INDEXEDDB]}
-                  inline={true}
-                  updateSetting={(payload) => onUpdateSetting(payload)}
-                />
-                <SettingsTooltip
-                  hrefURL={"#other-browsing-data-cleanup-options"}
-                />
-              </div>
-            )}
-            {((isFirefoxNotAndroid(cache) && ffVersion >= 58) ||
-              isChrome(cache)) && (
-              <div className="form-group">
-                <CheckboxSetting
-                  text={browser.i18n.getMessage("localStorageCleanupText")}
-                  settingObject={settings[SettingID.CLEANUP_LOCALSTORAGE]}
-                  inline={true}
-                  updateSetting={(payload) => onUpdateSetting(payload)}
-                />
-                <SettingsTooltip
-                  hrefURL={"#other-browsing-data-cleanup-options"}
-                />
-              </div>
-            )}
-            {((isFirefoxNotAndroid(cache) && ffVersion >= 78) ||
-              isChrome(cache)) && (
-              <div className="form-group">
-                <CheckboxSetting
-                  text={browser.i18n.getMessage("pluginDataCleanupText")}
-                  settingObject={settings[SettingID.CLEANUP_PLUGINDATA]}
-                  inline={true}
-                  updateSetting={(payload) => onUpdateSetting(payload)}
-                />
-                <SettingsTooltip
-                  hrefURL={"#other-browsing-data-cleanup-options"}
-                />
-              </div>
-            )}
-            {((isFirefoxNotAndroid(cache) && ffVersion >= 77) ||
-              isChrome(cache)) && (
-              <div className="form-group">
-                <CheckboxSetting
-                  text={browser.i18n.getMessage("serviceWorkersCleanupText")}
-                  settingObject={settings[SettingID.CLEANUP_SERVICEWORKERS]}
-                  inline={true}
-                  updateSetting={(payload) => onUpdateSetting(payload)}
-                />
-                <SettingsTooltip
-                  hrefURL={"#other-browsing-data-cleanup-options"}
-                />
-              </div>
-            )}
-          </fieldset>
-        )}
-        {(isFirefoxNotAndroid(cache) || isChrome(cache)) && <hr />}
+          </div>
+          <div className="form-group">
+            <CheckboxSetting
+              text={browser.i18n.getMessage("cacheCleanupText")}
+              settingObject={settings[SettingID.CLEANUP_CACHE]}
+              inline={true}
+              updateSetting={(payload) => onUpdateSetting(payload)}
+            />
+            <SettingsTooltip hrefURL={"#other-browsing-data-cleanup-options"} />
+          </div>
+          <div className="form-group">
+            <CheckboxSetting
+              text={browser.i18n.getMessage("indexedDBCleanupText")}
+              settingObject={settings[SettingID.CLEANUP_INDEXEDDB]}
+              inline={true}
+              updateSetting={(payload) => onUpdateSetting(payload)}
+            />
+            <SettingsTooltip hrefURL={"#other-browsing-data-cleanup-options"} />
+          </div>
+          <div className="form-group">
+            <CheckboxSetting
+              text={browser.i18n.getMessage("localStorageCleanupText")}
+              settingObject={settings[SettingID.CLEANUP_LOCALSTORAGE]}
+              inline={true}
+              updateSetting={(payload) => onUpdateSetting(payload)}
+            />
+            <SettingsTooltip hrefURL={"#other-browsing-data-cleanup-options"} />
+          </div>
+          <div className="form-group">
+            <CheckboxSetting
+              text={browser.i18n.getMessage("pluginDataCleanupText")}
+              settingObject={settings[SettingID.CLEANUP_PLUGINDATA]}
+              inline={true}
+              updateSetting={(payload) => onUpdateSetting(payload)}
+            />
+            <SettingsTooltip hrefURL={"#other-browsing-data-cleanup-options"} />
+          </div>
+          <div className="form-group">
+            <CheckboxSetting
+              text={browser.i18n.getMessage("serviceWorkersCleanupText")}
+              settingObject={settings[SettingID.CLEANUP_SERVICEWORKERS]}
+              inline={true}
+              updateSetting={(payload) => onUpdateSetting(payload)}
+            />
+            <SettingsTooltip hrefURL={"#other-browsing-data-cleanup-options"} />
+          </div>
+        </fieldset>
+        <hr />
         <fieldset>
           <legend>{browser.i18n.getMessage("settingGroupExtension")}</legend>
-          {isFirefoxNotAndroid(cache) && (
-            <div className="form-group">
-              <div className="alert alert-warning">
-                {browser.i18n.getMessage("containerSiteDataWarning")}
-              </div>
-              <CheckboxSetting
-                text={browser.i18n.getMessage(
-                  "contextualIdentitiesEnabledText"
-                )}
-                settingObject={settings[SettingID.CONTEXTUAL_IDENTITIES]}
-                inline={true}
-                updateSetting={(payload) => onUpdateSetting(payload)}
-              />
-              <SettingsTooltip
-                hrefURL={"#enable-support-for-firefoxs-container-tabs"}
-              />
-            </div>
-          )}
-          {isFirefoxNotAndroid(cache) &&
-            settings[SettingID.CONTEXTUAL_IDENTITIES].value && (
-              <div className="form-group">
-                <CheckboxSetting
-                  text={browser.i18n.getMessage(
-                    "contextualIdentitiesAutoRemoveText"
-                  )}
-                  settingObject={
-                    settings[SettingID.CONTEXTUAL_IDENTITIES_AUTOREMOVE]
-                  }
-                  inline={true}
-                  updateSetting={(payload) => onUpdateSetting(payload)}
-                />
-                <SettingsTooltip
-                  hrefURL={
-                    "#enable-automatic-removal-of-expression-list-when-its-container-is-removed"
-                  }
-                />
-              </div>
-            )}
           <div className="form-group">
             <CheckboxSetting
               text={browser.i18n.getMessage("enableCleanupLogText")}
@@ -542,33 +469,30 @@ class Settings extends React.Component<SettingProps> {
               </div>
             )}
           </div>
-          {(!isFirefox(cache) || isFirefoxNotAndroid(cache)) && (
+          <div className="form-group">
+            <CheckboxSetting
+              text={browser.i18n.getMessage("showNumberOfCookiesInIconText")}
+              settingObject={settings[SettingID.NUM_COOKIES_ICON]}
+              inline={true}
+              updateSetting={(payload) => onUpdateSetting(payload)}
+            />
+            <SettingsTooltip
+              hrefURL={"#show-number-of-cookies-for-that-domain"}
+            />
+          </div>
+          {settings[SettingID.NUM_COOKIES_ICON].value === true && (
             <div className="form-group">
               <CheckboxSetting
-                text={browser.i18n.getMessage("showNumberOfCookiesInIconText")}
-                settingObject={settings[SettingID.NUM_COOKIES_ICON]}
+                text={browser.i18n.getMessage(SettingID.KEEP_DEFAULT_ICON)}
+                settingObject={settings[SettingID.KEEP_DEFAULT_ICON]}
                 inline={true}
                 updateSetting={(payload) => onUpdateSetting(payload)}
               />
               <SettingsTooltip
-                hrefURL={"#show-number-of-cookies-for-that-domain"}
+                hrefURL={"#keep-default-icon-on-all-list-types"}
               />
             </div>
           )}
-          {(!isFirefox(cache) || isFirefoxNotAndroid(cache)) &&
-            settings[SettingID.NUM_COOKIES_ICON].value === true && (
-              <div className="form-group">
-                <CheckboxSetting
-                  text={browser.i18n.getMessage(SettingID.KEEP_DEFAULT_ICON)}
-                  settingObject={settings[SettingID.KEEP_DEFAULT_ICON]}
-                  inline={true}
-                  updateSetting={(payload) => onUpdateSetting(payload)}
-                />
-                <SettingsTooltip
-                  hrefURL={"#keep-default-icon-on-all-list-types"}
-                />
-              </div>
-            )}
           <div className="form-group">
             <CheckboxSetting
               text={browser.i18n.getMessage("notifyCookieCleanUpText")}
@@ -638,51 +562,43 @@ class Settings extends React.Component<SettingProps> {
             />
             <SettingsTooltip hrefURL={"#size-of-setting"} />
           </div>
-          {(isFirefoxNotAndroid(cache) || isChrome(cache)) && (
-            <div className="form-group">
-              <CheckboxSetting
-                text={browser.i18n.getMessage("enableContextMenus")}
-                settingObject={settings[SettingID.CONTEXT_MENUS]}
-                inline={true}
-                updateSetting={(payload) => onUpdateSetting(payload)}
-              />
-              <SettingsTooltip hrefURL={"#enable-context-menus"} />
-            </div>
-          )}
-          {(isFirefoxNotAndroid(cache) || isChrome(cache)) && (
-            <div className="form-group">
-              <CheckboxSetting
-                text={browser.i18n.getMessage(SettingID.DEBUG_MODE)}
-                settingObject={settings[SettingID.DEBUG_MODE]}
-                inline={true}
-                updateSetting={(payload) => onUpdateSetting(payload)}
-              />
-              <SettingsTooltip hrefURL={"#debug-mode"} />
-              {settings[SettingID.DEBUG_MODE].value && (
-                <div className="alert alert-info">
-                  <p>{browser.i18n.getMessage("openDebugMode")}</p>
-                  <pre>
-                    <b>
-                      {(isFirefox(cache) &&
-                        "about:devtools-toolbox?type=extension&id=") ||
-                        (isChrome(cache) && `chrome://extensions/?id=`)}
-                      {encodeURIComponent(browser.runtime.id)}
-                    </b>
-                  </pre>
-                  {isChrome(cache) && (
-                    <p>{browser.i18n.getMessage("chromeDebugMode")}</p>
-                  )}
-                  <p>
-                    {browser.i18n.getMessage("consoleDebugMode")}.{" "}
-                    {browser.i18n.getMessage("filterDebugMode")}
-                  </p>
-                  <p>
-                    <b>CAD_</b>
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
+          <div className="form-group">
+            <CheckboxSetting
+              text={browser.i18n.getMessage("enableContextMenus")}
+              settingObject={settings[SettingID.CONTEXT_MENUS]}
+              inline={true}
+              updateSetting={(payload) => onUpdateSetting(payload)}
+            />
+            <SettingsTooltip hrefURL={"#enable-context-menus"} />
+          </div>
+          <div className="form-group">
+            <CheckboxSetting
+              text={browser.i18n.getMessage(SettingID.DEBUG_MODE)}
+              settingObject={settings[SettingID.DEBUG_MODE]}
+              inline={true}
+              updateSetting={(payload) => onUpdateSetting(payload)}
+            />
+            <SettingsTooltip hrefURL={"#debug-mode"} />
+            {settings[SettingID.DEBUG_MODE].value && (
+              <div className="alert alert-info">
+                <p>{browser.i18n.getMessage("openDebugMode")}</p>
+                <pre>
+                  <b>
+                    {`chrome://extensions/?id=`}
+                    {encodeURIComponent(browser.runtime.id)}
+                  </b>
+                </pre>
+                <p>{browser.i18n.getMessage("chromeDebugMode")}</p>
+                <p>
+                  {browser.i18n.getMessage("consoleDebugMode")}.{" "}
+                  {browser.i18n.getMessage("filterDebugMode")}
+                </p>
+                <p>
+                  <b>CAD_</b>
+                </p>
+              </div>
+            )}
+          </div>
         </fieldset>
         <br />
         <br />
@@ -699,9 +615,8 @@ class Settings extends React.Component<SettingProps> {
 }
 
 const mapStateToProps = (state: State) => {
-  const { settings, cache } = state;
+  const { settings } = state;
   return {
-    cache,
     settings,
   };
 };

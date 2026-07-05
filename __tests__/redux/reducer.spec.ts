@@ -10,7 +10,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { browserName, ListType, SettingID, SiteDataType } from "../../src/typings/enums";
+import { ListType, SettingID, SiteDataType } from "../../src/typings/enums";
 import {
   activityLog,
   cache,
@@ -180,16 +180,16 @@ describe("Reducer", () => {
       expect(firstExpression).toHaveProperty("id");
     });
 
-    it("should return youtube.com for firefox_container_2", () => {
+    it("should return youtube.com for store_b", () => {
       const newState = lists(state, {
         payload: {
           expression: "youtube.com",
           listType: ListType.GREY,
-          storeId: "firefox_container_2",
+          storeId: "store_b",
         },
         type: ReduxConstants.ADD_EXPRESSION,
       });
-      const firstExpression = newState.firefox_container_2[0];
+      const firstExpression = newState.store_b[0];
       expect(firstExpression).toHaveProperty("expression", "youtube.com");
       expect(firstExpression).toHaveProperty("listType", ListType.GREY);
       expect(firstExpression).toHaveProperty("id");
@@ -226,26 +226,26 @@ describe("Reducer", () => {
           storeId: "default",
         },
       ],
-      "firefox-container-1": [
+      "store-a": [
         {
           expression: "messenger.com*",
           id: "456",
           listType: ListType.WHITE,
-          storeId: "firefox-container-1",
+          storeId: "store-a",
         },
         {
           expression: "facebook.com*",
           id: "123",
           listType: ListType.GREY,
-          storeId: "firefox-container-1",
+          storeId: "store-a",
         },
       ],
-      "firefox-container-2": [
+      "store-b": [
         {
           expression: "remove.me",
           id: "222",
           listType: ListType.WHITE,
-          storeId: "firefox-container-2",
+          storeId: "store-b",
         },
       ],
     };
@@ -268,19 +268,19 @@ describe("Reducer", () => {
       expect(newExpression).toHaveProperty("id");
     });
 
-    it("should return github.com on firefox-container-1", () => {
+    it("should return github.com on store-a", () => {
       const newState = lists(
         { ...state },
         {
           payload: {
             expression: "github.com",
             listType: ListType.GREY,
-            storeId: "firefox-container-1",
+            storeId: "store-a",
           },
           type: ReduxConstants.ADD_EXPRESSION,
         }
       );
-      const newExpression = newState["firefox-container-1"][2];
+      const newExpression = newState["store-a"][2];
       expect(newExpression).toHaveProperty("expression", "github.com");
       expect(newExpression).toHaveProperty("listType", ListType.GREY);
       expect(newExpression).toHaveProperty("id");
@@ -321,7 +321,7 @@ describe("Reducer", () => {
       expect(newExpression).toHaveProperty("id");
     });
 
-    it("should return google.com and WHITE for updated expression on firefox-container-1", () => {
+    it("should return google.com and WHITE for updated expression on store-a", () => {
       const newState = lists(
         { ...state },
         {
@@ -329,13 +329,13 @@ describe("Reducer", () => {
             expression: "google.com",
             id: "123",
             listType: ListType.WHITE,
-            storeId: "firefox-container-1",
+            storeId: "store-a",
           },
           type: ReduxConstants.UPDATE_EXPRESSION,
         }
       );
 
-      const newExpression = newState["firefox-container-1"][0];
+      const newExpression = newState["store-a"][0];
       expect(newExpression).toHaveProperty("expression", "google.com");
       expect(newExpression).toHaveProperty("listType", ListType.WHITE);
       expect(newExpression).toHaveProperty("id");
@@ -351,17 +351,17 @@ describe("Reducer", () => {
 
     it("should remove a single list if REMOVE_LIST was called.", () => {
       const newState = lists(state, {
-        payload: "firefox-container-1",
+        payload: "store-a",
         type: ReduxConstants.REMOVE_LIST,
       });
       expect(Object.keys(newState)).toEqual(
-        expect.not.arrayContaining(["firefox-container-1"])
+        expect.not.arrayContaining(["store-a"])
       );
     });
 
     it("should not remove anything if REMOVE_LIST was called but with invalid id.", () => {
       const newState = lists(state, {
-        payload: "firefox-container-99",
+        payload: "store-x99",
         type: ReduxConstants.REMOVE_LIST,
       });
       expect(newState).toEqual(state);
@@ -371,7 +371,7 @@ describe("Reducer", () => {
       const newState = lists(
         {},
         {
-          payload: "firefox-container-9",
+          payload: "store-x9",
           type: ReduxConstants.REMOVE_LIST,
         }
       );
@@ -391,11 +391,11 @@ describe("Reducer", () => {
 
     it("should remove list if last expression entry was removed.", () => {
       const newState = lists(state, {
-        payload: state["firefox-container-2"][0],
+        payload: state["store-b"][0],
         type: ReduxConstants.REMOVE_EXPRESSION,
       });
       expect(Object.keys(newState)).toEqual(
-        expect.not.arrayContaining(["firefox-container-2"])
+        expect.not.arrayContaining(["store-b"])
       );
     });
   });
@@ -503,8 +503,8 @@ describe("Reducer", () => {
 
   describe("cache", () => {
     const state = {
-      browserDetect: browserName.Firefox,
-      browserVersion: 123,
+      someCachedKey: "someCachedValue",
+      anotherKey: 123,
     };
     it("should return empty object only if RESET_ALL was triggered", () => {
       const newState = cache(state, {

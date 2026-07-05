@@ -72,7 +72,7 @@ class TestContextMenuEvents extends ContextMenuEvents {
 
 const sampleTab: browser.tabs.Tab = {
   active: true,
-  cookieStoreId: "firefox-default",
+  cookieStoreId: "0",
   discarded: false,
   hidden: false,
   highlighted: false,
@@ -375,7 +375,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "link.cad",
         ListType.GREY,
-        "firefox-default"
+        "0"
       );
     });
     it("Trigger LINK_ADD_WHITE_DOMAIN", () => {
@@ -389,7 +389,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "link.cad",
         ListType.WHITE,
-        "firefox-default"
+        "0"
       );
     });
     it("Trigger LINK_ADD_GREY_SUBS", () => {
@@ -403,7 +403,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "*.link.cad",
         ListType.GREY,
-        "firefox-default"
+        "0"
       );
     });
     it("Trigger LINK_ADD_WHITE_SUBS", () => {
@@ -417,7 +417,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "*.link.cad",
         ListType.WHITE,
-        "firefox-default"
+        "0"
       );
     });
     // Add Expression via Page
@@ -432,7 +432,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "page.cad",
         ListType.GREY,
-        "firefox-default"
+        "0"
       );
     });
     it("Trigger PAGE_ADD_WHITE_DOMAIN", () => {
@@ -446,7 +446,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "page.cad",
         ListType.WHITE,
-        "firefox-default"
+        "0"
       );
     });
     it("Trigger PAGE_ADD_GREY_SUBS", () => {
@@ -460,7 +460,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "*.page.cad",
         ListType.GREY,
-        "firefox-default"
+        "0"
       );
     });
     it("Trigger PAGE_ADD_WHITE_SUBS", () => {
@@ -474,7 +474,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "*.page.cad",
         ListType.WHITE,
-        "firefox-default"
+        "0"
       );
     });
     // Add Expression via Selected Text
@@ -489,41 +489,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "selectedText",
         ListType.GREY,
-        "firefox-default"
-      );
-    });
-    it("Trigger SELECT_ADD_GREY_DOMAIN and contextualIdentities was enabled", () => {
-      TestStore.changeSetting(SettingID.CONTEXTUAL_IDENTITIES, true);
-      TestStore.addCache({
-        key: "firefox-container-1",
-        value: "Personal",
-      });
-      ContextMenuEvents.onContextMenuClicked(
-        {
-          ...sampleClickText,
-          menuItemId: ContextMenuEvents.MenuID.SELECT_ADD_GREY_DOMAIN,
-        },
-        { ...sampleTab, cookieStoreId: "firefox-container-1" }
-      );
-      expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
-        "selectedText",
-        ListType.GREY,
-        "firefox-container-1"
-      );
-    });
-    it("Trigger SELECT_ADD_GREY_DOMAIN and contextualIdentities was enabled with no matching container", () => {
-      TestStore.changeSetting(SettingID.CONTEXTUAL_IDENTITIES, true);
-      ContextMenuEvents.onContextMenuClicked(
-        {
-          ...sampleClickText,
-          menuItemId: ContextMenuEvents.MenuID.SELECT_ADD_GREY_DOMAIN,
-        },
-        { ...sampleTab, cookieStoreId: "firefox-container-2" }
-      );
-      expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
-        "selectedText",
-        ListType.GREY,
-        "firefox-container-2"
+        "0"
       );
     });
     it("Trigger SELECT_ADD_WHITE_DOMAIN", () => {
@@ -537,7 +503,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "selectedText",
         ListType.WHITE,
-        "firefox-default"
+        "0"
       );
     });
     it("Trigger SELECT_ADD_GREY_SUBS", () => {
@@ -551,7 +517,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "*.selectedText",
         ListType.GREY,
-        "firefox-default"
+        "0"
       );
     });
     it("Trigger SELECT_ADD_WHITE_SUBS", () => {
@@ -565,7 +531,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "*.selectedText",
         ListType.WHITE,
-        "firefox-default"
+        "0"
       );
     });
     it("Trigger SELECT_ADD_WHITE_SUBS with multiple comma-separated values", () => {
