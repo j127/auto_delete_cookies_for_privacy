@@ -29,7 +29,7 @@ const vendorDir = join(root, "extension", "global_files");
 
 const BANNER = `/*!
  * Copyright (c) 2017-2022 Kenny Do and CAD Team (https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/graphs/contributors)
- * Fork: Auto-Delete Cookies for Privacy, Copyright (c) 2026 j127 (https://github.com/j127/autodelete_cookies_for_privacy)
+ * Fork: Auto-Delete Cookies for Privacy, Copyright (c) 2026 j127 (https://github.com/j127/auto_delete_cookies_for_privacy)
  * Licensed under MIT (https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/blob/3.X.X-Branch/LICENSE)
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR

@@ -13,7 +13,7 @@ import Welcome from "../../../src/ui/settings/components/Welcome";
 // Register the FontAwesome icons the settings entrypoint normally provides.
 fontAwesomeImports();
 
-const FORK_BASE = "https://github.com/j127/autodelete_cookies_for_privacy";
+const FORK_BASE = "https://github.com/j127/auto_delete_cookies_for_privacy";
 
 describe("Welcome", () => {
   const renderWelcome = (stateOverrides: Partial<State> = {}) => {

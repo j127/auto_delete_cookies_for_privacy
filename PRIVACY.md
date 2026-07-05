@@ -48,4 +48,4 @@ This file is versioned with the source code; any change to it is visible in the 
 
 ## Contact
 
-Questions or concerns: open an issue at <https://github.com/j127/autodelete_cookies_for_privacy/issues>.
+Questions or concerns: open an issue at <https://github.com/j127/auto_delete_cookies_for_privacy/issues>.

@@ -340,7 +340,7 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
         <a
           target="_blank"
           rel="help noreferrer noopener"
-          href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
+          href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
         >
           {browser.i18n.getMessage("questionExpression")}
         </a>
