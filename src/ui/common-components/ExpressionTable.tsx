@@ -17,8 +17,8 @@ import { Dispatch } from "redux";
 import { removeExpressionUI, updateExpressionUI } from "../../redux/actions";
 import { validateExpressionDomain } from "../../services/libs";
 import { ReduxAction } from "../../typings/redux-constants";
-import ExpressionOptions from "./expression-options";
-import IconButton from "./icon-button";
+import ExpressionOptions from "./ExpressionOptions";
+import IconButton from "./IconButton";
 
 class EmptyState {
   public expressionInput = "";

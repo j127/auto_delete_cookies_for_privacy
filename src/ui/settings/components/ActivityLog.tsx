@@ -16,8 +16,8 @@ import { Dispatch } from "redux";
 import { clearActivities } from "../../../redux/actions";
 import { FilterOptions } from "../../../typings/enums";
 import { ReduxAction } from "../../../typings/redux-constants";
-import ActivityTable from "../../common-components/activity-table";
-import IconButton from "../../common-components/icon-button";
+import ActivityTable from "../../common-components/ActivityTable";
+import IconButton from "../../common-components/IconButton";
 
 interface OwnProps {
   style?: React.CSSProperties;

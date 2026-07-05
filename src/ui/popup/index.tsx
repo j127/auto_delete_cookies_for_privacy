@@ -19,9 +19,9 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { createUIStore } from "../../redux/ui-store-bridge";
 import { isChrome, sleep } from "../../services/libs";
-import ErrorBoundary from "../common-components/error-boundary";
+import ErrorBoundary from "../common-components/ErrorBoundary";
 import fontAwesomeImports from "../font-awesome-imports";
-import App from "./app";
+import App from "./App";
 
 fontAwesomeImports();
 

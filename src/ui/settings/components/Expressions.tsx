@@ -26,10 +26,10 @@ import {
   validateExpressionDomain,
 } from "../../../services/libs";
 import { ReduxAction } from "../../../typings/redux-constants";
-import ExpressionTable from "../../common-components/expression-table";
-import IconButton from "../../common-components/icon-button";
+import ExpressionTable from "../../common-components/ExpressionTable";
+import IconButton from "../../common-components/IconButton";
 import { downloadObjectAsJSON } from "../../ui-libs";
-import SettingsTooltip from "./settings-tooltip";
+import SettingsTooltip from "./SettingsTooltip";
 const styles = {
   buttonStyle: {
     height: "max-content",

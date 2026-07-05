@@ -14,7 +14,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 
 import { getMatchedExpressions } from "../../../services/libs";
-import ExpressionTable from "../../common-components/expression-table";
+import ExpressionTable from "../../common-components/ExpressionTable";
 
 interface OwnProps {
   url: string;

@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 // tslint:disable-next-line: import-name
 import ReleaseNotes from "../release-notes.json";
-import IconButton from "../../common-components/icon-button";
+import IconButton from "../../common-components/IconButton";
 import { ReduxAction } from "../../../typings/redux-constants";
 import { resetCookieDeletedCounter } from "../../../redux/actions";
 

@@ -19,7 +19,7 @@ import { Provider } from "react-redux";
 import { createUIStore } from "../../redux/ui-store-bridge";
 import { sleep } from "../../services/libs";
 import fontAwesomeImports from "../font-awesome-imports";
-import App from "./app";
+import App from "./App";
 
 fontAwesomeImports();
 
