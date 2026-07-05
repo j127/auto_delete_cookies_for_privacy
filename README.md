@@ -1,27 +1,27 @@
 # Auto-Delete Cookies for Privacy
 
-Control your cookies! When a tab closes, any cookies not being used are automatically deleted. Prevent tracking by other cookies and add only the ones you trust. Easily import and export your cookie whitelist.
+A browser extension that tidies up after your tabs. Close a tab, and the cookies and site data that page left behind get wiped automatically — unless you've put the site on a keep list. Sites you trust keep working; everything else forgets you were there.
 
 This is a maintained fork of [Cookie AutoDelete](https://github.com/Cookie-AutoDelete/Cookie-AutoDelete) (by Kenny Do and the CAD Team, MIT licensed), which was archived upstream and delisted from the Chrome Web Store when Manifest V2 support ended. This fork migrates the extension to Manifest V3 and targets Chrome, Brave, and other Chromium browsers.
 
 > **Status:** under active migration to Manifest V3 on the `manifest-v3-prep` branch. Not yet published to the Chrome Web Store.
 
-## Main features
+## What it does
 
-- Automatically deletes cookies from closed tabs
-- Whitelist/Greylist support for cookies
-- Easily export/import your configurations
-- Clear all cookies for a domain
-- Supports manual mode cleaning from the popup
-- Easily see the number of cookies for a site
+- Wipes cookies from a site shortly after its last tab closes
+- Two keep lists: a whitelist (never cleaned) and a greylist (survives until the browser restarts)
+- Optionally clears other leftovers too: LocalStorage, IndexedDB, cache, service workers, plugin data
+- One-click manual cleanup for the current site from the popup or right-click menu
+- Toolbar badge shows how many cookies the current site has set
+- Keep-list rules support wildcards and regular expressions, and can be exported/imported as files
 
-Firefox-specific features of the original (Container Tabs support) remain in the codebase behind feature guards but are not currently shipped; this fork targets Chromium browsers only.
+The original's Firefox-only features (Container Tabs, First-Party Isolation) have been removed from this fork rather than carried as dead weight. Firefox still supports Manifest V2, so Firefox users can simply keep using the upstream Cookie AutoDelete.
 
 ## Usage
 
-1. Add the sites you want to keep cookies for to the whitelist (permanently) or greylist (until browser restart)
-2. Enable "Automatic Cleaning" in settings or "Auto-Clean" in popup
-3. Watch those unused cookies disappear :)
+1. Put sites whose cookies you want to keep on the whitelist, or on the greylist if they should only survive until the browser restarts
+2. Turn on automatic cleaning (in the settings page, or the toggle in the popup)
+3. Browse normally — cleanup runs by itself a few seconds after you close a site's last tab
 
 ## Installation
 
