@@ -43,7 +43,7 @@ export const uid = (): string => crypto.randomUUID();
 export const cadLog = (x: CADLogItem, output: boolean): void => {
   if (!x.msg || x.msg.trim() === "") return;
   if (!output) return;
-  const h = `CAD_${browser.runtime.getManifest().version}`;
+  const h = `ADCP_${browser.runtime.getManifest().version}`;
   const cOut = [
     // eslint-disable-next-line no-console
     console.debug,
@@ -629,7 +629,7 @@ export const showNotification = (
   browser.notifications.create(sid, {
     iconUrl: browser.runtime.getURL("icons/icon_48.png"),
     message: x.msg,
-    title: `CAD ${browser.runtime.getManifest().version} - ${
+    title: `ADCP ${browser.runtime.getManifest().version} - ${
       x.title ? x.title : browser.i18n.getMessage("manualActionNotification")
     }`,
     type: "basic",

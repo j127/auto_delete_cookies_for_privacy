@@ -61,15 +61,15 @@
   },
   "browsingDataNoEmptyWarning": {
     "message": "Heads up: enabling this does not touch data that sites stored earlier. A site's leftover data only becomes cleanable after you visit it again — until then it stays put, even for sites you would rather purge.",
-    "description": "Heads up: enabling this does not touch data that sites stored earlier. A site's leftover data only becomes cleanable after you visit it again — until then it stays put, even for sites you would rather purge. Found in CAD Settings"
+    "description": "Heads up: enabling this does not touch data that sites stored earlier. A site's leftover data only becomes cleanable after you visit it again — until then it stays put, even for sites you would rather purge. Found in ADCP Settings"
   },
   "browsingDataWarning": {
     "message": "Caution: switching on any cleanup type below immediately erases ALL currently stored data of that type, for every site.",
-    "description": "Caution: switching on any cleanup type below immediately erases ALL currently stored data of that type, for every site. Found in CAD Settings"
+    "description": "Caution: switching on any cleanup type below immediately erases ALL currently stored data of that type, for every site. Found in ADCP Settings"
   },
   "cacheCleanupText": {
     "message": "Enable Cache Cleanup",
-    "description": "Enable Cache Cleanup. Found in CAD Settings."
+    "description": "Enable Cache Cleanup. Found in ADCP Settings."
   },
   "cacheText": {
     "message": "Cache",
@@ -205,7 +205,7 @@
   },
   "debugMode": {
     "message": "Debug Mode (Verbose Console Logging)",
-    "description": "Debug Mode (Verbose Console Logging). Found in CAD Settings."
+    "description": "Debug Mode (Verbose Console Logging). Found in ADCP Settings."
   },
   "debugTitle": {
     "message": "Debug Information",
@@ -249,7 +249,7 @@
   },
   "enableContextMenus": {
     "message": "Add Entries to the Right-Click Menu",
-    "description": "Add Entries to the Right-Click Menu. Shown in CAD Settings"
+    "description": "Add Entries to the Right-Click Menu. Shown in ADCP Settings"
   },
   "enableGreyListCleanup": {
     "message": "Clean Greylist Entries When the Browser Restarts",
@@ -265,7 +265,7 @@
   },
   "exportSettingsText": {
     "message": "Export settings...",
-    "description": "Export settings... Found in CAD Settings."
+    "description": "Export settings... Found in ADCP Settings."
   },
   "exportURLSText": {
     "message": "Export expressions...",
@@ -315,11 +315,11 @@
   },
   "importCoreSettingsText": {
     "message": "Import settings...",
-    "description": "Import settings... Found in CAD Settings."
+    "description": "Import settings... Found in ADCP Settings."
   },
   "importFileNotFound": {
     "message": "No such file: $filename$",
-    "description": "No such file: $filename$.  Found in List of Expressions and CAD Settings.",
+    "description": "No such file: $filename$.  Found in List of Expressions and ADCP Settings.",
     "placeholders": {
       "filename": {
         "content": "$1",
@@ -373,7 +373,7 @@
   },
   "indexedDBCleanupText": {
     "message": "Enable IndexedDB Cleanup",
-    "description": "Enable IndexedDB Cleanup. Found in CAD Settings."
+    "description": "Enable IndexedDB Cleanup. Found in ADCP Settings."
   },
   "indexedDBText": {
     "message": "IndexedDB",
@@ -489,7 +489,7 @@
   },
   "localStorageCleanupText": {
     "message": "Enable LocalStorage Cleanup",
-    "description": "Enable LocalStorage Cleanup. Found in CAD Settings."
+    "description": "Enable LocalStorage Cleanup. Found in ADCP Settings."
   },
   "localStorageText": {
     "message": "LocalStorage",
@@ -745,7 +745,7 @@
   },
   "pluginDataCleanupText": {
     "message": "Enable Plugin Data Cleanup",
-    "description": "Enable Plugin Data Cleanup. Found in CAD Settings."
+    "description": "Enable Plugin Data Cleanup. Found in ADCP Settings."
   },
   "pluginDataText": {
     "message": "Plugin Data",
@@ -957,7 +957,7 @@
   },
   "serviceWorkersCleanupText": {
     "message": "Enable Service Workers Cleanup",
-    "description": "Enable Service Workers Cleanup. Found in CAD Settings."
+    "description": "Enable Service Workers Cleanup. Found in ADCP Settings."
   },
   "serviceWorkersText": {
     "message": "Service Workers",
@@ -988,8 +988,8 @@
     "description": "$CAD$ Settings",
     "placeholders": {
       "CAD": {
-        "content": "CAD",
-        "example": "CAD - Short form of Cookie AutoDelete"
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
@@ -1047,27 +1047,17 @@
     "placeholders": {
       "CAD": {
         "content": "$1",
-        "example": "CAD or Cookie AutoDelete"
-      }
-    }
-  },
-  "versionText": {
-    "message": "$browser$ version",
-    "description": "Firefox version",
-    "placeholders": {
-      "browser": {
-        "content": "$1",
-        "example": "Firefox"
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "welcomeMessage": {
     "message": "$cadTitle$ has removed $sessionDeleted$ cookies this browser session and $totalDeleted$ in total since installation.",
-    "description": "Hi there! During this session, Cookie AutoDelete has deleted 123 cookies and in total 456 cookies.",
+    "description": "Hi there! During this session, Auto-Delete Cookies for Privacy has deleted 123 cookies and in total 456 cookies.",
     "placeholders": {
       "cadTitle": {
         "content": "$1",
-        "example": "Cookie AutoDelete"
+        "example": "Auto-Delete Cookies for Privacy"
       },
       "sessionDeleted": {
         "content": "$2",

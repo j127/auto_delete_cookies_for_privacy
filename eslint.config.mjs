@@ -17,6 +17,8 @@ export default tseslint.config(
       "builds/",
       "coverage/",
       "node_modules/",
+      // mdBook: vendored mermaid assets + generated book output.
+      "documentation/",
     ],
   },
   eslint.configs.recommended,
