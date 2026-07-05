@@ -313,17 +313,6 @@ class Expressions extends React.Component<ExpressionProps> {
     });
   }
 
-  public getDerivedStateFromProps() {
-    this.changeStoreIdTab("default");
-  }
-
-  // Change the id of the storeId for the container tabs
-  public changeStoreIdTab(storeId: string) {
-    this.setState({
-      storeId,
-    });
-  }
-
   public render() {
     const { style, lists } = this.props;
     const { error, storeId, success } = this.state;
@@ -368,8 +357,8 @@ class Expressions extends React.Component<ExpressionProps> {
             href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
           >
             {browser.i18n.getMessage("questionExpression")}
-            <SettingsTooltip hrefURL="expressions.md#writing-expressions" />
           </a>
+          <SettingsTooltip hrefURL="expressions.md#writing-expressions" />
         </div>
         <div
           className="row"
