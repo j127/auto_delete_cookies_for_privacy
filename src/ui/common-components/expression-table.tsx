@@ -10,6 +10,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { ListType } from "../../typings/enums";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";

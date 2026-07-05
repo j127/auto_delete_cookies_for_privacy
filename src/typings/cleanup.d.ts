@@ -32,26 +32,12 @@ interface CleanupPropertiesInternal extends CleanupProperties {
   openTabDomains: { [k: string]: string[] };
 }
 
-declare const enum ReasonKeep {
-  OpenTabs = "reasonKeepOpenTab",
-  MatchedExpression = "reasonKeep",
-}
-
-declare const enum ReasonClean {
-  StartupNoMatchedExpression = "reasonCleanStartupNoList",
-  StartupCleanupAndGreyList = "reasonCleanGreyList",
-  NoMatchedExpression = "reasonCleanNoList",
-  MatchedExpressionButNoCookieName = "reasonCleanCookieName",
-  ExpiredCookie = "reasonCleanCookieExpired",
-  ExpiredCookieRestart = "reasonCleanCookieExpiredRestart",
-  CADSiteDataCookie = "reasonCADSiteDataCookie",
-  CADSiteDataCookieRestart = "reasonCADSiteDataCookieRestart",
-}
-
-declare const enum OpenTabStatus {
-  TabsWasNotIgnored = "reasonTabsWereNotIgnored",
-  TabsWereIgnored = "reasonTabsWereIgnored",
-}
+// The enums live in ./enums.ts as real runtime objects (Bun.build cannot
+// inline ambient const enums); these aliases keep the names usable in TYPE
+// positions without imports. VALUE usage requires importing from enums.
+declare type ReasonKeep = import("./enums").ReasonKeep;
+declare type ReasonClean = import("./enums").ReasonClean;
+declare type OpenTabStatus = import("./enums").OpenTabStatus;
 
 interface CleanReasonObject {
   cached: boolean;

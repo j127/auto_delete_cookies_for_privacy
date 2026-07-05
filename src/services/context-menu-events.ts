@@ -11,6 +11,7 @@
  * SOFTWARE.
  */
 
+import { ListType, SettingID, SiteDataType } from "../typings/enums";
 import {
   addExpressionUI,
   cookieCleanup,

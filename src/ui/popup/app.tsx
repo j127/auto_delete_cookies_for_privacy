@@ -30,7 +30,7 @@ import {
   localFileToRegex,
   parseCookieStoreId,
 } from "../../services/libs";
-import { FilterOptions } from "../../typings/enums";
+import { FilterOptions, ListType, SettingID } from "../../typings/enums";
 import { ReduxAction } from "../../typings/redux-constants";
 import ActivityTable from "../common-components/activity-table";
 import IconButton from "../common-components/icon-button";

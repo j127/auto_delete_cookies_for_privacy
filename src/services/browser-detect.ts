@@ -4,6 +4,8 @@
  * Licensed under MIT (see LICENSE).
  */
 
+import { browserName } from "../typings/enums";
+
 /**
  * Replaces the old extension/global_files/browserDetect.js page script, which
  * relied on window/document and cannot run inside a Manifest V3 service

@@ -10,6 +10,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { browserName, ListType, OpenTabStatus, ReasonClean, ReasonKeep, SettingID, SiteDataType } from "../../src/typings/enums";
 import { advanceTo, clear } from "jest-date-mock";
 import { when } from "jest-when";
 import { initialState } from "../../src/redux/state";

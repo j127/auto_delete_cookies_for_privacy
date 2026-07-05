@@ -11,6 +11,7 @@
  * SOFTWARE.
  */
 
+import { SettingID } from "../typings/enums";
 import AlarmEvents from "./alarm-events";
 import {
   checkIfProtected,
