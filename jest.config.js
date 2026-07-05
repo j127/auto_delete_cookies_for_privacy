@@ -39,8 +39,23 @@ module.exports = {
   //   "clover"
   // ],
 
-  // An object that configures minimum threshold enforcement for coverage results
-  // coverageThreshold: null,
+  // Minimum coverage enforcement. Values are the measured post-Firefox-strip
+  // baseline (2026-07-05: statements 50.88, branches 52.81, functions 31.32,
+  // lines 49.71) floored to whole numbers, so any regression fails `just
+  // test` while normal churn doesn't flake. Ratchet plan: whenever a change
+  // meaningfully raises coverage, bump these floors to the new measured
+  // baseline; the target is the 90% already declared in bunfig.toml, which
+  // becomes the enforced number when the bun-test switch lands (#37). The
+  // biggest gaps are the React UI components (React 18 + component tests are
+  // Phase 3, #34/#36).
+  coverageThreshold: {
+    global: {
+      statements: 50,
+      branches: 52,
+      functions: 31,
+      lines: 49,
+    },
+  },
 
   // Make calling deprecated APIs throw helpful error messages
   errorOnDeprecated: true,
