@@ -19,7 +19,9 @@
     // "composite": true,                     /* Enable project compilation */
     // "removeComments": true,                /* Do not emit comments to output. */
     // "noEmit": true,                        /* Do not emit outputs. */
-    "importHelpers": true /* Import emit helpers from 'tslib'. */,
+    // importHelpers is intentionally OFF: tslib is no longer a (transitive)
+    // dependency, and with target es2022 ts-jest emits almost no helpers
+    // anyway. Bun.build uses its own helpers regardless.
     // "downlevelIteration": true,            /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
     // "isolatedModules": true,               /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
     /* Strict Type-Checking Options */

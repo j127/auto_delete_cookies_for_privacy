@@ -78,7 +78,7 @@ const init = async (): Promise<Store<State, ReduxAction>> => {
     } else {
       stateFromStorage = {};
     }
-  } catch (err) {
+  } catch {
     stateFromStorage = {};
   }
   store = createStore(stateFromStorage);
