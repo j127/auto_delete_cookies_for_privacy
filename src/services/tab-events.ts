@@ -11,7 +11,6 @@
  * SOFTWARE.
  */
 
-import shortid from "shortid";
 import AlarmEvents from "./alarm-events";
 import {
   checkIfProtected,
@@ -28,6 +27,7 @@ import {
   isAWebpage,
   isFirstPartyIsolate,
   returnOptionalCookieAPIAttributes,
+  uid,
 } from "./libs";
 import StoreUser from "./store-user";
 
@@ -310,7 +310,7 @@ export default class TabEvents extends StoreUser {
             ? extractMainDomain(getHostname(tab.url))
             : "",
           name: CADCOOKIENAME,
-          path: `/${shortid.generate()}`,
+          path: `/${uid()}`,
           storeId: tab.cookieStoreId,
           url: tab.url,
           value: CADCOOKIENAME,
