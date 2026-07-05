@@ -15,10 +15,10 @@
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createUIStore } from 'redux-webext';
-import { isChrome, sleep } from '../../services/Libs';
-import ErrorBoundary from '../common_components/ErrorBoundary';
+import { isChrome, sleep } from '../../services/libs';
+import ErrorBoundary from '../common-components/error-boundary';
 import fontAwesomeImports from '../font-awesome-imports';
-import App from './App';
+import App from './app';
 
 fontAwesomeImports();
 
