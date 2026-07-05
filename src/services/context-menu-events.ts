@@ -56,6 +56,12 @@ export default class ContextMenuEvents extends StoreUser {
     PARENT_SELECT_DOMAIN: "cad-parent-select-domain",
     PARENT_SELECT_SUBS: "cad-parent-select-subs",
     MANUAL_CLEAN_SITEDATA: "cad-clean-sitedata-",
+    // MV3 service workers require an explicit id on EVERY menu item,
+    // including separators and disabled label rows.
+    CLEAN_WARNING: "cad-clean-warning",
+    SEPARATOR_CLEAN: "cad-separator-clean",
+    SEPARATOR_EXPRESSION: "cad-separator-expression",
+    SEPARATOR_SETTINGS: "cad-separator-settings",
     SELECT_ADD_GREY_DOMAIN: "cad-select-add-grey-domain",
     SELECT_ADD_GREY_SUBS: "cad-select-add-grey-subs",
     SELECT_ADD_WHITE_DOMAIN: "cad-select-add-white-domain",
@@ -97,12 +103,14 @@ export default class ContextMenuEvents extends StoreUser {
     });
     // Separator
     ContextMenuEvents.menuCreate({
+      id: ContextMenuEvents.MenuID.SEPARATOR_CLEAN,
       parentId: ContextMenuEvents.MenuID.PARENT_CLEAN,
       type: "separator",
     });
     // Cleanup Warning
     ContextMenuEvents.menuCreate({
       enabled: false,
+      id: ContextMenuEvents.MenuID.CLEAN_WARNING,
       parentId: ContextMenuEvents.MenuID.PARENT_CLEAN,
       title: browser.i18n.getMessage("cleanupActionsBypass"),
     });
@@ -117,6 +125,7 @@ export default class ContextMenuEvents extends StoreUser {
     });
     // Separator
     ContextMenuEvents.menuCreate({
+      id: ContextMenuEvents.MenuID.SEPARATOR_EXPRESSION,
       type: "separator",
     });
     // Add Expression Option Group - page
@@ -240,6 +249,7 @@ export default class ContextMenuEvents extends StoreUser {
     });
     // Separator
     ContextMenuEvents.menuCreate({
+      id: ContextMenuEvents.MenuID.SEPARATOR_SETTINGS,
       type: "separator",
     });
     // Active Mode
@@ -312,7 +322,11 @@ export default class ContextMenuEvents extends StoreUser {
     if (browser.runtime.lastError) {
       cadLog(
         {
-          msg: `ContextMenuEvents.onCreatedOrUpdated received an error: ${browser.runtime.lastError}`,
+          msg: `ContextMenuEvents.onCreatedOrUpdated received an error: ${
+            // Chrome gives {message}; web-ext-types (and Firefox) say string.
+            (browser.runtime.lastError as { message?: string }).message ??
+            browser.runtime.lastError
+          }`,
           type: "error",
         },
         true
