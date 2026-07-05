@@ -46,6 +46,15 @@ package_zip: build
   cd extension && zip -q -r -9 "../builds/Auto-Delete-Cookies-for-Privacy_${version}_Chrome.zip" . -x "*.map"
   echo "builds/Auto-Delete-Cookies-for-Privacy_${version}_Chrome.zip"
 
+# Build the user documentation (requires mdbook + mdbook-mermaid,
+# e.g. `cargo install mdbook mdbook-mermaid`)
+docs_build:
+  mdbook build documentation
+
+# Serve the documentation locally with live reload
+docs_serve:
+  mdbook serve documentation
+
 # Preflight for tagging a release: version parity + clean tree
 release_check:
   ./scripts/release_check.sh
