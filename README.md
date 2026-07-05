@@ -48,6 +48,12 @@ Requirements: [Bun](https://bun.sh) >= 1.3 and [just](https://github.com/casey/j
 
 Load `/extension` as an unpacked extension to test (see Installation above).
 
+Contribution guidelines (branch rules, test expectations): [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## Privacy
+
+The extension deletes data; it never collects or transmits any. All state lives in your browser and nothing leaves your machine. The permission-by-permission breakdown lives in [PRIVACY.md](PRIVACY.md).
+
 ## Internationalization
 
 Translations were inherited from the original project's Crowdin community. The extension name is intentionally untranslated; everything else remains localized in 30+ languages.
