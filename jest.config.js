@@ -152,7 +152,15 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    "^.+\\.tsx?$": ["ts-jest", { tsconfig: "tsconfig.json" }],
+    "^.+\\.tsx?$": [
+      "ts-jest",
+      {
+        // Overrides on top of tsconfig.json: jest runs CommonJS on Node,
+        // while the extension build (Bun.build) uses ESM + bundler
+        // resolution.
+        tsconfig: { module: "commonjs", moduleResolution: "node" },
+      },
+    ],
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation

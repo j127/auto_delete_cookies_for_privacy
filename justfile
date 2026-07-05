@@ -6,13 +6,13 @@ default:
 install:
   bun install
 
-# Compile bundles into extension/bundles (webpack until the Bun.build swap)
+# Compile bundles into extension/bundles
 build:
-  bunx webpack --config webpack.config.js --color
+  bun run scripts/build.ts
 
 # Rebuild on change
 dev:
-  bunx webpack --config webpack.config.js --progress --color --watch
+  bun run scripts/build.ts --watch
 
 # Type-check without emitting
 check:
