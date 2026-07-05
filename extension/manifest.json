@@ -10,15 +10,15 @@
     ]
   },
   "description": "__MSG_extensionDescription__",
-  "homepage_url": "https://github.com/Cookie-AutoDelete/Cookie-AutoDelete",
-  "author": "CAD Team",
+  "homepage_url": "https://github.com/j127/autodelete_cookies_for_privacy",
+  "author": "j127 (fork of Cookie AutoDelete by Kenny Do and CAD Team)",
   "default_locale": "en",
   "browser_action": {
     "browser_style": false,
     "default_icon": {
       "48": "icons/icon_48.png"
     },
-    "default_title": "Cookie AutoDelete",
+    "default_title": "Auto-Delete Cookies for Privacy",
     "default_popup": "popup/popup.html"
   },
   "icons": {
@@ -49,6 +49,6 @@
     "<all_urls>"
   ],
   "manifest_version": 2,
-  "name": "__MSG_extensionName__",
+  "name": "Auto-Delete Cookies for Privacy",
   "version": "3.999.999"
 }
