@@ -1282,7 +1282,13 @@ describe('CleanupService', () => {
       const result = filterSiteData(cleanReasonObj, SiteDataType.LOCALSTORAGE);
       expect(result).toBe(false);
     });
-    it('should return true because of restart cleanup and is expired cookie on restart.  Edge case => usually notInAnyList takes precidence already.', () => {
+    it('should return false for an expired cookie on restart with no expression (the CAD-cookie shortcut only applies to CADSiteDataCookie reasons).', () => {
+      // Previously expected true, but only because of an operator-precedence
+      // bug in filterSiteData: `obj.reason === CADSiteDataCookie ||
+      // ReasonClean.CADSiteDataCookieRestart` made the second operand a bare
+      // always-truthy enum value, so any no-expression cookie qualified.
+      // TypeScript 5 (TS2845) surfaced the bug; with the comparison fixed,
+      // ExpiredCookieRestart no longer takes the CAD-cookie shortcut.
       const cleanReasonObj: CleanReasonObject = {
         cached: false,
         cleanCookie: true,
@@ -1293,7 +1299,7 @@ describe('CleanupService', () => {
         reason: ReasonClean.ExpiredCookieRestart,
       };
       const result = filterSiteData(cleanReasonObj, SiteDataType.LOCALSTORAGE);
-      expect(result).toBe(true);
+      expect(result).toBe(false);
     });
     it('should return false because of whitelist expression and is expired cookie.', () => {
       const cleanReasonObj: CleanReasonObject = {

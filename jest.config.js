@@ -55,11 +55,7 @@ module.exports = {
   // globalTeardown: null,
 
   // A set of global variables that need to be available in all test environments
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.json',
-    },
-  },
+  // globals: {},  (ts-jest options moved into the transform entry below, per ts-jest 29)
 
   // An array of directory names to be searched recursively up from the requiring module's location
   // moduleDirectories: [
@@ -156,7 +152,7 @@ module.exports = {
 
   // A map from regular expressions to paths to transformers
   transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    '^.+\\.tsx?$': ['ts-jest', { tsconfig: 'tsconfig.json' }],
   },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
