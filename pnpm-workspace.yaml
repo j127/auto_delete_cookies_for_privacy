@@ -1,6 +1,0 @@
-# Requires pnpm >= 10. `minimumReleaseAge` is in MINUTES.
-# 7 days
-minimumReleaseAge: 10080
-# Refuse to resolve transitive deps from git URLs, tarball URLs, or other
-# exotic sources. Direct deps in root package.json may still use them.
-blockExoticSubdeps: true
