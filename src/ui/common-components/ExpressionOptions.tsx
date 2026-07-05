@@ -14,25 +14,14 @@ import { ListType, SiteDataType } from "../../typings/enums";
 import ipaddr from "ipaddr.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
 import { updateExpressionUI } from "../../redux/actions";
-import { ReduxAction } from "../../typings/redux-constants";
-interface DispatchProps {
-  onUpdateExpression: (payload: Expression) => void;
-}
-interface StateProps {
-  state: State;
-}
+
 interface OwnProps {
   expression: Expression;
 }
 
-class InitialState {
-  public cookies: browser.cookies.Cookie[] = [];
-}
-
-type ExpressionOptionsProps = OwnProps & DispatchProps & StateProps;
+type ExpressionOptionsProps = OwnProps;
 
 const styles = {
   checkbox: {
@@ -56,47 +45,46 @@ const coerceBoolean = (bool: boolean | undefined) => {
   if (bool === undefined) return false;
   return !bool;
 };
-class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
-  public state = new InitialState();
 
-  public async componentDidMount() {
-    if (coerceBoolean(this.props.expression.cleanAllCookies)) {
-      await this.getAllCookies();
-    }
+/** Converts an expression default storeId to the defaults of the browser */
+const toPublicStoreId = (storeId: string) => {
+  if (storeId === "default") {
+    return "0";
   }
-  /** Converts an expression default storeId to the defaults of the browser */
-  public toPublicStoreId(storeId: string) {
-    if (storeId === "default") {
-      return "0";
-    }
-    return storeId;
-  }
+  return storeId;
+};
 
-  public async getAllCookies() {
-    const { expression } = this.props;
+function ExpressionOptions(props: ExpressionOptionsProps) {
+  const { expression } = props;
+  const dispatch = useDispatch<any>();
+  const [cookies, setCookies] = React.useState<browser.cookies.Cookie[]>([]);
+
+  const getAllCookies = async () => {
     const exp = expression.expression;
-    let cookies: browser.cookies.Cookie[] = [];
+    let foundCookies: browser.cookies.Cookie[] = [];
     if (exp.startsWith("/") && exp.endsWith("/")) {
       // Treat expression as regular expression.  Get all cookies then regex domain.
       const allCookies = await browser.cookies.getAll({
-        storeId: this.toPublicStoreId(expression.storeId),
+        storeId: toPublicStoreId(expression.storeId),
       });
       if (exp.slice(1).startsWith("file:")) {
         // Regex with Local Directories
         const regExp = new RegExp(exp.slice(8, -1)); // take out file://
-        cookies = allCookies.filter(
+        foundCookies = allCookies.filter(
           (cookie) => cookie.domain === "" && regExp.test(cookie.path)
         );
       } else {
         const regExp = new RegExp(exp.slice(1, -1));
-        cookies = allCookies.filter((cookie) => regExp.test(cookie.domain));
+        foundCookies = allCookies.filter((cookie) =>
+          regExp.test(cookie.domain)
+        );
       }
     } else if (exp.startsWith("file:")) {
       const allCookies = await browser.cookies.getAll({
-        storeId: this.toPublicStoreId(expression.storeId),
+        storeId: toPublicStoreId(expression.storeId),
       });
       const regExp = new RegExp(exp.slice(7)); // take out file://
-      cookies = allCookies.filter(
+      foundCookies = allCookies.filter(
         (cookie) => cookie.domain === "" && regExp.test(cookie.path)
       );
     } else {
@@ -106,17 +94,17 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
         // Check if expression was a CIDR Notation
         cidrEXP = ipaddr.parseCIDR(exp);
         allCookies = await browser.cookies.getAll({
-          storeId: this.toPublicStoreId(expression.storeId),
+          storeId: toPublicStoreId(expression.storeId),
         });
       } catch {
         // Not valid CIDR.  Proceed with default fetch.  Also applies to IP Addresses with no CIDR.
-        cookies = await browser.cookies.getAll({
+        foundCookies = await browser.cookies.getAll({
           domain: `${trimDotAndStar(exp)}${exp.endsWith(".") ? "." : ""}`,
-          storeId: this.toPublicStoreId(expression.storeId),
+          storeId: toPublicStoreId(expression.storeId),
         });
       }
       if (allCookies) {
-        cookies = allCookies.filter((cookie) => {
+        foundCookies = allCookies.filter((cookie) => {
           try {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore Union types of IPv4 and IPv6 not compatible.
@@ -128,38 +116,43 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
         });
       }
     }
-    this.setState({ cookies });
-  }
+    setCookies(foundCookies);
+  };
 
-  public createCookieList(
-    cookies: browser.cookies.Cookie[],
-    expression: Expression
-  ) {
-    const { onUpdateExpression } = this.props;
-    const originalCookieNames = expression.cookieNames || [];
+  React.useEffect(() => {
+    if (coerceBoolean(expression.cleanAllCookies)) {
+      getAllCookies();
+    }
+    // Runs on mount only, mirroring the previous componentDidMount.
+  }, []);
+
+  const createCookieList = (
+    cookieList: browser.cookies.Cookie[],
+    exp: Expression
+  ) => {
+    const originalCookieNames = exp.cookieNames || [];
     const cookieNamesSet = new Set(originalCookieNames);
     const cookieNames = Array.from(
-      new Set([
-        ...(expression.cookieNames || []),
-        ...cookies.map((a) => a.name),
-      ])
+      new Set([...(exp.cookieNames || []), ...cookieList.map((a) => a.name)])
     ).sort((a, b) => a.localeCompare(b));
     return cookieNames.map((name) => {
       const checked = cookieNamesSet.has(name);
-      const key = `${checked}-${expression.id}-${name}`;
+      const key = `${checked}-${exp.id}-${name}`;
       return (
         <div style={{ marginLeft: "20px" }} key={key} className={"checkbox"}>
           <span
             className={"addHover"}
             onClick={() => {
-              onUpdateExpression({
-                ...expression,
-                cookieNames: checked
-                  ? originalCookieNames.filter(
-                      (cookieName) => cookieName !== name
-                    )
-                  : [...originalCookieNames, name],
-              });
+              dispatch(
+                updateExpressionUI({
+                  ...exp,
+                  cookieNames: checked
+                    ? originalCookieNames.filter(
+                        (cookieName) => cookieName !== name
+                      )
+                    : [...originalCookieNames, name],
+                })
+              );
             }}
           >
             <FontAwesomeIcon
@@ -177,42 +170,44 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
         </div>
       );
     });
-  }
+  };
 
-  public toggleCleanAllCookies(checked: boolean) {
-    const { expression, onUpdateExpression } = this.props;
+  const toggleCleanAllCookies = (checked: boolean) => {
     if (!coerceBoolean(expression.cleanAllCookies)) {
-      this.getAllCookies();
+      getAllCookies();
     }
-    onUpdateExpression({
-      ...expression,
-      cleanAllCookies: checked,
-    });
-  }
+    dispatch(
+      updateExpressionUI({
+        ...expression,
+        cleanAllCookies: checked,
+      })
+    );
+  };
 
-  public toggleCleanSiteData(key: SiteDataType, canClean: boolean) {
-    const { expression, onUpdateExpression } = this.props;
-    let newCleanSiteData: SiteDataType[] = expression.cleanSiteData || [];
-    if (canClean) {
-      newCleanSiteData.push(key);
-    } else {
-      newCleanSiteData = newCleanSiteData.filter((s) => s !== key);
-    }
+  const toggleCleanSiteData = (key: SiteDataType, canClean: boolean) => {
+    // Build a new array instead of mutating the incoming expression's
+    // cleanSiteData prop (issue #95).
+    const existingCleanSiteData: SiteDataType[] =
+      expression.cleanSiteData || [];
+    const newCleanSiteData: SiteDataType[] = canClean
+      ? [...existingCleanSiteData, key]
+      : existingCleanSiteData.filter((s) => s !== key);
 
-    onUpdateExpression({
-      ...expression,
-      cleanSiteData: newCleanSiteData,
-      cleanLocalStorage:
-        expression.cleanLocalStorage === undefined ? undefined : canClean,
-    });
-  }
+    dispatch(
+      updateExpressionUI({
+        ...expression,
+        cleanSiteData: newCleanSiteData,
+        cleanLocalStorage:
+          expression.cleanLocalStorage === undefined ? undefined : canClean,
+      })
+    );
+  };
 
   /**
    * Use for all Site Data Type except cleanAllCookies and Cookies
    * @param cleanData In Expression Type, the site data to clean (SiteDataType enum). Check Expression Type for cleanType.  Case Sensitive.
    */
-  public createSiteDataCheckbox(cleanData: SiteDataType) {
-    const { expression } = this.props;
+  const createSiteDataCheckbox = (cleanData: SiteDataType) => {
     const cleanType = `clean${cleanData}`;
     const keyID = `${expression.id}-${cleanType}`;
     // undefined will be false to keep them.
@@ -234,7 +229,7 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
         <span
           className={"addHover"}
           onClick={() => {
-            this.toggleCleanSiteData(cleanData, !checked);
+            toggleCleanSiteData(cleanData, !checked);
           }}
         >
           <FontAwesomeIcon
@@ -251,87 +246,71 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
         </span>
       </div>
     );
-  }
+  };
 
-  public render() {
-    const { cookies } = this.state;
-    const { expression } = this.props;
-    const keyCleanAllCookies = `${expression.id}-cleanAllCookies`;
+  const keyCleanAllCookies = `${expression.id}-cleanAllCookies`;
 
-    const dropList = coerceBoolean(expression.cleanAllCookies);
-    return (
-      <div>
-        {!expression.expression.startsWith("file:") &&
-          this.createSiteDataCheckbox(SiteDataType.CACHE)}
-        {!expression.expression.startsWith("file:") &&
-          this.createSiteDataCheckbox(SiteDataType.INDEXEDDB)}
-        {!expression.expression.startsWith("file:") &&
-          this.createSiteDataCheckbox(SiteDataType.LOCALSTORAGE)}
-        {!expression.expression.startsWith("file:") &&
-          this.createSiteDataCheckbox(SiteDataType.PLUGINDATA)}
-        {!expression.expression.startsWith("file:") &&
-          this.createSiteDataCheckbox(SiteDataType.SERVICEWORKERS)}
-        <div className={"checkbox"}>
-          <span
-            className={"addHover"}
-            onClick={() =>
-              this.toggleCleanAllCookies(
-                !(
-                  expression.cleanAllCookies === undefined ||
-                  expression.cleanAllCookies
-                )
-              )
-            }
-          >
-            <FontAwesomeIcon
-              id={keyCleanAllCookies}
-              style={styles.checkbox}
-              size={"lg"}
-              icon={[
-                "far",
+  const dropList = coerceBoolean(expression.cleanAllCookies);
+  return (
+    <div>
+      {!expression.expression.startsWith("file:") &&
+        createSiteDataCheckbox(SiteDataType.CACHE)}
+      {!expression.expression.startsWith("file:") &&
+        createSiteDataCheckbox(SiteDataType.INDEXEDDB)}
+      {!expression.expression.startsWith("file:") &&
+        createSiteDataCheckbox(SiteDataType.LOCALSTORAGE)}
+      {!expression.expression.startsWith("file:") &&
+        createSiteDataCheckbox(SiteDataType.PLUGINDATA)}
+      {!expression.expression.startsWith("file:") &&
+        createSiteDataCheckbox(SiteDataType.SERVICEWORKERS)}
+      <div className={"checkbox"}>
+        <span
+          className={"addHover"}
+          onClick={() =>
+            toggleCleanAllCookies(
+              !(
                 expression.cleanAllCookies === undefined ||
                 expression.cleanAllCookies
-                  ? "check-square"
-                  : "square",
-              ]}
-              role="checkbox"
-              aria-checked={
-                (expression.cleanAllCookies === undefined ||
-                  expression.cleanAllCookies) as boolean
-              }
-            />
-            <label
-              htmlFor={keyCleanAllCookies}
-              aria-labelledby={keyCleanAllCookies}
-            >
-              {browser.i18n.getMessage(
-                `keepAllCookies${
-                  expression.listType === ListType.GREY ? "Grey" : ""
-                }Text`
-              )}
-            </label>
-          </span>
-        </div>
-        {dropList && (
-          <div style={{ maxHeight: "150px", overflow: "auto" }}>
-            {this.createCookieList(cookies, expression)}
-          </div>
-        )}
+              )
+            )
+          }
+        >
+          <FontAwesomeIcon
+            id={keyCleanAllCookies}
+            style={styles.checkbox}
+            size={"lg"}
+            icon={[
+              "far",
+              expression.cleanAllCookies === undefined ||
+              expression.cleanAllCookies
+                ? "check-square"
+                : "square",
+            ]}
+            role="checkbox"
+            aria-checked={
+              (expression.cleanAllCookies === undefined ||
+                expression.cleanAllCookies) as boolean
+            }
+          />
+          <label
+            htmlFor={keyCleanAllCookies}
+            aria-labelledby={keyCleanAllCookies}
+          >
+            {browser.i18n.getMessage(
+              `keepAllCookies${
+                expression.listType === ListType.GREY ? "Grey" : ""
+              }Text`
+            )}
+          </label>
+        </span>
       </div>
-    );
-  }
+      {dropList && (
+        <div style={{ maxHeight: "150px", overflow: "auto" }}>
+          {createCookieList(cookies, expression)}
+        </div>
+      )}
+    </div>
+  );
 }
 
-const mapStateToProps = (state: State) => {
-  return {
-    state,
-  };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
-  onUpdateExpression(payload: Expression) {
-    dispatch(updateExpressionUI(payload));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ExpressionOptions);
+export default ExpressionOptions;

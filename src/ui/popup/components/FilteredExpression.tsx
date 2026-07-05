@@ -11,7 +11,7 @@
  * SOFTWARE.
  */
 import * as React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 import { getMatchedExpressions } from "../../../services/libs";
 import ExpressionTable from "../../common-components/ExpressionTable";
@@ -21,14 +21,10 @@ interface OwnProps {
   storeId: string;
 }
 
-interface ReduxState {
-  expressions: ReadonlyArray<Expression>;
-}
-
-const FilteredExpression: React.FunctionComponent<OwnProps & ReduxState> = (
-  props
-) => {
-  const { expressions, storeId } = props;
+const FilteredExpression: React.FunctionComponent<OwnProps> = (props) => {
+  const { url, storeId } = props;
+  const lists = useSelector((s: State) => s.lists);
+  const expressions = getMatchedExpressions(lists, storeId, url);
   return (
     <ExpressionTable
       expressionColumnTitle={browser.i18n.getMessage(
@@ -58,8 +54,4 @@ const FilteredExpression: React.FunctionComponent<OwnProps & ReduxState> = (
   );
 };
 
-const mapStateToProps = (state: State, props: OwnProps) => ({
-  expressions: getMatchedExpressions(state.lists, props.storeId, props.url),
-});
-
-export default connect(mapStateToProps)(FilteredExpression);
+export default FilteredExpression;

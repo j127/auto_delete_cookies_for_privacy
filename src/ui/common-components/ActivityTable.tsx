@@ -11,8 +11,7 @@
  * SOFTWARE.
  */
 import * as React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import { removeActivity } from "../../redux/actions";
 import {
   adcpLog,
@@ -28,7 +27,6 @@ import {
   SettingID,
   SiteDataType,
 } from "../../typings/enums";
-import { ReduxAction } from "../../typings/redux-constants";
 import IconButton from "./IconButton";
 
 const createSummary = (cleanupObj: ActivityLog) => {
@@ -118,22 +116,12 @@ const returnReasonMessages = (cleanReasonObject: CleanReasonObject) => {
 
 type ActivityAction = (log: ActivityLog) => void;
 
-interface StateProps {
-  activityLog: ReadonlyArray<ActivityLog>;
-  cache: CacheMap;
-  state: State;
-}
-
-interface DispatchProps {
-  onRemoveActivity: ActivityAction;
-}
-
 interface OwnProps {
   decisionFilter: FilterOptions;
   numberToShow?: number;
 }
 
-type ActivityTableProps = OwnProps & StateProps & DispatchProps;
+type ActivityTableProps = OwnProps;
 
 const restoreCookies = async (
   state: State,
@@ -235,8 +223,18 @@ const restoreCookies = async (
 };
 
 const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
-  const { activityLog, cache, numberToShow, state, onRemoveActivity } = props;
-  if (props.activityLog.length === 0) {
+  const { numberToShow } = props;
+  // Render data comes from slice selectors; the full state is only needed
+  // when the restore button is clicked, so it is read from the store at
+  // event time instead of through a render subscription.
+  const activityLog = useSelector((s: State) => s.activityLog);
+  const cache = useSelector((s: State) => s.cache);
+  const store = useStore();
+  const dispatch = useDispatch<any>();
+  const onRemoveActivity: ActivityAction = (activity: ActivityLog) => {
+    dispatch(removeActivity(activity));
+  };
+  if (activityLog.length === 0) {
     return (
       <div className="alert alert-primary" role="alert">
         <i>
@@ -277,7 +275,13 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
                 <IconButton
                   className={"btn-primary mr-auto"}
                   iconName={"undo"}
-                  onClick={() => restoreCookies(state, log, onRemoveActivity)}
+                  onClick={() =>
+                    restoreCookies(
+                      store.getState() as State,
+                      log,
+                      onRemoveActivity
+                    )
+                  }
                   title={browser.i18n.getMessage("restoreText")}
                 />
               )) || <div className={"mr-auto"} style={{ minWidth: "42px" }} />}
@@ -361,19 +365,4 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
   );
 };
 
-const mapStateToProps = (state: State) => {
-  const { activityLog, cache } = state;
-  return {
-    activityLog,
-    cache,
-    state,
-  };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
-  onRemoveActivity(activity: ActivityLog) {
-    dispatch(removeActivity(activity));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ActivityTable);
+export default ActivityTable;

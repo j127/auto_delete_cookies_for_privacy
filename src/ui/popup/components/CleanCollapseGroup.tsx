@@ -13,35 +13,30 @@
 
 import { SiteDataType } from "../../../typings/enums";
 import * as React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { useDispatch, useStore } from "react-redux";
 import { cookieCleanupUI } from "../../../redux/actions";
 import {
   clearCookiesForThisDomain,
   clearLocalStorageForThisDomain,
 } from "../../../services/cleanup-service";
-import { ReduxAction } from "../../../typings/redux-constants";
 import CleanDataButton from "./CleanDataButton";
-
-interface DispatchProps {
-  onCookieCleanup: (payload: CleanupProperties) => void;
-}
 
 interface OwnProps {
   hostname: string;
   tab: browser.tabs.Tab;
 }
 
-interface StateProps {
-  state: State;
-}
-
-type CleanCollapseComponentProps = DispatchProps & OwnProps & StateProps;
+type CleanCollapseComponentProps = OwnProps;
 
 const CleanCollapseGroup: React.FunctionComponent<
   CleanCollapseComponentProps
 > = (props) => {
-  const { hostname, tab, state, onCookieCleanup } = props;
+  const { hostname, tab } = props;
+  const dispatch = useDispatch<any>();
+  // The clean-service calls only need the state when a button is clicked,
+  // so it is read from the store at event time instead of through a
+  // render subscription.
+  const store = useStore();
   return (
     <div
       className="row justify-content-center collapse"
@@ -58,10 +53,12 @@ const CleanCollapseGroup: React.FunctionComponent<
         <CleanDataButton
           btnColor="btn-warning"
           onClick={async () => {
-            onCookieCleanup({
-              greyCleanup: false,
-              ignoreOpenTabs: true,
-            });
+            dispatch(
+              cookieCleanupUI({
+                greyCleanup: false,
+                ignoreOpenTabs: true,
+              })
+            );
             return true;
           }}
           title={browser.i18n.getMessage("cookieCleanupIgnoreOpenTabsText")}
@@ -83,7 +80,10 @@ const CleanCollapseGroup: React.FunctionComponent<
         />
         <CleanDataButton
           onClick={async () => {
-            return await clearCookiesForThisDomain(state, tab);
+            return await clearCookiesForThisDomain(
+              store.getState() as State,
+              tab
+            );
           }}
           title={browser.i18n.getMessage("manualCleanSiteDataCookiesDomain", [
             hostname,
@@ -97,7 +97,10 @@ const CleanCollapseGroup: React.FunctionComponent<
         />
         <CleanDataButton
           onClick={async () => {
-            return await clearLocalStorageForThisDomain(state, tab);
+            return await clearLocalStorageForThisDomain(
+              store.getState() as State,
+              tab
+            );
           }}
           siteData={SiteDataType.LOCALSTORAGE}
           hostname={hostname}
@@ -116,16 +119,4 @@ const CleanCollapseGroup: React.FunctionComponent<
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
-  onCookieCleanup(payload: CleanupProperties) {
-    dispatch(cookieCleanupUI(payload));
-  },
-});
-
-const mapStateToProps = (state: State) => {
-  return {
-    state,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CleanCollapseGroup);
+export default CleanCollapseGroup;

@@ -36,53 +36,51 @@ interface IconButtonProps {
   onContextMenu?: (e: any) => void;
 }
 
-export default class IconButton extends React.Component<IconButtonProps> {
-  public render(): React.ReactNode {
-    const {
-      className,
-      iconName,
-      iconSize,
-      styleReact,
-      tag,
-      text,
-      ...nativeProps
-    } = this.props;
+export default function IconButton(props: IconButtonProps) {
+  const {
+    className,
+    iconName,
+    iconSize,
+    styleReact,
+    tag,
+    text,
+    ...nativeProps
+  } = props;
 
-    // Has to be PascalCase, else JSX will think it's a tag named 'tagName'.
-    const TagName = tag === "input" ? "label" : tag || "button";
-    return (
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      <TagName
-        {...nativeProps}
-        className={`btn ${className || ""}`}
-        style={{
-          cursor: tag === "input" ? "pointer" : undefined,
-          margin: "0 2px",
-          ...styleReact,
-        }}
-      >
-        <FontAwesomeIcon
-          style={
-            text
-              ? {
-                  marginRight: "5px",
-                }
-              : undefined
-          }
-          icon={iconName}
-          size={iconSize}
+  // Has to be PascalCase, else JSX will think it's a tag named 'tagName'.
+  const TagName = tag === "input" ? "label" : tag || "button";
+  return (
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    <TagName
+      {...nativeProps}
+      className={`btn ${className || ""}`}
+      style={{
+        cursor: tag === "input" ? "pointer" : undefined,
+        margin: "0 2px",
+        ...styleReact,
+      }}
+    >
+      <FontAwesomeIcon
+        style={
+          text
+            ? {
+                marginRight: "5px",
+              }
+            : undefined
+        }
+        icon={iconName}
+        size={iconSize}
+      />
+      {text}
+      {tag === "input" ? (
+        <input
+          {...nativeProps}
+          style={{
+            display: "none",
+          }}
         />
-        {text}
-        {tag === "input" ? (
-          <input
-            {...nativeProps}
-            style={{
-              display: "none",
-            }}
-          />
-        ) : null}
-      </TagName>
-    );
-  }
+      ) : null}
+    </TagName>
+  );
 }

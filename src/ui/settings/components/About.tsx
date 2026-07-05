@@ -12,7 +12,7 @@
  */
 import { SettingID } from "../../../typings/enums";
 import * as React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { adcpLog } from "../../../services/libs";
 import IconButton from "../../common-components/IconButton";
 
@@ -25,10 +25,6 @@ const styles = {
 };
 interface OwnProps {
   style?: React.CSSProperties;
-}
-
-interface StateProps {
-  settings: MapToSettingObject;
 }
 
 const settingOrder = [
@@ -58,187 +54,176 @@ const settingOrder = [
   SettingID.DEBUG_MODE,
 ];
 
-type AboutProps = OwnProps & StateProps;
-
-class About extends React.Component<AboutProps> {
-  public render() {
-    const { settings, style } = this.props;
-    const settingSlim = settingOrder.map((s) => {
-      const so = settings[s];
-      return `- ${so.name}: ${so.value}`;
-    });
-    return (
-      <div style={style}>
-        <h1>{browser.i18n.getMessage("aboutText")}</h1>
-        <h5>
-          {browser.i18n.getMessage("versionNumberText", ["ADCP"])}:
-          <br />
-          <b>{browser.runtime.getManifest().version}</b>
-        </h5>
-        <a href="https://github.com/j127/autodelete_cookies_for_privacy/issues">
-          {browser.i18n.getMessage("reportIssuesText")}
-        </a>{" "}
+const About: React.FunctionComponent<OwnProps> = ({ style }) => {
+  const settings = useSelector((state: State) => state.settings);
+  const settingSlim = settingOrder.map((s) => {
+    const so = settings[s];
+    return `- ${so.name}: ${so.value}`;
+  });
+  return (
+    <div style={style}>
+      <h1>{browser.i18n.getMessage("aboutText")}</h1>
+      <h5>
+        {browser.i18n.getMessage("versionNumberText", ["ADCP"])}:
         <br />
-        <br />
-        <a href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/introduction.md">
-          <span>{`${browser.i18n.getMessage("documentationText")}`}</span>
-        </a>
-        <br />
-        <a href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/faq.md">
-          <span>{`${browser.i18n.getMessage("faqText")}`}</span>
-        </a>
-        <br />
-        <br />
-        <span>{`${browser.i18n.getMessage("contributorsText")}`}:</span>
-        <ul>
-          <li>Kenny Do (Creator)</li>
-          <li>
-            seansfkelley (UI Redesign of Expression Table Settings and Popup)
-          </li>
-          <li>kennethtran93 (UI bug fixes and then some)</li>
-          <li>
-            <a href="https://github.com/j127/autodelete_cookies_for_privacy/graphs/contributors">
-              GitHub Contributors
-            </a>
-          </li>
-          <li>Crowdin translation community (original locale files)</li>
-        </ul>
-        <br />
-        <h3>{browser.i18n.getMessage("debugTitle")}</h3>
-        <p>{browser.i18n.getMessage("copyDebugSystemText")}</p>
-        <textarea
-          id="debugInfo"
-          rows={3}
-          cols={40}
-          readOnly={true}
-          style={{ resize: "none" }}
-          value={`- Browser Info: (Please add version number on paste)\n- ADCP Version: ${
-            browser.runtime.getManifest().version
-          }`}
-        />
-        <br />
-        <IconButton
-          className="btn-primary"
-          role="button"
-          onClick={() => {
-            const textDebug = document.getElementById(
-              "debugInfo"
-            ) as HTMLTextAreaElement | null;
-            const spanCopy = document.getElementById("copy-debugInfo");
-            if (!textDebug || !spanCopy) {
-              adcpLog(
-                {
-                  type: "error",
-                  msg: "Could not find either textarea or span for debugInfo",
-                },
-                true
-              );
-              return;
-            }
-            if (!textDebug.value) {
-              adcpLog(
-                {
-                  type: "error",
-                  msg: "Could not get value from textarea for debugInfo",
-                },
-                true
-              );
-              return;
-            }
-            navigator.clipboard.writeText(textDebug.value).then(
-              () => {
-                spanCopy.classList.add("text-success");
-                spanCopy.innerText = browser.i18n.getMessage("copySuccessText");
+        <b>{browser.runtime.getManifest().version}</b>
+      </h5>
+      <a href="https://github.com/j127/autodelete_cookies_for_privacy/issues">
+        {browser.i18n.getMessage("reportIssuesText")}
+      </a>{" "}
+      <br />
+      <br />
+      <a href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/introduction.md">
+        <span>{`${browser.i18n.getMessage("documentationText")}`}</span>
+      </a>
+      <br />
+      <a href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/faq.md">
+        <span>{`${browser.i18n.getMessage("faqText")}`}</span>
+      </a>
+      <br />
+      <br />
+      <span>{`${browser.i18n.getMessage("contributorsText")}`}:</span>
+      <ul>
+        <li>Kenny Do (Creator)</li>
+        <li>
+          seansfkelley (UI Redesign of Expression Table Settings and Popup)
+        </li>
+        <li>kennethtran93 (UI bug fixes and then some)</li>
+        <li>
+          <a href="https://github.com/j127/autodelete_cookies_for_privacy/graphs/contributors">
+            GitHub Contributors
+          </a>
+        </li>
+        <li>Crowdin translation community (original locale files)</li>
+      </ul>
+      <br />
+      <h3>{browser.i18n.getMessage("debugTitle")}</h3>
+      <p>{browser.i18n.getMessage("copyDebugSystemText")}</p>
+      <textarea
+        id="debugInfo"
+        rows={3}
+        cols={40}
+        readOnly={true}
+        style={{ resize: "none" }}
+        value={`- Browser Info: (Please add version number on paste)\n- ADCP Version: ${
+          browser.runtime.getManifest().version
+        }`}
+      />
+      <br />
+      <IconButton
+        className="btn-primary"
+        role="button"
+        onClick={() => {
+          const textDebug = document.getElementById(
+            "debugInfo"
+          ) as HTMLTextAreaElement | null;
+          const spanCopy = document.getElementById("copy-debugInfo");
+          if (!textDebug || !spanCopy) {
+            adcpLog(
+              {
+                type: "error",
+                msg: "Could not find either textarea or span for debugInfo",
               },
-              () => {
-                spanCopy.classList.add("text-danger");
-                spanCopy.innerText = browser.i18n.getMessage("copyFailedText");
-              }
+              true
             );
-            setTimeout(() => {
-              spanCopy.innerText = "";
-              spanCopy.classList.remove("text-danger", "text-success");
-            }, 5000);
-          }}
-          iconName="copy"
-          title={browser.i18n.getMessage("copyToClipboardText")}
-          text={browser.i18n.getMessage("copyToClipboardText")}
-          styleReact={styles.buttonStyle}
-        />{" "}
-        <span id="copy-debugInfo">&nbsp;</span>
-        <br />
-        <br />
-        <p>{browser.i18n.getMessage("copyDebugSettingText")}</p>
-        <textarea
-          id="debugSettings"
-          rows={5}
-          cols={40}
-          readOnly={true}
-          style={{ resize: "none" }}
-          value={settingSlim.join("\n")}
-        />
-        <br />
-        <IconButton
-          className="btn-primary"
-          role="button"
-          onClick={() => {
-            const textDebug = document.getElementById(
-              "debugSettings"
-            ) as HTMLTextAreaElement | null;
-            const spanCopy = document.getElementById("copy-debugSettings");
-            if (!textDebug || !spanCopy) {
-              adcpLog(
-                {
-                  type: "error",
-                  msg: "Could not find either textarea or span for debugSettings",
-                },
-                true
-              );
-              return;
-            }
-            if (!textDebug.value) {
-              adcpLog(
-                {
-                  type: "error",
-                  msg: "Could not get value from textarea for debugSettings",
-                },
-                true
-              );
-              return;
-            }
-            navigator.clipboard.writeText(textDebug.value).then(
-              () => {
-                spanCopy.classList.add("text-success");
-                spanCopy.innerText = browser.i18n.getMessage("copySuccessText");
+            return;
+          }
+          if (!textDebug.value) {
+            adcpLog(
+              {
+                type: "error",
+                msg: "Could not get value from textarea for debugInfo",
               },
-              () => {
-                spanCopy.classList.add("text-danger");
-                spanCopy.innerText = browser.i18n.getMessage("copyFailedText");
-              }
+              true
             );
-            setTimeout(() => {
-              spanCopy.innerText = "";
-              spanCopy.classList.remove("text-danger", "text-success");
-            }, 5000);
-          }}
-          iconName="copy"
-          title={browser.i18n.getMessage("copyToClipboardText")}
-          text={browser.i18n.getMessage("copyToClipboardText")}
-          styleReact={styles.buttonStyle}
-        />{" "}
-        <span id="copy-debugSettings">&nbsp;</span>
-        <br />
-        <br />
-      </div>
-    );
-  }
-}
-
-const mapStateToProps = (state: State) => {
-  const { settings } = state;
-  return {
-    settings,
-  };
+            return;
+          }
+          navigator.clipboard.writeText(textDebug.value).then(
+            () => {
+              spanCopy.classList.add("text-success");
+              spanCopy.innerText = browser.i18n.getMessage("copySuccessText");
+            },
+            () => {
+              spanCopy.classList.add("text-danger");
+              spanCopy.innerText = browser.i18n.getMessage("copyFailedText");
+            }
+          );
+          setTimeout(() => {
+            spanCopy.innerText = "";
+            spanCopy.classList.remove("text-danger", "text-success");
+          }, 5000);
+        }}
+        iconName="copy"
+        title={browser.i18n.getMessage("copyToClipboardText")}
+        text={browser.i18n.getMessage("copyToClipboardText")}
+        styleReact={styles.buttonStyle}
+      />{" "}
+      <span id="copy-debugInfo">&nbsp;</span>
+      <br />
+      <br />
+      <p>{browser.i18n.getMessage("copyDebugSettingText")}</p>
+      <textarea
+        id="debugSettings"
+        rows={5}
+        cols={40}
+        readOnly={true}
+        style={{ resize: "none" }}
+        value={settingSlim.join("\n")}
+      />
+      <br />
+      <IconButton
+        className="btn-primary"
+        role="button"
+        onClick={() => {
+          const textDebug = document.getElementById(
+            "debugSettings"
+          ) as HTMLTextAreaElement | null;
+          const spanCopy = document.getElementById("copy-debugSettings");
+          if (!textDebug || !spanCopy) {
+            adcpLog(
+              {
+                type: "error",
+                msg: "Could not find either textarea or span for debugSettings",
+              },
+              true
+            );
+            return;
+          }
+          if (!textDebug.value) {
+            adcpLog(
+              {
+                type: "error",
+                msg: "Could not get value from textarea for debugSettings",
+              },
+              true
+            );
+            return;
+          }
+          navigator.clipboard.writeText(textDebug.value).then(
+            () => {
+              spanCopy.classList.add("text-success");
+              spanCopy.innerText = browser.i18n.getMessage("copySuccessText");
+            },
+            () => {
+              spanCopy.classList.add("text-danger");
+              spanCopy.innerText = browser.i18n.getMessage("copyFailedText");
+            }
+          );
+          setTimeout(() => {
+            spanCopy.innerText = "";
+            spanCopy.classList.remove("text-danger", "text-success");
+          }, 5000);
+        }}
+        iconName="copy"
+        title={browser.i18n.getMessage("copyToClipboardText")}
+        text={browser.i18n.getMessage("copyToClipboardText")}
+        styleReact={styles.buttonStyle}
+      />{" "}
+      <span id="copy-debugSettings">&nbsp;</span>
+      <br />
+      <br />
+    </div>
+  );
 };
 
-export default connect(mapStateToProps)(About);
+export default About;

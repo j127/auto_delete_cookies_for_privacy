@@ -11,11 +11,9 @@
  * SOFTWARE.
  */
 import * as React from "react";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
 import { resetAll } from "../../redux/actions";
 import { adcpLog } from "../../services/libs";
-import { ReduxAction } from "../../typings/redux-constants";
 import { downloadObjectAsJSON } from "../ui-libs";
 import IconButton from "./IconButton";
 
@@ -34,6 +32,8 @@ interface StateProps {
 
 type ErrorBoundaryProps = ChildrenProps & DispatchProps & StateProps;
 
+// This stays a class component: React error boundaries rely on
+// componentDidCatch/getDerivedStateFromError, which have no hook equivalent.
 class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
   public static getDerivedStateFromError(error: Error) {
     // update state so next render will show fallback UI
@@ -121,16 +121,25 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
   }
 }
 
-const mapStateToProps = (state: State) => {
-  return {
-    state,
-  };
+// Function-component wrapper that supplies the props the connect() wrapper
+// used to inject (state and onResetButtonClick) via hooks.
+const ErrorBoundaryWrapper = ({ children }: ChildrenProps) => {
+  // The boundary's fallback UI only ever reads state.settings and
+  // state.lists (in its export-button click handlers). Subscribing to those
+  // two slices keeps the state prop fresh whenever they change without
+  // selecting the root state, which react-redux warns about in dev builds.
+  useSelector((s: State) => s.settings);
+  useSelector((s: State) => s.lists);
+  const store = useStore();
+  const dispatch = useDispatch<any>();
+  return (
+    <ErrorBoundary
+      state={store.getState() as State}
+      onResetButtonClick={() => dispatch(resetAll())}
+    >
+      {children}
+    </ErrorBoundary>
+  );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
-  onResetButtonClick() {
-    dispatch(resetAll());
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ErrorBoundary);
+export default ErrorBoundaryWrapper;

@@ -12,7 +12,7 @@
  */
 import { SiteDataType } from "../../../typings/enums";
 import * as React from "react";
-import { connect } from "react-redux";
+import { useStore } from "react-redux";
 import {
   clearCookiesForThisDomain,
   clearLocalStorageForThisDomain,
@@ -29,10 +29,6 @@ interface OwnProps {
   tab?: browser.tabs.Tab;
   title?: string;
   text?: string;
-}
-
-interface StateProps {
-  state: State;
 }
 
 const cleanSiteDataUI = async (
@@ -55,22 +51,15 @@ const cleanSiteDataUI = async (
   return result;
 };
 
-const CleanDataButton: React.FunctionComponent<OwnProps & StateProps> = (
-  props
-) => {
-  // No rest spread here: connect() injects a `dispatch` prop, and spreading
-  // it onto the <button> makes React warn about an invalid DOM attribute.
-  const {
-    altColor,
-    btnColor,
-    hostname,
-    onClick,
-    siteData,
-    state,
-    tab,
-    title,
-    text,
-  } = props;
+const CleanDataButton: React.FunctionComponent<OwnProps> = (props) => {
+  // The fallback click path needs the full state; it is read from the store
+  // at click time instead of through a render subscription.
+  const store = useStore();
+  // No rest spread here: the props are destructured explicitly so nothing
+  // unexpected can land on the <button> as an invalid DOM attribute (which
+  // React would warn about).
+  const { altColor, btnColor, hostname, onClick, siteData, tab, title, text } =
+    props;
   return (
     <button
       aria-controls="cleanCollapse"
@@ -84,8 +73,13 @@ const CleanDataButton: React.FunctionComponent<OwnProps & StateProps> = (
         let result = true;
         if (onClick) {
           result = await onClick.apply(this);
-        } else if (state && siteData && hostname) {
-          result = await cleanSiteDataUI(state, siteData, hostname, tab);
+        } else if (siteData && hostname) {
+          result = await cleanSiteDataUI(
+            store.getState() as State,
+            siteData,
+            hostname,
+            tab
+          );
         }
         animateFlash(document.getElementById("cleanButtonContainer"), result);
       }}
@@ -105,10 +99,4 @@ const CleanDataButton: React.FunctionComponent<OwnProps & StateProps> = (
   );
 };
 
-const mapStateToProps = (state: State) => {
-  return {
-    state,
-  };
-};
-
-export default connect(mapStateToProps)(CleanDataButton);
+export default CleanDataButton;
