@@ -292,7 +292,8 @@ export const cleanCookies = async (
   state: State,
   markedForDeletion: CleanReasonObject[]
 ): Promise<void> => {
-  const promiseArr: Promise<browser.cookies.Cookie | null>[] = [];
+  // cookies.remove resolves with the removed cookie's details (or null).
+  const promiseArr: Promise<unknown>[] = [];
   markedForDeletion.forEach((obj) => {
     const cookieProperties = obj.cookie;
     const cookieRemove = {
@@ -399,8 +400,12 @@ export const clearLocalStorageForThisDomain = async (
       func: clearTabStorages,
     });
     result.forEach((frame) => {
-      local += frame.result?.local ?? 0;
-      session += frame.result?.session ?? 0;
+      // The polyfill types frame.result as unknown; clearTabStorages is the
+      // only function we inject, so the shape is known.
+      const counts = frame.result as
+        { local: number; session: number } | undefined;
+      local += counts?.local ?? 0;
+      session += counts?.session ?? 0;
     });
     showNotification(
       {
@@ -494,10 +499,12 @@ export const removeSiteData = async (
     debug
   );
   try {
+    // Chrome's browsingData API scopes removals by `origins`, a key the
+    // Firefox-schema-generated polyfill types don't know about.
     await browser.browsingData.remove(
       {
-        [listName]: domains,
-      },
+        origins: domains,
+      } as import("webextension-polyfill").BrowsingData.RemovalOptions,
       {
         [sd]: true,
       }
