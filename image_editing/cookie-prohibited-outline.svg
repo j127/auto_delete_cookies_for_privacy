@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Outlined cookie prohibition symbol</title>
+  <desc id="desc">An outlined cookie crossed out by a red prohibition mark.</desc>
+  <circle cx="256" cy="256" r="134" fill="#F4C97D" stroke="#3F2A1D" stroke-width="24"/>
+  <circle cx="203" cy="195" r="16" fill="#3F2A1D"/>
+  <circle cx="309" cy="197" r="15" fill="#3F2A1D"/>
+  <circle cx="330" cy="294" r="18" fill="#3F2A1D"/>
+  <circle cx="221" cy="318" r="15" fill="#3F2A1D"/>
+  <circle cx="179" cy="266" r="12" fill="#3F2A1D"/>
+  <circle cx="263" cy="253" r="11" fill="#3F2A1D"/>
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#FFFFFF" stroke-width="70"/>
+  <path d="M126 386 386 126" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-width="80"/>
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#D71920" stroke-width="42"/>
+  <path d="M126 386 386 126" fill="none" stroke="#D71920" stroke-linecap="round" stroke-width="50"/>
+</svg>

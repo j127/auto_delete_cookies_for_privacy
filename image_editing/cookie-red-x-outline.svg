@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Outlined cookie with red X</title>
+  <desc id="desc">A simple outlined cookie icon with a red X over it.</desc>
+  <circle cx="256" cy="256" r="170" fill="#F2C37A" stroke="#3F2A1D" stroke-width="28"/>
+  <circle cx="191" cy="183" r="18" fill="#3F2A1D"/>
+  <circle cx="315" cy="184" r="16" fill="#3F2A1D"/>
+  <circle cx="349" cy="296" r="22" fill="#3F2A1D"/>
+  <circle cx="217" cy="333" r="18" fill="#3F2A1D"/>
+  <circle cx="151" cy="265" r="15" fill="#3F2A1D"/>
+  <circle cx="266" cy="250" r="13" fill="#3F2A1D"/>
+  <path d="M163 164 349 348M349 164 163 348" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-width="70"/>
+  <path d="M163 164 349 348M349 164 163 348" fill="none" stroke="#D71920" stroke-linecap="round" stroke-width="42"/>
+</svg>

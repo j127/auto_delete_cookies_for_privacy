@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Monochrome blocked cookie</title>
+  <desc id="desc">A minimal one-color blocked cookie icon for small sizes.</desc>
+  <path fill="#2F2F2F" fill-rule="evenodd" d="M256 82c96.1 0 174 77.9 174 174s-77.9 174-174 174S82 352.1 82 256 159.9 82 256 82Zm0 44c-71.8 0-130 58.2-130 130s58.2 130 130 130 130-58.2 130-130-58.2-130-130-130Zm-63 65a20 20 0 1 1 0 40 20 20 0 0 1 0-40Zm114 5a18 18 0 1 1 0 36 18 18 0 0 1 0-36Zm-141 78a16 16 0 1 1 0 32 16 16 0 0 1 0-32Zm99-33a14 14 0 1 1 0 28 14 14 0 0 1 0-28Zm76 43a22 22 0 1 1 0 44 22 22 0 0 1 0-44Zm-120 43a18 18 0 1 1 0 36 18 18 0 0 1 0-36Z"/>
+  <circle cx="256" cy="256" r="204" fill="none" stroke="#D71920" stroke-width="46"/>
+  <path d="M116 396 396 116" fill="none" stroke="#D71920" stroke-linecap="round" stroke-width="56"/>
+</svg>

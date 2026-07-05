@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Flat cookie prohibition symbol</title>
+  <desc id="desc">A flat, simplified cookie crossed out by a red prohibition mark.</desc>
+  <circle cx="256" cy="256" r="140" fill="#E4AD61"/>
+  <circle cx="205" cy="190" r="18" fill="#67401E"/>
+  <circle cx="308" cy="198" r="16" fill="#67401E"/>
+  <circle cx="330" cy="296" r="20" fill="#67401E"/>
+  <circle cx="222" cy="324" r="16" fill="#67401E"/>
+  <circle cx="178" cy="264" r="13" fill="#67401E"/>
+  <circle cx="264" cy="252" r="12" fill="#67401E"/>
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#E01E2B" stroke-width="44"/>
+  <path d="M128 384 384 128" fill="none" stroke="#E01E2B" stroke-linecap="round" stroke-width="54"/>
+</svg>

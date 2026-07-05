@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Offset cookie prohibition symbol</title>
+  <desc id="desc">A cookie slightly offset behind a centered red prohibition symbol.</desc>
+  <circle cx="238" cy="272" r="138" fill="#D99B52" stroke="#5A3417" stroke-width="22"/>
+  <circle cx="190" cy="205" r="18" fill="#5A3417"/>
+  <circle cx="293" cy="211" r="15" fill="#5A3417"/>
+  <circle cx="312" cy="306" r="20" fill="#5A3417"/>
+  <circle cx="210" cy="338" r="16" fill="#5A3417"/>
+  <circle cx="159" cy="279" r="13" fill="#5A3417"/>
+  <circle cx="247" cy="266" r="12" fill="#5A3417"/>
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#D71920" stroke-width="44"/>
+  <path d="M128 384 384 128" fill="none" stroke="#D71920" stroke-linecap="round" stroke-width="54"/>
+</svg>

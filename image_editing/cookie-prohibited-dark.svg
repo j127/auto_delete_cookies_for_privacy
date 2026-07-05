@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Dark cookie prohibition symbol</title>
+  <desc id="desc">A dark cookie with lighter chips crossed out by a red prohibition mark.</desc>
+  <circle cx="256" cy="256" r="138" fill="#744526" stroke="#3F2414" stroke-width="24"/>
+  <circle cx="205" cy="191" r="18" fill="#D6A064"/>
+  <circle cx="308" cy="198" r="15" fill="#D6A064"/>
+  <circle cx="329" cy="295" r="20" fill="#D6A064"/>
+  <circle cx="222" cy="322" r="16" fill="#D6A064"/>
+  <circle cx="178" cy="264" r="13" fill="#D6A064"/>
+  <circle cx="264" cy="252" r="12" fill="#D6A064"/>
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#FFFFFF" stroke-width="60"/>
+  <path d="M128 384 384 128" fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-width="70"/>
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#D71920" stroke-width="42"/>
+  <path d="M128 384 384 128" fill="none" stroke="#D71920" stroke-linecap="round" stroke-width="50"/>
+</svg>

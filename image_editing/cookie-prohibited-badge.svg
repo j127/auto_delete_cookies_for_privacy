@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Cookie prohibition badge</title>
+  <desc id="desc">A blocked cookie icon with a pale circular backing for contrast.</desc>
+  <circle cx="256" cy="256" r="226" fill="#FFF8EA"/>
+  <circle cx="256" cy="256" r="140" fill="#D99A4E" stroke="#563219" stroke-width="22"/>
+  <circle cx="204" cy="190" r="18" fill="#563219"/>
+  <circle cx="310" cy="198" r="15" fill="#563219"/>
+  <circle cx="331" cy="296" r="20" fill="#563219"/>
+  <circle cx="222" cy="324" r="16" fill="#563219"/>
+  <circle cx="178" cy="264" r="13" fill="#563219"/>
+  <circle cx="264" cy="252" r="12" fill="#563219"/>
+  <circle cx="256" cy="256" r="190" fill="none" stroke="#D71920" stroke-width="44"/>
+  <path d="M128 384 384 128" fill="none" stroke="#D71920" stroke-linecap="round" stroke-width="54"/>
+</svg>
