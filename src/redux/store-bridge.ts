@@ -70,7 +70,7 @@ export const handleBridgeConnection = (
   const push = () => {
     try {
       connection.postMessage({ type: UPDATE_STATE, data: store.getState() });
-    } catch (e) {
+    } catch {
       // Port closed mid-notify (popup closed / page navigated); the
       // onDisconnect handler below performs the unsubscribe.
     }

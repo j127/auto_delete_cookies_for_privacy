@@ -24,7 +24,7 @@ test:
 
 # Lint sources
 lint:
-  bunx eslint -c .eslintrc.json --ext .ts,.tsx src/
+  bunx eslint .
 
 # Format the repo
 format:
