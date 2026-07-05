@@ -38,12 +38,75 @@ declare namespace browser.cookies {
   type OptionalCookieProperties = Partial<CookieProperties>;
 }
 
+// MV3 namespaces missing from the dead web-ext-types package. These stubs
+// cover only what this codebase calls; the full swap to webextension-polyfill
+// types is tracked separately.
+// The polyfill ships no types of its own; the typed replacement
+// (@types/webextension-polyfill or the polyfill's own types) is part of the
+// later web-ext-types removal task.
+declare module "webextension-polyfill";
+
+declare namespace browser.action {
+  const setBadgeText: typeof browser.browserAction.setBadgeText;
+  const setBadgeTextColor: typeof browser.browserAction.setBadgeTextColor;
+  const setBadgeBackgroundColor: typeof browser.browserAction.setBadgeBackgroundColor;
+  const setIcon: typeof browser.browserAction.setIcon;
+  const setTitle: typeof browser.browserAction.setTitle;
+  const getTitle: typeof browser.browserAction.getTitle;
+}
+
+declare namespace browser.scripting {
+  interface InjectionTarget {
+    tabId: number;
+    allFrames?: boolean;
+    frameIds?: number[];
+  }
+  interface InjectionResult {
+    frameId?: number;
+    result?: any;
+  }
+  function executeScript(injection: {
+    target: InjectionTarget;
+    func?: (...args: any[]) => any;
+    args?: any[];
+  }): Promise<InjectionResult[]>;
+}
+
+declare namespace browser.storage {
+  // Chrome 102+; typed optional because the jest environment does not mock
+  // it everywhere yet, and code accesses it with optional chaining.
+  const session: browser.storage.StorageArea | undefined;
+}
+
+declare namespace browser.alarms {
+  const onAlarm: {
+    addListener(listener: (alarm: { name: string }) => void): void;
+    removeListener(listener: (alarm: { name: string }) => void): void;
+    hasListener(listener: (alarm: { name: string }) => void): boolean;
+  };
+}
+
 // Until web-ext-types land this, per https://github.com/kelseasy/web-ext-types/issues/81#issuecomment-527758881
 declare namespace browser.contextMenus {
-  type ContextType = browser.menus.ContextType;
+  // MV3 renames the browser_action context to action.
+  type ContextType = browser.menus.ContextType | "action";
   type ItemType = browser.menus.ItemType;
   type OnClickData = browser.menus.OnClickData;
-  const create: typeof browser.menus.create;
+  // Own signature (not typeof menus.create) so the MV3 "action" context is
+  // accepted in the contexts array.
+  function create(
+    createProperties: {
+      checked?: boolean;
+      contexts?: ContextType[];
+      enabled?: boolean;
+      id?: string;
+      parentId?: number | string;
+      title?: string;
+      type?: ItemType;
+      visible?: boolean;
+    },
+    callback?: () => void
+  ): number | string;
   const getTargetElement: typeof browser.menus.getTargetElement;
   const refresh: typeof browser.menus.refresh;
   const remove: typeof browser.menus.remove;
@@ -84,5 +147,3 @@ declare namespace browser.tabs {
     url?: string;
   }
 }
-
-declare module "redux-webext";

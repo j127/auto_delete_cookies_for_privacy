@@ -1,37 +1,26 @@
 {
-  "background": {
-    "scripts": [
-      "global_files/browserDetect.js",
-      "global_files/browser-polyfill.min.js",
-      "global_files/redux-webext.js",
-      "bundles/common-background-popup-setting.bundle.js",
-      "bundles/common-background.bundle.js",
-      "bundles/background.bundle.js"
-    ]
-  },
+  "manifest_version": 3,
+  "name": "Auto-Delete Cookies for Privacy",
+  "version": "3.999.999",
   "description": "__MSG_extensionDescription__",
-  "homepage_url": "https://github.com/j127/autodelete_cookies_for_privacy",
-  "author": "j127 (fork of Cookie AutoDelete by Kenny Do and CAD Team)",
   "default_locale": "en",
-  "browser_action": {
-    "browser_style": false,
+  "author": "j127 (fork of Cookie AutoDelete by Kenny Do and CAD Team)",
+  "homepage_url": "https://github.com/j127/autodelete_cookies_for_privacy",
+  "minimum_chrome_version": "120",
+  "icons": {
+    "48": "icons/icon_48.png",
+    "128": "icons/icon_128.png"
+  },
+  "background": {
+    "service_worker": "bundles/background.bundle.js"
+  },
+  "action": {
     "default_icon": {
       "48": "icons/icon_48.png"
     },
     "default_title": "Auto-Delete Cookies for Privacy",
     "default_popup": "popup/popup.html"
   },
-  "icons": {
-    "48": "icons/icon_48.png",
-    "128": "icons/icon_128.png"
-  },
-  "applications": {
-    "gecko": {
-      "id": "CookieAutoDelete@kennydo.com",
-      "strict_min_version": "63.0"
-    }
-  },
-  "minimum_chrome_version": "74",
   "options_ui": {
     "page": "settings/settings.html",
     "open_in_tab": true
@@ -41,14 +30,11 @@
     "alarms",
     "browsingData",
     "contextMenus",
-    "contextualIdentities",
     "cookies",
     "notifications",
+    "scripting",
     "storage",
-    "tabs",
-    "<all_urls>"
+    "tabs"
   ],
-  "manifest_version": 2,
-  "name": "Auto-Delete Cookies for Privacy",
-  "version": "3.999.999"
+  "host_permissions": ["<all_urls>"]
 }

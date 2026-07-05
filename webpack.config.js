@@ -10,9 +10,6 @@ module.exports = {
     popup: `${__dirname}/src/ui/popup/index.tsx`,
     setting: `${__dirname}/src/ui/settings/index.tsx`,
   },
-  externals: {
-    "redux-webext": "ReduxWebExt",
-  },
   output: {
     path: `${__dirname}/extension/bundles`,
     filename: `[name].bundle.js`,
@@ -73,12 +70,8 @@ module.exports = {
           to: "../../extension/global_files/[name][ext]",
           context: `${__dirname}/node_modules`,
         },
-        {
-          force: true,
-          from: "webextension-polyfill/dist/browser-polyfill.min.js*",
-          to: "../../extension/global_files/[name][ext]",
-          context: `${__dirname}/node_modules`,
-        },
+        // webextension-polyfill is no longer copied as a page script; it is
+        // bundled via src/init-globals.ts so the service worker gets it too.
       ],
     }),
   ],
@@ -88,13 +81,28 @@ module.exports = {
   optimization: {
     splitChunks: {
       automaticNameDelimiter: "-",
+      // The MV3 service worker must be a single classic script: it cannot
+      // load sibling chunk files the way HTML pages can, so the background
+      // entry is excluded from chunk splitting entirely.
+      chunks: (chunk) => chunk.name !== "background",
       cacheGroups: {
         ui: {
           test: /[\\/]node_modules[\\/](react|react-dom|@fortawesome)[\\/]|[\\/]src[\\/]ui[\\/]/,
+          // Stable file name: the two HTML pages hand-list their script tags,
+          // so numeric chunk ids would silently break on dependency changes.
+          name: "ui",
           priority: -10,
         },
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          // Stable name (default would be a numeric chunk id) because the
+          // HTML pages hand-list their script tags.
+          name: "vendors",
+          priority: -10,
+          reuseExistingChunk: true,
+        },
         common: {
-          chunks: "initial",
+          chunks: (chunk) => chunk.name !== "background",
           // cacheGroupKey here is `common` as key of cacheGroup
           name: (module, chunks, cacheGroupKey) => {
             return [cacheGroupKey, chunks.map((c) => c.runtime).join("-")].join(
@@ -113,6 +121,8 @@ module.exports = {
         },
         default: {
           minChunks: 2,
+          // Stable name for the same hand-listed-script-tag reason as "ui".
+          name: "shared",
           priority: -20,
           reuseExistingChunk: true,
         },

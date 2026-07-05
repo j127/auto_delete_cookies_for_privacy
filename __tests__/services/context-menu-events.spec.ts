@@ -137,33 +137,24 @@ describe("ContextMenuEvents", () => {
       ContextMenuEvents.menuInit();
       expect(global.browser.contextMenus.create).not.toHaveBeenCalled();
     });
-    it("should create its menus contextMenus setting is enabled and none was created beforehand", () => {
-      when(global.browser.contextMenus.onClicked.hasListener)
-        .calledWith(expect.any(Function))
-        .mockReturnValue(false);
+    it("should create its menus contextMenus setting is enabled and none was created beforehand", async () => {
+      // menuInit is async in MV3: it awaits contextMenus.removeAll first so
+      // menu creation is idempotent across service worker wakes. The
+      // onClicked listener now registers once at the top level of
+      // background.ts, so menuInit no longer touches listeners at all.
       TestStore.changeSetting(SettingID.CONTEXT_MENUS, true);
-      ContextMenuEvents.menuInit();
+      await ContextMenuEvents.menuInit();
       expect(TestContextMenuEvents.getIsInitialized()).toBe(true);
+      expect(global.browser.contextMenus.removeAll).toHaveBeenCalledTimes(1);
       expect(global.browser.contextMenus.create).toHaveBeenCalledTimes(35);
-      expect(
-        global.browser.contextMenus.onClicked.addListener
-      ).toHaveBeenCalledTimes(1);
-    });
-    it("should not add another listener if one was already added", () => {
-      when(global.browser.contextMenus.onClicked.hasListener)
-        .calledWith(expect.any(Function))
-        .mockReturnValue(true);
-      TestStore.changeSetting(SettingID.CONTEXT_MENUS, true);
-      TestContextMenuEvents.setIsInitialized(false);
-      ContextMenuEvents.menuInit();
       expect(
         global.browser.contextMenus.onClicked.addListener
       ).not.toHaveBeenCalled();
     });
-    it("should do nothing if contextMenus setting is enabled and menus were already created", () => {
+    it("should do nothing if contextMenus setting is enabled and menus were already created", async () => {
       TestStore.changeSetting(SettingID.CONTEXT_MENUS, true);
       TestContextMenuEvents.setIsInitialized(true);
-      ContextMenuEvents.menuInit();
+      await ContextMenuEvents.menuInit();
       expect(global.browser.contextMenus.create).not.toHaveBeenCalled();
     });
   });
@@ -172,9 +163,7 @@ describe("ContextMenuEvents", () => {
     it("should work", async () => {
       TestContextMenuEvents.setIsInitialized(true);
       await ContextMenuEvents.menuClear();
-      expect(
-        global.browser.contextMenus.onClicked.removeListener
-      ).toHaveBeenCalledTimes(1);
+      expect(global.browser.contextMenus.removeAll).toHaveBeenCalledTimes(1);
       expect(TestContextMenuEvents.getIsInitialized()).toBe(false);
     });
   });

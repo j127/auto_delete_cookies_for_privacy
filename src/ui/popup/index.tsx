@@ -12,9 +12,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+// Must be the first import: provides the `browser`/`browserDetect` globals
+// that MV2 supplied via script tags.
+import "../../init-globals";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { createUIStore } from "redux-webext";
+import { createUIStore } from "../../redux/ui-store-bridge";
 import { isChrome, sleep } from "../../services/libs";
 import ErrorBoundary from "../common-components/error-boundary";
 import fontAwesomeImports from "../font-awesome-imports";
@@ -36,7 +39,7 @@ async function initApp() {
   }
 
   ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={store as any}>
       <ErrorBoundary>
         <App />
       </ErrorBoundary>

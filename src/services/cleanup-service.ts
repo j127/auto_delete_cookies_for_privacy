@@ -391,20 +391,37 @@ export const clearCookiesForThisDomain = async (
   return cookies.length > 0;
 };
 
+/**
+ * Injected into the target tab by clearLocalStorageForThisDomain. Serialized
+ * by chrome.scripting, so it must stay fully self-contained: no closure
+ * references, no imports.
+ */
+function clearTabStorages(): { local: number; session: number } {
+  const r = {
+    local: window.localStorage.length,
+    session: window.sessionStorage.length,
+  };
+  window.localStorage.clear();
+  window.sessionStorage.clear();
+  return r;
+}
+
 export const clearLocalStorageForThisDomain = async (
   state: State,
   tab: browser.tabs.Tab
 ): Promise<boolean> => {
-  // Using this method to ensure cross browser compatibility
+  // MV3: tabs.executeScript with inline code no longer exists; scripting
+  // requires an explicit tab id and a serializable function.
   try {
     let local = 0;
     let session = 0;
-    const result = await browser.tabs.executeScript(undefined, {
-      code: `var cad_r = {local: window.localStorage.length, session: window.sessionStorage.length};window.localStorage.clear();window.sessionStorage.clear();cad_r;`,
+    const result = await browser.scripting.executeScript({
+      target: { tabId: tab.id as number, allFrames: true },
+      func: clearTabStorages,
     });
-    result.forEach((frame: { [key: string]: any }) => {
-      local += frame.local;
-      session += frame.session;
+    result.forEach((frame) => {
+      local += frame.result?.local ?? 0;
+      session += frame.result?.session ?? 0;
     });
     showNotification(
       {
