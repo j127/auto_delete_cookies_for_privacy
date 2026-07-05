@@ -41,11 +41,21 @@ const storageArea = {
   clear: jest.fn(),
 };
 
+// storage.session gets its OWN mock instance: local/managed/sync share
+// storageArea, and reusing it for session would make session-persistence
+// assertions cross-talk with storage.local assertions.
+const sessionStorageArea = {
+  storage: {},
+  get: jest.fn(),
+  set: jest.fn(),
+  remove: jest.fn(),
+  clear: jest.fn(),
+};
+
 const apis = {
-  alarms: {
-    fn: ["clear", "clearAll", "create", "get", "getAll"],
-  },
-  browserAction: {
+  // MV3 API surface: action replaced browserAction, alarms gained onAlarm
+  // usage, and scripting replaced tabs.executeScript.
+  action: {
     fn: [
       "getBadgeText",
       "getTitle",
@@ -56,6 +66,10 @@ const apis = {
       "setTitle",
     ],
     events: ["onClicked"],
+  },
+  alarms: {
+    fn: ["clear", "clearAll", "create", "get", "getAll"],
+    events: ["onAlarm"],
   },
   browsingData: {
     fn: [
@@ -157,6 +171,7 @@ const browser = {
     local: storageArea,
     managed: storageArea,
     onChanged: eventListeners,
+    session: sessionStorageArea,
     sync: storageArea,
   },
 };
@@ -182,12 +197,6 @@ Object.keys(apis).forEach((api) => {
     }
   });
 });
-
-// MV3 renamed browserAction to action. Alias to the SAME jest.fn instances
-// so existing specs asserting on browser.browserAction.* keep observing the
-// calls the production code now makes through browser.action.*. The full
-// mock rename is part of the MV3 test-suite update issue.
-browser.action = browser.browserAction;
 
 global.browser = browser;
 global.chrome = browser;
