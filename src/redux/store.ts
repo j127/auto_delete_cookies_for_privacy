@@ -12,9 +12,8 @@
  */
 /* istanbul ignore file: Redux stuff.*/
 
-import { applyMiddleware, createStore, Store } from "redux";
-// tslint:disable-next-line:import-name
-import thunk from "redux-thunk";
+import { configureStore } from "@reduxjs/toolkit";
+import { Store } from "redux";
 import { ReduxAction, ReduxConstants } from "../typings/redux-constants";
 import {
   addExpression,
@@ -63,10 +62,14 @@ export const backgroundActions: {
   UPDATE_SETTING: updateSetting,
 };
 
-export default (state = {}): Store<State, ReduxAction> => {
-  return createStore(
+export default (state: Partial<State> = {}): Store<State, ReduxAction> => {
+  // RTK's default middleware bundles the thunk middleware that used to come
+  // from the redux-thunk dependency. An empty preloaded state is valid at
+  // runtime (every slice reducer supplies its own default), hence the cast.
+  return configureStore({
     reducer,
-    state,
-    applyMiddleware(thunk, consoleMessages)
-  ) as unknown as Store<State, ReduxAction>;
+    preloadedState: state as State,
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware().concat(consoleMessages),
+  }) as unknown as Store<State, ReduxAction>;
 };

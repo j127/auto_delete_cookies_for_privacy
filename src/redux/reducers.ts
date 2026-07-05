@@ -12,7 +12,7 @@
  */
 
 import { ListType } from "../typings/enums";
-import { combineReducers } from "redux";
+import { combineReducers, Reducer } from "redux";
 import { ReduxAction, ReduxConstants } from "../typings/redux-constants";
 import { uid } from "../services/libs";
 import { initialState } from "./state";
@@ -239,11 +239,13 @@ export const cache = (
   }
 };
 
-export default combineReducers<State, ReduxAction>({
+// redux 5's combineReducers takes a single type argument (the reducers map),
+// so the combined shape is asserted instead.
+export default combineReducers({
   activityLog,
   cache,
   cookieDeletedCounterSession,
   cookieDeletedCounterTotal,
   lists,
   settings,
-});
+}) as unknown as Reducer<State, ReduxAction>;
