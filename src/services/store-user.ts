@@ -12,8 +12,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Store } from 'redux';
-import { ReduxAction } from '../typings/redux-constants';
+import { Store } from "redux";
+import { ReduxAction } from "../typings/redux-constants";
 
 export default class StoreUser {
   public static init(store: Store): void {

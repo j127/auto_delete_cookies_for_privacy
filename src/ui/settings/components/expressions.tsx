@@ -10,34 +10,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import * as React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 import {
   addExpressionUI,
   clearExpressionsUI,
   removeListUI,
-} from '../../../redux/actions';
+} from "../../../redux/actions";
 import {
   cadLog,
   getMatchedExpressions,
   getSetting,
   validateExpressionDomain,
-} from '../../../services/libs';
-import { ReduxAction } from '../../../typings/redux-constants';
-import ExpressionTable from '../../common-components/expression-table';
-import IconButton from '../../common-components/icon-button';
-import { downloadObjectAsJSON } from '../../ui-libs';
-import SettingsTooltip from './settings-tooltip';
+} from "../../../services/libs";
+import { ReduxAction } from "../../../typings/redux-constants";
+import ExpressionTable from "../../common-components/expression-table";
+import IconButton from "../../common-components/icon-button";
+import { downloadObjectAsJSON } from "../../ui-libs";
+import SettingsTooltip from "./settings-tooltip";
 const styles = {
   buttonStyle: {
-    height: 'max-content',
-    padding: '0.75em',
-    width: 'max-content',
+    height: "max-content",
+    padding: "0.75em",
+    width: "max-content",
   },
   tableContainer: {
     height: `${window.innerHeight - 210}px`,
-    overflow: 'auto',
+    overflow: "auto",
   },
 };
 
@@ -63,10 +63,10 @@ type ExpressionProps = OwnProps & StateProps & DispatchProps;
 class InitialState {
   public contextualIdentitiesObjects: browser.contextualIdentities.ContextualIdentity[] =
     [];
-  public error = '';
-  public expressionInput = '';
-  public storeId = 'default';
-  public success = '';
+  public error = "";
+  public expressionInput = "";
+  public storeId = "default";
+  public success = "";
 }
 
 class Expressions extends React.Component<ExpressionProps> {
@@ -76,13 +76,13 @@ class Expressions extends React.Component<ExpressionProps> {
   public importExpressions(importFile: File) {
     const { onNewExpression } = this.props;
     // Do check for import first!
-    if (importFile.type !== 'application/json') {
+    if (importFile.type !== "application/json") {
       this.setError(
         new Error(
-          `${browser.i18n.getMessage('importFileTypeInvalid')}:  ${
+          `${browser.i18n.getMessage("importFileTypeInvalid")}:  ${
             importFile.name
-          } (${importFile.type})`,
-        ),
+          } (${importFile.type})`
+        )
       );
       return;
     }
@@ -92,8 +92,8 @@ class Expressions extends React.Component<ExpressionProps> {
         if (!file.target) {
           this.setError(
             new Error(
-              browser.i18n.getMessage('importFileNotFound', [importFile.name]),
-            ),
+              browser.i18n.getMessage("importFileNotFound", [importFile.name])
+            )
           );
           return;
         }
@@ -106,7 +106,7 @@ class Expressions extends React.Component<ExpressionProps> {
         storeIds.forEach((storeId) => {
           if (!Array.isArray(newExpressions[storeId])) {
             errExps.push(
-              `- ${browser.i18n.getMessage('importListNotArray', [storeId])}`,
+              `- ${browser.i18n.getMessage("importListNotArray", [storeId])}`
             );
             return;
           }
@@ -134,22 +134,22 @@ class Expressions extends React.Component<ExpressionProps> {
           error:
             errExps.length > 0
               ? `${browser.i18n.getMessage(
-                  'importInvalidExpressions',
-                )}\n${errExps.join('\n')}`
-              : '',
+                  "importInvalidExpressions"
+                )}\n${errExps.join("\n")}`
+              : "",
           success:
             validExps > 0
-              ? `${browser.i18n.getMessage('importValidExpressions', [
+              ? `${browser.i18n.getMessage("importValidExpressions", [
                   validExps.toString(),
                   importFile.name,
                 ])}`
-              : '',
+              : "",
         });
       } catch (error) {
         if (error instanceof Error) {
           this.setState({
             error: `${importFile.name} - ${error.toString()}.`,
-            success: '',
+            success: "",
           });
         }
       }
@@ -183,27 +183,27 @@ class Expressions extends React.Component<ExpressionProps> {
       }
     });
     this.setState({
-      expressionInput: invalidInputs.join(', '),
+      expressionInput: invalidInputs.join(", "),
       success:
         validInputs.length > 0
-          ? `${browser.i18n.getMessage('inputAddSuccess', [
+          ? `${browser.i18n.getMessage("inputAddSuccess", [
               validInputs.length.toString(),
               browser.i18n.getMessage(
-                `${payload.listType.toLowerCase()}ListWordText`,
+                `${payload.listType.toLowerCase()}ListWordText`
               ),
-            ])}\n${validInputs.join(', ')}`
-          : '',
+            ])}\n${validInputs.join(", ")}`
+          : "",
       error:
         inputReasons.length > 0
           ? `${browser.i18n.getMessage(
-              'invalidNewExpressions',
-            )}\n${inputReasons.join('\n')}`
-          : '',
+              "invalidNewExpressions"
+            )}\n${inputReasons.join("\n")}`
+          : "",
     });
   }
 
   private parseRawExpression(exp: Expression): string[] {
-    const exps = exp.expression.split(',');
+    const exps = exp.expression.split(",");
     const expressions: string[] = [];
     let skipTimes = 0;
     exps.forEach((e, i, a) => {
@@ -215,9 +215,9 @@ class Expressions extends React.Component<ExpressionProps> {
       // skipTimes should be 0 at this point
       let ee = e.trim();
       // Check for regex slash start
-      if (ee.startsWith('/')) {
+      if (ee.startsWith("/")) {
         // Continue to parse next set of comma-separated values until the next end slash
-        while (!ee.endsWith('/')) {
+        while (!ee.endsWith("/")) {
           skipTimes++;
           if (i + skipTimes >= a.length) {
             // We have reached the end of the array and did not find an end slash.
@@ -243,26 +243,26 @@ class Expressions extends React.Component<ExpressionProps> {
     });
     if (listKeys.length === 0 && expCount === 0) {
       this.setState({
-        error: browser.i18n.getMessage('removeAllExpressionsNoneFound'),
+        error: browser.i18n.getMessage("removeAllExpressionsNoneFound"),
       });
     } else {
       const r = window.prompt(
-        browser.i18n.getMessage('removeAllExpressionsConfirm', [
+        browser.i18n.getMessage("removeAllExpressionsConfirm", [
           expCount.toString(),
           listKeys.length.toString(),
-        ]),
+        ])
       );
       cadLog(
         {
           msg: `Clear Expressions Prompt returned [ ${r} ]`,
-          type: 'info',
+          type: "info",
         },
-        debug,
+        debug
       );
       if (r !== null && r === expCount.toString()) {
         onClearExpressions(this.props.lists);
         this.setState({
-          success: browser.i18n.getMessage('removeAllExpressions'),
+          success: browser.i18n.getMessage("removeAllExpressions"),
         });
       }
     }
@@ -270,32 +270,32 @@ class Expressions extends React.Component<ExpressionProps> {
 
   public removeListConfirmation(
     list: keyof StoreIdToExpressionList,
-    expressions: ReadonlyArray<Expression>,
+    expressions: ReadonlyArray<Expression>
   ) {
     const { debug, onRemoveList } = this.props;
     const expCount = (expressions || []).length;
     if (expCount === 0) {
       this.setState({
-        error: browser.i18n.getMessage('removeAllExpressionsNoneFound'),
+        error: browser.i18n.getMessage("removeAllExpressionsNoneFound"),
       });
     } else {
       const r = window.prompt(
-        browser.i18n.getMessage('removeAllExpressionsConfirm', [
+        browser.i18n.getMessage("removeAllExpressionsConfirm", [
           expCount.toString(),
           list.toString(),
-        ]),
+        ])
       );
       cadLog(
         {
           msg: `Remove Expressions Prompt for ${list} returned [ ${r} ]`,
-          type: 'info',
+          type: "info",
         },
-        debug,
+        debug
       );
       if (r !== null && r === expCount.toString()) {
         onRemoveList(list);
         this.setState({
-          success: `${browser.i18n.getMessage('removeListText')}: ${list}`,
+          success: `${browser.i18n.getMessage("removeListText")}: ${list}`,
         });
       }
     }
@@ -307,7 +307,7 @@ class Expressions extends React.Component<ExpressionProps> {
     const containers = new Set<string>(Object.keys(lists));
     if (contextualIdentities) {
       contextualIdentitiesObjects.forEach((c) =>
-        containers.add(c.cookieStoreId),
+        containers.add(c.cookieStoreId)
       );
     }
     containers.add(
@@ -315,12 +315,12 @@ class Expressions extends React.Component<ExpressionProps> {
         switch (browser) {
           case browserName.Chrome:
           case browserName.Opera:
-            return '0';
+            return "0";
           case browserName.Firefox:
           default:
-            return 'firefox-default';
+            return "firefox-default";
         }
-      })(bName),
+      })(bName)
     );
     containers.forEach((id) => {
       [ListType.GREY, ListType.WHITE].forEach((lt) => {
@@ -335,7 +335,7 @@ class Expressions extends React.Component<ExpressionProps> {
 
   public getDerivedStateFromProps(nextProps: ExpressionProps) {
     if (!nextProps.contextualIdentities) {
-      this.changeStoreIdTab('default');
+      this.changeStoreIdTab("default");
     }
   }
 
@@ -365,7 +365,7 @@ class Expressions extends React.Component<ExpressionProps> {
         mapIDtoName[c.cookieStoreId] = c.name;
       });
       Object.keys(lists).forEach((list) => {
-        if (list === 'default') return;
+        if (list === "default") return;
         const container = contextualIdentitiesObjects.find((c) => {
           return c.cookieStoreId === list;
         });
@@ -377,13 +377,13 @@ class Expressions extends React.Component<ExpressionProps> {
 
     return (
       <div className="col" style={style}>
-        <h1>{browser.i18n.getMessage('expressionListText')}</h1>
+        <h1>{browser.i18n.getMessage("expressionListText")}</h1>
 
         <div className="row">
           <input
             style={{
-              display: 'inline',
-              width: '100%',
+              display: "inline",
+              width: "100%",
             }}
             value={this.state.expressionInput}
             onChange={(e) =>
@@ -391,9 +391,9 @@ class Expressions extends React.Component<ExpressionProps> {
                 expressionInput: e.target.value,
               })
             }
-            placeholder={browser.i18n.getMessage('domainPlaceholderText')}
+            placeholder={browser.i18n.getMessage("domainPlaceholderText")}
             onKeyUp={(e) => {
-              if (e.key.toLowerCase() === 'enter') {
+              if (e.key.toLowerCase() === "enter") {
                 this.addExpressionByInput({
                   expression: this.state.expressionInput,
                   listType: e.shiftKey ? ListType.GREY : ListType.WHITE,
@@ -414,17 +414,17 @@ class Expressions extends React.Component<ExpressionProps> {
             rel="help noreferrer noopener"
             href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/Documentation#enter-expression"
           >
-            {browser.i18n.getMessage('questionExpression')}
+            {browser.i18n.getMessage("questionExpression")}
             <SettingsTooltip hrefURL="#enter-expression" />
           </a>
         </div>
         <div
           className="row"
           style={{
-            columnGap: '0.5em',
-            justifyContent: 'space-between',
-            paddingBottom: '8px',
-            paddingTop: '8px',
+            columnGap: "0.5em",
+            justifyContent: "space-between",
+            paddingBottom: "8px",
+            paddingTop: "8px",
           }}
         >
           <div className="col-sm col-md-auto">
@@ -440,10 +440,10 @@ class Expressions extends React.Component<ExpressionProps> {
                 iconName="download"
                 role="button"
                 onClick={() =>
-                  downloadObjectAsJSON(this.props.lists, 'Expressions')
+                  downloadObjectAsJSON(this.props.lists, "Expressions")
                 }
-                title={browser.i18n.getMessage('exportTitleTimestamp')}
-                text={browser.i18n.getMessage('exportURLSText')}
+                title={browser.i18n.getMessage("exportTitleTimestamp")}
+                text={browser.i18n.getMessage("exportURLSText")}
                 styleReact={styles.buttonStyle}
               />
               <IconButton
@@ -453,8 +453,8 @@ class Expressions extends React.Component<ExpressionProps> {
                 type="file"
                 accept="application/json"
                 onChange={(e) => this.importExpressions(e.target.files[0])}
-                text={browser.i18n.getMessage('importURLSText')}
-                title={browser.i18n.getMessage('importURLSText')}
+                text={browser.i18n.getMessage("importURLSText")}
+                title={browser.i18n.getMessage("importURLSText")}
                 styleReact={styles.buttonStyle}
               />
             </div>
@@ -462,8 +462,8 @@ class Expressions extends React.Component<ExpressionProps> {
             <div
               className="row justify-content-sm-center justify-content-md-start"
               style={{
-                marginTop: '5px',
-                marginBottom: '5px',
+                marginTop: "5px",
+                marginBottom: "5px",
                 paddingLeft: 0,
                 paddingRight: 0,
               }}
@@ -474,8 +474,8 @@ class Expressions extends React.Component<ExpressionProps> {
                 iconName="trash"
                 role="button"
                 onClick={() => this.clearListsConfirmation(this.props.lists)}
-                text={browser.i18n.getMessage('removeAllExpressions')}
-                title={browser.i18n.getMessage('removeAllExpressions')}
+                text={browser.i18n.getMessage("removeAllExpressions")}
+                title={browser.i18n.getMessage("removeAllExpressions")}
                 styleReact={styles.buttonStyle}
               />
               <IconButton
@@ -485,10 +485,10 @@ class Expressions extends React.Component<ExpressionProps> {
                 role="button"
                 onClick={() => this.createDefaultOptions()}
                 text={browser.i18n.getMessage(
-                  'createDefaultExpressionOptionsText',
+                  "createDefaultExpressionOptionsText"
                 )}
                 title={browser.i18n.getMessage(
-                  'createDefaultExpressionOptionsText',
+                  "createDefaultExpressionOptionsText"
                 )}
                 styleReact={styles.buttonStyle}
               />
@@ -501,11 +501,11 @@ class Expressions extends React.Component<ExpressionProps> {
                   onClick={() => {
                     this.removeListConfirmation(
                       storeId,
-                      this.props.lists[storeId],
+                      this.props.lists[storeId]
                     );
                   }}
-                  text={browser.i18n.getMessage('removeListText')}
-                  title={browser.i18n.getMessage('removeListText')}
+                  text={browser.i18n.getMessage("removeListText")}
+                  title={browser.i18n.getMessage("removeListText")}
                   styleReact={styles.buttonStyle}
                 />
               )}
@@ -514,7 +514,7 @@ class Expressions extends React.Component<ExpressionProps> {
           <div
             className="col-sm col-md-auto"
             style={{
-              justifyContent: 'flex-end',
+              justifyContent: "flex-end",
               paddingLeft: 0,
               paddingRight: 0,
             }}
@@ -530,8 +530,8 @@ class Expressions extends React.Component<ExpressionProps> {
               }}
               styleReact={styles.buttonStyle}
               iconName="plus"
-              title={browser.i18n.getMessage('toGreyListText')}
-              text={browser.i18n.getMessage('greyListWordText')}
+              title={browser.i18n.getMessage("toGreyListText")}
+              text={browser.i18n.getMessage("greyListWordText")}
             />
 
             <IconButton
@@ -545,43 +545,43 @@ class Expressions extends React.Component<ExpressionProps> {
               }}
               styleReact={styles.buttonStyle}
               iconName="plus"
-              title={browser.i18n.getMessage('toWhiteListText')}
-              text={browser.i18n.getMessage('whiteListWordText')}
+              title={browser.i18n.getMessage("toWhiteListText")}
+              text={browser.i18n.getMessage("whiteListWordText")}
             />
           </div>
         </div>
 
-        {error !== '' ? (
+        {error !== "" ? (
           <div
-            onClick={() => this.setState({ error: '' })}
+            onClick={() => this.setState({ error: "" })}
             className="row alert alert-danger alertPreWrap"
           >
             {error}
           </div>
         ) : (
-          ''
+          ""
         )}
-        {success !== '' ? (
+        {success !== "" ? (
           <div
-            onClick={() => this.setState({ success: '' })}
+            onClick={() => this.setState({ success: "" })}
             className="row alert alert-success alertPreWrap"
           >
             {success}
           </div>
         ) : (
-          ''
+          ""
         )}
         {contextualIdentities && (
           <h5>
-            {browser.i18n.getMessage('currentContainerInfo', [
-              storeId === 'default'
-                ? browser.i18n.getMessage('defaultText')
+            {browser.i18n.getMessage("currentContainerInfo", [
+              storeId === "default"
+                ? browser.i18n.getMessage("defaultText")
                 : storeId,
               mapIDtoName[storeId] ||
                 browser.i18n.getMessage(
-                  storeId === 'default'
-                    ? 'defaultContainerText'
-                    : 'missingContainerText',
+                  storeId === "default"
+                    ? "defaultContainerText"
+                    : "missingContainerText"
                 ),
             ])}
           </h5>
@@ -590,15 +590,15 @@ class Expressions extends React.Component<ExpressionProps> {
           <ul className="row nav nav-tabs flex-column flex-sm-row">
             <li
               onClick={() => {
-                this.changeStoreIdTab('default');
+                this.changeStoreIdTab("default");
               }}
               className="nav-item"
             >
               <a
-                className={`nav-link ${storeId === 'default' ? 'active' : ''}`}
+                className={`nav-link ${storeId === "default" ? "active" : ""}`}
                 href="#tabExpressionList"
               >
-                {browser.i18n.getMessage('defaultText')}
+                {browser.i18n.getMessage("defaultText")}
               </a>
             </li>
             {Object.entries(mapIDtoName).map(([cookieStoreId, name]) => (
@@ -611,11 +611,11 @@ class Expressions extends React.Component<ExpressionProps> {
               >
                 <a
                   className={`nav-link ${
-                    storeId === cookieStoreId ? 'active' : ''
-                  } ${name ? '' : 'text-danger'}`}
+                    storeId === cookieStoreId ? "active" : ""
+                  } ${name ? "" : "text-danger"}`}
                   href="#tabExpressionList"
                 >
-                  {name || browser.i18n.getMessage('missingContainerText')}
+                  {name || browser.i18n.getMessage("missingContainerText")}
                 </a>
               </li>
             ))}
@@ -625,21 +625,21 @@ class Expressions extends React.Component<ExpressionProps> {
         <div className="row" style={styles.tableContainer}>
           <ExpressionTable
             expressionColumnTitle={browser.i18n.getMessage(
-              'domainExpressionsText',
+              "domainExpressionsText"
             )}
             expressions={getMatchedExpressions(
               lists,
               storeId,
               this.state.expressionInput,
-              true,
+              true
             )}
             storeId={storeId}
             emptyElement={
               <span>
                 {browser.i18n.getMessage(
                   this.state.expressionInput.trim().length === 0
-                    ? 'noExpressionsText'
-                    : 'noSearchExpressionsFound',
+                    ? "noExpressionsText"
+                    : "noSearchExpressionsFound"
                 )}
               </span>
             }
@@ -652,7 +652,7 @@ class Expressions extends React.Component<ExpressionProps> {
   private setError(e: Error): void {
     this.setState({
       error: e.toString(),
-      success: '',
+      success: "",
     });
   }
 }
@@ -664,7 +664,7 @@ const mapStateToProps = (state: State) => {
     cache,
     contextualIdentities: getSetting(
       state,
-      SettingID.CONTEXTUAL_IDENTITIES,
+      SettingID.CONTEXTUAL_IDENTITIES
     ) as boolean,
     debug: getSetting(state, SettingID.DEBUG_MODE) as boolean,
     lists,

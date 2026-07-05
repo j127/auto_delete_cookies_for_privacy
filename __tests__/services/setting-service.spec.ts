@@ -11,45 +11,44 @@
  * SOFTWARE.
  */
 
-import { when } from 'jest-when';
-import { Store } from 'redux';
-import { initialState } from '../../src/redux/state';
+import { when } from "jest-when";
+import { Store } from "redux";
+import { initialState } from "../../src/redux/state";
 // tslint:disable-next-line: import-name
-import createStore from '../../src/redux/store';
-import * as BrowserActionService from '../../src/services/browser-action-service';
-import ContextualIdentitiesEvents from '../../src/services/contextual-identities-events';
-import SettingService from '../../src/services/setting-service';
-import StoreUser from '../../src/services/store-user';
-import { ReduxAction } from '../../src/typings/redux-constants';
-import { resetSettings, updateSetting } from '../../src/redux/actions';
-import ContextMenuEvents from '../../src/services/context-menu-events';
+import createStore from "../../src/redux/store";
+import * as BrowserActionService from "../../src/services/browser-action-service";
+import ContextualIdentitiesEvents from "../../src/services/contextual-identities-events";
+import SettingService from "../../src/services/setting-service";
+import StoreUser from "../../src/services/store-user";
+import { ReduxAction } from "../../src/typings/redux-constants";
+import { resetSettings, updateSetting } from "../../src/redux/actions";
+import ContextMenuEvents from "../../src/services/context-menu-events";
 
-const spyBrowserActions: JestSpyObject = global.generateSpies(
-  BrowserActionService,
-);
+const spyBrowserActions: JestSpyObject =
+  global.generateSpies(BrowserActionService);
 
-jest.requireActual('../../src/services/context-menu-events');
+jest.requireActual("../../src/services/context-menu-events");
 class TestContextMenus extends ContextMenuEvents {
   public static isInit(): boolean {
     return ContextMenuEvents.isInitialized;
   }
 }
 
-jest.requireActual('../../src/services/contextual-identities-events');
+jest.requireActual("../../src/services/contextual-identities-events");
 class TestContextualIdentities extends ContextualIdentitiesEvents {
   public static isInit(): boolean {
     return ContextualIdentitiesEvents.isInitialized;
   }
 }
 
-jest.requireActual('../../src/services/store-user');
+jest.requireActual("../../src/services/store-user");
 const store: Store<State, ReduxAction> = createStore(initialState);
 StoreUser.init(store);
 
 class TestStore extends StoreUser {
   public static changeSetting(
     name: SettingID,
-    value: string | boolean | number,
+    value: string | boolean | number
   ) {
     StoreUser.store.dispatch(updateSetting({ name, value }));
   }
@@ -75,7 +74,7 @@ class TestSettingService extends SettingService {
 
 const defaultTab: browser.tabs.Tab = {
   active: true,
-  cookieStoreId: 'firefox-container-5',
+  cookieStoreId: "firefox-container-5",
   hidden: false,
   highlighted: false,
   incognito: false,
@@ -86,20 +85,20 @@ const defaultTab: browser.tabs.Tab = {
   lastAccessed: 12345678,
   pinned: false,
   selected: true,
-  url: 'https://domain.com',
+  url: "https://domain.com",
   windowId: 1,
 };
 
-describe('SettingService', () => {
+describe("SettingService", () => {
   beforeEach(() => {
     when(global.browser.runtime.getManifest)
       .calledWith()
-      .mockReturnValue({ version: '0.12.34' });
+      .mockReturnValue({ version: "0.12.34" });
     when(global.browser.contextualIdentities.query)
       .calledWith({})
       .mockResolvedValue([] as never);
     when(global.browser.tabs.query)
-      .calledWith({ windowType: 'normal' })
+      .calledWith({ windowType: "normal" })
       .mockResolvedValue([] as never);
     when(global.browser.contextMenus.update)
       .calledWith(expect.anything(), expect.anything())
@@ -110,76 +109,76 @@ describe('SettingService', () => {
     TestStore.resetSetting();
   });
 
-  describe('init()', () => {
-    it('should fetch settings from store state', () => {
+  describe("init()", () => {
+    it("should fetch settings from store state", () => {
       SettingService.init();
       expect(TestSettingService.getIsInitialized()).toEqual(true);
       expect(TestSettingService.getTestCurrent()).toEqual(
-        initialState.settings,
+        initialState.settings
       );
     });
   });
-  describe('onSettingsChange()', () => {
+  describe("onSettingsChange()", () => {
     when(global.browser.tabs.query)
-      .calledWith({ active: true, windowType: 'normal' })
+      .calledWith({ active: true, windowType: "normal" })
       .mockResolvedValue([
         defaultTab,
-        { ...defaultTab, url: 'https://example.com' },
+        { ...defaultTab, url: "https://example.com" },
       ] as never);
-    it('should init if not yet initialized', async () => {
+    it("should init if not yet initialized", async () => {
       TestSettingService.setIsInitialized(false);
       expect(TestSettingService.getIsInitialized()).toEqual(false);
       await SettingService.onSettingsChange();
       expect(TestSettingService.getIsInitialized()).toEqual(true);
     });
-    it('should initialize ContextualIdentities if recently enabled', async () => {
+    it("should initialize ContextualIdentities if recently enabled", async () => {
       expect(TestContextualIdentities.isInit()).toEqual(false);
       TestStore.changeSetting(SettingID.CONTEXTUAL_IDENTITIES, true);
       await SettingService.onSettingsChange();
       expect(TestContextualIdentities.isInit()).toEqual(true);
     });
-    it('should de-init ContextualIdentities if recently disabled', async () => {
+    it("should de-init ContextualIdentities if recently disabled", async () => {
       expect(TestContextualIdentities.isInit()).toEqual(true);
       TestStore.changeSetting(SettingID.CONTEXTUAL_IDENTITIES, false);
       await SettingService.onSettingsChange();
       expect(TestContextualIdentities.isInit()).toEqual(false);
     });
-    it('should not clean localstorage if migrating from old setting', async () => {
+    it("should not clean localstorage if migrating from old setting", async () => {
       TestStore.changeSetting(SettingID.CLEANUP_LOCALSTORAGE_OLD, true);
       await SettingService.onSettingsChange();
       TestStore.changeSetting(SettingID.CLEANUP_LOCALSTORAGE, true);
       await SettingService.onSettingsChange();
       expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
     });
-    it('should clean that site data if it was recently enabled', async () => {
+    it("should clean that site data if it was recently enabled", async () => {
       TestStore.changeSetting(SettingID.CLEANUP_CACHE, true);
       await SettingService.onSettingsChange();
       expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
     });
-    it('should NOT clean that site data if it was recently enabled and clean site data on enable is false', async () => {
+    it("should NOT clean that site data if it was recently enabled and clean site data on enable is false", async () => {
       TestStore.changeSetting(SettingID.SITEDATA_EMPTY_ON_ENABLE, false);
       await SettingService.onSettingsChange();
       TestStore.changeSetting(SettingID.CLEANUP_CACHE, true);
       await SettingService.onSettingsChange();
       expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
     });
-    it('should enable global icon if active mode was recently enabled', async () => {
+    it("should enable global icon if active mode was recently enabled", async () => {
       TestStore.changeSetting(SettingID.ACTIVE_MODE, true);
       await SettingService.onSettingsChange();
       expect(spyBrowserActions.setGlobalIcon).toHaveBeenCalledWith(true);
     });
-    it('should make global icon greyscale and clear alarms if active mode was recently disabled', async () => {
+    it("should make global icon greyscale and clear alarms if active mode was recently disabled", async () => {
       TestStore.changeSetting(SettingID.ACTIVE_MODE, false);
       await SettingService.onSettingsChange();
       expect(global.browser.alarms.clear).toHaveBeenCalledTimes(1);
       expect(spyBrowserActions.setGlobalIcon).toHaveBeenCalledWith(false);
     });
-    it('should clear contextMenus if recently disabled', async () => {
+    it("should clear contextMenus if recently disabled", async () => {
       TestStore.changeSetting(SettingID.CONTEXT_MENUS, false);
       await SettingService.onSettingsChange();
       expect(TestContextMenus.isInit()).toEqual(false);
     });
-    it('should init contextMenu items if recently enabled', async () => {
+    it("should init contextMenu items if recently enabled", async () => {
       TestStore.changeSetting(SettingID.CONTEXT_MENUS, true);
       await SettingService.onSettingsChange();
       expect(TestContextMenus.isInit()).toEqual(true);

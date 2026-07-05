@@ -10,11 +10,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import * as React from 'react';
-import { connect } from 'react-redux';
+import * as React from "react";
+import { connect } from "react-redux";
 
-import { getMatchedExpressions } from '../../../services/libs';
-import ExpressionTable from '../../common-components/expression-table';
+import { getMatchedExpressions } from "../../../services/libs";
+import ExpressionTable from "../../common-components/expression-table";
 
 interface OwnProps {
   url: string;
@@ -26,21 +26,21 @@ interface ReduxState {
 }
 
 const FilteredExpression: React.FunctionComponent<OwnProps & ReduxState> = (
-  props,
+  props
 ) => {
   const { expressions, storeId } = props;
   return (
     <ExpressionTable
       expressionColumnTitle={browser.i18n.getMessage(
-        'matchedDomainExpressionText',
+        "matchedDomainExpressionText"
       )}
       expressions={expressions}
       storeId={storeId}
       emptyElement={
         <span
           style={{
-            fontStyle: 'italic',
-            width: '100%',
+            fontStyle: "italic",
+            width: "100%",
           }}
         >
           <div
@@ -50,7 +50,7 @@ const FilteredExpression: React.FunctionComponent<OwnProps & ReduxState> = (
               marginBottom: 0,
             }}
           >
-            <i>{browser.i18n.getMessage('noRulesText')}</i>
+            <i>{browser.i18n.getMessage("noRulesText")}</i>
           </div>
         </span>
       }

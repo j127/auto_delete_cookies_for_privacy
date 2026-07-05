@@ -11,9 +11,9 @@
  * SOFTWARE.
  */
 
-import { extractMainDomain, getHostname } from './libs';
-import StoreUser from './store-user';
-import TabEvents from './tab-events';
+import { extractMainDomain, getHostname } from "./libs";
+import StoreUser from "./store-user";
+import TabEvents from "./tab-events";
 
 export default class CookieEvents extends StoreUser {
   public static async onCookieChanged(changeInfo: {
@@ -22,11 +22,11 @@ export default class CookieEvents extends StoreUser {
     cause: browser.cookies.OnChangedCause;
   }): Promise<void> {
     // Truncate cookie value (purely for debug)
-    changeInfo.cookie.value = '***';
+    changeInfo.cookie.value = "***";
     // Get the current active tab(s)
     const tabQuery = await browser.tabs.query({
       active: true,
-      windowType: 'normal',
+      windowType: "normal",
     });
     tabQuery.forEach((tab) => {
       // Tabs.id with tabs.TAB_ID_NONE do not host content tabs

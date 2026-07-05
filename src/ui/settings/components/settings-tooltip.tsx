@@ -11,15 +11,15 @@
  * SOFTWARE.
  */
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as React from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as React from "react";
 
 interface OwnProps {
   hrefURL: string;
 }
 
 const SettingsTooltip: React.FunctionComponent<OwnProps> = ({ hrefURL }) => {
-  const link = hrefURL.startsWith('http')
+  const link = hrefURL.startsWith("http")
     ? hrefURL
     : `https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/Documentation${hrefURL}`;
   return (
@@ -29,7 +29,7 @@ const SettingsTooltip: React.FunctionComponent<OwnProps> = ({ hrefURL }) => {
       rel="help noreferrer noopener"
       className="tooltipCustom"
     >
-      <FontAwesomeIcon size={'lg'} icon={['far', 'question-circle']} />
+      <FontAwesomeIcon size={"lg"} icon={["far", "question-circle"]} />
     </a>
   );
 };

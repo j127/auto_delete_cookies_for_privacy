@@ -11,11 +11,11 @@
  * SOFTWARE.
  */
 
-import StoreUser from './store-user';
-import { removeListUI } from '../redux/actions';
+import StoreUser from "./store-user";
+import { removeListUI } from "../redux/actions";
 import contextualIdentitiesChangeInfo = browser.contextualIdentities.contextualIdentitiesChangeInfo;
-import { cadLog, eventListenerActions, getSetting } from './libs';
-import { ReduxConstants } from '../typings/redux-constants';
+import { cadLog, eventListenerActions, getSetting } from "./libs";
+import { ReduxConstants } from "../typings/redux-constants";
 
 export default class ContextualIdentitiesEvents extends StoreUser {
   public static async init(): Promise<void> {
@@ -23,7 +23,7 @@ export default class ContextualIdentitiesEvents extends StoreUser {
       !browser.contextualIdentities ||
       (!getSetting(
         StoreUser.store.getState(),
-        SettingID.CONTEXTUAL_IDENTITIES,
+        SettingID.CONTEXTUAL_IDENTITIES
       ) as boolean) ||
       ContextualIdentitiesEvents.isInitialized
     )
@@ -34,23 +34,23 @@ export default class ContextualIdentitiesEvents extends StoreUser {
     eventListenerActions(
       browser.contextualIdentities.onCreated,
       ContextualIdentitiesEvents.onContainerCreated,
-      EventListenerAction.ADD,
+      EventListenerAction.ADD
     );
     eventListenerActions(
       browser.contextualIdentities.onRemoved,
       ContextualIdentitiesEvents.onContainerRemoved,
-      EventListenerAction.ADD,
+      EventListenerAction.ADD
     );
     eventListenerActions(
       browser.contextualIdentities.onUpdated,
       ContextualIdentitiesEvents.onContainerUpdated,
-      EventListenerAction.ADD,
+      EventListenerAction.ADD
     );
     cadLog(
       {
         msg: `ContextualIdentitiesEvents.deInit:  Container Events have been added.`,
       },
-      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean,
+      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean
     );
   }
 
@@ -62,17 +62,17 @@ export default class ContextualIdentitiesEvents extends StoreUser {
     eventListenerActions(
       browser.contextualIdentities.onCreated,
       ContextualIdentitiesEvents.onContainerCreated,
-      EventListenerAction.REMOVE,
+      EventListenerAction.REMOVE
     );
     eventListenerActions(
       browser.contextualIdentities.onRemoved,
       ContextualIdentitiesEvents.onContainerRemoved,
-      EventListenerAction.REMOVE,
+      EventListenerAction.REMOVE
     );
     eventListenerActions(
       browser.contextualIdentities.onUpdated,
       ContextualIdentitiesEvents.onContainerUpdated,
-      EventListenerAction.REMOVE,
+      EventListenerAction.REMOVE
     );
     ContextualIdentitiesEvents.isInitialized = false;
     const existingContainers = await browser.contextualIdentities.query({});
@@ -89,7 +89,7 @@ export default class ContextualIdentitiesEvents extends StoreUser {
       {
         msg: `ContextualIdentitiesEvents.deInit:  Container Events have been removed.`,
       },
-      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean,
+      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean
     );
   }
 
@@ -98,7 +98,7 @@ export default class ContextualIdentitiesEvents extends StoreUser {
    * @param changeInfo The ContextualIdentity object that was created.
    */
   public static onContainerCreated(
-    changeInfo: contextualIdentitiesChangeInfo,
+    changeInfo: contextualIdentitiesChangeInfo
   ): void {
     StoreUser.store.dispatch({
       payload: {
@@ -114,17 +114,17 @@ export default class ContextualIdentitiesEvents extends StoreUser {
    * @param changeInfo The ContextualIdentity Object that was removed.
    */
   public static onContainerRemoved(
-    changeInfo: contextualIdentitiesChangeInfo,
+    changeInfo: contextualIdentitiesChangeInfo
   ): void {
     // Only remove expression list id if setting is enabled.
     if (
       getSetting(
         StoreUser.store.getState(),
-        SettingID.CONTEXTUAL_IDENTITIES_AUTOREMOVE,
+        SettingID.CONTEXTUAL_IDENTITIES_AUTOREMOVE
       )
     ) {
       StoreUser.store.dispatch(
-        removeListUI(changeInfo.contextualIdentity.cookieStoreId),
+        removeListUI(changeInfo.contextualIdentity.cookieStoreId)
       );
     }
 
@@ -142,7 +142,7 @@ export default class ContextualIdentitiesEvents extends StoreUser {
    * @param changeInfo The ContextualIdentity Object that was updated.
    */
   public static onContainerUpdated(
-    changeInfo: contextualIdentitiesChangeInfo,
+    changeInfo: contextualIdentitiesChangeInfo
   ): void {
     const cache = StoreUser.store.getState().cache;
     if (
@@ -166,22 +166,22 @@ export default class ContextualIdentitiesEvents extends StoreUser {
       await browser.contextualIdentities.query({});
     StoreUser.store.dispatch({
       payload: {
-        key: 'default',
-        value: 'Default',
+        key: "default",
+        value: "Default",
       },
       type: ReduxConstants.ADD_CACHE,
     });
     StoreUser.store.dispatch({
       payload: {
-        key: 'firefox-default',
-        value: 'Default',
+        key: "firefox-default",
+        value: "Default",
       },
       type: ReduxConstants.ADD_CACHE,
     });
     StoreUser.store.dispatch({
       payload: {
-        key: 'firefox-private',
-        value: 'Private',
+        key: "firefox-private",
+        value: "Private",
       },
       type: ReduxConstants.ADD_CACHE,
     });
@@ -192,7 +192,7 @@ export default class ContextualIdentitiesEvents extends StoreUser {
           value: object.name,
         },
         type: ReduxConstants.ADD_CACHE,
-      }),
+      })
     );
   }
 

@@ -10,8 +10,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as React from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as React from "react";
 interface OwnProps {
   inline?: boolean;
   settingObject: Setting;
@@ -21,7 +21,7 @@ interface OwnProps {
 
 const styles = {
   checkbox: {
-    marginRight: '5px',
+    marginRight: "5px",
   } as React.CSSProperties,
 };
 
@@ -32,11 +32,11 @@ const CheckboxSetting: React.FunctionComponent<OwnProps> = ({
   updateSetting,
 }) => {
   const { name, value } = settingObject;
-  const inlineElement = inline ? { display: 'inline' } : {};
+  const inlineElement = inline ? { display: "inline" } : {};
   return (
-    <span style={inlineElement} className={'checkbox'}>
+    <span style={inlineElement} className={"checkbox"}>
       <span
-        className={'addHover'}
+        className={"addHover"}
         onClick={() =>
           updateSetting({
             name,
@@ -47,8 +47,8 @@ const CheckboxSetting: React.FunctionComponent<OwnProps> = ({
         <FontAwesomeIcon
           id={name}
           style={styles.checkbox}
-          size={'lg'}
-          icon={['far', value ? 'check-square' : 'square']}
+          size={"lg"}
+          icon={["far", value ? "check-square" : "square"]}
           role="checkbox"
           aria-checked={value as boolean}
         />

@@ -10,20 +10,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { removeActivity } from '../../redux/actions';
+import * as React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { removeActivity } from "../../redux/actions";
 import {
   cadLog,
   getSetting,
   returnOptionalCookieAPIAttributes,
   siteDataToBrowser,
   throwErrorNotification,
-} from '../../services/libs';
-import { FilterOptions } from '../../typings/enums';
-import { ReduxAction } from '../../typings/redux-constants';
-import IconButton from './icon-button';
+} from "../../services/libs";
+import { FilterOptions } from "../../typings/enums";
+import { ReduxAction } from "../../typings/redux-constants";
+import IconButton from "./icon-button";
 
 const createSummary = (cleanupObj: ActivityLog) => {
   const domainSet = new Set<string>();
@@ -38,7 +38,7 @@ const createSummary = (cleanupObj: ActivityLog) => {
 
   return {
     total: domainSet.size.toString(),
-    domains: Array.from(domainSet).slice(0, 5).join(', '),
+    domains: Array.from(domainSet).slice(0, 5).join(", "),
   };
 };
 
@@ -56,7 +56,7 @@ const createDetailedSummary = (cleanReasonObjects: CleanReasonObject[]) => {
       return (
         <div
           style={{
-            marginLeft: '10px',
+            marginLeft: "10px",
           }}
           className={`alert alert-danger`}
           key={`${domain}`}
@@ -64,10 +64,10 @@ const createDetailedSummary = (cleanReasonObjects: CleanReasonObject[]) => {
         >
           {`${domain} (${cleanReasonObj
             .map((obj) => obj.cookie.name)
-            .join(', ')}): ${returnReasonMessages(cleanReasonObj[0])}`}
+            .join(", ")}): ${returnReasonMessages(cleanReasonObj[0])}`}
         </div>
       );
-    },
+    }
   );
 };
 
@@ -91,22 +91,22 @@ const returnReasonMessages = (cleanReasonObject: CleanReasonObject) => {
 
     case ReasonClean.StartupCleanupAndGreyList: {
       return browser.i18n.getMessage(reason, [
-        matchedExpression ? matchedExpression.expression : '',
+        matchedExpression ? matchedExpression.expression : "",
       ]);
     }
 
     case ReasonClean.MatchedExpressionButNoCookieName:
     case ReasonKeep.MatchedExpression: {
       return browser.i18n.getMessage(reason, [
-        matchedExpression ? matchedExpression.expression : '',
+        matchedExpression ? matchedExpression.expression : "",
         matchedExpression && matchedExpression.listType === ListType.GREY
-          ? browser.i18n.getMessage('greyListWordText')
-          : browser.i18n.getMessage('whiteListWordText'),
+          ? browser.i18n.getMessage("greyListWordText")
+          : browser.i18n.getMessage("whiteListWordText"),
       ]);
     }
 
     default:
-      return '';
+      return "";
   }
 };
 
@@ -132,7 +132,7 @@ type ActivityTableProps = OwnProps & StateProps & DispatchProps;
 const restoreCookies = async (
   state: State,
   log: ActivityLog,
-  onRemoveActivity: ActivityAction,
+  onRemoveActivity: ActivityAction
 ) => {
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
   const cleanReasonObjsArrays = Object.values(log.storeIds);
@@ -142,32 +142,31 @@ const restoreCookies = async (
       msg: `ActivityTable.restoreCookies:  Restoring Cookies for triggered ActivityLog entry`,
       x: log,
     },
-    debug,
+    debug
   );
   for (const cleanReasonObjs of cleanReasonObjsArrays) {
     for (const obj of cleanReasonObjs) {
       // Cannot set cookies from file:// protocols
-      if (obj.cookie.preparedCookieDomain.startsWith('file:')) {
+      if (obj.cookie.preparedCookieDomain.startsWith("file:")) {
         cadLog(
           {
-            msg:
-              'Cookie appears to come from a local file.  Cannot be restored normally.',
-            type: 'warn',
+            msg: "Cookie appears to come from a local file.  Cannot be restored normally.",
+            type: "warn",
             x: obj.cookie,
           },
-          debug,
+          debug
         );
         continue;
       }
       // Silently ignore cookies with no domain
-      if (obj.cookie.preparedCookieDomain.trim() === '') {
+      if (obj.cookie.preparedCookieDomain.trim() === "") {
         cadLog(
           {
-            msg: 'Cookie appears to have no domain.  Cannot restore.',
-            type: 'warn',
+            msg: "Cookie appears to have no domain.  Cannot restore.",
+            type: "warn",
             x: obj.cookie,
           },
-          debug,
+          debug
         );
         continue;
       }
@@ -193,7 +192,7 @@ const restoreCookies = async (
         ...returnOptionalCookieAPIAttributes(state, {
           firstPartyDomain,
         }),
-        domain: name.startsWith('__Host-') || hostOnly ? undefined : domain,
+        domain: name.startsWith("__Host-") || hostOnly ? undefined : domain,
         expirationDate,
         httpOnly,
         name,
@@ -212,16 +211,15 @@ const restoreCookies = async (
     await Promise.all(promiseArr).catch((e) => {
       throwErrorNotification(
         e,
-        getSetting(state, SettingID.NOTIFY_DURATION) as number,
+        getSetting(state, SettingID.NOTIFY_DURATION) as number
       );
       cadLog(
         {
-          msg:
-            'An Error occurred while trying to restore cookie(s).  The rest of the cookies to restore are not processed.',
-          type: 'error',
+          msg: "An Error occurred while trying to restore cookie(s).  The rest of the cookies to restore are not processed.",
+          type: "error",
           x: e,
         },
-        debug,
+        debug
       );
       throw e;
     });
@@ -240,8 +238,8 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
     return (
       <div className="alert alert-primary" role="alert">
         <i>
-          {browser.i18n.getMessage('noCleanupLogText')}
-          <br /> {browser.i18n.getMessage('noPrivateLogging')}
+          {browser.i18n.getMessage("noCleanupLogText")}
+          <br /> {browser.i18n.getMessage("noPrivateLogging")}
         </i>
       </div>
     );
@@ -252,39 +250,39 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
       className="accordion"
       id="accordion"
       style={{
-        marginBottom: '10px',
+        marginBottom: "10px",
       }}
     >
       {filtered.map((log, index) => {
         const summary = createSummary(log);
-        const message = browser.i18n.getMessage('notificationContent', [
+        const message = browser.i18n.getMessage("notificationContent", [
           log.recentlyCleaned.toString(),
           summary.total,
-          summary.domains !== '' ? summary.domains : '(Private)',
+          summary.domains !== "" ? summary.domains : "(Private)",
         ]);
         const browsingDataEntries = Object.entries(
-          log.browsingDataCleanup || {},
+          log.browsingDataCleanup || {}
         );
         const storeIdEntries = Object.entries(log.storeIds);
         return (
           <div key={index} className="card">
             <div
-              style={{ display: 'flex' }}
+              style={{ display: "flex" }}
               className="card-header"
               id={`heading${index}`}
             >
               {(log.recentlyCleaned > 0 && (
                 <IconButton
-                  className={'btn-primary mr-auto'}
-                  iconName={'undo'}
+                  className={"btn-primary mr-auto"}
+                  iconName={"undo"}
                   onClick={() => restoreCookies(state, log, onRemoveActivity)}
-                  title={browser.i18n.getMessage('restoreText')}
+                  title={browser.i18n.getMessage("restoreText")}
                 />
-              )) || <div className={'mr-auto'} style={{ minWidth: '42px' }} />}
+              )) || <div className={"mr-auto"} style={{ minWidth: "42px" }} />}
               <h5
                 className="mb-0"
                 style={{
-                  overflowX: 'hidden',
+                  overflowX: "hidden",
                 }}
               >
                 <button
@@ -296,15 +294,15 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
                   aria-controls={`collapse${index}`}
                 >
                   {`${new Date(log.dateTime).toLocaleString([], {
-                    timeZoneName: 'short',
+                    timeZoneName: "short",
                   })} - ${message} ...`}
                 </button>
               </h5>
               <IconButton
-                className={'btn-outline-danger ml-auto'}
-                iconName={'trash'}
+                className={"btn-outline-danger ml-auto"}
+                iconName={"trash"}
                 onClick={() => onRemoveActivity(log)}
-                title={browser.i18n.getMessage('removeActivityLogEntryText')}
+                title={browser.i18n.getMessage("removeActivityLogEntryText")}
               />
             </div>
             <div
@@ -315,26 +313,24 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
             >
               <div className="card-body">
                 {browsingDataEntries.map(([siteData, domains]) => {
-                  if (!domains || domains.length === 0) return '';
+                  if (!domains || domains.length === 0) return "";
                   return (
                     <div
                       key={`${siteData}-${log.dateTime}`}
                       style={{
-                        marginLeft: '10px',
+                        marginLeft: "10px",
                       }}
                       className={`alert alert-info`}
                       role="alert"
                     >
                       {browser.i18n.getMessage(
-                        'activityLogSiteDataDomainsText',
+                        "activityLogSiteDataDomainsText",
                         [
                           browser.i18n.getMessage(
-                            `${siteDataToBrowser(
-                              siteData as SiteDataType,
-                            )}Text`,
+                            `${siteDataToBrowser(siteData as SiteDataType)}Text`
                           ),
-                          domains.join(', '),
-                        ],
+                          domains.join(", "),
+                        ]
                       )}
                     </div>
                   );
@@ -347,7 +343,7 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
                         <h6>
                           {cache[storeId] !== undefined
                             ? `${cache[storeId]} `
-                            : ''}
+                            : ""}
                           ({storeId})
                         </h6>
                       )}

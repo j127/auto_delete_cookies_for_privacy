@@ -10,14 +10,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { resetAll } from '../../redux/actions';
-import { cadLog } from '../../services/libs';
-import { ReduxAction } from '../../typings/redux-constants';
-import { downloadObjectAsJSON } from '../ui-libs';
-import IconButton from './icon-button';
+import * as React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { resetAll } from "../../redux/actions";
+import { cadLog } from "../../services/libs";
+import { ReduxAction } from "../../typings/redux-constants";
+import { downloadObjectAsJSON } from "../ui-libs";
+import IconButton from "./icon-button";
 
 // This fixes the error thrown when upgrading react-redux from 7.1.7 to 7.1.8
 interface ChildrenProps {
@@ -37,7 +37,7 @@ type ErrorBoundaryProps = ChildrenProps & DispatchProps & StateProps;
 class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
   public static getDerivedStateFromError(error: Error) {
     // update state so next render will show fallback UI
-    if (error.message !== 'state is undefined') {
+    if (error.message !== "state is undefined") {
       return { error, hasError: true };
     }
     return { hasError: false };
@@ -53,10 +53,10 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
     cadLog(
       {
         msg: `React ErrorBoundary - An Error was caught:  ${error}`,
-        type: 'error',
+        type: "error",
         x: { message: error.message, stack: error.stack, errorInfo },
       },
-      true,
+      true
     );
   }
 
@@ -72,12 +72,12 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
       return (
         <div className="alert alert-danger alertPreWrap" role="alert">
           <h4 className="alert-heading">
-            {browser.i18n.getMessage('errorText')}
+            {browser.i18n.getMessage("errorText")}
           </h4>
           {this.state.error && this.state.error.toString()}
           <br />
           {this.state.error && this.state.error.stack && (
-            <details style={{ whiteSpace: 'pre-wrap' }}>
+            <details style={{ whiteSpace: "pre-wrap" }}>
               {this.state.error.stack}
             </details>
           )}
@@ -88,30 +88,30 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
               iconName="download"
               role="button"
               onClick={() =>
-                downloadObjectAsJSON(this.props.state.settings, 'CoreSettings')
+                downloadObjectAsJSON(this.props.state.settings, "CoreSettings")
               }
-              title={browser.i18n.getMessage('exportTitleTimestamp')}
-              text={browser.i18n.getMessage('exportSettingsText')}
-              styleReact={{ marginRight: '5px' }}
+              title={browser.i18n.getMessage("exportTitleTimestamp")}
+              text={browser.i18n.getMessage("exportSettingsText")}
+              styleReact={{ marginRight: "5px" }}
             />
             <IconButton
               className="btn-primary"
               iconName="download"
               role="button"
               onClick={() =>
-                downloadObjectAsJSON(this.props.state.lists, 'Expressions')
+                downloadObjectAsJSON(this.props.state.lists, "Expressions")
               }
-              title={browser.i18n.getMessage('exportTitleTimestamp')}
-              text={browser.i18n.getMessage('exportURLSText')}
-              styleReact={{ marginRight: '5px' }}
+              title={browser.i18n.getMessage("exportTitleTimestamp")}
+              text={browser.i18n.getMessage("exportURLSText")}
+              styleReact={{ marginRight: "5px" }}
             />
             <IconButton
               tag="a"
               className="btn-danger"
               iconName="skull-crossbones"
               onClick={() => this.resetExtensionData()}
-              title={browser.i18n.getMessage('resetExtensionDataText')}
-              text={browser.i18n.getMessage('resetExtensionDataText')}
+              title={browser.i18n.getMessage("resetExtensionDataText")}
+              text={browser.i18n.getMessage("resetExtensionDataText")}
             />
           </p>
         </div>

@@ -10,21 +10,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import * as React from 'react';
-import { connect } from 'react-redux';
+import * as React from "react";
+import { connect } from "react-redux";
 import {
   clearCookiesForThisDomain,
   clearLocalStorageForThisDomain,
   clearSiteDataForThisDomain,
-} from '../../../services/cleanup-service';
-import { animateFlash } from '../popup-lib';
+} from "../../../services/cleanup-service";
+import { animateFlash } from "../popup-lib";
 
 interface OwnProps {
   altColor?: boolean;
   btnColor?: string;
   hostname?: string;
   onClick?: () => Promise<boolean>;
-  siteData?: SiteDataType | 'All';
+  siteData?: SiteDataType | "All";
   tab?: browser.tabs.Tab;
   title?: string;
   text?: string;
@@ -36,18 +36,18 @@ interface StateProps {
 
 const cleanSiteDataUI = async (
   state: State,
-  siteData: SiteDataType | 'All',
+  siteData: SiteDataType | "All",
   hostname: string,
-  tab?: browser.tabs.Tab,
+  tab?: browser.tabs.Tab
 ): Promise<boolean> => {
   if (!hostname) return false;
   let result = await clearSiteDataForThisDomain(state, siteData, hostname);
-  if (siteData === 'All') {
+  if (siteData === "All") {
     if (!tab) return false;
     const cookieSuccess = await clearCookiesForThisDomain(state, tab);
     const localStorageSuccess = await clearLocalStorageForThisDomain(
       state,
-      tab,
+      tab
     );
     result = result || cookieSuccess || localStorageSuccess;
   }
@@ -55,7 +55,7 @@ const cleanSiteDataUI = async (
 };
 
 const CleanDataButton: React.FunctionComponent<OwnProps & StateProps> = (
-  props,
+  props
 ) => {
   const {
     altColor,
@@ -74,8 +74,8 @@ const CleanDataButton: React.FunctionComponent<OwnProps & StateProps> = (
       aria-controls="cleanCollapse"
       aria-expanded="false"
       className={`btn ${
-        btnColor || `btn-${altColor ? 'secondary' : 'primary'}`
-      } btn-block px-2 mt-1`}
+        btnColor || `btn-${altColor ? "secondary" : "primary"}`
+      } btn-block mt-1 px-2`}
       data-target="#cleanCollapse"
       data-toggle="collapse"
       onClick={async () => {
@@ -85,7 +85,7 @@ const CleanDataButton: React.FunctionComponent<OwnProps & StateProps> = (
         } else if (state && siteData && hostname) {
           result = await cleanSiteDataUI(state, siteData, hostname, tab);
         }
-        animateFlash(document.getElementById('cleanButtonContainer'), result);
+        animateFlash(document.getElementById("cleanButtonContainer"), result);
       }}
       title={
         title ||
@@ -94,7 +94,7 @@ const CleanDataButton: React.FunctionComponent<OwnProps & StateProps> = (
           browser.i18n.getMessage(`manualCleanSiteData${siteData}Domain`, [
             hostname,
           ])) ||
-        ''
+        ""
       }
       type="button"
       {...nativeProps}

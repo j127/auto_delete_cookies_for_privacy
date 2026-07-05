@@ -10,15 +10,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import ErrorBoundary from '../common-components/error-boundary';
-import About from './components/about';
-import ActivityLog from './components/activity-log';
-import Expressions from './components/expressions';
-import Settings from './components/settings';
-import SideBar from './components/side-bar';
-import Welcome from './components/welcome';
+import { Component } from "react";
+import { connect } from "react-redux";
+import ErrorBoundary from "../common-components/error-boundary";
+import About from "./components/about";
+import ActivityLog from "./components/activity-log";
+import Expressions from "./components/expressions";
+import Settings from "./components/settings";
+import SideBar from "./components/side-bar";
+import Welcome from "./components/welcome";
 
 interface OwnProps {
   sizeSetting: number;
@@ -26,8 +26,8 @@ interface OwnProps {
 
 class App extends Component<OwnProps> {
   public state = {
-    activeTab: 'tabWelcome',
-    settingsURL: '',
+    activeTab: "tabWelcome",
+    settingsURL: "",
     tabId: 0,
   };
 
@@ -37,12 +37,10 @@ class App extends Component<OwnProps> {
       (this.props.sizeSetting as number) || 16
     }px`;
     const tab = await browser.tabs.getCurrent();
-    const tabURL = new URL(tab.url || '');
+    const tabURL = new URL(tab.url || "");
     this.setState({
       activeTab:
-        tabURL.hash !== '' || undefined
-          ? tabURL.hash.slice(1)
-          : 'tabWelcome',
+        tabURL.hash !== "" || undefined ? tabURL.hash.slice(1) : "tabWelcome",
       settingsURL: tab.url,
       tabId: tab.id,
     });
@@ -70,11 +68,11 @@ class App extends Component<OwnProps> {
         />
         <ErrorBoundary>
           <div className="container">
-            {activeTab === 'tabWelcome' ? <Welcome /> : ''}
-            {activeTab === 'tabSettings' ? <Settings /> : ''}
-            {activeTab === 'tabExpressionList' ? <Expressions /> : ''}
-            {activeTab === 'tabCleanupLog' ? <ActivityLog /> : ''}
-            {activeTab === 'tabAbout' ? <About /> : ''}
+            {activeTab === "tabWelcome" ? <Welcome /> : ""}
+            {activeTab === "tabSettings" ? <Settings /> : ""}
+            {activeTab === "tabExpressionList" ? <Expressions /> : ""}
+            {activeTab === "tabCleanupLog" ? <ActivityLog /> : ""}
+            {activeTab === "tabAbout" ? <About /> : ""}
           </div>
         </ErrorBoundary>
       </div>

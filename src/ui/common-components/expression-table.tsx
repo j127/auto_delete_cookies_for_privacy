@@ -10,20 +10,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { removeExpressionUI, updateExpressionUI } from '../../redux/actions';
-import { validateExpressionDomain } from '../../services/libs';
-import { ReduxAction } from '../../typings/redux-constants';
-import ExpressionOptions from './expression-options';
-import IconButton from './icon-button';
+import { Component } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { removeExpressionUI, updateExpressionUI } from "../../redux/actions";
+import { validateExpressionDomain } from "../../services/libs";
+import { ReduxAction } from "../../typings/redux-constants";
+import ExpressionOptions from "./expression-options";
+import IconButton from "./icon-button";
 
 class EmptyState {
-  public expressionInput = '';
+  public expressionInput = "";
   public editMode = false;
-  public id: string | undefined = '';
-  public invalid = '';
+  public id: string | undefined = "";
+  public invalid = "";
 }
 
 interface OwnProps {
@@ -52,7 +52,7 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
       editMode: true,
       expressionInput: expression.expression,
       id: expression.id,
-      invalid: '',
+      invalid: "",
     });
   }
 
@@ -60,7 +60,7 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
     if (
       this.editInput &&
       this.state.editMode &&
-      document.activeElement !== document.getElementById('formText')
+      document.activeElement !== document.getElementById("formText")
     ) {
       this.editInput.focus();
     }
@@ -68,16 +68,16 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
 
   public moveCaretToEnd(e: any) {
     const tempValue = e.target.value;
-    e.target.value = '';
+    e.target.value = "";
     e.target.value = tempValue;
   }
 
   public clearEdit() {
     if (this.editInput) {
       if (this.editInput.parentElement) {
-        this.editInput.parentElement.classList.remove('was-validated');
+        this.editInput.parentElement.classList.remove("was-validated");
       }
-      this.editInput.setCustomValidity('');
+      this.editInput.setCustomValidity("");
       this.editInput.checkValidity();
       this.editInput = undefined;
     }
@@ -87,7 +87,7 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
   public commitEdit() {
     if (!this.validateEdit()) return;
     const original = (this.props.expressions || []).find(
-      (expression) => expression.id === this.state.id,
+      (expression) => expression.id === this.state.id
     );
     if (original) {
       this.props.onUpdateExpression({
@@ -103,16 +103,16 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
   public validateEdit(): boolean {
     if (!this.state.editMode || !this.editInput || !this.state.id) return false;
     const result = validateExpressionDomain(
-      this.state.expressionInput.trim(),
+      this.state.expressionInput.trim()
     ).trim();
     if (result) {
       // validation failed.
       return this.setInvalid(result);
     }
     // Past this point, presume valid expression entry.
-    this.editInput.setCustomValidity('');
+    this.editInput.setCustomValidity("");
     if (this.editInput.parentElement) {
-      this.editInput.parentElement.classList.remove('was-validated');
+      this.editInput.parentElement.classList.remove("was-validated");
     }
     this.editInput.checkValidity();
     return true;
@@ -134,13 +134,13 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
     }
 
     return (
-      <table className="table table-striped table-hover table-bordered">
+      <table className="table-striped table-hover table-bordered table">
         <thead>
           <tr>
             <th scope="col" />
             <th scope="col">{expressionColumnTitle}</th>
-            <th scope="col">{browser.i18n.getMessage('optionsText')}</th>
-            <th scope="col">{browser.i18n.getMessage('listTypeText')}</th>
+            <th scope="col">{browser.i18n.getMessage("optionsText")}</th>
+            <th scope="col">{browser.i18n.getMessage("listTypeText")}</th>
           </tr>
         </thead>
         <tbody className="expressionTable">
@@ -148,11 +148,11 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
             <tr key={`${expression.expression}-${expression.listType}`}>
               <td
                 style={{
-                  textAlign: 'center',
+                  textAlign: "center",
                 }}
               >
                 <IconButton
-                  title={browser.i18n.getMessage('removeExpressionText')}
+                  title={browser.i18n.getMessage("removeExpressionText")}
                   className="btn-outline-danger"
                   iconName="trash"
                   onClick={() => {
@@ -175,9 +175,9 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
                       })
                     }
                     onKeyUp={(e) => {
-                      if (e.key.toLowerCase().includes('enter')) {
+                      if (e.key.toLowerCase().includes("enter")) {
                         this.commitEdit();
-                      } else if (e.key.toLowerCase().includes('escape')) {
+                      } else if (e.key.toLowerCase().includes("escape")) {
                         this.clearEdit();
                       }
                     }}
@@ -190,26 +190,26 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
                   />
                   <div className="invalid-feedback">{invalid}</div>
                   <IconButton
-                    title={browser.i18n.getMessage('stopEditingText')}
+                    title={browser.i18n.getMessage("stopEditingText")}
                     className="btn-outline-danger"
                     iconName="ban"
                     styleReact={{
-                      float: 'left',
-                      marginTop: '8px',
-                      width: '45%',
+                      float: "left",
+                      marginTop: "8px",
+                      width: "45%",
                     }}
                     onClick={() => {
                       this.clearEdit();
                     }}
                   />
                   <IconButton
-                    title={browser.i18n.getMessage('saveExpressionText')}
+                    title={browser.i18n.getMessage("saveExpressionText")}
                     className="btn-outline-success"
                     iconName="save"
                     styleReact={{
-                      float: 'right',
-                      marginTop: '8px',
-                      width: '45%',
+                      float: "right",
+                      marginTop: "8px",
+                      width: "45%",
                     }}
                     onClick={() => {
                       this.commitEdit();
@@ -224,23 +224,23 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
                     rows={1}
                     style={{
                       margin: 0,
-                      overflowX: 'scroll',
-                      paddingLeft: '5px',
-                      paddingRight: '5px',
-                      resize: 'none',
-                      whiteSpace: 'nowrap',
+                      overflowX: "scroll",
+                      paddingLeft: "5px",
+                      paddingRight: "5px",
+                      resize: "none",
+                      whiteSpace: "nowrap",
                     }}
                   >
                     {expression.expression}
                   </textarea>
 
                   <IconButton
-                    title={browser.i18n.getMessage('editExpressionText')}
+                    title={browser.i18n.getMessage("editExpressionText")}
                     iconName="pen"
                     className="btn-outline-info showOnRowHover"
                     styleReact={{
-                      marginTop: '5px',
-                      width: '100%',
+                      marginTop: "5px",
+                      width: "100%",
                     }}
                     onClick={() => {
                       this.startEditing(expression);
@@ -251,7 +251,7 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
               <td>
                 <div
                   style={{
-                    verticalAlign: 'middle',
+                    verticalAlign: "middle",
                   }}
                 >
                   <ExpressionOptions expression={expression} />
@@ -260,27 +260,27 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
               <td>
                 <div
                   style={{
-                    display: 'block',
-                    verticalAlign: 'middle',
+                    display: "block",
+                    verticalAlign: "middle",
                   }}
                 >
                   {`${
-                    expression.listType === 'WHITE'
-                      ? browser.i18n.getMessage('whiteListWordText')
-                      : browser.i18n.getMessage('greyListWordText')
+                    expression.listType === "WHITE"
+                      ? browser.i18n.getMessage("whiteListWordText")
+                      : browser.i18n.getMessage("greyListWordText")
                   }`}
                 </div>
                 <IconButton
                   title={`${
-                    expression.listType === 'WHITE'
-                      ? browser.i18n.getMessage('toggleToGreyListWordText')
-                      : browser.i18n.getMessage('toggleToWhiteListWordText')
+                    expression.listType === "WHITE"
+                      ? browser.i18n.getMessage("toggleToGreyListWordText")
+                      : browser.i18n.getMessage("toggleToWhiteListWordText")
                   }`}
                   iconName="exchange-alt"
                   className="btn-outline-dark showOnRowHover"
                   styleReact={{
-                    marginTop: '5px',
-                    width: '100%',
+                    marginTop: "5px",
+                    width: "100%",
                   }}
                   onClick={() =>
                     onUpdateExpression({
@@ -306,7 +306,7 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
     });
     this.editInput.setCustomValidity(s);
     if (this.editInput.parentElement) {
-      this.editInput.parentElement.classList.add('was-validated');
+      this.editInput.parentElement.classList.add("was-validated");
     }
     this.editInput.checkValidity();
     // should always return false since we set error above.

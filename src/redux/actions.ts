@@ -11,10 +11,10 @@
  * SOFTWARE.
  */
 
-import { ActionCreator, Dispatch } from 'redux';
-import { ThunkAction } from 'redux-thunk';
-import { checkIfProtected } from '../services/browser-action-service';
-import { cleanCookiesOperation } from '../services/cleanup-service';
+import { ActionCreator, Dispatch } from "redux";
+import { ThunkAction } from "redux-thunk";
+import { checkIfProtected } from "../services/browser-action-service";
+import { cleanCookiesOperation } from "../services/cleanup-service";
 import {
   getContainerExpressionDefault,
   getSetting,
@@ -23,7 +23,7 @@ import {
   isFirefoxAndroid,
   showNotification,
   sleep,
-} from '../services/libs';
+} from "../services/libs";
 import {
   ADD_ACTIVITY_LOG,
   ADD_EXPRESSION,
@@ -41,8 +41,8 @@ import {
   RESET_SETTINGS,
   UPDATE_EXPRESSION,
   UPDATE_SETTING,
-} from '../typings/redux-constants';
-import { initialState } from './state';
+} from "../typings/redux-constants";
+import { initialState } from "./state";
 
 export const addExpressionUI = (payload: Expression): ADD_EXPRESSION => ({
   payload,
@@ -50,7 +50,7 @@ export const addExpressionUI = (payload: Expression): ADD_EXPRESSION => ({
 });
 
 export const clearExpressionsUI = (
-  payload: StoreIdToExpressionList,
+  payload: StoreIdToExpressionList
 ): CLEAR_EXPRESSIONS => ({
   payload,
   type: ReduxConstants.CLEAR_EXPRESSIONS,
@@ -65,7 +65,7 @@ export const updateExpressionUI = (payload: Expression): UPDATE_EXPRESSION => ({
   type: ReduxConstants.UPDATE_EXPRESSION,
 });
 export const removeListUI = (
-  payload: keyof StoreIdToExpressionList,
+  payload: keyof StoreIdToExpressionList
 ): REMOVE_LIST => ({
   payload,
   type: ReduxConstants.REMOVE_LIST,
@@ -79,7 +79,7 @@ export const addExpression =
     const defaultOptions = getContainerExpressionDefault(
       getState(),
       storeId,
-      payload.listType as ListType,
+      payload.listType as ListType
     );
 
     dispatch({
@@ -139,14 +139,14 @@ export const updateExpression =
     // Uncheck 'Keep LocalStorage' on New ... Expressions
     if (
       payload.expression === `_Default:${payload.listType}` &&
-      sanitizedStoreId === 'default' &&
+      sanitizedStoreId === "default" &&
       payload.cleanSiteData
     ) {
       if (payload.cleanSiteData.includes(SiteDataType.LOCALSTORAGE)) {
         if (
           !getSetting(
             getState(),
-            `${payload.listType.toLowerCase()}CleanLocalstorage` as SettingID,
+            `${payload.listType.toLowerCase()}CleanLocalstorage` as SettingID
           )
         ) {
           // Enable Deprecated Option
@@ -162,7 +162,7 @@ export const updateExpression =
         if (
           getSetting(
             getState(),
-            `${payload.listType.toLowerCase()}CleanLocalstorage` as SettingID,
+            `${payload.listType.toLowerCase()}CleanLocalstorage` as SettingID
           )
         ) {
           // Disable Deprecated Option
@@ -204,7 +204,7 @@ export const removeActivity = (payload: ActivityLog): REMOVE_ACTIVITY_LOG => ({
 });
 
 export const incrementCookieDeletedCounter = (
-  payload: number,
+  payload: number
 ): INCREMENT_COOKIE_DELETED_COUNTER => ({
   payload,
   type: ReduxConstants.INCREMENT_COOKIE_DELETED_COUNTER,
@@ -320,7 +320,7 @@ export const validateSettings: ActionCreator<
 };
 
 export const cookieCleanupUI = (
-  payload: CleanupProperties,
+  payload: CleanupProperties
 ): COOKIE_CLEANUP => ({
   payload,
   type: ReduxConstants.COOKIE_CLEANUP,
@@ -331,7 +331,7 @@ export const cookieCleanup: ActionCreator<
   ThunkAction<void, State, null, ReduxAction>
 > =
   (
-    options: CleanupProperties = { greyCleanup: false, ignoreOpenTabs: false },
+    options: CleanupProperties = { greyCleanup: false, ignoreOpenTabs: false }
   ) =>
   async (dispatch, getState) => {
     const cleanupDoneObject = await cleanCookiesOperation(getState(), options);
@@ -373,15 +373,15 @@ export const cookieCleanup: ActionCreator<
 
       if (setOfDeletedDomainCookies.length > 0) {
         // Cookie Notification
-        const notifyMessage = browser.i18n.getMessage('notificationContent', [
+        const notifyMessage = browser.i18n.getMessage("notificationContent", [
           recentlyCleaned.toString(),
           domainsAll.size.toString(),
-          (setOfDeletedDomainCookies as string[]).slice(0, 5).join(', '),
+          (setOfDeletedDomainCookies as string[]).slice(0, 5).join(", "),
         ]);
         showNotification({
           duration: getSetting(getState(), SettingID.NOTIFY_DURATION) as number,
           msg: `${notifyMessage} ...`,
-          title: browser.i18n.getMessage('notificationTitle'),
+          title: browser.i18n.getMessage("notificationTitle"),
         });
         await sleep(750);
       }
@@ -389,11 +389,11 @@ export const cookieCleanup: ActionCreator<
       if (siteDataCleaned && browsingDataCleanup && bDomains.size > 0) {
         await showNotification({
           duration: getSetting(getState(), SettingID.NOTIFY_DURATION) as number,
-          msg: browser.i18n.getMessage('activityLogSiteDataDomainsText', [
-            browser.i18n.getMessage('siteDataText'),
-            Array.from(bDomains).join(', '),
+          msg: browser.i18n.getMessage("activityLogSiteDataDomainsText", [
+            browser.i18n.getMessage("siteDataText"),
+            Array.from(bDomains).join(", "),
           ]),
-          title: browser.i18n.getMessage('notificationTitleSiteData'),
+          title: browser.i18n.getMessage("notificationTitleSiteData"),
         });
       }
     }

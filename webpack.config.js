@@ -1,17 +1,17 @@
 const BundleAnalyzerPlugin =
-  require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const CopyPlugin = require('copy-webpack-plugin');
-const webpack = require('webpack');
+  require("webpack-bundle-analyzer").BundleAnalyzerPlugin;
+const CopyPlugin = require("copy-webpack-plugin");
+const webpack = require("webpack");
 
 module.exports = {
-  mode: 'production',
+  mode: "production",
   entry: {
     background: `${__dirname}/src/background.ts`,
     popup: `${__dirname}/src/ui/popup/index.tsx`,
     setting: `${__dirname}/src/ui/settings/index.tsx`,
   },
   externals: {
-    'redux-webext': 'ReduxWebExt',
+    "redux-webext": "ReduxWebExt",
   },
   output: {
     path: `${__dirname}/extension/bundles`,
@@ -24,7 +24,7 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'ts-loader',
+            loader: "ts-loader",
             // options: {
             //   // this will disable any type checking
             //   transpileOnly: true,
@@ -32,7 +32,7 @@ module.exports = {
           },
         ],
       },
-      { enforce: 'pre', test: /\.js$/, loader: 'source-map-loader' },
+      { enforce: "pre", test: /\.js$/, loader: "source-map-loader" },
     ],
   },
   plugins: [
@@ -56,48 +56,48 @@ module.exports = {
       patterns: [
         {
           force: true,
-          from: 'bootstrap/dist/css/bootstrap.min.css*',
-          to: '../../extension/global_files/[name][ext]',
+          from: "bootstrap/dist/css/bootstrap.min.css*",
+          to: "../../extension/global_files/[name][ext]",
           context: `${__dirname}/node_modules`,
         },
         {
           force: true,
-          from: 'bootstrap/dist/js/bootstrap.bundle.min.js*',
-          to: '../../extension/global_files/[name][ext]',
+          from: "bootstrap/dist/js/bootstrap.bundle.min.js*",
+          to: "../../extension/global_files/[name][ext]",
           context: `${__dirname}/node_modules`,
         },
         {
           force: true,
-          from: 'jquery/dist/jquery.slim.min*',
-          to: '../../extension/global_files/[name][ext]',
+          from: "jquery/dist/jquery.slim.min*",
+          to: "../../extension/global_files/[name][ext]",
           context: `${__dirname}/node_modules`,
         },
         {
           force: true,
-          from: 'webextension-polyfill/dist/browser-polyfill.min.js*',
-          to: '../../extension/global_files/[name][ext]',
+          from: "webextension-polyfill/dist/browser-polyfill.min.js*",
+          to: "../../extension/global_files/[name][ext]",
           context: `${__dirname}/node_modules`,
         },
       ],
     }),
   ],
   resolve: {
-    extensions: ['.mjs', '.tsx', '.ts', '.js', '.json', '.png'],
+    extensions: [".mjs", ".tsx", ".ts", ".js", ".json", ".png"],
   },
   optimization: {
     splitChunks: {
-      automaticNameDelimiter: '-',
+      automaticNameDelimiter: "-",
       cacheGroups: {
         ui: {
           test: /[\\/]node_modules[\\/](react|react-dom|@fortawesome)[\\/]|[\\/]src[\\/]ui[\\/]/,
           priority: -10,
         },
         common: {
-          chunks: 'initial',
+          chunks: "initial",
           // cacheGroupKey here is `common` as key of cacheGroup
           name: (module, chunks, cacheGroupKey) => {
-            return [cacheGroupKey, chunks.map((c) => c.runtime).join('-')].join(
-              '-',
+            return [cacheGroupKey, chunks.map((c) => c.runtime).join("-")].join(
+              "-"
             );
           },
           // Alternate version of above results, only if output.filename stays as [name].bundle.js

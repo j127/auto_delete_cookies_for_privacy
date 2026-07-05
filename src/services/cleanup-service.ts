@@ -31,31 +31,31 @@ import {
   throwErrorNotification,
   trimDot,
   undefinedIsTrue,
-} from './libs';
+} from "./libs";
 
 /** Prepare a cookie for deletion */
 export const prepareCookie = (
   cookie: browser.cookies.Cookie,
-  debug = false,
+  debug = false
 ): CookiePropertiesCleanup => {
   const cookieProperties = {
     ...cookie,
-    hostname: '',
-    mainDomain: '',
+    hostname: "",
+    mainDomain: "",
     preparedCookieDomain: prepareCookieDomain(cookie),
   };
-  if (cookieProperties.preparedCookieDomain.startsWith('file:')) {
+  if (cookieProperties.preparedCookieDomain.startsWith("file:")) {
     cookieProperties.hostname = cookieProperties.preparedCookieDomain;
     cookieProperties.mainDomain = cookieProperties.preparedCookieDomain;
   } else {
     cookieProperties.hostname = getHostname(
-      cookieProperties.preparedCookieDomain,
+      cookieProperties.preparedCookieDomain
     );
     cookieProperties.mainDomain = extractMainDomain(cookieProperties.hostname);
   }
   cadLog(
     {
-      msg: 'CleanupService.prepareCookie: results',
+      msg: "CleanupService.prepareCookie: results",
       x: {
         domain: cookie.domain,
         path: cookie.path,
@@ -64,7 +64,7 @@ export const prepareCookie = (
         hostname: cookieProperties.hostname,
       },
     },
-    debug,
+    debug
   );
   return cookieProperties;
 };
@@ -73,7 +73,7 @@ export const prepareCookie = (
 export const isSafeToClean = (
   state: State,
   cookieProperties: CookiePropertiesCleanup,
-  cleanupProperties: CleanupPropertiesInternal,
+  cleanupProperties: CleanupPropertiesInternal
 ): CleanReasonObject => {
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
   const {
@@ -100,10 +100,10 @@ export const isSafeToClean = (
     : OpenTabStatus.TabsWasNotIgnored;
   cadLog(
     {
-      msg: 'CleanupService.isSafeToClean:  Properties Debug',
+      msg: "CleanupService.isSafeToClean:  Properties Debug",
       x: { partialCookieInfo, cleanupProperties, openTabStatus },
     },
-    debug,
+    debug
   );
 
   // Tests if the main domain is open on that specific storeId/container
@@ -113,7 +113,7 @@ export const isSafeToClean = (
         msg: `CleanupService.isSafeToClean:  mainDomain found in openTabsDomain[${storeId}] - not cleaning.`,
         x: { partialCookieInfo, openTabsInStoreId: openTabDomains[storeId] },
       },
-      debug,
+      debug
     );
     return {
       cached: false,
@@ -128,7 +128,7 @@ export const isSafeToClean = (
   const matchedExpression = returnMatchedExpressionObject(
     state,
     storeId,
-    hostname,
+    hostname
   );
 
   // Internal CAD Cookie Checks
@@ -143,13 +143,13 @@ export const isSafeToClean = (
   ) {
     cadLog(
       {
-        msg: 'CleanupService.isSafeToClean:  Internal CAD Cookie.  Removing Cookie to trigger browsingData cleanups.',
+        msg: "CleanupService.isSafeToClean:  Internal CAD Cookie.  Removing Cookie to trigger browsingData cleanups.",
         x: {
           partialCookieInfo,
           cleanSiteData: matchedExpression.cleanSiteData,
         },
       },
-      debug,
+      debug
     );
     return {
       cached: false,
@@ -175,7 +175,7 @@ export const isSafeToClean = (
             cleanSiteData: matchedExpression?.cleanSiteData,
           },
         },
-        debug,
+        debug
       );
       return {
         cached: false,
@@ -194,10 +194,10 @@ export const isSafeToClean = (
   if (greyCleanup && !matchedExpression) {
     cadLog(
       {
-        msg: 'CleanupService.isSafeToClean:  unmatched and greyCleanup.  Safe to Clean',
+        msg: "CleanupService.isSafeToClean:  unmatched and greyCleanup.  Safe to Clean",
         x: partialCookieInfo,
       },
-      debug,
+      debug
     );
     return {
       cached: false,
@@ -219,10 +219,10 @@ export const isSafeToClean = (
   ) {
     cadLog(
       {
-        msg: 'CleanupService.isSafeToClean:  greyCleanup - matching Expression and cookie name was unchecked.  Safe to Clean.',
+        msg: "CleanupService.isSafeToClean:  greyCleanup - matching Expression and cookie name was unchecked.  Safe to Clean.",
         x: { partialCookieInfo, matchedExpression },
       },
-      debug,
+      debug
     );
     return {
       cached: false,
@@ -238,10 +238,10 @@ export const isSafeToClean = (
   if (!matchedExpression) {
     cadLog(
       {
-        msg: 'CleanupService.isSafeToClean:  unmatched Expression.  Safe to Clean.',
+        msg: "CleanupService.isSafeToClean:  unmatched Expression.  Safe to Clean.",
         x: partialCookieInfo,
       },
-      debug,
+      debug
     );
     return {
       cached: false,
@@ -259,10 +259,10 @@ export const isSafeToClean = (
   ) {
     cadLog(
       {
-        msg: 'CleanupService.isSafeToClean:  matched Expression but unchecked cookie name.  Safe to Clean.',
+        msg: "CleanupService.isSafeToClean:  matched Expression but unchecked cookie name.  Safe to Clean.",
         x: { partialCookieInfo, matchedExpression },
       },
-      debug,
+      debug
     );
     return {
       cached: false,
@@ -275,10 +275,10 @@ export const isSafeToClean = (
   }
   cadLog(
     {
-      msg: 'CleanupService.isSafeToClean:  Matched Expression and cookie name.  Cookie stays!',
+      msg: "CleanupService.isSafeToClean:  Matched Expression and cookie name.  Cookie stays!",
       x: { partialCookieInfo, matchedExpression },
     },
-    debug,
+    debug
   );
   return {
     cached: false,
@@ -293,7 +293,7 @@ export const isSafeToClean = (
 /** Clean cookies */
 export const cleanCookies = async (
   state: State,
-  markedForDeletion: CleanReasonObject[],
+  markedForDeletion: CleanReasonObject[]
 ): Promise<void> => {
   const promiseArr: Promise<browser.cookies.Cookie | null>[] = [];
   markedForDeletion.forEach((obj) => {
@@ -310,10 +310,10 @@ export const cleanCookies = async (
     // url: "http://domain.com" + cookies[i].path
     cadLog(
       {
-        msg: 'CleanupService.cleanCookies: Cookie being removed through browser.cookies.remove via Promises:',
+        msg: "CleanupService.cleanCookies: Cookie being removed through browser.cookies.remove via Promises:",
         x: cookieRemove,
       },
-      getSetting(state, SettingID.DEBUG_MODE) as boolean,
+      getSetting(state, SettingID.DEBUG_MODE) as boolean
     );
     const promise = browser.cookies.remove(cookieRemove);
     promiseArr.push(promise);
@@ -326,14 +326,14 @@ export const cleanCookies = async (
 // Cleanup of all cookies for domain.
 export const clearCookiesForThisDomain = async (
   state: State,
-  tab: browser.tabs.Tab,
+  tab: browser.tabs.Tab
 ): Promise<boolean> => {
   const hostname = getHostname(tab.url);
   const getCookies = await browser.cookies.getAll(
     returnOptionalCookieAPIAttributes(state, {
       domain: hostname,
       storeId: tab.cookieStoreId,
-    }),
+    })
   );
   // Filter out our own CAD cookie that cleans up other Browsing Data
   const cookies = getCookies.filter((c) => c.name !== CADCOOKIENAME);
@@ -356,22 +356,22 @@ export const clearCookiesForThisDomain = async (
           // '| undefined' to all parameters.
           name: string;
           url: string;
-        },
+        }
       );
       if (r) cookieDeletedCount += 1;
     }
     showNotification(
       {
         duration: getSetting(state, SettingID.NOTIFY_DURATION) as number,
-        msg: `${browser.i18n.getMessage('manualCleanSuccess', [
-          browser.i18n.getMessage('cookiesText'),
+        msg: `${browser.i18n.getMessage("manualCleanSuccess", [
+          browser.i18n.getMessage("cookiesText"),
           hostname,
-        ])}\n${browser.i18n.getMessage('manualCleanRemoved', [
+        ])}\n${browser.i18n.getMessage("manualCleanRemoved", [
           cookieDeletedCount.toString(),
           cookies.length.toString(),
         ])}`,
       },
-      getSetting(state, SettingID.NOTIFY_MANUAL) as boolean,
+      getSetting(state, SettingID.NOTIFY_MANUAL) as boolean
     );
 
     return cookieDeletedCount > 0;
@@ -380,12 +380,12 @@ export const clearCookiesForThisDomain = async (
   showNotification(
     {
       duration: getSetting(state, SettingID.NOTIFY_DURATION) as number,
-      msg: `${browser.i18n.getMessage('manualCleanNothing', [
-        browser.i18n.getMessage('cookiesText'),
+      msg: `${browser.i18n.getMessage("manualCleanNothing", [
+        browser.i18n.getMessage("cookiesText"),
         hostname,
       ])}`,
     },
-    getSetting(state, SettingID.NOTIFY_MANUAL) as boolean,
+    getSetting(state, SettingID.NOTIFY_MANUAL) as boolean
   );
 
   return cookies.length > 0;
@@ -393,7 +393,7 @@ export const clearCookiesForThisDomain = async (
 
 export const clearLocalStorageForThisDomain = async (
   state: State,
-  tab: browser.tabs.Tab,
+  tab: browser.tabs.Tab
 ): Promise<boolean> => {
   // Using this method to ensure cross browser compatibility
   try {
@@ -409,32 +409,32 @@ export const clearLocalStorageForThisDomain = async (
     showNotification(
       {
         duration: getSetting(state, SettingID.NOTIFY_DURATION) as number,
-        msg: `${browser.i18n.getMessage('manualCleanSuccess', [
-          browser.i18n.getMessage('localStorageText'),
+        msg: `${browser.i18n.getMessage("manualCleanSuccess", [
+          browser.i18n.getMessage("localStorageText"),
           getHostname(tab.url),
-        ])}\n${browser.i18n.getMessage('removeStorageCount', [
+        ])}\n${browser.i18n.getMessage("removeStorageCount", [
           local.toString(),
-          browser.i18n.getMessage('localStorageText'),
-        ])}\n${browser.i18n.getMessage('removeStorageCount', [
+          browser.i18n.getMessage("localStorageText"),
+        ])}\n${browser.i18n.getMessage("removeStorageCount", [
           session.toString(),
-          browser.i18n.getMessage('sessionStorageText'),
+          browser.i18n.getMessage("sessionStorageText"),
         ])}`,
       },
-      getSetting(state, SettingID.NOTIFY_MANUAL) as boolean,
+      getSetting(state, SettingID.NOTIFY_MANUAL) as boolean
     );
     return true;
   } catch (e: unknown) {
     if (e instanceof Error) {
       throwErrorNotification(
         e,
-        getSetting(state, SettingID.NOTIFY_DURATION) as number,
+        getSetting(state, SettingID.NOTIFY_DURATION) as number
       );
     }
     await sleep(750);
     showNotification({
       duration: getSetting(state, SettingID.NOTIFY_DURATION) as number,
-      msg: `${browser.i18n.getMessage('manualCleanNothing', [
-        browser.i18n.getMessage('localStorageText'),
+      msg: `${browser.i18n.getMessage("manualCleanNothing", [
+        browser.i18n.getMessage("localStorageText"),
         getHostname(tab.url),
       ])}`,
     });
@@ -444,19 +444,19 @@ export const clearLocalStorageForThisDomain = async (
 
 export const clearSiteDataForThisDomain = async (
   state: State,
-  siteData: SiteDataType | 'All',
-  hostname: string,
+  siteData: SiteDataType | "All",
+  hostname: string
 ): Promise<boolean> => {
-  if (hostname.trim() === '') return false;
+  if (hostname.trim() === "") return false;
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
   cadLog(
     {
       msg: `CleanupService.clearSiteDataForThisDomain: Received ${siteData} clean request for ${hostname}.`,
     },
-    debug,
+    debug
   );
   const domains = prepareCleanupDomains(hostname, state.cache.browserDetect);
-  if (siteData === 'All') {
+  if (siteData === "All") {
     const siteDataAll: string[] = [];
     for (const sd of SITEDATATYPES) {
       await removeSiteData(
@@ -465,7 +465,7 @@ export const clearSiteDataForThisDomain = async (
         state.cache.browserDetect,
         domains,
         debug,
-        false,
+        false
       );
       siteDataAll.push(browser.i18n.getMessage(`${siteDataToBrowser(sd)}Text`));
     }
@@ -473,13 +473,13 @@ export const clearSiteDataForThisDomain = async (
     showNotification(
       {
         duration: getSetting(state, SettingID.NOTIFY_DURATION) as number,
-        msg: browser.i18n.getMessage('activityLogSiteDataDomainsText', [
-          siteDataAll.join(', '),
-          domains.join(', '),
+        msg: browser.i18n.getMessage("activityLogSiteDataDomainsText", [
+          siteDataAll.join(", "),
+          domains.join(", "),
         ]),
-        title: browser.i18n.getMessage('notificationTitleSiteData'),
+        title: browser.i18n.getMessage("notificationTitleSiteData"),
       },
-      getSetting(state, SettingID.NOTIFY_MANUAL) as boolean,
+      getSetting(state, SettingID.NOTIFY_MANUAL) as boolean
     );
   } else {
     await removeSiteData(
@@ -488,7 +488,7 @@ export const clearSiteDataForThisDomain = async (
       state.cache.browserDetect,
       domains,
       debug,
-      true,
+      true
     );
   }
   return true;
@@ -500,16 +500,16 @@ export const removeSiteData = async (
   bName: browserName = browserDetect() as browserName,
   domains: string[],
   debug: boolean,
-  manual = false,
+  manual = false
 ): Promise<boolean> => {
   const listName = ((b: browserName) => {
     switch (b) {
       case browserName.Chrome:
       case browserName.Opera:
-        return 'origins';
+        return "origins";
       case browserName.Firefox:
       default:
-        return 'hostnames';
+        return "hostnames";
     }
   })(bName);
   const sd = siteDataToBrowser(siteData);
@@ -518,7 +518,7 @@ export const removeSiteData = async (
       msg: `CleanupService.removeSiteData: Cleanup of ${listName} in ${bName} for ${sd}:`,
       x: domains,
     },
-    debug,
+    debug
   );
   try {
     await browser.browsingData.remove(
@@ -527,33 +527,33 @@ export const removeSiteData = async (
       },
       {
         [sd]: true,
-      },
+      }
     );
     showNotification(
       {
         duration: getSetting(state, SettingID.NOTIFY_DURATION) as number,
-        msg: browser.i18n.getMessage('activityLogSiteDataDomainsText', [
+        msg: browser.i18n.getMessage("activityLogSiteDataDomainsText", [
           browser.i18n.getMessage(`${sd}Text`),
-          domains.join(', '),
+          domains.join(", "),
         ]),
-        title: browser.i18n.getMessage('notificationTitleSiteData'),
+        title: browser.i18n.getMessage("notificationTitleSiteData"),
       },
-      manual && (getSetting(state, SettingID.NOTIFY_MANUAL) as boolean),
+      manual && (getSetting(state, SettingID.NOTIFY_MANUAL) as boolean)
     );
     return true;
   } catch (e: unknown) {
     cadLog(
       {
         msg: `CleanupService.removeSiteData:  browser.browsingData.remove of ${listName} for ${sd} returned an error:`,
-        type: 'error',
+        type: "error",
         x: e,
       },
-      debug,
+      debug
     );
     if (e instanceof Error) {
       throwErrorNotification(
         e,
-        getSetting(state, SettingID.NOTIFY_DURATION) as number,
+        getSetting(state, SettingID.NOTIFY_DURATION) as number
       );
     }
 
@@ -564,11 +564,11 @@ export const removeSiteData = async (
 /** This will use the browsingData's hostname/origin attribute to delete any extra browsing data */
 export const otherBrowsingDataCleanup = async (
   state: State,
-  isSafeToCleanObjects: CleanReasonObject[],
-): Promise<ActivityLog['browsingDataCleanup']> => {
+  isSafeToCleanObjects: CleanReasonObject[]
+): Promise<ActivityLog["browsingDataCleanup"]> => {
   const chrome = isChrome(state.cache);
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
-  const browsingDataResult: ActivityLog['browsingDataCleanup'] = {};
+  const browsingDataResult: ActivityLog["browsingDataCleanup"] = {};
   const ffVersion = Number.parseInt(state.cache.browserVersion);
   if (
     getSetting(state, SettingID.CLEANUP_CACHE) &&
@@ -579,7 +579,7 @@ export const otherBrowsingDataCleanup = async (
       SiteDataType.CACHE,
       isSafeToCleanObjects,
       state.cache.browserDetect,
-      debug,
+      debug
     );
   }
   if (
@@ -591,7 +591,7 @@ export const otherBrowsingDataCleanup = async (
       SiteDataType.INDEXEDDB,
       isSafeToCleanObjects,
       state.cache.browserDetect,
-      debug,
+      debug
     );
   }
   if (
@@ -603,7 +603,7 @@ export const otherBrowsingDataCleanup = async (
       SiteDataType.LOCALSTORAGE,
       isSafeToCleanObjects,
       state.cache.browserDetect,
-      debug,
+      debug
     );
   }
   if (
@@ -615,7 +615,7 @@ export const otherBrowsingDataCleanup = async (
       SiteDataType.PLUGINDATA,
       isSafeToCleanObjects,
       state.cache.browserDetect,
-      debug,
+      debug
     );
   }
   if (
@@ -627,7 +627,7 @@ export const otherBrowsingDataCleanup = async (
       SiteDataType.SERVICEWORKERS,
       isSafeToCleanObjects,
       state.cache.browserDetect,
-      debug,
+      debug
     );
   }
 
@@ -647,12 +647,12 @@ export const cleanSiteData = async (
   siteData: SiteDataType,
   cleanReasonObjects: CleanReasonObject[],
   bName: browserName = browserDetect() as browserName,
-  debug: boolean,
+  debug: boolean
 ): Promise<string[]> => {
   const domains = cleanReasonObjects
     .filter((obj) => filterSiteData(obj, siteData, debug))
     .map((o) => o.cookie.domain)
-    .filter((domain) => domain.trim() !== '');
+    .filter((domain) => domain.trim() !== "");
 
   const cleanList: string[] = [];
   for (const domain of domains) {
@@ -666,7 +666,7 @@ export const cleanSiteData = async (
       bName,
       [...new Set(cleanList)],
       debug,
-      false,
+      false
     );
     if (r) {
       return domains;
@@ -684,7 +684,7 @@ export const parseCleanSiteData = (bool?: boolean): boolean => {
 export const filterSiteData = (
   obj: CleanReasonObject,
   siteData: SiteDataType,
-  debug = false,
+  debug = false
 ): boolean => {
   const notProtectedByOpenTab = obj.reason !== ReasonKeep.OpenTabs;
   const notInAnyLists =
@@ -696,9 +696,9 @@ export const filterSiteData = (
     (obj.reason === ReasonClean.CADSiteDataCookie ||
       obj.reason === ReasonClean.CADSiteDataCookieRestart) &&
     obj.expression === undefined;
-  const nonBlankCookieHostName = obj.cookie.hostname.trim() !== '';
+  const nonBlankCookieHostName = obj.cookie.hostname.trim() !== "";
   const cleanSiteDataInExpression = parseCleanSiteData(
-    obj.expression?.cleanSiteData?.includes(siteData),
+    obj.expression?.cleanSiteData?.includes(siteData)
   );
   const isRestartCleanup =
     (isExpiredRestart && obj.expression?.listType === ListType.GREY) ||
@@ -711,12 +711,12 @@ export const filterSiteData = (
     ...obj,
     cookie: {
       ...obj.cookie,
-      value: debug ? '***' : obj.cookie.value,
+      value: debug ? "***" : obj.cookie.value,
     },
   };
   cadLog(
     {
-      msg: 'CleanupService.filterSiteData: debug data.',
+      msg: "CleanupService.filterSiteData: debug data.",
       x: {
         notProtectedByOpenTab,
         notInAnyLists,
@@ -732,7 +732,7 @@ export const filterSiteData = (
         CleanReasonObject: cro,
       },
     },
-    debug,
+    debug
   );
   const r =
     (notInAnyLists || (notProtectedByOpenTab && canCleanSiteData)) &&
@@ -741,7 +741,7 @@ export const filterSiteData = (
     {
       msg: `CleanupService.filterSiteData: ${siteData} cleanup returned ${r} for ${cro.cookie.hostname}`,
     },
-    debug,
+    debug
   );
   return r;
 };
@@ -753,19 +753,19 @@ export const filterSiteData = (
  */
 export const returnContainersOfOpenTabDomains = async (
   ignoreOpenTabs: boolean,
-  cleanDiscardedTabs: boolean,
+  cleanDiscardedTabs: boolean
 ): Promise<Record<string, string[]>> => {
   if (ignoreOpenTabs) {
     return {};
   }
   const tabs = await browser.tabs.query({
-    windowType: 'normal',
+    windowType: "normal",
   });
   const openTabs: { [k: string]: Set<string> } = {};
   for (const tab of tabs) {
     if (isAWebpage(tab.url) && (!cleanDiscardedTabs || !tab.discarded)) {
       // Chrome doesn't have tab.cookieStoreId, so rely on tab.incognito
-      const cookieStoreId = tab.cookieStoreId || (tab.incognito ? '1' : '0');
+      const cookieStoreId = tab.cookieStoreId || (tab.incognito ? "1" : "0");
       if (!openTabs[cookieStoreId]) {
         openTabs[cookieStoreId] = new Set<string>();
       }
@@ -785,10 +785,10 @@ export const cleanCookiesOperation = async (
   cleanupProperties: CleanupProperties = {
     greyCleanup: false,
     ignoreOpenTabs: false,
-  },
+  }
 ): Promise<Record<string, any>> => {
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
-  const deletedSiteDataArrays: ActivityLog['browsingDataCleanup'] = {};
+  const deletedSiteDataArrays: ActivityLog["browsingDataCleanup"] = {};
   const setOfDeletedDomainCookies = new Set<string>();
   const cachedResults: Required<ActivityLog> = {
     dateTime: new Date().toString(),
@@ -798,10 +798,10 @@ export const cleanCookiesOperation = async (
     siteDataCleaned: false,
   };
   // Scrub private cookieStores
-  const storesIdsToScrub = ['firefox-private', 'private', '1'];
+  const storesIdsToScrub = ["firefox-private", "private", "1"];
   const openTabDomains = await returnContainersOfOpenTabDomains(
     cleanupProperties.ignoreOpenTabs,
-    getSetting(state, SettingID.CLEAN_DISCARDED) as boolean,
+    getSetting(state, SettingID.CLEAN_DISCARDED) as boolean
   );
   const newCleanupProperties: CleanupPropertiesInternal = {
     ...cleanupProperties,
@@ -813,18 +813,18 @@ export const cleanCookiesOperation = async (
   // Manually add default containers.
   switch (state.cache.browserDetect || (browserDetect() as browserName)) {
     case browserName.Firefox:
-      cookieStoreIds.add('default');
-      cookieStoreIds.add('firefox-default');
+      cookieStoreIds.add("default");
+      cookieStoreIds.add("firefox-default");
       if (await browser.extension.isAllowedIncognitoAccess()) {
-        cookieStoreIds.add('firefox-private');
-        cookieStoreIds.add('private');
+        cookieStoreIds.add("firefox-private");
+        cookieStoreIds.add("private");
       }
       break;
     case browserName.Chrome:
     case browserName.Opera:
-      cookieStoreIds.add('0');
+      cookieStoreIds.add("0");
       if (await browser.extension.isAllowedIncognitoAccess()) {
-        cookieStoreIds.add('1');
+        cookieStoreIds.add("1");
       }
       break;
     default:
@@ -846,7 +846,7 @@ export const cleanCookiesOperation = async (
   for (const store of cookieStores) {
     if (
       getSetting(state, SettingID.CONTEXTUAL_IDENTITIES) ||
-      !store.id.startsWith('firefox-container')
+      !store.id.startsWith("firefox-container")
     ) {
       cookieStoreIds.add(store.id);
     }
@@ -859,17 +859,17 @@ export const cleanCookiesOperation = async (
       cookies = await browser.cookies.getAll(
         returnOptionalCookieAPIAttributes(state, {
           storeId: id,
-        }),
+        })
       );
     } catch (e: unknown) {
       if (e instanceof Error) {
         cadLog(
           {
             msg: `CleanupService.cleanCookiesOperation:  browser.cookies.getAll for id: ${id} threw an error.`,
-            type: 'error',
+            type: "error",
             x: e.message,
           },
-          true,
+          true
         );
       }
     }
@@ -881,7 +881,7 @@ export const cleanCookiesOperation = async (
       return isSafeToClean(
         state,
         prepareCookie(cookie, debug),
-        newCleanupProperties,
+        newCleanupProperties
       );
     });
 
@@ -892,26 +892,26 @@ export const cleanCookiesOperation = async (
           ...obj,
           cookie: {
             ...obj.cookie,
-            value: '***',
+            value: "***",
           },
         };
       });
       cadLog(
         {
-          msg: 'CleanupService.cleanCookiesOperation:  isSafeToCleanObjects Result',
+          msg: "CleanupService.cleanCookiesOperation:  isSafeToCleanObjects Result",
           x: sanitized,
         },
-        debug,
+        debug
       );
     }
 
     const markedForDeletion = isSafeToCleanObjects.filter((obj) => {
-      const r = obj.cleanCookie && obj.cookie.hostname.trim() !== '';
+      const r = obj.cleanCookie && obj.cookie.hostname.trim() !== "";
       cadLog(
         {
           msg: `CleanupService.cleanCookiesOperation: Clean Cookies returned ${r} for ${obj.cookie.hostname}`,
         },
-        debug,
+        debug
       );
       return r;
     });
@@ -923,16 +923,16 @@ export const cleanCookiesOperation = async (
           ...obj,
           cookie: {
             ...obj.cookie,
-            value: '***',
+            value: "***",
           },
         };
       });
       cadLog(
         {
-          msg: 'CleanupService.cleanCookiesOperation:  Cookies markedForDeletion Result',
+          msg: "CleanupService.cleanCookiesOperation:  Cookies markedForDeletion Result",
           x: sanitized,
         },
-        debug,
+        debug
       );
     }
 
@@ -941,15 +941,15 @@ export const cleanCookiesOperation = async (
     } catch (e: unknown) {
       cadLog(
         {
-          type: 'error',
+          type: "error",
           x: e,
         },
-        true,
+        true
       );
       if (e instanceof Error) {
         throwErrorNotification(
           e,
-          getSetting(state, SettingID.NOTIFY_DURATION) as number,
+          getSetting(state, SettingID.NOTIFY_DURATION) as number
         );
       }
     }
@@ -967,14 +967,14 @@ export const cleanCookiesOperation = async (
       setOfDeletedDomainCookies.add(
         getSetting(state, SettingID.CONTEXTUAL_IDENTITIES)
           ? `${obj.cookie.hostname} (${state.cache[obj.cookie.storeId]})`
-          : obj.cookie.hostname,
+          : obj.cookie.hostname
       );
     });
 
     // Handle all other browsingData cleanups.
     const storeResults = await otherBrowsingDataCleanup(
       state,
-      isSafeToCleanObjects,
+      isSafeToCleanObjects
     );
     // Don't store domains for private browsing data
     if (storesIdsToScrub.includes(id) || !storeResults) continue;
@@ -982,7 +982,7 @@ export const cleanCookiesOperation = async (
       if ((storeResults[sd] || []).length > 0) {
         cachedResults.siteDataCleaned = true;
         deletedSiteDataArrays[sd] = (deletedSiteDataArrays[sd] || []).concat(
-          (storeResults[sd] as string[]).map((domain) => trimDot(domain)),
+          (storeResults[sd] as string[]).map((domain) => trimDot(domain))
         );
       }
     }

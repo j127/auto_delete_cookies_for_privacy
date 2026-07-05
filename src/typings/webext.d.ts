@@ -27,7 +27,7 @@ declare namespace browser.browsingData {
       localStorage?: boolean;
       pluginData?: boolean;
       serviceWorkers?: boolean;
-    },
+    }
   ): Promise<void>;
 }
 
@@ -85,4 +85,4 @@ declare namespace browser.tabs {
   }
 }
 
-declare module 'redux-webext';
+declare module "redux-webext";

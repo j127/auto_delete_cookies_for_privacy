@@ -10,14 +10,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import * as React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 // tslint:disable-next-line: import-name
-import ReleaseNotes from '../release-notes.json';
-import IconButton from '../../common-components/icon-button';
-import { ReduxAction } from '../../../typings/redux-constants';
-import { resetCookieDeletedCounter } from '../../../redux/actions';
+import ReleaseNotes from "../release-notes.json";
+import IconButton from "../../common-components/icon-button";
+import { ReduxAction } from "../../../typings/redux-constants";
+import { resetCookieDeletedCounter } from "../../../redux/actions";
 
 const displayReleaseNotes = (releases: ReleaseNote[]) => {
   return (
@@ -25,8 +25,8 @@ const displayReleaseNotes = (releases: ReleaseNote[]) => {
       {releases.map((release, index) => [
         <span
           style={{
-            fontWeight: 'bold',
-            marginLeft: '10px',
+            fontWeight: "bold",
+            marginLeft: "10px",
           }}
           key={`release1${index}`}
         >
@@ -46,13 +46,13 @@ const displayReleaseNotes = (releases: ReleaseNote[]) => {
 const getReviewLink = (bName: browserName = browserDetect() as browserName) => {
   switch (bName) {
     case browserName.Chrome:
-      return 'https://chrome.google.com/webstore/detail/cookie-autodelete/fhcgjolkccmbidfldomjliifgaodjagh/reviews';
+      return "https://chrome.google.com/webstore/detail/cookie-autodelete/fhcgjolkccmbidfldomjliifgaodjagh/reviews";
     case browserName.EdgeChromium:
-      return 'https://microsoftedge.microsoft.com/addons/detail/djkjpnciiommncecmdefpdllknjdmmmo#reviewList';
+      return "https://microsoftedge.microsoft.com/addons/detail/djkjpnciiommncecmdefpdllknjdmmmo#reviewList";
     case browserName.Firefox:
-      return 'https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/reviews/';
+      return "https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/reviews/";
     default:
-      return '';
+      return "";
   }
 };
 
@@ -79,43 +79,43 @@ const Welcome: React.FunctionComponent<WelcomeProps> = ({
   const { releases } = ReleaseNotes as { releases: ReleaseNote[] };
   return (
     <div style={style}>
-      <h1>{browser.i18n.getMessage('welcomeText')}</h1>
+      <h1>{browser.i18n.getMessage("welcomeText")}</h1>
 
       <p>
-        {browser.i18n.getMessage('welcomeMessage', [
-          browser.i18n.getMessage('extensionName'),
+        {browser.i18n.getMessage("welcomeMessage", [
+          browser.i18n.getMessage("extensionName"),
           cookieDeletedCounterSession.toString(),
           cookieDeletedCounterTotal.toString(),
         ])}
         <IconButton
           iconName="trash"
-          text={browser.i18n.getMessage('resetCookieCounterText')}
-          title={browser.i18n.getMessage('resetCookieCounterText')}
+          text={browser.i18n.getMessage("resetCookieCounterText")}
+          title={browser.i18n.getMessage("resetCookieCounterText")}
           onClick={() => onResetCounterButtonClick()}
           className="btn-warning"
         />
       </p>
       <a href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/Documentation">
-        <span>{`${browser.i18n.getMessage('documentationText')}`}</span>
+        <span>{`${browser.i18n.getMessage("documentationText")}`}</span>
       </a>
       <br />
       <a href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/FAQ:-Common-Questions-and-Issues">
-        <span>{`${browser.i18n.getMessage('faqText')}`}</span>
+        <span>{`${browser.i18n.getMessage("faqText")}`}</span>
       </a>
       <br />
       <br />
       <a href={getReviewLink(bName)}>
         {browser.i18n.getMessage(
-          'reviewLinkMessage',
-          browser.i18n.getMessage('extensionName'),
+          "reviewLinkMessage",
+          browser.i18n.getMessage("extensionName")
         )}
       </a>
       <hr />
-      <h2>{browser.i18n.getMessage('releaseNotesText')}</h2>
+      <h2>{browser.i18n.getMessage("releaseNotesText")}</h2>
 
       <div className="row">{displayReleaseNotes(releases.slice(0, 5))}</div>
       <p>
-        {browser.i18n.getMessage('oldReleasesText')}{' '}
+        {browser.i18n.getMessage("oldReleasesText")}{" "}
         <a
           href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/releases"
           target="_blank"

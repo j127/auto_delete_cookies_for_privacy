@@ -22,7 +22,7 @@
  *          .mockReturnValue('translated');
  * to have it return a value depending on the input received.
  */
-'use strict';
+"use strict";
 
 // event listeners
 const eventListeners = {
@@ -43,99 +43,99 @@ const storageArea = {
 
 const apis = {
   alarms: {
-    fn: ['clear', 'clearAll', 'create', 'get', 'getAll'],
+    fn: ["clear", "clearAll", "create", "get", "getAll"],
   },
   browserAction: {
     fn: [
-      'getBadgeText',
-      'getTitle',
-      'setBadgeBackgroundColor',
-      'setBadgeText',
-      'setBadgeTextColor',
-      'setIcon',
-      'setTitle',
+      "getBadgeText",
+      "getTitle",
+      "setBadgeBackgroundColor",
+      "setBadgeText",
+      "setBadgeTextColor",
+      "setIcon",
+      "setTitle",
     ],
-    events: ['onClicked'],
+    events: ["onClicked"],
   },
   browsingData: {
     fn: [
-      'remove',
-      'removeCache',
-      'removeCookies',
-      'removeDownloads',
-      'removeFormData',
-      'removeLocalStorage',
-      'removePluginData',
+      "remove",
+      "removeCache",
+      "removeCookies",
+      "removeDownloads",
+      "removeFormData",
+      "removeLocalStorage",
+      "removePluginData",
     ],
   },
   contextualIdentities: {
-    fn: ['create', 'get', 'query', 'remove', 'update'],
-    events: ['onCreated', 'onRemoved', 'onUpdated'],
+    fn: ["create", "get", "query", "remove", "update"],
+    events: ["onCreated", "onRemoved", "onUpdated"],
   },
   cookies: {
-    fn: ['get', 'getAll', 'getAllCookieStores', 'remove', 'set'],
-    events: ['onChanged'],
+    fn: ["get", "getAll", "getAllCookieStores", "remove", "set"],
+    events: ["onChanged"],
   },
   i18n: {
-    fn: ['getMessage'],
+    fn: ["getMessage"],
   },
   contextMenus: {
-    fn: ['create', 'refresh', 'remove', 'removeAll', 'update'],
-    events: ['onClicked'],
+    fn: ["create", "refresh", "remove", "removeAll", "update"],
+    events: ["onClicked"],
   },
   notifications: {
-    fn: ['clear', 'create', 'getAll', 'update'],
-    events: ['onClicked', 'onClosed'],
+    fn: ["clear", "create", "getAll", "update"],
+    events: ["onClicked", "onClosed"],
   },
   pageAction: {
     fn: [
-      'getPopup',
-      'getTitle',
-      'hide',
-      'setIcon',
-      'setPopup',
-      'setTitle',
-      'show',
+      "getPopup",
+      "getTitle",
+      "hide",
+      "setIcon",
+      "setPopup",
+      "setTitle",
+      "show",
     ],
-    events: ['onClicked'],
+    events: ["onClicked"],
   },
   permissions: {
-    fn: ['contains', 'getAll', 'remove', 'request'],
+    fn: ["contains", "getAll", "remove", "request"],
   },
   runtime: {
     fn: [
-      'connect',
-      'getBackgroundPage',
-      'getBrowserInfo',
-      'getManifest',
-      'getPlatformInfo',
-      'getURL',
-      'openOptionsPage',
-      'reload',
-      'sendMessage',
+      "connect",
+      "getBackgroundPage",
+      "getBrowserInfo",
+      "getManifest",
+      "getPlatformInfo",
+      "getURL",
+      "openOptionsPage",
+      "reload",
+      "sendMessage",
     ],
-    events: ['onConnect', 'onInstalled', 'onMessage', 'onStartup'],
+    events: ["onConnect", "onInstalled", "onMessage", "onStartup"],
   },
   tabs: {
     fn: [
-      'connect',
-      'create',
-      'executeScript',
-      'get',
-      'getCurrent',
-      'query',
-      'reload',
-      'sendMessage',
-      'update',
+      "connect",
+      "create",
+      "executeScript",
+      "get",
+      "getCurrent",
+      "query",
+      "reload",
+      "sendMessage",
+      "update",
     ],
-    events: ['onDetached', 'onRemoved', 'onSelectionChanged', 'onUpdated'],
+    events: ["onDetached", "onRemoved", "onSelectionChanged", "onUpdated"],
   },
   webRequest: {
     events: [
-      'onCompleted',
-      'onErrorOccurred',
-      'onHeadersReceived',
-      'onResponseStarted',
+      "onCompleted",
+      "onErrorOccurred",
+      "onHeadersReceived",
+      "onResponseStarted",
     ],
   },
 };
@@ -164,12 +164,12 @@ Object.keys(apis).forEach((api) => {
     browser[api] = {};
   }
   Object.keys(apis[api]).forEach((a) => {
-    if (a === 'events') {
+    if (a === "events") {
       apis[api][a].forEach((ev) => {
         // e.g. browser.cookies.onChanged = eventListeners;
         browser[api][ev] = eventListeners;
       });
-    } else if (a === 'fn') {
+    } else if (a === "fn") {
       apis[api][a].forEach((fn) => {
         // e.g. browser.cookies.getAll = jest.fn();
         browser[api][fn] = jest.fn();
@@ -189,7 +189,7 @@ global.chrome = browser;
  * @returns {string} 'UnknownBrowser'
  */
 function browserDetect() {
-  return 'UnknownBrowser';
+  return "UnknownBrowser";
 }
 global.browserDetect = browserDetect;
 

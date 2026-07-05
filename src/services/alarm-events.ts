@@ -11,15 +11,15 @@
  * SOFTWARE.
  */
 
-import { cookieCleanup } from '../redux/actions';
-import { getSetting, sleep } from './libs';
-import StoreUser from './store-user';
+import { cookieCleanup } from "../redux/actions";
+import { getSetting, sleep } from "./libs";
+import StoreUser from "./store-user";
 
 export default class AlarmEvents extends StoreUser {
   public static createActiveModeAlarm = async (): Promise<void> => {
     const seconds = parseInt(
       getSetting(StoreUser.store.getState(), SettingID.CLEAN_DELAY) as string,
-      10,
+      10
     );
     const milliseconds = (seconds > 0 ? seconds : 0.5) * 1000;
     if (AlarmEvents.alarmFlag) {
@@ -32,7 +32,7 @@ export default class AlarmEvents extends StoreUser {
         cookieCleanup({
           greyCleanup: false,
           ignoreOpenTabs: false,
-        }),
+        })
       );
     }
     AlarmEvents.alarmFlag = false;

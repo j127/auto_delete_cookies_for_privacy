@@ -11,12 +11,12 @@
  * SOFTWARE.
  */
 /* istanbul ignore file: React-redux init */
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createUIStore } from 'redux-webext';
-import { sleep } from '../../services/libs';
-import fontAwesomeImports from '../font-awesome-imports';
-import App from './app';
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createUIStore } from "redux-webext";
+import { sleep } from "../../services/libs";
+import fontAwesomeImports from "../font-awesome-imports";
+import App from "./app";
 
 fontAwesomeImports();
 
@@ -26,14 +26,14 @@ async function initApp() {
     await sleep(250);
     store = await createUIStore();
   }
-  const mountNode = document.createElement('div');
+  const mountNode = document.createElement("div");
   document.body.appendChild(mountNode);
 
   ReactDOM.render(
     <Provider store={store}>
       <App />
     </Provider>,
-    mountNode,
+    mountNode
   );
 }
 

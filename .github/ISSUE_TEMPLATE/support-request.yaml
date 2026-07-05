@@ -1,7 +1,7 @@
 ---
 name: Support Request
 description: It's not a bug, but you still need help.  Check the FAQ and Documentation first before proceeding.  New Support Requests can also be made in the discussions area.
-title: '[SUPPORT]  ???'
+title: "[SUPPORT]  ???"
 labels: support
 assignees:
   - kennethtran93
