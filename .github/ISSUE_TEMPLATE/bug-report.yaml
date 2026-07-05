@@ -11,8 +11,8 @@ body:
         - Please check both open and closed issues to ensure that it is not previously reported!  Duplicate issues will be closed.
 
         - PLEASE READ THE FAQ AND DOCUMENTATION BEFORE POSTING:
-          - https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/Documentation
-          - https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/FAQ:-Common-Questions-and-Issues
+          - https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/introduction.md
+          - https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/faq.md
         - Issues that have an answer in the Documentation and/or FAQ WILL get closed and be pointed into the right direction
 
         - Please ensure that the bug report title starts with `[BUG] `.

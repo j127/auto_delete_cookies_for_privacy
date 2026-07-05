@@ -2,9 +2,9 @@
 
 A browser extension that tidies up after your tabs. Close a tab, and the cookies and site data that page left behind get wiped automatically — unless you've put the site on a keep list. Sites you trust keep working; everything else forgets you were there.
 
-This is a maintained fork of [Cookie AutoDelete](https://github.com/Cookie-AutoDelete/Cookie-AutoDelete) (by Kenny Do and the CAD Team, MIT licensed), which was archived upstream and delisted from the Chrome Web Store when Manifest V2 support ended. This fork migrates the extension to Manifest V3 and targets Chrome, Brave, and other Chromium browsers.
+ADCP is a hard fork of an MIT-licensed cookie manager whose upstream was archived and delisted when Manifest V2 support ended (attribution in [LICENSE](LICENSE)). It has been rebuilt for Manifest V3 and targets Chrome, Brave, and other Chromium browsers.
 
-> **Status:** under active migration to Manifest V3 on the `manifest-v3-prep` branch. Not yet published to the Chrome Web Store.
+> **Status:** under active development on the `manifest-v3-prep` branch. Not yet published to the Chrome Web Store.
 
 ## What it does
 
@@ -15,7 +15,7 @@ This is a maintained fork of [Cookie AutoDelete](https://github.com/Cookie-AutoD
 - Toolbar badge shows how many cookies the current site has set
 - Keep-list rules support wildcards and regular expressions, and can be exported/imported as files
 
-The original's Firefox-only features (Container Tabs, First-Party Isolation) have been removed from this fork rather than carried as dead weight. Firefox still supports Manifest V2, so Firefox users can simply keep using the upstream Cookie AutoDelete.
+Firefox is deliberately out of scope: Firefox-only features (Container Tabs, First-Party Isolation) were removed rather than carried as dead weight, and Firefox users have Manifest V2 options that still work there.
 
 ## Usage
 
@@ -31,7 +31,7 @@ Not yet on the Chrome Web Store (coming with the 4.0.0 release). Until then:
 2. Open `brave://extensions` (or `chrome://extensions`), enable Developer Mode
 3. "Load unpacked" and select the `/extension` folder
 
-Migrating from the original Cookie AutoDelete: export your settings from the old extension (Settings > Export), then import them here — the storage format is compatible.
+Coming from a similar cookie extension? Export your settings and expression lists from it as JSON, then import them here — see the [import/export chapter](documentation/src/import-export.md) for the accepted format.
 
 ## Development
 
@@ -56,7 +56,7 @@ The extension deletes data; it never collects or transmits any. All state lives 
 
 ## Internationalization
 
-Translations were inherited from the original project's Crowdin community. The extension name is intentionally untranslated; everything else remains localized in 30+ languages.
+The extension ships localized in 30+ languages (the non-English files predate the fork's rewritten English copy and will be regenerated from it). The extension name is intentionally untranslated.
 
 ## License
 

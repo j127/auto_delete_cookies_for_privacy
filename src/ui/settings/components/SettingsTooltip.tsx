@@ -19,9 +19,11 @@ interface OwnProps {
 }
 
 const SettingsTooltip: React.FunctionComponent<OwnProps> = ({ hrefURL }) => {
+  // Relative values resolve against the user documentation book; pass a
+  // full URL to link elsewhere.
   const link = hrefURL.startsWith("http")
     ? hrefURL
-    : `https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/Documentation${hrefURL}`;
+    : `https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/${hrefURL}`;
   return (
     <a
       href={link}

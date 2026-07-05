@@ -79,11 +79,11 @@ const Welcome: React.FunctionComponent<WelcomeProps> = ({
           className="btn-warning"
         />
       </p>
-      <a href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/Documentation">
+      <a href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/introduction.md">
         <span>{`${browser.i18n.getMessage("documentationText")}`}</span>
       </a>
       <br />
-      <a href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/FAQ:-Common-Questions-and-Issues">
+      <a href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/faq.md">
         <span>{`${browser.i18n.getMessage("faqText")}`}</span>
       </a>
       <hr />
@@ -93,7 +93,7 @@ const Welcome: React.FunctionComponent<WelcomeProps> = ({
       <p>
         {browser.i18n.getMessage("oldReleasesText")}{" "}
         <a
-          href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/releases"
+          href="https://github.com/j127/autodelete_cookies_for_privacy/releases"
           target="_blank"
           rel="noreferrer"
         >
