@@ -1,14 +1,19 @@
 version: 2
 updates:
-  # Maintain Dependencies for GitHub Actions
+  # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
-  # Maintain Dependencies for NodeJS / npm
-  - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
+      interval: "weekly"
+
+  # Maintain dependencies for Bun (package.json + bun.lock)
+  - package-ecosystem: "bun"
     directory: "/"
-    # Check npm registry for updates every day (weekdays)
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    # Major bumps are handled deliberately in the phased modernization
+    # issues (React in Phase 3, etc.); Dependabot keeps minors and patches
+    # flowing.
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
