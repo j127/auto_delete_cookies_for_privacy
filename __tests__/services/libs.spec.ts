@@ -16,9 +16,9 @@ import {
   ListType,
   SettingID,
   SiteDataType,
-} from "../../src/typings/enums";
+} from "@/typings/enums";
 import { when } from "jest-when";
-import { initialState } from "../../src/redux/state";
+import { initialState } from "@/redux/state";
 import {
   adcpLog,
   convertVersionToNumber,
@@ -47,7 +47,7 @@ import {
   trimDot,
   undefinedIsTrue,
   validateExpressionDomain,
-} from "../../src/services/libs";
+} from "@/services/libs";
 
 import ipaddr from "ipaddr.js";
 

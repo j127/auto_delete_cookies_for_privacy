@@ -81,7 +81,11 @@ module.exports = {
   moduleFileExtensions: ["ts", "tsx", "js"],
 
   // A map from regular expressions to module names that allow to stub out resources with a single module
-  // moduleNameMapper: {},
+  // Mirrors the tsconfig "@/*" paths alias. Temporary for jest: the #37
+  // test-runner switch replaces this with the winning runner's alias config.
+  moduleNameMapper: {
+    "^@/(.*)$": "<rootDir>/src/$1",
+  },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
   // modulePathIgnorePatterns: [],

@@ -3,7 +3,7 @@
  */
 import * as React from "react";
 import { fireEvent, render } from "@testing-library/react";
-import fontAwesomeImports from "../../../src/ui/font-awesome-imports";
+import fontAwesomeImports from "@/ui/font-awesome-imports";
 
 // Register the FontAwesome icons the settings entrypoint normally provides.
 fontAwesomeImports();
@@ -11,12 +11,11 @@ fontAwesomeImports();
 // SideBar resolves its tab labels through browser.i18n at module load time,
 // so the i18n mock implementation must be in place before the module is
 // imported. A static import would run before any beforeEach/beforeAll hook.
-let SideBar: (typeof import("../../../src/ui/settings/components/SideBar"))["default"];
+let SideBar: (typeof import("@/ui/settings/components/SideBar"))["default"];
 
 beforeAll(async () => {
   global.browser.i18n.getMessage.mockImplementation((key: string) => key);
-  SideBar = (await import("../../../src/ui/settings/components/SideBar"))
-    .default;
+  SideBar = (await import("@/ui/settings/components/SideBar")).default;
 });
 
 const TABS: Array<[string, string]> = [

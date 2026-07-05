@@ -12,9 +12,9 @@
  */
 import * as React from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
-import { resetAll } from "../../redux/actions";
-import { adcpLog } from "../../services/libs";
-import { downloadObjectAsJSON } from "../ui-libs";
+import { resetAll } from "@/redux/actions";
+import { adcpLog } from "@/services/libs";
+import { downloadObjectAsJSON } from "@/ui/ui-libs";
 import IconButton from "./IconButton";
 
 // This fixes the error thrown when upgrading react-redux from 7.1.7 to 7.1.8

@@ -5,10 +5,10 @@ import * as React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import { initialState } from "../../../src/redux/state";
-import { ListType, SettingID } from "../../../src/typings/enums";
-import fontAwesomeImports from "../../../src/ui/font-awesome-imports";
-import App from "../../../src/ui/popup/App";
+import { initialState } from "@/redux/state";
+import { ListType, SettingID } from "@/typings/enums";
+import fontAwesomeImports from "@/ui/font-awesome-imports";
+import App from "@/ui/popup/App";
 
 // Register the FontAwesome icons the popup entrypoint normally provides.
 fontAwesomeImports();

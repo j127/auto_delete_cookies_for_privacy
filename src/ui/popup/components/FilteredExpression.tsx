@@ -13,8 +13,8 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
 
-import { getMatchedExpressions } from "../../../services/libs";
-import ExpressionTable from "../../common-components/ExpressionTable";
+import { getMatchedExpressions } from "@/services/libs";
+import ExpressionTable from "@/ui/common-components/ExpressionTable";
 
 interface OwnProps {
   url: string;

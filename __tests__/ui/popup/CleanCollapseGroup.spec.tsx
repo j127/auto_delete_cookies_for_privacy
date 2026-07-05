@@ -5,8 +5,8 @@ import * as React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import { initialState } from "../../../src/redux/state";
-import CleanCollapseGroup from "../../../src/ui/popup/components/CleanCollapseGroup";
+import { initialState } from "@/redux/state";
+import CleanCollapseGroup from "@/ui/popup/components/CleanCollapseGroup";
 
 // Labels of every button in the group, in render order. The disabled
 // cleanupActionsBypass button acts as a section separator.

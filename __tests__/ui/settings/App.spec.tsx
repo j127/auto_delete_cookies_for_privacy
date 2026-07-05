@@ -5,9 +5,9 @@ import * as React from "react";
 import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import { initialState } from "../../../src/redux/state";
-import { SettingID } from "../../../src/typings/enums";
-import fontAwesomeImports from "../../../src/ui/font-awesome-imports";
+import { initialState } from "@/redux/state";
+import { SettingID } from "@/typings/enums";
+import fontAwesomeImports from "@/ui/font-awesome-imports";
 
 // Register the FontAwesome icons the settings entrypoint normally provides.
 fontAwesomeImports();
@@ -15,11 +15,11 @@ fontAwesomeImports();
 // App renders SideBar, which resolves its tab labels through browser.i18n at
 // module load time, so the mock implementation must be in place before the
 // module graph is imported. A static import would run before any test hook.
-let App: (typeof import("../../../src/ui/settings/App"))["default"];
+let App: (typeof import("@/ui/settings/App"))["default"];
 
 beforeAll(async () => {
   global.browser.i18n.getMessage.mockImplementation((key: string) => key);
-  App = (await import("../../../src/ui/settings/App")).default;
+  App = (await import("@/ui/settings/App")).default;
 });
 
 const SETTINGS_URL = "chrome-extension://ext-id/settings/settings.html";

@@ -9,9 +9,9 @@ import {
   UPDATE_STATE,
   dispatchBridgeAction,
   handleBridgeConnection,
-} from "../../src/redux/store-bridge";
+} from "@/redux/store-bridge";
 
-jest.requireActual("../../src/redux/store-bridge");
+jest.requireActual("@/redux/store-bridge");
 
 describe("StoreBridge", () => {
   describe("protocol constants", () => {

@@ -5,10 +5,10 @@ import * as React from "react";
 import { fireEvent, render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import { initialState } from "../../../src/redux/state";
-import { ReduxConstants } from "../../../src/typings/redux-constants";
-import fontAwesomeImports from "../../../src/ui/font-awesome-imports";
-import Welcome from "../../../src/ui/settings/components/Welcome";
+import { initialState } from "@/redux/state";
+import { ReduxConstants } from "@/typings/redux-constants";
+import fontAwesomeImports from "@/ui/font-awesome-imports";
+import Welcome from "@/ui/settings/components/Welcome";
 
 // Register the FontAwesome icons the settings entrypoint normally provides.
 fontAwesomeImports();

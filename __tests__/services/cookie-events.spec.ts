@@ -13,11 +13,11 @@
 
 import { when } from "jest-when";
 
-import CookieEvents from "../../src/services/cookie-events";
-import * as Lib from "../../src/services/libs";
-import TabEvents from "../../src/services/tab-events";
+import CookieEvents from "@/services/cookie-events";
+import * as Lib from "@/services/libs";
+import TabEvents from "@/services/tab-events";
 
-jest.requireActual("../../src/services/libs");
+jest.requireActual("@/services/libs");
 const spyLib: JestSpyObject = global.generateSpies(Lib);
 
 const defaultCookie: browser.cookies.Cookie = {

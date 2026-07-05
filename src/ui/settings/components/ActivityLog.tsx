@@ -13,11 +13,11 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import { Dispatch } from "redux";
-import { clearActivities } from "../../../redux/actions";
-import { FilterOptions } from "../../../typings/enums";
-import { ReduxAction } from "../../../typings/redux-constants";
-import ActivityTable from "../../common-components/ActivityTable";
-import IconButton from "../../common-components/IconButton";
+import { clearActivities } from "@/redux/actions";
+import { FilterOptions } from "@/typings/enums";
+import { ReduxAction } from "@/typings/redux-constants";
+import ActivityTable from "@/ui/common-components/ActivityTable";
+import IconButton from "@/ui/common-components/IconButton";
 
 interface OwnProps {
   style?: React.CSSProperties;

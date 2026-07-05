@@ -14,10 +14,10 @@ import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 // tslint:disable-next-line: import-name
-import ReleaseNotes from "../release-notes.json";
-import IconButton from "../../common-components/IconButton";
-import { ReduxAction } from "../../../typings/redux-constants";
-import { resetCookieDeletedCounter } from "../../../redux/actions";
+import ReleaseNotes from "@/ui/settings/release-notes.json";
+import IconButton from "@/ui/common-components/IconButton";
+import { ReduxAction } from "@/typings/redux-constants";
+import { resetCookieDeletedCounter } from "@/redux/actions";
 
 const displayReleaseNotes = (releases: ReleaseNote[]) => {
   return (

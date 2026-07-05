@@ -14,10 +14,7 @@
  */
 
 import { advanceTo, clear } from "jest-date-mock";
-import {
-  appendDynamicTimestamp,
-  downloadObjectAsJSON,
-} from "../../src/ui/ui-libs";
+import { appendDynamicTimestamp, downloadObjectAsJSON } from "@/ui/ui-libs";
 
 describe("appendDynamicTimestamp", () => {
   afterEach(() => {

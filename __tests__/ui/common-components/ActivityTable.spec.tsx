@@ -5,16 +5,16 @@ import * as React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import { initialState } from "../../../src/redux/state";
-import { ReduxConstants } from "../../../src/typings/redux-constants";
+import { initialState } from "@/redux/state";
+import { ReduxConstants } from "@/typings/redux-constants";
 import {
   FilterOptions,
   OpenTabStatus,
   ReasonClean,
   SiteDataType,
-} from "../../../src/typings/enums";
-import fontAwesomeImports from "../../../src/ui/font-awesome-imports";
-import ActivityTable from "../../../src/ui/common-components/ActivityTable";
+} from "@/typings/enums";
+import fontAwesomeImports from "@/ui/font-awesome-imports";
+import ActivityTable from "@/ui/common-components/ActivityTable";
 
 // Register the FontAwesome icons the entrypoints normally provide.
 fontAwesomeImports();

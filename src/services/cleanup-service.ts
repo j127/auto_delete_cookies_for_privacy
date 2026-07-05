@@ -18,7 +18,7 @@ import {
   ReasonKeep,
   SettingID,
   SiteDataType,
-} from "../typings/enums";
+} from "@/typings/enums";
 import {
   ADCPCOOKIENAME,
   adcpLog,

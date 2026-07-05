@@ -3,8 +3,8 @@
  */
 import * as React from "react";
 import { render } from "@testing-library/react";
-import fontAwesomeImports from "../../../src/ui/font-awesome-imports";
-import SettingsTooltip from "../../../src/ui/settings/components/SettingsTooltip";
+import fontAwesomeImports from "@/ui/font-awesome-imports";
+import SettingsTooltip from "@/ui/settings/components/SettingsTooltip";
 
 // Register the FontAwesome icons the settings entrypoint normally provides.
 fontAwesomeImports();

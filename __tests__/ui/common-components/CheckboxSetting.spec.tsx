@@ -3,8 +3,8 @@
  */
 import * as React from "react";
 import { fireEvent, render } from "@testing-library/react";
-import fontAwesomeImports from "../../../src/ui/font-awesome-imports";
-import CheckboxSetting from "../../../src/ui/common-components/CheckboxSetting";
+import fontAwesomeImports from "@/ui/font-awesome-imports";
+import CheckboxSetting from "@/ui/common-components/CheckboxSetting";
 
 // Register the FontAwesome icons the entrypoints normally provide.
 fontAwesomeImports();

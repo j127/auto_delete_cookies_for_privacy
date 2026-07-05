@@ -11,10 +11,10 @@
  * SOFTWARE.
  */
 
-import { ListType } from "../typings/enums";
+import { ListType } from "@/typings/enums";
 import { combineReducers, Reducer } from "redux";
-import { ReduxAction, ReduxConstants } from "../typings/redux-constants";
-import { uid } from "../services/libs";
+import { ReduxAction, ReduxConstants } from "@/typings/redux-constants";
+import { uid } from "@/services/libs";
 import { initialState } from "./state";
 
 // Tests if the expression already exists in the list

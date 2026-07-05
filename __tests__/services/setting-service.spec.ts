@@ -11,30 +11,30 @@
  * SOFTWARE.
  */
 
-import { SettingID } from "../../src/typings/enums";
+import { SettingID } from "@/typings/enums";
 import { when } from "jest-when";
 import { Store } from "redux";
-import { initialState } from "../../src/redux/state";
+import { initialState } from "@/redux/state";
 // tslint:disable-next-line: import-name
-import createStore from "../../src/redux/store";
-import * as BrowserActionService from "../../src/services/browser-action-service";
-import SettingService from "../../src/services/setting-service";
-import StoreUser from "../../src/services/store-user";
-import { ReduxAction } from "../../src/typings/redux-constants";
-import { resetSettings, updateSetting } from "../../src/redux/actions";
-import ContextMenuEvents from "../../src/services/context-menu-events";
+import createStore from "@/redux/store";
+import * as BrowserActionService from "@/services/browser-action-service";
+import SettingService from "@/services/setting-service";
+import StoreUser from "@/services/store-user";
+import { ReduxAction } from "@/typings/redux-constants";
+import { resetSettings, updateSetting } from "@/redux/actions";
+import ContextMenuEvents from "@/services/context-menu-events";
 
 const spyBrowserActions: JestSpyObject =
   global.generateSpies(BrowserActionService);
 
-jest.requireActual("../../src/services/context-menu-events");
+jest.requireActual("@/services/context-menu-events");
 class TestContextMenus extends ContextMenuEvents {
   public static isInit(): boolean {
     return ContextMenuEvents.isInitialized;
   }
 }
 
-jest.requireActual("../../src/services/store-user");
+jest.requireActual("@/services/store-user");
 const store: Store<State, ReduxAction> = createStore(initialState);
 StoreUser.init(store);
 

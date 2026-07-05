@@ -3,7 +3,7 @@
  */
 import * as React from "react";
 import { fireEvent, render } from "@testing-library/react";
-import SelectInput from "../../../src/ui/common-components/SelectInput";
+import SelectInput from "@/ui/common-components/SelectInput";
 
 interface RenderOptions {
   inputOptions?: string[];

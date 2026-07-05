@@ -11,8 +11,8 @@
  * SOFTWARE.
  */
 
-import { SettingID } from "../typings/enums";
-import { cookieCleanup } from "../redux/actions";
+import { SettingID } from "@/typings/enums";
+import { cookieCleanup } from "@/redux/actions";
 import { getSetting } from "./libs";
 import StoreUser from "./store-user";
 

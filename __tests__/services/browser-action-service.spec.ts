@@ -1,13 +1,13 @@
-import { initialState } from "../../src/redux/state";
+import { initialState } from "@/redux/state";
 import {
   checkIfProtected,
   setGlobalIcon,
   showNumberOfCookiesInIcon,
   showNumberOfCookiesInTitle,
-} from "../../src/services/browser-action-service";
-import { ListType, SettingID } from "../../src/typings/enums";
+} from "@/services/browser-action-service";
+import { ListType, SettingID } from "@/typings/enums";
 
-jest.requireActual("../../src/services/browser-action-service");
+jest.requireActual("@/services/browser-action-service");
 
 const defaultTab: browser.tabs.Tab = {
   active: true,

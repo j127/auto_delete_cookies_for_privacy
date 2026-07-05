@@ -11,12 +11,8 @@
  * SOFTWARE.
  */
 
-import { ListType, SettingID, SiteDataType } from "../typings/enums";
-import {
-  addExpressionUI,
-  cookieCleanup,
-  updateSetting,
-} from "../redux/actions";
+import { ListType, SettingID, SiteDataType } from "@/typings/enums";
+import { addExpressionUI, cookieCleanup, updateSetting } from "@/redux/actions";
 import {
   clearCookiesForThisDomain,
   clearLocalStorageForThisDomain,

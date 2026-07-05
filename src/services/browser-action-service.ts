@@ -11,7 +11,7 @@
  * SOFTWARE.
  */
 
-import { ListType, SettingID } from "../typings/enums";
+import { ListType, SettingID } from "@/typings/enums";
 import { getHostname, returnMatchedExpressionObject } from "./libs";
 
 // Show the # of cookies in icon

@@ -1,13 +1,13 @@
 import { when } from "jest-when";
-import * as Actions from "../../src/redux/actions";
-import { initialState } from "../../src/redux/state";
-import * as BrowserActionService from "../../src/services/browser-action-service";
-import * as CleanupService from "../../src/services/cleanup-service";
-import * as Lib from "../../src/services/libs";
-import { ListType, SettingID, SiteDataType } from "../../src/typings/enums";
-import { ReduxConstants } from "../../src/typings/redux-constants";
+import * as Actions from "@/redux/actions";
+import { initialState } from "@/redux/state";
+import * as BrowserActionService from "@/services/browser-action-service";
+import * as CleanupService from "@/services/cleanup-service";
+import * as Lib from "@/services/libs";
+import { ListType, SettingID, SiteDataType } from "@/typings/enums";
+import { ReduxConstants } from "@/typings/redux-constants";
 
-jest.requireActual("../../src/redux/actions");
+jest.requireActual("@/redux/actions");
 
 const spyBrowserActions: JestSpyObject =
   global.generateSpies(BrowserActionService);

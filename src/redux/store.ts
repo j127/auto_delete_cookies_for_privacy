@@ -14,7 +14,7 @@
 
 import { configureStore } from "@reduxjs/toolkit";
 import { Store } from "redux";
-import { ReduxAction, ReduxConstants } from "../typings/redux-constants";
+import { ReduxAction, ReduxConstants } from "@/typings/redux-constants";
 import {
   addExpression,
   clearActivities,

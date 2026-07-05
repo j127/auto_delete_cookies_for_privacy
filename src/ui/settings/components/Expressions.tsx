@@ -10,7 +10,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { ListType, SettingID } from "../../../typings/enums";
+import { ListType, SettingID } from "@/typings/enums";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
@@ -18,17 +18,17 @@ import {
   addExpressionUI,
   clearExpressionsUI,
   removeListUI,
-} from "../../../redux/actions";
+} from "@/redux/actions";
 import {
   adcpLog,
   getMatchedExpressions,
   getSetting,
   validateExpressionDomain,
-} from "../../../services/libs";
-import { ReduxAction } from "../../../typings/redux-constants";
-import ExpressionTable from "../../common-components/ExpressionTable";
-import IconButton from "../../common-components/IconButton";
-import { downloadObjectAsJSON } from "../../ui-libs";
+} from "@/services/libs";
+import { ReduxAction } from "@/typings/redux-constants";
+import ExpressionTable from "@/ui/common-components/ExpressionTable";
+import IconButton from "@/ui/common-components/IconButton";
+import { downloadObjectAsJSON } from "@/ui/ui-libs";
 import SettingsTooltip from "./SettingsTooltip";
 const styles = {
   buttonStyle: {
