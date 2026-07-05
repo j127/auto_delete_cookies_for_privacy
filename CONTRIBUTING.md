@@ -19,16 +19,17 @@ just install
 
 ## Everyday commands
 
-| Command            | What it does                                                                               |
-| ------------------ | ------------------------------------------------------------------------------------------ |
-| `just dev`         | Watch mode: rebuilds bundles into `extension/` on every change                             |
-| `just build`       | One-shot build                                                                             |
-| `just check`       | TypeScript type-check (no emit)                                                            |
-| `just lint`        | ESLint over the whole repo (flat config, `eslint.config.mjs`)                              |
-| `just test`        | Jest suite with coverage; fails if coverage drops below the thresholds in `jest.config.js` |
-| `just format`      | Prettier over the repo                                                                     |
-| `just ci`          | Exactly what CI runs: install, check, lint, test, build                                    |
-| `just package_zip` | Build and zip `extension/` into `builds/`                                                  |
+| Command                               | What it does                                                                                                                          |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `just dev`                            | Watch mode: rebuilds bundles into `extension/` on every change                                                                        |
+| `just build`                          | One-shot build                                                                                                                        |
+| `just check`                          | TypeScript type-check (no emit)                                                                                                       |
+| `just lint`                           | ESLint over the whole repo (flat config, `eslint.config.mjs`)                                                                         |
+| `just test`                           | Jest suite with coverage; fails if coverage drops below the thresholds in `jest.config.js`                                            |
+| `just format`                         | Prettier over the repo                                                                                                                |
+| `just ci`                             | Exactly what CI runs: install, check, lint, test, build                                                                               |
+| `just package_zip`                    | Build and zip `extension/` into `builds/`                                                                                             |
+| `just docs_build` / `just docs_serve` | Build or live-serve the user docs in `documentation/` (needs `mdbook` + `mdbook-mermaid`, e.g. `cargo install mdbook mdbook-mermaid`) |
 
 To try your build: `just build`, open `brave://extensions` (or `chrome://extensions`), enable Developer Mode, "Load unpacked", select the `extension/` folder.
 

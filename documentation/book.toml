@@ -1,7 +1,8 @@
 [book]
-title = "The Fine Manual"
+title = "Auto-Delete Cookies for Privacy"
 authors = ["Josh"]
 language = "en"
+description = "User guide for the Auto-Delete Cookies for Privacy browser extension"
 
 [preprocessor]
 
