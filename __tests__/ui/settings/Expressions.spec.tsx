@@ -64,7 +64,7 @@ describe("Expressions", () => {
     const helpLink = getByText("questionExpression") as HTMLAnchorElement;
     expect(helpLink.tagName).toBe("A");
     expect(helpLink.getAttribute("href")).toBe(
-      "https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
+      "https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
     );
     // Regression guard (PR #91): the tooltip anchor must not be nested
     // inside the help link.

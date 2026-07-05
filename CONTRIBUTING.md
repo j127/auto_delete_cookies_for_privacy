@@ -12,8 +12,8 @@ You need two tools installed globally:
 Everything else is a local dependency. First-time setup:
 
 ```bash
-git clone git@github.com:j127/autodelete_cookies_for_privacy.git
-cd autodelete_cookies_for_privacy
+git clone git@github.com:j127/auto_delete_cookies_for_privacy.git
+cd auto_delete_cookies_for_privacy
 just install
 ```
 

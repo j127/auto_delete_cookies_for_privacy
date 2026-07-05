@@ -10,7 +10,7 @@ import SettingsTooltip from "../../../src/ui/settings/components/SettingsTooltip
 fontAwesomeImports();
 
 const DOC_BASE =
-  "https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/";
+  "https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/";
 
 describe("SettingsTooltip", () => {
   const renderTooltip = (hrefURL: string) => {

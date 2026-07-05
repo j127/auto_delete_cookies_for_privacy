@@ -41,4 +41,4 @@ Cookies are the core, but sites have other places to stash data. ADCP can option
 
 ## What it never does
 
-ADCP never sends anything anywhere. It has no server, no analytics, no accounts. All your settings and lists live inside your browser, and the extension's only network activity is none at all. The [Privacy Policy](https://github.com/j127/autodelete_cookies_for_privacy/blob/main/PRIVACY.md) spells this out permission by permission.
+ADCP never sends anything anywhere. It has no server, no analytics, no accounts. All your settings and lists live inside your browser, and the extension's only network activity is none at all. The [Privacy Policy](https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/PRIVACY.md) spells this out permission by permission.

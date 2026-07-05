@@ -78,11 +78,11 @@ const Welcome: React.FunctionComponent<OwnProps> = ({ style }) => {
           className="btn-warning"
         />
       </p>
-      <a href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/introduction.md">
+      <a href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/introduction.md">
         <span>{`${browser.i18n.getMessage("documentationText")}`}</span>
       </a>
       <br />
-      <a href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/faq.md">
+      <a href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/faq.md">
         <span>{`${browser.i18n.getMessage("faqText")}`}</span>
       </a>
       <hr />
@@ -92,7 +92,7 @@ const Welcome: React.FunctionComponent<OwnProps> = ({ style }) => {
       <p>
         {browser.i18n.getMessage("oldReleasesText")}{" "}
         <a
-          href="https://github.com/j127/autodelete_cookies_for_privacy/releases"
+          href="https://github.com/j127/auto_delete_cookies_for_privacy/releases"
           target="_blank"
           rel="noreferrer"
         >

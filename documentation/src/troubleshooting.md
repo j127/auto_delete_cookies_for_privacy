@@ -39,7 +39,7 @@ The cleanup log shows which of these applied.
 
 ## Something looks broken — filing a useful bug report
 
-Open an issue at <https://github.com/j127/autodelete_cookies_for_privacy/issues> and include:
+Open an issue at <https://github.com/j127/auto_delete_cookies_for_privacy/issues> and include:
 
 - Browser and version (e.g. Brave 1.61), and the ADCP version — the **About** tab of the settings page has a copyable debug block with exactly this.
 - What you expected, what happened instead, and the steps to get there.

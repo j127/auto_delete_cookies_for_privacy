@@ -23,7 +23,7 @@ const SettingsTooltip: React.FunctionComponent<OwnProps> = ({ hrefURL }) => {
   // full URL to link elsewhere.
   const link = hrefURL.startsWith("http")
     ? hrefURL
-    : `https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/${hrefURL}`;
+    : `https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/${hrefURL}`;
   return (
     <a
       href={link}
