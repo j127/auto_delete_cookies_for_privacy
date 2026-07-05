@@ -40,20 +40,20 @@ module.exports = {
   // ],
 
   // Minimum coverage enforcement. Values are the measured baseline after the
-  // UI component-test push in #93 (2026-07-05: statements 78.41, branches
-  // 78.26, functions 69.66, lines 78.03) floored to whole numbers, so any
+  // services/redux gap-fill in #94 (2026-07-05: statements 83.41, branches
+  // 85.37, functions 77.75, lines 82.95) floored to whole numbers, so any
   // regression fails `just test` while normal churn doesn't flake. Ratchet
   // plan: whenever a change meaningfully raises coverage, bump these floors
   // to the new measured baseline; the target is the 90% already declared in
   // bunfig.toml, which becomes the enforced number when the bun-test switch
-  // lands (#37). The biggest remaining gaps are background.ts and the
-  // services/redux modules tracked in #94.
+  // lands (#37). The biggest remaining gap is background.ts (service-worker
+  // entry wiring).
   coverageThreshold: {
     global: {
-      statements: 78,
-      branches: 78,
-      functions: 69,
-      lines: 78,
+      statements: 83,
+      branches: 85,
+      functions: 77,
+      lines: 82,
     },
   },
 
