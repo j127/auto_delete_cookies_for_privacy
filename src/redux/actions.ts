@@ -12,8 +12,8 @@
  */
 
 import { ListType, SettingID, SiteDataType } from "../typings/enums";
+import { ThunkAction } from "@reduxjs/toolkit";
 import { ActionCreator, Dispatch } from "redux";
-import { ThunkAction } from "redux-thunk";
 import { checkIfProtected } from "../services/browser-action-service";
 import { cleanCookiesOperation } from "../services/cleanup-service";
 import {
