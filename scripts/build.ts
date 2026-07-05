@@ -19,7 +19,7 @@
 // Bare specifiers (not node:-prefixed) and older fs APIs (copyFileSync,
 // rmdirSync) because the locked @types/node is too old for the node: aliases
 // and for cpSync/rmSync; Bun implements all of these.
-import { copyFileSync, existsSync, rmdirSync, watch } from "fs";
+import { copyFileSync, existsSync, mkdirSync, rmdirSync, watch } from "fs";
 import { join } from "path";
 
 const root = join(import.meta.dir, "..");
@@ -52,6 +52,9 @@ const VENDOR_FILES = [
 ];
 
 function copyVendorFiles(): void {
+  // The vendor copies themselves are gitignored, so on a fresh clone (CI)
+  // the directory doesn't exist at all - git can't track an empty dir.
+  mkdirSync(vendorDir, { recursive: true });
   for (const rel of VENDOR_FILES) {
     const from = join(root, "node_modules", rel);
     if (!existsSync(from)) {
