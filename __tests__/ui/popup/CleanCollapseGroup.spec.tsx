@@ -65,6 +65,11 @@ describe("CleanCollapseGroup", () => {
     expect(group.getAttribute("role")).toBe("group");
   });
 
+  it("renders without console errors", () => {
+    renderGroup();
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
   it("renders every clean button with its i18n label in order", () => {
     const { getAllByRole } = renderGroup();
     const labels = getAllByRole("button").map((b) => b.textContent);
