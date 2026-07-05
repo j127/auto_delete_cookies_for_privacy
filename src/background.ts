@@ -13,7 +13,12 @@
 
 // Must be the first import: provides the `browser` and `browserDetect`
 // globals that MV2 supplied via script tags (see src/init-globals.ts).
-import { browserName, ListType, SettingID, SiteDataType } from "./typings/enums";
+import {
+  browserName,
+  ListType,
+  SettingID,
+  SiteDataType,
+} from "./typings/enums";
 import "./init-globals";
 
 import { Store } from "redux";
@@ -143,18 +148,32 @@ const init = async (): Promise<Store<State, ReduxAction>> => {
   await TabEvents.hydrateFromSession();
   await AlarmEvents.recoverPendingCleanup();
 
-  await setGlobalIcon(
-    getSetting(store.getState(), SettingID.ACTIVE_MODE) as boolean
-  );
+  // Cosmetic/optional initialization must never take the whole worker down:
+  // if `ready` rejects, every event handler and the UI store bridge die with
+  // it (that's exactly how a bad icon path once turned into blank popup and
+  // settings pages). Cookie cleanup works without icons or menus.
+  try {
+    await setGlobalIcon(
+      getSetting(store.getState(), SettingID.ACTIVE_MODE) as boolean
+    );
 
-  await checkIfProtected(store.getState());
+    await checkIfProtected(store.getState());
 
-  if (browser.contextMenus) {
-    await ContextMenuEvents.menuInit();
-  }
+    if (browser.contextMenus) {
+      await ContextMenuEvents.menuInit();
+    }
 
-  if (browser.contextualIdentities) {
-    await ContextualIdentitiesEvents.init();
+    if (browser.contextualIdentities) {
+      await ContextualIdentitiesEvents.init();
+    }
+  } catch (e) {
+    cadLog(
+      {
+        msg: `background.init: non-critical initialization failed (icons/menus/containers): ${e}`,
+        type: "error",
+      },
+      true
+    );
   }
 
   cadLog(
@@ -173,6 +192,13 @@ const init = async (): Promise<Store<State, ReduxAction>> => {
 // wake-up simply queue behind initialization - none are lost, because all
 // listeners are registered synchronously at the top level as MV3 requires.
 const ready: Promise<Store<State, ReduxAction>> = init();
+
+// Make an init failure loud in the worker console. This taps a separate
+// promise branch: handlers awaiting `ready` still observe the rejection.
+ready.catch((e) => {
+  // eslint-disable-next-line no-console
+  console.error("background.init failed; the extension cannot operate:", e);
+});
 
 // Keeps a memory of all runtime ports for popups.  Should only be one but just in case.
 // In-memory is correct in MV3: ports cannot outlive the service worker, and
