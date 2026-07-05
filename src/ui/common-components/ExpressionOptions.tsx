@@ -12,7 +12,10 @@
  */
 import { ListType, SiteDataType } from "../../typings/enums";
 import ipaddr from "ipaddr.js";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  FontAwesomeIcon,
+  FontAwesomeIconProps,
+} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import { updateExpressionUI } from "../../redux/actions";
@@ -26,7 +29,7 @@ type ExpressionOptionsProps = OwnProps;
 const styles = {
   checkbox: {
     marginRight: "5px",
-  } as React.CSSProperties,
+  } as FontAwesomeIconProps["style"],
 };
 
 const trimDotAndStar = (str: string) => {

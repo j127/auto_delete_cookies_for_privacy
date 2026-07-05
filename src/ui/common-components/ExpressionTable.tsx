@@ -11,7 +11,8 @@
  * SOFTWARE.
  */
 import { ListType } from "../../typings/enums";
-import { useEffect, useRef, useState } from "react";
+// React 19 no longer provides a global JSX namespace; it is imported instead.
+import { useEffect, useRef, useState, type JSX } from "react";
 import { useDispatch } from "react-redux";
 import { removeExpressionUI, updateExpressionUI } from "../../redux/actions";
 import { validateExpressionDomain } from "../../services/libs";

@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import * as React from "react";
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "../../../src/redux/state";
@@ -94,6 +94,10 @@ describe("settings App", () => {
     await waitFor(() =>
       expect(global.browser.tabs.getCurrent).toHaveBeenCalled()
     );
+    // The click depends on the mount effect's state (settings URL / tab id)
+    // having landed, not just on getCurrent having been called; React 19's
+    // stricter act timing exposed that gap.
+    await act(async () => {});
 
     fireEvent.click(container.querySelector("#tabSettings") as HTMLElement);
 
