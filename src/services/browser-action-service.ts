@@ -88,7 +88,7 @@ const setIconColor = (
   if (browser.action.setIcon) {
     browser.action.setIcon({
       path: {
-        48: `icons/icon_48${
+        48: `/icons/icon_48${
           keepDefault || color === "default" ? "" : `_${color}`
         }.png`,
       },
@@ -106,7 +106,7 @@ export const setGlobalIcon = async (enabled: boolean): Promise<void> => {
     // Set Global Icon
     await browser.action.setIcon({
       path: {
-        48: `icons/icon_48${enabled ? "" : "_greyscale"}.png`,
+        48: `/icons/icon_48${enabled ? "" : "_greyscale"}.png`,
       },
     });
 
@@ -117,7 +117,7 @@ export const setGlobalIcon = async (enabled: boolean): Promise<void> => {
       if (tab.id !== browser.tabs.TAB_ID_NONE) {
         await browser.action.setIcon({
           path: {
-            48: `icons/icon_48${enabled ? "" : "_greyscale"}.png`,
+            48: `/icons/icon_48${enabled ? "" : "_greyscale"}.png`,
           },
           tabId: tab.id,
         });
