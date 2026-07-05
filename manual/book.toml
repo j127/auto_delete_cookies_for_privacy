@@ -1,0 +1,14 @@
+[book]
+title = "The Fine Manual"
+authors = ["Josh"]
+language = "en"
+
+[preprocessor]
+
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+
+[output]
+
+[output.html]
+additional-js = ["mermaid.min.js", "mermaid-init.js"]
