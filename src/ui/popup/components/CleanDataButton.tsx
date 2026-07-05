@@ -58,6 +58,8 @@ const cleanSiteDataUI = async (
 const CleanDataButton: React.FunctionComponent<OwnProps & StateProps> = (
   props
 ) => {
+  // No rest spread here: connect() injects a `dispatch` prop, and spreading
+  // it onto the <button> makes React warn about an invalid DOM attribute.
   const {
     altColor,
     btnColor,
@@ -68,7 +70,6 @@ const CleanDataButton: React.FunctionComponent<OwnProps & StateProps> = (
     tab,
     title,
     text,
-    ...nativeProps
   } = props;
   return (
     <button
@@ -98,7 +99,6 @@ const CleanDataButton: React.FunctionComponent<OwnProps & StateProps> = (
         ""
       }
       type="button"
-      {...nativeProps}
     >
       {text || browser.i18n.getMessage(`manualCleanSiteData${siteData}`)}
     </button>

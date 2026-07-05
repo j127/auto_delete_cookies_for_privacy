@@ -42,6 +42,15 @@ describe("CleanDataButton", () => {
     expect(getByRole("button").textContent).toBe("Custom Label");
   });
 
+  it("renders without console errors", () => {
+    // Guards the connect()-injected dispatch prop from leaking onto the
+    // <button> element, which React reports through console.error.
+    renderButton(
+      <CleanDataButton siteData={SiteDataType.CACHE} hostname="example.com" />
+    );
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
   it("falls back to the manualCleanSiteData<siteData> i18n label", () => {
     const { getByRole } = renderButton(
       <CleanDataButton siteData={SiteDataType.CACHE} hostname="example.com" />

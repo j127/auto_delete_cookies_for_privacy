@@ -79,6 +79,11 @@ describe("popup App", () => {
     );
   });
 
+  it("renders without console errors", async () => {
+    await renderApp();
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
   it("renders the header, hostname and cookie count for the active tab", async () => {
     const { container, getAllByText } = await renderApp();
     const byId = (id: string) => document.getElementById(id) as HTMLElement;

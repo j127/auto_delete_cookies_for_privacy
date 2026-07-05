@@ -163,4 +163,9 @@ describe("Expressions", () => {
     renderExpressions();
     expect(console.error).not.toHaveBeenCalled();
   });
+
+  it("renders without console errors when expression rows are shown", () => {
+    renderExpressions({ lists: sampleLists });
+    expect(console.error).not.toHaveBeenCalled();
+  });
 });

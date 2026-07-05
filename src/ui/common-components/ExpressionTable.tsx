@@ -231,9 +231,8 @@ class ExpressionTable extends Component<ExpressionTableProps, EmptyState> {
                       resize: "none",
                       whiteSpace: "nowrap",
                     }}
-                  >
-                    {expression.expression}
-                  </textarea>
+                    value={expression.expression}
+                  />
 
                   <IconButton
                     title={browser.i18n.getMessage("editExpressionText")}

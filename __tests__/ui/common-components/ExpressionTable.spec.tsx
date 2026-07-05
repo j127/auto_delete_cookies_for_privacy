@@ -118,6 +118,11 @@ describe("ExpressionTable", () => {
     getByTitle("toggleToWhiteListWordText");
   });
 
+  it("renders expression rows without console errors", () => {
+    renderTable([whiteExpression, greyExpression]);
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
   it("dispatches the remove action for the row's expression", () => {
     const view = renderTable([whiteExpression, greyExpression]);
     fireEvent.click(view.getAllByTitle("removeExpressionText")[0]);
