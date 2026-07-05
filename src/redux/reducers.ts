@@ -12,8 +12,8 @@
  */
 
 import { combineReducers } from "redux";
-import shortid from "shortid";
 import { ReduxAction, ReduxConstants } from "../typings/redux-constants";
+import { uid } from "../services/libs";
 import { initialState } from "./state";
 
 // Tests if the expression already exists in the list
@@ -32,7 +32,7 @@ const newExpressionObject = (
   cleanSiteData: !action.payload.cleanSiteData
     ? []
     : action.payload.cleanSiteData,
-  id: shortid.generate(),
+  id: uid(),
   listType: !action.payload.listType ? ListType.WHITE : action.payload.listType,
 });
 

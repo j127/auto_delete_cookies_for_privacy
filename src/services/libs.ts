@@ -12,7 +12,6 @@
  */
 
 import ipaddr from "ipaddr.js";
-import shortid from "shortid";
 
 /* --- CONSTANTS --- */
 export const CADCOOKIENAME = "CookieAutoDeleteBrowsingDataCleanup";
@@ -28,6 +27,13 @@ export const SITEDATATYPES = [
 /**
  * Console Log Outputs - Mostly For Debugging
  */
+/**
+ * Short unique id for notification ids, expression ids, and throwaway cookie
+ * paths. Replaces the deprecated shortid package with the built-in
+ * crypto.randomUUID (Chrome 92+/service workers, Node, Bun).
+ */
+export const uid = (): string => crypto.randomUUID();
+
 export const cadLog = (x: CADLogItem, output: boolean): void => {
   if (!x.msg || x.msg.trim() === "") return;
   if (!output) return;
@@ -806,7 +812,7 @@ export const showNotification = (
   display = true
 ): void => {
   if (!display) return;
-  const sid = `CAD-notification-${shortid.generate()}`;
+  const sid = `CAD-notification-${uid()}`;
   browser.notifications.create(sid, {
     iconUrl: browser.runtime.getURL("icons/icon_48.png"),
     message: x.msg,
@@ -845,7 +851,7 @@ export const sleep = (ms: number): Promise<any> => {
  * @param duration number in seconds
  */
 export const throwErrorNotification = (e: Error, duration: number): void => {
-  const nid = `CAD-notification-failed-${shortid.generate()}`;
+  const nid = `CAD-notification-failed-${uid()}`;
   browser.notifications.create(nid, {
     iconUrl: browser.runtime.getURL("icons/icon_red_48.png"),
     message: e.message,
