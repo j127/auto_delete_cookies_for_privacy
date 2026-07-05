@@ -16,11 +16,11 @@
  */
 export const animateFlash = (
   domNode: HTMLElement | null,
-  success: boolean,
+  success: boolean
 ): void => {
   if (!domNode) return;
   try {
-    const cssFlash = `${success ? 'success' : 'failure'}Animated`;
+    const cssFlash = `${success ? "success" : "failure"}Animated`;
     domNode.classList.add(cssFlash);
     setTimeout(() => {
       domNode.classList.remove(cssFlash);

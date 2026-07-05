@@ -3,12 +3,12 @@ name: CI
 on:
   push:
     branches-ignore:
-      - '_archived__**'
+      - "_archived__**"
   pull_request_target:
     branches-ignore:
-      - '_archived__**'
+      - "_archived__**"
     paths-ignore:
-      - '**/README.md'
+      - "**/README.md"
 
 permissions:
   actions: write
@@ -78,7 +78,7 @@ jobs:
         id: node
         uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: "22.x"
       - name: Cache Node Modules
         id: nodeCache
         uses: actions/cache@v4

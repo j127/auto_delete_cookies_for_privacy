@@ -19,8 +19,8 @@ export const appendDynamicTimestamp = (): string => {
   return new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
     .toISOString()
     .slice(0, -5)
-    .replace('T', '_')
-    .replace(/:/g, '.');
+    .replace("T", "_")
+    .replace(/:/g, ".");
 };
 
 /**
@@ -29,24 +29,24 @@ export const appendDynamicTimestamp = (): string => {
  */
 export const downloadObjectAsJSON = (
   exportObj: Record<string, unknown>,
-  exportName = 'ExportedData',
+  exportName = "ExportedData"
 ): Record<string, boolean | null | string> => {
   const dataHref = `data:text/json;charset=urf-8,${encodeURIComponent(
-    JSON.stringify(exportObj, null, 2),
+    JSON.stringify(exportObj, null, 2)
   )}`;
-  const downloadNode = document.createElement('a');
-  downloadNode.setAttribute('href', dataHref);
+  const downloadNode = document.createElement("a");
+  downloadNode.setAttribute("href", dataHref);
   downloadNode.setAttribute(
-    'download',
-    `CAD_${exportName}_${appendDynamicTimestamp()}.json`,
+    "download",
+    `CAD_${exportName}_${appendDynamicTimestamp()}.json`
   );
-  downloadNode.setAttribute('target', '_blank');
+  downloadNode.setAttribute("target", "_blank");
   document.body.appendChild(downloadNode);
   downloadNode.click();
   downloadNode.remove();
   return {
     status: true,
-    downloadHref: downloadNode.getAttribute('href'),
-    downloadName: downloadNode.getAttribute('download'),
+    downloadHref: downloadNode.getAttribute("href"),
+    downloadName: downloadNode.getAttribute("download"),
   };
 };

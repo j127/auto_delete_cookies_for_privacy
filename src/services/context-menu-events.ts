@@ -15,12 +15,12 @@ import {
   addExpressionUI,
   cookieCleanup,
   updateSetting,
-} from '../redux/actions';
+} from "../redux/actions";
 import {
   clearCookiesForThisDomain,
   clearLocalStorageForThisDomain,
   clearSiteDataForThisDomain,
-} from './cleanup-service';
+} from "./cleanup-service";
 import {
   cadLog,
   eventListenerActions,
@@ -31,36 +31,36 @@ import {
   showNotification,
   siteDataToBrowser,
   SITEDATATYPES,
-} from './libs';
-import StoreUser from './store-user';
+} from "./libs";
+import StoreUser from "./store-user";
 
 export default class ContextMenuEvents extends StoreUser {
   public static MenuID = {
-    ACTIVE_MODE: 'cad-active-mode',
-    CLEAN: 'cad-clean',
-    CLEAN_OPEN: 'cad-clean-open',
-    LINK_ADD_GREY_DOMAIN: 'cad-link-add-grey-domain',
-    LINK_ADD_GREY_SUBS: 'cad-link-add-grey-subs',
-    LINK_ADD_WHITE_DOMAIN: 'cad-link-add-white-domain',
-    LINK_ADD_WHITE_SUBS: 'cad-link-add-white-subs',
-    PAGE_ADD_GREY_DOMAIN: 'cad-page-add-grey-domain',
-    PAGE_ADD_GREY_SUBS: 'cad-page-add-grey-subs',
-    PAGE_ADD_WHITE_DOMAIN: 'cad-page-add-white-domain',
-    PAGE_ADD_WHITE_SUBS: 'cad-page-add-white-subs',
-    PARENT_CLEAN: 'cad-parent-clean',
-    PARENT_EXPRESSION: 'cad-parent-expression',
-    PARENT_LINK_DOMAIN: 'cad-parent-link-domain',
-    PARENT_LINK_SUBS: 'cad-parent-link-subs',
-    PARENT_PAGE_DOMAIN: 'cad-parent-page-domain',
-    PARENT_PAGE_SUBS: 'cad-parent-page-subs',
-    PARENT_SELECT_DOMAIN: 'cad-parent-select-domain',
-    PARENT_SELECT_SUBS: 'cad-parent-select-subs',
-    MANUAL_CLEAN_SITEDATA: 'cad-clean-sitedata-',
-    SELECT_ADD_GREY_DOMAIN: 'cad-select-add-grey-domain',
-    SELECT_ADD_GREY_SUBS: 'cad-select-add-grey-subs',
-    SELECT_ADD_WHITE_DOMAIN: 'cad-select-add-white-domain',
-    SELECT_ADD_WHITE_SUBS: 'cad-select-add-white-subs',
-    SETTINGS: 'cad-settings',
+    ACTIVE_MODE: "cad-active-mode",
+    CLEAN: "cad-clean",
+    CLEAN_OPEN: "cad-clean-open",
+    LINK_ADD_GREY_DOMAIN: "cad-link-add-grey-domain",
+    LINK_ADD_GREY_SUBS: "cad-link-add-grey-subs",
+    LINK_ADD_WHITE_DOMAIN: "cad-link-add-white-domain",
+    LINK_ADD_WHITE_SUBS: "cad-link-add-white-subs",
+    PAGE_ADD_GREY_DOMAIN: "cad-page-add-grey-domain",
+    PAGE_ADD_GREY_SUBS: "cad-page-add-grey-subs",
+    PAGE_ADD_WHITE_DOMAIN: "cad-page-add-white-domain",
+    PAGE_ADD_WHITE_SUBS: "cad-page-add-white-subs",
+    PARENT_CLEAN: "cad-parent-clean",
+    PARENT_EXPRESSION: "cad-parent-expression",
+    PARENT_LINK_DOMAIN: "cad-parent-link-domain",
+    PARENT_LINK_SUBS: "cad-parent-link-subs",
+    PARENT_PAGE_DOMAIN: "cad-parent-page-domain",
+    PARENT_PAGE_SUBS: "cad-parent-page-subs",
+    PARENT_SELECT_DOMAIN: "cad-parent-select-domain",
+    PARENT_SELECT_SUBS: "cad-parent-select-subs",
+    MANUAL_CLEAN_SITEDATA: "cad-clean-sitedata-",
+    SELECT_ADD_GREY_DOMAIN: "cad-select-add-grey-domain",
+    SELECT_ADD_GREY_SUBS: "cad-select-add-grey-subs",
+    SELECT_ADD_WHITE_DOMAIN: "cad-select-add-white-domain",
+    SELECT_ADD_WHITE_SUBS: "cad-select-add-white-subs",
+    SETTINGS: "cad-settings",
   };
 
   public static menuInit(): void {
@@ -68,7 +68,7 @@ export default class ContextMenuEvents extends StoreUser {
     if (
       !getSetting(
         StoreUser.store.getState(),
-        SettingID.CONTEXT_MENUS,
+        SettingID.CONTEXT_MENUS
       ) as boolean
     )
       return;
@@ -77,34 +77,34 @@ export default class ContextMenuEvents extends StoreUser {
     // Clean Option Group
     ContextMenuEvents.menuCreate({
       id: ContextMenuEvents.MenuID.PARENT_CLEAN,
-      title: browser.i18n.getMessage('contextMenusParentClean'),
+      title: browser.i18n.getMessage("contextMenusParentClean"),
     });
     // Regular Clean (exclude open tabs)
     ContextMenuEvents.menuCreate({
       id: ContextMenuEvents.MenuID.CLEAN,
       parentId: ContextMenuEvents.MenuID.PARENT_CLEAN,
-      title: browser.i18n.getMessage('cleanText'),
+      title: browser.i18n.getMessage("cleanText"),
     });
     // Clean (include open tabs)
     ContextMenuEvents.menuCreate({
       id: ContextMenuEvents.MenuID.CLEAN_OPEN,
       parentId: ContextMenuEvents.MenuID.PARENT_CLEAN,
-      title: browser.i18n.getMessage('cleanIgnoringOpenTabsText'),
+      title: browser.i18n.getMessage("cleanIgnoringOpenTabsText"),
     });
     // Separator
     ContextMenuEvents.menuCreate({
       parentId: ContextMenuEvents.MenuID.PARENT_CLEAN,
-      type: 'separator',
+      type: "separator",
     });
     // Cleanup Warning
     ContextMenuEvents.menuCreate({
       enabled: false,
       parentId: ContextMenuEvents.MenuID.PARENT_CLEAN,
-      title: browser.i18n.getMessage('cleanupActionsBypass'),
+      title: browser.i18n.getMessage("cleanupActionsBypass"),
     });
     // Clean all available site data for domain.
     // SiteDataType (declare enum via Global.d.ts) somehow doesn't exist through the browser...
-    [...SITEDATATYPES, 'All', 'Cookies'].sort().forEach((sd) => {
+    [...SITEDATATYPES, "All", "Cookies"].sort().forEach((sd) => {
       ContextMenuEvents.menuCreate({
         id: `${ContextMenuEvents.MenuID.MANUAL_CLEAN_SITEDATA}${sd}`,
         parentId: ContextMenuEvents.MenuID.PARENT_CLEAN,
@@ -113,151 +113,151 @@ export default class ContextMenuEvents extends StoreUser {
     });
     // Separator
     ContextMenuEvents.menuCreate({
-      type: 'separator',
+      type: "separator",
     });
     // Add Expression Option Group - page
     ContextMenuEvents.menuCreate({
-      contexts: ['link', 'page', 'selection'],
+      contexts: ["link", "page", "selection"],
       id: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
-      title: browser.i18n.getMessage('contextMenusParentExpression'),
+      title: browser.i18n.getMessage("contextMenusParentExpression"),
     });
     // Link Group
     ContextMenuEvents.menuCreate({
-      contexts: ['link'],
+      contexts: ["link"],
       id: ContextMenuEvents.MenuID.PARENT_LINK_DOMAIN,
       parentId: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
-      title: browser.i18n.getMessage('contextMenusSelectedDomainLink'),
+      title: browser.i18n.getMessage("contextMenusSelectedDomainLink"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['link'],
+      contexts: ["link"],
       id: ContextMenuEvents.MenuID.LINK_ADD_GREY_DOMAIN,
       parentId: ContextMenuEvents.MenuID.PARENT_LINK_DOMAIN,
-      title: browser.i18n.getMessage('toGreyListText'),
+      title: browser.i18n.getMessage("toGreyListText"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['link'],
+      contexts: ["link"],
       id: ContextMenuEvents.MenuID.LINK_ADD_WHITE_DOMAIN,
       parentId: ContextMenuEvents.MenuID.PARENT_LINK_DOMAIN,
-      title: browser.i18n.getMessage('toWhiteListText'),
+      title: browser.i18n.getMessage("toWhiteListText"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['link'],
+      contexts: ["link"],
       id: ContextMenuEvents.MenuID.PARENT_LINK_SUBS,
       parentId: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
-      title: browser.i18n.getMessage('contextMenusSelectedSubdomainLink'),
+      title: browser.i18n.getMessage("contextMenusSelectedSubdomainLink"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['link'],
+      contexts: ["link"],
       id: ContextMenuEvents.MenuID.LINK_ADD_GREY_SUBS,
       parentId: ContextMenuEvents.MenuID.PARENT_LINK_SUBS,
-      title: browser.i18n.getMessage('toGreyListText'),
+      title: browser.i18n.getMessage("toGreyListText"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['link'],
+      contexts: ["link"],
       id: ContextMenuEvents.MenuID.LINK_ADD_WHITE_SUBS,
       parentId: ContextMenuEvents.MenuID.PARENT_LINK_SUBS,
-      title: browser.i18n.getMessage('toWhiteListText'),
+      title: browser.i18n.getMessage("toWhiteListText"),
     });
     // Page Group
     ContextMenuEvents.menuCreate({
-      contexts: ['page'],
+      contexts: ["page"],
       id: ContextMenuEvents.MenuID.PARENT_PAGE_DOMAIN,
       parentId: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
-      title: browser.i18n.getMessage('contextMenusSelectedDomainPage'),
+      title: browser.i18n.getMessage("contextMenusSelectedDomainPage"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['page'],
+      contexts: ["page"],
       id: ContextMenuEvents.MenuID.PAGE_ADD_GREY_DOMAIN,
       parentId: ContextMenuEvents.MenuID.PARENT_PAGE_DOMAIN,
-      title: browser.i18n.getMessage('toGreyListText'),
+      title: browser.i18n.getMessage("toGreyListText"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['page'],
+      contexts: ["page"],
       id: ContextMenuEvents.MenuID.PAGE_ADD_WHITE_DOMAIN,
       parentId: ContextMenuEvents.MenuID.PARENT_PAGE_DOMAIN,
-      title: browser.i18n.getMessage('toWhiteListText'),
+      title: browser.i18n.getMessage("toWhiteListText"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['page'],
+      contexts: ["page"],
       id: ContextMenuEvents.MenuID.PARENT_PAGE_SUBS,
       parentId: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
-      title: browser.i18n.getMessage('contextMenusSelectedSubdomainPage'),
+      title: browser.i18n.getMessage("contextMenusSelectedSubdomainPage"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['page'],
+      contexts: ["page"],
       id: ContextMenuEvents.MenuID.PAGE_ADD_GREY_SUBS,
       parentId: ContextMenuEvents.MenuID.PARENT_PAGE_SUBS,
-      title: browser.i18n.getMessage('toGreyListText'),
+      title: browser.i18n.getMessage("toGreyListText"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['page'],
+      contexts: ["page"],
       id: ContextMenuEvents.MenuID.PAGE_ADD_WHITE_SUBS,
       parentId: ContextMenuEvents.MenuID.PARENT_PAGE_SUBS,
-      title: browser.i18n.getMessage('toWhiteListText'),
+      title: browser.i18n.getMessage("toWhiteListText"),
     });
     // Selection Group
     ContextMenuEvents.menuCreate({
-      contexts: ['selection'],
+      contexts: ["selection"],
       id: ContextMenuEvents.MenuID.PARENT_SELECT_DOMAIN,
       parentId: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
-      title: browser.i18n.getMessage('contextMenusSelectedDomainText', ['%s']),
+      title: browser.i18n.getMessage("contextMenusSelectedDomainText", ["%s"]),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['selection'],
+      contexts: ["selection"],
       id: ContextMenuEvents.MenuID.SELECT_ADD_GREY_DOMAIN,
       parentId: ContextMenuEvents.MenuID.PARENT_SELECT_DOMAIN,
-      title: browser.i18n.getMessage('toGreyListText'),
+      title: browser.i18n.getMessage("toGreyListText"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['selection'],
+      contexts: ["selection"],
       id: ContextMenuEvents.MenuID.SELECT_ADD_WHITE_DOMAIN,
       parentId: ContextMenuEvents.MenuID.PARENT_SELECT_DOMAIN,
-      title: browser.i18n.getMessage('toWhiteListText'),
+      title: browser.i18n.getMessage("toWhiteListText"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['selection'],
+      contexts: ["selection"],
       id: ContextMenuEvents.MenuID.PARENT_SELECT_SUBS,
       parentId: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
-      title: browser.i18n.getMessage('contextMenusSelectedSubdomainText', [
-        '%s',
+      title: browser.i18n.getMessage("contextMenusSelectedSubdomainText", [
+        "%s",
       ]),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['selection'],
+      contexts: ["selection"],
       id: ContextMenuEvents.MenuID.SELECT_ADD_GREY_SUBS,
       parentId: ContextMenuEvents.MenuID.PARENT_SELECT_SUBS,
-      title: browser.i18n.getMessage('toGreyListText'),
+      title: browser.i18n.getMessage("toGreyListText"),
     });
     ContextMenuEvents.menuCreate({
-      contexts: ['selection'],
+      contexts: ["selection"],
       id: ContextMenuEvents.MenuID.SELECT_ADD_WHITE_SUBS,
       parentId: ContextMenuEvents.MenuID.PARENT_SELECT_SUBS,
-      title: browser.i18n.getMessage('toWhiteListText'),
+      title: browser.i18n.getMessage("toWhiteListText"),
     });
     // Separator
     ContextMenuEvents.menuCreate({
-      type: 'separator',
+      type: "separator",
     });
     // Active Mode
     ContextMenuEvents.menuCreate({
       checked: getSetting(
         StoreUser.store.getState(),
-        SettingID.ACTIVE_MODE,
+        SettingID.ACTIVE_MODE
       ) as boolean,
       id: ContextMenuEvents.MenuID.ACTIVE_MODE,
-      title: browser.i18n.getMessage('activeModeText'),
-      type: 'checkbox',
+      title: browser.i18n.getMessage("activeModeText"),
+      type: "checkbox",
     });
     // CAD Settings Page.  Opens in a new tab next to the current one.
     ContextMenuEvents.menuCreate({
       id: ContextMenuEvents.MenuID.SETTINGS,
-      title: browser.i18n.getMessage('settingsText'),
+      title: browser.i18n.getMessage("settingsText"),
     });
 
     eventListenerActions(
       browser.contextMenus.onClicked,
       ContextMenuEvents.onContextMenuClicked,
-      EventListenerAction.ADD,
+      EventListenerAction.ADD
     );
   }
 
@@ -266,28 +266,28 @@ export default class ContextMenuEvents extends StoreUser {
     eventListenerActions(
       browser.contextMenus.onClicked,
       ContextMenuEvents.onContextMenuClicked,
-      EventListenerAction.REMOVE,
+      EventListenerAction.REMOVE
     );
     ContextMenuEvents.isInitialized = false;
     cadLog(
       {
         msg: `ContextMenuEvents.menuClear:  Context Menu has been removed.`,
       },
-      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean,
+      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean
     );
   }
 
   protected static menuCreate(
-    createProperties: Parameters<typeof browser.contextMenus.create>[0],
+    createProperties: Parameters<typeof browser.contextMenus.create>[0]
   ): number | string {
     return browser.contextMenus.create(
       {
         ...createProperties,
         contexts: createProperties.contexts
           ? createProperties.contexts
-          : ['browser_action', 'page'],
+          : ["browser_action", "page"],
       },
-      ContextMenuEvents.onCreatedOrUpdated,
+      ContextMenuEvents.onCreatedOrUpdated
     );
   }
 
@@ -302,54 +302,54 @@ export default class ContextMenuEvents extends StoreUser {
         msg: `ContextMenuEvents.updateMenuItemCheckbox: Updated Menu Item.`,
         x: { id, checked },
       },
-      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean,
+      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean
     );
   }
 
   public static onCreatedOrUpdated(): void {
     const debug = getSetting(
       StoreUser.store.getState(),
-      SettingID.DEBUG_MODE,
+      SettingID.DEBUG_MODE
     ) as boolean;
     if (browser.runtime.lastError) {
       cadLog(
         {
           msg: `ContextMenuEvents.onCreatedOrUpdated received an error: ${browser.runtime.lastError}`,
-          type: 'error',
+          type: "error",
         },
-        true,
+        true
       );
     } else {
       cadLog(
         {
           msg: `ContextMenuEvents.onCreatedOrUpdated:  Create/Update contextMenuItem was successful.`,
         },
-        debug,
+        debug
       );
     }
   }
 
   public static async onContextMenuClicked(
     info: browser.contextMenus.OnClickData,
-    tab: browser.tabs.Tab,
+    tab: browser.tabs.Tab
   ): Promise<void> {
     const debug = getSetting(
       StoreUser.store.getState(),
-      SettingID.DEBUG_MODE,
+      SettingID.DEBUG_MODE
     ) as boolean;
     const contextualIdentities = getSetting(
       StoreUser.store.getState(),
-      SettingID.CONTEXTUAL_IDENTITIES,
+      SettingID.CONTEXTUAL_IDENTITIES
     ) as boolean;
     cadLog(
       {
         msg: `ContextMenuEvents.onContextMenuClicked:  Data received`,
         x: { info, tab },
       },
-      debug,
+      debug
     );
-    const cookieStoreId = (tab && tab.cookieStoreId) || '';
-    const selectionText = (info && info.selectionText) || '';
+    const cookieStoreId = (tab && tab.cookieStoreId) || "";
+    const selectionText = (info && info.selectionText) || "";
     if (
       info.menuItemId
         .toString()
@@ -363,19 +363,19 @@ export default class ContextMenuEvents extends StoreUser {
         cadLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked cannot clean ${siteData} from tab:`,
-            type: 'warn',
+            type: "warn",
             x: { tab },
           },
-          debug,
+          debug
         );
         showNotification({
           duration: getSetting(
             StoreUser.store.getState(),
-            SettingID.NOTIFY_DURATION,
+            SettingID.NOTIFY_DURATION
           ) as number,
-          msg: `${browser.i18n.getMessage('manualCleanError', [
+          msg: `${browser.i18n.getMessage("manualCleanError", [
             browser.i18n.getMessage(
-              `${siteDataToBrowser(siteData as SiteDataType)}Text`,
+              `${siteDataToBrowser(siteData as SiteDataType)}Text`
             ),
           ])}\n
               ${tab.title}\n\n
@@ -388,14 +388,14 @@ export default class ContextMenuEvents extends StoreUser {
         {
           msg: `ContextMenuEvents.onContextMenuClicked triggered Clean Site Data (${siteData}) For This Domain.`,
         },
-        debug,
+        debug
       );
-      if (siteData === 'Cookies') {
+      if (siteData === "Cookies") {
         await clearCookiesForThisDomain(StoreUser.store.getState(), tab);
         return;
       }
       switch (siteData) {
-        case 'All':
+        case "All":
         case SiteDataType.CACHE:
         case SiteDataType.INDEXEDDB:
         case SiteDataType.PLUGINDATA:
@@ -403,7 +403,7 @@ export default class ContextMenuEvents extends StoreUser {
           await clearSiteDataForThisDomain(
             StoreUser.store.getState(),
             siteData,
-            hostname,
+            hostname
           );
           break;
         case SiteDataType.LOCALSTORAGE:
@@ -413,10 +413,10 @@ export default class ContextMenuEvents extends StoreUser {
           cadLog(
             {
               msg: `ContextMenuEvents.onContextMenuClicked received unknown manual clean site data type: ${info.menuItemId}`,
-              type: 'warn',
+              type: "warn",
               x: { info, tab },
             },
-            debug,
+            debug
           );
           break;
       }
@@ -429,13 +429,13 @@ export default class ContextMenuEvents extends StoreUser {
           {
             msg: `ContextMenuEvents.onContextMenuClicked triggered Normal Clean.`,
           },
-          debug,
+          debug
         );
         StoreUser.store.dispatch<any>(
           cookieCleanup({
             greyCleanup: false,
             ignoreOpenTabs: false,
-          }),
+          })
         );
         break;
       case ContextMenuEvents.MenuID.CLEAN_OPEN:
@@ -443,13 +443,13 @@ export default class ContextMenuEvents extends StoreUser {
           {
             msg: `ContextMenuEvents.onContextMenuClicked triggered Clean, include open tabs.`,
           },
-          debug,
+          debug
         );
         StoreUser.store.dispatch<any>(
           cookieCleanup({
             greyCleanup: false,
             ignoreOpenTabs: true,
-          }),
+          })
         );
         break;
       case ContextMenuEvents.MenuID.LINK_ADD_GREY_DOMAIN:
@@ -462,12 +462,12 @@ export default class ContextMenuEvents extends StoreUser {
               cookieStoreId,
             },
           },
-          debug,
+          debug
         );
         ContextMenuEvents.addNewExpression(
           getHostname(info.linkUrl),
           ListType.GREY,
-          cookieStoreId,
+          cookieStoreId
         );
         break;
       case ContextMenuEvents.MenuID.LINK_ADD_WHITE_DOMAIN:
@@ -480,12 +480,12 @@ export default class ContextMenuEvents extends StoreUser {
               cookieStoreId,
             },
           },
-          debug,
+          debug
         );
         ContextMenuEvents.addNewExpression(
           getHostname(info.linkUrl),
           ListType.WHITE,
-          cookieStoreId,
+          cookieStoreId
         );
         break;
       case ContextMenuEvents.MenuID.LINK_ADD_GREY_SUBS:
@@ -498,12 +498,12 @@ export default class ContextMenuEvents extends StoreUser {
               cookieStoreId,
             },
           },
-          debug,
+          debug
         );
         ContextMenuEvents.addNewExpression(
           `*.${getHostname(info.linkUrl)}`,
           ListType.GREY,
-          cookieStoreId,
+          cookieStoreId
         );
         break;
       case ContextMenuEvents.MenuID.LINK_ADD_WHITE_SUBS:
@@ -516,12 +516,12 @@ export default class ContextMenuEvents extends StoreUser {
               cookieStoreId,
             },
           },
-          debug,
+          debug
         );
         ContextMenuEvents.addNewExpression(
           `*.${getHostname(info.linkUrl)}`,
           ListType.WHITE,
-          cookieStoreId,
+          cookieStoreId
         );
         break;
       case ContextMenuEvents.MenuID.PAGE_ADD_GREY_DOMAIN:
@@ -534,16 +534,16 @@ export default class ContextMenuEvents extends StoreUser {
               cookieStoreId,
               parsedCookieStoreId: parseCookieStoreId(
                 contextualIdentities,
-                cookieStoreId,
+                cookieStoreId
               ),
             },
           },
-          debug,
+          debug
         );
         ContextMenuEvents.addNewExpression(
           getHostname(info.pageUrl),
           ListType.GREY,
-          cookieStoreId,
+          cookieStoreId
         );
         break;
       case ContextMenuEvents.MenuID.PAGE_ADD_WHITE_DOMAIN:
@@ -556,16 +556,16 @@ export default class ContextMenuEvents extends StoreUser {
               cookieStoreId,
               parsedCookieStoreId: parseCookieStoreId(
                 contextualIdentities,
-                cookieStoreId,
+                cookieStoreId
               ),
             },
           },
-          debug,
+          debug
         );
         ContextMenuEvents.addNewExpression(
           getHostname(info.pageUrl),
           ListType.WHITE,
-          cookieStoreId,
+          cookieStoreId
         );
         break;
       case ContextMenuEvents.MenuID.PAGE_ADD_GREY_SUBS:
@@ -578,16 +578,16 @@ export default class ContextMenuEvents extends StoreUser {
               cookieStoreId,
               parsedCookieStoreId: parseCookieStoreId(
                 contextualIdentities,
-                cookieStoreId,
+                cookieStoreId
               ),
             },
           },
-          debug,
+          debug
         );
         ContextMenuEvents.addNewExpression(
           `*.${getHostname(info.pageUrl)}`,
           ListType.GREY,
-          cookieStoreId,
+          cookieStoreId
         );
         break;
       case ContextMenuEvents.MenuID.PAGE_ADD_WHITE_SUBS:
@@ -600,21 +600,21 @@ export default class ContextMenuEvents extends StoreUser {
               cookieStoreId,
               parsedCookieStoreId: parseCookieStoreId(
                 contextualIdentities,
-                cookieStoreId,
+                cookieStoreId
               ),
             },
           },
-          debug,
+          debug
         );
         ContextMenuEvents.addNewExpression(
           `*.${getHostname(info.pageUrl)}`,
           ListType.WHITE,
-          cookieStoreId,
+          cookieStoreId
         );
         break;
       case ContextMenuEvents.MenuID.SELECT_ADD_GREY_DOMAIN:
         {
-          const texts = selectionText.trim().split(',');
+          const texts = selectionText.trim().split(",");
           cadLog(
             {
               msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was SELECT_ADD_GREY_DOMAIN.`,
@@ -624,11 +624,11 @@ export default class ContextMenuEvents extends StoreUser {
                 cookieStoreId,
                 parsedCookieStoreId: parseCookieStoreId(
                   contextualIdentities,
-                  cookieStoreId,
+                  cookieStoreId
                 ),
               },
             },
-            debug,
+            debug
           );
           texts.forEach((text) => {
             cadLog(
@@ -639,19 +639,19 @@ export default class ContextMenuEvents extends StoreUser {
                   encodedInput: encodeURI(text.trim()),
                 },
               },
-              debug,
+              debug
             );
             ContextMenuEvents.addNewExpression(
               encodeURI(text.trim()),
               ListType.GREY,
-              cookieStoreId,
+              cookieStoreId
             );
           });
         }
         break;
       case ContextMenuEvents.MenuID.SELECT_ADD_WHITE_DOMAIN:
         {
-          const texts = selectionText.trim().split(',');
+          const texts = selectionText.trim().split(",");
           cadLog(
             {
               msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was SELECT_ADD_WHITE_DOMAIN.`,
@@ -661,11 +661,11 @@ export default class ContextMenuEvents extends StoreUser {
                 cookieStoreId,
                 parsedCookieStoreId: parseCookieStoreId(
                   contextualIdentities,
-                  cookieStoreId,
+                  cookieStoreId
                 ),
               },
             },
-            debug,
+            debug
           );
           texts.forEach((text) => {
             cadLog(
@@ -676,19 +676,19 @@ export default class ContextMenuEvents extends StoreUser {
                   encodedInput: encodeURI(text.trim()),
                 },
               },
-              debug,
+              debug
             );
             ContextMenuEvents.addNewExpression(
               encodeURI(text.trim()),
               ListType.WHITE,
-              cookieStoreId,
+              cookieStoreId
             );
           });
         }
         break;
       case ContextMenuEvents.MenuID.SELECT_ADD_GREY_SUBS:
         {
-          const texts = selectionText.trim().split(',');
+          const texts = selectionText.trim().split(",");
           cadLog(
             {
               msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was SELECT_ADD_GREY_SUBS.`,
@@ -698,11 +698,11 @@ export default class ContextMenuEvents extends StoreUser {
                 cookieStoreId,
                 parsedCookieStoreId: parseCookieStoreId(
                   contextualIdentities,
-                  cookieStoreId,
+                  cookieStoreId
                 ),
               },
             },
-            debug,
+            debug
           );
           texts.forEach((text) => {
             cadLog(
@@ -713,19 +713,19 @@ export default class ContextMenuEvents extends StoreUser {
                   encodedInput: encodeURI(text.trim()),
                 },
               },
-              debug,
+              debug
             );
             ContextMenuEvents.addNewExpression(
               `*.${encodeURI(text.trim())}`,
               ListType.GREY,
-              cookieStoreId,
+              cookieStoreId
             );
           });
         }
         break;
       case ContextMenuEvents.MenuID.SELECT_ADD_WHITE_SUBS:
         {
-          const texts = selectionText.trim().split(',');
+          const texts = selectionText.trim().split(",");
           cadLog(
             {
               msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was SELECT_ADD_WHITE_SUBS.`,
@@ -735,11 +735,11 @@ export default class ContextMenuEvents extends StoreUser {
                 cookieStoreId,
                 parsedCookieStoreId: parseCookieStoreId(
                   contextualIdentities,
-                  cookieStoreId,
+                  cookieStoreId
                 ),
               },
             },
-            debug,
+            debug
           );
           texts.forEach((text) => {
             cadLog(
@@ -750,27 +750,27 @@ export default class ContextMenuEvents extends StoreUser {
                   encodedInput: encodeURI(text.trim()),
                 },
               },
-              debug,
+              debug
             );
             ContextMenuEvents.addNewExpression(
               `*.${encodeURI(text.trim())}`,
               ListType.WHITE,
-              cookieStoreId,
+              cookieStoreId
             );
           });
         }
         break;
       case ContextMenuEvents.MenuID.ACTIVE_MODE:
         if (
-          Object.prototype.hasOwnProperty.call(info, 'checked') &&
-          Object.prototype.hasOwnProperty.call(info, 'wasChecked') &&
+          Object.prototype.hasOwnProperty.call(info, "checked") &&
+          Object.prototype.hasOwnProperty.call(info, "wasChecked") &&
           info.checked !== info.wasChecked
         ) {
           cadLog(
             {
               msg: `ContextMenuEvents.onContextMenuClicked changed Automatic Cleaning value to:  ${info.checked}.`,
             },
-            debug,
+            debug
           );
           // Setting Updated.
           StoreUser.store.dispatch<any>(
@@ -778,7 +778,7 @@ export default class ContextMenuEvents extends StoreUser {
               name: SettingID.ACTIVE_MODE,
               // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
               value: info.checked!,
-            }),
+            })
           );
         }
         break;
@@ -787,21 +787,21 @@ export default class ContextMenuEvents extends StoreUser {
           {
             msg: `ContextMenuEvents.onContextMenuClicked triggered Open Settings.`,
           },
-          debug,
+          debug
         );
         await browser.tabs.create({
           index: tab.index + 1,
-          url: '/settings/settings.html#tabSettings',
+          url: "/settings/settings.html#tabSettings",
         });
         break;
       default:
         cadLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked received unknown menu id: ${info.menuItemId}`,
-            type: 'warn',
+            type: "warn",
             x: { info, tab },
           },
-          debug,
+          debug
         );
         break;
     }
@@ -810,15 +810,15 @@ export default class ContextMenuEvents extends StoreUser {
   protected static addNewExpression(
     input: string,
     listType: ListType,
-    cookieStoreId: string | undefined,
+    cookieStoreId: string | undefined
   ): void {
-    if (input.trim() === '' || input === '*.') {
+    if (input.trim() === "" || input === "*.") {
       showNotification({
         duration: getSetting(
           StoreUser.store.getState(),
-          SettingID.NOTIFY_DURATION,
+          SettingID.NOTIFY_DURATION
         ) as number,
-        msg: `${browser.i18n.getMessage('addNewExpressionNotificationFailed')}`,
+        msg: `${browser.i18n.getMessage("addNewExpressionNotificationFailed")}`,
       });
       return;
     }
@@ -828,9 +828,9 @@ export default class ContextMenuEvents extends StoreUser {
       storeId: parseCookieStoreId(
         getSetting(
           StoreUser.store.getState(),
-          SettingID.CONTEXTUAL_IDENTITIES,
+          SettingID.CONTEXTUAL_IDENTITIES
         ) as boolean,
-        cookieStoreId,
+        cookieStoreId
       ),
     };
     cadLog(
@@ -838,28 +838,28 @@ export default class ContextMenuEvents extends StoreUser {
         msg: `background.addNewExpression - Parsed from Right-Click:`,
         x: payload,
       },
-      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean,
+      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean
     );
     const cache = StoreUser.store.getState().cache;
     showNotification({
       duration: getSetting(
         StoreUser.store.getState(),
-        SettingID.NOTIFY_DURATION,
+        SettingID.NOTIFY_DURATION
       ) as number,
-      msg: `${browser.i18n.getMessage('addNewExpressionNotification', [
+      msg: `${browser.i18n.getMessage("addNewExpressionNotification", [
         payload.expression,
         payload.listType,
         `${payload.storeId}${
           (getSetting(
             StoreUser.store.getState(),
-            SettingID.CONTEXTUAL_IDENTITIES,
+            SettingID.CONTEXTUAL_IDENTITIES
           ) as boolean)
             ? cache[payload.storeId] !== undefined
               ? ` (${cache[payload.storeId]})`
-              : ''
-            : ''
+              : ""
+            : ""
         }`,
-      ])}\n${browser.i18n.getMessage('addNewExpressionNotificationIgnore')}`,
+      ])}\n${browser.i18n.getMessage("addNewExpressionNotificationIgnore")}`,
     });
     StoreUser.store.dispatch<any>(addExpressionUI(payload));
   }

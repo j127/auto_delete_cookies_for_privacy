@@ -24,7 +24,9 @@ body {
 Add transition to containers so they can push in and out.
 */
 
-.layout, .menu, .menu-link {
+.layout,
+.menu,
+.menu-link {
   -webkit-transition: all 0.2s ease-out;
   -moz-transition: all 0.2s ease-out;
   -ms-transition: all 0.2s ease-out;
@@ -85,7 +87,6 @@ The content `<div>` is where all your content goes.
   padding: 0;
 }
 
-
 /*
 The `#menu` `<div>` is the parent `<div>` that contains the `.pure-menu` that
 appears on the left side of the page.
@@ -117,7 +118,8 @@ All anchors inside the menu should be styled like this.
 Remove all background/borders, since we are applying them to #menu.
 */
 
-.menu .pure-menu, .menu .pure-menu ul {
+.menu .pure-menu,
+.menu .pure-menu ul {
   background: transparent;
   border: none;
 }
@@ -134,7 +136,8 @@ Add that light border to separate items into groups.
 Change color of the anchor links on hover/focus.
 */
 
-.menu .pure-menu li a:hover, .menu .pure-menu li a:focus {
+.menu .pure-menu li a:hover,
+.menu .pure-menu li a:focus {
   background: #333;
 }
 
@@ -180,7 +183,8 @@ small screens.
   z-index: 10;
 }
 
-.menu-link:hover, .menu-link:focus {
+.menu-link:hover,
+.menu-link:focus {
   background: #000;
 }
 
@@ -189,13 +193,16 @@ small screens.
   position: relative;
 }
 
-.menu-link span, .menu-link span:before, .menu-link span:after {
+.menu-link span,
+.menu-link span:before,
+.menu-link span:after {
   background-color: #fff;
   height: 0.2em;
   width: 100%;
 }
 
-.menu-link span:before, .menu-link span:after {
+.menu-link span:before,
+.menu-link span:after {
   content: " ";
   margin-top: -0.6em;
   position: absolute;
@@ -211,13 +218,13 @@ small screens.
 
 /* -- Responsive Styles (Media Queries) ------------------------------------- */
 
-
 /*
 Hides the menu at `48em`, but modify this based on your app's needs
 */
 
 @media (min-width: 1024px) {
-  .header, .content {
+  .header,
+  .content {
     padding-left: 2em;
     padding-right: 2em;
   }

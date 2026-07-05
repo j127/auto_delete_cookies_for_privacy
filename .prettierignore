@@ -2,6 +2,13 @@
 _site/
 dist/
 build/
+builds/
+coverage/
+extension/bundles/
+
+# vendored globals (removed during the MV3 work) and store-managed translations
+extension/global_files/
+extension/_locales/
 
 # developer tools
 .git/

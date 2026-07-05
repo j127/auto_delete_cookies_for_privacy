@@ -11,31 +11,31 @@
  * SOFTWARE.
  */
 
-import { when } from 'jest-when';
+import { when } from "jest-when";
 
-import CookieEvents from '../../src/services/cookie-events';
-import * as Lib from '../../src/services/libs';
-import TabEvents from '../../src/services/tab-events';
+import CookieEvents from "../../src/services/cookie-events";
+import * as Lib from "../../src/services/libs";
+import TabEvents from "../../src/services/tab-events";
 
-jest.requireActual('../../src/services/libs');
+jest.requireActual("../../src/services/libs");
 const spyLib: JestSpyObject = global.generateSpies(Lib);
 
 const defaultCookie: browser.cookies.Cookie = {
-  domain: 'domain.com',
+  domain: "domain.com",
   hostOnly: false,
   httpOnly: false,
-  name: 'CookieName',
-  path: '/',
-  sameSite: 'no_restriction',
+  name: "CookieName",
+  path: "/",
+  sameSite: "no_restriction",
   secure: false,
   session: true,
-  storeId: 'firefox-default',
-  value: 'CookieValue',
+  storeId: "firefox-default",
+  value: "CookieValue",
 };
 
 const defaultTab: browser.tabs.Tab = {
   active: true,
-  cookieStoreId: 'firefox-container-00',
+  cookieStoreId: "firefox-container-00",
   hidden: false,
   highlighted: false,
   incognito: false,
@@ -46,63 +46,63 @@ const defaultTab: browser.tabs.Tab = {
   lastAccessed: 12345678,
   pinned: false,
   selected: true,
-  url: 'https://domain.com',
+  url: "https://domain.com",
   windowId: 1,
 };
 
-describe('CookieEvents', () => {
+describe("CookieEvents", () => {
   when(global.browser.tabs.query)
-    .calledWith({ active: true, windowType: 'normal' })
+    .calledWith({ active: true, windowType: "normal" })
     .mockResolvedValue([
       defaultTab,
-      { ...defaultTab, url: 'https://example.com' },
+      { ...defaultTab, url: "https://example.com" },
     ] as never);
 
-  describe('onCookieChanged()', () => {
-    const spyTabUpdate = jest.spyOn(TabEvents, 'onTabUpdate');
+  describe("onCookieChanged()", () => {
+    const spyTabUpdate = jest.spyOn(TabEvents, "onTabUpdate");
 
-    it('should do nothing if cookie is not part of any active tabs', async () => {
+    it("should do nothing if cookie is not part of any active tabs", async () => {
       await CookieEvents.onCookieChanged({
         removed: false,
-        cookie: { ...defaultCookie, domain: '1.1.1.1' },
-        cause: 'overwrite',
+        cookie: { ...defaultCookie, domain: "1.1.1.1" },
+        cause: "overwrite",
       });
       expect(spyTabUpdate).not.toHaveBeenCalled();
     });
 
-    it('should force update that active tab if the domain matches', async () => {
+    it("should force update that active tab if the domain matches", async () => {
       await CookieEvents.onCookieChanged({
         removed: false,
         cookie: defaultCookie,
-        cause: 'overwrite',
+        cause: "overwrite",
       });
       expect(spyTabUpdate).toHaveBeenCalledTimes(1);
       expect(spyTabUpdate.mock.calls[0][1].cookieChanged).toHaveProperty(
-        'cookie.value',
-        '***',
+        "cookie.value",
+        "***"
       );
     });
 
-    it('should not force tab update if tab url is undefined', async () => {
+    it("should not force tab update if tab url is undefined", async () => {
       when(global.browser.tabs.query)
-        .calledWith({ active: true, windowType: 'normal' })
+        .calledWith({ active: true, windowType: "normal" })
         .mockResolvedValue([{ ...defaultTab, url: undefined }] as never);
       await CookieEvents.onCookieChanged({
         removed: false,
         cookie: defaultCookie,
-        cause: 'overwrite',
+        cause: "overwrite",
       });
       expect(spyLib.getHostname).not.toHaveBeenCalled();
     });
 
-    it('should not force tab update if tab id is undefined', async () => {
+    it("should not force tab update if tab id is undefined", async () => {
       when(global.browser.tabs.query)
-        .calledWith({ active: true, windowType: 'normal' })
+        .calledWith({ active: true, windowType: "normal" })
         .mockResolvedValue([{ ...defaultTab, id: undefined }] as never);
       await CookieEvents.onCookieChanged({
         removed: false,
         cookie: defaultCookie,
-        cause: 'overwrite',
+        cause: "overwrite",
       });
       expect(spyLib.getHostname).not.toHaveBeenCalled();
     });

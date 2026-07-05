@@ -33,24 +33,24 @@ interface CleanupPropertiesInternal extends CleanupProperties {
 }
 
 declare const enum ReasonKeep {
-  OpenTabs = 'reasonKeepOpenTab',
-  MatchedExpression = 'reasonKeep',
+  OpenTabs = "reasonKeepOpenTab",
+  MatchedExpression = "reasonKeep",
 }
 
 declare const enum ReasonClean {
-  StartupNoMatchedExpression = 'reasonCleanStartupNoList',
-  StartupCleanupAndGreyList = 'reasonCleanGreyList',
-  NoMatchedExpression = 'reasonCleanNoList',
-  MatchedExpressionButNoCookieName = 'reasonCleanCookieName',
-  ExpiredCookie = 'reasonCleanCookieExpired',
-  ExpiredCookieRestart = 'reasonCleanCookieExpiredRestart',
-  CADSiteDataCookie = 'reasonCADSiteDataCookie',
-  CADSiteDataCookieRestart = 'reasonCADSiteDataCookieRestart'
+  StartupNoMatchedExpression = "reasonCleanStartupNoList",
+  StartupCleanupAndGreyList = "reasonCleanGreyList",
+  NoMatchedExpression = "reasonCleanNoList",
+  MatchedExpressionButNoCookieName = "reasonCleanCookieName",
+  ExpiredCookie = "reasonCleanCookieExpired",
+  ExpiredCookieRestart = "reasonCleanCookieExpiredRestart",
+  CADSiteDataCookie = "reasonCADSiteDataCookie",
+  CADSiteDataCookieRestart = "reasonCADSiteDataCookieRestart",
 }
 
 declare const enum OpenTabStatus {
-  TabsWasNotIgnored = 'reasonTabsWereNotIgnored',
-  TabsWereIgnored = 'reasonTabsWereIgnored',
+  TabsWasNotIgnored = "reasonTabsWereNotIgnored",
+  TabsWereIgnored = "reasonTabsWereIgnored",
 }
 
 interface CleanReasonObject {

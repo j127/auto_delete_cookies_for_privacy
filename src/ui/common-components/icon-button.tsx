@@ -10,17 +10,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import {
   FontAwesomeIcon,
   FontAwesomeIconProps,
-} from '@fortawesome/react-fontawesome';
-import * as React from 'react';
+} from "@fortawesome/react-fontawesome";
+import * as React from "react";
 
 interface IconButtonProps {
   accept?: string;
   iconName: IconProp;
-  iconSize?: FontAwesomeIconProps['size'];
+  iconSize?: FontAwesomeIconProps["size"];
   className: string;
   styleReact?: React.CSSProperties;
   text?: string;
@@ -55,16 +55,16 @@ export default class IconButton extends React.Component<IconButtonProps> {
     } = this.props;
 
     // Has to be PascalCase, else JSX will think it's a tag named 'tagName'.
-    const TagName = tag === 'input' ? 'label' : tag || 'button';
+    const TagName = tag === "input" ? "label" : tag || "button";
     return (
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       <TagName
         {...nativeProps}
-        className={`btn ${className || ''}`}
+        className={`btn ${className || ""}`}
         style={{
-          cursor: tag === 'input' ? 'pointer' : undefined,
-          margin: '0 2px',
+          cursor: tag === "input" ? "pointer" : undefined,
+          margin: "0 2px",
           ...styleReact,
         }}
       >
@@ -72,7 +72,7 @@ export default class IconButton extends React.Component<IconButtonProps> {
           style={
             text
               ? {
-                  marginRight: '5px',
+                  marginRight: "5px",
                 }
               : undefined
           }
@@ -80,11 +80,11 @@ export default class IconButton extends React.Component<IconButtonProps> {
           size={iconSize}
         />
         {text}
-        {tag === 'input' ? (
+        {tag === "input" ? (
           <input
             {...nativeProps}
             style={{
-              display: 'none',
+              display: "none",
             }}
           />
         ) : null}

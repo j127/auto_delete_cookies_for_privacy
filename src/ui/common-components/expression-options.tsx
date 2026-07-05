@@ -10,19 +10,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import ipaddr from 'ipaddr.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { updateExpressionUI } from '../../redux/actions';
+import ipaddr from "ipaddr.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { updateExpressionUI } from "../../redux/actions";
 import {
   isChrome,
   isFirefox,
   isFirefoxNotAndroid,
   returnOptionalCookieAPIAttributes,
-} from '../../services/libs';
-import { ReduxAction } from '../../typings/redux-constants';
+} from "../../services/libs";
+import { ReduxAction } from "../../typings/redux-constants";
 interface DispatchProps {
   onUpdateExpression: (payload: Expression) => void;
 }
@@ -41,13 +41,13 @@ type ExpressionOptionsProps = OwnProps & DispatchProps & StateProps;
 
 const styles = {
   checkbox: {
-    marginRight: '5px',
+    marginRight: "5px",
   } as React.CSSProperties,
 };
 
 const trimDotAndStar = (str: string) => {
-  const trimmed = str.replace(/^[.*]+|[.*]+$/g, '');
-  if (trimmed === '') return undefined;
+  const trimmed = str.replace(/^[.*]+|[.*]+$/g, "");
+  if (trimmed === "") return undefined;
   return trimmed;
 };
 
@@ -71,11 +71,11 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
   }
   /** Converts an expression default storeId to the defaults of the browser */
   public toPublicStoreId(storeId: string) {
-    if (storeId === 'default' && isChrome(this.props.state.cache)) {
-      return '0';
+    if (storeId === "default" && isChrome(this.props.state.cache)) {
+      return "0";
     }
-    if (storeId === 'default' && isFirefox(this.props.state.cache)) {
-      return 'firefox-default';
+    if (storeId === "default" && isFirefox(this.props.state.cache)) {
+      return "firefox-default";
     }
     return storeId;
   }
@@ -84,32 +84,32 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
     const { expression } = this.props;
     const exp = expression.expression;
     let cookies: browser.cookies.CookieProperties[] = [];
-    if (exp.startsWith('/') && exp.endsWith('/')) {
+    if (exp.startsWith("/") && exp.endsWith("/")) {
       // Treat expression as regular expression.  Get all cookies then regex domain.
       const allCookies = await browser.cookies.getAll(
         returnOptionalCookieAPIAttributes(this.props.state, {
           storeId: this.toPublicStoreId(expression.storeId),
-        }),
+        })
       );
-      if (exp.slice(1).startsWith('file:')) {
+      if (exp.slice(1).startsWith("file:")) {
         // Regex with Local Directories
         const regExp = new RegExp(exp.slice(8, -1)); // take out file://
         cookies = allCookies.filter(
-          (cookie) => cookie.domain === '' && regExp.test(cookie.path),
+          (cookie) => cookie.domain === "" && regExp.test(cookie.path)
         );
       } else {
         const regExp = new RegExp(exp.slice(1, -1));
         cookies = allCookies.filter((cookie) => regExp.test(cookie.domain));
       }
-    } else if (exp.startsWith('file:')) {
+    } else if (exp.startsWith("file:")) {
       const allCookies = await browser.cookies.getAll(
         returnOptionalCookieAPIAttributes(this.props.state, {
           storeId: this.toPublicStoreId(expression.storeId),
-        }),
+        })
       );
       const regExp = new RegExp(exp.slice(7)); // take out file://
       cookies = allCookies.filter(
-        (cookie) => cookie.domain === '' && regExp.test(cookie.path),
+        (cookie) => cookie.domain === "" && regExp.test(cookie.path)
       );
     } else {
       let cidrEXP: [ipaddr.IPv4 | ipaddr.IPv6, number];
@@ -120,15 +120,15 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
         allCookies = await browser.cookies.getAll(
           returnOptionalCookieAPIAttributes(this.props.state, {
             storeId: this.toPublicStoreId(expression.storeId),
-          }),
+          })
         );
       } catch {
         // Not valid CIDR.  Proceed with default fetch.  Also applies to IP Addresses with no CIDR.
         cookies = await browser.cookies.getAll(
           returnOptionalCookieAPIAttributes(this.props.state, {
-            domain: `${trimDotAndStar(exp)}${exp.endsWith('.') ? '.' : ''}`,
+            domain: `${trimDotAndStar(exp)}${exp.endsWith(".") ? "." : ""}`,
             storeId: this.toPublicStoreId(expression.storeId),
-          }),
+          })
         );
       }
       if (allCookies) {
@@ -149,7 +149,7 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
 
   public createCookieList(
     cookies: browser.cookies.CookieProperties[],
-    expression: Expression,
+    expression: Expression
   ) {
     const { onUpdateExpression } = this.props;
     const originalCookieNames = expression.cookieNames || [];
@@ -158,22 +158,22 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
       new Set([
         ...(expression.cookieNames || []),
         ...cookies.map((a) => a.name),
-      ]),
+      ])
     ).sort((a, b) => a.localeCompare(b));
     return cookieNames.map((name) => {
       const checked = cookieNamesSet.has(name);
       const key = `${checked}-${expression.id}-${name}`;
       return (
-        <div style={{ marginLeft: '20px' }} key={key} className={'checkbox'}>
+        <div style={{ marginLeft: "20px" }} key={key} className={"checkbox"}>
           <span
-            className={'addHover'}
+            className={"addHover"}
             onClick={() => {
               onUpdateExpression({
                 ...expression,
                 cookieNames: checked
                   ? originalCookieNames.filter(
-                    (cookieName) => cookieName !== name,
-                  )
+                      (cookieName) => cookieName !== name
+                    )
                   : [...originalCookieNames, name],
               });
             }}
@@ -181,8 +181,8 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
             <FontAwesomeIcon
               id={key}
               style={styles.checkbox}
-              size={'lg'}
-              icon={['far', checked ? 'check-square' : 'square']}
+              size={"lg"}
+              icon={["far", checked ? "check-square" : "square"]}
               role="checkbox"
               aria-checked={checked as boolean}
             />
@@ -242,23 +242,23 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
         case ListType.GREY:
           return `keep${cleanData}GreyText`;
         default:
-          return '';
+          return "";
       }
     })(expression.listType);
     return (
-      <div className={'checkbox'}>
+      <div className={"checkbox"}>
         <span
-          className={'addHover'}
+          className={"addHover"}
           onClick={() => {
             this.toggleCleanSiteData(cleanData, !checked);
           }}
         >
           <FontAwesomeIcon
-            icon={['far', checked ? 'square' : 'check-square']}
+            icon={["far", checked ? "square" : "check-square"]}
             id={keyID}
             style={styles.checkbox}
-            size={'lg'}
-            role={'checkbox'}
+            size={"lg"}
+            role={"checkbox"}
             aria-checked={!checked}
           />
           <label htmlFor={keyID} aria-labelledby={keyID}>
@@ -278,53 +278,48 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
     const dropList = coerceBoolean(expression.cleanAllCookies);
     return (
       <div>
-        {!expression.expression.startsWith('file:') &&
-          ((isFirefoxNotAndroid(state.cache) &&
-            ffVersion >= 78) ||
+        {!expression.expression.startsWith("file:") &&
+          ((isFirefoxNotAndroid(state.cache) && ffVersion >= 78) ||
             isChrome(state.cache)) &&
           this.createSiteDataCheckbox(SiteDataType.CACHE)}
-        {!expression.expression.startsWith('file:') &&
-          ((isFirefoxNotAndroid(state.cache) &&
-            ffVersion >= 77) ||
+        {!expression.expression.startsWith("file:") &&
+          ((isFirefoxNotAndroid(state.cache) && ffVersion >= 77) ||
             isChrome(state.cache)) &&
           this.createSiteDataCheckbox(SiteDataType.INDEXEDDB)}
-        {!expression.expression.startsWith('file:') &&
-          ((isFirefoxNotAndroid(state.cache) &&
-            ffVersion >= 58) ||
+        {!expression.expression.startsWith("file:") &&
+          ((isFirefoxNotAndroid(state.cache) && ffVersion >= 58) ||
             isChrome(state.cache)) &&
           this.createSiteDataCheckbox(SiteDataType.LOCALSTORAGE)}
-        {!expression.expression.startsWith('file:') &&
-          ((isFirefoxNotAndroid(state.cache) &&
-            ffVersion >= 78) ||
+        {!expression.expression.startsWith("file:") &&
+          ((isFirefoxNotAndroid(state.cache) && ffVersion >= 78) ||
             isChrome(state.cache)) &&
           this.createSiteDataCheckbox(SiteDataType.PLUGINDATA)}
-        {!expression.expression.startsWith('file:') &&
-          ((isFirefoxNotAndroid(state.cache) &&
-            ffVersion >= 77) ||
+        {!expression.expression.startsWith("file:") &&
+          ((isFirefoxNotAndroid(state.cache) && ffVersion >= 77) ||
             isChrome(state.cache)) &&
           this.createSiteDataCheckbox(SiteDataType.SERVICEWORKERS)}
-        <div className={'checkbox'}>
+        <div className={"checkbox"}>
           <span
-            className={'addHover'}
+            className={"addHover"}
             onClick={() =>
               this.toggleCleanAllCookies(
                 !(
                   expression.cleanAllCookies === undefined ||
                   expression.cleanAllCookies
-                ),
+                )
               )
             }
           >
             <FontAwesomeIcon
               id={keyCleanAllCookies}
               style={styles.checkbox}
-              size={'lg'}
+              size={"lg"}
               icon={[
-                'far',
+                "far",
                 expression.cleanAllCookies === undefined ||
-                  expression.cleanAllCookies
-                  ? 'check-square'
-                  : 'square',
+                expression.cleanAllCookies
+                  ? "check-square"
+                  : "square",
               ]}
               role="checkbox"
               aria-checked={
@@ -337,14 +332,15 @@ class ExpressionOptions extends React.Component<ExpressionOptionsProps> {
               aria-labelledby={keyCleanAllCookies}
             >
               {browser.i18n.getMessage(
-                `keepAllCookies${expression.listType === ListType.GREY ? 'Grey' : ''
-                }Text`,
+                `keepAllCookies${
+                  expression.listType === ListType.GREY ? "Grey" : ""
+                }Text`
               )}
             </label>
           </span>
         </div>
         {dropList && (
-          <div style={{ maxHeight: '150px', overflow: 'auto' }}>
+          <div style={{ maxHeight: "150px", overflow: "auto" }}>
             {this.createCookieList(cookies, expression)}
           </div>
         )}

@@ -10,34 +10,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as React from 'react';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import * as React from "react";
 const styles = {
   hamburger: {
-    color: 'white',
+    color: "white",
   },
 };
 
 const sideBarTabs = [
   {
-    tabId: 'tabWelcome',
-    tabText: browser.i18n.getMessage('welcomeText'),
+    tabId: "tabWelcome",
+    tabText: browser.i18n.getMessage("welcomeText"),
   },
   {
-    tabId: 'tabSettings',
-    tabText: browser.i18n.getMessage('settingsText'),
+    tabId: "tabSettings",
+    tabText: browser.i18n.getMessage("settingsText"),
   },
   {
-    tabId: 'tabExpressionList',
-    tabText: browser.i18n.getMessage('expressionListText'),
+    tabId: "tabExpressionList",
+    tabText: browser.i18n.getMessage("expressionListText"),
   },
   {
-    tabId: 'tabCleanupLog',
-    tabText: browser.i18n.getMessage('cleanupLogText'),
+    tabId: "tabCleanupLog",
+    tabText: browser.i18n.getMessage("cleanupLogText"),
   },
   {
-    tabId: 'tabAbout',
-    tabText: browser.i18n.getMessage('aboutText'),
+    tabId: "tabAbout",
+    tabText: browser.i18n.getMessage("aboutText"),
   },
 ];
 
@@ -64,15 +64,15 @@ class SideBar extends React.Component<OwnProps> {
       classes.push(className);
     }
 
-    element.className = classes.join(' ');
+    element.className = classes.join(" ");
   }
 
   // Toggles the sidebar
   public toggleAll(): void {
-    const active = 'active';
-    const layout = document.getElementById('layout');
-    const menu = document.getElementById('menu');
-    const menuLink = document.getElementById('menuLink');
+    const active = "active";
+    const layout = document.getElementById("layout");
+    const menu = document.getElementById("menu");
+    const menuLink = document.getElementById("menuLink");
     this.toggleClass(layout, active);
     this.toggleClass(menu, active);
     this.toggleClass(menuLink, active);
@@ -86,17 +86,17 @@ class SideBar extends React.Component<OwnProps> {
           id="menuLink"
           className="menu-link"
         >
-          <FontAwesomeIcon size={'lg'} style={styles.hamburger} icon="bars" />
+          <FontAwesomeIcon size={"lg"} style={styles.hamburger} icon="bars" />
           <br />
           <div id="menuLinkText" className="menuLinkText">
-            {browser.i18n.getMessage('menuText')}
+            {browser.i18n.getMessage("menuText")}
           </div>
         </div>
 
         <div id="menu" className="menu">
           <div className="pure-menu nav flex-column">
             <div className="sidebar-version">
-              {browser.i18n.getMessage('versionNumberText', ['CAD'])}
+              {browser.i18n.getMessage("versionNumberText", ["CAD"])}
               <br />
               <b>{browser.runtime.getManifest().version}</b>
             </div>
@@ -106,7 +106,7 @@ class SideBar extends React.Component<OwnProps> {
                 id={`${element.tabId}`}
                 onClick={() => switchTabs(element.tabId)}
                 className={`pure-menu-item ${
-                  activeTab === element.tabId ? 'pure-menu-selected' : ''
+                  activeTab === element.tabId ? "pure-menu-selected" : ""
                 }`}
               >
                 <span>{`${element.tabText}`}</span>
@@ -119,7 +119,7 @@ class SideBar extends React.Component<OwnProps> {
               target="_blank"
               rel="noreferrer"
             >
-              <span>{browser.i18n.getMessage('contributeText')}</span>
+              <span>{browser.i18n.getMessage("contributeText")}</span>
             </a>
           </div>
         </div>

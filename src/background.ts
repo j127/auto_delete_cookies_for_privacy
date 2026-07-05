@@ -10,15 +10,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Store } from 'redux';
-import { cookieCleanup, validateSettings } from './redux/actions';
-import createStore from './redux/store';
+import { Store } from "redux";
+import { cookieCleanup, validateSettings } from "./redux/actions";
+import createStore from "./redux/store";
 import {
   checkIfProtected,
   setGlobalIcon,
-} from './services/browser-action-service';
-import ContextMenuEvents from './services/context-menu-events';
-import CookieEvents from './services/cookie-events';
+} from "./services/browser-action-service";
+import ContextMenuEvents from "./services/context-menu-events";
+import CookieEvents from "./services/cookie-events";
 import {
   cadLog,
   convertVersionToNumber,
@@ -26,12 +26,12 @@ import {
   extractMainDomain,
   getSetting,
   sleep,
-} from './services/libs';
-import StoreUser from './services/store-user';
-import TabEvents from './services/tab-events';
-import { ReduxAction, ReduxConstants } from './typings/redux-constants';
-import ContextualIdentitiesEvents from './services/contextual-identities-events';
-import SettingService from './services/setting-service';
+} from "./services/libs";
+import StoreUser from "./services/store-user";
+import TabEvents from "./services/tab-events";
+import { ReduxAction, ReduxConstants } from "./typings/redux-constants";
+import ContextualIdentitiesEvents from "./services/contextual-identities-events";
+import SettingService from "./services/setting-service";
 
 let store: Store<State, ReduxAction>;
 
@@ -76,14 +76,14 @@ const onStartUp = async () => {
     const browserVersion = Number.parseInt(browserInfo.version);
     store.dispatch({
       payload: {
-        key: 'browserVersion',
+        key: "browserVersion",
         value: browserVersion,
       },
       type: ReduxConstants.ADD_CACHE,
     });
     store.dispatch({
       payload: {
-        key: 'browserInfo',
+        key: "browserInfo",
         value: browserInfo,
       },
       type: ReduxConstants.ADD_CACHE,
@@ -92,7 +92,7 @@ const onStartUp = async () => {
   // Store which browser environment in cache
   store.dispatch({
     payload: {
-      key: 'browserDetect',
+      key: "browserDetect",
       value: browserDetect(),
     },
     type: ReduxConstants.ADD_CACHE,
@@ -102,14 +102,14 @@ const onStartUp = async () => {
   const platformInfo = await browser.runtime.getPlatformInfo();
   store.dispatch({
     payload: {
-      key: 'platformInfo',
+      key: "platformInfo",
       value: platformInfo,
     },
     type: ReduxConstants.ADD_CACHE,
   });
   store.dispatch({
     payload: {
-      key: 'platformOs',
+      key: "platformOs",
       value: platformInfo.os,
     },
     type: ReduxConstants.ADD_CACHE,
@@ -125,7 +125,7 @@ const onStartUp = async () => {
   store.dispatch<any>(validateSettings());
 
   await setGlobalIcon(
-    getSetting(store.getState(), SettingID.ACTIVE_MODE) as boolean,
+    getSetting(store.getState(), SettingID.ACTIVE_MODE) as boolean
   );
 
   await checkIfProtected(store.getState());
@@ -162,8 +162,8 @@ async function onCookiePopupUpdates(changeInfo: {
   const cDomain = extractMainDomain(changeInfo.cookie.domain);
   cookiePopupPorts.forEach((p) => {
     if (!p.name) return;
-    if (!p.name.startsWith('popupCAD_')) return;
-    const pn = p.name.slice(9).split(',');
+    if (!p.name.startsWith("popupCAD_")) return;
+    const pn = p.name.slice(9).split(",");
     if (pn[0].endsWith(changeInfo.cookie.domain) || pn[0].endsWith(cDomain)) {
       p.postMessage({ cookieUpdated: true });
     }
@@ -171,20 +171,20 @@ async function onCookiePopupUpdates(changeInfo: {
 }
 
 function handleConnect(p: browser.runtime.Port) {
-  if (!p.name || !p.name.startsWith('popupCAD_')) return;
+  if (!p.name || !p.name.startsWith("popupCAD_")) return;
   eventListenerActions(
     browser.cookies.onChanged,
     onCookiePopupUpdates,
-    EventListenerAction.ADD,
+    EventListenerAction.ADD
   );
   p.onMessage.addListener((m) => {
     cadLog(
       {
-        msg: 'Received unexpected message from CAD Popup',
-        type: 'warn',
+        msg: "Received unexpected message from CAD Popup",
+        type: "warn",
         x: JSON.stringify(m),
       },
-      true,
+      true
     );
   });
   p.onDisconnect.addListener((dp: browser.runtime.Port) => {
@@ -192,7 +192,7 @@ function handleConnect(p: browser.runtime.Port) {
       eventListenerActions(
         browser.cookies.onChanged,
         onCookiePopupUpdates,
-        EventListenerAction.REMOVE,
+        EventListenerAction.REMOVE
       );
     }
     if (!dp.name) return;
@@ -214,9 +214,9 @@ onStartUp().then(() => {
   cadLog(
     {
       msg: `background.onStartUp has been executed`,
-      type: 'info',
+      type: "info",
     },
-    getSetting(store.getState(), SettingID.DEBUG_MODE) as boolean,
+    getSetting(store.getState(), SettingID.DEBUG_MODE) as boolean
   );
 });
 browser.runtime.onStartup.addListener(async () => {
@@ -224,28 +224,28 @@ browser.runtime.onStartup.addListener(async () => {
   if (getSetting(store.getState(), SettingID.ACTIVE_MODE) === true) {
     if (getSetting(store.getState(), SettingID.ENABLE_GREYLIST) === true) {
       let isFFSessionRestore = false;
-      const startupTabs = await browser.tabs.query({ windowType: 'normal' });
+      const startupTabs = await browser.tabs.query({ windowType: "normal" });
       startupTabs.forEach((tab) => {
-        if (tab.url === 'about:sessionrestore') isFFSessionRestore = true;
+        if (tab.url === "about:sessionrestore") isFFSessionRestore = true;
       });
       if (!isFFSessionRestore) {
         greyCleanup();
       } else {
         cadLog(
           {
-            msg: 'Found a tab with [ about:sessionrestore ] in Firefox. Skipping Grey startup cleanup this time.',
-            type: 'info',
+            msg: "Found a tab with [ about:sessionrestore ] in Firefox. Skipping Grey startup cleanup this time.",
+            type: "info",
           },
-          getSetting(store.getState(), SettingID.DEBUG_MODE) === true,
+          getSetting(store.getState(), SettingID.DEBUG_MODE) === true
         );
       }
     } else {
       cadLog(
         {
-          msg: 'GreyList Cleanup setting is disabled.  Not cleaning cookies on startup.',
-          type: 'info',
+          msg: "GreyList Cleanup setting is disabled.  Not cleaning cookies on startup.",
+          type: "info",
         },
-        getSetting(store.getState(), SettingID.DEBUG_MODE) === true,
+        getSetting(store.getState(), SettingID.DEBUG_MODE) === true
       );
     }
   }
@@ -255,10 +255,10 @@ browser.runtime.onInstalled.addListener(async (details) => {
   await awaitStore();
   await checkIfProtected(store.getState());
   switch (details.reason) {
-    case 'install':
+    case "install":
       await browser.runtime.openOptionsPage();
       break;
-    case 'update':
+    case "update":
       // Validate Settings to get new settings (if any).
       store.dispatch<any>(validateSettings());
       if (convertVersionToNumber(details.previousVersion) < 350) {
@@ -295,18 +295,18 @@ browser.runtime.onInstalled.addListener(async (details) => {
           if (
             getSetting(
               store.getState(),
-              `${lt.toLowerCase()}CleanLocalstorage` as SettingID,
+              `${lt.toLowerCase()}CleanLocalstorage` as SettingID
             )
           ) {
             const containers = new Set<string>(
-              Object.keys(store.getState().lists),
+              Object.keys(store.getState().lists)
             );
-            containers.add('default');
+            containers.add("default");
             if (getSetting(store.getState(), SettingID.CONTEXTUAL_IDENTITIES)) {
               const contextualIdentitiesObjects =
                 await browser.contextualIdentities.query({});
               contextualIdentitiesObjects.forEach((c) =>
-                containers.add(c.cookieStoreId),
+                containers.add(c.cookieStoreId)
               );
             }
             containers.forEach((list) => {
@@ -349,16 +349,16 @@ const greyCleanup = () => {
       {
         msg: `background.greyCleanup:  dispatching browser restart greyCleanup.`,
       },
-      getSetting(store.getState(), SettingID.DEBUG_MODE) as boolean,
+      getSetting(store.getState(), SettingID.DEBUG_MODE) as boolean
     );
     store.dispatch<any>(
       cookieCleanup({
         greyCleanup: true,
         ignoreOpenTabs: getSetting(
           store.getState(),
-          SettingID.CLEAN_OPEN_TABS_STARTUP,
+          SettingID.CLEAN_OPEN_TABS_STARTUP
         ),
-      }),
+      })
     );
   }
 };

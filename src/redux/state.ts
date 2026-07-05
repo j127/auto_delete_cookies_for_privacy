@@ -71,7 +71,7 @@ export const initialState: State = {
       value: false,
     },
     [SettingID.OLD_GREY_CLEAN_LOCALSTORAGE]: {
-      id: 'DEPRECATED - use default expressions',
+      id: "DEPRECATED - use default expressions",
       name: SettingID.OLD_GREY_CLEAN_LOCALSTORAGE,
       value: false,
     },
@@ -84,7 +84,7 @@ export const initialState: State = {
       value: false,
     },
     [SettingID.CLEANUP_LOCALSTORAGE_OLD]: {
-      id: 'DEPRECATED - use localStorageCleanup',
+      id: "DEPRECATED - use localStorageCleanup",
       name: SettingID.CLEANUP_LOCALSTORAGE_OLD,
       value: false,
     },
@@ -133,7 +133,7 @@ export const initialState: State = {
       value: true,
     },
     [SettingID.OLD_WHITE_CLEAN_LOCALSTORAGE]: {
-      id: 'DEPRECATED - use default expressions',
+      id: "DEPRECATED - use default expressions",
       name: SettingID.OLD_WHITE_CLEAN_LOCALSTORAGE,
       value: false,
     },

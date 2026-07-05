@@ -11,22 +11,22 @@
  * SOFTWARE.
  */
 
-import { getHostname, returnMatchedExpressionObject } from './libs';
+import { getHostname, returnMatchedExpressionObject } from "./libs";
 
 // Show the # of cookies in icon
 export const showNumberOfCookiesInIcon = (
   tab: browser.tabs.Tab,
-  cookieLength: number,
+  cookieLength: number
 ): void => {
   if (browser.browserAction.setBadgeText) {
     browser.browserAction.setBadgeText({
       tabId: tab.id,
-      text: `${cookieLength === 0 ? '' : cookieLength.toString()}`,
+      text: `${cookieLength === 0 ? "" : cookieLength.toString()}`,
     });
   }
   if (browser.browserAction.setBadgeTextColor) {
     browser.browserAction.setBadgeTextColor({
-      color: 'white',
+      color: "white",
       tabId: tab.id,
     });
   }
@@ -39,22 +39,22 @@ export const showNumberOfCookiesInTitle = async (
     cookieLength?: number;
     listType?: string;
     platformOS?: string;
-  },
+  }
 ): Promise<void> => {
   const mf = browser.runtime.getManifest();
   // Use Shortened Extension name for mobile.
-  const tabTitle = `${otherInfo.platformOS === 'android' ? 'CAD' : mf.name} ${
+  const tabTitle = `${otherInfo.platformOS === "android" ? "CAD" : mf.name} ${
     mf.version
   }`;
 
   const curData = /\[(.*)] \((\d*)\)/.exec(
     await browser.browserAction.getTitle({
       tabId: tab.id,
-    }),
+    })
   );
   const newData = {
     cookies: otherInfo.cookieLength || (curData && curData[2]) || 0,
-    list: otherInfo.listType || (curData && curData[1]) || 'NO LIST',
+    list: otherInfo.listType || (curData && curData[1]) || "NO LIST",
   };
 
   browser.browserAction.setTitle({
@@ -64,11 +64,11 @@ export const showNumberOfCookiesInTitle = async (
 };
 
 // Set Badge Color accordingly (to matching list)
-const setBadgeColor = (tab: browser.tabs.Tab, color = 'default') => {
+const setBadgeColor = (tab: browser.tabs.Tab, color = "default") => {
   const badgeBackgroundColor: { [key: string]: string } = {
-    default: 'blue',
-    red: 'red',
-    yellow: '#e6a32e',
+    default: "blue",
+    red: "red",
+    yellow: "#e6a32e",
   };
   if (browser.browserAction.setBadgeBackgroundColor) {
     browser.browserAction.setBadgeBackgroundColor({
@@ -82,13 +82,13 @@ const setBadgeColor = (tab: browser.tabs.Tab, color = 'default') => {
 const setIconColor = (
   tab: browser.tabs.Tab,
   keepDefault = false,
-  color = 'default',
+  color = "default"
 ) => {
   if (browser.browserAction.setIcon) {
     browser.browserAction.setIcon({
       path: {
         48: `icons/icon_48${
-          keepDefault || color === 'default' ? '' : `_${color}`
+          keepDefault || color === "default" ? "" : `_${color}`
         }.png`,
       },
       tabId: tab.id,
@@ -105,18 +105,18 @@ export const setGlobalIcon = async (enabled: boolean): Promise<void> => {
     // Set Global Icon
     await browser.browserAction.setIcon({
       path: {
-        48: `icons/icon_48${enabled ? '' : '_greyscale'}.png`,
+        48: `icons/icon_48${enabled ? "" : "_greyscale"}.png`,
       },
     });
 
     const tabAwait = await browser.tabs.query({
-      windowType: 'normal',
+      windowType: "normal",
     });
     for (const tab of tabAwait) {
       if (tab.id !== browser.tabs.TAB_ID_NONE) {
         await browser.browserAction.setIcon({
           path: {
-            48: `icons/icon_48${enabled ? '' : '_greyscale'}.png`,
+            48: `icons/icon_48${enabled ? "" : "_greyscale"}.png`,
           },
           tabId: tab.id,
         });
@@ -129,7 +129,7 @@ export const setGlobalIcon = async (enabled: boolean): Promise<void> => {
 export const checkIfProtected = async (
   state: State,
   tab: browser.tabs.Tab | undefined = undefined,
-  cookieLength?: number,
+  cookieLength?: number
 ): Promise<void> => {
   const active = state.settings[SettingID.ACTIVE_MODE].value as boolean;
   let activeTabs: browser.tabs.Tab[] = [];
@@ -140,15 +140,15 @@ export const checkIfProtected = async (
     // No tab provided - query all active tabs instead.
     activeTabs = await browser.tabs.query({
       active: true,
-      windowType: 'normal',
+      windowType: "normal",
     });
   }
 
   activeTabs.forEach((aTab) => {
     const matchedExpression = returnMatchedExpressionObject(
       state,
-      aTab.cookieStoreId || 'default',
-      getHostname(aTab.url || ''),
+      aTab.cookieStoreId || "default",
+      getHostname(aTab.url || "")
     );
 
     if (matchedExpression) {
@@ -160,13 +160,13 @@ export const checkIfProtected = async (
     } else {
       showNumberOfCookiesInTitle(aTab, {
         platformOS: state.cache.platformOs,
-        listType: 'NO LIST',
+        listType: "NO LIST",
         cookieLength,
       });
     }
 
     // Can't set icons on Android.
-    if (state.cache.platformOs && state.cache.platformOs === 'android') return;
+    if (state.cache.platformOs && state.cache.platformOs === "android") return;
 
     if (matchedExpression) {
       switch (matchedExpression.listType) {
@@ -182,10 +182,10 @@ export const checkIfProtected = async (
             setIconColor(
               aTab,
               state.settings[SettingID.KEEP_DEFAULT_ICON].value as boolean,
-              'yellow',
+              "yellow"
             );
           } else {
-            setBadgeColor(aTab, 'yellow');
+            setBadgeColor(aTab, "yellow");
           }
           break;
         default:
@@ -193,10 +193,10 @@ export const checkIfProtected = async (
             setIconColor(
               aTab,
               state.settings[SettingID.KEEP_DEFAULT_ICON].value as boolean,
-              'red',
+              "red"
             );
           } else {
-            setBadgeColor(aTab, 'red');
+            setBadgeColor(aTab, "red");
           }
           break;
       }
@@ -212,10 +212,10 @@ export const checkIfProtected = async (
           setIconColor(
             aTab,
             state.settings[SettingID.KEEP_DEFAULT_ICON].value as boolean,
-            'red',
+            "red"
           );
         } else {
-          setBadgeColor(aTab, 'red');
+          setBadgeColor(aTab, "red");
         }
       }
     }

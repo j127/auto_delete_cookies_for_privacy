@@ -10,14 +10,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Component } from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { Component } from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 import {
   addExpressionUI,
   cookieCleanupUI,
   updateSetting,
-} from '../../redux/actions';
+} from "../../redux/actions";
 import {
   CADCOOKIENAME,
   extractMainDomain,
@@ -29,14 +29,14 @@ import {
   isFirefoxNotAndroid,
   localFileToRegex,
   parseCookieStoreId,
-} from '../../services/libs';
-import { FilterOptions } from '../../typings/enums';
-import { ReduxAction } from '../../typings/redux-constants';
-import ActivityTable from '../common-components/activity-table';
-import IconButton from '../common-components/icon-button';
-import CleanCollapseGroup from './components/clean-collapse-group';
-import FilteredExpression from './components/filtered-expression';
-import { animateFlash } from './popup-lib';
+} from "../../services/libs";
+import { FilterOptions } from "../../typings/enums";
+import { ReduxAction } from "../../typings/redux-constants";
+import ActivityTable from "../common-components/activity-table";
+import IconButton from "../common-components/icon-button";
+import CleanCollapseGroup from "./components/clean-collapse-group";
+import FilteredExpression from "./components/filtered-expression";
+import { animateFlash } from "./popup-lib";
 
 interface DispatchProps {
   onUpdateSetting: (newSetting: Setting) => void;
@@ -52,7 +52,7 @@ interface StateProps {
 class InitialState {
   public cookieCount = 0;
   public tab: browser.tabs.Tab | undefined = undefined;
-  public storeId = 'default';
+  public storeId = "default";
 }
 
 type PopupAppComponentProps = DispatchProps & StateProps;
@@ -83,7 +83,7 @@ class App extends Component<PopupAppComponentProps, InitialState> {
     this.setState({
       storeId: parseCookieStoreId(
         this.props.contextualIdentities,
-        tabs[0].cookieStoreId,
+        tabs[0].cookieStoreId
       ),
       tab: tabs[0],
     });
@@ -113,7 +113,7 @@ class App extends Component<PopupAppComponentProps, InitialState> {
   public render() {
     const { tab, storeId } = this.state;
     if (!tab) {
-      return 'Loading';
+      return "Loading";
     }
     const {
       onNewExpression,
@@ -129,14 +129,14 @@ class App extends Component<PopupAppComponentProps, InitialState> {
       hostname === mainDomain ? undefined : `*.${mainDomain}`,
       hostname,
     ].filter(Boolean) as string[];
-    if (hostname !== '' && !isAnIP(tab.url) && !hostname.startsWith('file:')) {
+    if (hostname !== "" && !isAnIP(tab.url) && !hostname.startsWith("file:")) {
       addableHostnames.push(`*.${hostname}`);
     }
 
     if (!this.port) {
       if (hostname) {
         this.port = browser.runtime.connect({
-          name: `popupCAD_${hostname},${storeId.replace(',', '-')}`,
+          name: `popupCAD_${hostname},${storeId.replace(",", "-")}`,
         });
         this.port.onMessage.addListener((m) => {
           const msg = m as CookieCountMsg;
@@ -148,7 +148,7 @@ class App extends Component<PopupAppComponentProps, InitialState> {
           if (p.error) {
             // eslint-disable-next-line no-console
             console.error(
-              `Disconnected due to an error: ${browser.runtime.lastError}`,
+              `Disconnected due to an error: ${browser.runtime.lastError}`
             );
           }
           this.port = null;
@@ -161,44 +161,44 @@ class App extends Component<PopupAppComponentProps, InitialState> {
         id="cadPopup"
         className="container-fluid"
         style={{
-          overflow: 'auto',
+          overflow: "auto",
         }}
         onClick={(e) => {
           const _t = e.target as HTMLElement;
-          const _ccg = document.getElementById('cleanCollapse');
-          if (!_ccg || !_ccg.classList.contains('show')) return;
-          const _dt = _t.attributes.getNamedItem('data-target');
-          if (!_dt || _dt.value !== '#cleanCollapse') {
-            _ccg.classList.remove('show');
+          const _ccg = document.getElementById("cleanCollapse");
+          if (!_ccg || !_ccg.classList.contains("show")) return;
+          const _dt = _t.attributes.getNamedItem("data-target");
+          if (!_dt || _dt.value !== "#cleanCollapse") {
+            _ccg.classList.remove("show");
           }
         }}
       >
         <div
           className="row pt-2"
           style={{
-            alignItems: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.05)',
-            justifyContent: 'center',
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.05)",
+            justifyContent: "center",
           }}
         >
-          <span id="CADTitle">{browser.i18n.getMessage('extensionName')}</span>
+          <span id="CADTitle">{browser.i18n.getMessage("extensionName")}</span>
           &nbsp;
-          <span id="CADVersion" style={{ fontWeight: 'bold' }}>
+          <span id="CADVersion" style={{ fontWeight: "bold" }}>
             {browser.runtime.getManifest().version}
           </span>
         </div>
         <div
           className="row justify-content-center p-1"
           style={{
-            alignItems: 'center',
-            backgroundColor: 'rgba(0, 0, 0, 0.05)',
-            borderBottom: '1px solid rgba(0, 0, 0, 0.1)',
+            alignItems: "center",
+            backgroundColor: "rgba(0, 0, 0, 0.05)",
+            borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
           }}
         >
           <IconButton
             iconName="power-off"
             className={`btn-${
-              settings[SettingID.ACTIVE_MODE].value ? 'success' : 'danger'
+              settings[SettingID.ACTIVE_MODE].value ? "success" : "danger"
             } m-1`}
             onClick={() =>
               onUpdateSetting({
@@ -208,21 +208,21 @@ class App extends Component<PopupAppComponentProps, InitialState> {
             }
             title={
               settings[SettingID.ACTIVE_MODE].value
-                ? browser.i18n.getMessage('disableAutoDeleteText')
-                : browser.i18n.getMessage('enableAutoDeleteText')
+                ? browser.i18n.getMessage("disableAutoDeleteText")
+                : browser.i18n.getMessage("enableAutoDeleteText")
             }
             text={
               settings[SettingID.ACTIVE_MODE].value
-                ? browser.i18n.getMessage('autoDeleteEnabledText')
-                : browser.i18n.getMessage('autoDeleteDisabledText')
+                ? browser.i18n.getMessage("autoDeleteEnabledText")
+                : browser.i18n.getMessage("autoDeleteDisabledText")
             }
           />
           <IconButton
             iconName={
-              settings[SettingID.NOTIFY_AUTO].value ? 'bell' : 'bell-slash'
+              settings[SettingID.NOTIFY_AUTO].value ? "bell" : "bell-slash"
             }
             className={`btn-${
-              settings[SettingID.NOTIFY_AUTO].value ? 'success' : 'danger'
+              settings[SettingID.NOTIFY_AUTO].value ? "success" : "danger"
             } m-1`}
             onClick={() =>
               onUpdateSetting({
@@ -230,11 +230,11 @@ class App extends Component<PopupAppComponentProps, InitialState> {
                 value: !settings[SettingID.NOTIFY_AUTO].value,
               })
             }
-            title={browser.i18n.getMessage('toggleNotificationText')}
+            title={browser.i18n.getMessage("toggleNotificationText")}
             text={
               settings[SettingID.NOTIFY_AUTO].value
-                ? browser.i18n.getMessage('notificationEnabledText')
-                : browser.i18n.getMessage('notificationDisabledText')
+                ? browser.i18n.getMessage("notificationEnabledText")
+                : browser.i18n.getMessage("notificationDisabledText")
             }
           />
           <div
@@ -253,12 +253,12 @@ class App extends Component<PopupAppComponentProps, InitialState> {
                   ignoreOpenTabs: false,
                 });
                 animateFlash(
-                  document.getElementById('cleanButtonContainer'),
-                  true,
+                  document.getElementById("cleanButtonContainer"),
+                  true
                 );
               }}
-              title={browser.i18n.getMessage('cookieCleanupText')}
-              text={browser.i18n.getMessage('cleanText')}
+              title={browser.i18n.getMessage("cookieCleanupText")}
+              text={browser.i18n.getMessage("cleanText")}
             />
 
             <button
@@ -270,12 +270,12 @@ class App extends Component<PopupAppComponentProps, InitialState> {
               data-toggle="collapse"
               role="button"
               style={{
-                borderLeftColor: 'rgb(176, 132, 0)',
-                transform: 'translate3d(-3px, 0px, 0px)',
+                borderLeftColor: "rgb(176, 132, 0)",
+                transform: "translate3d(-3px, 0px, 0px)",
               }}
             >
               <span className="sr-only">
-                {browser.i18n.getMessage('dropdownAdditionalCleaningOptions')}
+                {browser.i18n.getMessage("dropdownAdditionalCleaningOptions")}
               </span>
             </button>
           </div>
@@ -287,71 +287,71 @@ class App extends Component<PopupAppComponentProps, InitialState> {
                 browser.tabs.create({
                   cookieStoreId: tab.cookieStoreId,
                   index: tab.index + 1,
-                  url: '/settings/settings.html#tabSettings',
+                  url: "/settings/settings.html#tabSettings",
                 });
               } else {
                 browser.tabs.create({
                   index: tab.index + 1,
-                  url: '/settings/settings.html#tabSettings',
+                  url: "/settings/settings.html#tabSettings",
                 });
               }
               window.close();
             }}
-            title={browser.i18n.getMessage('preferencesText')}
-            text={browser.i18n.getMessage('preferencesText')}
+            title={browser.i18n.getMessage("preferencesText")}
+            text={browser.i18n.getMessage("preferencesText")}
           />
         </div>
-        <CleanCollapseGroup hostname={hostname || ''} tab={tab} />
+        <CleanCollapseGroup hostname={hostname || ""} tab={tab} />
 
         <div
           className="row no-gutters"
           style={{
-            alignItems: 'center',
-            margin: '8px 0',
+            alignItems: "center",
+            margin: "8px 0",
           }}
         >
-          {tab.favIconUrl && !tab.favIconUrl.startsWith('chrome:') && (
+          {tab.favIconUrl && !tab.favIconUrl.startsWith("chrome:") && (
             <img
-              alt={'favIcon'}
+              alt={"favIcon"}
               src={tab.favIconUrl}
               style={{
-                height: '20px',
-                marginRight: '7px',
-                verticalAlign: 'middle',
-                width: '20px',
+                height: "20px",
+                marginRight: "7px",
+                verticalAlign: "middle",
+                width: "20px",
               }}
             />
           )}
           <div className="col">
             <span
               style={{
-                fontSize: '1.25em',
-                marginRight: '8px',
-                verticalAlign: 'middle',
+                fontSize: "1.25em",
+                marginRight: "8px",
+                verticalAlign: "middle",
               }}
             >
               {`${hostname}${
                 contextualIdentities && cache[storeId] !== undefined
                   ? ` (${cache[storeId]})`
-                  : ''
+                  : ""
               }`}
             </span>
           </div>
           <div
             className="col-3"
             style={{
-              fontSize: '1.1em',
-              textAlign: 'center',
+              fontSize: "1.1em",
+              textAlign: "center",
             }}
           >
             <span id="CADCookieText">
-              {browser.i18n.getMessage('popupCookieCountText')}
+              {browser.i18n.getMessage("popupCookieCountText")}
             </span>
             :&nbsp;
             <span
               id="CADCookieCount"
               style={{
-                fontWeight: 'bold',
+                fontWeight: "bold",
               }}
             >
               {this.state.cookieCount}
@@ -363,9 +363,9 @@ class App extends Component<PopupAppComponentProps, InitialState> {
           <div
             key={addableHostname}
             style={{
-              alignItems: 'center',
-              display: 'flex',
-              margin: '8px 0',
+              alignItems: "center",
+              display: "flex",
+              margin: "8px 0",
             }}
             className="row"
           >
@@ -379,7 +379,7 @@ class App extends Component<PopupAppComponentProps, InitialState> {
             <div
               className="btn-group"
               style={{
-                marginLeft: '8px',
+                marginLeft: "8px",
               }}
             >
               <IconButton
@@ -392,8 +392,8 @@ class App extends Component<PopupAppComponentProps, InitialState> {
                   });
                 }}
                 iconName="plus"
-                title={browser.i18n.getMessage('toGreyListText')}
-                text={browser.i18n.getMessage('greyListWordText')}
+                title={browser.i18n.getMessage("toGreyListText")}
+                text={browser.i18n.getMessage("greyListWordText")}
               />
 
               <IconButton
@@ -406,8 +406,8 @@ class App extends Component<PopupAppComponentProps, InitialState> {
                   });
                 }}
                 iconName="plus"
-                title={browser.i18n.getMessage('toWhiteListText')}
-                text={browser.i18n.getMessage('whiteListWordText')}
+                title={browser.i18n.getMessage("toWhiteListText")}
+                text={browser.i18n.getMessage("whiteListWordText")}
               />
             </div>
           </div>
@@ -416,7 +416,7 @@ class App extends Component<PopupAppComponentProps, InitialState> {
         <div
           className="row"
           style={{
-            margin: '8px 0',
+            margin: "8px 0",
           }}
         >
           <FilteredExpression url={hostname} storeId={storeId} />
@@ -431,7 +431,7 @@ const mapStateToProps = (state: State) => {
   return {
     contextualIdentities: getSetting(
       state,
-      SettingID.CONTEXTUAL_IDENTITIES,
+      SettingID.CONTEXTUAL_IDENTITIES
     ) as boolean,
     state,
   };

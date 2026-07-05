@@ -11,21 +11,21 @@
  * SOFTWARE.
  */
 
-import { combineReducers } from 'redux';
-import shortid from 'shortid';
-import { ReduxAction, ReduxConstants } from '../typings/redux-constants';
-import { initialState } from './state';
+import { combineReducers } from "redux";
+import shortid from "shortid";
+import { ReduxAction, ReduxConstants } from "../typings/redux-constants";
+import { initialState } from "./state";
 
 // Tests if the expression already exists in the list
 const hasExpression = (
   list: ReadonlyArray<Expression>,
-  action: { payload: Expression },
+  action: { payload: Expression }
 ) => list.some((expObj) => expObj.expression === action.payload.expression);
 
 // Creates a new Expression object to be stored in the list
 const newExpressionObject = (
   state: Expression | Record<string, unknown>,
-  action: { payload: Expression },
+  action: { payload: Expression }
 ) => ({
   ...action.payload,
   cookieNames: !action.payload.cookieNames ? [] : action.payload.cookieNames,
@@ -51,12 +51,12 @@ const sortExpressionAlgorithm = (a: Expression, b: Expression) => {
 export const expression = (
   state: Expression = {
     cookieNames: [],
-    expression: '',
-    id: '1',
+    expression: "",
+    id: "1",
     listType: ListType.WHITE,
-    storeId: 'default',
+    storeId: "default",
   },
-  action: ReduxAction,
+  action: ReduxAction
 ): Expression => {
   switch (action.type) {
     case ReduxConstants.UPDATE_EXPRESSION: {
@@ -72,7 +72,7 @@ export const expression = (
 
 export const expressions = (
   state: ReadonlyArray<Expression> = [],
-  action: ReduxAction,
+  action: ReduxAction
 ): ReadonlyArray<Expression> => {
   switch (action.type) {
     case ReduxConstants.ADD_EXPRESSION: {
@@ -80,7 +80,7 @@ export const expressions = (
         return state;
       }
       return [...state, newExpressionObject({}, action)].sort(
-        sortExpressionAlgorithm,
+        sortExpressionAlgorithm
       );
     }
 
@@ -102,7 +102,7 @@ export const expressions = (
 
 export const lists = (
   state: StoreIdToExpressionList = {},
-  action: ReduxAction,
+  action: ReduxAction
 ): StoreIdToExpressionList => {
   switch (action.type) {
     case ReduxConstants.ADD_EXPRESSION:
@@ -111,7 +111,7 @@ export const lists = (
       const newListObject = { ...state };
       newListObject[action.payload.storeId] = expressions(
         state[action.payload.storeId],
-        action,
+        action
       );
       if (newListObject[action.payload.storeId].length === 0) {
         delete newListObject[action.payload.storeId];
@@ -135,7 +135,7 @@ export const lists = (
 
 export const settings = (
   state = initialState.settings,
-  action: ReduxAction,
+  action: ReduxAction
 ): MapToSettingObject => {
   switch (action.type) {
     case ReduxConstants.UPDATE_SETTING: {
@@ -159,7 +159,7 @@ export const settings = (
 
 export const cookieDeletedCounterTotal = (
   state = 0,
-  action: ReduxAction,
+  action: ReduxAction
 ): number => {
   switch (action.type) {
     case ReduxConstants.INCREMENT_COOKIE_DELETED_COUNTER:
@@ -174,7 +174,7 @@ export const cookieDeletedCounterTotal = (
 
 export const cookieDeletedCounterSession = (
   state = 0,
-  action: ReduxAction,
+  action: ReduxAction
 ): number => {
   switch (action.type) {
     case ReduxConstants.INCREMENT_COOKIE_DELETED_COUNTER: {
@@ -193,7 +193,7 @@ export const cookieDeletedCounterSession = (
 
 export const activityLog = (
   state: ReadonlyArray<ActivityLog> = [],
-  action: ReduxAction,
+  action: ReduxAction
 ): ReadonlyArray<ActivityLog> => {
   switch (action.type) {
     case ReduxConstants.ADD_ACTIVITY_LOG: {
@@ -219,7 +219,7 @@ export const activityLog = (
 
 export const cache = (
   state: CacheMap = {},
-  action: ReduxAction,
+  action: ReduxAction
 ): Record<string, any> => {
   switch (action.type) {
     case ReduxConstants.ADD_CACHE: {

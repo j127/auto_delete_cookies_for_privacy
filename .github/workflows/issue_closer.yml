@@ -98,7 +98,7 @@ jobs:
         uses: andymckay/labeler@1.0.4
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          add-labels: 'incomplete'
+          add-labels: "incomplete"
       - name: Comment and Close Issue
         if: env.issue_close == 'true'
         uses: peter-evans/close-issue@v3
@@ -140,7 +140,7 @@ jobs:
         uses: andymckay/labeler@1.0.4
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          add-labels: 'incomplete'
+          add-labels: "incomplete"
       - name: Comment and Close Issue
         if: env.issue_close == 'true'
         uses: peter-evans/close-issue@v3
@@ -178,7 +178,7 @@ jobs:
         uses: andymckay/labeler@1.0.4
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          add-labels: 'incomplete'
+          add-labels: "incomplete"
       - name: Comment and Close Issue
         if: env.issue_close == 'true'
         uses: peter-evans/close-issue@v3
@@ -201,7 +201,7 @@ jobs:
         uses: andymckay/labeler@1.0.4
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
-          add-labels: 'incomplete'
+          add-labels: "incomplete"
       - name: Comment and Close Issue
         uses: peter-evans/close-issue@v3
         with:

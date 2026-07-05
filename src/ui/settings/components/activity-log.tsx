@@ -10,14 +10,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { clearActivities } from '../../../redux/actions';
-import { FilterOptions } from '../../../typings/enums';
-import { ReduxAction } from '../../../typings/redux-constants';
-import ActivityTable from '../../common-components/activity-table';
-import IconButton from '../../common-components/icon-button';
+import * as React from "react";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { clearActivities } from "../../../redux/actions";
+import { FilterOptions } from "../../../typings/enums";
+import { ReduxAction } from "../../../typings/redux-constants";
+import ActivityTable from "../../common-components/activity-table";
+import IconButton from "../../common-components/icon-button";
 
 interface OwnProps {
   style?: React.CSSProperties;
@@ -45,17 +45,17 @@ class ActivityLog extends React.Component<ActivityLogProps> {
     // const { decisionFilter } = this.state;
     return (
       <div style={style}>
-        <h1>{browser.i18n.getMessage('cleanupLogText')}</h1>
+        <h1>{browser.i18n.getMessage("cleanupLogText")}</h1>
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: '10px',
+            display: "flex",
+            justifyContent: "space-between",
+            marginBottom: "10px",
           }}
         >
           <div
             style={{
-              marginTop: '5px',
+              marginTop: "5px",
             }}
           >
             {/* <span>{`${browser.i18n.getMessage('filterText')}: `}</span>
@@ -104,7 +104,7 @@ class ActivityLog extends React.Component<ActivityLogProps> {
           </div>
           <IconButton
             iconName="trash"
-            text={browser.i18n.getMessage('clearLogsText')}
+            text={browser.i18n.getMessage("clearLogsText")}
             onClick={() => onClearActivityLogClick()}
             className="btn-warning"
           />

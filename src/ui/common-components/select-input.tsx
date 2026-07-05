@@ -10,7 +10,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import * as React from 'react';
+import * as React from "react";
 interface OwnProps {
   numSize?: number;
   numStart?: number;
@@ -38,7 +38,7 @@ const SelectInput: React.FunctionComponent<OwnProps> = ({
       <select
         name={name}
         id={name}
-        className={'selectOptions custom-select '}
+        className={"selectOptions custom-select"}
         onChange={(e) => {
           const newValue = options.includes(e.target.value as string)
             ? e.target.value
@@ -48,7 +48,7 @@ const SelectInput: React.FunctionComponent<OwnProps> = ({
             value: newValue,
           });
         }}
-        style={{ minWidth: '5em', width: 'auto' }}
+        style={{ minWidth: "5em", width: "auto" }}
         value={value as string}
       >
         {options.map((opt) => (

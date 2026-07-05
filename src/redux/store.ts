@@ -12,11 +12,11 @@
  */
 /* istanbul ignore file: Redux stuff.*/
 
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore } from "redux";
 // tslint:disable-next-line:import-name
-import thunk from 'redux-thunk';
-import { createBackgroundStore } from 'redux-webext';
-import { ReduxConstants } from '../typings/redux-constants';
+import thunk from "redux-thunk";
+import { createBackgroundStore } from "redux-webext";
+import { ReduxConstants } from "../typings/redux-constants";
 import {
   addExpression,
   clearActivities,
@@ -30,8 +30,8 @@ import {
   resetSettings,
   updateExpression,
   updateSetting,
-} from './actions';
-import reducer from './reducers';
+} from "./actions";
+import reducer from "./reducers";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const consoleMessages = (store: any) => (next: any) => (action: any) => {

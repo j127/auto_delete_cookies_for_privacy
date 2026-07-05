@@ -12,13 +12,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createUIStore } from 'redux-webext';
-import { isChrome, sleep } from '../../services/libs';
-import ErrorBoundary from '../common-components/error-boundary';
-import fontAwesomeImports from '../font-awesome-imports';
-import App from './app';
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { createUIStore } from "redux-webext";
+import { isChrome, sleep } from "../../services/libs";
+import ErrorBoundary from "../common-components/error-boundary";
+import fontAwesomeImports from "../font-awesome-imports";
+import App from "./app";
 
 fontAwesomeImports();
 
@@ -28,7 +28,7 @@ async function initApp() {
     await sleep(250);
     store = await createUIStore();
   }
-  const mountNode = document.createElement('div');
+  const mountNode = document.createElement("div");
   document.body.appendChild(mountNode);
 
   if (isChrome(store.getState().cache)) {
@@ -41,7 +41,7 @@ async function initApp() {
         <App />
       </ErrorBoundary>
     </Provider>,
-    mountNode,
+    mountNode
   );
 }
 

@@ -1,8 +1,8 @@
 ---
 name: Bug Report
 description: Create a bug report to help us improve. Please check the Documentation and FAQ first!
-title: '[Bug]  ???'
-labels: 'untested bug/issue'
+title: "[Bug]  ???"
+labels: "untested bug/issue"
 body:
   - type: markdown
     attributes:
@@ -28,13 +28,13 @@ body:
   - type: textarea
     attributes:
       label: Describe the bug
-      description: 'A clear and concise description of what the bug is.  A console output may be helpful to determine where the bug is.'
+      description: "A clear and concise description of what the bug is.  A console output may be helpful to determine where the bug is."
     validations:
       required: true
   - type: textarea
     attributes:
       label: To Reproduce
-      description: 'How did you trigger this bug?  Please walk us through it step by step.'
+      description: "How did you trigger this bug?  Please walk us through it step by step."
       placeholder: |
         Steps to reproduce the behavior:
 
@@ -47,7 +47,7 @@ body:
   - type: textarea
     attributes:
       label: Expected Behavior
-      description: 'A clear and concise description of what you expected to happen.'
+      description: "A clear and concise description of what you expected to happen."
     validations:
       required: true
   - type: textarea
@@ -65,7 +65,7 @@ body:
   - type: input
     attributes:
       label: System Info - Browser Info
-      description: '** If you are using a browser edition that is not standard/public release, please include the edition alongside the version number (e.g. Chrome Dev, Chrome Canary, Firefox Dev, Firefox Nightly)'
+      description: "** If you are using a browser edition that is not standard/public release, please include the edition alongside the version number (e.g. Chrome Dev, Chrome Canary, Firefox Dev, Firefox Nightly)"
       placeholder: e.g. Chrome 88.9.1234.567, Firefox 88.0.1
     validations:
       required: true
@@ -79,4 +79,4 @@ body:
   - type: textarea
     attributes:
       label: Additional Context
-      description: 'Add any other context about the bug below.'
+      description: "Add any other context about the bug below."

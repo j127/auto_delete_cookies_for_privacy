@@ -11,13 +11,13 @@
  * SOFTWARE.
  */
 
-import StoreUser from './store-user';
-import ContextualIdentitiesEvents from './contextual-identities-events';
-import { validateSettings } from '../redux/actions';
-import { cadLog, siteDataToBrowser, SITEDATATYPES } from './libs';
-import { checkIfProtected, setGlobalIcon } from './browser-action-service';
-import ContextMenuEvents from './context-menu-events';
-import { ReduxConstants } from '../typings/redux-constants';
+import StoreUser from "./store-user";
+import ContextualIdentitiesEvents from "./contextual-identities-events";
+import { validateSettings } from "../redux/actions";
+import { cadLog, siteDataToBrowser, SITEDATATYPES } from "./libs";
+import { checkIfProtected, setGlobalIcon } from "./browser-action-service";
+import ContextMenuEvents from "./context-menu-events";
+import { ReduxConstants } from "../typings/redux-constants";
 
 export default class SettingService extends StoreUser {
   public static init(): void {
@@ -57,26 +57,29 @@ export default class SettingService extends StoreUser {
         ) {
           continue;
         }
-        if (SettingService.getCurrent(SettingID.SITEDATA_EMPTY_ON_ENABLE) === false) {
+        if (
+          SettingService.getCurrent(SettingID.SITEDATA_EMPTY_ON_ENABLE) ===
+          false
+        ) {
           cadLog(
             {
               msg: `${siteData} setting activated, but Empty Site Data on Enable is false. Existing site data kept.`,
-              type: 'info',
+              type: "info",
             },
-            SettingService.getCurrent(SettingID.DEBUG_MODE) as boolean,
-          )
+            SettingService.getCurrent(SettingID.DEBUG_MODE) as boolean
+          );
           continue;
         }
         await browser.browsingData.remove(
           { since: 0 },
-          { [siteDataToBrowser(siteData)]: true },
+          { [siteDataToBrowser(siteData)]: true }
         );
         cadLog(
           {
             msg: `${siteData} setting activated.  All previous ${siteData} has been cleared for a clean slate.`,
-            type: 'info',
+            type: "info",
           },
-          SettingService.getCurrent(SettingID.DEBUG_MODE) as boolean,
+          SettingService.getCurrent(SettingID.DEBUG_MODE) as boolean
         );
       }
     }
@@ -84,15 +87,15 @@ export default class SettingService extends StoreUser {
     // Active Mode (Automatic Cleanup) changes
     if (SettingService.hasNewValue(previous, SettingID.ACTIVE_MODE)) {
       const active = SettingService.getCurrent(
-        SettingID.ACTIVE_MODE,
+        SettingID.ACTIVE_MODE
       ) as boolean;
       if (!active) {
-        await browser.alarms.clear('activeModeAlarm');
+        await browser.alarms.clear("activeModeAlarm");
       }
       await setGlobalIcon(active);
       ContextMenuEvents.updateMenuItemCheckbox(
         ContextMenuEvents.MenuID.ACTIVE_MODE,
-        active,
+        active
       );
     }
 
@@ -110,12 +113,12 @@ export default class SettingService extends StoreUser {
     SettingService.updateDeprecatedSetting(
       previous,
       SettingID.CLEANUP_LOCALSTORAGE,
-      SettingID.CLEANUP_LOCALSTORAGE_OLD,
+      SettingID.CLEANUP_LOCALSTORAGE_OLD
     );
     SettingService.updateDeprecatedSetting(
       previous,
       SettingID.CLEANUP_LOCALSTORAGE_OLD,
-      SettingID.CLEANUP_LOCALSTORAGE,
+      SettingID.CLEANUP_LOCALSTORAGE
     );
 
     await checkIfProtected(StoreUser.store.getState());
@@ -135,7 +138,7 @@ export default class SettingService extends StoreUser {
   private static updateDeprecatedSetting(
     p: MapToSettingObject,
     a: SettingID,
-    b: SettingID,
+    b: SettingID
   ): void {
     if (p[a] && SettingService.current[a] && SettingService.hasNewValue(p, a)) {
       StoreUser.store.dispatch({
