@@ -12,7 +12,7 @@
  */
 import { SettingID } from "../../../typings/enums";
 import * as React from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { resetSettings, updateSetting } from "../../../redux/actions";
 import { initialState } from "../../../redux/state";
@@ -40,28 +40,27 @@ interface OwnProps {
   style?: React.CSSProperties;
 }
 
-interface StateProps {
-  settings: MapToSettingObject;
-}
+const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
+  const settings = useSelector((state: State) => state.settings);
+  const dispatch = useDispatch<Dispatch<ReduxAction>>();
+  const [error, setErrorMessage] = React.useState("");
+  const [success, setSuccess] = React.useState("");
 
-interface DispatchProps {
-  onUpdateSetting: (setting: Setting) => void;
-  onResetButtonClick: () => void;
-}
+  const onUpdateSetting = (newSetting: Setting) => {
+    dispatch(updateSetting(newSetting));
+  };
 
-type SettingProps = OwnProps & StateProps & DispatchProps;
+  const onResetButtonClick = () => {
+    dispatch(resetSettings());
+  };
 
-class InitialState {
-  public error = "";
-  public success = "";
-}
-
-class Settings extends React.Component<SettingProps> {
-  public state = new InitialState();
+  const setError = (e: Error): void => {
+    setErrorMessage(e.toString());
+    setSuccess("");
+  };
 
   // Import Settings
-  public importCoreSettings(importFile: File) {
-    const { settings } = this.props;
+  const importCoreSettings = (importFile: File) => {
     const debug = settings[SettingID.DEBUG_MODE].value as boolean;
     adcpLog(
       {
@@ -76,7 +75,7 @@ class Settings extends React.Component<SettingProps> {
     );
     // Do check for import first!
     if (importFile.type !== "application/json") {
-      this.setError(
+      setError(
         new Error(
           `${browser.i18n.getMessage("importFileTypeInvalid")}:  ${
             importFile.name
@@ -85,13 +84,12 @@ class Settings extends React.Component<SettingProps> {
       );
       return;
     }
-    const { onUpdateSetting } = this.props;
     const initialSettingKeys = Object.keys(initialState.settings);
     const reader = new FileReader();
     reader.onload = (file) => {
       try {
         if (!file.target) {
-          this.setError(
+          setError(
             new Error(
               browser.i18n.getMessage("importFileNotFound", [importFile.name])
             )
@@ -111,7 +109,7 @@ class Settings extends React.Component<SettingProps> {
             },
             debug
           );
-          this.setError(
+          setError(
             new Error(
               `${browser.i18n.getMessage(
                 "importFileValidationFailed"
@@ -134,7 +132,7 @@ class Settings extends React.Component<SettingProps> {
           (key) => !initialSettingKeys.includes(key)
         );
         if (unknownKeys.length > 0) {
-          this.setError(
+          setError(
             new Error(
               `${browser.i18n.getMessage(
                 "importCoreSettingsFailed"
@@ -161,25 +159,20 @@ class Settings extends React.Component<SettingProps> {
             );
           }
         });
-        this.setState({
-          error: "",
-          success: browser.i18n.getMessage("importCoreSettingsText"),
-        });
+        setErrorMessage("");
+        setSuccess(browser.i18n.getMessage("importCoreSettingsText"));
       } catch (error: unknown) {
         if (error instanceof Error) {
-          this.setState({
-            error: error.toString(),
-            success: "",
-          });
+          setErrorMessage(error.toString());
+          setSuccess("");
         }
       }
     };
 
     reader.readAsText(importFile);
-  }
+  };
 
-  public exportCoreSettings() {
-    const { settings } = this.props;
+  const exportCoreSettings = () => {
     // Convert from name:{name, value} to {name, value}
     const exportSettings: Setting[] = Object.values(settings);
     const r = downloadObjectAsJSON(
@@ -194,438 +187,399 @@ class Settings extends React.Component<SettingProps> {
       },
       settings[SettingID.DEBUG_MODE].value as boolean
     );
-    this.setState({
-      error: "",
-      success: `${browser.i18n.getMessage("exportSettingsText")}: ${
-        r.downloadName
-      }`,
-    });
-  }
+    setErrorMessage("");
+    setSuccess(
+      `${browser.i18n.getMessage("exportSettingsText")}: ${r.downloadName}`
+    );
+  };
 
-  public render() {
-    const { onResetButtonClick, onUpdateSetting, settings, style } = this.props;
-    const { error, success } = this.state;
-    return (
-      <div style={style}>
-        <h1>{browser.i18n.getMessage("settingsText")}</h1>
-        <br />
-        <div className="row no-gutters justify-content-between justify-content-md-start">
-          <div className="col-md-auto col-7">
-            <IconButton
-              className="btn-primary"
-              iconName="download"
-              role="button"
-              onClick={() => this.exportCoreSettings()}
-              title={browser.i18n.getMessage("exportTitleTimestamp")}
-              text={browser.i18n.getMessage("exportSettingsText")}
-              styleReact={styles.buttonStyle}
-            />
-          </div>
-          <div className="col-md-auto col-7">
-            <IconButton
-              tag="input"
-              className="btn-info"
-              iconName="upload"
-              type="file"
-              accept="application/json, .json"
-              onChange={(e) => this.importCoreSettings(e.target.files[0])}
-              title={browser.i18n.getMessage("importCoreSettingsText")}
-              text={browser.i18n.getMessage("importCoreSettingsText")}
-              styleReact={styles.buttonStyle}
-            />
-          </div>
-          <div className="col-md-auto col-7">
-            <IconButton
-              className="btn-danger"
-              role="button"
-              onClick={() => {
-                onResetButtonClick();
-                this.setState({
-                  error: "",
-                  success: browser.i18n.getMessage("defaultSettingsText"),
-                });
-              }}
-              iconName="undo"
-              title={browser.i18n.getMessage("defaultSettingsText")}
-              text={browser.i18n.getMessage("defaultSettingsText")}
-              styleReact={styles.buttonStyle}
-            />
-          </div>
+  return (
+    <div style={style}>
+      <h1>{browser.i18n.getMessage("settingsText")}</h1>
+      <br />
+      <div className="row no-gutters justify-content-between justify-content-md-start">
+        <div className="col-md-auto col-7">
+          <IconButton
+            className="btn-primary"
+            iconName="download"
+            role="button"
+            onClick={() => exportCoreSettings()}
+            title={browser.i18n.getMessage("exportTitleTimestamp")}
+            text={browser.i18n.getMessage("exportSettingsText")}
+            styleReact={styles.buttonStyle}
+          />
         </div>
-        <br />
-        {error !== "" ? (
-          <div
-            onClick={() => this.setState({ error: "" })}
-            className="row alert alert-danger alertPreWrap"
-          >
-            {error}
-          </div>
-        ) : (
-          ""
-        )}
-        {success !== "" ? (
-          <div
-            onClick={() => this.setState({ success: "" })}
-            className="row alert alert-success alertPreWrap"
-          >
-            {browser.i18n.getMessage("successText")} {success}
-          </div>
-        ) : (
-          ""
-        )}
+        <div className="col-md-auto col-7">
+          <IconButton
+            tag="input"
+            className="btn-info"
+            iconName="upload"
+            type="file"
+            accept="application/json, .json"
+            onChange={(e) => importCoreSettings(e.target.files[0])}
+            title={browser.i18n.getMessage("importCoreSettingsText")}
+            text={browser.i18n.getMessage("importCoreSettingsText")}
+            styleReact={styles.buttonStyle}
+          />
+        </div>
+        <div className="col-md-auto col-7">
+          <IconButton
+            className="btn-danger"
+            role="button"
+            onClick={() => {
+              onResetButtonClick();
+              setErrorMessage("");
+              setSuccess(browser.i18n.getMessage("defaultSettingsText"));
+            }}
+            iconName="undo"
+            title={browser.i18n.getMessage("defaultSettingsText")}
+            text={browser.i18n.getMessage("defaultSettingsText")}
+            styleReact={styles.buttonStyle}
+          />
+        </div>
+      </div>
+      <br />
+      {error !== "" ? (
+        <div
+          onClick={() => setErrorMessage("")}
+          className="row alert alert-danger alertPreWrap"
+        >
+          {error}
+        </div>
+      ) : (
+        ""
+      )}
+      {success !== "" ? (
+        <div
+          onClick={() => setSuccess("")}
+          className="row alert alert-success alertPreWrap"
+        >
+          {browser.i18n.getMessage("successText")} {success}
+        </div>
+      ) : (
+        ""
+      )}
 
-        <fieldset>
-          <legend>{browser.i18n.getMessage("settingGroupAutoClean")}</legend>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("activeModeText")}
-              inline={true}
-              settingObject={settings[SettingID.ACTIVE_MODE]}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
-          </div>
-          <div className="form-group">
-            <input
-              id="delayBeforeClean"
-              type="number"
-              className="form-control w-auto"
-              style={styles.inlineNumberInput}
-              onChange={(e) => {
-                const eValue = Number.parseInt(e.target.value, 10);
-                if (!Number.isNaN(eValue) && eValue >= 1 && eValue <= 2147483) {
-                  onUpdateSetting({
-                    name: SettingID.CLEAN_DELAY,
-                    value: eValue,
-                  });
-                }
-              }}
-              value={settings[SettingID.CLEAN_DELAY].value as number}
-              min="1"
-              max="2147483"
-              size={10}
-            />
-            <label htmlFor="delayBeforeClean">
-              {browser.i18n.getMessage("secondsText")}{" "}
-              {browser.i18n.getMessage("activeModeDelayText")}
-            </label>
-            <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("cleanDiscardedText")}
-              settingObject={settings[SettingID.CLEAN_DISCARDED]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip
-              hrefURL={"settings.md#automatic-cleaning-options"}
-            />
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("cleanupDomainChangeText")}
-              settingObject={settings[SettingID.CLEAN_DOMAIN_CHANGE]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage(SettingID.ENABLE_GREYLIST)}
-              settingObject={settings[SettingID.ENABLE_GREYLIST]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip
-              hrefURL={"settings.md#automatic-cleaning-options"}
-            />
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("cookieCleanUpOnStartText")}
-              settingObject={settings[SettingID.CLEAN_OPEN_TABS_STARTUP]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip
-              hrefURL={"settings.md#automatic-cleaning-options"}
-            />
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              settingObject={settings[SettingID.CLEAN_EXPIRED]}
-              inline={true}
-              text={browser.i18n.getMessage("cleanExpiredCookiesText")}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
-          </div>
-        </fieldset>
-        <hr />
-        <fieldset>
-          <legend>{browser.i18n.getMessage("settingGroupExpression")}</legend>
-          <div className="alert alert-info">
-            {browser.i18n.getMessage("groupExpressionDefaultNotice", [
-              browser.i18n.getMessage("expressionListText"),
-            ])}{" "}
-            <SettingsTooltip hrefURL={"settings.md#expression-options"} />
-          </div>
-        </fieldset>
-        <hr />
-        <fieldset>
-          <legend>
-            {browser.i18n.getMessage("settingGroupOtherBrowsing")}
-          </legend>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("siteDataEmptyOnEnable")}
-              settingObject={settings[SettingID.SITEDATA_EMPTY_ON_ENABLE]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip
-              hrefURL={"settings.md#other-browsing-data-cleanup-options"}
-            />
-          </div>
-          <div
-            className={`alert alert-${
+      <fieldset>
+        <legend>{browser.i18n.getMessage("settingGroupAutoClean")}</legend>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("activeModeText")}
+            inline={true}
+            settingObject={settings[SettingID.ACTIVE_MODE]}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
+        </div>
+        <div className="form-group">
+          <input
+            id="delayBeforeClean"
+            type="number"
+            className="form-control w-auto"
+            style={styles.inlineNumberInput}
+            onChange={(e) => {
+              const eValue = Number.parseInt(e.target.value, 10);
+              if (!Number.isNaN(eValue) && eValue >= 1 && eValue <= 2147483) {
+                onUpdateSetting({
+                  name: SettingID.CLEAN_DELAY,
+                  value: eValue,
+                });
+              }
+            }}
+            value={settings[SettingID.CLEAN_DELAY].value as number}
+            min="1"
+            max="2147483"
+            size={10}
+          />
+          <label htmlFor="delayBeforeClean">
+            {browser.i18n.getMessage("secondsText")}{" "}
+            {browser.i18n.getMessage("activeModeDelayText")}
+          </label>
+          <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("cleanDiscardedText")}
+            settingObject={settings[SettingID.CLEAN_DISCARDED]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("cleanupDomainChangeText")}
+            settingObject={settings[SettingID.CLEAN_DOMAIN_CHANGE]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage(SettingID.ENABLE_GREYLIST)}
+            settingObject={settings[SettingID.ENABLE_GREYLIST]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("cookieCleanUpOnStartText")}
+            settingObject={settings[SettingID.CLEAN_OPEN_TABS_STARTUP]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            settingObject={settings[SettingID.CLEAN_EXPIRED]}
+            inline={true}
+            text={browser.i18n.getMessage("cleanExpiredCookiesText")}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
+        </div>
+      </fieldset>
+      <hr />
+      <fieldset>
+        <legend>{browser.i18n.getMessage("settingGroupExpression")}</legend>
+        <div className="alert alert-info">
+          {browser.i18n.getMessage("groupExpressionDefaultNotice", [
+            browser.i18n.getMessage("expressionListText"),
+          ])}{" "}
+          <SettingsTooltip hrefURL={"settings.md#expression-options"} />
+        </div>
+      </fieldset>
+      <hr />
+      <fieldset>
+        <legend>{browser.i18n.getMessage("settingGroupOtherBrowsing")}</legend>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("siteDataEmptyOnEnable")}
+            settingObject={settings[SettingID.SITEDATA_EMPTY_ON_ENABLE]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip
+            hrefURL={"settings.md#other-browsing-data-cleanup-options"}
+          />
+        </div>
+        <div
+          className={`alert alert-${
+            settings[SettingID.SITEDATA_EMPTY_ON_ENABLE].value === true
+              ? "warning"
+              : "danger"
+          }`}
+        >
+          {browser.i18n.getMessage(
+            `browsingData${
               settings[SettingID.SITEDATA_EMPTY_ON_ENABLE].value === true
-                ? "warning"
-                : "danger"
-            }`}
-          >
-            {browser.i18n.getMessage(
-              `browsingData${
-                settings[SettingID.SITEDATA_EMPTY_ON_ENABLE].value === true
-                  ? ""
-                  : "NoEmpty"
-              }Warning`
-            )}
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("cacheCleanupText")}
-              settingObject={settings[SettingID.CLEANUP_CACHE]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip hrefURL={"settings.md#other-browsing-data-cleanup-options"} />
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("indexedDBCleanupText")}
-              settingObject={settings[SettingID.CLEANUP_INDEXEDDB]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip hrefURL={"settings.md#other-browsing-data-cleanup-options"} />
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("localStorageCleanupText")}
-              settingObject={settings[SettingID.CLEANUP_LOCALSTORAGE]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip hrefURL={"settings.md#other-browsing-data-cleanup-options"} />
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("pluginDataCleanupText")}
-              settingObject={settings[SettingID.CLEANUP_PLUGINDATA]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip hrefURL={"settings.md#other-browsing-data-cleanup-options"} />
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("serviceWorkersCleanupText")}
-              settingObject={settings[SettingID.CLEANUP_SERVICEWORKERS]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip hrefURL={"settings.md#other-browsing-data-cleanup-options"} />
-          </div>
-        </fieldset>
-        <hr />
-        <fieldset>
-          <legend>{browser.i18n.getMessage("settingGroupExtension")}</legend>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("enableCleanupLogText")}
-              settingObject={settings[SettingID.STAT_LOGGING]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-            {settings[SettingID.STAT_LOGGING].value && (
-              <div className="alert alert-warning">
-                {browser.i18n.getMessage("noPrivateLogging")}
-              </div>
-            )}
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("showNumberOfCookiesInIconText")}
-              settingObject={settings[SettingID.NUM_COOKIES_ICON]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip
-              hrefURL={"settings.md#extension-options"}
-            />
-          </div>
-          {settings[SettingID.NUM_COOKIES_ICON].value === true && (
-            <div className="form-group">
-              <CheckboxSetting
-                text={browser.i18n.getMessage(SettingID.KEEP_DEFAULT_ICON)}
-                settingObject={settings[SettingID.KEEP_DEFAULT_ICON]}
-                inline={true}
-                updateSetting={(payload) => onUpdateSetting(payload)}
-              />
-              <SettingsTooltip
-                hrefURL={"settings.md#extension-options"}
-              />
+                ? ""
+                : "NoEmpty"
+            }Warning`
+          )}
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("cacheCleanupText")}
+            settingObject={settings[SettingID.CLEANUP_CACHE]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip
+            hrefURL={"settings.md#other-browsing-data-cleanup-options"}
+          />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("indexedDBCleanupText")}
+            settingObject={settings[SettingID.CLEANUP_INDEXEDDB]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip
+            hrefURL={"settings.md#other-browsing-data-cleanup-options"}
+          />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("localStorageCleanupText")}
+            settingObject={settings[SettingID.CLEANUP_LOCALSTORAGE]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip
+            hrefURL={"settings.md#other-browsing-data-cleanup-options"}
+          />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("pluginDataCleanupText")}
+            settingObject={settings[SettingID.CLEANUP_PLUGINDATA]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip
+            hrefURL={"settings.md#other-browsing-data-cleanup-options"}
+          />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("serviceWorkersCleanupText")}
+            settingObject={settings[SettingID.CLEANUP_SERVICEWORKERS]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip
+            hrefURL={"settings.md#other-browsing-data-cleanup-options"}
+          />
+        </div>
+      </fieldset>
+      <hr />
+      <fieldset>
+        <legend>{browser.i18n.getMessage("settingGroupExtension")}</legend>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("enableCleanupLogText")}
+            settingObject={settings[SettingID.STAT_LOGGING]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#extension-options"} />
+          {settings[SettingID.STAT_LOGGING].value && (
+            <div className="alert alert-warning">
+              {browser.i18n.getMessage("noPrivateLogging")}
             </div>
           )}
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("showNumberOfCookiesInIconText")}
+            settingObject={settings[SettingID.NUM_COOKIES_ICON]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#extension-options"} />
+        </div>
+        {settings[SettingID.NUM_COOKIES_ICON].value === true && (
           <div className="form-group">
             <CheckboxSetting
-              text={browser.i18n.getMessage("notifyCookieCleanUpText")}
-              settingObject={settings[SettingID.NOTIFY_AUTO]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip
-              hrefURL={"settings.md#extension-options"}
-            />
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              inline={true}
-              settingObject={settings[SettingID.NOTIFY_MANUAL]}
-              text={browser.i18n.getMessage("manualNotificationsText")}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip
-              hrefURL={"settings.md#extension-options"}
-            />
-          </div>
-          <div className="form-group">
-            <SelectInput
-              numSize={9}
-              numStart={1}
-              settingObject={settings[SettingID.NOTIFY_DURATION]}
-              text={`${browser.i18n.getMessage(
-                "secondsText"
-              )} ${browser.i18n.getMessage("notifyCookieCleanupDelayText")}`}
-              updateSetting={(payload) => {
-                onUpdateSetting(payload);
-              }}
-            />
-            <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage(SettingID.ENABLE_NEW_POPUP)}
-              settingObject={settings[SettingID.ENABLE_NEW_POPUP]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip
-              hrefURL={"settings.md#extension-options"}
-            />
-          </div>
-          <div className="form-group">
-            <SelectInput
-              numSize={14}
-              numStart={10}
-              settingObject={settings[SettingID.SIZE_POPUP]}
-              text={browser.i18n.getMessage("sizePopupText")}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-          </div>
-          <div className="form-group">
-            <SelectInput
-              numSize={14}
-              numStart={10}
-              settingObject={settings[SettingID.SIZE_SETTING]}
-              text={browser.i18n.getMessage("sizeSettingText")}
-              updateSetting={(payload) => {
-                onUpdateSetting(payload);
-              }}
-            />
-            <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-          </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage("enableContextMenus")}
-              settingObject={settings[SettingID.CONTEXT_MENUS]}
+              text={browser.i18n.getMessage(SettingID.KEEP_DEFAULT_ICON)}
+              settingObject={settings[SettingID.KEEP_DEFAULT_ICON]}
               inline={true}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
             <SettingsTooltip hrefURL={"settings.md#extension-options"} />
           </div>
-          <div className="form-group">
-            <CheckboxSetting
-              text={browser.i18n.getMessage(SettingID.DEBUG_MODE)}
-              settingObject={settings[SettingID.DEBUG_MODE]}
-              inline={true}
-              updateSetting={(payload) => onUpdateSetting(payload)}
-            />
-            <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-            {settings[SettingID.DEBUG_MODE].value && (
-              <div className="alert alert-info">
-                <p>{browser.i18n.getMessage("openDebugMode")}</p>
-                <pre>
-                  <b>
-                    {`chrome://extensions/?id=`}
-                    {encodeURIComponent(browser.runtime.id)}
-                  </b>
-                </pre>
-                <p>{browser.i18n.getMessage("chromeDebugMode")}</p>
-                <p>
-                  {browser.i18n.getMessage("consoleDebugMode")}.{" "}
-                  {browser.i18n.getMessage("filterDebugMode")}
-                </p>
-                <p>
-                  <b>CAD_</b>
-                </p>
-              </div>
-            )}
-          </div>
-        </fieldset>
-        <br />
-        <br />
-      </div>
-    );
-  }
-
-  private setError(e: Error): void {
-    this.setState({
-      error: e.toString(),
-      success: "",
-    });
-  }
-}
-
-const mapStateToProps = (state: State) => {
-  const { settings } = state;
-  return {
-    settings,
-  };
+        )}
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("notifyCookieCleanUpText")}
+            settingObject={settings[SettingID.NOTIFY_AUTO]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#extension-options"} />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            inline={true}
+            settingObject={settings[SettingID.NOTIFY_MANUAL]}
+            text={browser.i18n.getMessage("manualNotificationsText")}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#extension-options"} />
+        </div>
+        <div className="form-group">
+          <SelectInput
+            numSize={9}
+            numStart={1}
+            settingObject={settings[SettingID.NOTIFY_DURATION]}
+            text={`${browser.i18n.getMessage(
+              "secondsText"
+            )} ${browser.i18n.getMessage("notifyCookieCleanupDelayText")}`}
+            updateSetting={(payload) => {
+              onUpdateSetting(payload);
+            }}
+          />
+          <SettingsTooltip hrefURL={"settings.md#extension-options"} />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage(SettingID.ENABLE_NEW_POPUP)}
+            settingObject={settings[SettingID.ENABLE_NEW_POPUP]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#extension-options"} />
+        </div>
+        <div className="form-group">
+          <SelectInput
+            numSize={14}
+            numStart={10}
+            settingObject={settings[SettingID.SIZE_POPUP]}
+            text={browser.i18n.getMessage("sizePopupText")}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#extension-options"} />
+        </div>
+        <div className="form-group">
+          <SelectInput
+            numSize={14}
+            numStart={10}
+            settingObject={settings[SettingID.SIZE_SETTING]}
+            text={browser.i18n.getMessage("sizeSettingText")}
+            updateSetting={(payload) => {
+              onUpdateSetting(payload);
+            }}
+          />
+          <SettingsTooltip hrefURL={"settings.md#extension-options"} />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage("enableContextMenus")}
+            settingObject={settings[SettingID.CONTEXT_MENUS]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#extension-options"} />
+        </div>
+        <div className="form-group">
+          <CheckboxSetting
+            text={browser.i18n.getMessage(SettingID.DEBUG_MODE)}
+            settingObject={settings[SettingID.DEBUG_MODE]}
+            inline={true}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#extension-options"} />
+          {settings[SettingID.DEBUG_MODE].value && (
+            <div className="alert alert-info">
+              <p>{browser.i18n.getMessage("openDebugMode")}</p>
+              <pre>
+                <b>
+                  {`chrome://extensions/?id=`}
+                  {encodeURIComponent(browser.runtime.id)}
+                </b>
+              </pre>
+              <p>{browser.i18n.getMessage("chromeDebugMode")}</p>
+              <p>
+                {browser.i18n.getMessage("consoleDebugMode")}.{" "}
+                {browser.i18n.getMessage("filterDebugMode")}
+              </p>
+              <p>
+                <b>CAD_</b>
+              </p>
+            </div>
+          )}
+        </div>
+      </fieldset>
+      <br />
+      <br />
+    </div>
+  );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
-  onUpdateSetting(newSetting: Setting) {
-    dispatch(updateSetting(newSetting));
-  },
-  onResetButtonClick() {
-    dispatch(resetSettings());
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Settings);
+export default Settings;

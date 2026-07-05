@@ -11,7 +11,7 @@
  * SOFTWARE.
  */
 import * as React from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 // tslint:disable-next-line: import-name
 import ReleaseNotes from "../release-notes.json";
@@ -44,22 +44,21 @@ const displayReleaseNotes = (releases: ReleaseNote[]) => {
 
 interface OwnProps {
   style?: React.CSSProperties;
-  cookieDeletedCounterSession: number;
-  cookieDeletedCounterTotal: number;
 }
 
-interface DispatchProps {
-  onResetCounterButtonClick: () => void;
-}
+const Welcome: React.FunctionComponent<OwnProps> = ({ style }) => {
+  const cookieDeletedCounterTotal = useSelector(
+    (state: State) => state.cookieDeletedCounterTotal
+  );
+  const cookieDeletedCounterSession = useSelector(
+    (state: State) => state.cookieDeletedCounterSession
+  );
+  const dispatch = useDispatch<Dispatch<ReduxAction>>();
 
-type WelcomeProps = OwnProps & DispatchProps;
+  const onResetCounterButtonClick = () => {
+    dispatch(resetCookieDeletedCounter());
+  };
 
-const Welcome: React.FunctionComponent<WelcomeProps> = ({
-  style,
-  cookieDeletedCounterTotal,
-  cookieDeletedCounterSession,
-  onResetCounterButtonClick,
-}) => {
   const { releases } = ReleaseNotes as { releases: ReleaseNote[] };
   return (
     <div style={style}>
@@ -104,18 +103,4 @@ const Welcome: React.FunctionComponent<WelcomeProps> = ({
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
-  onResetCounterButtonClick() {
-    dispatch(resetCookieDeletedCounter());
-  },
-});
-
-const mapStateToProps = (state: State) => {
-  const { cookieDeletedCounterTotal, cookieDeletedCounterSession } = state;
-  return {
-    cookieDeletedCounterSession,
-    cookieDeletedCounterTotal,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Welcome);
+export default Welcome;

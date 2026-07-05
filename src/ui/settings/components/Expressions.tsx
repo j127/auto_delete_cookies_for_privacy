@@ -12,7 +12,7 @@
  */
 import { ListType, SettingID } from "../../../typings/enums";
 import * as React from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import {
   addExpressionUI,
@@ -46,160 +46,36 @@ interface OwnProps {
   style?: React.CSSProperties;
 }
 
-interface StateProps {
-  debug: boolean;
-  lists: StoreIdToExpressionList;
-}
+const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
+  const debug = useSelector(
+    (state: State) => getSetting(state, SettingID.DEBUG_MODE) as boolean
+  );
+  const lists = useSelector((state: State) => state.lists);
+  const dispatch = useDispatch<Dispatch<ReduxAction>>();
 
-interface DispatchProps {
-  onClearExpressions: (lists: StoreIdToExpressionList) => void;
-  onNewExpression: (expression: Expression) => void;
-  onRemoveList: (list: keyof StoreIdToExpressionList) => void;
-}
+  const [error, setErrorMessage] = React.useState("");
+  const [expressionInput, setExpressionInput] = React.useState("");
+  const [storeId] = React.useState("default");
+  const [success, setSuccess] = React.useState("");
 
-type ExpressionProps = OwnProps & StateProps & DispatchProps;
+  const onClearExpressions = (payload: StoreIdToExpressionList) => {
+    dispatch(clearExpressionsUI(payload));
+  };
 
-class InitialState {
-  public error = "";
-  public expressionInput = "";
-  public storeId = "default";
-  public success = "";
-}
+  const onNewExpression = (payload: Expression) => {
+    dispatch(addExpressionUI(payload));
+  };
 
-class Expressions extends React.Component<ExpressionProps> {
-  public state = new InitialState();
+  const onRemoveList = (payload: keyof StoreIdToExpressionList) => {
+    dispatch(removeListUI(payload));
+  };
 
-  // Import the expressions into the list
-  public importExpressions(importFile: File) {
-    const { onNewExpression } = this.props;
-    // Do check for import first!
-    if (importFile.type !== "application/json") {
-      this.setError(
-        new Error(
-          `${browser.i18n.getMessage("importFileTypeInvalid")}:  ${
-            importFile.name
-          } (${importFile.type})`
-        )
-      );
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = (file) => {
-      try {
-        if (!file.target) {
-          this.setError(
-            new Error(
-              browser.i18n.getMessage("importFileNotFound", [importFile.name])
-            )
-          );
-          return;
-        }
-        // FileReader.result is always string as we used readAsText()
-        const result = file.target.result as string;
-        const newExpressions: StoreIdToExpressionList = JSON.parse(result);
-        const storeIds = Object.keys(newExpressions);
-        const errExps: string[] = [];
-        let validExps = 0;
-        storeIds.forEach((storeId) => {
-          if (!Array.isArray(newExpressions[storeId])) {
-            errExps.push(
-              `- ${browser.i18n.getMessage("importListNotArray", [storeId])}`
-            );
-            return;
-          }
-          newExpressions[storeId].forEach((expression) => {
-            const exps = this.parseRawExpression(expression);
-            exps.forEach((exp) => {
-              const e = exp.trim();
-              if (!e) return;
-              const result = validateExpressionDomain(e).trim();
-              if (result) {
-                // invalid
-                errExps.push(`- ${e} (${storeId}) -> ${result}`);
-              } else {
-                // valid
-                validExps += 1;
-                onNewExpression({
-                  ...expression,
-                  expression: e,
-                });
-              }
-            });
-          });
-        });
-        this.setState({
-          error:
-            errExps.length > 0
-              ? `${browser.i18n.getMessage(
-                  "importInvalidExpressions"
-                )}\n${errExps.join("\n")}`
-              : "",
-          success:
-            validExps > 0
-              ? `${browser.i18n.getMessage("importValidExpressions", [
-                  validExps.toString(),
-                  importFile.name,
-                ])}`
-              : "",
-        });
-      } catch (error) {
-        if (error instanceof Error) {
-          this.setState({
-            error: `${importFile.name} - ${error.toString()}.`,
-            success: "",
-          });
-        }
-      }
-    };
+  const setError = (e: Error): void => {
+    setErrorMessage(e.toString());
+    setSuccess("");
+  };
 
-    reader.readAsText(importFile);
-  }
-
-  // Add the expression using the + button or the Enter key
-  public addExpressionByInput(payload: Expression) {
-    const { onNewExpression } = this.props;
-    const exps = this.parseRawExpression(payload);
-    const invalidInputs: string[] = [];
-    const inputReasons: string[] = [];
-    const validInputs: string[] = [];
-    exps.forEach((exp) => {
-      const expTrim = exp.trim();
-      if (!expTrim) return;
-      const result = validateExpressionDomain(expTrim).trim();
-      if (result) {
-        // invalid
-        invalidInputs.push(expTrim);
-        inputReasons.push(`- ${expTrim} -> ${result}`);
-      } else {
-        // valid
-        validInputs.push(`- ${expTrim}`);
-        onNewExpression({
-          ...payload,
-          expression: expTrim,
-        });
-      }
-    });
-    this.setState({
-      expressionInput: invalidInputs.join(", "),
-      success:
-        validInputs.length > 0
-          ? `${browser.i18n.getMessage("inputAddSuccess", [
-              validInputs.length.toString(),
-              browser.i18n.getMessage(
-                `${payload.listType.toLowerCase()}ListWordText`
-              ),
-            ])}\n${validInputs.join(", ")}`
-          : "",
-      error:
-        inputReasons.length > 0
-          ? `${browser.i18n.getMessage(
-              "invalidNewExpressions"
-            )}\n${inputReasons.join("\n")}`
-          : "",
-    });
-  }
-
-  private parseRawExpression(exp: Expression): string[] {
+  const parseRawExpression = (exp: Expression): string[] => {
     const exps = exp.expression.split(",");
     const expressions: string[] = [];
     let skipTimes = 0;
@@ -229,19 +105,142 @@ class Expressions extends React.Component<ExpressionProps> {
       expressions.push(ee);
     });
     return expressions;
-  }
+  };
 
-  public clearListsConfirmation(lists: StoreIdToExpressionList) {
-    const { debug, onClearExpressions } = this.props;
+  // Import the expressions into the list
+  const importExpressions = (importFile: File) => {
+    // Do check for import first!
+    if (importFile.type !== "application/json") {
+      setError(
+        new Error(
+          `${browser.i18n.getMessage("importFileTypeInvalid")}:  ${
+            importFile.name
+          } (${importFile.type})`
+        )
+      );
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (file) => {
+      try {
+        if (!file.target) {
+          setError(
+            new Error(
+              browser.i18n.getMessage("importFileNotFound", [importFile.name])
+            )
+          );
+          return;
+        }
+        // FileReader.result is always string as we used readAsText()
+        const result = file.target.result as string;
+        const newExpressions: StoreIdToExpressionList = JSON.parse(result);
+        const storeIds = Object.keys(newExpressions);
+        const errExps: string[] = [];
+        let validExps = 0;
+        storeIds.forEach((storeId) => {
+          if (!Array.isArray(newExpressions[storeId])) {
+            errExps.push(
+              `- ${browser.i18n.getMessage("importListNotArray", [storeId])}`
+            );
+            return;
+          }
+          newExpressions[storeId].forEach((expression) => {
+            const exps = parseRawExpression(expression);
+            exps.forEach((exp) => {
+              const e = exp.trim();
+              if (!e) return;
+              const result = validateExpressionDomain(e).trim();
+              if (result) {
+                // invalid
+                errExps.push(`- ${e} (${storeId}) -> ${result}`);
+              } else {
+                // valid
+                validExps += 1;
+                onNewExpression({
+                  ...expression,
+                  expression: e,
+                });
+              }
+            });
+          });
+        });
+        setErrorMessage(
+          errExps.length > 0
+            ? `${browser.i18n.getMessage(
+                "importInvalidExpressions"
+              )}\n${errExps.join("\n")}`
+            : ""
+        );
+        setSuccess(
+          validExps > 0
+            ? `${browser.i18n.getMessage("importValidExpressions", [
+                validExps.toString(),
+                importFile.name,
+              ])}`
+            : ""
+        );
+      } catch (error) {
+        if (error instanceof Error) {
+          setErrorMessage(`${importFile.name} - ${error.toString()}.`);
+          setSuccess("");
+        }
+      }
+    };
+
+    reader.readAsText(importFile);
+  };
+
+  // Add the expression using the + button or the Enter key
+  const addExpressionByInput = (payload: Expression) => {
+    const exps = parseRawExpression(payload);
+    const invalidInputs: string[] = [];
+    const inputReasons: string[] = [];
+    const validInputs: string[] = [];
+    exps.forEach((exp) => {
+      const expTrim = exp.trim();
+      if (!expTrim) return;
+      const result = validateExpressionDomain(expTrim).trim();
+      if (result) {
+        // invalid
+        invalidInputs.push(expTrim);
+        inputReasons.push(`- ${expTrim} -> ${result}`);
+      } else {
+        // valid
+        validInputs.push(`- ${expTrim}`);
+        onNewExpression({
+          ...payload,
+          expression: expTrim,
+        });
+      }
+    });
+    setExpressionInput(invalidInputs.join(", "));
+    setSuccess(
+      validInputs.length > 0
+        ? `${browser.i18n.getMessage("inputAddSuccess", [
+            validInputs.length.toString(),
+            browser.i18n.getMessage(
+              `${payload.listType.toLowerCase()}ListWordText`
+            ),
+          ])}\n${validInputs.join(", ")}`
+        : ""
+    );
+    setErrorMessage(
+      inputReasons.length > 0
+        ? `${browser.i18n.getMessage(
+            "invalidNewExpressions"
+          )}\n${inputReasons.join("\n")}`
+        : ""
+    );
+  };
+
+  const clearListsConfirmation = (lists: StoreIdToExpressionList) => {
     const listKeys = Object.keys(lists);
     let expCount = 0;
     listKeys.forEach((k) => {
       expCount += lists[k].length;
     });
     if (listKeys.length === 0 && expCount === 0) {
-      this.setState({
-        error: browser.i18n.getMessage("removeAllExpressionsNoneFound"),
-      });
+      setErrorMessage(browser.i18n.getMessage("removeAllExpressionsNoneFound"));
     } else {
       const r = window.prompt(
         browser.i18n.getMessage("removeAllExpressionsConfirm", [
@@ -257,24 +256,22 @@ class Expressions extends React.Component<ExpressionProps> {
         debug
       );
       if (r !== null && r === expCount.toString()) {
-        onClearExpressions(this.props.lists);
-        this.setState({
-          success: browser.i18n.getMessage("removeAllExpressions"),
-        });
+        onClearExpressions(lists);
+        setSuccess(browser.i18n.getMessage("removeAllExpressions"));
       }
     }
-  }
+  };
 
-  public removeListConfirmation(
+  // Currently unreferenced by the UI, kept from the class component for
+  // future per-container list removal.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const removeListConfirmation = (
     list: keyof StoreIdToExpressionList,
     expressions: ReadonlyArray<Expression>
-  ) {
-    const { debug, onRemoveList } = this.props;
+  ) => {
     const expCount = (expressions || []).length;
     if (expCount === 0) {
-      this.setState({
-        error: browser.i18n.getMessage("removeAllExpressionsNoneFound"),
-      });
+      setErrorMessage(browser.i18n.getMessage("removeAllExpressionsNoneFound"));
     } else {
       const r = window.prompt(
         browser.i18n.getMessage("removeAllExpressionsConfirm", [
@@ -291,15 +288,12 @@ class Expressions extends React.Component<ExpressionProps> {
       );
       if (r !== null && r === expCount.toString()) {
         onRemoveList(list);
-        this.setState({
-          success: `${browser.i18n.getMessage("removeListText")}: ${list}`,
-        });
+        setSuccess(`${browser.i18n.getMessage("removeListText")}: ${list}`);
       }
     }
-  }
+  };
 
-  public createDefaultOptions() {
-    const { lists, onNewExpression } = this.props;
+  const createDefaultOptions = () => {
     const containers = new Set<string>(Object.keys(lists));
     containers.add("0");
     containers.forEach((id) => {
@@ -311,244 +305,206 @@ class Expressions extends React.Component<ExpressionProps> {
         });
       });
     });
-  }
+  };
 
-  public render() {
-    const { style, lists } = this.props;
-    const { error, storeId, success } = this.state;
+  return (
+    <div className="col" style={style}>
+      <h1>{browser.i18n.getMessage("expressionListText")}</h1>
 
-    return (
-      <div className="col" style={style}>
-        <h1>{browser.i18n.getMessage("expressionListText")}</h1>
-
-        <div className="row">
-          <input
-            style={{
-              display: "inline",
-              width: "100%",
-            }}
-            value={this.state.expressionInput}
-            onChange={(e) =>
-              this.setState({
-                expressionInput: e.target.value,
-              })
-            }
-            placeholder={browser.i18n.getMessage("domainPlaceholderText")}
-            onKeyUp={(e) => {
-              if (e.key.toLowerCase() === "enter") {
-                this.addExpressionByInput({
-                  expression: this.state.expressionInput,
-                  listType: e.shiftKey ? ListType.GREY : ListType.WHITE,
-                  storeId,
-                });
-              }
-            }}
-            type="url"
-            id="formText"
-            autoFocus={true}
-            className="form-control"
-            formNoValidate={true}
-          />
-        </div>
-        <div className="row">
-          <a
-            target="_blank"
-            rel="help noreferrer noopener"
-            href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
-          >
-            {browser.i18n.getMessage("questionExpression")}
-          </a>
-          <SettingsTooltip hrefURL="expressions.md#writing-expressions" />
-        </div>
-        <div
-          className="row"
+      <div className="row">
+        <input
           style={{
-            columnGap: "0.5em",
-            justifyContent: "space-between",
-            paddingBottom: "8px",
-            paddingTop: "8px",
+            display: "inline",
+            width: "100%",
           }}
+          value={expressionInput}
+          onChange={(e) => setExpressionInput(e.target.value)}
+          placeholder={browser.i18n.getMessage("domainPlaceholderText")}
+          onKeyUp={(e) => {
+            if (e.key.toLowerCase() === "enter") {
+              addExpressionByInput({
+                expression: expressionInput,
+                listType: e.shiftKey ? ListType.GREY : ListType.WHITE,
+                storeId,
+              });
+            }
+          }}
+          type="url"
+          id="formText"
+          autoFocus={true}
+          className="form-control"
+          formNoValidate={true}
+        />
+      </div>
+      <div className="row">
+        <a
+          target="_blank"
+          rel="help noreferrer noopener"
+          href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
         >
-          <div className="col-sm col-md-auto">
-            <div
-              className="row justify-content-sm-center justify-content-md-start"
-              style={{
-                paddingLeft: 0,
-                paddingRight: 0,
-              }}
-            >
-              <IconButton
-                className="btn-primary"
-                iconName="download"
-                role="button"
-                onClick={() =>
-                  downloadObjectAsJSON(this.props.lists, "Expressions")
-                }
-                title={browser.i18n.getMessage("exportTitleTimestamp")}
-                text={browser.i18n.getMessage("exportURLSText")}
-                styleReact={styles.buttonStyle}
-              />
-              <IconButton
-                tag="input"
-                className="btn-info"
-                iconName="upload"
-                type="file"
-                accept="application/json"
-                onChange={(e) => this.importExpressions(e.target.files[0])}
-                text={browser.i18n.getMessage("importURLSText")}
-                title={browser.i18n.getMessage("importURLSText")}
-                styleReact={styles.buttonStyle}
-              />
-            </div>
-            <div className="w-100" />
-            <div
-              className="row justify-content-sm-center justify-content-md-start"
-              style={{
-                marginTop: "5px",
-                marginBottom: "5px",
-                paddingLeft: 0,
-                paddingRight: 0,
-              }}
-            >
-              <IconButton
-                tag="button"
-                className="btn-danger"
-                iconName="trash"
-                role="button"
-                onClick={() => this.clearListsConfirmation(this.props.lists)}
-                text={browser.i18n.getMessage("removeAllExpressions")}
-                title={browser.i18n.getMessage("removeAllExpressions")}
-                styleReact={styles.buttonStyle}
-              />
-              <IconButton
-                tag="button"
-                className="btn-dark"
-                iconName="list-alt"
-                role="button"
-                onClick={() => this.createDefaultOptions()}
-                text={browser.i18n.getMessage(
-                  "createDefaultExpressionOptionsText"
-                )}
-                title={browser.i18n.getMessage(
-                  "createDefaultExpressionOptionsText"
-                )}
-                styleReact={styles.buttonStyle}
-              />
-            </div>
-          </div>
+          {browser.i18n.getMessage("questionExpression")}
+        </a>
+        <SettingsTooltip hrefURL="expressions.md#writing-expressions" />
+      </div>
+      <div
+        className="row"
+        style={{
+          columnGap: "0.5em",
+          justifyContent: "space-between",
+          paddingBottom: "8px",
+          paddingTop: "8px",
+        }}
+      >
+        <div className="col-sm col-md-auto">
           <div
-            className="col-sm col-md-auto"
+            className="row justify-content-sm-center justify-content-md-start"
             style={{
-              justifyContent: "flex-end",
               paddingLeft: 0,
               paddingRight: 0,
             }}
           >
             <IconButton
-              className="btn-secondary"
-              onClick={() => {
-                this.addExpressionByInput({
-                  expression: this.state.expressionInput,
-                  listType: ListType.GREY,
-                  storeId,
-                });
-              }}
-              styleReact={styles.buttonStyle}
-              iconName="plus"
-              title={browser.i18n.getMessage("toGreyListText")}
-              text={browser.i18n.getMessage("greyListWordText")}
-            />
-
-            <IconButton
               className="btn-primary"
-              onClick={() => {
-                this.addExpressionByInput({
-                  expression: this.state.expressionInput,
-                  listType: ListType.WHITE,
-                  storeId,
-                });
-              }}
+              iconName="download"
+              role="button"
+              onClick={() => downloadObjectAsJSON(lists, "Expressions")}
+              title={browser.i18n.getMessage("exportTitleTimestamp")}
+              text={browser.i18n.getMessage("exportURLSText")}
               styleReact={styles.buttonStyle}
-              iconName="plus"
-              title={browser.i18n.getMessage("toWhiteListText")}
-              text={browser.i18n.getMessage("whiteListWordText")}
+            />
+            <IconButton
+              tag="input"
+              className="btn-info"
+              iconName="upload"
+              type="file"
+              accept="application/json"
+              onChange={(e) => importExpressions(e.target.files[0])}
+              text={browser.i18n.getMessage("importURLSText")}
+              title={browser.i18n.getMessage("importURLSText")}
+              styleReact={styles.buttonStyle}
+            />
+          </div>
+          <div className="w-100" />
+          <div
+            className="row justify-content-sm-center justify-content-md-start"
+            style={{
+              marginTop: "5px",
+              marginBottom: "5px",
+              paddingLeft: 0,
+              paddingRight: 0,
+            }}
+          >
+            <IconButton
+              tag="button"
+              className="btn-danger"
+              iconName="trash"
+              role="button"
+              onClick={() => clearListsConfirmation(lists)}
+              text={browser.i18n.getMessage("removeAllExpressions")}
+              title={browser.i18n.getMessage("removeAllExpressions")}
+              styleReact={styles.buttonStyle}
+            />
+            <IconButton
+              tag="button"
+              className="btn-dark"
+              iconName="list-alt"
+              role="button"
+              onClick={() => createDefaultOptions()}
+              text={browser.i18n.getMessage(
+                "createDefaultExpressionOptionsText"
+              )}
+              title={browser.i18n.getMessage(
+                "createDefaultExpressionOptionsText"
+              )}
+              styleReact={styles.buttonStyle}
             />
           </div>
         </div>
+        <div
+          className="col-sm col-md-auto"
+          style={{
+            justifyContent: "flex-end",
+            paddingLeft: 0,
+            paddingRight: 0,
+          }}
+        >
+          <IconButton
+            className="btn-secondary"
+            onClick={() => {
+              addExpressionByInput({
+                expression: expressionInput,
+                listType: ListType.GREY,
+                storeId,
+              });
+            }}
+            styleReact={styles.buttonStyle}
+            iconName="plus"
+            title={browser.i18n.getMessage("toGreyListText")}
+            text={browser.i18n.getMessage("greyListWordText")}
+          />
 
-        {error !== "" ? (
-          <div
-            onClick={() => this.setState({ error: "" })}
-            className="row alert alert-danger alertPreWrap"
-          >
-            {error}
-          </div>
-        ) : (
-          ""
-        )}
-        {success !== "" ? (
-          <div
-            onClick={() => this.setState({ success: "" })}
-            className="row alert alert-success alertPreWrap"
-          >
-            {success}
-          </div>
-        ) : (
-          ""
-        )}
-        <div className="row" style={styles.tableContainer}>
-          <ExpressionTable
-            expressionColumnTitle={browser.i18n.getMessage(
-              "domainExpressionsText"
-            )}
-            expressions={getMatchedExpressions(
-              lists,
-              storeId,
-              this.state.expressionInput,
-              true
-            )}
-            storeId={storeId}
-            emptyElement={
-              <span>
-                {browser.i18n.getMessage(
-                  this.state.expressionInput.trim().length === 0
-                    ? "noExpressionsText"
-                    : "noSearchExpressionsFound"
-                )}
-              </span>
-            }
+          <IconButton
+            className="btn-primary"
+            onClick={() => {
+              addExpressionByInput({
+                expression: expressionInput,
+                listType: ListType.WHITE,
+                storeId,
+              });
+            }}
+            styleReact={styles.buttonStyle}
+            iconName="plus"
+            title={browser.i18n.getMessage("toWhiteListText")}
+            text={browser.i18n.getMessage("whiteListWordText")}
           />
         </div>
       </div>
-    );
-  }
 
-  private setError(e: Error): void {
-    this.setState({
-      error: e.toString(),
-      success: "",
-    });
-  }
-}
-
-const mapStateToProps = (state: State) => {
-  const { lists } = state;
-  return {
-    debug: getSetting(state, SettingID.DEBUG_MODE) as boolean,
-    lists,
-  };
+      {error !== "" ? (
+        <div
+          onClick={() => setErrorMessage("")}
+          className="row alert alert-danger alertPreWrap"
+        >
+          {error}
+        </div>
+      ) : (
+        ""
+      )}
+      {success !== "" ? (
+        <div
+          onClick={() => setSuccess("")}
+          className="row alert alert-success alertPreWrap"
+        >
+          {success}
+        </div>
+      ) : (
+        ""
+      )}
+      <div className="row" style={styles.tableContainer}>
+        <ExpressionTable
+          expressionColumnTitle={browser.i18n.getMessage(
+            "domainExpressionsText"
+          )}
+          expressions={getMatchedExpressions(
+            lists,
+            storeId,
+            expressionInput,
+            true
+          )}
+          storeId={storeId}
+          emptyElement={
+            <span>
+              {browser.i18n.getMessage(
+                expressionInput.trim().length === 0
+                  ? "noExpressionsText"
+                  : "noSearchExpressionsFound"
+              )}
+            </span>
+          }
+        />
+      </div>
+    </div>
+  );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
-  onClearExpressions(payload: StoreIdToExpressionList) {
-    dispatch(clearExpressionsUI(payload));
-  },
-  onNewExpression(payload: Expression) {
-    dispatch(addExpressionUI(payload));
-  },
-  onRemoveList(payload: keyof StoreIdToExpressionList) {
-    dispatch(removeListUI(payload));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Expressions);
+export default Expressions;
