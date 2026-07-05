@@ -10,3 +10,9 @@
 - [Expressions and Lists](./expressions.md)
 - [Import and Export](./import-export.md)
 - [The Cleanup Log](./cleanup-log.md)
+
+# Help
+
+- [FAQ](./faq.md)
+- [Permissions](./permissions.md)
+- [Troubleshooting](./troubleshooting.md)
