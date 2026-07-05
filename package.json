@@ -1,7 +1,7 @@
 {
-  "name": "cookie-autodelete",
+  "name": "auto-delete-cookies-for-privacy",
   "version": "3.8.2",
-  "description": "Firefox and Chrome browser extension that manages Cookies and other site data",
+  "description": "Chrome/Brave browser extension that automatically deletes cookies and other site data from closed tabs",
   "keywords": [
     "cookie",
     "browser cookies",
@@ -65,18 +65,22 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Cookie-AutoDelete/Cookie-AutoDelete.git"
+    "url": "https://github.com/j127/autodelete_cookies_for_privacy.git"
   },
   "author": "Kenny Do",
   "contributors": [
     {
       "name": "CAD Team",
       "url": "https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/graphs/contributors"
+    },
+    {
+      "name": "j127 (fork maintainer)",
+      "url": "https://github.com/j127"
     }
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/issues"
+    "url": "https://github.com/j127/autodelete_cookies_for_privacy/issues"
   },
-  "homepage": "https://github.com/Cookie-AutoDelete/Cookie-AutoDelete#readme"
+  "homepage": "https://github.com/j127/autodelete_cookies_for_privacy#readme"
 }
