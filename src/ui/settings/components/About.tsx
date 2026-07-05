@@ -71,7 +71,7 @@ class About extends React.Component<AboutProps> {
       <div style={style}>
         <h1>{browser.i18n.getMessage("aboutText")}</h1>
         <h5>
-          {browser.i18n.getMessage("versionNumberText", ["CAD"])}:
+          {browser.i18n.getMessage("versionNumberText", ["ADCP"])}:
           <br />
           <b>{browser.runtime.getManifest().version}</b>
         </h5>
@@ -87,27 +87,6 @@ class About extends React.Component<AboutProps> {
         <a href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/FAQ:-Common-Questions-and-Issues">
           <span>{`${browser.i18n.getMessage("faqText")}`}</span>
         </a>
-        <br />
-        <br />{" "}
-        <a
-          href="https://chrome.google.com/webstore/detail/cookie-autodelete/fhcgjolkccmbidfldomjliifgaodjagh"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span>{`${browser.i18n.getMessage("versionText", [
-            "Google Chrome",
-          ])}`}</span>{" "}
-        </a>
-        <br />
-        <a
-          href="https://microsoftedge.microsoft.com/addons/detail/djkjpnciiommncecmdefpdllknjdmmmo"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <span>{`${browser.i18n.getMessage("versionText", [
-            "Microsoft Edge Chromium",
-          ])}`}</span>{" "}
-        </a>{" "}
         <br />
         <br />
         <span>{`${browser.i18n.getMessage("contributorsText")}`}:</span>
@@ -138,7 +117,7 @@ class About extends React.Component<AboutProps> {
           readOnly={true}
           style={{ resize: "none" }}
         >
-          {`- Browser Info: (Please add version number on paste)\n- CookieAutoDelete Version: ${
+          {`- Browser Info: (Please add version number on paste)\n- ADCP Version: ${
             browser.runtime.getManifest().version
           }`}
         </textarea>

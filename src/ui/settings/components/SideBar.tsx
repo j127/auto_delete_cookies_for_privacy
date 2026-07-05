@@ -96,7 +96,7 @@ class SideBar extends React.Component<OwnProps> {
         <div id="menu" className="menu">
           <div className="pure-menu nav flex-column">
             <div className="sidebar-version">
-              {browser.i18n.getMessage("versionNumberText", ["CAD"])}
+              {browser.i18n.getMessage("versionNumberText", ["ADCP"])}
               <br />
               <b>{browser.runtime.getManifest().version}</b>
             </div>

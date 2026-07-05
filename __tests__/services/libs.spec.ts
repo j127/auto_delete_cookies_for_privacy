@@ -116,7 +116,7 @@ describe("Library Functions", () => {
       expect.assertions(1);
       cadLog({ msg: "headerTest" }, true);
       expect(consoleOutput).toEqual([
-        { type: "debug", msg: "CAD_0.12.34 - debug - headerTest\n" },
+        { type: "debug", msg: "ADCP_0.12.34 - debug - headerTest\n" },
       ]);
     });
 
@@ -124,42 +124,42 @@ describe("Library Functions", () => {
       expect.assertions(1);
       cadLog({ msg: "noType" }, true);
       expect(consoleOutput).toEqual([
-        { type: "debug", msg: "CAD_0.12.34 - debug - noType\n" },
+        { type: "debug", msg: "ADCP_0.12.34 - debug - noType\n" },
       ]);
     });
     it("should output to debug when type is debug", () => {
       expect.assertions(1);
       cadLog({ type: "debug", msg: "debugType" }, true);
       expect(consoleOutput).toEqual([
-        { type: "debug", msg: "CAD_0.12.34 - debug - debugType\n" },
+        { type: "debug", msg: "ADCP_0.12.34 - debug - debugType\n" },
       ]);
     });
     it("should output to error when type is error", () => {
       expect.assertions(1);
       cadLog({ type: "error", msg: "errorType" }, true);
       expect(consoleOutput).toEqual([
-        { type: "error", msg: "CAD_0.12.34 - error - errorType\n" },
+        { type: "error", msg: "ADCP_0.12.34 - error - errorType\n" },
       ]);
     });
     it("should output to info when type is info", () => {
       expect.assertions(1);
       cadLog({ type: "info", msg: "infoType" }, true);
       expect(consoleOutput).toEqual([
-        { type: "info", msg: "CAD_0.12.34 - info - infoType\n" },
+        { type: "info", msg: "ADCP_0.12.34 - info - infoType\n" },
       ]);
     });
     it("should output to log when type is log", () => {
       expect.assertions(1);
       cadLog({ type: "log", msg: "logType" }, true);
       expect(consoleOutput).toEqual([
-        { type: "log", msg: "CAD_0.12.34 - log - logType\n" },
+        { type: "log", msg: "ADCP_0.12.34 - log - logType\n" },
       ]);
     });
     it("should output to warn when type is warn", () => {
       expect.assertions(1);
       cadLog({ type: "warn", msg: "warnType" }, true);
       expect(consoleOutput).toEqual([
-        { type: "warn", msg: "CAD_0.12.34 - warn - warnType\n" },
+        { type: "warn", msg: "ADCP_0.12.34 - warn - warnType\n" },
       ]);
     });
     it("should default back to debug type when invalid type is given", () => {
@@ -168,9 +168,9 @@ describe("Library Functions", () => {
       expect(consoleOutput).toEqual([
         {
           type: "error",
-          msg: "CAD_0.12.34 - Invalid Console Output Type given [ invalid ].  Using [debug] instead.",
+          msg: "ADCP_0.12.34 - Invalid Console Output Type given [ invalid ].  Using [debug] instead.",
         },
-        { type: "debug", msg: "CAD_0.12.34 - debug - invalidType\n" },
+        { type: "debug", msg: "ADCP_0.12.34 - debug - invalidType\n" },
       ]);
     });
 
@@ -178,7 +178,7 @@ describe("Library Functions", () => {
       expect.assertions(1);
       cadLog({ msg: "withObject", x: "test." }, true);
       expect(consoleOutput).toEqual([
-        { type: "debug", msg: "CAD_0.12.34 - debug - withObject\ntest." },
+        { type: "debug", msg: "ADCP_0.12.34 - debug - withObject\ntest." },
       ]);
     });
 
@@ -188,11 +188,11 @@ describe("Library Functions", () => {
       expect(consoleOutput).toEqual([
         {
           type: "warn",
-          msg: "CAD_0.12.34 - Received unexpected typeof [ function ].  Attempting to display it...",
+          msg: "ADCP_0.12.34 - Received unexpected typeof [ function ].  Attempting to display it...",
         },
         {
           type: "debug",
-          msg: "CAD_0.12.34 - debug - objectFunction\nfunction toString() { [native code] }",
+          msg: "ADCP_0.12.34 - debug - objectFunction\nfunction toString() { [native code] }",
         },
       ]);
     });
@@ -203,7 +203,7 @@ describe("Library Functions", () => {
       expect(consoleOutput).toEqual([
         {
           type: "debug",
-          msg: 'CAD_0.12.34 - debug - objectString\n{\n  "a": "abc"\n}',
+          msg: 'ADCP_0.12.34 - debug - objectString\n{\n  "a": "abc"\n}',
         },
       ]);
     });
@@ -212,7 +212,7 @@ describe("Library Functions", () => {
       expect.assertions(1);
       cadLog({ msg: "numberString", x: 123 }, true);
       expect(consoleOutput).toEqual([
-        { type: "debug", msg: "CAD_0.12.34 - debug - numberString\n123" },
+        { type: "debug", msg: "ADCP_0.12.34 - debug - numberString\n123" },
       ]);
     });
 
@@ -220,7 +220,7 @@ describe("Library Functions", () => {
       expect.assertions(1);
       cadLog({ msg: "booleanString", x: true }, true);
       expect(consoleOutput).toEqual([
-        { type: "debug", msg: "CAD_0.12.34 - debug - booleanString\ntrue" },
+        { type: "debug", msg: "ADCP_0.12.34 - debug - booleanString\ntrue" },
       ]);
     });
 
@@ -228,7 +228,7 @@ describe("Library Functions", () => {
       expect.assertions(1);
       cadLog({ msg: "stringString", x: "test" }, true);
       expect(consoleOutput).toEqual([
-        { type: "debug", msg: "CAD_0.12.34 - debug - stringString\ntest" },
+        { type: "debug", msg: "ADCP_0.12.34 - debug - stringString\ntest" },
       ]);
     });
 
@@ -236,7 +236,7 @@ describe("Library Functions", () => {
       expect.assertions(1);
       cadLog({ msg: "undefinedString", x: undefined }, true);
       expect(consoleOutput).toEqual([
-        { type: "debug", msg: "CAD_0.12.34 - debug - undefinedString\n" },
+        { type: "debug", msg: "ADCP_0.12.34 - debug - undefinedString\n" },
       ]);
     });
 
@@ -1186,7 +1186,7 @@ describe("Library Functions", () => {
       expect(global.browser.notifications.create.mock.calls[0][1]).toEqual(
         expect.objectContaining({
           message: "Test Notification",
-          title: "CAD 3.99.99 - manual",
+          title: "ADCP 3.99.99 - manual",
           type: "basic",
         })
       );
@@ -1207,7 +1207,7 @@ describe("Library Functions", () => {
       expect(global.browser.notifications.create.mock.calls[0][1]).toEqual(
         expect.objectContaining({
           message: "Test Notification",
-          title: "CAD 3.99.99 - custom",
+          title: "ADCP 3.99.99 - custom",
           type: "basic",
         })
       );

@@ -71,7 +71,7 @@ body:
       required: true
   - type: input
     attributes:
-      label: System Info - CookieAutoDelete Version
+      label: System Info - ADCP Version
       description: 'DO NOT PUT "LATEST"'
       placeholder: e.g. 3.6.0
     validations:
