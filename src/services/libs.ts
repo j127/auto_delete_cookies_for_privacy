@@ -123,7 +123,7 @@ export const convertVersionToNumber = (version?: string): number => {
  * @param action The EventListenerAction (add/remove).
  */
 export const eventListenerActions = (
-  event: EvListener<any>,
+  event: import("webextension-polyfill").Events.Event<(...args: any[]) => void>,
   listener: (...args: any[]) => void,
   action: EventListenerAction
 ): void => {
