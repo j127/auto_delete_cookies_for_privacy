@@ -60,6 +60,7 @@ type PopupAppComponentProps = DispatchProps & StateProps;
 class App extends Component<PopupAppComponentProps, InitialState> {
   public state = new InitialState();
   public port: browser.runtime.Port | null = null;
+  private isUnmounting = false;
 
   public async componentDidMount() {
     document.documentElement.style.fontSize = `${
@@ -90,6 +91,7 @@ class App extends Component<PopupAppComponentProps, InitialState> {
   }
 
   public componentWillUnmount() {
+    this.isUnmounting = true;
     if (this.port) {
       this.port.disconnect();
       this.port = null;
@@ -152,6 +154,14 @@ class App extends Component<PopupAppComponentProps, InitialState> {
             );
           }
           this.port = null;
+          // MV3: the background service worker may have idled out, which
+          // closes the port. Re-render to reconnect (render recreates the
+          // port), which also wakes the worker.
+          if (!this.isUnmounting) {
+            setTimeout(() => {
+              if (!this.isUnmounting) this.forceUpdate();
+            }, 250);
+          }
         });
       }
     }

@@ -145,6 +145,7 @@ export default class TabEvents extends StoreUser {
           debug
         );
         TabEvents.tabToDomain[tabId] = mainDomain;
+        TabEvents.persistTabToDomain();
       } else if (
         TabEvents.tabToDomain[tabId] !== mainDomain &&
         (mainDomain !== "" ||
@@ -155,6 +156,7 @@ export default class TabEvents extends StoreUser {
       ) {
         const oldMainDomain = TabEvents.tabToDomain[tabId];
         TabEvents.tabToDomain[tabId] = mainDomain;
+        TabEvents.persistTabToDomain();
         if (
           getSetting(StoreUser.store.getState(), SettingID.CLEAN_DOMAIN_CHANGE)
         ) {
@@ -224,6 +226,7 @@ export default class TabEvents extends StoreUser {
       getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean
     );
     delete TabEvents.tabToDomain[tabId];
+    TabEvents.persistTabToDomain();
   }
 
   public static cleanFromTabEvents = async (): Promise<void> => {
@@ -355,7 +358,30 @@ export default class TabEvents extends StoreUser {
       showNumberOfCookiesInIcon(tab, cookieLength);
     }
   };
+  /**
+   * Rehydrate the tab->domain cache from storage.session on service worker
+   * start. Without this, clean-on-domain-change silently stops working after
+   * the worker's first idle suspension (~30s), because the in-memory map
+   * resets to empty. storage.session clears on browser exit, which matches
+   * the lifetime the map had in the MV2 persistent background page.
+   */
+  public static hydrateFromSession = async (): Promise<void> => {
+    if (!browser.storage.session) return;
+    const data = await browser.storage.session.get({ tabToDomain: {} });
+    TabEvents.tabToDomain =
+      (data.tabToDomain as { [key: number]: string }) || {};
+  };
+
+  /** Write-through persistence for the in-memory tabToDomain cache. */
+  protected static persistTabToDomain(): void {
+    browser.storage.session
+      ?.set({ tabToDomain: TabEvents.tabToDomain })
+      .catch(() => undefined);
+  }
+
   // Add a delay to prevent multiple spawns of the browsingDataCleanup cookie
+  // In-memory is fine in MV3: it guards a 750ms window armed right after an
+  // event, and resetting to false on a worker restart is the safe default.
   protected static onTabUpdateDelay = false;
 
   protected static tabToDomain: { [key: number]: string } = {};

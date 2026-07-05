@@ -23,7 +23,6 @@ import {
 } from "./cleanup-service";
 import {
   cadLog,
-  eventListenerActions,
   getHostname,
   getSetting,
   localFileToRegex,
@@ -63,7 +62,7 @@ export default class ContextMenuEvents extends StoreUser {
     SETTINGS: "cad-settings",
   };
 
-  public static menuInit(): void {
+  public static async menuInit(): Promise<void> {
     if (!browser.contextMenus) return;
     if (
       !getSetting(
@@ -74,6 +73,10 @@ export default class ContextMenuEvents extends StoreUser {
       return;
     if (ContextMenuEvents.isInitialized) return;
     ContextMenuEvents.isInitialized = true;
+    // MV3: init() runs on every service worker wake, but menu registrations
+    // persist browser-side across wakes. Clearing first makes recreation
+    // idempotent instead of erroring on duplicate ids.
+    await browser.contextMenus.removeAll();
     // Clean Option Group
     ContextMenuEvents.menuCreate({
       id: ContextMenuEvents.MenuID.PARENT_CLEAN,
@@ -253,21 +256,13 @@ export default class ContextMenuEvents extends StoreUser {
       id: ContextMenuEvents.MenuID.SETTINGS,
       title: browser.i18n.getMessage("settingsText"),
     });
-
-    eventListenerActions(
-      browser.contextMenus.onClicked,
-      ContextMenuEvents.onContextMenuClicked,
-      EventListenerAction.ADD
-    );
+    // The onClicked listener is registered once, synchronously, at the top
+    // level of background.ts (an MV3 requirement); menu items themselves are
+    // what get created/removed here.
   }
 
   public static async menuClear(): Promise<void> {
     await browser.contextMenus.removeAll();
-    eventListenerActions(
-      browser.contextMenus.onClicked,
-      ContextMenuEvents.onContextMenuClicked,
-      EventListenerAction.REMOVE
-    );
     ContextMenuEvents.isInitialized = false;
     cadLog(
       {
@@ -283,9 +278,11 @@ export default class ContextMenuEvents extends StoreUser {
     return browser.contextMenus.create(
       {
         ...createProperties,
+        // MV3 renamed the toolbar-button context from browser_action to
+        // action; Chrome rejects the old name outright.
         contexts: createProperties.contexts
           ? createProperties.contexts
-          : ["browser_action", "page"],
+          : ["action", "page"],
       },
       ContextMenuEvents.onCreatedOrUpdated
     );

@@ -91,6 +91,9 @@ export default class SettingService extends StoreUser {
       ) as boolean;
       if (!active) {
         await browser.alarms.clear("activeModeAlarm");
+        // Also drop the persisted pending-cleanup record so a scheduled
+        // cleanup can't fire after the user turned Automatic Cleaning off.
+        await browser.storage.session?.remove("pendingCleanup");
       }
       await setGlobalIcon(active);
       ContextMenuEvents.updateMenuItemCheckbox(
@@ -102,7 +105,7 @@ export default class SettingService extends StoreUser {
     // Context Menu Changes
     if (SettingService.hasNewValue(previous, SettingID.CONTEXT_MENUS)) {
       if (SettingService.getCurrent(SettingID.CONTEXT_MENUS)) {
-        ContextMenuEvents.menuInit();
+        await ContextMenuEvents.menuInit();
       } else {
         await ContextMenuEvents.menuClear();
       }

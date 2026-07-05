@@ -116,6 +116,9 @@ const apis = {
     ],
     events: ["onConnect", "onInstalled", "onMessage", "onStartup"],
   },
+  scripting: {
+    fn: ["executeScript"],
+  },
   tabs: {
     fn: [
       "connect",
@@ -179,6 +182,12 @@ Object.keys(apis).forEach((api) => {
     }
   });
 });
+
+// MV3 renamed browserAction to action. Alias to the SAME jest.fn instances
+// so existing specs asserting on browser.browserAction.* keep observing the
+// calls the production code now makes through browser.action.*. The full
+// mock rename is part of the MV3 test-suite update issue.
+browser.action = browser.browserAction;
 
 global.browser = browser;
 global.chrome = browser;

@@ -12,11 +12,10 @@
  */
 /* istanbul ignore file: Redux stuff.*/
 
-import { applyMiddleware, createStore } from "redux";
+import { applyMiddleware, createStore, Store } from "redux";
 // tslint:disable-next-line:import-name
 import thunk from "redux-thunk";
-import { createBackgroundStore } from "redux-webext";
-import { ReduxConstants } from "../typings/redux-constants";
+import { ReduxAction, ReduxConstants } from "../typings/redux-constants";
 import {
   addExpression,
   clearActivities,
@@ -31,6 +30,7 @@ import {
   updateExpression,
   updateSetting,
 } from "./actions";
+import { BackgroundActionsMap } from "./store-bridge";
 import reducer from "./reducers";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -43,7 +43,12 @@ const consoleMessages = (store: any) => (next: any) => (action: any) => {
   return next(action);
 };
 
-const actions: { [key in ReduxConstants]?: any } = {
+// Map from serialized UI action types to the background action creators the
+// store bridge dispatches (previously handed to redux-webext's
+// createBackgroundStore).
+export const backgroundActions: {
+  [key in ReduxConstants]?: any;
+} & BackgroundActionsMap = {
   ADD_EXPRESSION: addExpression,
   CLEAR_ACTIVITY_LOG: clearActivities,
   CLEAR_EXPRESSIONS: clearExpressions,
@@ -58,9 +63,10 @@ const actions: { [key in ReduxConstants]?: any } = {
   UPDATE_SETTING: updateSetting,
 };
 
-export default (state = {}): any => {
-  return createBackgroundStore({
-    actions,
-    store: createStore(reducer, state, applyMiddleware(thunk, consoleMessages)),
-  });
+export default (state = {}): Store<State, ReduxAction> => {
+  return createStore(
+    reducer,
+    state,
+    applyMiddleware(thunk, consoleMessages)
+  ) as unknown as Store<State, ReduxAction>;
 };

@@ -11,9 +11,12 @@
  * SOFTWARE.
  */
 /* istanbul ignore file: React-redux init */
+// Must be the first import: provides the `browser`/`browserDetect` globals
+// that MV2 supplied via script tags.
+import "../../init-globals";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { createUIStore } from "redux-webext";
+import { createUIStore } from "../../redux/ui-store-bridge";
 import { sleep } from "../../services/libs";
 import fontAwesomeImports from "../font-awesome-imports";
 import App from "./app";
@@ -30,7 +33,7 @@ async function initApp() {
   document.body.appendChild(mountNode);
 
   ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={store as any}>
       <App />
     </Provider>,
     mountNode
