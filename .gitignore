@@ -53,3 +53,65 @@ extension/global_files/bootstrap.bundle.min.js*
 extension/global_files/bootstrap.min.css*
 extension/global_files/browser-polyfill.min.js*
 extension/global_files/jquery.slim.min.*
+
+.claude/*
+!.claude/settings.json
+!.claude/hooks/
+
+.worktrees/
+
+.env
+.envrc
+
+dist/
+build/
+.astro/
+
+.cache/
+.mypy_cache/
+.parcel-cache/
+.netlify/
+.swc/
+.gradle/
+.netlify/
+.wrangler
+
+*.bak
+*.orig
+*PENDING_DELETION*
+
+# Editors
+*~
+tags
+tags.*
+.idea/
+.vs/
+.vim/
+*.sw[op]
+
+# Haskell
+.stack-work/
+dist-newstyle
+
+# Python
+*.py[cod]
+__pycache__/
+.venv/
+
+# Ruby
+/.bundle
+
+# Node
+node_modules/
+
+# Elixir
+.elixir_ls/
+/_build/
+/cover/
+/deps/
+/doc/
+/.fetch
+erl_crash.dump
+*.ez
+my_app-*.tar
+/priv/static/
