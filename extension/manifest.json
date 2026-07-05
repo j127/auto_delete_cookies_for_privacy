@@ -12,7 +12,8 @@
     "128": "icons/icon_128.png"
   },
   "background": {
-    "service_worker": "bundles/background.bundle.js"
+    "service_worker": "bundles/background.js",
+    "type": "module"
   },
   "action": {
     "default_icon": {
