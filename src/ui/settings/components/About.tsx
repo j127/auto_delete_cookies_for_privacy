@@ -13,7 +13,7 @@
 import { SettingID } from "../../../typings/enums";
 import * as React from "react";
 import { connect } from "react-redux";
-import { cadLog } from "../../../services/libs";
+import { adcpLog } from "../../../services/libs";
 import IconButton from "../../common-components/IconButton";
 
 const styles = {
@@ -129,7 +129,7 @@ class About extends React.Component<AboutProps> {
             const textDebug = document.getElementById("debugInfo");
             const spanCopy = document.getElementById("copy-debugInfo");
             if (!textDebug || !spanCopy) {
-              cadLog(
+              adcpLog(
                 {
                   type: "error",
                   msg: "Could not find either textarea or span for debugInfo",
@@ -139,7 +139,7 @@ class About extends React.Component<AboutProps> {
               return;
             }
             if (!textDebug.textContent) {
-              cadLog(
+              adcpLog(
                 {
                   type: "error",
                   msg: "Could not get textContent from textarea for debugInfo",
@@ -187,7 +187,7 @@ class About extends React.Component<AboutProps> {
             const textDebug = document.getElementById("debugSettings");
             const spanCopy = document.getElementById("copy-debugSettings");
             if (!textDebug || !spanCopy) {
-              cadLog(
+              adcpLog(
                 {
                   type: "error",
                   msg: "Could not find either textarea or span for debugSettings",
@@ -197,7 +197,7 @@ class About extends React.Component<AboutProps> {
               return;
             }
             if (!textDebug.textContent) {
-              cadLog(
+              adcpLog(
                 {
                   type: "error",
                   msg: "Could not get textContent from textarea for debugSettings",

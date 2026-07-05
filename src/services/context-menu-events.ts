@@ -23,7 +23,7 @@ import {
   clearSiteDataForThisDomain,
 } from "./cleanup-service";
 import {
-  cadLog,
+  adcpLog,
   getHostname,
   getSetting,
   localFileToRegex,
@@ -36,37 +36,37 @@ import StoreUser from "./store-user";
 
 export default class ContextMenuEvents extends StoreUser {
   public static MenuID = {
-    ACTIVE_MODE: "cad-active-mode",
-    CLEAN: "cad-clean",
-    CLEAN_OPEN: "cad-clean-open",
-    LINK_ADD_GREY_DOMAIN: "cad-link-add-grey-domain",
-    LINK_ADD_GREY_SUBS: "cad-link-add-grey-subs",
-    LINK_ADD_WHITE_DOMAIN: "cad-link-add-white-domain",
-    LINK_ADD_WHITE_SUBS: "cad-link-add-white-subs",
-    PAGE_ADD_GREY_DOMAIN: "cad-page-add-grey-domain",
-    PAGE_ADD_GREY_SUBS: "cad-page-add-grey-subs",
-    PAGE_ADD_WHITE_DOMAIN: "cad-page-add-white-domain",
-    PAGE_ADD_WHITE_SUBS: "cad-page-add-white-subs",
-    PARENT_CLEAN: "cad-parent-clean",
-    PARENT_EXPRESSION: "cad-parent-expression",
-    PARENT_LINK_DOMAIN: "cad-parent-link-domain",
-    PARENT_LINK_SUBS: "cad-parent-link-subs",
-    PARENT_PAGE_DOMAIN: "cad-parent-page-domain",
-    PARENT_PAGE_SUBS: "cad-parent-page-subs",
-    PARENT_SELECT_DOMAIN: "cad-parent-select-domain",
-    PARENT_SELECT_SUBS: "cad-parent-select-subs",
-    MANUAL_CLEAN_SITEDATA: "cad-clean-sitedata-",
+    ACTIVE_MODE: "adcp-active-mode",
+    CLEAN: "adcp-clean",
+    CLEAN_OPEN: "adcp-clean-open",
+    LINK_ADD_GREY_DOMAIN: "adcp-link-add-grey-domain",
+    LINK_ADD_GREY_SUBS: "adcp-link-add-grey-subs",
+    LINK_ADD_WHITE_DOMAIN: "adcp-link-add-white-domain",
+    LINK_ADD_WHITE_SUBS: "adcp-link-add-white-subs",
+    PAGE_ADD_GREY_DOMAIN: "adcp-page-add-grey-domain",
+    PAGE_ADD_GREY_SUBS: "adcp-page-add-grey-subs",
+    PAGE_ADD_WHITE_DOMAIN: "adcp-page-add-white-domain",
+    PAGE_ADD_WHITE_SUBS: "adcp-page-add-white-subs",
+    PARENT_CLEAN: "adcp-parent-clean",
+    PARENT_EXPRESSION: "adcp-parent-expression",
+    PARENT_LINK_DOMAIN: "adcp-parent-link-domain",
+    PARENT_LINK_SUBS: "adcp-parent-link-subs",
+    PARENT_PAGE_DOMAIN: "adcp-parent-page-domain",
+    PARENT_PAGE_SUBS: "adcp-parent-page-subs",
+    PARENT_SELECT_DOMAIN: "adcp-parent-select-domain",
+    PARENT_SELECT_SUBS: "adcp-parent-select-subs",
+    MANUAL_CLEAN_SITEDATA: "adcp-clean-sitedata-",
     // MV3 service workers require an explicit id on EVERY menu item,
     // including separators and disabled label rows.
-    CLEAN_WARNING: "cad-clean-warning",
-    SEPARATOR_CLEAN: "cad-separator-clean",
-    SEPARATOR_EXPRESSION: "cad-separator-expression",
-    SEPARATOR_SETTINGS: "cad-separator-settings",
-    SELECT_ADD_GREY_DOMAIN: "cad-select-add-grey-domain",
-    SELECT_ADD_GREY_SUBS: "cad-select-add-grey-subs",
-    SELECT_ADD_WHITE_DOMAIN: "cad-select-add-white-domain",
-    SELECT_ADD_WHITE_SUBS: "cad-select-add-white-subs",
-    SETTINGS: "cad-settings",
+    CLEAN_WARNING: "adcp-clean-warning",
+    SEPARATOR_CLEAN: "adcp-separator-clean",
+    SEPARATOR_EXPRESSION: "adcp-separator-expression",
+    SEPARATOR_SETTINGS: "adcp-separator-settings",
+    SELECT_ADD_GREY_DOMAIN: "adcp-select-add-grey-domain",
+    SELECT_ADD_GREY_SUBS: "adcp-select-add-grey-subs",
+    SELECT_ADD_WHITE_DOMAIN: "adcp-select-add-white-domain",
+    SELECT_ADD_WHITE_SUBS: "adcp-select-add-white-subs",
+    SETTINGS: "adcp-settings",
   };
 
   public static async menuInit(): Promise<void> {
@@ -275,7 +275,7 @@ export default class ContextMenuEvents extends StoreUser {
   public static async menuClear(): Promise<void> {
     await browser.contextMenus.removeAll();
     ContextMenuEvents.isInitialized = false;
-    cadLog(
+    adcpLog(
       {
         msg: `ContextMenuEvents.menuClear:  Context Menu has been removed.`,
       },
@@ -305,7 +305,7 @@ export default class ContextMenuEvents extends StoreUser {
         checked,
       })
       .finally(this.onCreatedOrUpdated);
-    cadLog(
+    adcpLog(
       {
         msg: `ContextMenuEvents.updateMenuItemCheckbox: Updated Menu Item.`,
         x: { id, checked },
@@ -320,7 +320,7 @@ export default class ContextMenuEvents extends StoreUser {
       SettingID.DEBUG_MODE
     ) as boolean;
     if (browser.runtime.lastError) {
-      cadLog(
+      adcpLog(
         {
           msg: `ContextMenuEvents.onCreatedOrUpdated received an error: ${
             // Chrome gives {message}; web-ext-types says string.
@@ -332,7 +332,7 @@ export default class ContextMenuEvents extends StoreUser {
         true
       );
     } else {
-      cadLog(
+      adcpLog(
         {
           msg: `ContextMenuEvents.onCreatedOrUpdated:  Create/Update contextMenuItem was successful.`,
         },
@@ -349,7 +349,7 @@ export default class ContextMenuEvents extends StoreUser {
       StoreUser.store.getState(),
       SettingID.DEBUG_MODE
     ) as boolean;
-    cadLog(
+    adcpLog(
       {
         msg: `ContextMenuEvents.onContextMenuClicked:  Data received`,
         x: { info, tab },
@@ -368,7 +368,7 @@ export default class ContextMenuEvents extends StoreUser {
         .slice(ContextMenuEvents.MenuID.MANUAL_CLEAN_SITEDATA.length);
       const hostname = getHostname(tab.url);
       if (!hostname) {
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked cannot clean ${siteData} from tab:`,
             type: "warn",
@@ -392,7 +392,7 @@ export default class ContextMenuEvents extends StoreUser {
         });
         return;
       }
-      cadLog(
+      adcpLog(
         {
           msg: `ContextMenuEvents.onContextMenuClicked triggered Clean Site Data (${siteData}) For This Domain.`,
         },
@@ -418,7 +418,7 @@ export default class ContextMenuEvents extends StoreUser {
           await clearLocalStorageForThisDomain(StoreUser.store.getState(), tab);
           break;
         default:
-          cadLog(
+          adcpLog(
             {
               msg: `ContextMenuEvents.onContextMenuClicked received unknown manual clean site data type: ${info.menuItemId}`,
               type: "warn",
@@ -433,7 +433,7 @@ export default class ContextMenuEvents extends StoreUser {
 
     switch (info.menuItemId) {
       case ContextMenuEvents.MenuID.CLEAN:
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked triggered Normal Clean.`,
           },
@@ -447,7 +447,7 @@ export default class ContextMenuEvents extends StoreUser {
         );
         break;
       case ContextMenuEvents.MenuID.CLEAN_OPEN:
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked triggered Clean, include open tabs.`,
           },
@@ -461,7 +461,7 @@ export default class ContextMenuEvents extends StoreUser {
         );
         break;
       case ContextMenuEvents.MenuID.LINK_ADD_GREY_DOMAIN:
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was LINK_ADD_GREY_DOMAIN.`,
             x: {
@@ -479,7 +479,7 @@ export default class ContextMenuEvents extends StoreUser {
         );
         break;
       case ContextMenuEvents.MenuID.LINK_ADD_WHITE_DOMAIN:
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was LINK_ADD_WHITE_DOMAIN.`,
             x: {
@@ -497,7 +497,7 @@ export default class ContextMenuEvents extends StoreUser {
         );
         break;
       case ContextMenuEvents.MenuID.LINK_ADD_GREY_SUBS:
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was LINK_ADD_GREY_SUBS.`,
             x: {
@@ -515,7 +515,7 @@ export default class ContextMenuEvents extends StoreUser {
         );
         break;
       case ContextMenuEvents.MenuID.LINK_ADD_WHITE_SUBS:
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was LINK_ADD_WHITE_SUBS.`,
             x: {
@@ -533,7 +533,7 @@ export default class ContextMenuEvents extends StoreUser {
         );
         break;
       case ContextMenuEvents.MenuID.PAGE_ADD_GREY_DOMAIN:
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was PAGE_ADD_GREY_DOMAIN.`,
             x: {
@@ -552,7 +552,7 @@ export default class ContextMenuEvents extends StoreUser {
         );
         break;
       case ContextMenuEvents.MenuID.PAGE_ADD_WHITE_DOMAIN:
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was PAGE_ADD_WHITE_DOMAIN.`,
             x: {
@@ -571,7 +571,7 @@ export default class ContextMenuEvents extends StoreUser {
         );
         break;
       case ContextMenuEvents.MenuID.PAGE_ADD_GREY_SUBS:
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was PAGE_ADD_GREY_SUBS.`,
             x: {
@@ -590,7 +590,7 @@ export default class ContextMenuEvents extends StoreUser {
         );
         break;
       case ContextMenuEvents.MenuID.PAGE_ADD_WHITE_SUBS:
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was PAGE_ADD_WHITE_SUBS.`,
             x: {
@@ -611,7 +611,7 @@ export default class ContextMenuEvents extends StoreUser {
       case ContextMenuEvents.MenuID.SELECT_ADD_GREY_DOMAIN:
         {
           const texts = selectionText.trim().split(",");
-          cadLog(
+          adcpLog(
             {
               msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was SELECT_ADD_GREY_DOMAIN.`,
               x: {
@@ -624,7 +624,7 @@ export default class ContextMenuEvents extends StoreUser {
             debug
           );
           texts.forEach((text) => {
-            cadLog(
+            adcpLog(
               {
                 msg: `ContextMenuEvents.onContextMenuClicked:  encodeURI on selected text`,
                 x: {
@@ -645,7 +645,7 @@ export default class ContextMenuEvents extends StoreUser {
       case ContextMenuEvents.MenuID.SELECT_ADD_WHITE_DOMAIN:
         {
           const texts = selectionText.trim().split(",");
-          cadLog(
+          adcpLog(
             {
               msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was SELECT_ADD_WHITE_DOMAIN.`,
               x: {
@@ -658,7 +658,7 @@ export default class ContextMenuEvents extends StoreUser {
             debug
           );
           texts.forEach((text) => {
-            cadLog(
+            adcpLog(
               {
                 msg: `ContextMenuEvents.onContextMenuClicked:  encodeURI on selected text`,
                 x: {
@@ -679,7 +679,7 @@ export default class ContextMenuEvents extends StoreUser {
       case ContextMenuEvents.MenuID.SELECT_ADD_GREY_SUBS:
         {
           const texts = selectionText.trim().split(",");
-          cadLog(
+          adcpLog(
             {
               msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was SELECT_ADD_GREY_SUBS.`,
               x: {
@@ -692,7 +692,7 @@ export default class ContextMenuEvents extends StoreUser {
             debug
           );
           texts.forEach((text) => {
-            cadLog(
+            adcpLog(
               {
                 msg: `ContextMenuEvents.onContextMenuClicked:  encodeURI on selected text`,
                 x: {
@@ -713,7 +713,7 @@ export default class ContextMenuEvents extends StoreUser {
       case ContextMenuEvents.MenuID.SELECT_ADD_WHITE_SUBS:
         {
           const texts = selectionText.trim().split(",");
-          cadLog(
+          adcpLog(
             {
               msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was SELECT_ADD_WHITE_SUBS.`,
               x: {
@@ -726,7 +726,7 @@ export default class ContextMenuEvents extends StoreUser {
             debug
           );
           texts.forEach((text) => {
-            cadLog(
+            adcpLog(
               {
                 msg: `ContextMenuEvents.onContextMenuClicked:  encodeURI on selected text`,
                 x: {
@@ -750,7 +750,7 @@ export default class ContextMenuEvents extends StoreUser {
           Object.prototype.hasOwnProperty.call(info, "wasChecked") &&
           info.checked !== info.wasChecked
         ) {
-          cadLog(
+          adcpLog(
             {
               msg: `ContextMenuEvents.onContextMenuClicked changed Automatic Cleaning value to:  ${info.checked}.`,
             },
@@ -766,7 +766,7 @@ export default class ContextMenuEvents extends StoreUser {
         }
         break;
       case ContextMenuEvents.MenuID.SETTINGS:
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked triggered Open Settings.`,
           },
@@ -778,7 +778,7 @@ export default class ContextMenuEvents extends StoreUser {
         });
         break;
       default:
-        cadLog(
+        adcpLog(
           {
             msg: `ContextMenuEvents.onContextMenuClicked received unknown menu id: ${info.menuItemId}`,
             type: "warn",
@@ -810,7 +810,7 @@ export default class ContextMenuEvents extends StoreUser {
       listType,
       storeId: parseCookieStoreId(cookieStoreId),
     };
-    cadLog(
+    adcpLog(
       {
         msg: `background.addNewExpression - Parsed from Right-Click:`,
         x: payload,

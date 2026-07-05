@@ -44,7 +44,7 @@ const spyLib: JestSpyObject = global.generateSpies(Lib);
 
 jest.requireActual("../../src/services/cleanup-service");
 import * as CleanupService from "../../src/services/cleanup-service";
-import { CADCOOKIENAME } from "../../src/services/libs";
+import { ADCPCOOKIENAME } from "../../src/services/libs";
 const spyCleanupService: JestSpyObject = global.generateSpies(CleanupService);
 
 const sampleTab: browser.tabs.Tab = {
@@ -356,7 +356,7 @@ describe("CleanupService", () => {
         .calledWith(expect.any(Object))
         .mockRejectedValueOnce("test" as never);
       await cleanCookiesOperation(sampleState, cleanupProperties);
-      expect(spyLib.cadLog).not.toHaveBeenCalled();
+      expect(spyLib.adcpLog).not.toHaveBeenCalled();
     });
     it("should not show the error notification if the error thrown during cleaning of cookies is not an error type", async () => {
       when(global.browser.cookies.remove)
@@ -490,9 +490,9 @@ describe("CleanupService", () => {
       it("Debug mode should sanitize cookie value", async () => {
         await cleanCookiesOperation(debugState, cleanupProperties);
         // isSafeToCleanObjects Result: cookie.value sanitize (lines 804-822)
-        expect(spyLib.cadLog.mock.calls[18][0].x[0].cookie.value).toBe("***");
+        expect(spyLib.adcpLog.mock.calls[18][0].x[0].cookie.value).toBe("***");
         // markedForDeletion Result cookie.value sanitize (lines 835-853)
-        expect(spyLib.cadLog.mock.calls[25][0].x[0].cookie.value).toBe("***");
+        expect(spyLib.adcpLog.mock.calls[25][0].x[0].cookie.value).toBe("***");
       });
 
       it("Regular clean, exclude open tabs to include errors during cleanCookies / browser.cookies.remove", async () => {
@@ -920,7 +920,7 @@ describe("CleanupService", () => {
       const result = filterSiteData(cleanReasonObj, SiteDataType.CACHE);
       expect(result).toBe(true);
     });
-    it("should return true because of no matched expression on a CAD Cookie", () => {
+    it("should return true because of no matched expression on a ADCP marker cookie", () => {
       const cleanReasonObj: CleanReasonObject = {
         cached: false,
         cleanCookie: true,
@@ -933,7 +933,7 @@ describe("CleanupService", () => {
       const result = filterSiteData(cleanReasonObj, SiteDataType.CACHE);
       expect(result).toBe(true);
     });
-    it("should return true because of no matched expression on a CAD Cookie on restart", () => {
+    it("should return true because of no matched expression on a ADCP marker cookie on restart", () => {
       const cleanReasonObj: CleanReasonObject = {
         cached: false,
         cleanCookie: true,
@@ -946,7 +946,7 @@ describe("CleanupService", () => {
       const result = filterSiteData(cleanReasonObj, SiteDataType.CACHE);
       expect(result).toBe(true);
     });
-    it("should return true because of matched expression on a CAD Cookie on restart", () => {
+    it("should return true because of matched expression on a ADCP marker cookie on restart", () => {
       const cleanReasonObj: CleanReasonObject = {
         cached: false,
         cleanCookie: true,
@@ -1016,7 +1016,7 @@ describe("CleanupService", () => {
       expect(result).toBe(false);
     });
 
-    it("should not sanitize cookie value in cadLog if debug is off", () => {
+    it("should not sanitize cookie value in adcpLog if debug is off", () => {
       const cleanReasonObj: CleanReasonObject = {
         cached: false,
         cleanCookie: true,
@@ -1028,10 +1028,10 @@ describe("CleanupService", () => {
       };
       filterSiteData(cleanReasonObj, SiteDataType.CACHE);
       expect(
-        spyLib.cadLog.mock.calls[0][0].x.CleanReasonObject.cookie.value
+        spyLib.adcpLog.mock.calls[0][0].x.CleanReasonObject.cookie.value
       ).toEqual("value");
     });
-    it("should sanitize cookie value in cadLog if debug is on", () => {
+    it("should sanitize cookie value in adcpLog if debug is on", () => {
       const cleanReasonObj: CleanReasonObject = {
         cached: false,
         cleanCookie: true,
@@ -1043,7 +1043,7 @@ describe("CleanupService", () => {
       };
       filterSiteData(cleanReasonObj, SiteDataType.CACHE, true);
       expect(
-        spyLib.cadLog.mock.calls[0][0].x.CleanReasonObject.cookie.value
+        spyLib.adcpLog.mock.calls[0][0].x.CleanReasonObject.cookie.value
       ).toEqual("***");
     });
     it("should return false because of greyList expression for localstorage", () => {
@@ -1178,13 +1178,13 @@ describe("CleanupService", () => {
       const result = filterSiteData(cleanReasonObj, SiteDataType.LOCALSTORAGE);
       expect(result).toBe(false);
     });
-    it("should return false for an expired cookie on restart with no expression (the CAD-cookie shortcut only applies to CADSiteDataCookie reasons).", () => {
+    it("should return false for an expired cookie on restart with no expression (the ADCP-cookie shortcut only applies to CADSiteDataCookie reasons).", () => {
       // Previously expected true, but only because of an operator-precedence
       // bug in filterSiteData: `obj.reason === CADSiteDataCookie ||
       // ReasonClean.CADSiteDataCookieRestart` made the second operand a bare
       // always-truthy enum value, so any no-expression cookie qualified.
       // TypeScript 5 (TS2845) surfaced the bug; with the comparison fixed,
-      // ExpiredCookieRestart no longer takes the CAD-cookie shortcut.
+      // ExpiredCookieRestart no longer takes the ADCP-cookie shortcut.
       const cleanReasonObj: CleanReasonObject = {
         cached: false,
         cleanCookie: true,
@@ -1577,7 +1577,7 @@ describe("CleanupService", () => {
     it("should return true if cookie was created through CAD with matching WHITE expression and at least one browsingData type for cleanup", () => {
       const cookieProperty = {
         ...mockCookie,
-        name: CADCOOKIENAME,
+        name: ADCPCOOKIENAME,
         hostname: "youtube.com",
         mainDomain: "youtube.com",
       };
@@ -1592,7 +1592,7 @@ describe("CleanupService", () => {
     it("should return true if cookie was created through CAD with matching GREY expression and at least one browsingData type for cleanup and is browser restart", () => {
       const cookieProperty = {
         ...mockCookie,
-        name: CADCOOKIENAME,
+        name: ADCPCOOKIENAME,
         hostname: "google.com",
         mainDomain: "google.com",
       };
@@ -1608,7 +1608,7 @@ describe("CleanupService", () => {
     it("should return true if cookie was created through CAD with matching GREY expression and at least one browsingData type for instant cleanup (unchecked) but not during browser restart", () => {
       const cookieProperty = {
         ...mockCookie,
-        name: CADCOOKIENAME,
+        name: ADCPCOOKIENAME,
         hostname: "restart.clean",
         mainDomain: "restart.clean",
       };
@@ -1622,7 +1622,7 @@ describe("CleanupService", () => {
     it("should return false if cookie was created through CAD with matching GREY expression and none of the browsing data types are unchecked and is not browser restart", () => {
       const cookieProperty = {
         ...mockCookie,
-        name: CADCOOKIENAME,
+        name: ADCPCOOKIENAME,
         hostname: "restart.clean.all",
         mainDomain: "restart.clean.all",
       };
@@ -1636,7 +1636,7 @@ describe("CleanupService", () => {
     it('should return false if cookie was created through CAD with matching GREY expression and an empty "cleanSiteData" array and is not browser restart', () => {
       const cookieProperty = {
         ...mockCookie,
-        name: CADCOOKIENAME,
+        name: ADCPCOOKIENAME,
         hostname: "another.restart.clean.all",
         mainDomain: "another.restart.clean.all",
       };

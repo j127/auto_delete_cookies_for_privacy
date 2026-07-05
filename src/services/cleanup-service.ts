@@ -20,8 +20,8 @@ import {
   SiteDataType,
 } from "../typings/enums";
 import {
-  CADCOOKIENAME,
-  cadLog,
+  ADCPCOOKIENAME,
+  adcpLog,
   extractMainDomain,
   getHostname,
   getSetting,
@@ -58,7 +58,7 @@ export const prepareCookie = (
     );
     cookieProperties.mainDomain = extractMainDomain(cookieProperties.hostname);
   }
-  cadLog(
+  adcpLog(
     {
       msg: "CleanupService.prepareCookie: results",
       x: {
@@ -95,7 +95,7 @@ export const isSafeToClean = (
   const openTabStatus = ignoreOpenTabs
     ? OpenTabStatus.TabsWereIgnored
     : OpenTabStatus.TabsWasNotIgnored;
-  cadLog(
+  adcpLog(
     {
       msg: "CleanupService.isSafeToClean:  Properties Debug",
       x: { partialCookieInfo, cleanupProperties, openTabStatus },
@@ -105,7 +105,7 @@ export const isSafeToClean = (
 
   // Tests if the main domain is open on that specific storeId/container
   if (openTabDomains[storeId] && openTabDomains[storeId].includes(mainDomain)) {
-    cadLog(
+    adcpLog(
       {
         msg: `CleanupService.isSafeToClean:  mainDomain found in openTabsDomain[${storeId}] - not cleaning.`,
         x: { partialCookieInfo, openTabsInStoreId: openTabDomains[storeId] },
@@ -128,19 +128,19 @@ export const isSafeToClean = (
     hostname
   );
 
-  // Internal CAD Cookie Checks
+  // Internal ADCP marker cookie Checks
   if (
     matchedExpression &&
-    cookieProperties.name === CADCOOKIENAME &&
+    cookieProperties.name === ADCPCOOKIENAME &&
     (matchedExpression.listType === ListType.WHITE ||
       (matchedExpression.listType === ListType.GREY &&
         (greyCleanup ||
           (matchedExpression.cleanSiteData &&
             matchedExpression.cleanSiteData.length !== 0))))
   ) {
-    cadLog(
+    adcpLog(
       {
-        msg: "CleanupService.isSafeToClean:  Internal CAD Cookie.  Removing Cookie to trigger browsingData cleanups.",
+        msg: "CleanupService.isSafeToClean:  Internal ADCP marker cookie.  Removing Cookie to trigger browsingData cleanups.",
         x: {
           partialCookieInfo,
           cleanSiteData: matchedExpression.cleanSiteData,
@@ -164,7 +164,7 @@ export const isSafeToClean = (
   if (getSetting(state, SettingID.CLEAN_EXPIRED) as boolean) {
     const now = Math.ceil(Date.now() / 1000);
     if (expirationDate && expirationDate < now) {
-      cadLog(
+      adcpLog(
         {
           msg: `CleanupService.isSafeToClean:  Cookie Expired since ${expirationDate}.  Date.now is ${now}`,
           x: {
@@ -189,7 +189,7 @@ export const isSafeToClean = (
 
   // Startup cleanup checks
   if (greyCleanup && !matchedExpression) {
-    cadLog(
+    adcpLog(
       {
         msg: "CleanupService.isSafeToClean:  unmatched and greyCleanup.  Safe to Clean",
         x: partialCookieInfo,
@@ -214,7 +214,7 @@ export const isSafeToClean = (
       (matchedExpression.cookieNames &&
         !matchedExpression.cookieNames.includes(cookieProperties.name)))
   ) {
-    cadLog(
+    adcpLog(
       {
         msg: "CleanupService.isSafeToClean:  greyCleanup - matching Expression and cookie name was unchecked.  Safe to Clean.",
         x: { partialCookieInfo, matchedExpression },
@@ -233,7 +233,7 @@ export const isSafeToClean = (
 
   // Normal cleanup checks
   if (!matchedExpression) {
-    cadLog(
+    adcpLog(
       {
         msg: "CleanupService.isSafeToClean:  unmatched Expression.  Safe to Clean.",
         x: partialCookieInfo,
@@ -254,7 +254,7 @@ export const isSafeToClean = (
     matchedExpression.cookieNames &&
     !matchedExpression.cookieNames.includes(cookieProperties.name)
   ) {
-    cadLog(
+    adcpLog(
       {
         msg: "CleanupService.isSafeToClean:  matched Expression but unchecked cookie name.  Safe to Clean.",
         x: { partialCookieInfo, matchedExpression },
@@ -270,7 +270,7 @@ export const isSafeToClean = (
       reason: ReasonClean.MatchedExpressionButNoCookieName,
     };
   }
-  cadLog(
+  adcpLog(
     {
       msg: "CleanupService.isSafeToClean:  Matched Expression and cookie name.  Cookie stays!",
       x: { partialCookieInfo, matchedExpression },
@@ -302,7 +302,7 @@ export const cleanCookies = async (
       url: cookieProperties.preparedCookieDomain,
     };
     // url: "http://domain.com" + cookies[i].path
-    cadLog(
+    adcpLog(
       {
         msg: "CleanupService.cleanCookies: Cookie being removed through browser.cookies.remove via Promises:",
         x: cookieRemove,
@@ -327,8 +327,8 @@ export const clearCookiesForThisDomain = async (
     domain: hostname,
     storeId: tab.cookieStoreId,
   });
-  // Filter out our own CAD cookie that cleans up other Browsing Data
-  const cookies = getCookies.filter((c) => c.name !== CADCOOKIENAME);
+  // Filter out our own ADCP marker cookie that cleans up other Browsing Data
+  const cookies = getCookies.filter((c) => c.name !== ADCPCOOKIENAME);
 
   if (cookies.length > 0) {
     let cookieDeletedCount = 0;
@@ -450,7 +450,7 @@ export const clearSiteDataForThisDomain = async (
 ): Promise<boolean> => {
   if (hostname.trim() === "") return false;
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
-  cadLog(
+  adcpLog(
     {
       msg: `CleanupService.clearSiteDataForThisDomain: Received ${siteData} clean request for ${hostname}.`,
     },
@@ -491,7 +491,7 @@ export const removeSiteData = async (
   // Chrome's browsingData API scopes removals by origin.
   const listName = "origins";
   const sd = siteDataToBrowser(siteData);
-  cadLog(
+  adcpLog(
     {
       msg: `CleanupService.removeSiteData: Cleanup of ${listName} for ${sd}:`,
       x: domains,
@@ -522,7 +522,7 @@ export const removeSiteData = async (
     );
     return true;
   } catch (e: unknown) {
-    cadLog(
+    adcpLog(
       {
         msg: `CleanupService.removeSiteData:  browser.browsingData.remove of ${listName} for ${sd} returned an error:`,
         type: "error",
@@ -669,7 +669,7 @@ export const filterSiteData = (
       value: debug ? "***" : obj.cookie.value,
     },
   };
-  cadLog(
+  adcpLog(
     {
       msg: "CleanupService.filterSiteData: debug data.",
       x: {
@@ -692,7 +692,7 @@ export const filterSiteData = (
   const r =
     (notInAnyLists || (notProtectedByOpenTab && canCleanSiteData)) &&
     nonBlankCookieHostName;
-  cadLog(
+  adcpLog(
     {
       msg: `CleanupService.filterSiteData: ${siteData} cleanup returned ${r} for ${cro.cookie.hostname}`,
     },
@@ -786,7 +786,7 @@ export const cleanCookiesOperation = async (
       });
     } catch (e: unknown) {
       if (e instanceof Error) {
-        cadLog(
+        adcpLog(
           {
             msg: `CleanupService.cleanCookiesOperation:  browser.cookies.getAll for id: ${id} threw an error.`,
             type: "error",
@@ -819,7 +819,7 @@ export const cleanCookiesOperation = async (
           },
         };
       });
-      cadLog(
+      adcpLog(
         {
           msg: "CleanupService.cleanCookiesOperation:  isSafeToCleanObjects Result",
           x: sanitized,
@@ -830,7 +830,7 @@ export const cleanCookiesOperation = async (
 
     const markedForDeletion = isSafeToCleanObjects.filter((obj) => {
       const r = obj.cleanCookie && obj.cookie.hostname.trim() !== "";
-      cadLog(
+      adcpLog(
         {
           msg: `CleanupService.cleanCookiesOperation: Clean Cookies returned ${r} for ${obj.cookie.hostname}`,
         },
@@ -850,7 +850,7 @@ export const cleanCookiesOperation = async (
           },
         };
       });
-      cadLog(
+      adcpLog(
         {
           msg: "CleanupService.cleanCookiesOperation:  Cookies markedForDeletion Result",
           x: sanitized,
@@ -862,7 +862,7 @@ export const cleanCookiesOperation = async (
     try {
       await cleanCookies(state, markedForDeletion);
     } catch (e: unknown) {
-      cadLog(
+      adcpLog(
         {
           type: "error",
           x: e,
@@ -877,9 +877,9 @@ export const cleanCookiesOperation = async (
       }
     }
 
-    // Extract away the CAD Internal Cookie from Clean Entries.
+    // Extract away the ADCP internal Cookie from Clean Entries.
     const removedCookies = markedForDeletion.filter((c) => {
-      return c.cookie.name !== CADCOOKIENAME;
+      return c.cookie.name !== ADCPCOOKIENAME;
     });
 
     if (removedCookies.length !== 0) {

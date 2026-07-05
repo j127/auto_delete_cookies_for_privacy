@@ -18,8 +18,8 @@ import {
   showNumberOfCookiesInIcon,
 } from "./browser-action-service";
 import {
-  CADCOOKIENAME,
-  cadLog,
+  ADCPCOOKIENAME,
+  adcpLog,
   createPartialTabInfo,
   extractMainDomain,
   getAllCookiesForDomain,
@@ -47,7 +47,7 @@ export default class TabEvents extends StoreUser {
         changeInfo.favIconUrl = "***";
       }
       if (changeInfo.discarded || tab.discarded) {
-        cadLog(
+        adcpLog(
           {
             msg: "TabEvents.onTabDiscarded: Tab was discarded.  Executing cleanFromTabEvents",
             x: { tabId, changeInfo, partialTabInfo },
@@ -56,7 +56,7 @@ export default class TabEvents extends StoreUser {
         );
         TabEvents.cleanFromTabEvents();
       } else {
-        cadLog(
+        adcpLog(
           {
             msg: "TabEvents.onTabDiscarded:  Tab was not discarded.",
             x: { tabId, changeInfo, partialTabInfo },
@@ -83,7 +83,7 @@ export default class TabEvents extends StoreUser {
       }
       if (!TabEvents.onTabUpdateDelay) {
         TabEvents.onTabUpdateDelay = true;
-        cadLog(
+        adcpLog(
           {
             msg: "TabEvents.onTabUpdate: action delay has been set for ~750 ms.",
             x: { tabId, changeInfo, partialTabInfo },
@@ -91,7 +91,7 @@ export default class TabEvents extends StoreUser {
           debug
         );
         setTimeout(() => {
-          cadLog(
+          adcpLog(
             {
               msg: "TabEvents.onTabUpdate: actions will now commence.",
               x: { tabId, changeInfo, partialTabInfo },
@@ -100,7 +100,7 @@ export default class TabEvents extends StoreUser {
           );
           TabEvents.getAllCookieActions(tab);
           TabEvents.onTabUpdateDelay = false;
-          cadLog(
+          adcpLog(
             {
               msg: "TabEvents.onTabUpdate: actions have been processed and flag cleared.",
             },
@@ -108,7 +108,7 @@ export default class TabEvents extends StoreUser {
           );
         }, 750);
       } else {
-        cadLog(
+        adcpLog(
           {
             msg: "TabEvents.onTabUpdate: actions delay is pending already.",
             x: { tabId, changeInfo, partialTabInfo },
@@ -136,7 +136,7 @@ export default class TabEvents extends StoreUser {
         changeInfo.favIconUrl = "***";
       }
       if (TabEvents.tabToDomain[tabId] === undefined && mainDomain !== "") {
-        cadLog(
+        adcpLog(
           {
             msg: "TabEvents.onDomainChange: First mainDomain set.",
             x: { tabId, changeInfo, mainDomain, partialTabInfo },
@@ -160,7 +160,7 @@ export default class TabEvents extends StoreUser {
           getSetting(StoreUser.store.getState(), SettingID.CLEAN_DOMAIN_CHANGE)
         ) {
           if (oldMainDomain === "") {
-            cadLog(
+            adcpLog(
               {
                 msg: "TabEvents.onDomainChange: mainDomain has changed, but previous domain may have been a blank or new tab.  Not executing domainChangeCleanup",
                 x: { tabId, changeInfo, partialTabInfo },
@@ -169,7 +169,7 @@ export default class TabEvents extends StoreUser {
             );
             return;
           }
-          cadLog(
+          adcpLog(
             {
               msg: "TabEvents.onDomainChange: mainDomain has changed.  Executing domainChangeCleanup",
               x: {
@@ -184,7 +184,7 @@ export default class TabEvents extends StoreUser {
           );
           TabEvents.cleanFromTabEvents();
         } else {
-          cadLog(
+          adcpLog(
             {
               msg: "TabEvents.onDomainChange: mainDomain has changed, but cleanOnDomainChange is not enabled.  Not cleaning.",
               x: {
@@ -199,7 +199,7 @@ export default class TabEvents extends StoreUser {
           );
         }
       } else {
-        cadLog(
+        adcpLog(
           {
             msg: "TabEvents.onDomainChange: mainDomain has not changed yet.",
             x: { tabId, changeInfo, mainDomain, partialTabInfo },
@@ -217,7 +217,7 @@ export default class TabEvents extends StoreUser {
       isWindowClosing: boolean;
     }
   ): void {
-    cadLog(
+    adcpLog(
       {
         msg: "TabEvents.onDomainChangeRemove: Tab was closed.  Removing old tabToDomain info.",
         x: { tabId, mainDomain: TabEvents.tabToDomain[tabId], removeInfo },
@@ -236,7 +236,7 @@ export default class TabEvents extends StoreUser {
     if (getSetting(StoreUser.store.getState(), SettingID.ACTIVE_MODE)) {
       const alarm = await browser.alarms.get("activeModeAlarm");
       if (!alarm || (alarm.name && alarm.name !== "activeModeAlarm")) {
-        cadLog(
+        adcpLog(
           {
             msg: "TabEvents.cleanFromTabEvents:  No Alarms detected.  Creating alarm for cleaning...",
           },
@@ -244,7 +244,7 @@ export default class TabEvents extends StoreUser {
         );
         await AlarmEvents.createActiveModeAlarm();
       } else {
-        cadLog(
+        adcpLog(
           {
             msg: "TabEvents.cleanFromTabEvents:  An alarm for cleaning was created already.  Cleaning will commence soon.",
             x: alarm,
@@ -271,7 +271,7 @@ export default class TabEvents extends StoreUser {
     );
 
     if (!cookies) {
-      cadLog(
+      adcpLog(
         {
           msg: "TabEvents.getAllCookieActions: Libs.getAllCookiesForDomain returned undefined.  Skipping Cookie Actions.",
           x: { partialTabInfo },
@@ -282,7 +282,7 @@ export default class TabEvents extends StoreUser {
     }
 
     const internalCookies = cookies.filter((c) => {
-      return c.name === CADCOOKIENAME;
+      return c.name === ADCPCOOKIENAME;
     });
 
     if (
@@ -303,13 +303,13 @@ export default class TabEvents extends StoreUser {
     ) {
       const cookiesAttributes = {
         expirationDate: Math.floor(Date.now() / 1000 + 31557600),
-        name: CADCOOKIENAME,
+        name: ADCPCOOKIENAME,
         path: `/${uid()}`,
         storeId: tab.cookieStoreId,
-        value: CADCOOKIENAME,
+        value: ADCPCOOKIENAME,
       };
       await browser.cookies.set({ ...cookiesAttributes, url: tab.url });
-      cadLog(
+      adcpLog(
         {
           msg: "TabEvents.getAllCookieActions:  A temporary cookie has been set for future BrowsingData cleaning as the site did not set any cookies yet.",
           x: { partialTabInfo, cadLSCookie: cookiesAttributes },
@@ -320,7 +320,7 @@ export default class TabEvents extends StoreUser {
     // Filter out cookie(s) that were set by this extension.
     const cookieLength = cookies.length - internalCookies.length;
     if (cookies.length !== cookieLength) {
-      cadLog(
+      adcpLog(
         {
           msg: "TabEvents.getAllCookieActions:  New Cookie Count after filtering out cookie set by extension",
           x: { preFilterCount: cookies.length, newCookieCount: cookieLength },
@@ -328,7 +328,7 @@ export default class TabEvents extends StoreUser {
         debug
       );
     }
-    cadLog(
+    adcpLog(
       {
         msg: "TabEvents.getAllCookieActions: executing checkIfProtected to update Icons and Title.",
       },
@@ -337,7 +337,7 @@ export default class TabEvents extends StoreUser {
     await checkIfProtected(StoreUser.store.getState(), tab, cookieLength);
 
     if (getSetting(StoreUser.store.getState(), SettingID.NUM_COOKIES_ICON)) {
-      cadLog(
+      adcpLog(
         {
           msg: "TabEvents.getAllCookieActions: executing showNumberOfCookiesInIcon.",
         },

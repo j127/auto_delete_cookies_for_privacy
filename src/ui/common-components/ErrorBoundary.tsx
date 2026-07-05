@@ -14,7 +14,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { resetAll } from "../../redux/actions";
-import { cadLog } from "../../services/libs";
+import { adcpLog } from "../../services/libs";
 import { ReduxAction } from "../../typings/redux-constants";
 import { downloadObjectAsJSON } from "../ui-libs";
 import IconButton from "./IconButton";
@@ -50,7 +50,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
 
   public componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Shouldn't update state here but can be used to log errors somewhere else.
-    cadLog(
+    adcpLog(
       {
         msg: `React ErrorBoundary - An Error was caught:  ${error}`,
         type: "error",

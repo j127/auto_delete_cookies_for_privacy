@@ -15,7 +15,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { removeActivity } from "../../redux/actions";
 import {
-  cadLog,
+  adcpLog,
   getSetting,
   siteDataToBrowser,
   throwErrorNotification,
@@ -143,7 +143,7 @@ const restoreCookies = async (
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
   const cleanReasonObjsArrays = Object.values(log.storeIds);
   const promiseArr = [];
-  cadLog(
+  adcpLog(
     {
       msg: `ActivityTable.restoreCookies:  Restoring Cookies for triggered ActivityLog entry`,
       x: log,
@@ -154,7 +154,7 @@ const restoreCookies = async (
     for (const obj of cleanReasonObjs) {
       // Cannot set cookies from file:// protocols
       if (obj.cookie.preparedCookieDomain.startsWith("file:")) {
-        cadLog(
+        adcpLog(
           {
             msg: "Cookie appears to come from a local file.  Cannot be restored normally.",
             type: "warn",
@@ -166,7 +166,7 @@ const restoreCookies = async (
       }
       // Silently ignore cookies with no domain
       if (obj.cookie.preparedCookieDomain.trim() === "") {
-        cadLog(
+        adcpLog(
           {
             msg: "Cookie appears to have no domain.  Cannot restore.",
             type: "warn",
@@ -215,7 +215,7 @@ const restoreCookies = async (
         e,
         getSetting(state, SettingID.NOTIFY_DURATION) as number
       );
-      cadLog(
+      adcpLog(
         {
           msg: "An Error occurred while trying to restore cookie(s).  The rest of the cookies to restore are not processed.",
           type: "error",

@@ -14,7 +14,7 @@
 import { SettingID, SiteDataType } from "../typings/enums";
 import StoreUser from "./store-user";
 import { validateSettings } from "../redux/actions";
-import { cadLog, siteDataToBrowser, SITEDATATYPES } from "./libs";
+import { adcpLog, siteDataToBrowser, SITEDATATYPES } from "./libs";
 import { checkIfProtected, setGlobalIcon } from "./browser-action-service";
 import ContextMenuEvents from "./context-menu-events";
 import { ReduxConstants } from "../typings/redux-constants";
@@ -52,7 +52,7 @@ export default class SettingService extends StoreUser {
           SettingService.getCurrent(SettingID.SITEDATA_EMPTY_ON_ENABLE) ===
           false
         ) {
-          cadLog(
+          adcpLog(
             {
               msg: `${siteData} setting activated, but Empty Site Data on Enable is false. Existing site data kept.`,
               type: "info",
@@ -65,7 +65,7 @@ export default class SettingService extends StoreUser {
           { since: 0 },
           { [siteDataToBrowser(siteData)]: true }
         );
-        cadLog(
+        adcpLog(
           {
             msg: `${siteData} setting activated.  All previous ${siteData} has been cleared for a clean slate.`,
             type: "info",

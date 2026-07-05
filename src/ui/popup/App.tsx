@@ -19,7 +19,7 @@ import {
   updateSetting,
 } from "../../redux/actions";
 import {
-  CADCOOKIENAME,
+  ADCPCOOKIENAME,
   extractMainDomain,
   getAllCookiesForDomain,
   getHostname,
@@ -98,7 +98,7 @@ class App extends Component<PopupAppComponentProps, InitialState> {
     this.setState({
       cookieCount: cookies
         ? cookies.length -
-          cookies.filter((cookie) => cookie.name === CADCOOKIENAME).length
+          cookies.filter((cookie) => cookie.name === ADCPCOOKIENAME).length
         : 0,
     });
   }
@@ -124,7 +124,7 @@ class App extends Component<PopupAppComponentProps, InitialState> {
     if (!this.port) {
       if (hostname) {
         this.port = browser.runtime.connect({
-          name: `popupCAD_${hostname},${storeId.replace(",", "-")}`,
+          name: `popupADCP_${hostname},${storeId.replace(",", "-")}`,
         });
         this.port.onMessage.addListener((m) => {
           const msg = m as CookieCountMsg;
