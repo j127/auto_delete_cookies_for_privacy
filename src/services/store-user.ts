@@ -1,3 +1,5 @@
+/* istanbul ignore file: Redux init. */
+
 /**
  * Copyright (c) 2017-2022 Kenny Do and CAD Team (https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/graphs/contributors)
  * Licensed under MIT (https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/blob/3.X.X-Branch/LICENSE)
@@ -10,31 +12,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-/* istanbul ignore file: React-redux init */
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createUIStore } from 'redux-webext';
-import { sleep } from '../../services/libs';
-import fontAwesomeImports from '../font-awesome-imports';
-import App from './app';
+import { Store } from 'redux';
+import { ReduxAction } from '../typings/redux-constants';
 
-fontAwesomeImports();
-
-async function initApp() {
-  let store = await createUIStore();
-  while (!store.getState()) {
-    await sleep(250);
-    store = await createUIStore();
+export default class StoreUser {
+  public static init(store: Store): void {
+    StoreUser.store = store;
   }
-  const mountNode = document.createElement('div');
-  document.body.appendChild(mountNode);
-
-  ReactDOM.render(
-    <Provider store={store}>
-      <App />
-    </Provider>,
-    mountNode,
-  );
+  protected static store: Store<State, ReduxAction>;
 }
-
-initApp();
