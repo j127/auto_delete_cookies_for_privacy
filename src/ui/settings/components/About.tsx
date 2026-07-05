@@ -75,16 +75,16 @@ class About extends React.Component<AboutProps> {
           <br />
           <b>{browser.runtime.getManifest().version}</b>
         </h5>
-        <a href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/issues">
+        <a href="https://github.com/j127/autodelete_cookies_for_privacy/issues">
           {browser.i18n.getMessage("reportIssuesText")}
         </a>{" "}
         <br />
         <br />
-        <a href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/Documentation">
+        <a href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/introduction.md">
           <span>{`${browser.i18n.getMessage("documentationText")}`}</span>
         </a>
         <br />
-        <a href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/FAQ:-Common-Questions-and-Issues">
+        <a href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/faq.md">
           <span>{`${browser.i18n.getMessage("faqText")}`}</span>
         </a>
         <br />
@@ -97,15 +97,11 @@ class About extends React.Component<AboutProps> {
           </li>
           <li>kennethtran93 (UI bug fixes and then some)</li>
           <li>
-            <a href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/graphs/contributors">
+            <a href="https://github.com/j127/autodelete_cookies_for_privacy/graphs/contributors">
               GitHub Contributors
             </a>
           </li>
-          <li>
-            <a href="https://crowdin.com/project/cookie-autodelete">
-              Crowdin Contributors
-            </a>
-          </li>
+          <li>Crowdin translation community (original locale files)</li>
         </ul>
         <br />
         <h3>{browser.i18n.getMessage("debugTitle")}</h3>

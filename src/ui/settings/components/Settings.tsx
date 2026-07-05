@@ -283,7 +283,7 @@ class Settings extends React.Component<SettingProps> {
               settingObject={settings[SettingID.ACTIVE_MODE]}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
-            <SettingsTooltip hrefURL={"#enable-automatic-cleaning"} />
+            <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
           </div>
           <div className="form-group">
             <input
@@ -309,7 +309,7 @@ class Settings extends React.Component<SettingProps> {
               {browser.i18n.getMessage("secondsText")}{" "}
               {browser.i18n.getMessage("activeModeDelayText")}
             </label>
-            <SettingsTooltip hrefURL={"#delay-before-automatic-cleaning"} />
+            <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
           </div>
           <div className="form-group">
             <CheckboxSetting
@@ -319,7 +319,7 @@ class Settings extends React.Component<SettingProps> {
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
             <SettingsTooltip
-              hrefURL={"#enable-cleanup-for-discardedunloaded-tabs"}
+              hrefURL={"settings.md#automatic-cleaning-options"}
             />
           </div>
           <div className="form-group">
@@ -329,7 +329,7 @@ class Settings extends React.Component<SettingProps> {
               inline={true}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
-            <SettingsTooltip hrefURL={"#enable-cleanup-on-domain-change"} />
+            <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
           </div>
           <div className="form-group">
             <CheckboxSetting
@@ -339,7 +339,7 @@ class Settings extends React.Component<SettingProps> {
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
             <SettingsTooltip
-              hrefURL={"#enable-greylist-cleanup-on-browser-restart"}
+              hrefURL={"settings.md#automatic-cleaning-options"}
             />
           </div>
           <div className="form-group">
@@ -350,7 +350,7 @@ class Settings extends React.Component<SettingProps> {
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
             <SettingsTooltip
-              hrefURL={"#clean-cookies-from-open-tabs-on-startup"}
+              hrefURL={"settings.md#automatic-cleaning-options"}
             />
           </div>
           <div className="form-group">
@@ -360,7 +360,7 @@ class Settings extends React.Component<SettingProps> {
               text={browser.i18n.getMessage("cleanExpiredCookiesText")}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
-            <SettingsTooltip hrefURL={"#clean-all-expired-cookies"} />
+            <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
           </div>
         </fieldset>
         <hr />
@@ -370,7 +370,7 @@ class Settings extends React.Component<SettingProps> {
             {browser.i18n.getMessage("groupExpressionDefaultNotice", [
               browser.i18n.getMessage("expressionListText"),
             ])}{" "}
-            <SettingsTooltip hrefURL={"#default-expression-options"} />
+            <SettingsTooltip hrefURL={"settings.md#expression-options"} />
           </div>
         </fieldset>
         <hr />
@@ -386,9 +386,7 @@ class Settings extends React.Component<SettingProps> {
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
             <SettingsTooltip
-              hrefURL={
-                "#clean-existing-data-for-newly-enabled-browsing-data-types"
-              }
+              hrefURL={"settings.md#other-browsing-data-cleanup-options"}
             />
           </div>
           <div
@@ -413,7 +411,7 @@ class Settings extends React.Component<SettingProps> {
               inline={true}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
-            <SettingsTooltip hrefURL={"#other-browsing-data-cleanup-options"} />
+            <SettingsTooltip hrefURL={"settings.md#other-browsing-data-cleanup-options"} />
           </div>
           <div className="form-group">
             <CheckboxSetting
@@ -422,7 +420,7 @@ class Settings extends React.Component<SettingProps> {
               inline={true}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
-            <SettingsTooltip hrefURL={"#other-browsing-data-cleanup-options"} />
+            <SettingsTooltip hrefURL={"settings.md#other-browsing-data-cleanup-options"} />
           </div>
           <div className="form-group">
             <CheckboxSetting
@@ -431,7 +429,7 @@ class Settings extends React.Component<SettingProps> {
               inline={true}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
-            <SettingsTooltip hrefURL={"#other-browsing-data-cleanup-options"} />
+            <SettingsTooltip hrefURL={"settings.md#other-browsing-data-cleanup-options"} />
           </div>
           <div className="form-group">
             <CheckboxSetting
@@ -440,7 +438,7 @@ class Settings extends React.Component<SettingProps> {
               inline={true}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
-            <SettingsTooltip hrefURL={"#other-browsing-data-cleanup-options"} />
+            <SettingsTooltip hrefURL={"settings.md#other-browsing-data-cleanup-options"} />
           </div>
           <div className="form-group">
             <CheckboxSetting
@@ -449,7 +447,7 @@ class Settings extends React.Component<SettingProps> {
               inline={true}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
-            <SettingsTooltip hrefURL={"#other-browsing-data-cleanup-options"} />
+            <SettingsTooltip hrefURL={"settings.md#other-browsing-data-cleanup-options"} />
           </div>
         </fieldset>
         <hr />
@@ -462,7 +460,7 @@ class Settings extends React.Component<SettingProps> {
               inline={true}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
-            <SettingsTooltip hrefURL={"#enable-cleanup-log-and-counter"} />
+            <SettingsTooltip hrefURL={"settings.md#extension-options"} />
             {settings[SettingID.STAT_LOGGING].value && (
               <div className="alert alert-warning">
                 {browser.i18n.getMessage("noPrivateLogging")}
@@ -477,7 +475,7 @@ class Settings extends React.Component<SettingProps> {
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
             <SettingsTooltip
-              hrefURL={"#show-number-of-cookies-for-that-domain"}
+              hrefURL={"settings.md#extension-options"}
             />
           </div>
           {settings[SettingID.NUM_COOKIES_ICON].value === true && (
@@ -489,7 +487,7 @@ class Settings extends React.Component<SettingProps> {
                 updateSetting={(payload) => onUpdateSetting(payload)}
               />
               <SettingsTooltip
-                hrefURL={"#keep-default-icon-on-all-list-types"}
+                hrefURL={"settings.md#extension-options"}
               />
             </div>
           )}
@@ -501,7 +499,7 @@ class Settings extends React.Component<SettingProps> {
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
             <SettingsTooltip
-              hrefURL={"#show-notification-after-automatic-cleanup"}
+              hrefURL={"settings.md#extension-options"}
             />
           </div>
           <div className="form-group">
@@ -512,7 +510,7 @@ class Settings extends React.Component<SettingProps> {
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
             <SettingsTooltip
-              hrefURL={"#show-notification-from-manual-site-data-cleanups"}
+              hrefURL={"settings.md#extension-options"}
             />
           </div>
           <div className="form-group">
@@ -527,7 +525,7 @@ class Settings extends React.Component<SettingProps> {
                 onUpdateSetting(payload);
               }}
             />
-            <SettingsTooltip hrefURL={"#duration-for-notifications"} />
+            <SettingsTooltip hrefURL={"settings.md#extension-options"} />
           </div>
           <div className="form-group">
             <CheckboxSetting
@@ -537,7 +535,7 @@ class Settings extends React.Component<SettingProps> {
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
             <SettingsTooltip
-              hrefURL={"#enable-popup-when-new-version-is-released"}
+              hrefURL={"settings.md#extension-options"}
             />
           </div>
           <div className="form-group">
@@ -548,7 +546,7 @@ class Settings extends React.Component<SettingProps> {
               text={browser.i18n.getMessage("sizePopupText")}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
-            <SettingsTooltip hrefURL={"#size-of-popup"} />
+            <SettingsTooltip hrefURL={"settings.md#extension-options"} />
           </div>
           <div className="form-group">
             <SelectInput
@@ -560,7 +558,7 @@ class Settings extends React.Component<SettingProps> {
                 onUpdateSetting(payload);
               }}
             />
-            <SettingsTooltip hrefURL={"#size-of-setting"} />
+            <SettingsTooltip hrefURL={"settings.md#extension-options"} />
           </div>
           <div className="form-group">
             <CheckboxSetting
@@ -569,7 +567,7 @@ class Settings extends React.Component<SettingProps> {
               inline={true}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
-            <SettingsTooltip hrefURL={"#enable-context-menus"} />
+            <SettingsTooltip hrefURL={"settings.md#extension-options"} />
           </div>
           <div className="form-group">
             <CheckboxSetting
@@ -578,7 +576,7 @@ class Settings extends React.Component<SettingProps> {
               inline={true}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
-            <SettingsTooltip hrefURL={"#debug-mode"} />
+            <SettingsTooltip hrefURL={"settings.md#extension-options"} />
             {settings[SettingID.DEBUG_MODE].value && (
               <div className="alert alert-info">
                 <p>{browser.i18n.getMessage("openDebugMode")}</p>

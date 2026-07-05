@@ -55,15 +55,10 @@
     "type": "git",
     "url": "https://github.com/j127/autodelete_cookies_for_privacy.git"
   },
-  "author": "Kenny Do",
+  "author": "j127",
   "contributors": [
     {
-      "name": "CAD Team",
-      "url": "https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/graphs/contributors"
-    },
-    {
-      "name": "j127 (fork maintainer)",
-      "url": "https://github.com/j127"
+      "name": "Original authors: Kenny Do and the CAD Team (see LICENSE)"
     }
   ],
   "license": "MIT",

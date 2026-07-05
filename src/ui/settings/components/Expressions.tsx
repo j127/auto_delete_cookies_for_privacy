@@ -365,10 +365,10 @@ class Expressions extends React.Component<ExpressionProps> {
           <a
             target="_blank"
             rel="help noreferrer noopener"
-            href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/Documentation#enter-expression"
+            href="https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
           >
             {browser.i18n.getMessage("questionExpression")}
-            <SettingsTooltip hrefURL="#enter-expression" />
+            <SettingsTooltip hrefURL="expressions.md#writing-expressions" />
           </a>
         </div>
         <div
