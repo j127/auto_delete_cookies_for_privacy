@@ -52,9 +52,7 @@ const SelectInput: React.FunctionComponent<OwnProps> = ({
         value={value as string}
       >
         {options.map((opt) => (
-          <option key={`${name}-${opt}`} selected={opt === value}>
-            {opt}
-          </option>
+          <option key={`${name}-${opt}`}>{opt}</option>
         ))}
       </select>
       <label htmlFor={name} aria-labelledby={name}>
