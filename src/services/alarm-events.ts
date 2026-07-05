@@ -72,7 +72,7 @@ export default class AlarmEvents extends StoreUser {
         const data = await browser.storage.session.get({
           pendingCleanup: null,
         });
-        if (!data.pendingCleanup) {
+        if (!data || !data.pendingCleanup) {
           // The other path (timeout vs alarm) already ran this cleanup.
           return;
         }

@@ -374,9 +374,11 @@ export default class TabEvents extends StoreUser {
 
   /** Write-through persistence for the in-memory tabToDomain cache. */
   protected static persistTabToDomain(): void {
-    browser.storage.session
-      ?.set({ tabToDomain: TabEvents.tabToDomain })
-      .catch(() => undefined);
+    // Promise.resolve guards both a missing storage.session and non-promise
+    // returns from test mocks.
+    Promise.resolve(
+      browser.storage.session?.set({ tabToDomain: TabEvents.tabToDomain })
+    ).catch(() => undefined);
   }
 
   // Add a delay to prevent multiple spawns of the browsingDataCleanup cookie
