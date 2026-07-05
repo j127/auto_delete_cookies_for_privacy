@@ -183,11 +183,11 @@ describe("ContextMenuEvents", () => {
     it("should show error if failed", () => {
       global.browser.runtime.lastError = "testError";
       ContextMenuEvents.onCreatedOrUpdated();
-      // The if statements both perform cadLog, so we need to check for the error one.
-      expect(spyLib.cadLog.mock.calls[0][0].msg.indexOf("testError")).not.toBe(
+      // The if statements both perform adcpLog, so we need to check for the error one.
+      expect(spyLib.adcpLog.mock.calls[0][0].msg.indexOf("testError")).not.toBe(
         -1
       );
-      expect(spyLib.cadLog.mock.calls[0][0].type).toBe("error");
+      expect(spyLib.adcpLog.mock.calls[0][0].type).toBe("error");
       global.browser.runtime.lastError = undefined;
     });
   });
@@ -206,12 +206,12 @@ describe("ContextMenuEvents", () => {
         .calledWith(expect.any(Object), expect.any(Object))
         .mockResolvedValue(true as never);
     });
-    it("should show warning through cadLog if menuId given is unknown", () => {
+    it("should show warning through adcpLog if menuId given is unknown", () => {
       ContextMenuEvents.onContextMenuClicked(defaultOnClickData, sampleTab);
       expect(
-        spyLib.cadLog.mock.calls[1][0].msg.indexOf("unknown menu id")
+        spyLib.adcpLog.mock.calls[1][0].msg.indexOf("unknown menu id")
       ).not.toBe(-1);
-      expect(spyLib.cadLog.mock.calls[1][0].type).toBe("warn");
+      expect(spyLib.adcpLog.mock.calls[1][0].type).toBe("warn");
     });
     // Manual Clean Menu
     it("Trigger Normal Clean", () => {

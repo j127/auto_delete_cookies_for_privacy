@@ -34,7 +34,7 @@ import {
 import ContextMenuEvents from "./services/context-menu-events";
 import CookieEvents from "./services/cookie-events";
 import {
-  cadLog,
+  adcpLog,
   convertVersionToNumber,
   extractMainDomain,
   getSetting,
@@ -112,7 +112,7 @@ const init = async (): Promise<Store<State, ReduxAction>> => {
       await ContextMenuEvents.menuInit();
     }
   } catch (e) {
-    cadLog(
+    adcpLog(
       {
         msg: `background.init: non-critical initialization failed (icons/menus): ${e}`,
         type: "error",
@@ -121,7 +121,7 @@ const init = async (): Promise<Store<State, ReduxAction>> => {
     );
   }
 
-  cadLog(
+  adcpLog(
     {
       msg: `background.init has been executed`,
       type: "info",
@@ -158,7 +158,7 @@ async function onCookiePopupUpdates(changeInfo: {
   const cDomain = extractMainDomain(changeInfo.cookie.domain);
   cookiePopupPorts.forEach((p) => {
     if (!p.name) return;
-    if (!p.name.startsWith("popupCAD_")) return;
+    if (!p.name.startsWith("popupADCP_")) return;
     const pn = p.name.slice(9).split(",");
     if (pn[0].endsWith(changeInfo.cookie.domain) || pn[0].endsWith(cDomain)) {
       p.postMessage({ cookieUpdated: true });
@@ -167,9 +167,9 @@ async function onCookiePopupUpdates(changeInfo: {
 }
 
 function handleConnect(p: browser.runtime.Port) {
-  if (!p.name || !p.name.startsWith("popupCAD_")) return;
+  if (!p.name || !p.name.startsWith("popupADCP_")) return;
   p.onMessage.addListener((m) => {
-    cadLog(
+    adcpLog(
       {
         msg: "Received unexpected message from CAD Popup",
         type: "warn",
@@ -194,7 +194,7 @@ function handleConnect(p: browser.runtime.Port) {
 
 const greyCleanup = () => {
   if (getSetting(store.getState(), SettingID.ACTIVE_MODE)) {
-    cadLog(
+    adcpLog(
       {
         msg: `background.greyCleanup:  dispatching browser restart greyCleanup.`,
       },
@@ -263,7 +263,7 @@ browser.runtime.onMessage.addListener((msg: any) => {
     ready
       .then((s) => dispatchBridgeAction(s, backgroundActions, msg.action))
       .catch((e) => {
-        cadLog(
+        adcpLog(
           {
             msg: `background.onMessage DISPATCH failed: ${e}`,
             type: "error",
@@ -302,7 +302,7 @@ browser.runtime.onStartup.addListener(async () => {
     if (getSetting(store.getState(), SettingID.ENABLE_GREYLIST) === true) {
       greyCleanup();
     } else {
-      cadLog(
+      adcpLog(
         {
           msg: "GreyList Cleanup setting is disabled.  Not cleaning cookies on startup.",
           type: "info",

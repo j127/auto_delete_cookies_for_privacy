@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { resetSettings, updateSetting } from "../../../redux/actions";
 import { initialState } from "../../../redux/state";
-import { cadLog } from "../../../services/libs";
+import { adcpLog } from "../../../services/libs";
 import { ReduxAction } from "../../../typings/redux-constants";
 import CheckboxSetting from "../../common-components/CheckboxSetting";
 import IconButton from "../../common-components/IconButton";
@@ -63,7 +63,7 @@ class Settings extends React.Component<SettingProps> {
   public importCoreSettings(importFile: File) {
     const { settings } = this.props;
     const debug = settings[SettingID.DEBUG_MODE].value as boolean;
-    cadLog(
+    adcpLog(
       {
         msg: "Import Core Settings received file for parsing.",
         x: {
@@ -104,7 +104,7 @@ class Settings extends React.Component<SettingProps> {
         const jsonImport: { [k: string]: Record<string, unknown> } =
           JSON.parse(result);
         if (!jsonImport.settings) {
-          cadLog(
+          adcpLog(
             {
               msg: 'importCoreSettings:  Imported JSON does not have "settings" array',
               x: jsonImport,
@@ -145,7 +145,7 @@ class Settings extends React.Component<SettingProps> {
         }
         settingKeys.forEach((setting) => {
           if (settings[setting].value !== newSettings[setting].value) {
-            cadLog(
+            adcpLog(
               {
                 msg: `Setting updated:  ${setting} (${settings[setting].value} => ${newSettings[setting].value})`,
               },
@@ -153,7 +153,7 @@ class Settings extends React.Component<SettingProps> {
             );
             onUpdateSetting(newSettings[setting]);
           } else {
-            cadLog(
+            adcpLog(
               {
                 msg: `Setting remains unchanged:  ${setting} (${settings[setting].value})`,
               },
@@ -186,7 +186,7 @@ class Settings extends React.Component<SettingProps> {
       { settings: exportSettings },
       "CoreSettings"
     );
-    cadLog(
+    adcpLog(
       {
         msg: "exportCoreSettings: Core Settings Exported.",
         type: "info",

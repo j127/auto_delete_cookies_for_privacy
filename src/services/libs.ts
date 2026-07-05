@@ -20,7 +20,7 @@ import {
 import ipaddr from "ipaddr.js";
 
 /* --- CONSTANTS --- */
-export const CADCOOKIENAME = "CookieAutoDeleteBrowsingDataCleanup";
+export const ADCPCOOKIENAME = "ADCPBrowsingDataCleanup";
 export const SITEDATATYPES = [
   SiteDataType.CACHE,
   SiteDataType.INDEXEDDB,
@@ -40,7 +40,7 @@ export const SITEDATATYPES = [
  */
 export const uid = (): string => crypto.randomUUID();
 
-export const cadLog = (x: CADLogItem, output: boolean): void => {
+export const adcpLog = (x: ADCPLogItem, output: boolean): void => {
   if (!x.msg || x.msg.trim() === "") return;
   if (!output) return;
   const h = `ADCP_${browser.runtime.getManifest().version}`;
@@ -201,7 +201,7 @@ export const getAllCookiesForDomain = async (
   const { cookieStoreId, url } = tab;
   const hostname = getHostname(url);
   if (hostname === "") {
-    cadLog(
+    adcpLog(
       {
         msg: "Libs.getAllCookiesForDomain:  hostname parsed empty for tab url.",
         x: { partialTabInfo, hostname },
@@ -217,7 +217,7 @@ export const getAllCookiesForDomain = async (
       storeId: cookieStoreId,
     });
     const regExp = new RegExp(hostname.slice(7)); // take out 'file://'
-    cadLog(
+    adcpLog(
       {
         msg: "Libs.getAllCookiesForDomain:  Local File Regex to rest on cookie.path",
         x: { partialTabInfo, hostname, regExp: regExp.toString() },
@@ -228,7 +228,7 @@ export const getAllCookiesForDomain = async (
       .filter((c) => c.domain === "" && regExp.test(c.path))
       .forEach((cc) => cookies.push(cc));
   } else {
-    cadLog(
+    adcpLog(
       {
         msg: "Libs.getAllCookiesForDomain:  browser.cookies.getAll for domain.",
         x: {
@@ -245,7 +245,7 @@ export const getAllCookiesForDomain = async (
     cookiesDomain.forEach((c) => cookies.push(c));
   }
 
-  cadLog(
+  adcpLog(
     {
       msg: "Libs.getAllCookiesForDomain:  Filtered Cookie Count",
       x: {
@@ -264,7 +264,7 @@ export const getAllCookiesForDomain = async (
 /**
  * Gets the default expression options depending on the list/storeId.
  * If storeId is not default, it will try to get defaults set in default list
- * before using CAD defaults (all checked).
+ * before using ADCP defaults (all checked).
  * @param state The State (store.getState())
  * @param storeId The container id, or 'default'
  * @param listType The List Type
@@ -625,7 +625,7 @@ export const showNotification = (
   display = true
 ): void => {
   if (!display) return;
-  const sid = `CAD-notification-${uid()}`;
+  const sid = `ADCP-notification-${uid()}`;
   browser.notifications.create(sid, {
     iconUrl: browser.runtime.getURL("icons/icon_48.png"),
     message: x.msg,
@@ -664,7 +664,7 @@ export const sleep = (ms: number): Promise<any> => {
  * @param duration number in seconds
  */
 export const throwErrorNotification = (e: Error, duration: number): void => {
-  const nid = `CAD-notification-failed-${uid()}`;
+  const nid = `ADCP-notification-failed-${uid()}`;
   browser.notifications.create(nid, {
     iconUrl: browser.runtime.getURL("icons/icon_red_48.png"),
     message: e.message,

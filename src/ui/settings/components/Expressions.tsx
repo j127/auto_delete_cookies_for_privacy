@@ -20,7 +20,7 @@ import {
   removeListUI,
 } from "../../../redux/actions";
 import {
-  cadLog,
+  adcpLog,
   getMatchedExpressions,
   getSetting,
   validateExpressionDomain,
@@ -249,7 +249,7 @@ class Expressions extends React.Component<ExpressionProps> {
           listKeys.length.toString(),
         ])
       );
-      cadLog(
+      adcpLog(
         {
           msg: `Clear Expressions Prompt returned [ ${r} ]`,
           type: "info",
@@ -282,7 +282,7 @@ class Expressions extends React.Component<ExpressionProps> {
           list.toString(),
         ])
       );
-      cadLog(
+      adcpLog(
         {
           msg: `Remove Expressions Prompt for ${list} returned [ ${r} ]`,
           type: "info",

@@ -170,7 +170,7 @@ describe("TabEvents", () => {
       expect(spyBrowserActions.checkIfProtected.mock.calls[0][2]).toBe(1);
     });
 
-    it("should create a cookie if clean cache was enabled and no CAD cookie was found", async () => {
+    it("should create a cookie if clean cache was enabled and no ADCP marker cookie was found", async () => {
       when(global.browser.cookies.getAll)
         .calledWith({ domain: "cookie.net", storeId: "0" })
         .mockResolvedValue([] as never);
@@ -182,7 +182,7 @@ describe("TabEvents", () => {
       expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
     });
 
-    it("should create a cookie if clean indexedDB was enabled and no CAD cookie was found", async () => {
+    it("should create a cookie if clean indexedDB was enabled and no ADCP marker cookie was found", async () => {
       when(global.browser.cookies.getAll)
         .calledWith({ domain: "cookie.net", storeId: "0" })
         .mockResolvedValue([] as never);
@@ -194,7 +194,7 @@ describe("TabEvents", () => {
       expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
     });
 
-    it("should create a cookie if clean localStorage was enabled and no CAD cookie was found", async () => {
+    it("should create a cookie if clean localStorage was enabled and no ADCP marker cookie was found", async () => {
       when(global.browser.cookies.getAll)
         .calledWith({ domain: "cookie.net", storeId: "0" })
         .mockResolvedValue([] as never);
@@ -206,7 +206,7 @@ describe("TabEvents", () => {
       expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
     });
 
-    it("should create a cookie if clean plugin data was enabled and no CAD cookie was found", async () => {
+    it("should create a cookie if clean plugin data was enabled and no ADCP marker cookie was found", async () => {
       when(global.browser.cookies.getAll)
         .calledWith({ domain: "cookie.net", storeId: "0" })
         .mockResolvedValue([] as never);
@@ -218,7 +218,7 @@ describe("TabEvents", () => {
       expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
     });
 
-    it("should create a cookie if clean service workers was enabled and no CAD cookie was found", async () => {
+    it("should create a cookie if clean service workers was enabled and no ADCP marker cookie was found", async () => {
       when(global.browser.cookies.getAll)
         .calledWith({ domain: "cookie.net", storeId: "0" })
         .mockResolvedValue([] as never);
@@ -234,7 +234,7 @@ describe("TabEvents", () => {
       when(global.browser.cookies.getAll)
         .calledWith({ domain: "cookie.net", storeId: "0" })
         .mockResolvedValue([
-          { ...testCookie, name: Lib.CADCOOKIENAME },
+          { ...testCookie, name: Lib.ADCPCOOKIENAME },
         ] as never);
       await TabEvents.getAllCookieActions({
         ...sampleTab,
@@ -272,7 +272,7 @@ describe("TabEvents", () => {
       TestStore.changeSetting(SettingID.CLEAN_DISCARDED, true);
       TestStore.changeSetting(SettingID.DEBUG_MODE, true);
       TabEvents.onTabDiscarded(0, { ...sampleChangeInfo }, sampleTab);
-      expect(spyLib.cadLog.mock.calls[0][0].x.changeInfo.favIconUrl).toBe(
+      expect(spyLib.adcpLog.mock.calls[0][0].x.changeInfo.favIconUrl).toBe(
         "***"
       );
     });
@@ -311,7 +311,7 @@ describe("TabEvents", () => {
         ...sampleTab,
         status: "complete",
       });
-      expect(spyLib.cadLog.mock.calls[0][0].x.changeInfo.favIconUrl).toBe(
+      expect(spyLib.adcpLog.mock.calls[0][0].x.changeInfo.favIconUrl).toBe(
         "***"
       );
     });
@@ -361,7 +361,7 @@ describe("TabEvents", () => {
         ...sampleTab,
         status: "complete",
       });
-      expect(spyLib.cadLog.mock.calls[0][0].x.changeInfo.favIconUrl).toBe(
+      expect(spyLib.adcpLog.mock.calls[0][0].x.changeInfo.favIconUrl).toBe(
         "***"
       );
     });

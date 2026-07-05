@@ -72,7 +72,7 @@ type CookieCountMsg = Readonly<{
   cookieUpdated?: boolean;
 }>;
 
-type CADLogItem = Readonly<{
+type ADCPLogItem = Readonly<{
   type?: string;
   level?: number;
   msg?: string;

@@ -20,7 +20,7 @@ import {
 import { when } from "jest-when";
 import { initialState } from "../../src/redux/state";
 import {
-  cadLog,
+  adcpLog,
   convertVersionToNumber,
   createPartialTabInfo,
   eventListenerActions,
@@ -65,7 +65,7 @@ const mockCookie: browser.cookies.Cookie = {
 };
 
 describe("Library Functions", () => {
-  describe("cadLog()", () => {
+  describe("adcpLog()", () => {
     beforeAll(() => {
       when(global.browser.runtime.getManifest)
         .calledWith()
@@ -108,13 +108,13 @@ describe("Library Functions", () => {
 
     it("should do nothing if output=false", () => {
       expect.assertions(1);
-      cadLog({ msg: "nothing" }, false);
+      adcpLog({ msg: "nothing" }, false);
       expect(consoleOutput.length).toBe(0);
     });
 
     it("should format the Log Header with manifest version", () => {
       expect.assertions(1);
-      cadLog({ msg: "headerTest" }, true);
+      adcpLog({ msg: "headerTest" }, true);
       expect(consoleOutput).toEqual([
         { type: "debug", msg: "ADCP_0.12.34 - debug - headerTest\n" },
       ]);
@@ -122,49 +122,49 @@ describe("Library Functions", () => {
 
     it("should output to debug when no type is given", () => {
       expect.assertions(1);
-      cadLog({ msg: "noType" }, true);
+      adcpLog({ msg: "noType" }, true);
       expect(consoleOutput).toEqual([
         { type: "debug", msg: "ADCP_0.12.34 - debug - noType\n" },
       ]);
     });
     it("should output to debug when type is debug", () => {
       expect.assertions(1);
-      cadLog({ type: "debug", msg: "debugType" }, true);
+      adcpLog({ type: "debug", msg: "debugType" }, true);
       expect(consoleOutput).toEqual([
         { type: "debug", msg: "ADCP_0.12.34 - debug - debugType\n" },
       ]);
     });
     it("should output to error when type is error", () => {
       expect.assertions(1);
-      cadLog({ type: "error", msg: "errorType" }, true);
+      adcpLog({ type: "error", msg: "errorType" }, true);
       expect(consoleOutput).toEqual([
         { type: "error", msg: "ADCP_0.12.34 - error - errorType\n" },
       ]);
     });
     it("should output to info when type is info", () => {
       expect.assertions(1);
-      cadLog({ type: "info", msg: "infoType" }, true);
+      adcpLog({ type: "info", msg: "infoType" }, true);
       expect(consoleOutput).toEqual([
         { type: "info", msg: "ADCP_0.12.34 - info - infoType\n" },
       ]);
     });
     it("should output to log when type is log", () => {
       expect.assertions(1);
-      cadLog({ type: "log", msg: "logType" }, true);
+      adcpLog({ type: "log", msg: "logType" }, true);
       expect(consoleOutput).toEqual([
         { type: "log", msg: "ADCP_0.12.34 - log - logType\n" },
       ]);
     });
     it("should output to warn when type is warn", () => {
       expect.assertions(1);
-      cadLog({ type: "warn", msg: "warnType" }, true);
+      adcpLog({ type: "warn", msg: "warnType" }, true);
       expect(consoleOutput).toEqual([
         { type: "warn", msg: "ADCP_0.12.34 - warn - warnType\n" },
       ]);
     });
     it("should default back to debug type when invalid type is given", () => {
       expect.assertions(1);
-      cadLog({ type: "invalid", msg: "invalidType" }, true);
+      adcpLog({ type: "invalid", msg: "invalidType" }, true);
       expect(consoleOutput).toEqual([
         {
           type: "error",
@@ -176,7 +176,7 @@ describe("Library Functions", () => {
 
     it("should display supplied string accordingly", () => {
       expect.assertions(1);
-      cadLog({ msg: "withObject", x: "test." }, true);
+      adcpLog({ msg: "withObject", x: "test." }, true);
       expect(consoleOutput).toEqual([
         { type: "debug", msg: "ADCP_0.12.34 - debug - withObject\ntest." },
       ]);
@@ -184,7 +184,7 @@ describe("Library Functions", () => {
 
     it("should attempt to parse function as string for display", () => {
       expect.assertions(1);
-      cadLog({ msg: "objectFunction", x: RegExp.toString }, true);
+      adcpLog({ msg: "objectFunction", x: RegExp.toString }, true);
       expect(consoleOutput).toEqual([
         {
           type: "warn",
@@ -199,7 +199,7 @@ describe("Library Functions", () => {
 
     it("should parse object for display", () => {
       expect.assertions(1);
-      cadLog({ msg: "objectString", x: { a: "abc" } }, true);
+      adcpLog({ msg: "objectString", x: { a: "abc" } }, true);
       expect(consoleOutput).toEqual([
         {
           type: "debug",
@@ -210,7 +210,7 @@ describe("Library Functions", () => {
 
     it("should parse number as string.", () => {
       expect.assertions(1);
-      cadLog({ msg: "numberString", x: 123 }, true);
+      adcpLog({ msg: "numberString", x: 123 }, true);
       expect(consoleOutput).toEqual([
         { type: "debug", msg: "ADCP_0.12.34 - debug - numberString\n123" },
       ]);
@@ -218,7 +218,7 @@ describe("Library Functions", () => {
 
     it("should parse boolean as string.", () => {
       expect.assertions(1);
-      cadLog({ msg: "booleanString", x: true }, true);
+      adcpLog({ msg: "booleanString", x: true }, true);
       expect(consoleOutput).toEqual([
         { type: "debug", msg: "ADCP_0.12.34 - debug - booleanString\ntrue" },
       ]);
@@ -226,7 +226,7 @@ describe("Library Functions", () => {
 
     it("should parse string as string.", () => {
       expect.assertions(1);
-      cadLog({ msg: "stringString", x: "test" }, true);
+      adcpLog({ msg: "stringString", x: "test" }, true);
       expect(consoleOutput).toEqual([
         { type: "debug", msg: "ADCP_0.12.34 - debug - stringString\ntest" },
       ]);
@@ -234,7 +234,7 @@ describe("Library Functions", () => {
 
     it("should parse undefined as empty string.", () => {
       expect.assertions(1);
-      cadLog({ msg: "undefinedString", x: undefined }, true);
+      adcpLog({ msg: "undefinedString", x: undefined }, true);
       expect(consoleOutput).toEqual([
         { type: "debug", msg: "ADCP_0.12.34 - debug - undefinedString\n" },
       ]);
@@ -242,7 +242,7 @@ describe("Library Functions", () => {
 
     it("should not output to console on empty input object (no message), even if output=true", () => {
       expect.assertions(1);
-      cadLog({}, true);
+      adcpLog({}, true);
       expect(consoleOutput.length).toEqual(0);
     });
   });
@@ -1181,7 +1181,7 @@ describe("Library Functions", () => {
       showNotification({ duration: 1, msg: "Test Notification" });
       expect(global.browser.notifications.create).toHaveBeenCalled();
       expect(global.browser.notifications.create.mock.calls[0][0]).toEqual(
-        expect.stringContaining("CAD-notification-")
+        expect.stringContaining("ADCP-notification-")
       );
       expect(global.browser.notifications.create.mock.calls[0][1]).toEqual(
         expect.objectContaining({
@@ -1322,7 +1322,7 @@ describe("Library Functions", () => {
       throwErrorNotification({ name: "Test Error", message: "An ERROR!" }, 1);
       expect(global.browser.notifications.create).toHaveBeenCalled();
       expect(global.browser.notifications.create.mock.calls[0][0]).toEqual(
-        expect.stringContaining("CAD-notification-failed-")
+        expect.stringContaining("ADCP-notification-failed-")
       );
       expect(global.browser.notifications.create.mock.calls[0][1]).toEqual(
         expect.objectContaining({
