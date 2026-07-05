@@ -11,6 +11,7 @@
  * SOFTWARE.
  */
 
+import { browserName, EventListenerAction, ListType, SettingID, SiteDataType } from "../typings/enums";
 import ipaddr from "ipaddr.js";
 
 /* --- CONSTANTS --- */

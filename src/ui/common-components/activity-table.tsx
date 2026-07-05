@@ -21,7 +21,7 @@ import {
   siteDataToBrowser,
   throwErrorNotification,
 } from "../../services/libs";
-import { FilterOptions } from "../../typings/enums";
+import { FilterOptions, ListType, ReasonClean, ReasonKeep, SettingID, SiteDataType } from "../../typings/enums";
 import { ReduxAction } from "../../typings/redux-constants";
 import IconButton from "./icon-button";
 

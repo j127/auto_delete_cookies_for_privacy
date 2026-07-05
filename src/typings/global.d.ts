@@ -17,20 +17,15 @@ declare module "*.json";
 declare const global: any;
 declare const browserDetect: () => browserName;
 
-/**
- * This only works if browserDetect function doesn't change its return method/string.
- */
-declare const enum browserName {
-  Firefox = "Firefox",
-  Chrome = "Chrome",
-  Safari = "Safari",
-  Opera = "Opera",
-  IE = "IE",
-  Edge = "Edge",
-  EdgeChromium = "EdgeChromium",
-  Blink = "Blink",
-  Unknown = "UnknownBrowser",
-}
+// The enums live in ./enums.ts as real runtime objects (Bun.build cannot
+// inline ambient const enums the way ts-loader/ts-jest did). These aliases
+// keep the names usable in TYPE positions without imports; VALUE usage
+// (Enum.MEMBER) requires importing from src/typings/enums.
+declare type browserName = import("./enums").browserName;
+declare type SiteDataType = import("./enums").SiteDataType;
+declare type SettingID = import("./enums").SettingID;
+declare type ListType = import("./enums").ListType;
+declare type EventListenerAction = import("./enums").EventListenerAction;
 
 type StoreIdToExpressionList = Readonly<{
   [storeId: string]: ReadonlyArray<Expression>;
@@ -65,56 +60,11 @@ type Expression = Readonly<{
   cookieNames?: string[];
 }>;
 
-declare const enum SiteDataType {
-  CACHE = "Cache",
-  INDEXEDDB = "IndexedDB",
-  LOCALSTORAGE = "LocalStorage",
-  PLUGINDATA = "PluginData",
-  SERVICEWORKERS = "ServiceWorkers",
-}
-
 type Setting = Readonly<{
   id?: string | number;
   name: string;
   value: boolean | number | string;
 }>;
-
-declare const enum SettingID {
-  ACTIVE_MODE = "activeMode",
-  CLEAN_DELAY = "delayBeforeClean",
-  CLEAN_DISCARDED = "discardedCleanup",
-  CLEAN_DOMAIN_CHANGE = "domainChangeCleanup",
-  CLEAN_EXPIRED = "cleanExpiredCookies",
-  CLEAN_OPEN_TABS_STARTUP = "cleanCookiesFromOpenTabsOnStartup",
-  CLEANUP_CACHE = "cacheCleanup",
-  CLEANUP_INDEXEDDB = "indexedDBCleanup",
-  CLEANUP_LOCALSTORAGE = "localStorageCleanup",
-  CLEANUP_LOCALSTORAGE_OLD = "localstorageCleanup",
-  CLEANUP_PLUGINDATA = "pluginDataCleanup",
-  CLEANUP_SERVICEWORKERS = "serviceWorkersCleanup",
-  CONTEXT_MENUS = "contextMenus",
-  CONTEXTUAL_IDENTITIES = "contextualIdentities",
-  CONTEXTUAL_IDENTITIES_AUTOREMOVE = "contextualIdentitiesAutoRemove",
-  DEBUG_MODE = "debugMode",
-  ENABLE_GREYLIST = "enableGreyListCleanup",
-  ENABLE_NEW_POPUP = "enableNewVersionPopup",
-  KEEP_DEFAULT_ICON = "keepDefaultIcon",
-  NOTIFY_AUTO = "showNotificationAfterCleanup",
-  NOTIFY_MANUAL = "manualNotifications",
-  NOTIFY_DURATION = "notificationOnScreen",
-  NUM_COOKIES_ICON = "showNumOfCookiesInIcon",
-  OLD_GREY_CLEAN_LOCALSTORAGE = "greyCleanLocalstorage",
-  OLD_WHITE_CLEAN_LOCALSTORAGE = "whiteCleanLocalstorage",
-  SITEDATA_EMPTY_ON_ENABLE = "siteDataEmptyOnEnable",
-  SIZE_POPUP = "sizePopup",
-  SIZE_SETTING = "sizeSetting",
-  STAT_LOGGING = "statLogging",
-}
-
-declare const enum ListType {
-  WHITE = "WHITE",
-  GREY = "GREY",
-}
 
 interface ReleaseNote {
   readonly version: string;
@@ -132,10 +82,5 @@ type CADLogItem = Readonly<{
   msg?: string;
   x?: any;
 }>;
-
-declare const enum EventListenerAction {
-  ADD = "ADD",
-  REMOVE = "REMOVE",
-}
 
 type JestSpyObject = { [s: string]: jest.SpyInstance };

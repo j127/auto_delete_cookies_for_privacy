@@ -13,6 +13,7 @@
 
 // Must be the first import: provides the `browser` and `browserDetect`
 // globals that MV2 supplied via script tags (see src/init-globals.ts).
+import { browserName, ListType, SettingID, SiteDataType } from "./typings/enums";
 import "./init-globals";
 
 import { Store } from "redux";

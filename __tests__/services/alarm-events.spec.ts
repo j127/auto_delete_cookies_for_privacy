@@ -3,6 +3,7 @@
  * Copyright (c) 2017-2022 Kenny Do and CAD Team; fork changes (c) 2026 j127.
  * Licensed under MIT (see LICENSE).
  */
+import { SettingID } from "../../src/typings/enums";
 import { Store } from "redux";
 import * as Actions from "../../src/redux/actions";
 import { initialState } from "../../src/redux/state";

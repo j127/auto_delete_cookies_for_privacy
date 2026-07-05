@@ -11,6 +11,7 @@
  * SOFTWARE.
  */
 
+import { EventListenerAction, SettingID } from "../typings/enums";
 import StoreUser from "./store-user";
 import { removeListUI } from "../redux/actions";
 import contextualIdentitiesChangeInfo = browser.contextualIdentities.contextualIdentitiesChangeInfo;

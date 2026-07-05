@@ -11,6 +11,7 @@
  * SOFTWARE.
  */
 
+import { ListType } from "../typings/enums";
 import { combineReducers } from "redux";
 import { ReduxAction, ReduxConstants } from "../typings/redux-constants";
 import { uid } from "../services/libs";

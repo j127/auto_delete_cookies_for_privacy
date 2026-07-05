@@ -11,6 +11,7 @@
  * SOFTWARE.
  */
 
+import { browserName, ListType, OpenTabStatus, ReasonClean, ReasonKeep, SettingID, SiteDataType } from "../typings/enums";
 import {
   CADCOOKIENAME,
   cadLog,

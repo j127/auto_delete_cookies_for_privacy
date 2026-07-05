@@ -11,8 +11,102 @@
  * SOFTWARE.
  */
 
-export const enum FilterOptions {
+// All of these are PLAIN enums on purpose. They used to be ambient
+// `declare const enum`s in global.d.ts, which only worked while the build
+// had whole-program type information to inline the members (ts-loader,
+// ts-jest). Bun.build transpiles file-by-file and never reads .d.ts files,
+// so the members must exist as real runtime objects that get imported.
+// global.d.ts re-exposes each of them as a global TYPE alias, so
+// type-position uses still work without an import.
+
+export enum FilterOptions {
   NONE,
   CLEAN,
   KEEP,
+}
+
+/**
+ * This only works if browserDetect function doesn't change its return method/string.
+ */
+export enum browserName {
+  Firefox = "Firefox",
+  Chrome = "Chrome",
+  Safari = "Safari",
+  Opera = "Opera",
+  IE = "IE",
+  Edge = "Edge",
+  EdgeChromium = "EdgeChromium",
+  Blink = "Blink",
+  Unknown = "UnknownBrowser",
+}
+
+export enum SiteDataType {
+  CACHE = "Cache",
+  INDEXEDDB = "IndexedDB",
+  LOCALSTORAGE = "LocalStorage",
+  PLUGINDATA = "PluginData",
+  SERVICEWORKERS = "ServiceWorkers",
+}
+
+export enum SettingID {
+  ACTIVE_MODE = "activeMode",
+  CLEAN_DELAY = "delayBeforeClean",
+  CLEAN_DISCARDED = "discardedCleanup",
+  CLEAN_DOMAIN_CHANGE = "domainChangeCleanup",
+  CLEAN_EXPIRED = "cleanExpiredCookies",
+  CLEAN_OPEN_TABS_STARTUP = "cleanCookiesFromOpenTabsOnStartup",
+  CLEANUP_CACHE = "cacheCleanup",
+  CLEANUP_INDEXEDDB = "indexedDBCleanup",
+  CLEANUP_LOCALSTORAGE = "localStorageCleanup",
+  CLEANUP_LOCALSTORAGE_OLD = "localstorageCleanup",
+  CLEANUP_PLUGINDATA = "pluginDataCleanup",
+  CLEANUP_SERVICEWORKERS = "serviceWorkersCleanup",
+  CONTEXT_MENUS = "contextMenus",
+  CONTEXTUAL_IDENTITIES = "contextualIdentities",
+  CONTEXTUAL_IDENTITIES_AUTOREMOVE = "contextualIdentitiesAutoRemove",
+  DEBUG_MODE = "debugMode",
+  ENABLE_GREYLIST = "enableGreyListCleanup",
+  ENABLE_NEW_POPUP = "enableNewVersionPopup",
+  KEEP_DEFAULT_ICON = "keepDefaultIcon",
+  NOTIFY_AUTO = "showNotificationAfterCleanup",
+  NOTIFY_MANUAL = "manualNotifications",
+  NOTIFY_DURATION = "notificationOnScreen",
+  NUM_COOKIES_ICON = "showNumOfCookiesInIcon",
+  OLD_GREY_CLEAN_LOCALSTORAGE = "greyCleanLocalstorage",
+  OLD_WHITE_CLEAN_LOCALSTORAGE = "whiteCleanLocalstorage",
+  SITEDATA_EMPTY_ON_ENABLE = "siteDataEmptyOnEnable",
+  SIZE_POPUP = "sizePopup",
+  SIZE_SETTING = "sizeSetting",
+  STAT_LOGGING = "statLogging",
+}
+
+export enum ListType {
+  WHITE = "WHITE",
+  GREY = "GREY",
+}
+
+export enum EventListenerAction {
+  ADD = "ADD",
+  REMOVE = "REMOVE",
+}
+
+export enum ReasonKeep {
+  OpenTabs = "reasonKeepOpenTab",
+  MatchedExpression = "reasonKeep",
+}
+
+export enum ReasonClean {
+  StartupNoMatchedExpression = "reasonCleanStartupNoList",
+  StartupCleanupAndGreyList = "reasonCleanGreyList",
+  NoMatchedExpression = "reasonCleanNoList",
+  MatchedExpressionButNoCookieName = "reasonCleanCookieName",
+  ExpiredCookie = "reasonCleanCookieExpired",
+  ExpiredCookieRestart = "reasonCleanCookieExpiredRestart",
+  CADSiteDataCookie = "reasonCADSiteDataCookie",
+  CADSiteDataCookieRestart = "reasonCADSiteDataCookieRestart",
+}
+
+export enum OpenTabStatus {
+  TabsWasNotIgnored = "reasonTabsWereNotIgnored",
+  TabsWereIgnored = "reasonTabsWereIgnored",
 }
