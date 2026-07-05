@@ -10,7 +10,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { ListType, SettingID, SiteDataType } from "../../src/typings/enums";
+import { ListType, SettingID, SiteDataType } from "@/typings/enums";
 import {
   activityLog,
   cache,
@@ -20,9 +20,9 @@ import {
   expressions,
   lists,
   settings,
-} from "../../src/redux/reducers";
-import { ReduxConstants } from "../../src/typings/redux-constants";
-import { initialState } from "../../src/redux/state";
+} from "@/redux/reducers";
+import { ReduxConstants } from "@/typings/redux-constants";
+import { initialState } from "@/redux/state";
 
 const mockExpression: Expression = {
   expression: "",

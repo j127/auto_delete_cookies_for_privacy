@@ -11,31 +11,31 @@
  * SOFTWARE.
  */
 
-import { SettingID } from "../../src/typings/enums";
+import { SettingID } from "@/typings/enums";
 import { when } from "jest-when";
 import { Store } from "redux";
 
-import { resetSettings, updateSetting } from "../../src/redux/actions";
-import { initialState } from "../../src/redux/state";
+import { resetSettings, updateSetting } from "@/redux/actions";
+import { initialState } from "@/redux/state";
 // tslint:disable-next-line: import-name
-import createStore from "../../src/redux/store";
-import { ReduxAction, ReduxConstants } from "../../src/typings/redux-constants";
-import AlarmEvents from "../../src/services/alarm-events";
-import * as BrowserActionService from "../../src/services/browser-action-service";
-import * as Lib from "../../src/services/libs";
-import TabEvents from "../../src/services/tab-events";
-import StoreUser from "../../src/services/store-user";
+import createStore from "@/redux/store";
+import { ReduxAction, ReduxConstants } from "@/typings/redux-constants";
+import AlarmEvents from "@/services/alarm-events";
+import * as BrowserActionService from "@/services/browser-action-service";
+import * as Lib from "@/services/libs";
+import TabEvents from "@/services/tab-events";
+import StoreUser from "@/services/store-user";
 
-jest.requireActual("../../src/services/alarm-events");
+jest.requireActual("@/services/alarm-events");
 const spyAlarmEvents: JestSpyObject = global.generateSpies(AlarmEvents);
 const spyBrowserActions: JestSpyObject =
   global.generateSpies(BrowserActionService);
-jest.requireActual("../../src/services/libs");
+jest.requireActual("@/services/libs");
 const spyLib: JestSpyObject = global.generateSpies(Lib);
-jest.requireActual("../../src/services/tab-events");
+jest.requireActual("@/services/tab-events");
 const spyTabEvents: JestSpyObject = global.generateSpies(TabEvents);
 
-jest.requireActual("../../src/services/store-user");
+jest.requireActual("@/services/store-user");
 
 jest.useFakeTimers();
 

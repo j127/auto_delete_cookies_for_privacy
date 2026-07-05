@@ -5,9 +5,9 @@ import * as React from "react";
 import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-import { initialState } from "../../../src/redux/state";
-import { SiteDataType } from "../../../src/typings/enums";
-import CleanDataButton from "../../../src/ui/popup/components/CleanDataButton";
+import { initialState } from "@/redux/state";
+import { SiteDataType } from "@/typings/enums";
+import CleanDataButton from "@/ui/popup/components/CleanDataButton";
 
 describe("CleanDataButton", () => {
   // animateFlash targets this element by id after every click.

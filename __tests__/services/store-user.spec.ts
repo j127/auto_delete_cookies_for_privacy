@@ -1,13 +1,13 @@
 import { Store } from "redux";
-import { updateSetting } from "../../src/redux/actions";
-import { initialState } from "../../src/redux/state";
+import { updateSetting } from "@/redux/actions";
+import { initialState } from "@/redux/state";
 // tslint:disable-next-line: import-name
-import createStore from "../../src/redux/store";
-import StoreUser from "../../src/services/store-user";
-import { SettingID } from "../../src/typings/enums";
-import { ReduxAction } from "../../src/typings/redux-constants";
+import createStore from "@/redux/store";
+import StoreUser from "@/services/store-user";
+import { SettingID } from "@/typings/enums";
+import { ReduxAction } from "@/typings/redux-constants";
 
-jest.requireActual("../../src/services/store-user");
+jest.requireActual("@/services/store-user");
 
 class FirstUser extends StoreUser {
   public static getStore(): Store<State, ReduxAction> {

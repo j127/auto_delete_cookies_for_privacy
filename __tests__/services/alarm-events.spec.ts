@@ -3,18 +3,18 @@
  * Copyright (c) 2017-2022 Kenny Do and CAD Team; fork changes (c) 2026 j127.
  * Licensed under MIT (see LICENSE).
  */
-import { SettingID } from "../../src/typings/enums";
+import { SettingID } from "@/typings/enums";
 import { Store } from "redux";
-import * as Actions from "../../src/redux/actions";
-import { initialState } from "../../src/redux/state";
+import * as Actions from "@/redux/actions";
+import { initialState } from "@/redux/state";
 // tslint:disable-next-line: import-name
-import createStore from "../../src/redux/store";
-import { ReduxAction } from "../../src/typings/redux-constants";
-import AlarmEvents from "../../src/services/alarm-events";
-import StoreUser from "../../src/services/store-user";
+import createStore from "@/redux/store";
+import { ReduxAction } from "@/typings/redux-constants";
+import AlarmEvents from "@/services/alarm-events";
+import StoreUser from "@/services/store-user";
 
-jest.requireActual("../../src/services/alarm-events");
-jest.requireActual("../../src/redux/actions");
+jest.requireActual("@/services/alarm-events");
+jest.requireActual("@/redux/actions");
 
 const store: Store<State, ReduxAction> = createStore(initialState);
 StoreUser.init(store);

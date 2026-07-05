@@ -10,10 +10,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { SettingID } from "../../typings/enums";
+import { SettingID } from "@/typings/enums";
 import * as React from "react";
 import { useSelector } from "react-redux";
-import ErrorBoundary from "../common-components/ErrorBoundary";
+import ErrorBoundary from "@/ui/common-components/ErrorBoundary";
 import About from "./components/About";
 import ActivityLog from "./components/ActivityLog";
 import Expressions from "./components/Expressions";

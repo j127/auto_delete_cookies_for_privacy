@@ -11,14 +11,14 @@
  * SOFTWARE.
  */
 
-import { SiteDataType } from "../../../typings/enums";
+import { SiteDataType } from "@/typings/enums";
 import * as React from "react";
 import { useDispatch, useStore } from "react-redux";
-import { cookieCleanupUI } from "../../../redux/actions";
+import { cookieCleanupUI } from "@/redux/actions";
 import {
   clearCookiesForThisDomain,
   clearLocalStorageForThisDomain,
-} from "../../../services/cleanup-service";
+} from "@/services/cleanup-service";
 import CleanDataButton from "./CleanDataButton";
 
 interface OwnProps {

@@ -11,27 +11,27 @@
  * SOFTWARE.
  */
 
-import { ListType, SettingID } from "../../src/typings/enums";
+import { ListType, SettingID } from "@/typings/enums";
 import { when } from "jest-when";
 import { Store } from "redux";
 
-import * as Actions from "../../src/redux/actions";
-import { initialState } from "../../src/redux/state";
+import * as Actions from "@/redux/actions";
+import { initialState } from "@/redux/state";
 // tslint:disable-next-line: import-name
-import createStore from "../../src/redux/store";
-import { ReduxAction, ReduxConstants } from "../../src/typings/redux-constants";
-import * as CleanupService from "../../src/services/cleanup-service";
-import ContextMenuEvents from "../../src/services/context-menu-events";
-import * as Lib from "../../src/services/libs";
-import StoreUser from "../../src/services/store-user";
+import createStore from "@/redux/store";
+import { ReduxAction, ReduxConstants } from "@/typings/redux-constants";
+import * as CleanupService from "@/services/cleanup-service";
+import ContextMenuEvents from "@/services/context-menu-events";
+import * as Lib from "@/services/libs";
+import StoreUser from "@/services/store-user";
 
-jest.requireActual("../../src/redux/actions");
+jest.requireActual("@/redux/actions");
 const spyActions: JestSpyObject = global.generateSpies(Actions);
 
-jest.requireMock("../../src/services/cleanup-service");
+jest.requireMock("@/services/cleanup-service");
 const spyCleanupService: JestSpyObject = global.generateSpies(CleanupService);
 
-jest.requireActual("../../src/services/libs");
+jest.requireActual("@/services/libs");
 const spyLib: JestSpyObject = global.generateSpies(Lib);
 
 const store: Store<State, ReduxAction> = createStore(initialState);

@@ -10,15 +10,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { SiteDataType } from "../../../typings/enums";
+import { SiteDataType } from "@/typings/enums";
 import * as React from "react";
 import { useStore } from "react-redux";
 import {
   clearCookiesForThisDomain,
   clearLocalStorageForThisDomain,
   clearSiteDataForThisDomain,
-} from "../../../services/cleanup-service";
-import { animateFlash } from "../popup-lib";
+} from "@/services/cleanup-service";
+import { animateFlash } from "@/ui/popup/popup-lib";
 
 interface OwnProps {
   altColor?: boolean;

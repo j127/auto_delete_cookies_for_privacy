@@ -14,13 +14,13 @@
  */
 // Must be the first import: provides the `browser` global
 // that MV2 supplied via script tags.
-import "../../init-globals";
+import "@/init-globals";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { createUIStore } from "../../redux/ui-store-bridge";
-import { sleep } from "../../services/libs";
-import ErrorBoundary from "../common-components/ErrorBoundary";
-import fontAwesomeImports from "../font-awesome-imports";
+import { createUIStore } from "@/redux/ui-store-bridge";
+import { sleep } from "@/services/libs";
+import ErrorBoundary from "@/ui/common-components/ErrorBoundary";
+import fontAwesomeImports from "@/ui/font-awesome-imports";
 import App from "./App";
 
 fontAwesomeImports();

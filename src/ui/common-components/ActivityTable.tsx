@@ -12,13 +12,13 @@
  */
 import * as React from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
-import { removeActivity } from "../../redux/actions";
+import { removeActivity } from "@/redux/actions";
 import {
   adcpLog,
   getSetting,
   siteDataToBrowser,
   throwErrorNotification,
-} from "../../services/libs";
+} from "@/services/libs";
 import {
   FilterOptions,
   ListType,
@@ -26,7 +26,7 @@ import {
   ReasonKeep,
   SettingID,
   SiteDataType,
-} from "../../typings/enums";
+} from "@/typings/enums";
 import IconButton from "./IconButton";
 
 const createSummary = (cleanupObj: ActivityLog) => {

@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { animateFlash } from "../../../src/ui/popup/popup-lib";
+import { animateFlash } from "@/ui/popup/popup-lib";
 
 describe("animateFlash", () => {
   beforeEach(() => {

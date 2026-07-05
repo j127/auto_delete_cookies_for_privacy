@@ -11,13 +11,13 @@
  * SOFTWARE.
  */
 
-import { SettingID, SiteDataType } from "../typings/enums";
+import { SettingID, SiteDataType } from "@/typings/enums";
 import StoreUser from "./store-user";
-import { validateSettings } from "../redux/actions";
+import { validateSettings } from "@/redux/actions";
 import { adcpLog, siteDataToBrowser, SITEDATATYPES } from "./libs";
 import { checkIfProtected, setGlobalIcon } from "./browser-action-service";
 import ContextMenuEvents from "./context-menu-events";
-import { ReduxConstants } from "../typings/redux-constants";
+import { ReduxConstants } from "@/typings/redux-constants";
 
 export default class SettingService extends StoreUser {
   public static init(): void {

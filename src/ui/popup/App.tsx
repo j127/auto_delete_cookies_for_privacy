@@ -16,7 +16,7 @@ import {
   addExpressionUI,
   cookieCleanupUI,
   updateSetting,
-} from "../../redux/actions";
+} from "@/redux/actions";
 import {
   ADCPCOOKIENAME,
   extractMainDomain,
@@ -25,10 +25,10 @@ import {
   isAnIP,
   localFileToRegex,
   parseCookieStoreId,
-} from "../../services/libs";
-import { FilterOptions, ListType, SettingID } from "../../typings/enums";
-import ActivityTable from "../common-components/ActivityTable";
-import IconButton from "../common-components/IconButton";
+} from "@/services/libs";
+import { FilterOptions, ListType, SettingID } from "@/typings/enums";
+import ActivityTable from "@/ui/common-components/ActivityTable";
+import IconButton from "@/ui/common-components/IconButton";
 import CleanCollapseGroup from "./components/CleanCollapseGroup";
 import FilteredExpression from "./components/FilteredExpression";
 import { animateFlash } from "./popup-lib";

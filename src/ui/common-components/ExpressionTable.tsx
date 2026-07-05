@@ -10,12 +10,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { ListType } from "../../typings/enums";
+import { ListType } from "@/typings/enums";
 // React 19 no longer provides a global JSX namespace; it is imported instead.
 import { useEffect, useRef, useState, type JSX } from "react";
 import { useDispatch } from "react-redux";
-import { removeExpressionUI, updateExpressionUI } from "../../redux/actions";
-import { validateExpressionDomain } from "../../services/libs";
+import { removeExpressionUI, updateExpressionUI } from "@/redux/actions";
+import { validateExpressionDomain } from "@/services/libs";
 import ExpressionOptions from "./ExpressionOptions";
 import IconButton from "./IconButton";
 

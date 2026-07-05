@@ -10,11 +10,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { SettingID } from "../../../typings/enums";
+import { SettingID } from "@/typings/enums";
 import * as React from "react";
 import { useSelector } from "react-redux";
-import { adcpLog } from "../../../services/libs";
-import IconButton from "../../common-components/IconButton";
+import { adcpLog } from "@/services/libs";
+import IconButton from "@/ui/common-components/IconButton";
 
 const styles = {
   buttonStyle: {

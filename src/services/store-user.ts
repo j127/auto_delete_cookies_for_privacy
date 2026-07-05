@@ -13,7 +13,7 @@
  * SOFTWARE.
  */
 import { Store } from "redux";
-import { ReduxAction } from "../typings/redux-constants";
+import { ReduxAction } from "@/typings/redux-constants";
 
 export default class StoreUser {
   public static init(store: Store<State, ReduxAction>): void {

@@ -11,18 +11,18 @@
  * SOFTWARE.
  */
 
-import { ListType, SettingID, SiteDataType } from "../typings/enums";
+import { ListType, SettingID, SiteDataType } from "@/typings/enums";
 import { ThunkAction } from "@reduxjs/toolkit";
 import { ActionCreator, Dispatch } from "redux";
-import { checkIfProtected } from "../services/browser-action-service";
-import { cleanCookiesOperation } from "../services/cleanup-service";
+import { checkIfProtected } from "@/services/browser-action-service";
+import { cleanCookiesOperation } from "@/services/cleanup-service";
 import {
   getContainerExpressionDefault,
   getSetting,
   getStoreId,
   showNotification,
   sleep,
-} from "../services/libs";
+} from "@/services/libs";
 import {
   ADD_ACTIVITY_LOG,
   ADD_EXPRESSION,
@@ -40,7 +40,7 @@ import {
   RESET_SETTINGS,
   UPDATE_EXPRESSION,
   UPDATE_SETTING,
-} from "../typings/redux-constants";
+} from "@/typings/redux-constants";
 import { initialState } from "./state";
 
 export const addExpressionUI = (payload: Expression): ADD_EXPRESSION => ({

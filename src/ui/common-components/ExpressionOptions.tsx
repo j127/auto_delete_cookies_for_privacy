@@ -10,7 +10,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { ListType, SiteDataType } from "../../typings/enums";
+import { ListType, SiteDataType } from "@/typings/enums";
 import ipaddr from "ipaddr.js";
 import {
   FontAwesomeIcon,
@@ -18,7 +18,7 @@ import {
 } from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import { useDispatch } from "react-redux";
-import { updateExpressionUI } from "../../redux/actions";
+import { updateExpressionUI } from "@/redux/actions";
 
 interface OwnProps {
   expression: Expression;

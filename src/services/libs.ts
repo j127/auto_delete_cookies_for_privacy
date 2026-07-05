@@ -16,7 +16,7 @@ import {
   ListType,
   SettingID,
   SiteDataType,
-} from "../typings/enums";
+} from "@/typings/enums";
 import ipaddr from "ipaddr.js";
 
 /* --- CONSTANTS --- */

@@ -17,10 +17,10 @@ import {
   ReasonKeep,
   SettingID,
   SiteDataType,
-} from "../../src/typings/enums";
+} from "@/typings/enums";
 import { advanceTo, clear } from "jest-date-mock";
 import { when } from "jest-when";
-import { initialState } from "../../src/redux/state";
+import { initialState } from "@/redux/state";
 import {
   cleanCookies,
   cleanCookiesOperation,
@@ -34,17 +34,17 @@ import {
   prepareCookie,
   removeSiteData,
   returnContainersOfOpenTabDomains,
-} from "../../src/services/cleanup-service";
+} from "@/services/cleanup-service";
 
-jest.requireActual("../../src/services/libs");
-import * as Lib from "../../src/services/libs";
+jest.requireActual("@/services/libs");
+import * as Lib from "@/services/libs";
 
 // This dynamically generates the spies for all functions in Libs
 const spyLib: JestSpyObject = global.generateSpies(Lib);
 
-jest.requireActual("../../src/services/cleanup-service");
-import * as CleanupService from "../../src/services/cleanup-service";
-import { ADCPCOOKIENAME } from "../../src/services/libs";
+jest.requireActual("@/services/cleanup-service");
+import * as CleanupService from "@/services/cleanup-service";
+import { ADCPCOOKIENAME } from "@/services/libs";
 const spyCleanupService: JestSpyObject = global.generateSpies(CleanupService);
 
 const sampleTab: browser.tabs.Tab = {

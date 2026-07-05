@@ -10,18 +10,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { SettingID } from "../../../typings/enums";
+import { SettingID } from "@/typings/enums";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
-import { resetSettings, updateSetting } from "../../../redux/actions";
-import { initialState } from "../../../redux/state";
-import { adcpLog } from "../../../services/libs";
-import { ReduxAction } from "../../../typings/redux-constants";
-import CheckboxSetting from "../../common-components/CheckboxSetting";
-import IconButton from "../../common-components/IconButton";
-import SelectInput from "../../common-components/SelectInput";
-import { downloadObjectAsJSON } from "../../ui-libs";
+import { resetSettings, updateSetting } from "@/redux/actions";
+import { initialState } from "@/redux/state";
+import { adcpLog } from "@/services/libs";
+import { ReduxAction } from "@/typings/redux-constants";
+import CheckboxSetting from "@/ui/common-components/CheckboxSetting";
+import IconButton from "@/ui/common-components/IconButton";
+import SelectInput from "@/ui/common-components/SelectInput";
+import { downloadObjectAsJSON } from "@/ui/ui-libs";
 import SettingsTooltip from "./SettingsTooltip";
 
 const styles = {

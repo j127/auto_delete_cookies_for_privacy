@@ -5,7 +5,7 @@
  */
 
 import { Store } from "redux";
-import { ReduxAction } from "../typings/redux-constants";
+import { ReduxAction } from "@/typings/redux-constants";
 
 /**
  * Background half of the store bridge that replaces the redux-webext library

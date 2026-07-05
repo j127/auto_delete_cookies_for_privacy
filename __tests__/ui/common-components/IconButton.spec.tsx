@@ -3,8 +3,8 @@
  */
 import * as React from "react";
 import { fireEvent, render } from "@testing-library/react";
-import fontAwesomeImports from "../../../src/ui/font-awesome-imports";
-import IconButton from "../../../src/ui/common-components/IconButton";
+import fontAwesomeImports from "@/ui/font-awesome-imports";
+import IconButton from "@/ui/common-components/IconButton";
 
 // Register the FontAwesome icons the entrypoints normally provide.
 fontAwesomeImports();
