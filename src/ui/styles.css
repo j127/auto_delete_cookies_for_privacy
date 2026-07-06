@@ -17,6 +17,39 @@
 @source "../../extension/popup/popup.html";
 @source "../../extension/settings/settings.html";
 
+/* Bundled fonts (#159): Inter for UI text, JetBrains Mono for the mono
+   bits. Packaged in extension/fonts/ (SIL OFL 1.1 — licenses beside the
+   files and in THIRD-PARTY-NOTICES.md); the url()s resolve relative to
+   the compiled bundles/ui.css. */
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/JetBrainsMono-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans:
+    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
 /* DaisyUI themes: "light" applies when <html> has no data-theme attribute
    (the auto/default case) and "dark" also auto-applies under
    prefers-color-scheme: dark. An explicit user choice is set as
