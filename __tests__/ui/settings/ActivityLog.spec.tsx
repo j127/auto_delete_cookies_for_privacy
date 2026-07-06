@@ -86,7 +86,7 @@ describe("ActivityLog", () => {
 
   it("shows the empty log notice when there are no activity entries", () => {
     const { container } = renderActivityLog();
-    const notice = container.querySelector(".alert-primary") as HTMLElement;
+    const notice = container.querySelector(".alert-info") as HTMLElement;
     expect(notice.textContent).toContain("noCleanupLogText");
     expect(notice.textContent).toContain("noPrivateLogging");
   });
@@ -99,17 +99,16 @@ describe("ActivityLog", () => {
     });
   });
 
-  it("renders a card per log entry with the notification summary", () => {
+  it("renders a collapsible entry per log with the notification summary", () => {
     const logA = makeLog("2026-01-10T08:00:00", "example.com", "sessionid");
     const logB = makeLog("2026-01-11T09:30:00", "sub.example.org", "tracker");
     const { container } = renderActivityLog({ activityLog: [logA, logB] });
 
-    const cards = container.querySelectorAll(".card");
-    expect(cards).toHaveLength(2);
-    const headerButton = cards[0].querySelector(
-      ".card-header h5 button"
-    ) as HTMLButtonElement;
-    expect(headerButton.textContent).toContain("notificationContent");
+    // Entries are native details/summary pairs since the #40 rebuild.
+    const entries = container.querySelectorAll("details");
+    expect(entries).toHaveLength(2);
+    const summary = entries[0].querySelector("summary") as HTMLElement;
+    expect(summary.textContent).toContain("notificationContent");
   });
 
   it("lists the cleaned domain, cookie name and reason in the entry details", () => {
@@ -117,7 +116,7 @@ describe("ActivityLog", () => {
     const { container } = renderActivityLog({ activityLog: [log] });
 
     const detail = container.querySelector(
-      ".card-body .alert-danger"
+      ".collapse-content .alert-error"
     ) as HTMLElement;
     expect(detail.textContent).toBe(
       "example.com (sessionid): reasonCleanNoList"

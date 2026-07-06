@@ -92,7 +92,7 @@ describe("About", () => {
     fireEvent.click(getAllByRole("button")[0]);
     const status = container.querySelector("#copy-debugInfo") as HTMLElement;
     await waitFor(() => {
-      expect(status.classList.contains("text-danger")).toBe(true);
+      expect(status.classList.contains("text-error")).toBe(true);
       expect(status.innerText).toBe("copyFailedText");
     });
   });

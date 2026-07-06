@@ -34,11 +34,11 @@ const SelectInput: React.FunctionComponent<OwnProps> = ({
     : [];
   const options: string[] = inputOptions || numbers || [];
   return (
-    <span>
+    <span className="inline-flex items-center gap-2 py-1">
       <select
         name={name}
         id={name}
-        className={"selectOptions custom-select"}
+        className="select w-auto min-w-20 select-sm"
         onChange={(e) => {
           const newValue = options.includes(e.target.value as string)
             ? e.target.value
@@ -48,7 +48,6 @@ const SelectInput: React.FunctionComponent<OwnProps> = ({
             value: newValue,
           });
         }}
-        style={{ minWidth: "5em", width: "auto" }}
         value={value as string}
       >
         {options.map((opt) => (

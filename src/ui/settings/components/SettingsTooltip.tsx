@@ -18,6 +18,10 @@ interface OwnProps {
   hrefURL: string;
 }
 
+/**
+ * Documentation link with a CSS-only DaisyUI tooltip (the pre-#40 version
+ * relied on the Bootstrap/jQuery tooltip plugin).
+ */
 const SettingsTooltip: React.FunctionComponent<OwnProps> = ({ hrefURL }) => {
   // Relative values resolve against the user documentation book; pass a
   // full URL to link elsewhere.
@@ -25,14 +29,20 @@ const SettingsTooltip: React.FunctionComponent<OwnProps> = ({ hrefURL }) => {
     ? hrefURL
     : `https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/${hrefURL}`;
   return (
-    <a
-      href={link}
-      target="_blank"
-      rel="help noreferrer noopener"
-      className="tooltipCustom"
+    <span
+      className="tooltip"
+      data-tip={browser.i18n.getMessage("documentationText")}
     >
-      <FontAwesomeIcon size={"lg"} icon={["far", "question-circle"]} />
-    </a>
+      <a
+        href={link}
+        target="_blank"
+        rel="help noreferrer noopener"
+        className="ml-1.5 text-base-content/60 hover:text-base-content"
+        aria-label={browser.i18n.getMessage("documentationText")}
+      >
+        <FontAwesomeIcon size={"lg"} icon={["far", "question-circle"]} />
+      </a>
+    </span>
   );
 };
 

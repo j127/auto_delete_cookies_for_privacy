@@ -28,6 +28,51 @@ const ActivityLog: React.FunctionComponent<OwnProps> = ({ style }) => {
   // The filter radio buttons below are commented out, so only the state
   // value is consumed. Reviving them needs the setter as well:
   // const [decisionFilter, setNewFilter] = React.useState(FilterOptions.NONE);
+  // Their pre-#40 Bootstrap markup, kept for reference (rebuild with DaisyUI
+  // radios when reviving):
+  //   <span>{`${browser.i18n.getMessage('filterText')}: `}</span>
+  //   <div className="form-check form-check-inline">
+  //     <input
+  //       className="form-check-input"
+  //       type="radio"
+  //       name="filterRadios"
+  //       id="filterRadios1"
+  //       value="option1"
+  //       checked={decisionFilter === FilterOptions.NONE}
+  //       onClick={() => setNewFilter(FilterOptions.NONE)}
+  //     />
+  //     <label className="form-check-label" htmlFor="filterRadios1">
+  //       {browser.i18n.getMessage('noneText')}
+  //     </label>
+  //   </div>
+  //   <div className="form-check form-check-inline">
+  //     <input
+  //       className="form-check-input"
+  //       type="radio"
+  //       name="filterRadios"
+  //       id="filterRadios2"
+  //       value="option2"
+  //       checked={decisionFilter === FilterOptions.CLEAN}
+  //       onClick={() => setNewFilter(FilterOptions.CLEAN)}
+  //     />
+  //     <label className="form-check-label" htmlFor="filterRadios2">
+  //       {browser.i18n.getMessage('cleanText')}
+  //     </label>
+  //   </div>
+  //   <div className="form-check form-check-inline">
+  //     <input
+  //       className="form-check-input"
+  //       type="radio"
+  //       name="filterRadios"
+  //       id="filterRadios3"
+  //       value="option3"
+  //       checked={decisionFilter === FilterOptions.KEEP}
+  //       onClick={() => setNewFilter(FilterOptions.KEEP)}
+  //     />
+  //     <label className="form-check-label" htmlFor="filterRadios3">
+  //       {browser.i18n.getMessage('keepText')}
+  //     </label>
+  //   </div>
   const [decisionFilter] = React.useState(FilterOptions.NONE);
 
   const onClearActivityLogClick = () => {
@@ -36,68 +81,15 @@ const ActivityLog: React.FunctionComponent<OwnProps> = ({ style }) => {
 
   return (
     <div style={style}>
-      <h1>{browser.i18n.getMessage("cleanupLogText")}</h1>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          marginBottom: "10px",
-        }}
-      >
-        <div
-          style={{
-            marginTop: "5px",
-          }}
-        >
-          {/* <span>{`${browser.i18n.getMessage('filterText')}: `}</span>
-          <div className="form-check form-check-inline">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="filterRadios"
-              id="filterRadios1"
-              value="option1"
-              checked={decisionFilter === FilterOptions.NONE}
-              onClick={() => setNewFilter(FilterOptions.NONE)}
-            />
-            <label className="form-check-label" htmlFor="filterRadios1">
-              {browser.i18n.getMessage('noneText')}
-            </label>
-          </div>
-          <div className="form-check form-check-inline">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="filterRadios"
-              id="filterRadios2"
-              value="option2"
-              checked={decisionFilter === FilterOptions.CLEAN}
-              onClick={() => setNewFilter(FilterOptions.CLEAN)}
-            />
-            <label className="form-check-label" htmlFor="filterRadios2">
-              {browser.i18n.getMessage('cleanText')}
-            </label>
-          </div>
-          <div className="form-check form-check-inline">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="filterRadios"
-              id="filterRadios3"
-              value="option3"
-              checked={decisionFilter === FilterOptions.KEEP}
-              onClick={() => setNewFilter(FilterOptions.KEEP)}
-            />
-            <label className="form-check-label" htmlFor="filterRadios3">
-              {browser.i18n.getMessage('keepText')}
-            </label>
-          </div> */}
-        </div>
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <h1 className="text-2xl font-bold">
+          {browser.i18n.getMessage("cleanupLogText")}
+        </h1>
         <IconButton
           iconName="trash"
           text={browser.i18n.getMessage("clearLogsText")}
           onClick={() => onClearActivityLogClick()}
-          className="btn-warning"
+          className="btn-sm btn-warning"
         />
       </div>
       <ActivityTable decisionFilter={decisionFilter} />

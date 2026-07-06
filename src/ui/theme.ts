@@ -33,6 +33,16 @@ const applyTheme = (choice: ThemeChoice): void => {
   }
 };
 
+/** Reads the persisted choice, for switcher UIs. Failures read as auto. */
+export const getTheme = async (): Promise<ThemeChoice> => {
+  try {
+    const stored = await browser.storage.local.get(THEME_STORAGE_KEY);
+    return toThemeChoice(stored[THEME_STORAGE_KEY]);
+  } catch {
+    return "auto";
+  }
+};
+
 /** Persists an explicit choice and applies it to the current page. */
 export const setTheme = async (choice: ThemeChoice): Promise<void> => {
   applyTheme(choice);

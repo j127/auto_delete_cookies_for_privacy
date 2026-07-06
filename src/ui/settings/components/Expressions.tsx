@@ -30,17 +30,6 @@ import ExpressionTable from "@/ui/common-components/ExpressionTable";
 import IconButton from "@/ui/common-components/IconButton";
 import { downloadObjectAsJSON } from "@/ui/ui-libs";
 import SettingsTooltip from "./SettingsTooltip";
-const styles = {
-  buttonStyle: {
-    height: "max-content",
-    padding: "0.75em",
-    width: "max-content",
-  },
-  tableContainer: {
-    height: `${window.innerHeight - 210}px`,
-    overflow: "auto",
-  },
-};
 
 interface OwnProps {
   style?: React.CSSProperties;
@@ -308,15 +297,14 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
   };
 
   return (
-    <div className="col" style={style}>
-      <h1>{browser.i18n.getMessage("expressionListText")}</h1>
+    <div style={style}>
+      <h1 className="mb-4 text-2xl font-bold">
+        {browser.i18n.getMessage("expressionListText")}
+      </h1>
 
-      <div className="row">
+      <div className="join w-full">
         <input
-          style={{
-            display: "inline",
-            width: "100%",
-          }}
+          className="input join-item w-full"
           value={expressionInput}
           onChange={(e) => setExpressionInput(e.target.value)}
           placeholder={browser.i18n.getMessage("domainPlaceholderText")}
@@ -332,12 +320,38 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
           type="url"
           id="formText"
           autoFocus={true}
-          className="form-control"
           formNoValidate={true}
         />
+        <IconButton
+          className="join-item btn-secondary"
+          onClick={() => {
+            addExpressionByInput({
+              expression: expressionInput,
+              listType: ListType.GREY,
+              storeId,
+            });
+          }}
+          iconName="plus"
+          title={browser.i18n.getMessage("toGreyListText")}
+          text={browser.i18n.getMessage("greyListWordText")}
+        />
+        <IconButton
+          className="join-item btn-primary"
+          onClick={() => {
+            addExpressionByInput({
+              expression: expressionInput,
+              listType: ListType.WHITE,
+              storeId,
+            });
+          }}
+          iconName="plus"
+          title={browser.i18n.getMessage("toWhiteListText")}
+          text={browser.i18n.getMessage("whiteListWordText")}
+        />
       </div>
-      <div className="row">
+      <div className="mt-2 mb-4 flex items-center">
         <a
+          className="link link-primary"
           target="_blank"
           rel="help noreferrer noopener"
           href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
@@ -346,124 +360,50 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
         </a>
         <SettingsTooltip hrefURL="expressions.md#writing-expressions" />
       </div>
-      <div
-        className="row"
-        style={{
-          columnGap: "0.5em",
-          justifyContent: "space-between",
-          paddingBottom: "8px",
-          paddingTop: "8px",
-        }}
-      >
-        <div className="col-sm col-md-auto">
-          <div
-            className="row justify-content-sm-center justify-content-md-start"
-            style={{
-              paddingLeft: 0,
-              paddingRight: 0,
-            }}
-          >
-            <IconButton
-              className="btn-primary"
-              iconName="download"
-              role="button"
-              onClick={() => downloadObjectAsJSON(lists, "Expressions")}
-              title={browser.i18n.getMessage("exportTitleTimestamp")}
-              text={browser.i18n.getMessage("exportURLSText")}
-              styleReact={styles.buttonStyle}
-            />
-            <IconButton
-              tag="input"
-              className="btn-info"
-              iconName="upload"
-              type="file"
-              accept="application/json"
-              onChange={(e) => importExpressions(e.target.files[0])}
-              text={browser.i18n.getMessage("importURLSText")}
-              title={browser.i18n.getMessage("importURLSText")}
-              styleReact={styles.buttonStyle}
-            />
-          </div>
-          <div className="w-100" />
-          <div
-            className="row justify-content-sm-center justify-content-md-start"
-            style={{
-              marginTop: "5px",
-              marginBottom: "5px",
-              paddingLeft: 0,
-              paddingRight: 0,
-            }}
-          >
-            <IconButton
-              tag="button"
-              className="btn-danger"
-              iconName="trash"
-              role="button"
-              onClick={() => clearListsConfirmation(lists)}
-              text={browser.i18n.getMessage("removeAllExpressions")}
-              title={browser.i18n.getMessage("removeAllExpressions")}
-              styleReact={styles.buttonStyle}
-            />
-            <IconButton
-              tag="button"
-              className="btn-dark"
-              iconName="list-alt"
-              role="button"
-              onClick={() => createDefaultOptions()}
-              text={browser.i18n.getMessage(
-                "createDefaultExpressionOptionsText"
-              )}
-              title={browser.i18n.getMessage(
-                "createDefaultExpressionOptionsText"
-              )}
-              styleReact={styles.buttonStyle}
-            />
-          </div>
-        </div>
-        <div
-          className="col-sm col-md-auto"
-          style={{
-            justifyContent: "flex-end",
-            paddingLeft: 0,
-            paddingRight: 0,
-          }}
-        >
-          <IconButton
-            className="btn-secondary"
-            onClick={() => {
-              addExpressionByInput({
-                expression: expressionInput,
-                listType: ListType.GREY,
-                storeId,
-              });
-            }}
-            styleReact={styles.buttonStyle}
-            iconName="plus"
-            title={browser.i18n.getMessage("toGreyListText")}
-            text={browser.i18n.getMessage("greyListWordText")}
-          />
-
-          <IconButton
-            className="btn-primary"
-            onClick={() => {
-              addExpressionByInput({
-                expression: expressionInput,
-                listType: ListType.WHITE,
-                storeId,
-              });
-            }}
-            styleReact={styles.buttonStyle}
-            iconName="plus"
-            title={browser.i18n.getMessage("toWhiteListText")}
-            text={browser.i18n.getMessage("whiteListWordText")}
-          />
-        </div>
+      <div className="mb-4 flex flex-wrap gap-2">
+        <IconButton
+          className="btn-primary btn-sm"
+          iconName="download"
+          role="button"
+          onClick={() => downloadObjectAsJSON(lists, "Expressions")}
+          title={browser.i18n.getMessage("exportTitleTimestamp")}
+          text={browser.i18n.getMessage("exportURLSText")}
+        />
+        <IconButton
+          tag="input"
+          className="btn-info btn-sm"
+          iconName="upload"
+          type="file"
+          accept="application/json"
+          onChange={(e) => importExpressions(e.target.files[0])}
+          text={browser.i18n.getMessage("importURLSText")}
+          title={browser.i18n.getMessage("importURLSText")}
+        />
+        <IconButton
+          tag="button"
+          className="btn-error btn-sm"
+          iconName="trash"
+          role="button"
+          onClick={() => clearListsConfirmation(lists)}
+          text={browser.i18n.getMessage("removeAllExpressions")}
+          title={browser.i18n.getMessage("removeAllExpressions")}
+        />
+        <IconButton
+          tag="button"
+          className="btn-neutral btn-sm"
+          iconName="list-alt"
+          role="button"
+          onClick={() => createDefaultOptions()}
+          text={browser.i18n.getMessage("createDefaultExpressionOptionsText")}
+          title={browser.i18n.getMessage("createDefaultExpressionOptionsText")}
+        />
       </div>
 
       {error !== "" ? (
         <div
           onClick={() => setErrorMessage("")}
-          className="row alert alert-danger alertPreWrap"
+          className="mb-4 alert cursor-pointer whitespace-pre-wrap alert-error"
+          role="alert"
         >
           {error}
         </div>
@@ -473,14 +413,15 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
       {success !== "" ? (
         <div
           onClick={() => setSuccess("")}
-          className="row alert alert-success alertPreWrap"
+          className="mb-4 alert cursor-pointer whitespace-pre-wrap alert-success"
+          role="alert"
         >
           {success}
         </div>
       ) : (
         ""
       )}
-      <div className="row" style={styles.tableContainer}>
+      <div className="max-h-[calc(100vh-16rem)] overflow-auto">
         <ExpressionTable
           expressionColumnTitle={browser.i18n.getMessage(
             "domainExpressionsText"

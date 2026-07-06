@@ -13,6 +13,11 @@ const DOC_BASE =
   "https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/";
 
 describe("SettingsTooltip", () => {
+  beforeEach(() => {
+    // The tooltip text (data-tip) comes from i18n since #40.
+    global.browser.i18n.getMessage.mockImplementation((key: string) => key);
+  });
+
   const renderTooltip = (hrefURL: string) => {
     const { container } = render(<SettingsTooltip hrefURL={hrefURL} />);
     return container.querySelector("a") as HTMLAnchorElement;
@@ -34,7 +39,10 @@ describe("SettingsTooltip", () => {
     const anchor = renderTooltip("faq.md");
     expect(anchor.getAttribute("target")).toBe("_blank");
     expect(anchor.getAttribute("rel")).toBe("help noreferrer noopener");
-    expect(anchor.classList.contains("tooltipCustom")).toBe(true);
+    // A CSS-only DaisyUI tooltip wraps the link since #40.
+    const wrapper = anchor.parentElement as HTMLElement;
+    expect(wrapper.classList.contains("tooltip")).toBe(true);
+    expect(wrapper.hasAttribute("data-tip")).toBe(true);
   });
 
   it("renders a regular-style FontAwesome icon inside the link", () => {

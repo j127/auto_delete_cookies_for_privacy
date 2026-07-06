@@ -65,7 +65,7 @@ describe("ExpressionTable", () => {
   ) => {
     fireEvent.click(view.getAllByTitle(title)[0]);
     return view.container.querySelector(
-      "td.editableExpression input.form-control"
+      "td.editableExpression input"
     ) as HTMLInputElement;
   };
 
@@ -89,9 +89,8 @@ describe("ExpressionTable", () => {
       greyExpression,
     ]);
     const table = container.querySelector("table") as HTMLTableElement;
-    expect(table.className).toBe(
-      "table-striped table-hover table-bordered table"
-    );
+    expect(table.classList.contains("table")).toBe(true);
+    expect(table.classList.contains("table-zebra")).toBe(true);
     const headers = Array.from(container.querySelectorAll("thead th")).map(
       (th) => th.textContent
     );
@@ -156,10 +155,8 @@ describe("ExpressionTable", () => {
     view.getByTitle("saveExpressionText");
     // Only the edited row loses its read-only textarea.
     expect(view.container.querySelectorAll("textarea")).toHaveLength(1);
-    const feedback = view.container.querySelector(
-      ".invalid-feedback"
-    ) as HTMLElement;
-    expect(feedback.textContent).toBe("");
+    // No validation message until a bad value is committed.
+    expect(view.container.querySelector(".text-error")).toBeNull();
   });
 
   it("commits a valid edit with Enter and dispatches the updated expression", () => {
@@ -184,14 +181,14 @@ describe("ExpressionTable", () => {
     const input = startEditingFirstRow(view);
     fireEvent.change(input, { target: { value: "bad domain" } });
     fireEvent.click(view.getByTitle("saveExpressionText"));
-    const feedback = view.container.querySelector(
-      ".invalid-feedback"
-    ) as HTMLElement;
+    const feedback = view.container.querySelector(".text-error") as HTMLElement;
     expect(feedback.textContent).toBe("inputErrorSpace");
-    const editCell = view.container.querySelector(
-      "td.editableExpression"
-    ) as HTMLTableCellElement;
-    expect(editCell.classList.contains("was-validated")).toBe(true);
+    // The message also lands in the native constraint-validation API (the
+    // Bootstrap was-validated class is gone with #40).
+    expect(input.validationMessage).toBe("inputErrorSpace");
+    expect(
+      view.container.querySelector("td.editableExpression")
+    ).not.toBeNull();
     expect(view.updates()).toHaveLength(0);
   });
 

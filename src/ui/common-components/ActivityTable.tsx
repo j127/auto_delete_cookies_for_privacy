@@ -58,14 +58,7 @@ const createDetailedSummary = (cleanReasonObjects: CleanReasonObject[]) => {
   return Object.entries(mapDomainToCookieNames).map(
     ([domain, cleanReasonObj]) => {
       return (
-        <div
-          style={{
-            marginLeft: "10px",
-          }}
-          className={`alert alert-danger`}
-          key={`${domain}`}
-          role="alert"
-        >
+        <div className="mb-2 alert alert-error" key={`${domain}`} role="alert">
           {`${domain} (${cleanReasonObj
             .map((obj) => obj.cookie.name)
             .join(", ")}): ${returnReasonMessages(cleanReasonObj[0])}`}
@@ -236,7 +229,7 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
   };
   if (activityLog.length === 0) {
     return (
-      <div className="alert alert-primary" role="alert">
+      <div className="alert alert-info" role="alert">
         <i>
           {browser.i18n.getMessage("noCleanupLogText")}
           <br /> {browser.i18n.getMessage("noPrivateLogging")}
@@ -246,13 +239,7 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
   }
   const filtered = activityLog.slice(0, numberToShow || 10);
   return (
-    <div
-      className="accordion"
-      id="accordion"
-      style={{
-        marginBottom: "10px",
-      }}
-    >
+    <div className="mb-3 flex flex-col gap-2">
       {filtered.map((log, index) => {
         const summary = createSummary(log);
         const message = browser.i18n.getMessage("notificationContent", [
@@ -265,68 +252,39 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
         );
         const storeIdEntries = Object.entries(log.storeIds);
         return (
-          <div key={index} className="card">
-            <div
-              style={{ display: "flex" }}
-              className="card-header"
-              id={`heading${index}`}
-            >
-              {(log.recentlyCleaned > 0 && (
-                <IconButton
-                  className={"btn-primary mr-auto"}
-                  iconName={"undo"}
-                  onClick={() =>
-                    restoreCookies(
-                      store.getState() as State,
-                      log,
-                      onRemoveActivity
-                    )
-                  }
-                  title={browser.i18n.getMessage("restoreText")}
-                />
-              )) || <div className={"mr-auto"} style={{ minWidth: "42px" }} />}
-              <h5
-                className="mb-0"
-                style={{
-                  overflowX: "hidden",
-                }}
-              >
-                <button
-                  className="btn btn-link collapsed"
-                  type="button"
-                  data-toggle="collapse"
-                  data-target={`#collapse${index}`}
-                  aria-expanded="false"
-                  aria-controls={`collapse${index}`}
-                >
-                  {`${new Date(log.dateTime).toLocaleString([], {
-                    timeZoneName: "short",
-                  })} - ${message} ...`}
-                </button>
-              </h5>
+          <div key={index} className="flex items-start gap-2">
+            {(log.recentlyCleaned > 0 && (
               <IconButton
-                className={"btn-outline-danger ml-auto"}
-                iconName={"trash"}
-                onClick={() => onRemoveActivity(log)}
-                title={browser.i18n.getMessage("removeActivityLogEntryText")}
+                className={"mt-2 btn-primary btn-sm"}
+                iconName={"undo"}
+                onClick={() =>
+                  restoreCookies(
+                    store.getState() as State,
+                    log,
+                    onRemoveActivity
+                  )
+                }
+                title={browser.i18n.getMessage("restoreText")}
               />
-            </div>
-            <div
-              id={`collapse${index}`}
-              className="collapse"
-              aria-labelledby={`heading${index}`}
-              data-parent="#accordion"
-            >
-              <div className="card-body">
+            )) || <div className="min-w-11" />}
+            {/* The pre-#40 Bootstrap/jQuery collapse plugin is replaced by a
+                native details element (DaisyUI styles it via .collapse). */}
+            <details className="collapse-arrow collapse min-w-0 flex-1 bg-base-200">
+              <summary
+                className="collapse-title cursor-pointer overflow-x-hidden text-sm font-medium"
+                id={`heading${index}`}
+              >
+                {`${new Date(log.dateTime).toLocaleString([], {
+                  timeZoneName: "short",
+                })} - ${message} ...`}
+              </summary>
+              <div className="collapse-content" id={`collapse${index}`}>
                 {browsingDataEntries.map(([siteData, domains]) => {
                   if (!domains || domains.length === 0) return "";
                   return (
                     <div
                       key={`${siteData}-${log.dateTime}`}
-                      style={{
-                        marginLeft: "10px",
-                      }}
-                      className={`alert alert-info`}
+                      className="mb-2 alert alert-info"
                       role="alert"
                     >
                       {browser.i18n.getMessage(
@@ -345,7 +303,7 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
                   return (
                     <div key={`${storeId}-${log.dateTime}`}>
                       {storeIdEntries.length > 1 && (
-                        <h6>
+                        <h6 className="mb-1 font-semibold">
                           {cache[storeId] !== undefined
                             ? `${cache[storeId]} `
                             : ""}
@@ -357,7 +315,13 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
                   );
                 })}
               </div>
-            </div>
+            </details>
+            <IconButton
+              className={"mt-2 btn-outline btn-error btn-sm"}
+              iconName={"trash"}
+              onClick={() => onRemoveActivity(log)}
+              title={browser.i18n.getMessage("removeActivityLogEntryText")}
+            />
           </div>
         );
       })}

@@ -42,7 +42,7 @@ describe("SelectInput", () => {
     const select = getSelect(container);
     expect(select.id).toBe("sizePopup");
     expect(select.name).toBe("sizePopup");
-    expect(select.className).toBe("selectOptions custom-select");
+    expect(select.classList.contains("select")).toBe(true);
     expect(select.value).toBe("16");
     expect(optionTexts(container)).toEqual(["14", "16", "18"]);
     const label = container.querySelector("label") as HTMLLabelElement;

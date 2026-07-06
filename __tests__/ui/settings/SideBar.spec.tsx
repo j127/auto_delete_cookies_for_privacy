@@ -3,10 +3,6 @@
  */
 import * as React from "react";
 import { fireEvent, render } from "@testing-library/react";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
-
-// Register the FontAwesome icons the settings entrypoint normally provides.
-fontAwesomeImports();
 
 // SideBar resolves its tab labels through browser.i18n at module load time,
 // so the i18n mock implementation must be in place before the module is
@@ -44,17 +40,14 @@ describe("SideBar", () => {
       const item = container.querySelector(`#${tabId}`) as HTMLElement;
       expect(item).not.toBeNull();
       expect(item.textContent).toBe(tabText);
-      expect(item.classList.contains("pure-menu-item")).toBe(true);
+      expect(item.tagName).toBe("BUTTON");
     });
   });
 
   it("shows the ADCP version number from the manifest", () => {
-    const { container } = renderSideBar();
-    const version = container.querySelector(".sidebar-version") as HTMLElement;
-    expect(version.textContent).toContain("versionNumberText");
-    expect((version.querySelector("b") as HTMLElement).textContent).toBe(
-      "4.0.0"
-    );
+    const { getByText } = renderSideBar();
+    expect(getByText("versionNumberText")).not.toBeNull();
+    expect(getByText("4.0.0")).not.toBeNull();
     expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
       "versionNumberText",
       ["ADCP"]
@@ -65,7 +58,7 @@ describe("SideBar", () => {
     const { container } = renderSideBar("tabSettings");
     TABS.forEach(([tabId]) => {
       const item = container.querySelector(`#${tabId}`) as HTMLElement;
-      expect(item.classList.contains("pure-menu-selected")).toBe(
+      expect(item.classList.contains("menu-active")).toBe(
         tabId === "tabSettings"
       );
     });
@@ -76,29 +69,6 @@ describe("SideBar", () => {
     fireEvent.click(container.querySelector("#tabCleanupLog") as HTMLElement);
     expect(switchTabs).toHaveBeenCalledTimes(1);
     expect(switchTabs).toHaveBeenCalledWith("tabCleanupLog");
-  });
-
-  it("renders the hamburger menu link with its i18n label", () => {
-    const { container } = renderSideBar();
-    const menuLink = container.querySelector("#menuLink") as HTMLElement;
-    expect(menuLink.querySelector("svg")).not.toBeNull();
-    expect(
-      (container.querySelector("#menuLinkText") as HTMLElement).textContent
-    ).toBe("menuText");
-  });
-
-  it("toggles the active class on the menu elements via the hamburger link", () => {
-    const { container } = renderSideBar();
-    const menuLink = container.querySelector("#menuLink") as HTMLElement;
-    const menu = container.querySelector("#menu") as HTMLElement;
-
-    fireEvent.click(menuLink);
-    expect(menuLink.classList.contains("active")).toBe(true);
-    expect(menu.classList.contains("active")).toBe(true);
-
-    fireEvent.click(menuLink);
-    expect(menuLink.classList.contains("active")).toBe(false);
-    expect(menu.classList.contains("active")).toBe(false);
   });
 
   it("renders without console errors", () => {

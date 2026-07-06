@@ -21,23 +21,19 @@ import { resetCookieDeletedCounter } from "@/redux/actions";
 
 const displayReleaseNotes = (releases: ReleaseNote[]) => {
   return (
-    <div className="col">
-      {releases.map((release, index) => [
-        <span
-          style={{
-            fontWeight: "bold",
-            marginLeft: "10px",
-          }}
-          key={`release1${index}`}
-        >
-          {release.version}
-        </span>,
-        <ul key={`release2${index}`}>
-          {release.notes.map((element, index2) => (
-            <li key={`release3${index2}`}>{element}</li>
-          ))}
-        </ul>,
-      ])}
+    <div className="flex flex-col gap-3">
+      {releases.map((release, index) => (
+        <div key={`release${index}`}>
+          <span className="badge font-mono badge-neutral">
+            {release.version}
+          </span>
+          <ul className="mt-1 list-disc pl-6">
+            {release.notes.map((element, index2) => (
+              <li key={`release3${index2}`}>{element}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
 };
@@ -62,36 +58,50 @@ const Welcome: React.FunctionComponent<OwnProps> = ({ style }) => {
   const { releases } = ReleaseNotes as { releases: ReleaseNote[] };
   return (
     <div style={style}>
-      <h1>{browser.i18n.getMessage("welcomeText")}</h1>
+      <h1 className="mb-4 text-2xl font-bold">
+        {browser.i18n.getMessage("welcomeText")}
+      </h1>
 
-      <p>
+      <p className="mb-4">
         {browser.i18n.getMessage("welcomeMessage", [
           browser.i18n.getMessage("extensionName"),
           cookieDeletedCounterSession.toString(),
           cookieDeletedCounterTotal.toString(),
         ])}
+      </p>
+      <div className="mb-4">
         <IconButton
           iconName="trash"
           text={browser.i18n.getMessage("resetCookieCounterText")}
           title={browser.i18n.getMessage("resetCookieCounterText")}
           onClick={() => onResetCounterButtonClick()}
-          className="btn-warning"
+          className="btn-sm btn-warning"
         />
-      </p>
-      <a href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/introduction.md">
-        <span>{`${browser.i18n.getMessage("documentationText")}`}</span>
-      </a>
-      <br />
-      <a href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/faq.md">
-        <span>{`${browser.i18n.getMessage("faqText")}`}</span>
-      </a>
-      <hr />
-      <h2>{browser.i18n.getMessage("releaseNotesText")}</h2>
+      </div>
+      <div className="flex flex-col gap-1">
+        <a
+          className="link link-primary"
+          href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/introduction.md"
+        >
+          <span>{`${browser.i18n.getMessage("documentationText")}`}</span>
+        </a>
+        <a
+          className="link link-primary"
+          href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/faq.md"
+        >
+          <span>{`${browser.i18n.getMessage("faqText")}`}</span>
+        </a>
+      </div>
+      <div className="divider" />
+      <h2 className="mb-3 text-xl font-semibold">
+        {browser.i18n.getMessage("releaseNotesText")}
+      </h2>
 
-      <div className="row">{displayReleaseNotes(releases.slice(0, 5))}</div>
-      <p>
+      {displayReleaseNotes(releases.slice(0, 5))}
+      <p className="mt-4">
         {browser.i18n.getMessage("oldReleasesText")}{" "}
         <a
+          className="link link-primary"
           href="https://github.com/j127/auto_delete_cookies_for_privacy/releases"
           target="_blank"
           rel="noreferrer"
