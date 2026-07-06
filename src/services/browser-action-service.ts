@@ -14,22 +14,40 @@
 import { ListType, SettingID } from "@/typings/enums";
 import { getHostname, returnMatchedExpressionObject } from "./libs";
 
+// A tab can close between the event that captured it and these paint calls
+// (TabEvents.onTabUpdate delays actions by ~750 ms, and the cookie fetch adds
+// more). Chromium then rejects with "No tab with id: N" — there is nothing
+// left to paint, so that specific rejection is dropped. Anything else is
+// re-thrown asynchronously so real failures still surface.
+const isMissingTabError = (e: unknown): boolean =>
+  /No tab with id/.test(String(e));
+
+const ignoreMissingTab = (result: Promise<unknown> | void): void => {
+  Promise.resolve(result).catch((e) => {
+    if (!isMissingTabError(e)) throw e;
+  });
+};
+
 // Show the # of cookies in icon
 export const showNumberOfCookiesInIcon = (
   tab: browser.tabs.Tab,
   cookieLength: number
 ): void => {
   if (browser.action.setBadgeText) {
-    browser.action.setBadgeText({
-      tabId: tab.id,
-      text: `${cookieLength === 0 ? "" : cookieLength.toString()}`,
-    });
+    ignoreMissingTab(
+      browser.action.setBadgeText({
+        tabId: tab.id,
+        text: `${cookieLength === 0 ? "" : cookieLength.toString()}`,
+      })
+    );
   }
   if (browser.action.setBadgeTextColor) {
-    browser.action.setBadgeTextColor({
-      color: "white",
-      tabId: tab.id,
-    });
+    ignoreMissingTab(
+      browser.action.setBadgeTextColor({
+        color: "white",
+        tabId: tab.id,
+      })
+    );
   }
 };
 
@@ -44,20 +62,28 @@ export const showNumberOfCookiesInTitle = async (
   const mf = browser.runtime.getManifest();
   const tabTitle = `${mf.name} ${mf.version}`;
 
-  const curData = /\[(.*)] \((\d*)\)/.exec(
-    await browser.action.getTitle({
+  let curTitle: string;
+  try {
+    curTitle = await browser.action.getTitle({
       tabId: tab.id,
-    })
-  );
+    });
+  } catch (e) {
+    // The tab closed while this paint was queued; skip it entirely.
+    if (isMissingTabError(e)) return;
+    throw e;
+  }
+  const curData = /\[(.*)] \((\d*)\)/.exec(curTitle);
   const newData = {
     cookies: otherInfo.cookieLength || (curData && curData[2]) || 0,
     list: otherInfo.listType || (curData && curData[1]) || "NO LIST",
   };
 
-  browser.action.setTitle({
-    tabId: tab.id,
-    title: `${tabTitle} [${newData.list}] (${newData.cookies})`,
-  });
+  ignoreMissingTab(
+    browser.action.setTitle({
+      tabId: tab.id,
+      title: `${tabTitle} [${newData.list}] (${newData.cookies})`,
+    })
+  );
 };
 
 // Set Badge Color accordingly (to matching list)
@@ -68,10 +94,12 @@ const setBadgeColor = (tab: browser.tabs.Tab, color = "default") => {
     yellow: "#e6a32e",
   };
   if (browser.action.setBadgeBackgroundColor) {
-    browser.action.setBadgeBackgroundColor({
-      color: badgeBackgroundColor[color],
-      tabId: tab.id,
-    });
+    ignoreMissingTab(
+      browser.action.setBadgeBackgroundColor({
+        color: badgeBackgroundColor[color],
+        tabId: tab.id,
+      })
+    );
   }
 };
 
@@ -82,14 +110,16 @@ const setIconColor = (
   color = "default"
 ) => {
   if (browser.action.setIcon) {
-    browser.action.setIcon({
-      path: {
-        48: `/icons/icon_48${
-          keepDefault || color === "default" ? "" : `_${color}`
-        }.png`,
-      },
-      tabId: tab.id,
-    });
+    ignoreMissingTab(
+      browser.action.setIcon({
+        path: {
+          48: `/icons/icon_48${
+            keepDefault || color === "default" ? "" : `_${color}`
+          }.png`,
+        },
+        tabId: tab.id,
+      })
+    );
   }
 
   setBadgeColor(tab, color);
@@ -111,12 +141,17 @@ export const setGlobalIcon = async (enabled: boolean): Promise<void> => {
     });
     for (const tab of tabAwait) {
       if (tab.id !== browser.tabs.TAB_ID_NONE) {
-        await browser.action.setIcon({
-          path: {
-            48: `/icons/icon_48${enabled ? "" : "_greyscale"}.png`,
-          },
-          tabId: tab.id,
-        });
+        // Not awaited: a tab that closed since the query must neither
+        // reject this whole function nor stop the remaining tabs from
+        // being repainted.
+        ignoreMissingTab(
+          browser.action.setIcon({
+            path: {
+              48: `/icons/icon_48${enabled ? "" : "_greyscale"}.png`,
+            },
+            tabId: tab.id,
+          })
+        );
       }
     }
   }
