@@ -16,7 +16,9 @@ import { useEffect, useRef, useState, type JSX } from "react";
 import { useDispatch } from "react-redux";
 import { removeExpressionUI, updateExpressionUI } from "@/redux/actions";
 import { validateExpressionDomain } from "@/services/libs";
+import { expressionOptionsSummary } from "@/ui/expression-options-summary";
 import ExpressionOptions from "./ExpressionOptions";
+import Icon from "./Icon";
 import IconButton from "./IconButton";
 
 interface OwnProps {
@@ -42,6 +44,9 @@ function ExpressionTable(props: ExpressionTableProps) {
   const [editMode, setEditMode] = useState(false);
   const [id, setId] = useState<string | undefined>("");
   const [invalid, setInvalidText] = useState("");
+  // Rows with their ExpressionOptions editor revealed (05-shield layout:
+  // rows are one line until expanded).
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
   const editInput = useRef<HTMLInputElement | undefined | null>(undefined);
 
   const clearEditState = () => {
@@ -56,6 +61,19 @@ function ExpressionTable(props: ExpressionTableProps) {
     setExpressionInput(expression.expression);
     setId(expression.id);
     setInvalidText("");
+  };
+
+  const toggleExpanded = (expressionId: string | undefined) => {
+    if (!expressionId) return;
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(expressionId)) {
+        next.delete(expressionId);
+      } else {
+        next.add(expressionId);
+      }
+      return next;
+    });
   };
 
   useEffect(() => {
@@ -127,100 +145,98 @@ function ExpressionTable(props: ExpressionTableProps) {
   }
 
   return (
-    <table className="table table-zebra">
+    <table className="table table-fixed table-zebra">
       <thead>
         <tr>
-          <th scope="col" />
-          <th scope="col">{expressionColumnTitle}</th>
+          <th scope="col" className="w-10" />
+          <th scope="col" className="w-1/3">
+            {expressionColumnTitle}
+          </th>
+          <th scope="col" className="w-28">
+            {browser.i18n.getMessage("listTypeText")}
+          </th>
           <th scope="col">{browser.i18n.getMessage("optionsText")}</th>
-          <th scope="col">{browser.i18n.getMessage("listTypeText")}</th>
+          <th scope="col" className="w-28" />
         </tr>
       </thead>
       <tbody className="expressionTable">
-        {expressions.map((expression) => (
-          <tr
-            className="group align-top"
-            key={`${expression.expression}-${expression.listType}`}
-          >
-            <td className="text-center">
-              <IconButton
-                title={browser.i18n.getMessage("removeExpressionText")}
-                className="btn-outline btn-error btn-sm"
-                iconName="trash"
-                onClick={() => {
-                  dispatch(removeExpressionUI(expression));
-                }}
-              />
-            </td>
-            {editMode && id === expression.id ? (
-              <td className="editableExpression">
-                <input
-                  ref={(c) => {
-                    editInput.current = c;
-                  }}
-                  className="input w-full input-sm"
-                  value={expressionInput}
-                  onFocus={moveCaretToEnd}
-                  onChange={(e) => setExpressionInput(e.target.value)}
-                  onKeyUp={(e) => {
-                    if (e.key.toLowerCase().includes("enter")) {
-                      commitEdit();
-                    } else if (e.key.toLowerCase().includes("escape")) {
-                      clearEdit();
-                    }
-                  }}
-                  type="url"
-                  autoFocus={true}
-                  formNoValidate={true}
-                />
-                {invalid !== "" && (
-                  <div className="mt-1 text-sm text-error">{invalid}</div>
-                )}
-                <div className="mt-2 flex justify-between gap-2">
-                  <IconButton
-                    title={browser.i18n.getMessage("stopEditingText")}
-                    className="w-[45%] btn-outline btn-error btn-sm"
-                    iconName="ban"
-                    onClick={() => {
-                      clearEdit();
-                    }}
-                  />
-                  <IconButton
-                    title={browser.i18n.getMessage("saveExpressionText")}
-                    className="w-[45%] btn-outline btn-sm btn-success"
-                    iconName="save"
-                    onClick={() => {
-                      commitEdit();
-                    }}
-                  />
-                </div>
-              </td>
-            ) : (
+        {expressions.map((expression) => {
+          const expanded = expandedIds.has(expression.id ?? "");
+          return [
+            <tr
+              className="group"
+              key={`${expression.expression}-${expression.listType}`}
+            >
               <td>
-                <textarea
-                  className="textarea w-full resize-none overflow-x-auto textarea-ghost whitespace-nowrap"
-                  readOnly={true}
-                  rows={1}
-                  value={expression.expression}
-                />
-
-                <IconButton
-                  title={browser.i18n.getMessage("editExpressionText")}
-                  iconName="pen"
-                  className="showOnRowHover invisible mt-1 w-full btn-outline btn-info btn-sm group-hover:visible"
-                  onClick={() => {
-                    startEditing(expression);
-                  }}
-                />
+                <button
+                  type="button"
+                  className="btn btn-ghost btn-xs"
+                  aria-expanded={expanded}
+                  title={browser.i18n.getMessage("toggleOptionsText")}
+                  onClick={() => toggleExpanded(expression.id)}
+                >
+                  <Icon
+                    name={expanded ? "chevron-down" : "chevron-right"}
+                    className="rtl:-scale-x-100"
+                  />
+                </button>
               </td>
-            )}
-            <td>
-              <ExpressionOptions expression={expression} />
-            </td>
-            <td>
-              <div>
+              {editMode && id === expression.id ? (
+                <td className="editableExpression">
+                  <div className="flex items-center gap-2">
+                    <input
+                      ref={(c) => {
+                        editInput.current = c;
+                      }}
+                      className="input w-full input-sm"
+                      value={expressionInput}
+                      onFocus={moveCaretToEnd}
+                      onChange={(e) => setExpressionInput(e.target.value)}
+                      onKeyUp={(e) => {
+                        if (e.key.toLowerCase().includes("enter")) {
+                          commitEdit();
+                        } else if (e.key.toLowerCase().includes("escape")) {
+                          clearEdit();
+                        }
+                      }}
+                      type="url"
+                      autoFocus={true}
+                      formNoValidate={true}
+                    />
+                    <IconButton
+                      title={browser.i18n.getMessage("saveExpressionText")}
+                      className="btn-outline btn-sm btn-success"
+                      iconName="save"
+                      onClick={() => {
+                        commitEdit();
+                      }}
+                    />
+                    <IconButton
+                      title={browser.i18n.getMessage("stopEditingText")}
+                      className="btn-outline btn-error btn-sm"
+                      iconName="ban"
+                      onClick={() => {
+                        clearEdit();
+                      }}
+                    />
+                  </div>
+                  {invalid !== "" && (
+                    <div className="mt-1 text-sm text-error">{invalid}</div>
+                  )}
+                </td>
+              ) : (
+                <td>
+                  <span
+                    className="block truncate font-mono"
+                    title={expression.expression}
+                  >
+                    {expression.expression}
+                  </span>
+                </td>
+              )}
+              <td>
                 <span
-                  className={`badge badge-sm ${
+                  className={`badge badge-sm whitespace-nowrap ${
                     expression.listType === "WHITE"
                       ? "badge-success"
                       : "badge-ghost"
@@ -237,30 +253,69 @@ function ExpressionTable(props: ExpressionTableProps) {
                       : "sessionBadgeText"
                   )}
                 </span>
-              </div>
-              <IconButton
-                title={`${
-                  expression.listType === "WHITE"
-                    ? browser.i18n.getMessage("toggleToSessionText")
-                    : browser.i18n.getMessage("toggleToKeepText")
-                }`}
-                iconName="exchange-alt"
-                className="showOnRowHover invisible mt-1 w-full btn-outline btn-neutral btn-sm group-hover:visible"
-                onClick={() =>
-                  dispatch(
-                    updateExpressionUI({
-                      ...expression,
-                      listType:
-                        expression.listType === ListType.GREY
-                          ? ListType.WHITE
-                          : ListType.GREY,
-                    })
-                  )
-                }
-              />
-            </td>
-          </tr>
-        ))}
+              </td>
+              <td>
+                <span
+                  className="block truncate text-base-content/70"
+                  title={expressionOptionsSummary(expression)}
+                >
+                  {expressionOptionsSummary(expression)}
+                </span>
+              </td>
+              <td>
+                <div className="showOnRowHover invisible flex justify-end gap-1 group-hover:visible">
+                  <IconButton
+                    title={browser.i18n.getMessage("editExpressionText")}
+                    iconName="pen"
+                    className="btn-outline btn-info btn-sm"
+                    onClick={() => {
+                      startEditing(expression);
+                    }}
+                  />
+                  <IconButton
+                    title={`${
+                      expression.listType === "WHITE"
+                        ? browser.i18n.getMessage("toggleToSessionText")
+                        : browser.i18n.getMessage("toggleToKeepText")
+                    }`}
+                    iconName="exchange-alt"
+                    className="btn-outline btn-neutral btn-sm"
+                    onClick={() =>
+                      dispatch(
+                        updateExpressionUI({
+                          ...expression,
+                          listType:
+                            expression.listType === ListType.GREY
+                              ? ListType.WHITE
+                              : ListType.GREY,
+                        })
+                      )
+                    }
+                  />
+                  <IconButton
+                    title={browser.i18n.getMessage("removeExpressionText")}
+                    className="btn-outline btn-error btn-sm"
+                    iconName="trash"
+                    onClick={() => {
+                      dispatch(removeExpressionUI(expression));
+                    }}
+                  />
+                </div>
+              </td>
+            </tr>,
+            expanded ? (
+              <tr
+                className="expressionOptionsRow"
+                key={`${expression.expression}-${expression.listType}-options`}
+              >
+                <td />
+                <td colSpan={4}>
+                  <ExpressionOptions expression={expression} />
+                </td>
+              </tr>
+            ) : null,
+          ];
+        })}
       </tbody>
     </table>
   );

@@ -79,7 +79,7 @@ describe("ExpressionTable", () => {
     expect(container.querySelector("table")).toBeNull();
   });
 
-  it("renders the column headers and one row per expression", () => {
+  it("renders the column headers and one single-line row per expression", () => {
     const { container, getByText, getAllByTitle, getByTitle } = renderTable([
       whiteExpression,
       greyExpression,
@@ -93,24 +93,53 @@ describe("ExpressionTable", () => {
     expect(headers).toEqual([
       "",
       "expressionColumnTitle",
-      "optionsText",
       "listTypeText",
+      "optionsText",
+      "",
     ]);
     expect(container.querySelectorAll("tbody tr")).toHaveLength(2);
-    const textareas = Array.from(
-      container.querySelectorAll("textarea")
-    ) as HTMLTextAreaElement[];
-    expect(textareas.map((t) => t.value)).toEqual([
-      "example.com",
-      "example.org",
-    ]);
-    expect(textareas[0].readOnly).toBe(true);
+    // Sites render as plain mono text, not the old read-only textareas.
+    expect(container.querySelector("textarea")).toBeNull();
+    getByText("example.com");
+    getByText("example.org");
     getByText("keptBadgeText");
     getByText("sessionBadgeText");
     expect(getAllByTitle("removeExpressionText")).toHaveLength(2);
     expect(getAllByTitle("editExpressionText")).toHaveLength(2);
     getByTitle("toggleToSessionText");
     getByTitle("toggleToKeepText");
+  });
+
+  it("shows a plain-language options summary on each row", () => {
+    const { getAllByText, getByText } = renderTable([
+      whiteExpression,
+      {
+        ...greyExpression,
+        cleanAllCookies: false,
+        cookieNames: ["a", "b", "c"],
+      },
+    ]);
+    getAllByText("summaryKeepsEverythingText");
+    getByText("summaryNamedCookiesText");
+  });
+
+  it("hides the options editor until the row expander is clicked", () => {
+    const view = renderTable([whiteExpression, greyExpression]);
+    expect(view.container.querySelector(".expressionOptionsRow")).toBeNull();
+    const expanders = view.getAllByTitle("toggleOptionsText");
+    expect(expanders).toHaveLength(2);
+    expect(expanders[0].getAttribute("aria-expanded")).toBe("false");
+
+    fireEvent.click(expanders[0]);
+    expect(expanders[0].getAttribute("aria-expanded")).toBe("true");
+    expect(
+      view.container.querySelectorAll(".expressionOptionsRow")
+    ).toHaveLength(1);
+    // The revealed row hosts the existing ExpressionOptions editor.
+    view.getByText("keepAllCookiesText");
+
+    fireEvent.click(expanders[0]);
+    expect(view.container.querySelector(".expressionOptionsRow")).toBeNull();
   });
 
   it("renders expression rows without console errors", () => {
@@ -149,8 +178,8 @@ describe("ExpressionTable", () => {
     expect(input.type).toBe("url");
     view.getByTitle("stopEditingText");
     view.getByTitle("saveExpressionText");
-    // Only the edited row loses its read-only textarea.
-    expect(view.container.querySelectorAll("textarea")).toHaveLength(1);
+    // The other row keeps its plain text.
+    view.getByText("example.org");
     // No validation message until a bad value is committed.
     expect(view.container.querySelector(".text-error")).toBeNull();
   });
@@ -194,13 +223,8 @@ describe("ExpressionTable", () => {
     fireEvent.change(input, { target: { value: "changed.example.com" } });
     fireEvent.keyUp(input, { key: "Escape" });
     expect(view.container.querySelector("td.editableExpression")).toBeNull();
-    const textareas = Array.from(
-      view.container.querySelectorAll("textarea")
-    ) as HTMLTextAreaElement[];
-    expect(textareas.map((t) => t.value)).toEqual([
-      "example.com",
-      "example.org",
-    ]);
+    view.getByText("example.com");
+    view.getByText("example.org");
     expect(view.updates()).toHaveLength(0);
   });
 });
