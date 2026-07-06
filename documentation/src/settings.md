@@ -22,7 +22,7 @@ The settings live on the **Protection** page; the groups below match it top to b
 
 ## Expression Options
 
-**Create Default Options for This List** — creates a special `_Default:` expression per list. Whatever per-expression options you set on it (which site-data types to clean, whether to keep all cookies) become the starting options for every expression you add to that list afterwards. Edit it like any other expression.
+**Create default options** — creates a special `_Default:` expression per list. Whatever per-expression options you set on it (which site-data types to clean, whether to keep all cookies) become the starting options for every expression you add to that list afterwards. Edit it like any other expression.
 
 ## What gets deleted
 

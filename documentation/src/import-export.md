@@ -4,7 +4,7 @@ Two things can be exported and imported, separately: your **expressions** (the k
 
 ## Expressions
 
-**Export Expressions...** downloads every list as one JSON file. **Import Expressions...** reads such a file and adds its expressions to your current lists — importing never deletes what you already have, and exact duplicates are skipped.
+**Export saved sites** downloads every list as one JSON file. **Import saved sites** reads such a file and adds its expressions to your current lists — importing never deletes what you already have, and exact duplicates are skipped.
 
 The file is a JSON object with one key per cookie store (usually just `default`), each holding an array of expressions:
 
@@ -40,6 +40,10 @@ Field by field:
 | `cleanAllCookies` | no       | omit or `true` to keep every cookie; `false` to keep only the ones in `cookieNames`                                                          |
 
 Invalid entries are rejected with a reason shown per entry (bad regex, empty expression, stray spaces), and everything valid in the same file still imports. This also makes hand-writing a list in a text editor perfectly workable: start from an export, edit, re-import.
+
+### Importing from the original Cookie AutoDelete
+
+Exports from the original Cookie AutoDelete extension import cleanly — the file format is the same. Firefox-era exports may contain extra keys for container tabs (`firefox-container-1` and so on), a Firefox feature that doesn't exist in Chromium browsers. Those entries would never match anything here, so the importer merges them into your default list instead, skips any whose pattern is already on it, and tells you how many were merged.
 
 ## Settings
 
