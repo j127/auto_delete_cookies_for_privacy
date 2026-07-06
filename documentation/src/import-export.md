@@ -1,6 +1,6 @@
 # Import and Export
 
-Two things can be exported and imported, separately: your **expressions** (the keep lists) and your **settings**. Both are plain JSON files, both buttons live on the settings page, and exported filenames get a timestamp appended so repeated backups don't overwrite each other.
+Two things can be exported and imported, separately: your **saved sites** (the keep lists) and your **settings**. Both are plain JSON files, all the buttons live on the **Import / Export** page in the sidebar, and exported filenames get a timestamp appended so repeated backups don't overwrite each other. Resetting the settings to their defaults lives there too.
 
 ## Expressions
 

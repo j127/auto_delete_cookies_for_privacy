@@ -18,6 +18,7 @@ import Icon from "@/ui/common-components/Icon";
 import About from "./components/About";
 import ActivityLog from "./components/ActivityLog";
 import Expressions from "./components/Expressions";
+import ImportExport from "./components/ImportExport";
 import Settings from "./components/Settings";
 import SideBar from "./components/SideBar";
 import ThemeSwitcher from "./components/ThemeSwitcher";
@@ -100,6 +101,7 @@ const App: React.FunctionComponent = () => {
               {activeTab === "tabSettings" ? <Settings /> : ""}
               {activeTab === "tabExpressionList" ? <Expressions /> : ""}
               {activeTab === "tabCleanupLog" ? <ActivityLog /> : ""}
+              {activeTab === "tabImportExport" ? <ImportExport /> : ""}
               {activeTab === "tabAbout" ? <About /> : ""}
             </main>
           </ErrorBoundary>

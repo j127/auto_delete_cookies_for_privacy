@@ -45,11 +45,20 @@ export default function IconButton(props: IconButtonProps) {
 
   // Has to be PascalCase, else JSX will think it's a tag named 'tagName'.
   const TagName = tag === "input" ? "label" : tag || "button";
+  // For the file-input variant the change handler must live on the hidden
+  // input ONLY: the change event bubbles to the wrapping label, and a
+  // duplicated React onChange there would run the handler twice per file.
+  const wrapperProps = { ...nativeProps };
+  if (tag === "input") {
+    delete wrapperProps.accept;
+    delete wrapperProps.onChange;
+    delete wrapperProps.type;
+  }
   return (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     <TagName
-      {...nativeProps}
+      {...wrapperProps}
       className={`btn ${className || ""}`}
       style={{
         cursor: tag === "input" ? "pointer" : undefined,

@@ -138,14 +138,11 @@ describe("Settings", () => {
     expect(without.querySelector(keepIconLabel)).toBeNull();
   });
 
-  it("dispatches RESET_SETTINGS and shows a success alert on reset to defaults", () => {
-    const { container, dispatchSpy, getByText } = renderSettings();
-    fireEvent.click(getByText("defaultSettingsText"));
-    expect(dispatchSpy).toHaveBeenCalledWith({
-      type: ReduxConstants.RESET_SETTINGS,
-    });
-    const success = container.querySelector(".alert-success") as HTMLElement;
-    expect(success.textContent).toBe("successText defaultSettingsText");
+  it("has no backup toolbar — export/import/reset live on the Import / Export page", () => {
+    const { queryByText } = renderSettings();
+    expect(queryByText("exportSettingsText")).toBeNull();
+    expect(queryByText("importCoreSettingsText")).toBeNull();
+    expect(queryByText("defaultSettingsText")).toBeNull();
   });
 
   it("renders without console errors", () => {

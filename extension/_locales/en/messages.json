@@ -1458,5 +1458,13 @@
         "placeholder": "4"
       }
     }
+  },
+  "importExportText": {
+    "message": "Import / Export",
+    "description": "Sidebar tab for the backup and restore page"
+  },
+  "importExportSubText": {
+    "message": "Back up your settings and saved sites, restore them from a file, or reset to defaults.",
+    "description": "Subtitle of the Import / Export page"
   }
 }
