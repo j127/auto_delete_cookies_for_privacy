@@ -186,7 +186,13 @@ const App: React.FunctionComponent = () => {
       >
         <span id="CADTitle">{browser.i18n.getMessage("extensionName")}</span>
         &nbsp;
-        <span id="CADVersion" style={{ fontWeight: "bold" }}>
+        {/* "underline" is the Tailwind pipeline proof class (#39); the
+            popup rebuild (#41) replaces this markup wholesale. */}
+        <span
+          id="CADVersion"
+          className="underline"
+          style={{ fontWeight: "bold" }}
+        >
           {browser.runtime.getManifest().version}
         </span>
       </div>

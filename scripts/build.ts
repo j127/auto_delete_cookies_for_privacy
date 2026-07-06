@@ -9,11 +9,13 @@
  *   bun run scripts/build.ts          one-shot build
  *   bun run scripts/build.ts --watch  rebuild on changes under src/
  *
- * Emits three ESM entry bundles (plus shared chunks) into extension/bundles/
- * and copies the bootstrap/jquery vendor files into extension/global_files/
- * (those vendor copies disappear with the Tailwind rework). The MV3 service
- * worker runs the background bundle with "type": "module", and both HTML
- * pages load their entry with <script type="module">.
+ * Emits three ESM entry bundles (plus shared chunks) into extension/bundles/,
+ * compiles the Tailwind 4 stylesheet (src/ui/styles.css) into
+ * extension/bundles/ui.css via @tailwindcss/cli, and copies the
+ * bootstrap/jquery vendor files into extension/global_files/ (those vendor
+ * copies disappear at #42). The MV3 service worker runs the background bundle
+ * with "type": "module", and both HTML pages load their entry with
+ * <script type="module"> plus the compiled stylesheet.
  */
 
 // Bare specifiers (not node:-prefixed) and older fs APIs (copyFileSync,
@@ -66,6 +68,26 @@ function copyVendorFiles(): void {
   }
 }
 
+/**
+ * Compiles src/ui/styles.css (Tailwind 4 + DaisyUI) into
+ * extension/bundles/ui.css. Spawns the CLI binary directly from
+ * node_modules/.bin so no global install is needed; Bun runs it fine.
+ * Unminified, matching the JS bundles (reviewable output).
+ */
+async function buildTailwind(): Promise<boolean> {
+  const proc = Bun.spawn(
+    [
+      join(root, "node_modules", ".bin", "tailwindcss"),
+      "-i",
+      join(srcDir, "ui", "styles.css"),
+      "-o",
+      join(outDir, "ui.css"),
+    ],
+    { cwd: root, stdout: "ignore", stderr: "inherit" }
+  );
+  return (await proc.exited) === 0;
+}
+
 async function buildOnce(): Promise<boolean> {
   const started = Date.now();
   if (existsSync(outDir)) rmdirSync(outDir, { recursive: true });
@@ -89,10 +111,12 @@ async function buildOnce(): Promise<boolean> {
     for (const log of result.logs) console.error(log);
     return false;
   }
+  if (!(await buildTailwind())) return false;
   copyVendorFiles();
   const files = result.outputs
     .map((o) => o.path.replace(`${root}/`, ""))
-    .filter((p) => !p.endsWith(".map"));
+    .filter((p) => !p.endsWith(".map"))
+    .concat("extension/bundles/ui.css");
   console.log(
     `built ${files.length} files in ${Date.now() - started}ms\n  ${files.join("\n  ")}`
   );
