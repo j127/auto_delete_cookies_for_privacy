@@ -64,49 +64,57 @@ const App: React.FunctionComponent = () => {
   };
 
   return (
-    <div className="drawer lg:drawer-open">
-      <input
-        id="settings-drawer"
-        type="checkbox"
-        className="drawer-toggle"
-        checked={drawerOpen}
-        onChange={(e) => setDrawerOpen(e.target.checked)}
-      />
-      <div className="drawer-content">
-        <header className="navbar sticky top-0 z-10 border-b border-base-300 bg-base-100">
-          <div className="navbar-start">
-            <label
-              htmlFor="settings-drawer"
-              className="drawer-button btn btn-ghost lg:hidden"
-              aria-label={browser.i18n.getMessage("menuText")}
-            >
-              <Icon size="lg" name="bars" />
-            </label>
-            <span className="px-2 text-lg font-semibold">
-              {browser.i18n.getMessage("extensionName")}
-            </span>
-          </div>
-          <div className="navbar-end pe-2">
-            <ThemeSwitcher />
-          </div>
-        </header>
-        <ErrorBoundary>
-          <main className="mx-auto w-full max-w-3xl p-4 pb-16 lg:p-8">
-            {activeTab === "tabWelcome" ? <Welcome /> : ""}
-            {activeTab === "tabSettings" ? <Settings /> : ""}
-            {activeTab === "tabExpressionList" ? <Expressions /> : ""}
-            {activeTab === "tabCleanupLog" ? <ActivityLog /> : ""}
-            {activeTab === "tabAbout" ? <About /> : ""}
-          </main>
-        </ErrorBoundary>
-      </div>
-      <div className="drawer-side z-20">
-        <label
-          htmlFor="settings-drawer"
-          aria-label={browser.i18n.getMessage("menuText")}
-          className="drawer-overlay"
-        ></label>
-        <SideBar switchTabs={(tab) => switchTabs(tab)} activeTab={activeTab} />
+    <div className="flex min-h-screen flex-col">
+      {/* The brand lives in this full-width bar (05d feedback): the name
+          gets the whole page width instead of wrapping inside the sidebar. */}
+      <header className="navbar border-b border-base-300 bg-base-100">
+        <div className="navbar-start gap-1">
+          <label
+            htmlFor="settings-drawer"
+            className="drawer-button btn btn-ghost lg:hidden"
+            aria-label={browser.i18n.getMessage("menuText")}
+          >
+            <Icon size="lg" name="bars" />
+          </label>
+          <img alt="" className="size-7 flex-none" src="../icons/icon_48.png" />
+          <span className="px-2 text-lg font-semibold whitespace-nowrap">
+            {browser.i18n.getMessage("extensionName")}
+          </span>
+        </div>
+        <div className="navbar-end pe-2">
+          <ThemeSwitcher />
+        </div>
+      </header>
+      <div className="drawer flex-1 lg:drawer-open">
+        <input
+          id="settings-drawer"
+          type="checkbox"
+          className="drawer-toggle"
+          checked={drawerOpen}
+          onChange={(e) => setDrawerOpen(e.target.checked)}
+        />
+        <div className="drawer-content">
+          <ErrorBoundary>
+            <main className="mx-auto w-full max-w-3xl p-4 pb-16 lg:p-8">
+              {activeTab === "tabWelcome" ? <Welcome /> : ""}
+              {activeTab === "tabSettings" ? <Settings /> : ""}
+              {activeTab === "tabExpressionList" ? <Expressions /> : ""}
+              {activeTab === "tabCleanupLog" ? <ActivityLog /> : ""}
+              {activeTab === "tabAbout" ? <About /> : ""}
+            </main>
+          </ErrorBoundary>
+        </div>
+        <div className="drawer-side z-20">
+          <label
+            htmlFor="settings-drawer"
+            aria-label={browser.i18n.getMessage("menuText")}
+            className="drawer-overlay"
+          ></label>
+          <SideBar
+            switchTabs={(tab) => switchTabs(tab)}
+            activeTab={activeTab}
+          />
+        </div>
       </div>
     </div>
   );
