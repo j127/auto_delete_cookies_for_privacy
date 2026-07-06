@@ -1,8 +1,10 @@
-import tsconfigPaths from "vite-tsconfig-paths";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  plugins: [tsconfigPaths()],
+  // Resolves the tsconfig "@/*" paths alias natively (no plugin needed).
+  resolve: {
+    tsconfigPaths: true,
+  },
   test: {
     // Mirrors the old jest clearMocks: true.
     clearMocks: true,
