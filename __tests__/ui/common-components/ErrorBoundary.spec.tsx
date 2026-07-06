@@ -7,11 +7,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
 import { ReduxConstants } from "@/typings/redux-constants";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
 import ErrorBoundary from "@/ui/common-components/ErrorBoundary";
-
-// Register the FontAwesome icons the entrypoints normally provide.
-fontAwesomeImports();
 
 const Bomb: React.FunctionComponent = () => {
   throw new Error("boom");

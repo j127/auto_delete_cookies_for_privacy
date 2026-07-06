@@ -20,11 +20,9 @@ import { Provider } from "react-redux";
 import { createUIStore } from "@/redux/ui-store-bridge";
 import { sleep } from "@/services/libs";
 import ErrorBoundary from "@/ui/common-components/ErrorBoundary";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
 import { initTheme } from "@/ui/theme";
 import App from "./App";
 
-fontAwesomeImports();
 // Before the store hydrates, so an explicit dark/light choice applies
 // without a flash of the wrong theme.
 void initTheme();

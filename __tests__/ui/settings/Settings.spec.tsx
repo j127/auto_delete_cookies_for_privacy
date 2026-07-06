@@ -8,11 +8,7 @@ import { createStore } from "redux";
 import { initialState } from "@/redux/state";
 import { SettingID } from "@/typings/enums";
 import { ReduxConstants } from "@/typings/redux-constants";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
 import Settings from "@/ui/settings/components/Settings";
-
-// Register the FontAwesome icons the settings entrypoint normally provides.
-fontAwesomeImports();
 
 const withSettings = (overrides: { [setting: string]: Setting }): State => ({
   ...initialState,

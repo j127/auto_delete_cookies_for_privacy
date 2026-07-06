@@ -8,11 +8,7 @@ import { createStore } from "redux";
 import { initialState } from "@/redux/state";
 import { OpenTabStatus, ReasonClean } from "@/typings/enums";
 import { ReduxConstants } from "@/typings/redux-constants";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
 import ActivityLog from "@/ui/settings/components/ActivityLog";
-
-// Register the FontAwesome icons the settings entrypoint normally provides.
-fontAwesomeImports();
 
 const mockCookie: CookiePropertiesCleanup = {
   domain: "example.com",

@@ -13,11 +13,7 @@ import {
   ReasonClean,
   SiteDataType,
 } from "@/typings/enums";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
 import ActivityTable from "@/ui/common-components/ActivityTable";
-
-// Register the FontAwesome icons the entrypoints normally provide.
-fontAwesomeImports();
 
 const makeCookie = (
   hostname: string,

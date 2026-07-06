@@ -3,11 +3,7 @@
  */
 import * as React from "react";
 import { render } from "@testing-library/react";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
 import SettingsTooltip from "@/ui/settings/components/SettingsTooltip";
-
-// Register the FontAwesome icons the settings entrypoint normally provides.
-fontAwesomeImports();
 
 const DOC_BASE =
   "https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/";
@@ -45,12 +41,12 @@ describe("SettingsTooltip", () => {
     expect(wrapper.hasAttribute("data-tip")).toBe(true);
   });
 
-  it("renders a regular-style FontAwesome icon inside the link", () => {
+  it("renders the question-circle icon inside the link", () => {
     const anchor = renderTooltip("faq.md");
     const icon = anchor.querySelector("svg") as SVGElement;
     expect(icon).not.toBeNull();
-    expect(icon.classList.contains("svg-inline--fa")).toBe(true);
-    expect(icon.getAttribute("data-prefix")).toBe("far");
+    // Inline SVG icon since #43 (the FontAwesome runtime is gone).
+    expect(icon.getAttribute("data-icon")).toBe("question-circle");
   });
 
   it("renders without console errors", () => {

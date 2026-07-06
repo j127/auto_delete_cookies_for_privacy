@@ -10,8 +10,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
+import Icon from "@/ui/common-components/Icon";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import {
   addExpressionUI,
@@ -270,7 +270,7 @@ const App: React.FunctionComponent = () => {
               setCleanOptionsOpen((open) => !open);
             }}
           >
-            <FontAwesomeIcon icon="chevron-down" size="sm" />
+            <Icon name="chevron-down" size="sm" />
             <span className="sr-only">
               {browser.i18n.getMessage("dropdownAdditionalCleaningOptions")}
             </span>

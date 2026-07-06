@@ -11,8 +11,8 @@
  * SOFTWARE.
  */
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
+import Icon from "@/ui/common-components/Icon";
 
 interface OwnProps {
   hrefURL: string;
@@ -40,7 +40,7 @@ const SettingsTooltip: React.FunctionComponent<OwnProps> = ({ hrefURL }) => {
         className="ml-1.5 text-base-content/60 hover:text-base-content"
         aria-label={browser.i18n.getMessage("documentationText")}
       >
-        <FontAwesomeIcon size={"lg"} icon={["far", "question-circle"]} />
+        <Icon size="lg" name="question-circle" />
       </a>
     </span>
   );

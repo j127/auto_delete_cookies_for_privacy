@@ -7,11 +7,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
 import { ListType, SettingID } from "@/typings/enums";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
 import App from "@/ui/popup/App";
-
-// Register the FontAwesome icons the popup entrypoint normally provides.
-fontAwesomeImports();
 
 interface FakePort {
   name: string;

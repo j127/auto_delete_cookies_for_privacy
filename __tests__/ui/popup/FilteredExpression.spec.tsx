@@ -7,11 +7,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
 import { ListType } from "@/typings/enums";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
 import FilteredExpression from "@/ui/popup/components/FilteredExpression";
-
-// Register the FontAwesome icons the popup entrypoint normally provides.
-fontAwesomeImports();
 
 const whiteExpression: Expression = {
   expression: "example.com",

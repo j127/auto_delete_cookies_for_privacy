@@ -3,11 +3,7 @@
  */
 import * as React from "react";
 import { fireEvent, render } from "@testing-library/react";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
 import IconButton from "@/ui/common-components/IconButton";
-
-// Register the FontAwesome icons the entrypoints normally provide.
-fontAwesomeImports();
 
 describe("IconButton", () => {
   it("renders a <button> by default with the btn class merged in", () => {
@@ -21,7 +17,7 @@ describe("IconButton", () => {
     expect(console.error).not.toHaveBeenCalled();
   });
 
-  it("prepends the FontAwesome icon and spaces it away from the text", () => {
+  it("prepends the icon and spaces it away from the text", () => {
     const { container } = render(
       <IconButton className="btn-primary" iconName="trash" text="Remove" />
     );
