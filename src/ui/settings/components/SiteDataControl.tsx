@@ -56,18 +56,10 @@ const SiteDataControl: React.FunctionComponent<OwnProps> = ({
   return (
     <div id="siteDataControl">
       <label
-        className="flex cursor-pointer items-start gap-3 py-1"
+        className="flex cursor-pointer items-center gap-3 py-1"
         htmlFor="deleteAllSiteData"
       >
-        <input
-          checked={allOn}
-          className="toggle mt-0.5 toggle-primary"
-          id="deleteAllSiteData"
-          onChange={onMasterToggle}
-          ref={masterRef}
-          type="checkbox"
-        />
-        <span className="flex-1">
+        <span className="min-w-0 flex-1">
           <span className="font-semibold">
             {browser.i18n.getMessage("deleteAllSiteDataText")}
           </span>
@@ -80,6 +72,14 @@ const SiteDataControl: React.FunctionComponent<OwnProps> = ({
             {browser.i18n.getMessage("deleteAllSiteDataDescText")}
           </span>
         </span>
+        <input
+          checked={allOn}
+          className="toggle flex-none toggle-primary"
+          id="deleteAllSiteData"
+          onChange={onMasterToggle}
+          ref={masterRef}
+          type="checkbox"
+        />
         <SettingsTooltip
           hrefURL={"settings.md#other-browsing-data-cleanup-options"}
         />
@@ -95,7 +95,6 @@ const SiteDataControl: React.FunctionComponent<OwnProps> = ({
           <CheckboxSetting
             text={browser.i18n.getMessage("siteDataEmptyOnEnable")}
             settingObject={settings[SettingID.SITEDATA_EMPTY_ON_ENABLE]}
-            inline={true}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <div

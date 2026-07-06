@@ -29,10 +29,10 @@ interface OwnProps {
   style?: React.CSSProperties;
 }
 
-/** One setting row: control on the left, doc link pinned to the right. */
+/** One setting row (05d layout): text start, toggle end, doc link after. */
 const SettingRow: React.FunctionComponent<{ children: React.ReactNode }> = ({
   children,
-}) => <div className="flex items-center justify-between gap-2">{children}</div>;
+}) => <div className="flex items-center gap-2">{children}</div>;
 
 /** Card wrapper for a group of related settings (was a <fieldset>). */
 const SettingGroup: React.FunctionComponent<{
@@ -264,7 +264,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
         <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("activeModeText")}
-            inline={true}
             settingObject={settings[SettingID.ACTIVE_MODE]}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
@@ -300,7 +299,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <CheckboxSetting
             text={browser.i18n.getMessage("cleanDiscardedText")}
             settingObject={settings[SettingID.CLEAN_DISCARDED]}
-            inline={true}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
@@ -309,7 +307,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <CheckboxSetting
             text={browser.i18n.getMessage("cleanupDomainChangeText")}
             settingObject={settings[SettingID.CLEAN_DOMAIN_CHANGE]}
-            inline={true}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
@@ -318,7 +315,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <CheckboxSetting
             text={browser.i18n.getMessage(SettingID.ENABLE_GREYLIST)}
             settingObject={settings[SettingID.ENABLE_GREYLIST]}
-            inline={true}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
@@ -327,7 +323,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <CheckboxSetting
             text={browser.i18n.getMessage("cookieCleanUpOnStartText")}
             settingObject={settings[SettingID.CLEAN_OPEN_TABS_STARTUP]}
-            inline={true}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
@@ -335,7 +330,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
         <SettingRow>
           <CheckboxSetting
             settingObject={settings[SettingID.CLEAN_EXPIRED]}
-            inline={true}
             text={browser.i18n.getMessage("cleanExpiredCookiesText")}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
@@ -363,7 +357,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <CheckboxSetting
             text={browser.i18n.getMessage("enableCleanupLogText")}
             settingObject={settings[SettingID.STAT_LOGGING]}
-            inline={true}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
@@ -377,7 +370,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <CheckboxSetting
             text={browser.i18n.getMessage("showNumberOfCookiesInIconText")}
             settingObject={settings[SettingID.NUM_COOKIES_ICON]}
-            inline={true}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
@@ -387,7 +379,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             <CheckboxSetting
               text={browser.i18n.getMessage(SettingID.KEEP_DEFAULT_ICON)}
               settingObject={settings[SettingID.KEEP_DEFAULT_ICON]}
-              inline={true}
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
             <SettingsTooltip hrefURL={"settings.md#extension-options"} />
@@ -397,14 +388,12 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <CheckboxSetting
             text={browser.i18n.getMessage("notifyCookieCleanUpText")}
             settingObject={settings[SettingID.NOTIFY_AUTO]}
-            inline={true}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
         </SettingRow>
         <SettingRow>
           <CheckboxSetting
-            inline={true}
             settingObject={settings[SettingID.NOTIFY_MANUAL]}
             text={browser.i18n.getMessage("manualNotificationsText")}
             updateSetting={(payload) => onUpdateSetting(payload)}
@@ -413,7 +402,7 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
         </SettingRow>
         <SettingRow>
           <CheckboxSetting
-            inline={true}
+            description={browser.i18n.getMessage("showAdvancedPopupDescText")}
             settingObject={
               settings[SettingID.POPUP_ADVANCED] ?? {
                 name: SettingID.POPUP_ADVANCED,
@@ -425,9 +414,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
         </SettingRow>
-        <div className="mb-2 ps-12 text-sm text-base-content/70">
-          {browser.i18n.getMessage("showAdvancedPopupDescText")}
-        </div>
         <SettingRow>
           <SelectInput
             numSize={9}
@@ -446,7 +432,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <CheckboxSetting
             text={browser.i18n.getMessage(SettingID.ENABLE_NEW_POPUP)}
             settingObject={settings[SettingID.ENABLE_NEW_POPUP]}
-            inline={true}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
@@ -477,7 +462,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <CheckboxSetting
             text={browser.i18n.getMessage("enableContextMenus")}
             settingObject={settings[SettingID.CONTEXT_MENUS]}
-            inline={true}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
@@ -486,7 +470,6 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <CheckboxSetting
             text={browser.i18n.getMessage(SettingID.DEBUG_MODE)}
             settingObject={settings[SettingID.DEBUG_MODE]}
-            inline={true}
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />

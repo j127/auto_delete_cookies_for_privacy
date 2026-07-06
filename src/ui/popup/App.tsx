@@ -179,9 +179,6 @@ const App: React.FunctionComponent = () => {
         >
           {browser.i18n.getMessage("extensionName")}
         </span>
-        <span className="text-xs text-base-content/60" id="CADVersion">
-          v{browser.runtime.getManifest().version}
-        </span>
         <ShareMenu />
       </header>
       <PopupHero

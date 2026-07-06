@@ -12,19 +12,19 @@
  */
 import * as React from "react";
 interface OwnProps {
-  inline?: boolean;
+  description?: string;
   settingObject: Setting;
   text: string;
   updateSetting: (payload: Setting) => void;
 }
 
 /**
- * A boolean setting as a DaisyUI toggle. The pre-#40 version drew a
- * FontAwesome square icon with role="checkbox"; a real checkbox input needs
- * none of that ARIA plumbing.
+ * A boolean setting as a DaisyUI toggle, laid out per the 05d design: label
+ * (with an optional muted description underneath) on the start side, the
+ * toggle at the row's end.
  */
 const CheckboxSetting: React.FunctionComponent<OwnProps> = ({
-  inline,
+  description,
   settingObject,
   text,
   updateSetting,
@@ -32,15 +32,21 @@ const CheckboxSetting: React.FunctionComponent<OwnProps> = ({
   const { name, value } = settingObject;
   return (
     <label
-      className={`${
-        inline ? "inline-flex" : "flex"
-      } cursor-pointer items-center gap-3 py-1`}
+      className="flex w-full cursor-pointer items-center gap-3 py-1.5"
       htmlFor={name}
     >
+      <span className="min-w-0 flex-1">
+        <span>{text}</span>
+        {description && (
+          <span className="block text-sm text-base-content/70">
+            {description}
+          </span>
+        )}
+      </span>
       <input
         type="checkbox"
         id={name}
-        className="toggle toggle-primary toggle-sm"
+        className="toggle flex-none toggle-primary toggle-sm"
         checked={!!value}
         onChange={() =>
           updateSetting({
@@ -49,7 +55,6 @@ const CheckboxSetting: React.FunctionComponent<OwnProps> = ({
           })
         }
       />
-      <span>{text}</span>
     </label>
   );
 };

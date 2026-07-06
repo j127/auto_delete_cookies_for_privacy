@@ -106,11 +106,11 @@ describe("popup App", () => {
     expect(console.error).not.toHaveBeenCalled();
   });
 
-  it("renders the name bar with the full name, version, and Share menu", async () => {
+  it("renders the name bar with the full name and Share menu, no version", async () => {
     const { getByText } = await renderApp();
     const byId = (id: string) => document.getElementById(id) as HTMLElement;
     expect(byId("CADTitle").textContent).toBe("extensionName");
-    expect(byId("CADVersion").textContent).toBe("v1.0.0");
+    expect(document.getElementById("CADVersion")).toBeNull();
     expect(getByText("shareText")).toBeTruthy();
   });
 
