@@ -85,7 +85,7 @@ const About: React.FunctionComponent<OwnProps> = ({ style }) => {
         </a>
       </div>
       <span>{`${browser.i18n.getMessage("contributorsText")}`}:</span>
-      <ul className="mb-4 list-disc pl-6">
+      <ul className="mb-4 list-disc ps-6">
         <li>Kenny Do (Creator)</li>
         <li>
           seansfkelley (UI Redesign of Expression Table Settings and Popup)

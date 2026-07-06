@@ -37,7 +37,7 @@ const SettingsTooltip: React.FunctionComponent<OwnProps> = ({ hrefURL }) => {
         href={link}
         target="_blank"
         rel="help noreferrer noopener"
-        className="ml-1.5 text-base-content/60 hover:text-base-content"
+        className="ms-1.5 text-base-content/60 hover:text-base-content"
         aria-label={browser.i18n.getMessage("documentationText")}
       >
         <Icon size="lg" name="question-circle" />

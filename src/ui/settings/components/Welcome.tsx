@@ -27,7 +27,7 @@ const displayReleaseNotes = (releases: ReleaseNote[]) => {
           <span className="badge font-mono badge-neutral">
             {release.version}
           </span>
-          <ul className="mt-1 list-disc pl-6">
+          <ul className="mt-1 list-disc ps-6">
             {release.notes.map((element, index2) => (
               <li key={`release3${index2}`}>{element}</li>
             ))}

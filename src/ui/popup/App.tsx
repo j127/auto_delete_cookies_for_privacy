@@ -300,7 +300,7 @@ const App: React.FunctionComponent = () => {
             <img alt={"favIcon"} src={tab.favIconUrl} className="h-5 w-5" />
           )}
           <span className="min-w-0 flex-1 truncate text-lg">{hostname}</span>
-          <span className="text-right whitespace-nowrap">
+          <span className="text-end whitespace-nowrap">
             <span id="CADCookieText">
               {browser.i18n.getMessage("popupCookieCountText")}
             </span>
