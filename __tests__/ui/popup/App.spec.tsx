@@ -320,6 +320,11 @@ describe("popup App", () => {
 
   it("recounts the cookies when the port reports a cookie update", async () => {
     await renderApp();
+    // The port is connected in an effect; on a slow runner it may not have
+    // registered its listener yet when this test resumes.
+    await waitFor(() =>
+      expect(fakePort.onMessage.addListener).toHaveBeenCalled()
+    );
     const listener = fakePort.onMessage.addListener.mock.calls[0][0] as (
       m: CookieCountMsg
     ) => void;

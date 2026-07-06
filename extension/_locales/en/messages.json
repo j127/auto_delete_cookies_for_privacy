@@ -1448,5 +1448,15 @@
   "removedAllExpressionsText": {
     "message": "All saved sites were removed.",
     "description": "Success alert after the remove-all confirmation"
+  },
+  "importFoldedContainersText": {
+    "message": "$COUNT$ entries from old container lists were merged into the default list.",
+    "description": "Import success detail when Firefox-era container lists are folded into default",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
   }
 }

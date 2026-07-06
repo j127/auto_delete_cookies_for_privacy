@@ -29,6 +29,10 @@ import { ReduxAction } from "@/typings/redux-constants";
 import ExpressionTable from "@/ui/common-components/ExpressionTable";
 import Icon from "@/ui/common-components/Icon";
 import IconButton from "@/ui/common-components/IconButton";
+import {
+  parseRawExpression,
+  planExpressionImport,
+} from "@/ui/settings/import-plan";
 import { downloadObjectAsJSON } from "@/ui/ui-libs";
 import SettingsTooltip from "./SettingsTooltip";
 
@@ -65,38 +69,6 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
     setSuccess("");
   };
 
-  const parseRawExpression = (exp: Expression): string[] => {
-    const exps = exp.expression.split(",");
-    const expressions: string[] = [];
-    let skipTimes = 0;
-    exps.forEach((e, i, a) => {
-      // Ignore if expression was a continuation of regex but had a comma
-      if (skipTimes > 0) {
-        skipTimes--;
-        return;
-      }
-      // skipTimes should be 0 at this point
-      let ee = e.trim();
-      // Check for regex slash start
-      if (ee.startsWith("/")) {
-        // Continue to parse next set of comma-separated values until the next end slash
-        while (!ee.endsWith("/")) {
-          skipTimes++;
-          if (i + skipTimes >= a.length) {
-            // We have reached the end of the array and did not find an end slash.
-            // We will import as combined.
-            break;
-          }
-          ee += `,${a[i + skipTimes].trim()}`;
-        }
-      }
-      // At this point it should be either a complete regex with start and end
-      // slash, or a domain.
-      expressions.push(ee);
-    });
-    return expressions;
-  };
-
   // Import the expressions into the list
   const importExpressions = (importFile: File) => {
     // Do check for import first!
@@ -124,51 +96,32 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
         // FileReader.result is always string as we used readAsText()
         const result = file.target.result as string;
         const newExpressions: StoreIdToExpressionList = JSON.parse(result);
-        const storeIds = Object.keys(newExpressions);
-        const errExps: string[] = [];
-        let validExps = 0;
-        storeIds.forEach((storeId) => {
-          if (!Array.isArray(newExpressions[storeId])) {
-            errExps.push(
-              `- ${browser.i18n.getMessage("importListNotArray", [storeId])}`
-            );
-            return;
-          }
-          newExpressions[storeId].forEach((expression) => {
-            const exps = parseRawExpression(expression);
-            exps.forEach((exp) => {
-              const e = exp.trim();
-              if (!e) return;
-              const result = validateExpressionDomain(e).trim();
-              if (result) {
-                // invalid
-                errExps.push(`- ${e} (${storeId}) -> ${result}`);
-              } else {
-                // valid
-                validExps += 1;
-                onNewExpression({
-                  ...expression,
-                  expression: e,
-                });
-              }
-            });
-          });
-        });
+        const plan = planExpressionImport(newExpressions, lists);
+        plan.additions.forEach((expression) => onNewExpression(expression));
         setErrorMessage(
-          errExps.length > 0
+          plan.errors.length > 0
             ? `${browser.i18n.getMessage(
                 "importInvalidExpressions"
-              )}\n${errExps.join("\n")}`
+              )}\n${plan.errors.join("\n")}`
             : ""
         );
-        setSuccess(
-          validExps > 0
-            ? `${browser.i18n.getMessage("importValidExpressions", [
-                validExps.toString(),
-                importFile.name,
-              ])}`
-            : ""
-        );
+        const successParts: string[] = [];
+        if (plan.additions.length > 0) {
+          successParts.push(
+            browser.i18n.getMessage("importValidExpressions", [
+              plan.additions.length.toString(),
+              importFile.name,
+            ])
+          );
+        }
+        if (plan.foldedCount > 0) {
+          successParts.push(
+            browser.i18n.getMessage("importFoldedContainersText", [
+              plan.foldedCount.toString(),
+            ])
+          );
+        }
+        setSuccess(successParts.join("\n"));
       } catch (error) {
         if (error instanceof Error) {
           setErrorMessage(`${importFile.name} - ${error.toString()}.`);
