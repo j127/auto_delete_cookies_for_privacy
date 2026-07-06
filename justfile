@@ -37,6 +37,12 @@ format_check:
 # Everything CI runs, in order
 ci: install check lint test build
 
+# Regenerate the extension icon PNGs from image_editing/cookie-prohibited.svg
+# (requires rsvg-convert: `brew install librsvg`; the PNGs are committed, so
+# CI never needs it)
+icons_build:
+  bun run scripts/icons.ts
+
 # Zip extension/ into builds/ for Chrome
 package_zip: build
   #!/usr/bin/env bash
