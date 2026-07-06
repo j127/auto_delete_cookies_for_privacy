@@ -9,25 +9,23 @@
  *   bun run scripts/build.ts          one-shot build
  *   bun run scripts/build.ts --watch  rebuild on changes under src/
  *
- * Emits three ESM entry bundles (plus shared chunks) into extension/bundles/,
- * compiles the Tailwind 4 stylesheet (src/ui/styles.css) into
- * extension/bundles/ui.css via @tailwindcss/cli, and copies the
- * bootstrap/jquery vendor files into extension/global_files/ (those vendor
- * copies disappear at #42). The MV3 service worker runs the background bundle
- * with "type": "module", and both HTML pages load their entry with
- * <script type="module"> plus the compiled stylesheet.
+ * Emits three ESM entry bundles (plus shared chunks) into extension/bundles/
+ * and compiles the Tailwind 4 stylesheet (src/ui/styles.css) into
+ * extension/bundles/ui.css via @tailwindcss/cli. The MV3 service worker runs
+ * the background bundle with "type": "module", and both HTML pages load
+ * their entry with <script type="module"> plus the compiled stylesheet.
+ * The bootstrap/jquery vendor copies are gone since #42.
  */
 
-// Bare specifiers (not node:-prefixed) and older fs APIs (copyFileSync,
-// rmdirSync) because the locked @types/node is too old for the node: aliases
-// and for cpSync/rmSync; Bun implements all of these.
-import { copyFileSync, existsSync, mkdirSync, rmdirSync, watch } from "fs";
+// Bare specifiers (not node:-prefixed) and older fs APIs (rmdirSync) because
+// the locked @types/node is too old for the node: aliases and for
+// cpSync/rmSync; Bun implements all of these.
+import { existsSync, rmdirSync, watch } from "fs";
 import { join } from "path";
 
 const root = join(import.meta.dir, "..");
 const srcDir = join(root, "src");
 const outDir = join(root, "extension", "bundles");
-const vendorDir = join(root, "extension", "global_files");
 
 const BANNER = `/*!
  * Copyright (c) 2017-2022 Kenny Do and CAD Team (https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/graphs/contributors)
@@ -42,31 +40,6 @@ const BANNER = `/*!
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */`;
-
-// Vendor page scripts still referenced by the two HTML pages.
-const VENDOR_FILES = [
-  "bootstrap/dist/css/bootstrap.min.css",
-  "bootstrap/dist/css/bootstrap.min.css.map",
-  "bootstrap/dist/js/bootstrap.bundle.min.js",
-  "bootstrap/dist/js/bootstrap.bundle.min.js.map",
-  "jquery/dist/jquery.slim.min.js",
-  "jquery/dist/jquery.slim.min.map",
-];
-
-function copyVendorFiles(): void {
-  // The vendor copies themselves are gitignored, so on a fresh clone (CI)
-  // the directory doesn't exist at all - git can't track an empty dir.
-  mkdirSync(vendorDir, { recursive: true });
-  for (const rel of VENDOR_FILES) {
-    const from = join(root, "node_modules", rel);
-    if (!existsSync(from)) {
-      console.warn(`vendor file missing, skipped: ${rel}`);
-      continue;
-    }
-    const base = rel.split("/").pop() as string;
-    copyFileSync(from, join(vendorDir, base));
-  }
-}
 
 /**
  * Compiles src/ui/styles.css (Tailwind 4 + DaisyUI) into
@@ -112,7 +85,6 @@ async function buildOnce(): Promise<boolean> {
     return false;
   }
   if (!(await buildTailwind())) return false;
-  copyVendorFiles();
   const files = result.outputs
     .map((o) => o.path.replace(`${root}/`, ""))
     .filter((p) => !p.endsWith(".map"))
