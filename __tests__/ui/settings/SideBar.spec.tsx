@@ -44,10 +44,10 @@ describe("SideBar", () => {
     });
   });
 
-  it("shows the full product name and version in the brand block", () => {
-    const { getByText } = renderSideBar();
-    expect(getByText("extensionName")).not.toBeNull();
-    expect(getByText("v1.0.0")).not.toBeNull();
+  it("is pure navigation — no brand block or version (they live in the top bar / About)", () => {
+    const { queryByText } = renderSideBar();
+    expect(queryByText("extensionName")).toBeNull();
+    expect(queryByText("v1.0.0")).toBeNull();
   });
 
   it("marks only the active tab as selected", () => {

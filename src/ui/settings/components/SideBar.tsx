@@ -50,17 +50,6 @@ const SideBar: React.FunctionComponent<OwnProps> = ({
 
   return (
     <aside className="min-h-full w-64 bg-base-200">
-      <div className="flex items-center gap-3 border-b border-base-300 px-4 py-5">
-        <img alt="" className="size-9 flex-none" src="../icons/icon_48.png" />
-        <div className="min-w-0">
-          <div className="text-sm leading-tight font-bold">
-            {browser.i18n.getMessage("extensionName")}
-          </div>
-          <div className="font-mono text-xs opacity-70">
-            v{browser.runtime.getManifest().version}
-          </div>
-        </div>
-      </div>
       <ul className="menu w-full gap-1 p-2">
         {sideBarTabs.map((element) => (
           <li key={element.tabId}>
