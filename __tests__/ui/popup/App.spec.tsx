@@ -147,7 +147,7 @@ describe("popup App", () => {
   it("toggles the activeMode setting from the power button", async () => {
     const { dispatchSpy, getByText } = await renderApp();
     const powerButton = getByText("autoDeleteDisabledText");
-    expect(powerButton.className).toContain("btn-danger");
+    expect(powerButton.className).toContain("btn-error");
     expect(powerButton.getAttribute("title")).toBe("enableAutoDeleteText");
     fireEvent.click(powerButton);
     expect(dispatchSpy).toHaveBeenCalledWith({
@@ -225,18 +225,26 @@ describe("popup App", () => {
     );
   });
 
-  it("closes an expanded clean-options group when clicking outside it", async () => {
-    const { container } = await renderApp();
-    const collapse = document.getElementById("cleanCollapse") as HTMLElement;
-    collapse.classList.add("show");
+  it("toggles the clean-options panel from the caret and closes it on outside clicks", async () => {
+    await renderApp();
+    // Hidden until the caret expands it (React state since #41; the
+    // Bootstrap collapse plugin and its show class are gone).
+    expect(document.getElementById("cleanCollapse")).toBeNull();
+
+    const caret = document.getElementById("cleanOptionsToggle") as HTMLElement;
+    fireEvent.click(caret);
+    expect(document.getElementById("cleanCollapse")).not.toBeNull();
+    expect(caret.getAttribute("aria-expanded")).toBe("true");
+
+    // A second caret click collapses it again...
+    fireEvent.click(caret);
+    expect(document.getElementById("cleanCollapse")).toBeNull();
+
+    // ...and any click outside the caret closes an open panel.
+    fireEvent.click(caret);
+    expect(document.getElementById("cleanCollapse")).not.toBeNull();
     fireEvent.click(document.getElementById("CADTitle") as HTMLElement);
-    expect(collapse.classList.contains("show")).toBe(false);
-    // Clicks on the collapse toggle itself leave the group open.
-    collapse.classList.add("show");
-    fireEvent.click(
-      container.querySelector(".dropdown-toggle-split") as HTMLElement
-    );
-    expect(collapse.classList.contains("show")).toBe(true);
+    expect(document.getElementById("cleanCollapse")).toBeNull();
   });
 
   it("shows the tab favicon unless it comes from a chrome: url", async () => {

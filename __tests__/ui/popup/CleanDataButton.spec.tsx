@@ -90,27 +90,27 @@ describe("CleanDataButton", () => {
     expect(getByRole("button").getAttribute("title")).toBe("");
   });
 
-  it("wires the button into the cleanCollapse collapse group", () => {
+  it("renders a plain button without the old collapse wiring", () => {
+    // The Bootstrap data-toggle attributes are gone since #41; closing the
+    // options panel is the popup App's click handler's job.
     const { getByRole } = renderButton(<CleanDataButton text="x" />);
     const button = getByRole("button");
     expect(button.getAttribute("type")).toBe("button");
-    expect(button.getAttribute("data-target")).toBe("#cleanCollapse");
-    expect(button.getAttribute("data-toggle")).toBe("collapse");
-    expect(button.getAttribute("aria-controls")).toBe("cleanCollapse");
-    expect(button.getAttribute("aria-expanded")).toBe("false");
+    expect(button.getAttribute("data-target")).toBeNull();
+    expect(button.getAttribute("data-toggle")).toBeNull();
   });
 
   it("defaults to the btn-primary color", () => {
     const { getByRole } = renderButton(<CleanDataButton text="x" />);
     expect(getByRole("button").className).toBe(
-      "btn btn-primary btn-block mt-1 px-2"
+      "btn btn-primary btn-block btn-sm"
     );
   });
 
   it("uses btn-secondary when altColor is set", () => {
     const { getByRole } = renderButton(<CleanDataButton altColor text="x" />);
     expect(getByRole("button").className).toBe(
-      "btn btn-secondary btn-block mt-1 px-2"
+      "btn btn-secondary btn-block btn-sm"
     );
   });
 
@@ -119,7 +119,7 @@ describe("CleanDataButton", () => {
       <CleanDataButton altColor btnColor="btn-warning" text="x" />
     );
     expect(getByRole("button").className).toBe(
-      "btn btn-warning btn-block mt-1 px-2"
+      "btn btn-warning btn-block btn-sm"
     );
   });
 

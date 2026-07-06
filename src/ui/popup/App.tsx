@@ -10,6 +10,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import {
@@ -49,6 +50,12 @@ const App: React.FunctionComponent = () => {
   // Bumped after an external port disconnect so the port effect re-runs and
   // reconnects.
   const [reconnectAttempt, setReconnectAttempt] = React.useState(0);
+  // The additional-cleaning-options panel. React state replaces the
+  // Bootstrap/jQuery collapse plugin (#41): the caret toggles it, and any
+  // other click in the popup (including the panel's own buttons, after they
+  // fire) bubbles to the root handler below and closes it — matching the old
+  // data-toggle behavior.
+  const [cleanOptionsOpen, setCleanOptionsOpen] = React.useState(false);
 
   const port = React.useRef<browser.runtime.Port | null>(null);
 
@@ -162,53 +169,28 @@ const App: React.FunctionComponent = () => {
   return (
     <div
       id="cadPopup"
-      className="container-fluid"
-      style={{
-        overflow: "auto",
-      }}
-      onClick={(e) => {
-        const _t = e.target as HTMLElement;
-        const _ccg = document.getElementById("cleanCollapse");
-        if (!_ccg || !_ccg.classList.contains("show")) return;
-        const _dt = _t.attributes.getNamedItem("data-target");
-        if (!_dt || _dt.value !== "#cleanCollapse") {
-          _ccg.classList.remove("show");
-        }
+      className="overflow-auto"
+      onClick={() => {
+        if (cleanOptionsOpen) setCleanOptionsOpen(false);
       }}
     >
-      <div
-        className="row pt-2"
-        style={{
-          alignItems: "center",
-          backgroundColor: "rgba(0, 0, 0, 0.05)",
-          justifyContent: "center",
-        }}
-      >
-        <span id="CADTitle">{browser.i18n.getMessage("extensionName")}</span>
-        &nbsp;
-        {/* "underline" is the Tailwind pipeline proof class (#39); the
-            popup rebuild (#41) replaces this markup wholesale. */}
+      <header className="flex items-center justify-center gap-2 bg-base-200 px-3 pt-2 pb-1">
+        <span id="CADTitle" className="text-sm font-semibold">
+          {browser.i18n.getMessage("extensionName")}
+        </span>
         <span
           id="CADVersion"
-          className="underline"
-          style={{ fontWeight: "bold" }}
+          className="badge font-mono badge-sm badge-neutral"
         >
           {browser.runtime.getManifest().version}
         </span>
-      </div>
-      <div
-        className="row justify-content-center p-1"
-        style={{
-          alignItems: "center",
-          backgroundColor: "rgba(0, 0, 0, 0.05)",
-          borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
-        }}
-      >
+      </header>
+      <div className="flex flex-wrap items-center justify-center gap-1.5 border-b border-base-300 bg-base-200 p-2">
         <IconButton
           iconName="power-off"
-          className={`btn-${
-            settings[SettingID.ACTIVE_MODE].value ? "success" : "danger"
-          } m-1`}
+          className={`${
+            settings[SettingID.ACTIVE_MODE].value ? "btn-success" : "btn-error"
+          } btn-sm`}
           onClick={() =>
             dispatch(
               updateSetting({
@@ -232,9 +214,9 @@ const App: React.FunctionComponent = () => {
           iconName={
             settings[SettingID.NOTIFY_AUTO].value ? "bell" : "bell-slash"
           }
-          className={`btn-${
-            settings[SettingID.NOTIFY_AUTO].value ? "success" : "danger"
-          } m-1`}
+          className={`${
+            settings[SettingID.NOTIFY_AUTO].value ? "btn-success" : "btn-error"
+          } btn-sm`}
           onClick={() =>
             dispatch(
               updateSetting({
@@ -252,13 +234,13 @@ const App: React.FunctionComponent = () => {
         />
         <div
           id="cleanButtonContainer"
-          className="btn-group m-1"
+          className="join"
           role="group"
           aria-label="Clean Actions Group"
         >
           <IconButton
             iconName="eraser"
-            className="btn-warning"
+            className="join-item btn-sm btn-warning"
             type="button"
             onClick={() => {
               dispatch(
@@ -275,20 +257,20 @@ const App: React.FunctionComponent = () => {
             title={browser.i18n.getMessage("cookieCleanupText")}
             text={browser.i18n.getMessage("cleanText")}
           />
-
           <button
             aria-controls="cleanCollapse"
-            aria-expanded="false"
-            className="btn btn-warning dropdown-toggle dropdown-toggle-split"
-            data-disabled="true"
-            data-target="#cleanCollapse"
-            data-toggle="collapse"
-            role="button"
-            style={{
-              borderLeftColor: "rgb(176, 132, 0)",
-              transform: "translate3d(-3px, 0px, 0px)",
+            aria-expanded={cleanOptionsOpen}
+            id="cleanOptionsToggle"
+            className="btn join-item px-1.5 btn-sm btn-warning"
+            type="button"
+            onClick={(e) => {
+              // Keep the root close-on-any-click handler from immediately
+              // undoing the toggle.
+              e.stopPropagation();
+              setCleanOptionsOpen((open) => !open);
             }}
           >
+            <FontAwesomeIcon icon="chevron-down" size="sm" />
             <span className="sr-only">
               {browser.i18n.getMessage("dropdownAdditionalCleaningOptions")}
             </span>
@@ -296,7 +278,7 @@ const App: React.FunctionComponent = () => {
         </div>
         <IconButton
           iconName="cog"
-          className="btn-info m-1"
+          className="btn-info btn-sm"
           onClick={() => {
             browser.tabs.create({
               index: tab.index + 1,
@@ -308,127 +290,69 @@ const App: React.FunctionComponent = () => {
           text={browser.i18n.getMessage("preferencesText")}
         />
       </div>
-      <CleanCollapseGroup hostname={hostname || ""} tab={tab} />
+      {cleanOptionsOpen && (
+        <CleanCollapseGroup hostname={hostname || ""} tab={tab} />
+      )}
 
-      <div
-        className="row no-gutters"
-        style={{
-          alignItems: "center",
-          margin: "8px 0",
-        }}
-      >
-        {tab.favIconUrl && !tab.favIconUrl.startsWith("chrome:") && (
-          <img
-            alt={"favIcon"}
-            src={tab.favIconUrl}
-            style={{
-              height: "20px",
-              marginRight: "7px",
-              verticalAlign: "middle",
-              width: "20px",
-            }}
-          />
-        )}
-        <div className="col">
-          <span
-            style={{
-              fontSize: "1.25em",
-              marginRight: "8px",
-              verticalAlign: "middle",
-            }}
-          >
-            {hostname}
+      <main className="flex flex-col gap-2 p-3">
+        <div className="flex items-center gap-2">
+          {tab.favIconUrl && !tab.favIconUrl.startsWith("chrome:") && (
+            <img alt={"favIcon"} src={tab.favIconUrl} className="h-5 w-5" />
+          )}
+          <span className="min-w-0 flex-1 truncate text-lg">{hostname}</span>
+          <span className="text-right whitespace-nowrap">
+            <span id="CADCookieText">
+              {browser.i18n.getMessage("popupCookieCountText")}
+            </span>
+            :&nbsp;
+            <span id="CADCookieCount" className="font-bold">
+              {cookieCount}
+            </span>
           </span>
         </div>
-        <div
-          className="col-3"
-          style={{
-            fontSize: "1.1em",
-            textAlign: "center",
-          }}
-        >
-          <span id="CADCookieText">
-            {browser.i18n.getMessage("popupCookieCountText")}
-          </span>
-          :&nbsp;
-          <span
-            id="CADCookieCount"
-            style={{
-              fontWeight: "bold",
-            }}
-          >
-            {cookieCount}
-          </span>
-        </div>
-      </div>
 
-      {addableHostnames.map((addableHostname) => (
-        <div
-          key={addableHostname}
-          style={{
-            alignItems: "center",
-            display: "flex",
-            margin: "8px 0",
-          }}
-          className="row"
-        >
-          <div
-            style={{
-              flex: 1,
-            }}
-          >
-            {addableHostname}
+        {addableHostnames.map((addableHostname) => (
+          <div key={addableHostname} className="flex items-center gap-2">
+            <div className="min-w-0 flex-1 truncate">{addableHostname}</div>
+            <div className="join">
+              <IconButton
+                className="join-item btn-secondary btn-sm"
+                onClick={() => {
+                  dispatch(
+                    addExpressionUI({
+                      expression: localFileToRegex(addableHostname),
+                      listType: ListType.GREY,
+                      storeId,
+                    })
+                  );
+                }}
+                iconName="plus"
+                title={browser.i18n.getMessage("toGreyListText")}
+                text={browser.i18n.getMessage("greyListWordText")}
+              />
+
+              <IconButton
+                className="join-item btn-primary btn-sm"
+                onClick={() => {
+                  dispatch(
+                    addExpressionUI({
+                      expression: localFileToRegex(addableHostname),
+                      listType: ListType.WHITE,
+                      storeId,
+                    })
+                  );
+                }}
+                iconName="plus"
+                title={browser.i18n.getMessage("toWhiteListText")}
+                text={browser.i18n.getMessage("whiteListWordText")}
+              />
+            </div>
           </div>
-          <div
-            className="btn-group"
-            style={{
-              marginLeft: "8px",
-            }}
-          >
-            <IconButton
-              className="btn-secondary"
-              onClick={() => {
-                dispatch(
-                  addExpressionUI({
-                    expression: localFileToRegex(addableHostname),
-                    listType: ListType.GREY,
-                    storeId,
-                  })
-                );
-              }}
-              iconName="plus"
-              title={browser.i18n.getMessage("toGreyListText")}
-              text={browser.i18n.getMessage("greyListWordText")}
-            />
+        ))}
 
-            <IconButton
-              className="btn-primary"
-              onClick={() => {
-                dispatch(
-                  addExpressionUI({
-                    expression: localFileToRegex(addableHostname),
-                    listType: ListType.WHITE,
-                    storeId,
-                  })
-                );
-              }}
-              iconName="plus"
-              title={browser.i18n.getMessage("toWhiteListText")}
-              text={browser.i18n.getMessage("whiteListWordText")}
-            />
-          </div>
-        </div>
-      ))}
-
-      <div
-        className="row"
-        style={{
-          margin: "8px 0",
-        }}
-      >
         <FilteredExpression url={hostname} storeId={storeId} />
-      </div>
-      <ActivityTable numberToShow={3} decisionFilter={FilterOptions.CLEAN} />
+        <ActivityTable numberToShow={3} decisionFilter={FilterOptions.CLEAN} />
+      </main>
     </div>
   );
 };

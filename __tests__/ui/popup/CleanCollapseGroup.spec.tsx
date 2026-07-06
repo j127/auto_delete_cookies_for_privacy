@@ -57,11 +57,11 @@ describe("CleanCollapseGroup", () => {
     });
   });
 
-  it("renders as a collapsed bootstrap collapse group", () => {
+  it("renders as a button group panel", () => {
+    // Visibility is the popup App's concern since #41 (React state renders
+    // the panel conditionally); the Bootstrap collapse classes are gone.
     renderGroup();
     const group = document.getElementById("cleanCollapse") as HTMLElement;
-    expect(group.classList.contains("collapse")).toBe(true);
-    expect(group.classList.contains("show")).toBe(false);
     expect(group.getAttribute("role")).toBe("group");
   });
 

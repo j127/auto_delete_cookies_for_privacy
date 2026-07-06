@@ -62,14 +62,13 @@ const CleanDataButton: React.FunctionComponent<OwnProps> = (props) => {
     props;
   return (
     <button
-      aria-controls="cleanCollapse"
-      aria-expanded="false"
       className={`btn ${
         btnColor || `btn-${altColor ? "secondary" : "primary"}`
-      } btn-block mt-1 px-2`}
-      data-target="#cleanCollapse"
-      data-toggle="collapse"
+      } btn-block btn-sm`}
       onClick={async () => {
+        // The click also bubbles to the popup App's root handler, which
+        // closes the options panel (the old Bootstrap data-toggle markup
+        // did the same).
         let result = true;
         if (onClick) {
           result = await onClick.apply(this);
