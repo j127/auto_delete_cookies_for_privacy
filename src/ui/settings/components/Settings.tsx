@@ -24,21 +24,27 @@ import SelectInput from "@/ui/common-components/SelectInput";
 import { downloadObjectAsJSON } from "@/ui/ui-libs";
 import SettingsTooltip from "./SettingsTooltip";
 
-const styles = {
-  buttonStyle: {
-    height: "max-content",
-    padding: "0.75em",
-    width: "max-content",
-  },
-  inlineNumberInput: {
-    display: "inline",
-    margin: "0 5px",
-  },
-};
-
 interface OwnProps {
   style?: React.CSSProperties;
 }
+
+/** One setting row: control on the left, doc link pinned to the right. */
+const SettingRow: React.FunctionComponent<{ children: React.ReactNode }> = ({
+  children,
+}) => <div className="flex items-center justify-between gap-2">{children}</div>;
+
+/** Card wrapper for a group of related settings (was a <fieldset>). */
+const SettingGroup: React.FunctionComponent<{
+  title: string;
+  children: React.ReactNode;
+}> = ({ title, children }) => (
+  <section className="card mb-4 bg-base-200">
+    <div className="card-body p-4 lg:p-6">
+      <h2 className="mb-2 card-title text-base">{title}</h2>
+      {children}
+    </div>
+  </section>
+);
 
 const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
   const settings = useSelector((state: State) => state.settings);
@@ -195,54 +201,46 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
 
   return (
     <div style={style}>
-      <h1>{browser.i18n.getMessage("settingsText")}</h1>
-      <br />
-      <div className="row no-gutters justify-content-between justify-content-md-start">
-        <div className="col-md-auto col-7">
-          <IconButton
-            className="btn-primary"
-            iconName="download"
-            role="button"
-            onClick={() => exportCoreSettings()}
-            title={browser.i18n.getMessage("exportTitleTimestamp")}
-            text={browser.i18n.getMessage("exportSettingsText")}
-            styleReact={styles.buttonStyle}
-          />
-        </div>
-        <div className="col-md-auto col-7">
-          <IconButton
-            tag="input"
-            className="btn-info"
-            iconName="upload"
-            type="file"
-            accept="application/json, .json"
-            onChange={(e) => importCoreSettings(e.target.files[0])}
-            title={browser.i18n.getMessage("importCoreSettingsText")}
-            text={browser.i18n.getMessage("importCoreSettingsText")}
-            styleReact={styles.buttonStyle}
-          />
-        </div>
-        <div className="col-md-auto col-7">
-          <IconButton
-            className="btn-danger"
-            role="button"
-            onClick={() => {
-              onResetButtonClick();
-              setErrorMessage("");
-              setSuccess(browser.i18n.getMessage("defaultSettingsText"));
-            }}
-            iconName="undo"
-            title={browser.i18n.getMessage("defaultSettingsText")}
-            text={browser.i18n.getMessage("defaultSettingsText")}
-            styleReact={styles.buttonStyle}
-          />
-        </div>
+      <h1 className="mb-4 text-2xl font-bold">
+        {browser.i18n.getMessage("settingsText")}
+      </h1>
+      <div className="mb-4 flex flex-wrap gap-2">
+        <IconButton
+          className="btn-primary btn-sm"
+          iconName="download"
+          role="button"
+          onClick={() => exportCoreSettings()}
+          title={browser.i18n.getMessage("exportTitleTimestamp")}
+          text={browser.i18n.getMessage("exportSettingsText")}
+        />
+        <IconButton
+          tag="input"
+          className="btn-info btn-sm"
+          iconName="upload"
+          type="file"
+          accept="application/json, .json"
+          onChange={(e) => importCoreSettings(e.target.files[0])}
+          title={browser.i18n.getMessage("importCoreSettingsText")}
+          text={browser.i18n.getMessage("importCoreSettingsText")}
+        />
+        <IconButton
+          className="btn-error btn-sm"
+          role="button"
+          onClick={() => {
+            onResetButtonClick();
+            setErrorMessage("");
+            setSuccess(browser.i18n.getMessage("defaultSettingsText"));
+          }}
+          iconName="undo"
+          title={browser.i18n.getMessage("defaultSettingsText")}
+          text={browser.i18n.getMessage("defaultSettingsText")}
+        />
       </div>
-      <br />
       {error !== "" ? (
         <div
           onClick={() => setErrorMessage("")}
-          className="row alert alert-danger alertPreWrap"
+          className="mb-4 alert cursor-pointer whitespace-pre-wrap alert-error"
+          role="alert"
         >
           {error}
         </div>
@@ -252,7 +250,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
       {success !== "" ? (
         <div
           onClick={() => setSuccess("")}
-          className="row alert alert-success alertPreWrap"
+          className="mb-4 alert cursor-pointer whitespace-pre-wrap alert-success"
+          role="alert"
         >
           {browser.i18n.getMessage("successText")} {success}
         </div>
@@ -260,9 +259,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
         ""
       )}
 
-      <fieldset>
-        <legend>{browser.i18n.getMessage("settingGroupAutoClean")}</legend>
-        <div className="form-group">
+      <SettingGroup title={browser.i18n.getMessage("settingGroupAutoClean")}>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("activeModeText")}
             inline={true}
@@ -270,34 +268,34 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
-        </div>
-        <div className="form-group">
-          <input
-            id="delayBeforeClean"
-            type="number"
-            className="form-control w-auto"
-            style={styles.inlineNumberInput}
-            onChange={(e) => {
-              const eValue = Number.parseInt(e.target.value, 10);
-              if (!Number.isNaN(eValue) && eValue >= 1 && eValue <= 2147483) {
-                onUpdateSetting({
-                  name: SettingID.CLEAN_DELAY,
-                  value: eValue,
-                });
-              }
-            }}
-            value={settings[SettingID.CLEAN_DELAY].value as number}
-            min="1"
-            max="2147483"
-            size={10}
-          />
-          <label htmlFor="delayBeforeClean">
-            {browser.i18n.getMessage("secondsText")}{" "}
-            {browser.i18n.getMessage("activeModeDelayText")}
-          </label>
+        </SettingRow>
+        <SettingRow>
+          <span className="inline-flex items-center gap-2 py-1">
+            <input
+              id="delayBeforeClean"
+              type="number"
+              className="input w-24 input-sm"
+              onChange={(e) => {
+                const eValue = Number.parseInt(e.target.value, 10);
+                if (!Number.isNaN(eValue) && eValue >= 1 && eValue <= 2147483) {
+                  onUpdateSetting({
+                    name: SettingID.CLEAN_DELAY,
+                    value: eValue,
+                  });
+                }
+              }}
+              value={settings[SettingID.CLEAN_DELAY].value as number}
+              min="1"
+              max="2147483"
+            />
+            <label htmlFor="delayBeforeClean">
+              {browser.i18n.getMessage("secondsText")}{" "}
+              {browser.i18n.getMessage("activeModeDelayText")}
+            </label>
+          </span>
           <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("cleanDiscardedText")}
             settingObject={settings[SettingID.CLEAN_DISCARDED]}
@@ -305,8 +303,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("cleanupDomainChangeText")}
             settingObject={settings[SettingID.CLEAN_DOMAIN_CHANGE]}
@@ -314,8 +312,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage(SettingID.ENABLE_GREYLIST)}
             settingObject={settings[SettingID.ENABLE_GREYLIST]}
@@ -323,8 +321,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("cookieCleanUpOnStartText")}
             settingObject={settings[SettingID.CLEAN_OPEN_TABS_STARTUP]}
@@ -332,8 +330,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             settingObject={settings[SettingID.CLEAN_EXPIRED]}
             inline={true}
@@ -341,22 +339,22 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#automatic-cleaning-options"} />
+        </SettingRow>
+      </SettingGroup>
+      <SettingGroup title={browser.i18n.getMessage("settingGroupExpression")}>
+        <div className="alert alert-info" role="alert">
+          <span>
+            {browser.i18n.getMessage("groupExpressionDefaultNotice", [
+              browser.i18n.getMessage("expressionListText"),
+            ])}{" "}
+            <SettingsTooltip hrefURL={"settings.md#expression-options"} />
+          </span>
         </div>
-      </fieldset>
-      <hr />
-      <fieldset>
-        <legend>{browser.i18n.getMessage("settingGroupExpression")}</legend>
-        <div className="alert alert-info">
-          {browser.i18n.getMessage("groupExpressionDefaultNotice", [
-            browser.i18n.getMessage("expressionListText"),
-          ])}{" "}
-          <SettingsTooltip hrefURL={"settings.md#expression-options"} />
-        </div>
-      </fieldset>
-      <hr />
-      <fieldset>
-        <legend>{browser.i18n.getMessage("settingGroupOtherBrowsing")}</legend>
-        <div className="form-group">
+      </SettingGroup>
+      <SettingGroup
+        title={browser.i18n.getMessage("settingGroupOtherBrowsing")}
+      >
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("siteDataEmptyOnEnable")}
             settingObject={settings[SettingID.SITEDATA_EMPTY_ON_ENABLE]}
@@ -366,13 +364,14 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <SettingsTooltip
             hrefURL={"settings.md#other-browsing-data-cleanup-options"}
           />
-        </div>
+        </SettingRow>
         <div
-          className={`alert alert-${
+          className={`mb-2 alert ${
             settings[SettingID.SITEDATA_EMPTY_ON_ENABLE].value === true
-              ? "warning"
-              : "danger"
+              ? "alert-warning"
+              : "alert-error"
           }`}
+          role="alert"
         >
           {browser.i18n.getMessage(
             `browsingData${
@@ -382,7 +381,7 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             }Warning`
           )}
         </div>
-        <div className="form-group">
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("cacheCleanupText")}
             settingObject={settings[SettingID.CLEANUP_CACHE]}
@@ -392,8 +391,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <SettingsTooltip
             hrefURL={"settings.md#other-browsing-data-cleanup-options"}
           />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("indexedDBCleanupText")}
             settingObject={settings[SettingID.CLEANUP_INDEXEDDB]}
@@ -403,8 +402,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <SettingsTooltip
             hrefURL={"settings.md#other-browsing-data-cleanup-options"}
           />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("localStorageCleanupText")}
             settingObject={settings[SettingID.CLEANUP_LOCALSTORAGE]}
@@ -414,8 +413,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <SettingsTooltip
             hrefURL={"settings.md#other-browsing-data-cleanup-options"}
           />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("pluginDataCleanupText")}
             settingObject={settings[SettingID.CLEANUP_PLUGINDATA]}
@@ -425,8 +424,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <SettingsTooltip
             hrefURL={"settings.md#other-browsing-data-cleanup-options"}
           />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("serviceWorkersCleanupText")}
             settingObject={settings[SettingID.CLEANUP_SERVICEWORKERS]}
@@ -436,12 +435,10 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <SettingsTooltip
             hrefURL={"settings.md#other-browsing-data-cleanup-options"}
           />
-        </div>
-      </fieldset>
-      <hr />
-      <fieldset>
-        <legend>{browser.i18n.getMessage("settingGroupExtension")}</legend>
-        <div className="form-group">
+        </SettingRow>
+      </SettingGroup>
+      <SettingGroup title={browser.i18n.getMessage("settingGroupExtension")}>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("enableCleanupLogText")}
             settingObject={settings[SettingID.STAT_LOGGING]}
@@ -449,13 +446,13 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-          {settings[SettingID.STAT_LOGGING].value && (
-            <div className="alert alert-warning">
-              {browser.i18n.getMessage("noPrivateLogging")}
-            </div>
-          )}
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        {settings[SettingID.STAT_LOGGING].value && (
+          <div className="mb-2 alert alert-warning" role="alert">
+            {browser.i18n.getMessage("noPrivateLogging")}
+          </div>
+        )}
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("showNumberOfCookiesInIconText")}
             settingObject={settings[SettingID.NUM_COOKIES_ICON]}
@@ -463,9 +460,9 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-        </div>
+        </SettingRow>
         {settings[SettingID.NUM_COOKIES_ICON].value === true && (
-          <div className="form-group">
+          <SettingRow>
             <CheckboxSetting
               text={browser.i18n.getMessage(SettingID.KEEP_DEFAULT_ICON)}
               settingObject={settings[SettingID.KEEP_DEFAULT_ICON]}
@@ -473,9 +470,9 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
               updateSetting={(payload) => onUpdateSetting(payload)}
             />
             <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-          </div>
+          </SettingRow>
         )}
-        <div className="form-group">
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("notifyCookieCleanUpText")}
             settingObject={settings[SettingID.NOTIFY_AUTO]}
@@ -483,8 +480,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             inline={true}
             settingObject={settings[SettingID.NOTIFY_MANUAL]}
@@ -492,8 +489,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <SelectInput
             numSize={9}
             numStart={1}
@@ -506,8 +503,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             }}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage(SettingID.ENABLE_NEW_POPUP)}
             settingObject={settings[SettingID.ENABLE_NEW_POPUP]}
@@ -515,8 +512,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <SelectInput
             numSize={14}
             numStart={10}
@@ -525,8 +522,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <SelectInput
             numSize={14}
             numStart={10}
@@ -537,8 +534,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             }}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("enableContextMenus")}
             settingObject={settings[SettingID.CONTEXT_MENUS]}
@@ -546,8 +543,8 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-        </div>
-        <div className="form-group">
+        </SettingRow>
+        <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage(SettingID.DEBUG_MODE)}
             settingObject={settings[SettingID.DEBUG_MODE]}
@@ -555,29 +552,27 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
-          {settings[SettingID.DEBUG_MODE].value && (
-            <div className="alert alert-info">
-              <p>{browser.i18n.getMessage("openDebugMode")}</p>
-              <pre>
-                <b>
-                  {`chrome://extensions/?id=`}
-                  {encodeURIComponent(browser.runtime.id)}
-                </b>
-              </pre>
-              <p>{browser.i18n.getMessage("chromeDebugMode")}</p>
-              <p>
-                {browser.i18n.getMessage("consoleDebugMode")}.{" "}
-                {browser.i18n.getMessage("filterDebugMode")}
-              </p>
-              <p>
-                <b>CAD_</b>
-              </p>
-            </div>
-          )}
-        </div>
-      </fieldset>
-      <br />
-      <br />
+        </SettingRow>
+        {settings[SettingID.DEBUG_MODE].value && (
+          <div className="alert block alert-info" role="alert">
+            <p>{browser.i18n.getMessage("openDebugMode")}</p>
+            <pre className="my-2">
+              <b>
+                {`chrome://extensions/?id=`}
+                {encodeURIComponent(browser.runtime.id)}
+              </b>
+            </pre>
+            <p>{browser.i18n.getMessage("chromeDebugMode")}</p>
+            <p>
+              {browser.i18n.getMessage("consoleDebugMode")}.{" "}
+              {browser.i18n.getMessage("filterDebugMode")}
+            </p>
+            <p>
+              <b>CAD_</b>
+            </p>
+          </div>
+        )}
+      </SettingGroup>
     </div>
   );
 };

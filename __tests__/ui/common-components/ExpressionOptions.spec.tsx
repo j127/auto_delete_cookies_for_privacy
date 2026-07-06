@@ -50,10 +50,9 @@ describe("ExpressionOptions", () => {
     return { ...view, dispatchedActions };
   };
 
-  const ariaChecked = (container: HTMLElement, id: string) =>
-    (container.querySelector(`[id="${id}"]`) as SVGSVGElement).getAttribute(
-      "aria-checked"
-    );
+  // Real checkbox inputs since #40; checked state lives on the element.
+  const isChecked = (container: HTMLElement, id: string) =>
+    (container.querySelector(`[id="${id}"]`) as HTMLInputElement).checked;
 
   it("renders a keep checkbox per site-data type plus keep-all-cookies", () => {
     const { getByText } = renderOptions(baseExpression);
@@ -77,9 +76,9 @@ describe("ExpressionOptions", () => {
       cleanSiteData: [SiteDataType.CACHE],
     });
     // The keep-checkbox is inverted: a cleaned type renders unchecked.
-    expect(ariaChecked(container, "exp1-cleanCache")).toBe("false");
-    expect(ariaChecked(container, "exp1-cleanIndexedDB")).toBe("true");
-    expect(ariaChecked(container, "exp1-cleanLocalStorage")).toBe("true");
+    expect(isChecked(container, "exp1-cleanCache")).toBe(false);
+    expect(isChecked(container, "exp1-cleanIndexedDB")).toBe(true);
+    expect(isChecked(container, "exp1-cleanLocalStorage")).toBe(true);
   });
 
   it("hides the site-data checkboxes for file: expressions", () => {
@@ -131,17 +130,13 @@ describe("ExpressionOptions", () => {
 
   it("keep-all-cookies mirrors cleanAllCookies (undefined counts as kept)", () => {
     const keptRender = renderOptions(baseExpression);
-    expect(ariaChecked(keptRender.container, "exp1-cleanAllCookies")).toBe(
-      "true"
-    );
+    expect(isChecked(keptRender.container, "exp1-cleanAllCookies")).toBe(true);
 
     const dropRender = renderOptions({
       ...baseExpression,
       cleanAllCookies: false,
     });
-    expect(ariaChecked(dropRender.container, "exp1-cleanAllCookies")).toBe(
-      "false"
-    );
+    expect(isChecked(dropRender.container, "exp1-cleanAllCookies")).toBe(false);
   });
 
   it("lists kept and browser cookie names when cleanAllCookies is false", async () => {
@@ -159,8 +154,8 @@ describe("ExpressionOptions", () => {
       domain: "example.com",
       storeId: "0",
     });
-    expect(ariaChecked(container, "true-exp1-keepme")).toBe("true");
-    expect(ariaChecked(container, "false-exp1-sessionid")).toBe("false");
+    expect(isChecked(container, "true-exp1-keepme")).toBe(true);
+    expect(isChecked(container, "false-exp1-sessionid")).toBe(false);
 
     fireEvent.click(getByText("sessionid"));
     expect(dispatchedActions()).toContainEqual({

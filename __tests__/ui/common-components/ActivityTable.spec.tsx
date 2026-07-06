@@ -90,33 +90,30 @@ describe("ActivityTable", () => {
   it("renders an informational alert when the activity log is empty", () => {
     const { getByRole } = renderTable();
     const alert = getByRole("alert");
-    expect(alert.className).toBe("alert alert-primary");
+    expect(alert.className).toBe("alert alert-info");
     expect(alert.textContent).toContain("noCleanupLogText");
     expect(alert.textContent).toContain("noPrivateLogging");
     expect(console.error).not.toHaveBeenCalled();
   });
 
-  it("renders one card per entry, capped by numberToShow", () => {
+  it("renders one collapsible entry per log, capped by numberToShow", () => {
     const logs = [makeLog(), makeLog({ dateTime: "2026-01-16T08:00:00.000Z" })];
     const capped = renderTable({ activityLog: logs }, { numberToShow: 1 });
-    expect(capped.container.querySelectorAll(".card")).toHaveLength(1);
+    expect(capped.container.querySelectorAll("details")).toHaveLength(1);
 
     const uncapped = renderTable({ activityLog: logs });
-    expect(uncapped.container.querySelectorAll(".card")).toHaveLength(2);
+    expect(uncapped.container.querySelectorAll("details")).toHaveLength(2);
   });
 
-  it("renders the card header with restore/remove buttons and a summary toggle", () => {
+  it("renders each entry with restore/remove buttons and a summary toggle", () => {
     const { container, getByTitle } = renderTable({
       activityLog: [makeLog()],
     });
     getByTitle("restoreText");
     getByTitle("removeActivityLogEntryText");
-    const toggle = container.querySelector(
-      "button.btn-link"
-    ) as HTMLButtonElement;
-    expect(toggle.getAttribute("data-toggle")).toBe("collapse");
-    expect(toggle.getAttribute("data-target")).toBe("#collapse0");
-    expect(toggle.getAttribute("aria-controls")).toBe("collapse0");
+    // The Bootstrap collapse plugin is gone (#40); a native details/summary
+    // pair provides the expand-collapse behavior.
+    const toggle = container.querySelector("summary") as HTMLElement;
     expect(toggle.textContent).toContain("notificationContent");
     expect(toggle.textContent!.endsWith("...")).toBe(true);
     // The summary counts unique domains across cookies and site data.
@@ -138,7 +135,7 @@ describe("ActivityTable", () => {
 
   it("groups the cleaned cookies by domain in the detailed summary", () => {
     const { container } = renderTable({ activityLog: [makeLog()] });
-    const dangers = container.querySelectorAll(".alert.alert-danger");
+    const dangers = container.querySelectorAll(".alert.alert-error");
     expect(dangers).toHaveLength(1);
     expect(dangers[0].textContent).toBe(
       "example.com (cookieA, cookieB): reasonCleanNoList"
@@ -170,7 +167,7 @@ describe("ActivityTable", () => {
     const { container } = renderTable({
       activityLog: [makeLog({ browsingDataCleanup: undefined })],
     });
-    expect(container.querySelectorAll(".card")).toHaveLength(1);
+    expect(container.querySelectorAll("details")).toHaveLength(1);
     expect(container.querySelectorAll(".alert.alert-info")).toHaveLength(0);
     expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
       "notificationContent",

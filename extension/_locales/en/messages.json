@@ -1080,5 +1080,29 @@
   "whiteListWordText": {
     "message": "Whitelist",
     "description": "Whitelist"
+  },
+  "themeText": {
+    "message": "Theme",
+    "description": "Label for the light/dark theme switcher in the settings header"
+  },
+  "themeAutoText": {
+    "message": "Auto",
+    "description": "Theme switcher option that follows the system light/dark preference"
+  },
+  "themeLightText": {
+    "message": "Light",
+    "description": "Theme switcher option for the light theme"
+  },
+  "themeDarkText": {
+    "message": "Dark",
+    "description": "Theme switcher option for the dark theme"
+  },
+  "keepLocalStorageText": {
+    "message": "Keep LocalStorage",
+    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries. (correctly-cased duplicate: SiteDataType.LOCALSTORAGE is \"LocalStorage\", so the expression options build keepLocalStorage*Text; the lowercase originals stay for compatibility)"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "Keep LocalStorage until restart",
+    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries. (correctly-cased duplicate: SiteDataType.LOCALSTORAGE is \"LocalStorage\", so the expression options build keepLocalStorage*Text; the lowercase originals stay for compatibility)"
   }
 }

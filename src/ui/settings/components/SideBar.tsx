@@ -10,49 +10,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
-const styles = {
-  hamburger: {
-    color: "white",
-  },
-};
 
 interface OwnProps {
   activeTab: string;
   switchTabs: (id: string) => void;
 }
-
-// Switches tabs
-const toggleClass = (element: HTMLElement | null, className: string): void => {
-  if (!element) return;
-  const classes = element.className.split(/\s+/);
-  const length = classes.length;
-
-  for (let i = 0; i < length; i += 1) {
-    if (classes[i] === className) {
-      classes.splice(i, 1);
-      break;
-    }
-  }
-  // The className is not found
-  if (length === classes.length) {
-    classes.push(className);
-  }
-
-  element.className = classes.join(" ");
-};
-
-// Toggles the sidebar
-const toggleAll = (): void => {
-  const active = "active";
-  const layout = document.getElementById("layout");
-  const menu = document.getElementById("menu");
-  const menuLink = document.getElementById("menuLink");
-  toggleClass(layout, active);
-  toggleClass(menu, active);
-  toggleClass(menuLink, active);
-};
 
 const SideBar: React.FunctionComponent<OwnProps> = ({
   activeTab,
@@ -84,39 +47,30 @@ const SideBar: React.FunctionComponent<OwnProps> = ({
   ];
 
   return (
-    <div>
-      <div onClick={() => toggleAll()} id="menuLink" className="menu-link">
-        <FontAwesomeIcon size={"lg"} style={styles.hamburger} icon="bars" />
-        <br />
-        <div id="menuLinkText" className="menuLinkText">
-          {browser.i18n.getMessage("menuText")}
+    <aside className="min-h-full w-64 bg-base-200">
+      <div className="border-b border-base-300 px-4 py-5 text-center">
+        <div className="text-sm opacity-70">
+          {browser.i18n.getMessage("versionNumberText", ["ADCP"])}
+        </div>
+        <div className="font-mono text-lg font-bold">
+          {browser.runtime.getManifest().version}
         </div>
       </div>
-
-      <div id="menu" className="menu">
-        <div className="pure-menu nav flex-column">
-          <div className="sidebar-version">
-            {browser.i18n.getMessage("versionNumberText", ["ADCP"])}
-            <br />
-            {/* "underline" is the Tailwind pipeline proof class (#39); the
-                settings rebuild (#40) replaces this markup wholesale. */}
-            <b className="underline">{browser.runtime.getManifest().version}</b>
-          </div>
-          {sideBarTabs.map((element) => (
-            <div
-              key={element.tabId}
+      <ul className="menu w-full gap-1 p-2">
+        {sideBarTabs.map((element) => (
+          <li key={element.tabId}>
+            <button
+              type="button"
               id={`${element.tabId}`}
               onClick={() => switchTabs(element.tabId)}
-              className={`pure-menu-item ${
-                activeTab === element.tabId ? "pure-menu-selected" : ""
-              }`}
+              className={activeTab === element.tabId ? "menu-active" : ""}
             >
-              <span>{`${element.tabText}`}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+              {element.tabText}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </aside>
   );
 };
 

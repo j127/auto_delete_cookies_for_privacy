@@ -42,13 +42,14 @@ describe("Settings", () => {
     expect((container.querySelector("h1") as HTMLElement).textContent).toBe(
       "settingsText"
     );
+    // Groups render as card titles since the #40 DaisyUI rebuild.
     [
       "settingGroupAutoClean",
       "settingGroupExpression",
       "settingGroupOtherBrowsing",
       "settingGroupExtension",
     ].forEach((legend) => {
-      expect(getByText(legend).tagName).toBe("LEGEND");
+      expect(getByText(legend).tagName).toBe("H2");
     });
   });
 
@@ -121,9 +122,7 @@ describe("Settings", () => {
         },
       })
     );
-    const danger = unchecked.querySelector(
-      ".alert-danger.alert"
-    ) as HTMLElement;
+    const danger = unchecked.querySelector(".alert-error.alert") as HTMLElement;
     expect(danger.textContent).toBe("browsingDataNoEmptyWarning");
   });
 

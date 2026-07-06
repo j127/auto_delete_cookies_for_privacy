@@ -10,10 +10,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import {
-  FontAwesomeIcon,
-  FontAwesomeIconProps,
-} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 interface OwnProps {
   inline?: boolean;
@@ -22,12 +18,11 @@ interface OwnProps {
   updateSetting: (payload: Setting) => void;
 }
 
-const styles = {
-  checkbox: {
-    marginRight: "5px",
-  } as FontAwesomeIconProps["style"],
-};
-
+/**
+ * A boolean setting as a DaisyUI toggle. The pre-#40 version drew a
+ * FontAwesome square icon with role="checkbox"; a real checkbox input needs
+ * none of that ARIA plumbing.
+ */
 const CheckboxSetting: React.FunctionComponent<OwnProps> = ({
   inline,
   settingObject,
@@ -35,31 +30,27 @@ const CheckboxSetting: React.FunctionComponent<OwnProps> = ({
   updateSetting,
 }) => {
   const { name, value } = settingObject;
-  const inlineElement = inline ? { display: "inline" } : {};
   return (
-    <span style={inlineElement} className={"checkbox"}>
-      <span
-        className={"addHover"}
-        onClick={() =>
+    <label
+      className={`${
+        inline ? "inline-flex" : "flex"
+      } cursor-pointer items-center gap-3 py-1`}
+      htmlFor={name}
+    >
+      <input
+        type="checkbox"
+        id={name}
+        className="toggle toggle-primary toggle-sm"
+        checked={!!value}
+        onChange={() =>
           updateSetting({
             name,
             value: !value,
           })
         }
-      >
-        <FontAwesomeIcon
-          id={name}
-          style={styles.checkbox}
-          size={"lg"}
-          icon={["far", value ? "check-square" : "square"]}
-          role="checkbox"
-          aria-checked={value as boolean}
-        />
-        <label htmlFor={name} aria-labelledby={name}>
-          {text}
-        </label>
-      </span>
-    </span>
+      />
+      <span>{text}</span>
+    </label>
   );
 };
 

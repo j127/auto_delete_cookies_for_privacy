@@ -69,9 +69,10 @@ describe("Expressions", () => {
     // Regression guard (PR #91): the tooltip anchor must not be nested
     // inside the help link.
     expect(helpLink.querySelector("a")).toBeNull();
-    const tooltip = helpLink.nextElementSibling as HTMLAnchorElement;
-    expect(tooltip.tagName).toBe("A");
-    expect(tooltip.classList.contains("tooltipCustom")).toBe(true);
+    // Since #40 the doc link sits inside a DaisyUI tooltip wrapper span.
+    const tooltip = helpLink.nextElementSibling as HTMLElement;
+    expect(tooltip.classList.contains("tooltip")).toBe(true);
+    expect(tooltip.querySelector("a")).not.toBeNull();
   });
 
   it("adds a whitelist expression when Enter is pressed in the input", () => {
@@ -129,7 +130,7 @@ describe("Expressions", () => {
     fireEvent.keyUp(input, { key: "Enter" });
 
     expect(dispatchSpy).not.toHaveBeenCalled();
-    const error = container.querySelector(".alert-danger") as HTMLElement;
+    const error = container.querySelector(".alert-error") as HTMLElement;
     expect(error.textContent).toContain("invalidNewExpressions");
     expect(error.textContent).toContain("bad domain -> inputErrorSpace");
     // The invalid value stays in the input for correction.
@@ -155,7 +156,7 @@ describe("Expressions", () => {
     fireEvent.click(getByText("removeAllExpressions"));
 
     expect(dispatchSpy).not.toHaveBeenCalled();
-    const error = container.querySelector(".alert-danger") as HTMLElement;
+    const error = container.querySelector(".alert-error") as HTMLElement;
     expect(error.textContent).toBe("removeAllExpressionsNoneFound");
   });
 

@@ -12,10 +12,6 @@
  */
 import { ListType, SiteDataType } from "@/typings/enums";
 import ipaddr from "ipaddr.js";
-import {
-  FontAwesomeIcon,
-  FontAwesomeIconProps,
-} from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import { updateExpressionUI } from "@/redux/actions";
@@ -25,12 +21,6 @@ interface OwnProps {
 }
 
 type ExpressionOptionsProps = OwnProps;
-
-const styles = {
-  checkbox: {
-    marginRight: "5px",
-  } as FontAwesomeIconProps["style"],
-};
 
 const trimDotAndStar = (str: string) => {
   const trimmed = str.replace(/^[.*]+|[.*]+$/g, "");
@@ -56,6 +46,29 @@ const toPublicStoreId = (storeId: string) => {
   }
   return storeId;
 };
+
+/**
+ * A DaisyUI checkbox with a trailing label. The pre-#40 version drew
+ * FontAwesome square icons with role="checkbox"; a real input needs no ARIA
+ * plumbing.
+ */
+const OptionCheckbox: React.FunctionComponent<{
+  id: string;
+  checked: boolean;
+  onToggle: () => void;
+  label: string;
+}> = ({ id, checked, onToggle, label }) => (
+  <label className="flex cursor-pointer items-center gap-2 py-0.5" htmlFor={id}>
+    <input
+      type="checkbox"
+      id={id}
+      className="checkbox checkbox-sm"
+      checked={checked}
+      onChange={onToggle}
+    />
+    <span>{label}</span>
+  </label>
+);
 
 function ExpressionOptions(props: ExpressionOptionsProps) {
   const { expression } = props;
@@ -142,10 +155,12 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
       const checked = cookieNamesSet.has(name);
       const key = `${checked}-${exp.id}-${name}`;
       return (
-        <div style={{ marginLeft: "20px" }} key={key} className={"checkbox"}>
-          <span
-            className={"addHover"}
-            onClick={() => {
+        <div className="ml-5" key={key}>
+          <OptionCheckbox
+            id={key}
+            checked={checked}
+            label={name}
+            onToggle={() => {
               dispatch(
                 updateExpressionUI({
                   ...exp,
@@ -157,19 +172,7 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
                 })
               );
             }}
-          >
-            <FontAwesomeIcon
-              id={key}
-              style={styles.checkbox}
-              size={"lg"}
-              icon={["far", checked ? "check-square" : "square"]}
-              role="checkbox"
-              aria-checked={checked as boolean}
-            />
-            <label htmlFor={key} aria-labelledby={key}>
-              {name}
-            </label>
-          </span>
+          />
         </div>
       );
     });
@@ -227,27 +230,17 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
           return "";
       }
     })(expression.listType);
+    // The checkbox reads as "keep this data", so it renders CHECKED when the
+    // data is NOT in cleanSiteData (mirrors the pre-#40 icon logic).
     return (
-      <div className={"checkbox"}>
-        <span
-          className={"addHover"}
-          onClick={() => {
-            toggleCleanSiteData(cleanData, !checked);
-          }}
-        >
-          <FontAwesomeIcon
-            icon={["far", checked ? "square" : "check-square"]}
-            id={keyID}
-            style={styles.checkbox}
-            size={"lg"}
-            role={"checkbox"}
-            aria-checked={!checked}
-          />
-          <label htmlFor={keyID} aria-labelledby={keyID}>
-            {browser.i18n.getMessage(localeText)}
-          </label>
-        </span>
-      </div>
+      <OptionCheckbox
+        id={keyID}
+        checked={!checked}
+        label={browser.i18n.getMessage(localeText)}
+        onToggle={() => {
+          toggleCleanSiteData(cleanData, !checked);
+        }}
+      />
     );
   };
 
@@ -266,49 +259,28 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
         createSiteDataCheckbox(SiteDataType.PLUGINDATA)}
       {!expression.expression.startsWith("file:") &&
         createSiteDataCheckbox(SiteDataType.SERVICEWORKERS)}
-      <div className={"checkbox"}>
-        <span
-          className={"addHover"}
-          onClick={() =>
-            toggleCleanAllCookies(
-              !(
-                expression.cleanAllCookies === undefined ||
-                expression.cleanAllCookies
-              )
-            )
-          }
-        >
-          <FontAwesomeIcon
-            id={keyCleanAllCookies}
-            style={styles.checkbox}
-            size={"lg"}
-            icon={[
-              "far",
+      <OptionCheckbox
+        id={keyCleanAllCookies}
+        checked={
+          (expression.cleanAllCookies === undefined ||
+            expression.cleanAllCookies) as boolean
+        }
+        label={browser.i18n.getMessage(
+          `keepAllCookies${
+            expression.listType === ListType.GREY ? "Grey" : ""
+          }Text`
+        )}
+        onToggle={() =>
+          toggleCleanAllCookies(
+            !(
               expression.cleanAllCookies === undefined ||
               expression.cleanAllCookies
-                ? "check-square"
-                : "square",
-            ]}
-            role="checkbox"
-            aria-checked={
-              (expression.cleanAllCookies === undefined ||
-                expression.cleanAllCookies) as boolean
-            }
-          />
-          <label
-            htmlFor={keyCleanAllCookies}
-            aria-labelledby={keyCleanAllCookies}
-          >
-            {browser.i18n.getMessage(
-              `keepAllCookies${
-                expression.listType === ListType.GREY ? "Grey" : ""
-              }Text`
-            )}
-          </label>
-        </span>
-      </div>
+            )
+          )
+        }
+      />
       {dropList && (
-        <div style={{ maxHeight: "150px", overflow: "auto" }}>
+        <div className="max-h-36 overflow-auto">
           {createCookieList(cookies, expression)}
         </div>
       )}

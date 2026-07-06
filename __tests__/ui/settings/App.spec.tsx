@@ -42,7 +42,10 @@ describe("settings App", () => {
     );
 
   const contentHeading = (container: HTMLElement) =>
-    (container.querySelector(".container h1") as HTMLElement).textContent;
+    (container.querySelector("main h1") as HTMLElement).textContent;
+
+  const drawerToggle = (container: HTMLElement) =>
+    container.querySelector("#settings-drawer") as HTMLInputElement;
 
   beforeEach(() => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
@@ -51,19 +54,22 @@ describe("settings App", () => {
       id: TAB_ID,
       url: SETTINGS_URL,
     });
+    // ThemeSwitcher reads the persisted theme choice on mount.
+    global.browser.storage.local.get.mockResolvedValue({});
   });
 
-  it("renders the layout with the sidebar and the welcome tab by default", async () => {
+  it("renders the drawer layout with the sidebar and the welcome tab by default", async () => {
     const { container } = renderApp();
     await waitFor(() =>
       expect(global.browser.tabs.getCurrent).toHaveBeenCalled()
     );
-    expect(container.querySelector("#layout")).not.toBeNull();
-    expect(container.querySelector("#menu")).not.toBeNull();
+    expect(drawerToggle(container)).not.toBeNull();
+    expect(container.querySelector("aside")).not.toBeNull();
+    expect(container.querySelector("#themeSwitcher")).not.toBeNull();
     expect(contentHeading(container)).toBe("welcomeText");
     expect(
       (container.querySelector("#tabWelcome") as HTMLElement).className
-    ).toContain("pure-menu-selected");
+    ).toContain("menu-active");
     expect(console.error).not.toHaveBeenCalled();
   });
 
@@ -86,7 +92,7 @@ describe("settings App", () => {
     );
     expect(
       (container.querySelector("#tabCleanupLog") as HTMLElement).className
-    ).toContain("pure-menu-selected");
+    ).toContain("menu-active");
   });
 
   it("switches tabs on sidebar clicks and records the hash in the tab URL", async () => {
@@ -104,10 +110,25 @@ describe("settings App", () => {
     expect(contentHeading(container)).toBe("settingsText");
     expect(
       (container.querySelector("#tabSettings") as HTMLElement).className
-    ).toContain("pure-menu-selected");
+    ).toContain("menu-active");
     expect(global.browser.tabs.update).toHaveBeenCalledWith(TAB_ID, {
       url: `${SETTINGS_URL}#tabSettings`,
     });
     expect(console.error).not.toHaveBeenCalled();
+  });
+
+  it("closes the mobile drawer when a sidebar tab is clicked", async () => {
+    const { container } = renderApp();
+    await waitFor(() =>
+      expect(global.browser.tabs.getCurrent).toHaveBeenCalled()
+    );
+    await act(async () => {});
+
+    // Open the drawer (checkbox drives DaisyUI's drawer state).
+    fireEvent.click(drawerToggle(container));
+    expect(drawerToggle(container).checked).toBe(true);
+
+    fireEvent.click(container.querySelector("#tabAbout") as HTMLElement);
+    expect(drawerToggle(container).checked).toBe(false);
   });
 });

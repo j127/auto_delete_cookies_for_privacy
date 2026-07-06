@@ -70,9 +70,6 @@ function ExpressionTable(props: ExpressionTableProps) {
 
   const clearEdit = () => {
     if (editInput.current) {
-      if (editInput.current.parentElement) {
-        editInput.current.parentElement.classList.remove("was-validated");
-      }
       editInput.current.setCustomValidity("");
       editInput.current.checkValidity();
       editInput.current = undefined;
@@ -83,10 +80,10 @@ function ExpressionTable(props: ExpressionTableProps) {
   const setInvalid = (s: string): boolean => {
     if (!editInput.current) return false;
     setInvalidText(s);
+    // Native constraint validation carries the message for assistive tech;
+    // the visible text renders from the `invalid` state below (the Bootstrap
+    // was-validated/.invalid-feedback pair is gone with #40).
     editInput.current.setCustomValidity(s);
-    if (editInput.current.parentElement) {
-      editInput.current.parentElement.classList.add("was-validated");
-    }
     editInput.current.checkValidity();
     // should always return false since we set error above.
     return false;
@@ -101,9 +98,6 @@ function ExpressionTable(props: ExpressionTableProps) {
     }
     // Past this point, presume valid expression entry.
     editInput.current.setCustomValidity("");
-    if (editInput.current.parentElement) {
-      editInput.current.parentElement.classList.remove("was-validated");
-    }
     editInput.current.checkValidity();
     return true;
   };
@@ -133,7 +127,7 @@ function ExpressionTable(props: ExpressionTableProps) {
   }
 
   return (
-    <table className="table-striped table-hover table-bordered table">
+    <table className="table table-zebra">
       <thead>
         <tr>
           <th scope="col" />
@@ -144,15 +138,14 @@ function ExpressionTable(props: ExpressionTableProps) {
       </thead>
       <tbody className="expressionTable">
         {expressions.map((expression) => (
-          <tr key={`${expression.expression}-${expression.listType}`}>
-            <td
-              style={{
-                textAlign: "center",
-              }}
-            >
+          <tr
+            className="group align-top"
+            key={`${expression.expression}-${expression.listType}`}
+          >
+            <td className="text-center">
               <IconButton
                 title={browser.i18n.getMessage("removeExpressionText")}
-                className="btn-outline-danger"
+                className="btn-outline btn-error btn-sm"
                 iconName="trash"
                 onClick={() => {
                   dispatch(removeExpressionUI(expression));
@@ -165,7 +158,7 @@ function ExpressionTable(props: ExpressionTableProps) {
                   ref={(c) => {
                     editInput.current = c;
                   }}
-                  className="form-control"
+                  className="input w-full input-sm"
                   value={expressionInput}
                   onFocus={moveCaretToEnd}
                   onChange={(e) => setExpressionInput(e.target.value)}
@@ -178,64 +171,43 @@ function ExpressionTable(props: ExpressionTableProps) {
                   }}
                   type="url"
                   autoFocus={true}
-                  style={{
-                    margin: 0,
-                  }}
                   formNoValidate={true}
                 />
-                <div className="invalid-feedback">{invalid}</div>
-                <IconButton
-                  title={browser.i18n.getMessage("stopEditingText")}
-                  className="btn-outline-danger"
-                  iconName="ban"
-                  styleReact={{
-                    float: "left",
-                    marginTop: "8px",
-                    width: "45%",
-                  }}
-                  onClick={() => {
-                    clearEdit();
-                  }}
-                />
-                <IconButton
-                  title={browser.i18n.getMessage("saveExpressionText")}
-                  className="btn-outline-success"
-                  iconName="save"
-                  styleReact={{
-                    float: "right",
-                    marginTop: "8px",
-                    width: "45%",
-                  }}
-                  onClick={() => {
-                    commitEdit();
-                  }}
-                />
+                {invalid !== "" && (
+                  <div className="mt-1 text-sm text-error">{invalid}</div>
+                )}
+                <div className="mt-2 flex justify-between gap-2">
+                  <IconButton
+                    title={browser.i18n.getMessage("stopEditingText")}
+                    className="w-[45%] btn-outline btn-error btn-sm"
+                    iconName="ban"
+                    onClick={() => {
+                      clearEdit();
+                    }}
+                  />
+                  <IconButton
+                    title={browser.i18n.getMessage("saveExpressionText")}
+                    className="w-[45%] btn-outline btn-sm btn-success"
+                    iconName="save"
+                    onClick={() => {
+                      commitEdit();
+                    }}
+                  />
+                </div>
               </td>
             ) : (
               <td>
                 <textarea
-                  className="form-control form-control-plaintext"
+                  className="textarea w-full resize-none overflow-x-auto textarea-ghost whitespace-nowrap"
                   readOnly={true}
                   rows={1}
-                  style={{
-                    margin: 0,
-                    overflowX: "scroll",
-                    paddingLeft: "5px",
-                    paddingRight: "5px",
-                    resize: "none",
-                    whiteSpace: "nowrap",
-                  }}
                   value={expression.expression}
                 />
 
                 <IconButton
                   title={browser.i18n.getMessage("editExpressionText")}
                   iconName="pen"
-                  className="btn-outline-info showOnRowHover"
-                  styleReact={{
-                    marginTop: "5px",
-                    width: "100%",
-                  }}
+                  className="showOnRowHover invisible mt-1 w-full btn-outline btn-info btn-sm group-hover:visible"
                   onClick={() => {
                     startEditing(expression);
                   }}
@@ -243,21 +215,10 @@ function ExpressionTable(props: ExpressionTableProps) {
               </td>
             )}
             <td>
-              <div
-                style={{
-                  verticalAlign: "middle",
-                }}
-              >
-                <ExpressionOptions expression={expression} />
-              </div>
+              <ExpressionOptions expression={expression} />
             </td>
             <td>
-              <div
-                style={{
-                  display: "block",
-                  verticalAlign: "middle",
-                }}
-              >
+              <div>
                 {`${
                   expression.listType === "WHITE"
                     ? browser.i18n.getMessage("whiteListWordText")
@@ -271,11 +232,7 @@ function ExpressionTable(props: ExpressionTableProps) {
                     : browser.i18n.getMessage("toggleToWhiteListWordText")
                 }`}
                 iconName="exchange-alt"
-                className="btn-outline-dark showOnRowHover"
-                styleReact={{
-                  marginTop: "5px",
-                  width: "100%",
-                }}
+                className="showOnRowHover invisible mt-1 w-full btn-outline btn-neutral btn-sm group-hover:visible"
                 onClick={() =>
                   dispatch(
                     updateExpressionUI({
