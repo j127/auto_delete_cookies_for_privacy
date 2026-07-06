@@ -12,6 +12,7 @@
  */
 import * as React from "react";
 interface OwnProps {
+  description?: string;
   numSize?: number;
   numStart?: number;
   inputOptions?: string[];
@@ -20,7 +21,13 @@ interface OwnProps {
   updateSetting: (payload: Setting) => void;
 }
 
+/**
+ * A select-backed setting, laid out per the 05d design: label (with an
+ * optional muted description underneath) on the start side, the select at
+ * the row's end.
+ */
 const SelectInput: React.FunctionComponent<OwnProps> = ({
+  description,
   numSize,
   numStart,
   inputOptions,
@@ -34,11 +41,19 @@ const SelectInput: React.FunctionComponent<OwnProps> = ({
     : [];
   const options: string[] = inputOptions || numbers || [];
   return (
-    <span className="inline-flex items-center gap-2 py-1">
+    <span className="flex w-full items-center gap-3">
+      <label className="min-w-0 flex-1" htmlFor={name}>
+        <span className="font-semibold">{text}</span>
+        {description && (
+          <span className="block text-sm text-base-content/70">
+            {description}
+          </span>
+        )}
+      </label>
       <select
         name={name}
         id={name}
-        className="select w-auto min-w-20 select-sm"
+        className="select w-auto min-w-20 flex-none select-sm"
         onChange={(e) => {
           const newValue = options.includes(e.target.value as string)
             ? e.target.value
@@ -54,9 +69,6 @@ const SelectInput: React.FunctionComponent<OwnProps> = ({
           <option key={`${name}-${opt}`}>{opt}</option>
         ))}
       </select>
-      <label htmlFor={name} aria-labelledby={name}>
-        {text}
-      </label>
     </span>
   );
 };

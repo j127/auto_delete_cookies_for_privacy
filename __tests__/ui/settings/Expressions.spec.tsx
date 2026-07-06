@@ -72,12 +72,9 @@ describe("Expressions", () => {
     expect(docLink.getAttribute("href")).toBe(
       "https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
     );
-    // Regression guard (PR #91): the tooltip anchor must not be nested
-    // inside the help link; it sits in a DaisyUI tooltip wrapper next to it.
-    expect(docLink.querySelector("a")).toBeNull();
-    const tooltip = docLink.nextElementSibling as HTMLElement;
-    expect(tooltip.classList.contains("tooltip")).toBe(true);
-    expect(tooltip.querySelector("a")).not.toBeNull();
+    // The question-mark tooltip is gone (#171): the labeled documentation
+    // link is the only external pointer left on the page.
+    expect(container.querySelectorAll(".tooltip")).toHaveLength(0);
   });
 
   it("arranges the card as add bar, accordion, table area, footer actions", () => {

@@ -15,6 +15,13 @@ const withSettings = (overrides: { [setting: string]: Setting }): State => ({
   settings: { ...initialState.settings, ...overrides },
 });
 
+const advancedOn = withSettings({
+  [SettingID.POPUP_ADVANCED]: {
+    name: SettingID.POPUP_ADVANCED,
+    value: true,
+  },
+});
+
 describe("Settings", () => {
   const renderSettings = (state: State = initialState) => {
     const store = createStore(() => state);
@@ -33,29 +40,92 @@ describe("Settings", () => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
   });
 
-  it("renders the heading and every settings group", () => {
-    const { container, getByText } = renderSettings();
+  it("renders the heading and the three groups as bordered cards", () => {
+    const { container, getByText, queryByText } = renderSettings();
     expect((container.querySelector("h1") as HTMLElement).textContent).toBe(
       "protectionText"
     );
-    // Groups render as card titles since the #40 DaisyUI rebuild.
     [
       "settingGroupAutoClean",
-      "settingGroupExpression",
       "settingGroupSiteData",
       "settingGroupExtension",
     ].forEach((legend) => {
-      expect(getByText(legend).tagName).toBe("H2");
+      const title = getByText(legend);
+      expect(title.tagName).toBe("H2");
+      const card = title.closest("section") as HTMLElement;
+      expect(card.className).toContain("border-base-300");
+      expect(card.querySelector(".divide-y")).not.toBeNull();
+    });
+    // The old expression-options info box is gone.
+    expect(queryByText("settingGroupExpression")).toBeNull();
+    expect(queryByText("groupExpressionDefaultNotice")).toBeNull();
+  });
+
+  it("shows descriptions under the labels and no external help links", () => {
+    const { container, getByText } = renderSettings();
+    getByText("activeModeDescText");
+    getByText("gracePeriodDescText");
+    getByText("domainChangeDescText");
+    getByText("notifyAutoDescText");
+    // The question-mark tooltip links are gone from the page entirely.
+    expect(container.querySelector("a[href*='documentation']")).toBeNull();
+    expect(container.querySelector(".tooltip")).toBeNull();
+  });
+
+  it("hides the advanced rows until Advanced mode is on", () => {
+    const { queryByText } = renderSettings();
+    // Advanced timing rows
+    expect(queryByText(SettingID.ENABLE_GREYLIST)).toBeNull();
+    expect(queryByText("cleanDiscardedText")).toBeNull();
+    expect(queryByText("cookieCleanUpOnStartText")).toBeNull();
+    expect(queryByText("cleanExpiredCookiesText")).toBeNull();
+    // Advanced interface rows
+    expect(queryByText("manualNotificationsText")).toBeNull();
+    expect(queryByText("notifyCookieCleanupDelayText")).toBeNull();
+    expect(queryByText("sizePopupText")).toBeNull();
+    expect(queryByText(SettingID.DEBUG_MODE)).toBeNull();
+  });
+
+  it("reveals the advanced rows inside their groups when Advanced mode is on", () => {
+    const { getByText } = renderSettings(advancedOn);
+    // Timing group gains its advanced rows…
+    const timingCard = getByText("settingGroupAutoClean").closest(
+      "section"
+    ) as HTMLElement;
+    ["cleanDiscardedText", "cleanExpiredCookiesText"].forEach((key) => {
+      expect(timingCard.textContent).toContain(key);
+    });
+    // …and Interface gains its own.
+    const interfaceCard = getByText("settingGroupExtension").closest(
+      "section"
+    ) as HTMLElement;
+    [
+      "manualNotificationsText",
+      "notifyCookieCleanupDelayText",
+      "sizePopupText",
+      "sizeSettingText",
+      "enableContextMenus",
+      SettingID.DEBUG_MODE,
+    ].forEach((key) => {
+      expect(interfaceCard.textContent).toContain(key);
     });
   });
 
+  it("tints the Advanced mode gate row", () => {
+    const { container } = renderSettings();
+    const gate = container.querySelector(
+      `#${SettingID.POPUP_ADVANCED}`
+    ) as HTMLInputElement;
+    const row = gate.closest(".bg-primary\\/5");
+    expect(row).not.toBeNull();
+  });
+
   it("renders a sample of setting rows from the store values", () => {
-    const { container, getByText } = renderSettings();
-    // Checkbox rows are labelled with their i18n keys.
+    const { container, getByText } = renderSettings(advancedOn);
     expect(getByText("activeModeText")).not.toBeNull();
     expect(getByText("cleanExpiredCookiesText")).not.toBeNull();
     expect(getByText("enableCleanupLogText")).not.toBeNull();
-    // The autoclean delay renders the numeric store value.
+    // The grace-period input renders the numeric store value.
     const delay = container.querySelector(
       "#delayBeforeClean"
     ) as HTMLInputElement;
@@ -94,7 +164,7 @@ describe("Settings", () => {
   });
 
   it("dispatches UPDATE_SETTING with the selected option when a select changes", () => {
-    const { container, dispatchSpy } = renderSettings();
+    const { container, dispatchSpy } = renderSettings(advancedOn);
     const duration = container.querySelector(
       `#${SettingID.NOTIFY_DURATION}`
     ) as HTMLSelectElement;
@@ -106,11 +176,16 @@ describe("Settings", () => {
   });
 
   it("switches the site data warning between warning and danger styles", () => {
-    const { container } = renderSettings();
-    const warning = container.querySelector(".alert-warning") as HTMLElement;
-    expect(warning.textContent).toBe("browsingDataWarning");
+    // Two renders in one test duplicate element IDs across containers, and
+    // jsdom's #id selector fast path resolves against the document — so the
+    // assertions use the render-scoped RTL queries instead of querySelector.
+    const first = renderSettings();
+    const warning = first
+      .getByText("browsingDataWarning")
+      .closest(".alert") as HTMLElement;
+    expect(warning.className).toContain("alert-warning");
 
-    const { container: unchecked } = renderSettings(
+    const second = renderSettings(
       withSettings({
         [SettingID.SITEDATA_EMPTY_ON_ENABLE]: {
           name: SettingID.SITEDATA_EMPTY_ON_ENABLE,
@@ -118,17 +193,23 @@ describe("Settings", () => {
         },
       })
     );
-    const danger = unchecked.querySelector(".alert-error.alert") as HTMLElement;
-    expect(danger.textContent).toBe("browsingDataNoEmptyWarning");
+    const danger = second
+      .getByText("browsingDataNoEmptyWarning")
+      .closest(".alert") as HTMLElement;
+    expect(danger.className).toContain("alert-error");
   });
 
   it("only shows the keep default icon option while the icon count is enabled", () => {
     const keepIconLabel = `label[for="${SettingID.KEEP_DEFAULT_ICON}"]`;
-    const { container } = renderSettings();
+    const { container } = renderSettings(advancedOn);
     expect(container.querySelector(keepIconLabel)).not.toBeNull();
 
     const { container: without } = renderSettings(
       withSettings({
+        [SettingID.POPUP_ADVANCED]: {
+          name: SettingID.POPUP_ADVANCED,
+          value: true,
+        },
         [SettingID.NUM_COOKIES_ICON]: {
           name: SettingID.NUM_COOKIES_ICON,
           value: false,
@@ -146,7 +227,7 @@ describe("Settings", () => {
   });
 
   it("renders without console errors", () => {
-    renderSettings();
+    renderSettings(advancedOn);
     expect(console.error).not.toHaveBeenCalled();
   });
 });
