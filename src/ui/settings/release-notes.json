@@ -2,9 +2,7 @@
   "releases": [
     {
       "version": "1.0.0",
-      "notes": [
-        "Initial release of Auto-Delete Cookies for Privacy — a Manifest V3 fork of Cookie AutoDelete for Chromium browsers (Chrome, Brave, Chromium)."
-      ]
+      "notes": ["Initial release of Auto-Delete Cookies for Privacy."]
     }
   ]
 }

@@ -59,7 +59,10 @@ const About: React.FunctionComponent<OwnProps> = ({ style }) => {
         {browser.i18n.getMessage("aboutText")}
       </h1>
       <p className="mb-4">
-        {browser.i18n.getMessage("versionNumberText", ["ADCP"])}:{" "}
+        {browser.i18n.getMessage("versionNumberText", [
+          browser.i18n.getMessage("extensionName"),
+        ])}
+        :{" "}
         <span className="badge font-mono badge-neutral">
           {browser.runtime.getManifest().version}
         </span>
@@ -77,30 +80,7 @@ const About: React.FunctionComponent<OwnProps> = ({ style }) => {
         >
           <span>{`${browser.i18n.getMessage("documentationText")}`}</span>
         </a>
-        <a
-          className="link link-primary"
-          href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/faq.md"
-        >
-          <span>{`${browser.i18n.getMessage("faqText")}`}</span>
-        </a>
       </div>
-      <span>{`${browser.i18n.getMessage("contributorsText")}`}:</span>
-      <ul className="mb-4 list-disc ps-6">
-        <li>Kenny Do (Creator)</li>
-        <li>
-          seansfkelley (UI Redesign of Expression Table Settings and Popup)
-        </li>
-        <li>kennethtran93 (UI bug fixes and then some)</li>
-        <li>
-          <a
-            className="link link-primary"
-            href="https://github.com/j127/auto_delete_cookies_for_privacy/graphs/contributors"
-          >
-            GitHub Contributors
-          </a>
-        </li>
-        <li>Crowdin translation community (original locale files)</li>
-      </ul>
       <div className="divider" />
       <h3 className="mb-2 text-xl font-semibold">
         {browser.i18n.getMessage("debugTitle")}
@@ -112,9 +92,9 @@ const About: React.FunctionComponent<OwnProps> = ({ style }) => {
         cols={40}
         readOnly={true}
         className="textarea block w-full max-w-xl resize-none font-mono text-xs"
-        value={`- Browser Info: (Please add version number on paste)\n- ADCP Version: ${
-          browser.runtime.getManifest().version
-        }`}
+        value={`- Browser Info: (Please add version number on paste)\n- ${browser.i18n.getMessage(
+          "extensionName"
+        )} version: ${browser.runtime.getManifest().version}`}
       />
       <div className="mt-2 mb-4 flex items-center gap-2">
         <IconButton

@@ -89,37 +89,12 @@ const Welcome: React.FunctionComponent<OwnProps> = ({ style }) => {
           className="btn-sm btn-warning"
         />
       </div>
-      <div className="flex flex-col gap-1">
-        <a
-          className="link link-primary"
-          href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/introduction.md"
-        >
-          <span>{`${browser.i18n.getMessage("documentationText")}`}</span>
-        </a>
-        <a
-          className="link link-primary"
-          href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/faq.md"
-        >
-          <span>{`${browser.i18n.getMessage("faqText")}`}</span>
-        </a>
-      </div>
       <div className="divider" />
       <h2 className="mb-3 text-xl font-semibold">
         {browser.i18n.getMessage("releaseNotesText")}
       </h2>
 
       {displayReleaseNotes(releases.slice(0, 5))}
-      <p className="mt-4">
-        {browser.i18n.getMessage("oldReleasesText")}{" "}
-        <a
-          className="link link-primary"
-          href="https://github.com/j127/auto_delete_cookies_for_privacy/releases"
-          target="_blank"
-          rel="noreferrer"
-        >
-          GitHub
-        </a>
-      </p>
     </div>
   );
 };
