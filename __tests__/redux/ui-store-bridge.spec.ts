@@ -2,7 +2,6 @@ import { initialState } from "@/redux/state";
 import { CONNECTION_NAME, DISPATCH, UPDATE_STATE } from "@/redux/store-bridge";
 import { createUIStore } from "@/redux/ui-store-bridge";
 
-jest.requireActual("@/redux/ui-store-bridge");
 
 type FakePort = {
   name: string;

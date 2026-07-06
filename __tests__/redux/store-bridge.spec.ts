@@ -11,7 +11,6 @@ import {
   handleBridgeConnection,
 } from "@/redux/store-bridge";
 
-jest.requireActual("@/redux/store-bridge");
 
 describe("StoreBridge", () => {
   describe("protocol constants", () => {

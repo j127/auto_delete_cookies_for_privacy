@@ -27,14 +27,12 @@ import ContextMenuEvents from "@/services/context-menu-events";
 const spyBrowserActions: JestSpyObject =
   global.generateSpies(BrowserActionService);
 
-jest.requireActual("@/services/context-menu-events");
 class TestContextMenus extends ContextMenuEvents {
   public static isInit(): boolean {
     return ContextMenuEvents.isInitialized;
   }
 }
 
-jest.requireActual("@/services/store-user");
 const store: Store<State, ReduxAction> = createStore(initialState);
 StoreUser.init(store);
 

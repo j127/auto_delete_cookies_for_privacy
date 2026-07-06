@@ -25,13 +25,10 @@ import ContextMenuEvents from "@/services/context-menu-events";
 import * as Lib from "@/services/libs";
 import StoreUser from "@/services/store-user";
 
-jest.requireActual("@/redux/actions");
 const spyActions: JestSpyObject = global.generateSpies(Actions);
 
-jest.requireMock("@/services/cleanup-service");
 const spyCleanupService: JestSpyObject = global.generateSpies(CleanupService);
 
-jest.requireActual("@/services/libs");
 const spyLib: JestSpyObject = global.generateSpies(Lib);
 
 const store: Store<State, ReduxAction> = createStore(initialState);
