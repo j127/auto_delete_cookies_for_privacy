@@ -20,12 +20,15 @@ import { Provider } from "react-redux";
 import { createUIStore } from "@/redux/ui-store-bridge";
 import { sleep } from "@/services/libs";
 import ErrorBoundary from "@/ui/common-components/ErrorBoundary";
+import { initPageDirection } from "@/ui/page-direction";
 import { initTheme } from "@/ui/theme";
 import App from "./App";
 
 // Before the store hydrates, so an explicit dark/light choice applies
-// without a flash of the wrong theme.
+// without a flash of the wrong theme, and the document direction matches
+// the UI locale (RTL languages) before anything renders.
 void initTheme();
+initPageDirection();
 
 async function initApp() {
   let store = await createUIStore();

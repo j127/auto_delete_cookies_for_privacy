@@ -155,7 +155,7 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
       const checked = cookieNamesSet.has(name);
       const key = `${checked}-${exp.id}-${name}`;
       return (
-        <div className="ml-5" key={key}>
+        <div className="ms-5" key={key}>
           <OptionCheckbox
             id={key}
             checked={checked}

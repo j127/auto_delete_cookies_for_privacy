@@ -27,6 +27,79 @@
     dark --prefersdark;
 }
 
+/* The chosen 05d design system (issue #147): the built-in light/dark theme
+   NAMES are overridden with the "Signal" palette from the winning mockup
+   (mockups/05d-shield-cookie-simple.html), radius 12px (0.75rem), default
+   density, system sans. Keeping the names means theme.ts and every spec
+   stay untouched. */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  color-scheme: light;
+  --color-base-100: #ffffff;
+  --color-base-200: #f6f8fa;
+  --color-base-300: #dde4ea;
+  --color-base-content: #101923;
+  --color-primary: #0969da;
+  --color-primary-content: #ffffff;
+  --color-secondary: #5e7183;
+  --color-secondary-content: #ffffff;
+  --color-accent: #0969da;
+  --color-accent-content: #ffffff;
+  --color-neutral: #364a5e;
+  --color-neutral-content: #ffffff;
+  --color-info: #0969da;
+  --color-info-content: #ffffff;
+  --color-success: #1a7f37;
+  --color-success-content: #ffffff;
+  --color-warning: #9a6700;
+  --color-warning-content: #ffffff;
+  --color-error: #cf222e;
+  --color-error-content: #ffffff;
+  --radius-selector: 0.75rem;
+  --radius-field: 0.75rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  prefersdark: true;
+  color-scheme: dark;
+  --color-base-100: #131a23;
+  --color-base-200: #0b1017;
+  --color-base-300: #222c38;
+  --color-base-content: #e3eaf1;
+  --color-primary: #539bf5;
+  --color-primary-content: #0b1017;
+  --color-secondary: #8598ab;
+  --color-secondary-content: #0b1017;
+  --color-accent: #539bf5;
+  --color-accent-content: #0b1017;
+  --color-neutral: #222c38;
+  --color-neutral-content: #e3eaf1;
+  --color-info: #539bf5;
+  --color-info-content: #0b1017;
+  --color-success: #46c55a;
+  --color-success-content: #0b1017;
+  --color-warning: #e3b341;
+  --color-warning-content: #0b1017;
+  --color-error: #f47067;
+  --color-error-content: #0b1017;
+  --radius-selector: 0.75rem;
+  --radius-field: 0.75rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 1;
+  --noise: 0;
+}
+
 /* Clean-result feedback flash for the popup's clean button group
    (animateFlash in src/ui/popup/popup-lib.tsx adds/removes the classes).
    Ported from the deleted popup.css, recolored with DaisyUI theme vars. */

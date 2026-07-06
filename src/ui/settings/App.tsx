@@ -86,7 +86,7 @@ const App: React.FunctionComponent = () => {
               {browser.i18n.getMessage("extensionName")}
             </span>
           </div>
-          <div className="navbar-end pr-2">
+          <div className="navbar-end pe-2">
             <ThemeSwitcher />
           </div>
         </header>
