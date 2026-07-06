@@ -36,11 +36,43 @@ describe("About", () => {
     expect(console.error).not.toHaveBeenCalled();
   });
 
+  it("shows the version line under the full product name, not ADCP", () => {
+    renderAbout();
+    expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
+      "versionNumberText",
+      ["extensionName"]
+    );
+  });
+
+  it("links to exactly two places: bug reports and the documentation", () => {
+    const { container, getByText, queryByText } = renderAbout();
+    const bugLink = getByText("reportIssuesText").closest(
+      "a"
+    ) as HTMLAnchorElement;
+    expect(bugLink.getAttribute("href")).toBe(
+      "https://github.com/j127/auto_delete_cookies_for_privacy/issues"
+    );
+    const docLink = getByText("documentationText").closest(
+      "a"
+    ) as HTMLAnchorElement;
+    expect(docLink.getAttribute("href")).toBe(
+      "https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/introduction.md"
+    );
+    expect(container.querySelectorAll("a")).toHaveLength(2);
+    expect(queryByText("faqText")).toBeNull();
+  });
+
+  it("has no contributors section", () => {
+    const { queryByText } = renderAbout();
+    expect(queryByText(/contributorsText/)).toBeNull();
+    expect(queryByText(/Kenny Do/)).toBeNull();
+  });
+
   it("fills the debug info textarea through the value prop", () => {
     const { container } = renderAbout();
     const info = container.querySelector("#debugInfo") as HTMLTextAreaElement;
     expect(info.value).toBe(
-      "- Browser Info: (Please add version number on paste)\n- ADCP Version: 1.0.0"
+      "- Browser Info: (Please add version number on paste)\n- extensionName version: 1.0.0"
     );
   });
 
