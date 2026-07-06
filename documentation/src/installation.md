@@ -2,7 +2,7 @@
 
 ADCP runs on Chromium-based browsers: Google Chrome, Brave, Chromium, and others built on the same engine (version 120 or newer). It is a Manifest V3 extension, so it works on current browsers without any deprecation warnings.
 
-> **Not yet on the Chrome Web Store.** The 4.0.0 store release is in preparation. Until it lands, you install the extension manually — it takes about two minutes.
+> **Not yet on the Chrome Web Store.** The 1.0.0 store release is in preparation. Until it lands, you install the extension manually — it takes about two minutes.
 
 ## Installing from source
 

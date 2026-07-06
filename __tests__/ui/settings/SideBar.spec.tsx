@@ -31,7 +31,7 @@ describe("SideBar", () => {
   beforeEach(() => {
     switchTabs = jest.fn();
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
-    global.browser.runtime.getManifest.mockReturnValue({ version: "4.0.0" });
+    global.browser.runtime.getManifest.mockReturnValue({ version: "1.0.0" });
   });
 
   it("renders a menu item for every settings tab", () => {
@@ -47,7 +47,7 @@ describe("SideBar", () => {
   it("shows the ADCP version number from the manifest", () => {
     const { getByText } = renderSideBar();
     expect(getByText("versionNumberText")).not.toBeNull();
-    expect(getByText("4.0.0")).not.toBeNull();
+    expect(getByText("1.0.0")).not.toBeNull();
     expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
       "versionNumberText",
       ["ADCP"]

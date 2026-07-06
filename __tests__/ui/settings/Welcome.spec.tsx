@@ -74,7 +74,7 @@ describe("Welcome", () => {
     expect((container.querySelector("h2") as HTMLElement).textContent).toBe(
       "releaseNotesText"
     );
-    expect(getByText("4.0.0")).not.toBeNull();
+    expect(getByText("1.0.0")).not.toBeNull();
     expect(container.querySelectorAll("ul li").length).toBeGreaterThan(0);
   });
 

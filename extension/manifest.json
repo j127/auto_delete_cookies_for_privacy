@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Auto-Delete Cookies for Privacy",
-  "version": "4.0.0",
+  "version": "1.0.0",
   "description": "__MSG_extensionDescription__",
   "default_locale": "en",
   "author": "j127 (fork of Cookie AutoDelete by Kenny Do and CAD Team)",

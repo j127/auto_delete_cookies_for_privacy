@@ -64,7 +64,7 @@ describe("BrowserActionService", () => {
   beforeEach(() => {
     global.browser.runtime.getManifest.mockReturnValue({
       name: "ADCP",
-      version: "4.0.0",
+      version: "1.0.0",
     });
     global.browser.action.getTitle.mockResolvedValue("");
     global.browser.action.setIcon.mockResolvedValue(undefined);
@@ -108,26 +108,26 @@ describe("BrowserActionService", () => {
 
   describe("showNumberOfCookiesInTitle()", () => {
     it("should keep the list and count parsed from the existing title", async () => {
-      global.browser.action.getTitle.mockResolvedValue("ADCP 4.0.0 [GREY] (7)");
+      global.browser.action.getTitle.mockResolvedValue("ADCP 1.0.0 [GREY] (7)");
       await showNumberOfCookiesInTitle(defaultTab, {});
       expect(global.browser.action.getTitle).toHaveBeenCalledWith({
         tabId: 1,
       });
       expect(global.browser.action.setTitle).toHaveBeenCalledWith({
         tabId: 1,
-        title: "ADCP 4.0.0 [GREY] (7)",
+        title: "ADCP 1.0.0 [GREY] (7)",
       });
     });
 
     it("should override the existing list and count when new info is given", async () => {
-      global.browser.action.getTitle.mockResolvedValue("ADCP 4.0.0 [GREY] (7)");
+      global.browser.action.getTitle.mockResolvedValue("ADCP 1.0.0 [GREY] (7)");
       await showNumberOfCookiesInTitle(defaultTab, {
         cookieLength: 3,
         listType: ListType.WHITE,
       });
       expect(global.browser.action.setTitle).toHaveBeenCalledWith({
         tabId: 1,
-        title: "ADCP 4.0.0 [WHITE] (3)",
+        title: "ADCP 1.0.0 [WHITE] (3)",
       });
     });
 
@@ -136,18 +136,18 @@ describe("BrowserActionService", () => {
       await showNumberOfCookiesInTitle(defaultTab, {});
       expect(global.browser.action.setTitle).toHaveBeenCalledWith({
         tabId: 1,
-        title: "ADCP 4.0.0 [NO LIST] (0)",
+        title: "ADCP 1.0.0 [NO LIST] (0)",
       });
     });
 
     it("should keep the previous count when a zero count is passed (falsy fallback)", async () => {
       // Documents current behavior: cookieLength 0 is falsy, so it cannot
       // reset an existing non-zero count parsed from the title.
-      global.browser.action.getTitle.mockResolvedValue("ADCP 4.0.0 [GREY] (7)");
+      global.browser.action.getTitle.mockResolvedValue("ADCP 1.0.0 [GREY] (7)");
       await showNumberOfCookiesInTitle(defaultTab, { cookieLength: 0 });
       expect(global.browser.action.setTitle).toHaveBeenCalledWith({
         tabId: 1,
-        title: "ADCP 4.0.0 [GREY] (7)",
+        title: "ADCP 1.0.0 [GREY] (7)",
       });
     });
   });
@@ -420,7 +420,7 @@ describe("BrowserActionService", () => {
       await flushPromises();
       expect(global.browser.action.setTitle).toHaveBeenCalledWith({
         tabId: 1,
-        title: "ADCP 4.0.0 [WHITE] (2)",
+        title: "ADCP 1.0.0 [WHITE] (2)",
       });
     });
 
@@ -430,7 +430,7 @@ describe("BrowserActionService", () => {
       await flushPromises();
       expect(global.browser.action.setTitle).toHaveBeenCalledWith({
         tabId: 1,
-        title: "ADCP 4.0.0 [NO LIST] (0)",
+        title: "ADCP 1.0.0 [NO LIST] (0)",
       });
     });
   });

@@ -17,7 +17,7 @@ describe("ErrorBoundary", () => {
   beforeEach(() => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
     // componentDidCatch logs through adcpLog, which reads the manifest version.
-    global.browser.runtime.getManifest.mockReturnValue({ version: "4.0.0" });
+    global.browser.runtime.getManifest.mockReturnValue({ version: "1.0.0" });
   });
 
   const renderBoundary = (children: React.ReactNode) => {
