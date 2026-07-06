@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Auto-Delete Cookies for Privacy — design mockups</title>
+    <style>
+      :root {
+        --bg: #f5f6f8;
+        --surface: #ffffff;
+        --text: #16181d;
+        --muted: #5c6470;
+        --border: #e2e5ea;
+        --accent: #2563eb;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #111317;
+          --surface: #1a1d23;
+          --text: #e7e9ee;
+          --muted: #9aa1ad;
+          --border: #2a2e36;
+          --accent: #6ea8fe;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font:
+          15px/1.5 system-ui,
+          -apple-system,
+          "Segoe UI",
+          sans-serif;
+      }
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 32px 20px 64px;
+      }
+      h1 {
+        font-size: 22px;
+        margin: 0 0 4px;
+      }
+      p.lead {
+        margin: 0 0 28px;
+        color: var(--muted);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .card .preview {
+        height: 200px;
+        overflow: hidden;
+        border-bottom: 1px solid var(--border);
+        background: var(--bg);
+      }
+      .card .preview iframe {
+        width: 400%;
+        height: 800px;
+        border: 0;
+        transform: scale(0.25);
+        transform-origin: top left;
+        pointer-events: none;
+      }
+      .card .meta {
+        padding: 14px 16px 16px;
+      }
+      .card h2 {
+        font-size: 16px;
+        margin: 0 0 4px;
+      }
+      .card h2 a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .card h2 a:hover {
+        text-decoration: underline;
+      }
+      .card p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Auto-Delete Cookies for Privacy — design mockups</h1>
+      <p class="lead">
+        Ten design directions for the new popup and settings UI. Open a mockup
+        and use its design panel to explore modes, palettes, fonts, radius, and
+        density.
+      </p>
+      <div class="grid">
+        <article class="card">
+          <div class="preview">
+            <iframe src="01-ledger.html" title="Ledger preview" loading="lazy"></iframe>
+          </div>
+          <div class="meta">
+            <h2><a href="01-ledger.html">01 · Ledger</a></h2>
+            <p>Airy SaaS: sidebar nav, stacked cards, generous whitespace. Site data via master toggle + Advanced accordion.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="preview">
+            <iframe src="02-console.html" title="Console preview" loading="lazy"></iframe>
+          </div>
+          <div class="meta">
+            <h2><a href="02-console.html">02 · Console</a></h2>
+            <p>Dark-first compact utility: dense rows, hairlines, keycap hints. Page-level Simple ↔ Advanced switch.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="preview">
+            <iframe src="03-mono.html" title="Mono preview" loading="lazy"></iframe>
+          </div>
+          <div class="meta">
+            <h2><a href="03-mono.html">03 · Mono</a></h2>
+            <p>Sharp monochrome minimalism, uppercase micro-labels. "What's included?" explainer + Customize fold.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="preview">
+            <iframe src="04-crumb.html" title="Crumb preview" loading="lazy"></iframe>
+          </div>
+          <div class="meta">
+            <h2><a href="04-crumb.html">04 · Crumb</a></h2>
+            <p>Warm brand direction built from the logo's tan cookie + red ring; pill shapes, friendly copy.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="preview">
+            <iframe src="05-shield.html" title="Shield preview" loading="lazy"></iframe>
+          </div>
+          <div class="meta">
+            <h2><a href="05-shield.html">05 · Shield</a></h2>
+            <p>Trust dashboard: protection hero, weekly stats, plain-language cleanup-level preset cards.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="preview">
+            <iframe src="06-dock.html" title="Dock preview" loading="lazy"></iframe>
+          </div>
+          <div class="meta">
+            <h2><a href="06-dock.html">06 · Dock</a></h2>
+            <p>Icon-rail app shell with tooltips; popup as uniform stacked rows with trailing controls.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="preview">
+            <iframe src="07-data.html" title="Data preview" loading="lazy"></iframe>
+          </div>
+          <div class="meta">
+            <h2><a href="07-data.html">07 · Data</a></h2>
+            <p>Dense admin console: toolbar, filter chips, zebra tables. Advanced-first — every data type visible.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="preview">
+            <iframe src="08-soft.html" title="Soft preview" loading="lazy"></iframe>
+          </div>
+          <div class="meta">
+            <h2><a href="08-soft.html">08 · Soft</a></h2>
+            <p>Friendly modern SaaS: big rounding, floating cards, oversized toggles. Simple ↔ Advanced pill switch.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="preview">
+            <iframe src="09-fleet.html" title="Fleet preview" loading="lazy"></iframe>
+          </div>
+          <div class="meta">
+            <h2><a href="09-fleet.html">09 · Fleet</a></h2>
+            <p>Enterprise console: dark global bar, tab strip, breadcrumbs, status dots. Cleanup-scope preset cards.</p>
+          </div>
+        </article>
+        <article class="card">
+          <div class="preview">
+            <iframe src="10-aurora.html" title="Aurora preview" loading="lazy"></iframe>
+          </div>
+          <div class="meta">
+            <h2><a href="10-aurora.html">10 · Aurora</a></h2>
+            <p>Dark-first cool neutrals with one restrained accent gradient for primary actions; glassy popup header.</p>
+          </div>
+        </article>
+      </div>
+    </main>
+  </body>
+</html>

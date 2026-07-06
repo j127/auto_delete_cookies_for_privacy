@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="en" data-theme="dark" data-palette="aurora" data-font="sans">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>10 · Aurora — ADCP mockup</title>
+<style>
+/* ---------- palettes ---------- */
+[data-palette="aurora"] {
+  --c-bg: #f6f7fb; --c-surface: #ffffff; --c-text: #171a2b; --c-muted: #666d8a;
+  --c-accent: #5b5bd6; --c-on-accent: #ffffff; --c-border: #e3e5f0;
+  --c-ok: #17936b; --c-warn: #ad6d10; --c-danger: #d84a4a;
+}
+[data-palette="aurora"][data-theme="dark"] {
+  --c-bg: #0d0e1a; --c-surface: #16182a; --c-text: #e8e9f5; --c-muted: #8d93b3;
+  --c-accent: #8a8af5; --c-on-accent: #0c0d22; --c-border: #272a44;
+  --c-ok: #3bd39d; --c-warn: #e2b345; --c-danger: #f57e7e;
+}
+[data-palette="cyan"] {
+  --c-bg: #f3f8fa; --c-surface: #ffffff; --c-text: #10262e; --c-muted: #58747f;
+  --c-accent: #0d94b8; --c-on-accent: #ffffff; --c-border: #dbe8ed;
+  --c-ok: #17936b; --c-warn: #a86f0c; --c-danger: #d84a4a;
+}
+[data-palette="cyan"][data-theme="dark"] {
+  --c-bg: #0a141a; --c-surface: #122029; --c-text: #e2eef3; --c-muted: #83a0ac;
+  --c-accent: #3ec6e8; --c-on-accent: #06222c; --c-border: #21363f;
+  --c-ok: #3bd39d; --c-warn: #e2b345; --c-danger: #f58585;
+}
+[data-palette="sunset"] {
+  --c-bg: #faf5f3; --c-surface: #fffdfc; --c-text: #331f1c; --c-muted: #8c7069;
+  --c-accent: #d4553a; --c-on-accent: #fff5f1; --c-border: #efe0da;
+  --c-ok: #2f8f60; --c-warn: #b5760f; --c-danger: #d4553a;
+}
+[data-palette="sunset"][data-theme="dark"] {
+  --c-bg: #180f0d; --c-surface: #241713; --c-text: #f4e8e3; --c-muted: #b5988d;
+  --c-accent: #f2825f; --c-on-accent: #260c04; --c-border: #402b22;
+  --c-ok: #58c993; --c-warn: #e5ae52; --c-danger: #f2825f;
+}
+
+/* ---------- base ---------- */
+:root { --radius: 12px; --density: 1; --font-body: system-ui, sans-serif; --font-heading: system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--c-bg); color: var(--c-text); font-family: var(--font-body); font-size: 14px; line-height: 1.55; }
+h1, h2, h3 { font-family: var(--font-heading); margin: 0; }
+svg.i { width: 1.1em; height: 1.1em; vertical-align: -0.18em; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.grad-text { background: linear-gradient(100deg, var(--c-accent), color-mix(in oklab, var(--c-accent) 55%, var(--c-ok))); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+.stage { max-width: 1180px; margin: 0 auto; padding: calc(var(--density) * 28px) calc(var(--density) * 20px) calc(var(--density) * 90px); }
+.stage > header { margin-bottom: calc(var(--density) * 24px); }
+.stage > header .k { color: var(--c-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; }
+.stage > header h1 { font-size: 26px; letter-spacing: -0.015em; }
+.stage > header p { color: var(--c-muted); max-width: 62ch; margin: 6px 0 0; }
+.demo { margin-top: calc(var(--density) * 32px); }
+.demo > .demo-label { color: var(--c-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: calc(var(--density) * 10px); }
+.frame { border: 1px solid var(--c-border); border-radius: calc(var(--radius) * 1.6); background: var(--c-surface); overflow: hidden; box-shadow: 0 18px 48px color-mix(in srgb, var(--c-text) 10%, transparent); }
+.popup-frame { width: 430px; max-width: 100%; }
+
+/* ---------- primitives ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid var(--c-border); background: var(--c-surface); color: var(--c-text); font: inherit; font-weight: 600; cursor: pointer; border-radius: var(--radius); padding: calc(var(--density) * 7px) calc(var(--density) * 14px); }
+.btn:hover { border-color: color-mix(in srgb, var(--c-accent) 55%, var(--c-border)); }
+.btn.primary { border: 0; background: linear-gradient(115deg, var(--c-accent), color-mix(in oklab, var(--c-accent) 58%, var(--c-ok))); color: var(--c-on-accent); font-weight: 700; box-shadow: 0 6px 18px color-mix(in srgb, var(--c-accent) 35%, transparent); }
+.btn.primary:hover { box-shadow: 0 8px 22px color-mix(in srgb, var(--c-accent) 48%, transparent); }
+.btn.ghost { border-color: transparent; color: var(--c-muted); }
+.btn.ghost:hover { color: var(--c-text); }
+.btn.small { padding: calc(var(--density) * 4px) calc(var(--density) * 11px); font-size: 12.5px; }
+.pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 700; border-radius: 999px; padding: 2.5px 10px; }
+.pill.ok { color: var(--c-ok); background: color-mix(in srgb, var(--c-ok) 13%, transparent); }
+.pill.grey { color: var(--c-muted); background: color-mix(in srgb, var(--c-muted) 15%, transparent); }
+.pill.grad { color: var(--c-on-accent); background: linear-gradient(115deg, var(--c-accent), color-mix(in oklab, var(--c-accent) 58%, var(--c-ok))); }
+.tgl { position: relative; display: inline-block; width: 42px; height: 24px; flex: none; }
+.tgl input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.tgl .knob { position: absolute; inset: 0; background: color-mix(in srgb, var(--c-muted) 32%, var(--c-bg)); border-radius: 999px; transition: background 0.16s; }
+.tgl .knob::after { content: ""; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; background: var(--c-surface); border-radius: 50%; box-shadow: 0 1px 3px color-mix(in srgb, var(--c-text) 28%, transparent); transition: left 0.16s; }
+.tgl input:checked + .knob { background: linear-gradient(115deg, var(--c-accent), color-mix(in oklab, var(--c-accent) 58%, var(--c-ok))); }
+.tgl input:checked + .knob::after { left: 21px; }
+.tgl input:focus-visible + .knob { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+input[type="text"], select { font: inherit; color: var(--c-text); background: color-mix(in srgb, var(--c-text) 4%, var(--c-surface)); border: 1px solid var(--c-border); border-radius: var(--radius); padding: calc(var(--density) * 7px) calc(var(--density) * 12px); }
+input[type="text"]:focus, select:focus { outline: 2px solid color-mix(in srgb, var(--c-accent) 50%, transparent); border-color: var(--c-accent); }
+
+/* ---------- popup ---------- */
+.pp-glass { position: relative; padding: calc(var(--density) * 16px) calc(var(--density) * 18px); background: linear-gradient(135deg, color-mix(in srgb, var(--c-accent) 16%, var(--c-surface)), color-mix(in srgb, var(--c-ok) 10%, var(--c-surface))); border-bottom: 1px solid var(--c-border); }
+.pp-glass .inner { backdrop-filter: blur(8px); }
+.pp-glass .r1 { display: flex; align-items: center; gap: 9px; }
+.pp-glass .name { font-weight: 750; font-size: 13.5px; }
+.pp-glass .ver { margin-left: auto; color: var(--c-muted); font-size: 11px; }
+.pp-glass .domain { font-size: 20px; font-weight: 800; letter-spacing: -0.01em; margin-top: calc(var(--density) * 10px); }
+.pp-glass .meta { display: flex; gap: 8px; align-items: center; margin-top: 6px; font-size: 12.5px; color: var(--c-muted); }
+.pp-glass .meta b { color: var(--c-text); }
+.pp-body { padding: calc(var(--density) * 14px) calc(var(--density) * 18px); display: grid; gap: calc(var(--density) * 10px); }
+.pp-trow { display: flex; align-items: center; gap: 10px; font-size: 13.5px; font-weight: 600; }
+.pp-trow .d { color: var(--c-muted); font-size: 12px; font-weight: 500; }
+.pp-trow .txt { flex: 1; }
+.pp-lists { display: grid; gap: calc(var(--density) * 8px); }
+.pp-lists .lrow { display: flex; align-items: center; gap: 9px; font-size: 13px; }
+.pp-lists .e { flex: 1; min-width: 0; color: var(--c-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pp-clean { display: grid; gap: 8px; }
+.pp-clean .btn.primary { padding-block: calc(var(--density) * 11px); font-size: 14.5px; }
+.pp-clean details summary { list-style: none; cursor: pointer; text-align: center; color: var(--c-muted); font-size: 12.5px; }
+.pp-clean details summary::-webkit-details-marker { display: none; }
+.pp-clean details summary:hover { color: var(--c-accent); }
+.pp-clean .opts { margin-top: 7px; display: grid; gap: 6px; }
+.pp-clean .opts button { font: inherit; font-size: 13px; font-weight: 550; background: color-mix(in srgb, var(--c-text) 5%, var(--c-surface)); color: var(--c-text); border: 1px solid var(--c-border); border-radius: var(--radius); padding: calc(var(--density) * 9px) calc(var(--density) * 13px); cursor: pointer; text-align: left; }
+.pp-clean .opts button:hover { border-color: var(--c-accent); }
+.pp-recent { border-top: 1px solid var(--c-border); padding: calc(var(--density) * 12px) calc(var(--density) * 18px) calc(var(--density) * 15px); }
+.pp-recent h3 { font-size: 11px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--c-muted); font-weight: 700; margin-bottom: calc(var(--density) * 7px); }
+.pp-recent .arow { display: flex; gap: 9px; align-items: center; padding: calc(var(--density) * 4px) 0; font-size: 13px; }
+.pp-recent .n { margin-left: auto; color: var(--c-danger); font-weight: 650; }
+.pp-recent .t { color: var(--c-muted); font-size: 12px; width: 58px; text-align: right; }
+
+/* ---------- settings ---------- */
+.app { display: grid; grid-template-columns: 236px 1fr; min-height: 630px; }
+.side { border-right: 1px solid var(--c-border); padding: calc(var(--density) * 18px) calc(var(--density) * 13px); display: flex; flex-direction: column; gap: 2px; background: linear-gradient(180deg, color-mix(in srgb, var(--c-accent) 6%, var(--c-bg)), var(--c-bg)); }
+.side .brand { display: flex; gap: 10px; align-items: center; padding: 0 calc(var(--density) * 10px) calc(var(--density) * 16px); font-weight: 800; font-size: 15px; }
+.side .brand .orb { width: 26px; height: 26px; border-radius: 50%; background: linear-gradient(135deg, var(--c-accent), color-mix(in oklab, var(--c-accent) 55%, var(--c-ok))); box-shadow: 0 4px 12px color-mix(in srgb, var(--c-accent) 40%, transparent); }
+.side nav a { display: flex; align-items: center; gap: 10px; padding: calc(var(--density) * 8px) calc(var(--density) * 11px); border-radius: var(--radius); color: var(--c-muted); text-decoration: none; font-size: 13.5px; font-weight: 600; }
+.side nav a:hover { color: var(--c-text); }
+.side nav a.on { color: var(--c-text); background: color-mix(in srgb, var(--c-accent) 13%, transparent); box-shadow: inset 2px 0 0 var(--c-accent); }
+.side .foot { margin-top: auto; padding: 0 calc(var(--density) * 11px); color: var(--c-muted); font-size: 11.5px; }
+.main { padding: calc(var(--density) * 26px) calc(var(--density) * 30px) calc(var(--density) * 36px); max-width: 780px; }
+.main > h2 { font-size: 21px; letter-spacing: -0.01em; }
+.main > .sub { color: var(--c-muted); font-size: 13px; margin: 4px 0 calc(var(--density) * 20px); }
+.card { border: 1px solid var(--c-border); border-radius: calc(var(--radius) * 1.4); background: var(--c-surface); margin-bottom: calc(var(--density) * 16px); overflow: hidden; }
+.card > h3 { font-size: 14.5px; padding: calc(var(--density) * 13px) calc(var(--density) * 18px); border-bottom: 1px solid var(--c-border); }
+.srow { display: flex; align-items: center; gap: 14px; padding: calc(var(--density) * 12px) calc(var(--density) * 18px); }
+.srow + .srow { border-top: 1px solid var(--c-border); }
+.srow .txt { flex: 1; }
+.srow .l { font-weight: 650; font-size: 13.8px; }
+.srow .d { color: var(--c-muted); font-size: 12.5px; }
+.srow input.n { width: 72px; text-align: right; }
+.srow .unit { color: var(--c-muted); font-size: 12px; }
+
+/* master + accordion */
+.master { display: flex; gap: 14px; align-items: flex-start; padding: calc(var(--density) * 15px) calc(var(--density) * 18px); background: linear-gradient(120deg, color-mix(in srgb, var(--c-accent) 8%, transparent), transparent 65%); }
+.master .txt { flex: 1; }
+.master .l { font-weight: 750; font-size: 14.5px; }
+.master .d { color: var(--c-muted); font-size: 12.5px; margin-top: 2px; max-width: 52ch; }
+details.adv { border-top: 1px solid var(--c-border); }
+details.adv summary { list-style: none; cursor: pointer; padding: calc(var(--density) * 11px) calc(var(--density) * 18px); font-size: 13px; font-weight: 650; }
+details.adv summary::-webkit-details-marker { display: none; }
+details.adv summary .grad-text { font-weight: 700; }
+details.adv .types { padding: 0 calc(var(--density) * 18px) calc(var(--density) * 15px); display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--density) * 8px) calc(var(--density) * 20px); font-size: 13px; }
+details.adv label { display: flex; gap: 9px; align-items: baseline; }
+details.adv input { accent-color: var(--c-accent); }
+details.adv .d { color: var(--c-muted); font-size: 11.5px; }
+
+/* expressions */
+.xbar { display: flex; gap: 9px; padding: calc(var(--density) * 13px) calc(var(--density) * 18px); border-bottom: 1px solid var(--c-border); flex-wrap: wrap; align-items: center; }
+.xbar input[type="text"] { flex: 1; min-width: 210px; }
+.xrow { display: flex; align-items: center; gap: 12px; padding: calc(var(--density) * 12px) calc(var(--density) * 18px); }
+.xrow + .xrow { border-top: 1px solid var(--c-border); }
+.xrow .expr { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; }
+.xrow .keeps { flex: 1; color: var(--c-muted); font-size: 12.5px; }
+.xrow details { flex: 1; font-size: 12.5px; color: var(--c-muted); }
+.xrow details summary { list-style: none; cursor: pointer; }
+.xrow details summary::-webkit-details-marker { display: none; }
+.xrow details summary b { color: var(--c-accent); }
+.xrow details .klist { margin-top: 7px; display: flex; gap: 13px; flex-wrap: wrap; }
+.xrow details label { display: inline-flex; gap: 6px; align-items: center; }
+.xrow details input { accent-color: var(--c-accent); }
+
+.design-notes { max-width: 1180px; margin: calc(var(--density) * 36px) auto 0; color: var(--c-muted); font-size: 13px; border-top: 1px dashed var(--c-border); padding-top: calc(var(--density) * 13px); }
+.design-notes summary { cursor: pointer; color: var(--c-text); font-weight: 700; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <header>
+    <div class="k">ADCP mockup 10</div>
+    <h1><span class="grad-text">Aurora</span> — restrained gradients</h1>
+    <p>Cool neutrals with one gradient built from the palette accent, used only where attention belongs: the primary action, active states, the brand orb. Glassy tinted popup header. Dark by default.</p>
+  </header>
+
+  <section class="demo">
+    <div class="demo-label">Browser-action popup</div>
+    <div class="frame popup-frame">
+      <div class="pp-glass">
+        <div class="inner">
+          <div class="r1">
+            <span class="name">Auto-Delete Cookies for Privacy</span>
+            <span class="ver">v4.0.0</span>
+          </div>
+          <div class="domain">github.com</div>
+          <div class="meta"><span class="pill ok">whitelisted</span><span>cookies on this device: <b>17</b></span></div>
+        </div>
+      </div>
+      <div class="pp-body">
+        <div class="pp-trow">
+          <div class="txt">Auto-clean<div class="d">15 s after tabs close</div></div>
+          <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+        </div>
+        <div class="pp-trow">
+          <div class="txt">Notifications<div class="d">Summary after each clean</div></div>
+          <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+        </div>
+        <div class="pp-lists">
+          <div class="lrow"><span class="e">*.github.com</span><button class="btn small" type="button">Greylist</button><button class="btn small" type="button">Whitelist</button></div>
+          <div class="lrow"><span class="e">github.com</span><button class="btn small" type="button">Greylist</button><button class="btn small" type="button">Whitelist</button></div>
+        </div>
+        <div class="pp-clean">
+          <button class="btn primary" type="button">
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg>
+            Clean now
+          </button>
+          <details>
+            <summary>More cleaning options</summary>
+            <div class="opts">
+              <button type="button">Clean, including open tabs</button>
+              <button type="button">Clear cookies for github.com</button>
+              <button type="button">Clear all site data for github.com</button>
+            </div>
+          </details>
+        </div>
+      </div>
+      <div class="pp-recent">
+        <h3>Recent</h3>
+        <div class="arow"><span>twitter.com</span><span class="n">−9</span><span class="t">2 min</span></div>
+        <div class="arow"><span>doubleclick.net</span><span class="n">−4</span><span class="t">11 min</span></div>
+        <div class="arow"><span>reddit.com</span><span class="n">−6</span><span class="t">26 min</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo">
+    <div class="demo-label">Settings — General</div>
+    <div class="frame">
+      <div class="app">
+        <aside class="side">
+          <div class="brand"><span class="orb" aria-hidden="true"></span>ADCP</div>
+          <nav>
+            <a href="#">Welcome</a>
+            <a class="on" href="#">Settings</a>
+            <a href="#">Expressions</a>
+            <a href="#">Cleanup log</a>
+            <a href="#">About</a>
+          </nav>
+          <div class="foot">v4.0.0 · MV3</div>
+        </aside>
+        <div class="main">
+          <h2>Settings</h2>
+          <p class="sub">Saved instantly.</p>
+
+          <div class="card">
+            <h3>Automatic cleaning</h3>
+            <div class="srow">
+              <div class="txt"><div class="l">Clean automatically</div><div class="d">Remove unwanted cookies after you leave a site.</div></div>
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Delay before cleaning</div></div>
+              <input class="n" type="text" value="15" /><span class="unit">seconds</span>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Clean when leaving a site</div></div>
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Clean on browser restart</div></div>
+              <label class="tgl"><input type="checkbox" /><span class="knob"></span></label>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="master">
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+              <div class="txt">
+                <div class="l">Delete all site data</div>
+                <div class="d">Cookies plus saved files, offline databases, and background workers — the strongest privacy setting.</div>
+              </div>
+              <span class="pill grad">Recommended</span>
+            </div>
+            <details class="adv">
+              <summary><span class="grad-text">Advanced</span> — choose exactly what to delete</summary>
+              <div class="types">
+                <label><input type="checkbox" checked /><span>Cache <span class="d">— saved pages and images</span></span></label>
+                <label><input type="checkbox" checked /><span>Local storage <span class="d">— site preferences</span></span></label>
+                <label><input type="checkbox" checked /><span>IndexedDB <span class="d">— offline databases</span></span></label>
+                <label><input type="checkbox" checked /><span>Service workers <span class="d">— background scripts</span></span></label>
+                <label><input type="checkbox" checked /><span>Plugin data</span></label>
+              </div>
+            </details>
+          </div>
+
+          <div class="card">
+            <h3>Notifications</h3>
+            <div class="srow">
+              <div class="txt"><div class="l">Notify after cleaning</div></div>
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Duration</div></div>
+              <input class="n" type="text" value="3" /><span class="unit">seconds</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Interface</h3>
+            <div class="srow">
+              <div class="txt"><div class="l">Cookie count on toolbar icon</div></div>
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Container tabs support</div></div>
+              <label class="tgl"><input type="checkbox" /><span class="knob"></span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo">
+    <div class="demo-label">Settings — Expressions</div>
+    <div class="frame">
+      <div class="app">
+        <aside class="side">
+          <div class="brand"><span class="orb" aria-hidden="true"></span>ADCP</div>
+          <nav>
+            <a href="#">Welcome</a>
+            <a href="#">Settings</a>
+            <a class="on" href="#">Expressions</a>
+            <a href="#">Cleanup log</a>
+            <a href="#">About</a>
+          </nav>
+          <div class="foot">v4.0.0 · MV3</div>
+        </aside>
+        <div class="main">
+          <h2>Expressions</h2>
+          <p class="sub">Whitelist keeps site data always; greylist keeps it until the browser restarts.</p>
+          <div class="card">
+            <div class="xbar">
+              <select aria-label="Container"><option>Default container</option><option>Work</option></select>
+              <input type="text" placeholder="*.example.com" />
+              <button class="btn" type="button">Greylist</button>
+              <button class="btn primary" type="button">Whitelist</button>
+            </div>
+            <div class="xrow">
+              <span class="expr">*.github.com</span>
+              <span class="pill ok">Whitelist</span>
+              <span class="keeps">keeps everything</span>
+              <button class="btn ghost small" type="button">Remove</button>
+            </div>
+            <div class="xrow">
+              <span class="expr">twitter.com</span>
+              <span class="pill grey">Greylist</span>
+              <details>
+                <summary>keeps cookies until restart · <b>customize</b></summary>
+                <div class="klist">
+                  <label><input type="checkbox" checked />Local storage</label>
+                  <label><input type="checkbox" />IndexedDB</label>
+                  <label><input type="checkbox" />Cache</label>
+                </div>
+              </details>
+              <button class="btn ghost small" type="button">Remove</button>
+            </div>
+            <div class="xrow">
+              <span class="expr">/^mail\.(google|proton)\.com$/</span>
+              <span class="pill grad">regex</span>
+              <span class="pill ok">Whitelist</span>
+              <span class="keeps">keeps everything</span>
+              <button class="btn ghost small" type="button">Remove</button>
+            </div>
+            <div class="xbar" style="border-bottom: 0; border-top: 1px solid var(--c-border)">
+              <button class="btn small" type="button">Export</button>
+              <button class="btn small" type="button">Import</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <details class="design-notes">
+    <summary>Design notes — 10 · Aurora</summary>
+    <p><b>Direction:</b> the most contemporary of the set — cool neutral surfaces with a single accent-to-green gradient reserved for the primary action, active toggles, and the brand orb; a tinted glassy header gives the popup presence without noise. Dark-first. <b>Typography:</b> system sans; Rounded as the softer alternative. <b>Palettes:</b> Aurora indigo (default), Cyan for a cooler tone, Sunset for a warm coral take that nods to the logo's red. All gradients derive from <code>--c-accent</code> via color-mix, so they follow every palette. <b>Site data:</b> master toggle on a gradient-washed band plus an Advanced accordion.</p>
+  </details>
+</div>
+
+<!-- DP:STYLE -->
+<style id="dp-style">
+  #design-panel {
+    --dp-bg: rgba(28, 30, 34, 0.92);
+    --dp-text: #e7e9ee;
+    --dp-muted: #9aa1ad;
+    --dp-line: rgba(255, 255, 255, 0.14);
+    --dp-active: #6ea8fe;
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 99999;
+    width: 240px;
+    max-height: min(70vh, 560px);
+    overflow: auto;
+    background: var(--dp-bg);
+    color: var(--dp-text);
+    font:
+      12px/1.45 system-ui,
+      -apple-system,
+      "Segoe UI",
+      sans-serif;
+    border: 1px solid var(--dp-line);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px);
+  }
+  #design-panel * {
+    box-sizing: border-box;
+    font: inherit;
+    color: inherit;
+  }
+  #design-panel header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--dp-line);
+  }
+  #design-panel header strong {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  #dp-toggle {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+    line-height: 1;
+  }
+  #dp-toggle:hover {
+    background: var(--dp-line);
+  }
+  #design-panel[data-collapsed="true"] {
+    width: auto;
+    max-height: none;
+    overflow: hidden;
+  }
+  #design-panel[data-collapsed="true"] #dp-body {
+    display: none;
+  }
+  #design-panel[data-collapsed="true"] header {
+    border-bottom: 0;
+  }
+  #dp-body {
+    padding: 10px 12px 12px;
+    display: grid;
+    gap: 12px;
+  }
+  #design-panel fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+  #design-panel legend {
+    padding: 0 0 6px;
+    color: var(--dp-muted);
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+  #design-panel .dp-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  #design-panel .dp-options label {
+    border: 1px solid var(--dp-line);
+    border-radius: 999px;
+    padding: 3px 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+  #design-panel .dp-options input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  #design-panel .dp-options input:checked + span {
+    color: var(--dp-active);
+  }
+  #design-panel .dp-options label:has(input:checked) {
+    border-color: var(--dp-active);
+  }
+  #design-panel .dp-slider {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 8px;
+  }
+  #design-panel .dp-slider input[type="range"] {
+    width: 100%;
+    accent-color: var(--dp-active);
+  }
+  #design-panel .dp-slider output {
+    min-width: 42px;
+    text-align: right;
+    color: var(--dp-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  #dp-reset {
+    width: 100%;
+    border: 1px solid var(--dp-line);
+    background: transparent;
+    border-radius: 8px;
+    padding: 6px 0;
+    cursor: pointer;
+  }
+  #dp-reset:hover {
+    border-color: var(--dp-active);
+    color: var(--dp-active);
+  }
+</style>
+<!-- /DP:STYLE -->
+
+<!-- DP:MARKUP -->
+<aside
+  id="design-panel"
+  data-collapsed="false"
+  aria-label="Design control panel"
+>
+  <header>
+    <strong>Design panel</strong>
+    <button
+      id="dp-toggle"
+      type="button"
+      aria-expanded="true"
+      title="Collapse panel"
+    >
+      −
+    </button>
+  </header>
+  <div id="dp-body">
+    <fieldset data-dp-group="mode">
+      <legend>Mode</legend>
+      <div class="dp-options"></div>
+    </fieldset>
+    <fieldset data-dp-group="palette">
+      <legend>Palette</legend>
+      <div class="dp-options"></div>
+    </fieldset>
+    <fieldset data-dp-group="font">
+      <legend>Font</legend>
+      <div class="dp-options"></div>
+    </fieldset>
+    <fieldset>
+      <legend>Radius</legend>
+      <div class="dp-slider">
+        <input type="range" data-dp-range="radius" min="0" max="24" step="1" />
+        <output data-dp-out="radius"></output>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Density</legend>
+      <div class="dp-slider">
+        <input
+          type="range"
+          data-dp-range="density"
+          min="0.8"
+          max="1.3"
+          step="0.05"
+        />
+        <output data-dp-out="density"></output>
+      </div>
+    </fieldset>
+    <button id="dp-reset" type="button">Reset to defaults</button>
+  </div>
+</aside>
+<!-- /DP:MARKUP -->
+<script>
+  window.DP_CONFIG = {
+    slug: "10-aurora",
+    palettes: [
+      { id: "aurora", label: "Aurora" },
+      { id: "cyan", label: "Cyan" },
+      { id: "sunset", label: "Sunset" }
+    ],
+    fonts: [
+      { id: "sans", label: "Sans", body: 'system-ui, -apple-system, "Segoe UI", sans-serif', heading: 'system-ui, -apple-system, "Segoe UI", sans-serif' },
+      { id: "rounded", label: "Rounded", body: 'ui-rounded, "SF Pro Rounded", system-ui, sans-serif', heading: 'ui-rounded, "SF Pro Rounded", system-ui, sans-serif' }
+    ],
+    defaults: { mode: "dark", palette: "aurora", font: "sans", radius: 12, density: 1 }
+  };
+</script>
+<!-- DP:SCRIPT -->
+<script id="dp-script">
+  (function () {
+    var config = window.DP_CONFIG;
+    if (
+      !config ||
+      !config.slug ||
+      !Array.isArray(config.palettes) ||
+      !Array.isArray(config.fonts)
+    ) {
+      console.error("design-panel: window.DP_CONFIG is missing or malformed");
+      return;
+    }
+    var KEY = "design-panel:" + config.slug;
+    var root = document.documentElement;
+    var panel = document.getElementById("design-panel");
+    var defaults = {
+      mode: config.defaults.mode === "dark" ? "dark" : "light",
+      palette: idOrFirst(config.palettes, config.defaults.palette),
+      font: idOrFirst(config.fonts, config.defaults.font),
+      radius: clamp(num(config.defaults.radius, 8), 0, 24),
+      density: clamp(num(config.defaults.density, 1), 0.8, 1.3),
+      collapsed: false,
+    };
+
+    function idOrFirst(list, id) {
+      for (var i = 0; i < list.length; i += 1) {
+        if (list[i].id === id) return id;
+      }
+      return list.length > 0 ? list[0].id : "";
+    }
+    function hasId(list, id) {
+      for (var i = 0; i < list.length; i += 1) {
+        if (list[i].id === id) return true;
+      }
+      return false;
+    }
+    function num(value, fallback) {
+      return typeof value === "number" && isFinite(value) ? value : fallback;
+    }
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+    function findFont(id) {
+      for (var i = 0; i < config.fonts.length; i += 1) {
+        if (config.fonts[i].id === id) return config.fonts[i];
+      }
+      return config.fonts[0];
+    }
+
+    function load() {
+      var state = {};
+      try {
+        state = JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+      } catch (error) {
+        state = {};
+      }
+      return {
+        mode:
+          state.mode === "dark" || state.mode === "light"
+            ? state.mode
+            : defaults.mode,
+        palette: hasId(config.palettes, state.palette)
+          ? state.palette
+          : defaults.palette,
+        font: hasId(config.fonts, state.font) ? state.font : defaults.font,
+        radius: clamp(num(state.radius, defaults.radius), 0, 24),
+        density: clamp(num(state.density, defaults.density), 0.8, 1.3),
+        collapsed: state.collapsed === true,
+      };
+    }
+    function save() {
+      try {
+        localStorage.setItem(
+          KEY,
+          JSON.stringify(Object.assign({ v: 1 }, current))
+        );
+      } catch (error) {
+        /* storage unavailable (e.g. some file:// modes): live state still works */
+      }
+    }
+
+    var current = load();
+
+    function apply() {
+      root.setAttribute("data-theme", current.mode);
+      root.setAttribute("data-palette", current.palette);
+      root.setAttribute("data-font", current.font);
+      root.style.setProperty("--radius", current.radius + "px");
+      root.style.setProperty("--density", String(current.density));
+      var font = findFont(current.font);
+      root.style.setProperty("--font-body", font.body);
+      root.style.setProperty("--font-heading", font.heading || font.body);
+      panel.setAttribute("data-collapsed", String(current.collapsed));
+      var toggle = document.getElementById("dp-toggle");
+      toggle.textContent = current.collapsed ? "✦" : "−";
+      toggle.setAttribute("aria-expanded", String(!current.collapsed));
+      toggle.setAttribute(
+        "title",
+        current.collapsed ? "Expand panel" : "Collapse panel"
+      );
+      syncControls();
+    }
+
+    function radioGroup(group, options, getValue) {
+      var container = panel.querySelector(
+        '[data-dp-group="' + group + '"] .dp-options'
+      );
+      options.forEach(function (option) {
+        var label = document.createElement("label");
+        var input = document.createElement("input");
+        input.type = "radio";
+        input.name = "dp-" + group + "-" + config.slug;
+        input.setAttribute("value", option.id);
+        input.addEventListener("change", function () {
+          current[group] = option.id;
+          save();
+          apply();
+        });
+        var text = document.createElement("span");
+        text.textContent = option.label;
+        label.appendChild(input);
+        label.appendChild(text);
+        container.appendChild(label);
+      });
+    }
+
+    function syncControls() {
+      ["mode", "palette", "font"].forEach(function (group) {
+        var inputs = panel.querySelectorAll(
+          '[data-dp-group="' + group + '"] input'
+        );
+        inputs.forEach(function (input) {
+          input.checked = input.value === current[group];
+        });
+      });
+      var radius = panel.querySelector('[data-dp-range="radius"]');
+      var density = panel.querySelector('[data-dp-range="density"]');
+      radius.value = String(current.radius);
+      density.value = String(current.density);
+      panel.querySelector('[data-dp-out="radius"]').textContent =
+        current.radius + "px";
+      panel.querySelector('[data-dp-out="density"]').textContent =
+        "×" + current.density.toFixed(2);
+    }
+
+    radioGroup("mode", [
+      { id: "light", label: "Light" },
+      { id: "dark", label: "Dark" },
+    ]);
+    radioGroup("palette", config.palettes);
+    radioGroup("font", config.fonts);
+
+    panel
+      .querySelector('[data-dp-range="radius"]')
+      .addEventListener("input", function (event) {
+        current.radius = clamp(
+          num(Number(event.target.value), defaults.radius),
+          0,
+          24
+        );
+        save();
+        apply();
+      });
+    panel
+      .querySelector('[data-dp-range="density"]')
+      .addEventListener("input", function (event) {
+        current.density = clamp(
+          num(Number(event.target.value), defaults.density),
+          0.8,
+          1.3
+        );
+        save();
+        apply();
+      });
+    document.getElementById("dp-toggle").addEventListener("click", function () {
+      current.collapsed = !current.collapsed;
+      save();
+      apply();
+    });
+    document.getElementById("dp-reset").addEventListener("click", function () {
+      try {
+        localStorage.removeItem(KEY);
+      } catch (error) {
+        /* ignore */
+      }
+      current = load();
+      apply();
+    });
+
+    apply();
+  })();
+</script>
+<!-- /DP:SCRIPT -->
+</body>
+</html>
