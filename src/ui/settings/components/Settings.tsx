@@ -491,6 +491,23 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           <SettingsTooltip hrefURL={"settings.md#extension-options"} />
         </SettingRow>
         <SettingRow>
+          <CheckboxSetting
+            inline={true}
+            settingObject={
+              settings[SettingID.POPUP_ADVANCED] ?? {
+                name: SettingID.POPUP_ADVANCED,
+                value: false,
+              }
+            }
+            text={browser.i18n.getMessage("showAdvancedPopupText")}
+            updateSetting={(payload) => onUpdateSetting(payload)}
+          />
+          <SettingsTooltip hrefURL={"settings.md#extension-options"} />
+        </SettingRow>
+        <div className="mb-2 ps-12 text-sm text-base-content/70">
+          {browser.i18n.getMessage("showAdvancedPopupDescText")}
+        </div>
+        <SettingRow>
           <SelectInput
             numSize={9}
             numStart={1}
