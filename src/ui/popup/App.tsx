@@ -79,10 +79,10 @@ const App: React.FunctionComponent = () => {
     document.documentElement.style.fontSize = `${
       (settings[SettingID.SIZE_POPUP].value as number) || 16
     }px`;
-    // Chrome requires min width otherwise the layout is messed up
-    document.documentElement.style.minWidth = `${
-      430 + (((settings[SettingID.SIZE_POPUP].value as number) || 16) - 10) * 35
-    }px`;
+    // Chrome requires min width otherwise the layout is messed up.
+    // Fixed at the 05d mockup's 430px frame; the font-size setting scales
+    // the text only (the old formula grew the popup to 640px by default).
+    document.documentElement.style.minWidth = "430px";
     browser.tabs
       .query({
         active: true,

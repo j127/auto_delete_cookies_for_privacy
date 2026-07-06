@@ -152,18 +152,18 @@ describe("popup App", () => {
     expect(getByText("siteKeptSessionStatusText")).toBeTruthy();
   });
 
-  it("sizes the popup from the default sizePopup setting", async () => {
+  it("sizes the text from the default sizePopup setting at the fixed width", async () => {
     await renderApp();
     expect(document.documentElement.style.fontSize).toBe("16px");
-    expect(document.documentElement.style.minWidth).toBe("640px");
+    expect(document.documentElement.style.minWidth).toBe("430px");
   });
 
-  it("scales the popup size with a larger sizePopup setting", async () => {
+  it("scales only the text, not the width, with a larger sizePopup setting", async () => {
     await renderApp({
       settings: settingsWith({ [SettingID.SIZE_POPUP]: 20 }),
     });
     expect(document.documentElement.style.fontSize).toBe("20px");
-    expect(document.documentElement.style.minWidth).toBe("780px");
+    expect(document.documentElement.style.minWidth).toBe("430px");
   });
 
   it("opens a long-lived port named after the hostname and store", async () => {
