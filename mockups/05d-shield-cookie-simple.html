@@ -1,23 +1,11 @@
 <!doctype html>
-<html lang="en" data-theme="light" data-palette="guardian" data-font="sans">
+<html lang="en" data-theme="light" data-palette="signal" data-font="sans">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>05d · Shield / Simple popup — ADCP mockup</title>
 <style>
 /* ---------- palettes (7 contract vars + ok/warn/danger + cookie/ring for the logo) ---------- */
-[data-palette="guardian"] {
-  --c-bg: #f2f7f6; --c-surface: #ffffff; --c-text: #0c2925; --c-muted: #5a7570;
-  --c-accent: #0c7d6c; --c-on-accent: #ffffff; --c-border: #d9e5e2;
-  --c-ok: #0c7d6c; --c-warn: #a76e0d; --c-danger: #c43d3d;
-  --c-cookie: #d89b53; --c-ring: #cf3f2f;
-}
-[data-palette="guardian"][data-theme="dark"] {
-  --c-bg: #0a1614; --c-surface: #12211e; --c-text: #e2edea; --c-muted: #8aa39d;
-  --c-accent: #2fbfa4; --c-on-accent: #06231d; --c-border: #22352f;
-  --c-ok: #2fbfa4; --c-warn: #dfa54c; --c-danger: #ef7272;
-  --c-cookie: #d89b53; --c-ring: #ef6a55;
-}
 [data-palette="signal"] {
   --c-bg: #f6f8fa; --c-surface: #ffffff; --c-text: #101923; --c-muted: #5e7183;
   --c-accent: #0969da; --c-on-accent: #ffffff; --c-border: #dde4ea;
@@ -29,6 +17,18 @@
   --c-accent: #539bf5; --c-on-accent: #0b1017; --c-border: #222c38;
   --c-ok: #46c55a; --c-warn: #e3b341; --c-danger: #f47067;
   --c-cookie: #d89b53; --c-ring: #f47067;
+}
+[data-palette="guardian"] {
+  --c-bg: #f2f7f6; --c-surface: #ffffff; --c-text: #0c2925; --c-muted: #5a7570;
+  --c-accent: #0c7d6c; --c-on-accent: #ffffff; --c-border: #d9e5e2;
+  --c-ok: #0c7d6c; --c-warn: #a76e0d; --c-danger: #c43d3d;
+  --c-cookie: #d89b53; --c-ring: #cf3f2f;
+}
+[data-palette="guardian"][data-theme="dark"] {
+  --c-bg: #0a1614; --c-surface: #12211e; --c-text: #e2edea; --c-muted: #8aa39d;
+  --c-accent: #2fbfa4; --c-on-accent: #06231d; --c-border: #22352f;
+  --c-ok: #2fbfa4; --c-warn: #dfa54c; --c-danger: #ef7272;
+  --c-cookie: #d89b53; --c-ring: #ef6a55;
 }
 [data-palette="bakery"] {
   --c-bg: #faf5ec; --c-surface: #fffcf6; --c-text: #40301d; --c-muted: #8f7c66;
@@ -56,10 +56,25 @@ svg.logo .body { fill: var(--c-cookie); }
 svg.logo .chip { fill: color-mix(in srgb, var(--c-text) 72%, var(--c-cookie)); }
 svg.logo .ring { fill: none; stroke: var(--c-ring); stroke-width: 2.6; stroke-linecap: round; }
 
-/* THE CONCEPT: the settings checkbox below gates the popup's advanced rows */
+/* THE GATE: the settings checkbox below shows/hides the popup's advanced UI */
 body:not(:has(#adv05d:checked)) .pp-advanced { display: none !important; }
 body:has(#adv05d:checked) .gate-note .off { display: none; }
 body:not(:has(#adv05d:checked)) .gate-note .on { display: none; }
+
+/* THE TABS (advanced only): radio-driven panels */
+input.tabctl { position: absolute; opacity: 0; pointer-events: none; }
+.panel { display: none; }
+body:has(#t05d-ov:checked) #p-ov { display: block; }
+body:has(#t05d-ck:checked) #p-ck { display: block; }
+body:has(#t05d-st:checked) #p-st { display: block; }
+body:not(:has(#adv05d:checked)) #p-ov { display: block !important; }
+body:not(:has(#adv05d:checked)) #p-ck, body:not(:has(#adv05d:checked)) #p-st { display: none !important; }
+.pp-tabs { display: flex; gap: 2px; padding: 0 calc(var(--density) * 18px); border-bottom: 1px solid var(--c-border); }
+.pp-tabs label { font-size: 12.5px; font-weight: 650; color: var(--c-muted); padding: calc(var(--density) * 8px) calc(var(--density) * 10px); border-bottom: 2px solid transparent; cursor: pointer; }
+.pp-tabs label:hover { color: var(--c-text); }
+body:has(#t05d-ov:checked) .pp-tabs label[for="t05d-ov"],
+body:has(#t05d-ck:checked) .pp-tabs label[for="t05d-ck"],
+body:has(#t05d-st:checked) .pp-tabs label[for="t05d-st"] { color: var(--c-accent); border-bottom-color: var(--c-accent); }
 
 .stage { max-width: 1180px; margin: 0 auto; padding: calc(var(--density) * 28px) calc(var(--density) * 20px) calc(var(--density) * 90px); }
 .stage > header { margin-bottom: calc(var(--density) * 24px); }
@@ -78,6 +93,8 @@ body:not(:has(#adv05d:checked)) .gate-note .on { display: none; }
 .btn:hover { border-color: color-mix(in srgb, var(--c-accent) 50%, var(--c-border)); }
 .btn.primary { background: var(--c-accent); border-color: var(--c-accent); color: var(--c-on-accent); font-weight: 650; }
 .btn.small { padding: calc(var(--density) * 4px) calc(var(--density) * 11px); font-size: 12.5px; }
+.btn.icon { padding: calc(var(--density) * 3px) calc(var(--density) * 6px); border-color: transparent; color: var(--c-muted); }
+.btn.icon:hover { color: var(--c-danger); border-color: transparent; }
 .badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 650; border-radius: 999px; padding: 2.5px 10px; }
 .badge.ok { color: var(--c-ok); background: color-mix(in srgb, var(--c-ok) 12%, transparent); }
 .badge.warn { color: var(--c-warn); background: color-mix(in srgb, var(--c-warn) 13%, transparent); }
@@ -86,19 +103,23 @@ body:not(:has(#adv05d:checked)) .gate-note .on { display: none; }
 .tgl input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
 .tgl .knob { position: absolute; inset: 0; background: color-mix(in srgb, var(--c-muted) 32%, var(--c-bg)); border-radius: 999px; transition: background 0.15s; }
 .tgl .knob::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: var(--c-surface); border-radius: 50%; box-shadow: 0 1px 3px color-mix(in srgb, var(--c-text) 25%, transparent); transition: left 0.15s; }
-.tgl input:checked + .knob { background: var(--c-ok); }
+.tgl input:checked + .knob { background: var(--c-accent); }
 .tgl input:checked + .knob::after { left: 23px; }
 .tgl input:focus-visible + .knob { outline: 2px solid var(--c-accent); outline-offset: 2px; }
-input[type="text"], select { font: inherit; color: var(--c-text); background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius); padding: calc(var(--density) * 7px) calc(var(--density) * 12px); }
-input[type="text"]:focus, select:focus { outline: 3px solid color-mix(in srgb, var(--c-accent) 28%, transparent); border-color: var(--c-accent); }
+input[type="text"] { font: inherit; color: var(--c-text); background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius); padding: calc(var(--density) * 7px) calc(var(--density) * 12px); }
+input[type="text"]:focus { outline: 3px solid color-mix(in srgb, var(--c-accent) 28%, transparent); border-color: var(--c-accent); }
+.mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; }
 
 /* ---------- popup ---------- */
-.pp-hero { padding: calc(var(--density) * 16px) calc(var(--density) * 18px); background: color-mix(in srgb, var(--c-accent) 9%, var(--c-surface)); border-bottom: 1px solid var(--c-border); display: flex; align-items: center; gap: 12px; }
-.pp-hero .mark { width: 44px; height: 44px; border-radius: 50%; background: color-mix(in srgb, var(--c-cookie) 20%, transparent); display: grid; place-content: center; flex: none; }
-.pp-hero .mark svg.logo { width: 30px; height: 30px; }
-.pp-hero .t1 { font-weight: 750; font-size: 16px; font-family: var(--font-heading); }
+.pp-name { display: flex; align-items: center; gap: 8px; padding: calc(var(--density) * 9px) calc(var(--density) * 18px); border-bottom: 1px solid var(--c-border); }
+.pp-name svg.logo { width: 17px; height: 17px; }
+.pp-name .n { font-size: 12px; font-weight: 650; letter-spacing: 0.01em; }
+.pp-name .ver { margin-left: auto; color: var(--c-muted); font-size: 11px; }
+.pp-hero { padding: calc(var(--density) * 15px) calc(var(--density) * 18px); background: color-mix(in srgb, var(--c-accent) 9%, var(--c-surface)); border-bottom: 1px solid var(--c-border); display: flex; align-items: center; gap: 12px; }
+.pp-hero .mark { width: 42px; height: 42px; border-radius: 50%; background: color-mix(in srgb, var(--c-cookie) 20%, transparent); display: grid; place-content: center; flex: none; }
+.pp-hero .mark svg.logo { width: 29px; height: 29px; }
+.pp-hero .t1 { font-weight: 750; font-size: 15.5px; font-family: var(--font-heading); }
 .pp-hero .t2 { color: var(--c-muted); font-size: 12.5px; }
-.pp-hero .ver { margin-left: auto; align-self: flex-start; color: var(--c-muted); font-size: 11px; }
 .pp-site { padding: calc(var(--density) * 14px) calc(var(--density) * 18px); border-bottom: 1px solid var(--c-border); }
 .pp-site .r1 { display: flex; align-items: center; gap: 9px; }
 .pp-site .domain { font-size: 17px; font-weight: 700; }
@@ -109,27 +130,59 @@ input[type="text"]:focus, select:focus { outline: 3px solid color-mix(in srgb, v
 .pp-advanced.lists { padding: calc(var(--density) * 12px) calc(var(--density) * 18px); border-bottom: 1px solid var(--c-border); display: grid; gap: calc(var(--density) * 8px); }
 .pp-advanced.lists .lrow { display: flex; gap: 8px; align-items: center; font-size: 13px; }
 .pp-advanced.lists .lrow .e { flex: 1; color: var(--c-muted); font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.pp-actions { padding: calc(var(--density) * 14px) calc(var(--density) * 18px); display: grid; gap: calc(var(--density) * 9px); border-bottom: 1px solid var(--c-border); }
+.pp-actions { padding: calc(var(--density) * 14px) calc(var(--density) * 18px); display: grid; gap: calc(var(--density) * 9px); }
 .pp-actions .btn.primary { padding-block: calc(var(--density) * 11px); font-size: 14.5px; }
 .pp-actions .cap { text-align: center; color: var(--c-muted); font-size: 12px; margin-top: -3px; }
 .pp-actions .row2 { display: flex; gap: 8px; }
 .pp-actions .row2 .btn { flex: 1; }
-.pp-advanced.moreopts { padding: 0 calc(var(--density) * 18px) calc(var(--density) * 14px); border-bottom: 1px solid var(--c-border); }
+.pp-advanced.moreopts { padding: 0 calc(var(--density) * 18px) calc(var(--density) * 14px); }
 .pp-advanced.moreopts details summary { list-style: none; cursor: pointer; color: var(--c-muted); font-size: 12.5px; text-align: center; padding: calc(var(--density) * 6px) 0; }
 .pp-advanced.moreopts details summary::-webkit-details-marker { display: none; }
 .pp-advanced.moreopts .opts { display: grid; gap: 6px; }
 .pp-advanced.moreopts .opts button { font: inherit; font-size: 13px; background: var(--c-bg); border: 1px solid var(--c-border); color: var(--c-text); border-radius: var(--radius); padding: calc(var(--density) * 8px) calc(var(--density) * 12px); cursor: pointer; text-align: left; }
 .pp-advanced.moreopts .opts button:hover { border-color: var(--c-accent); }
-.pp-foot { display: flex; gap: 8px; align-items: center; padding: calc(var(--density) * 10px) calc(var(--density) * 18px); background: color-mix(in srgb, var(--c-bg) 60%, var(--c-surface)); font-size: 12.5px; color: var(--c-muted); }
+/* cookies panel */
+#p-ck .fbar { padding: calc(var(--density) * 11px) calc(var(--density) * 18px) 0; }
+#p-ck .fbar input { width: 100%; font-size: 12.5px; padding: calc(var(--density) * 5px) calc(var(--density) * 11px); }
+.ckrows { padding: calc(var(--density) * 8px) calc(var(--density) * 18px) calc(var(--density) * 6px); }
+.ckrow { display: flex; align-items: center; gap: 9px; padding: calc(var(--density) * 6px) 0; border-bottom: 1px solid var(--c-border); font-size: 12.5px; }
+.ckrow:last-child { border-bottom: 0; }
+.ckrow .nm { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ckrow .exp { font-size: 10.5px; font-weight: 650; color: var(--c-muted); background: color-mix(in srgb, var(--c-muted) 12%, transparent); border-radius: 999px; padding: 1px 8px; flex: none; }
+.ckmore { padding: 0 calc(var(--density) * 18px) calc(var(--density) * 12px); color: var(--c-muted); font-size: 12px; display: flex; align-items: center; gap: 8px; }
+.ckmore a { color: var(--c-accent); text-decoration: none; font-weight: 600; }
+/* storage panel */
+.strows { padding: calc(var(--density) * 10px) calc(var(--density) * 18px) calc(var(--density) * 12px); display: grid; gap: calc(var(--density) * 8px); }
+.strow { display: flex; align-items: center; gap: 10px; border: 1px solid var(--c-border); border-radius: var(--radius); padding: calc(var(--density) * 9px) calc(var(--density) * 12px); font-size: 13px; }
+.strow .txt { flex: 1; }
+.strow .l { font-weight: 650; }
+.strow .d { color: var(--c-muted); font-size: 12px; }
+.stnote { padding: 0 calc(var(--density) * 18px) calc(var(--density) * 12px); color: var(--c-muted); font-size: 11.5px; }
+.pp-foot { display: flex; gap: 8px; align-items: center; padding: calc(var(--density) * 10px) calc(var(--density) * 18px); background: color-mix(in srgb, var(--c-bg) 60%, var(--c-surface)); font-size: 12.5px; color: var(--c-muted); border-top: 1px solid var(--c-border); }
 .pp-foot .spacer { flex: 1; }
 .pp-foot a { color: var(--c-accent); text-decoration: none; font-weight: 600; }
 
+/* ---------- copy studies ---------- */
+.studies { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: calc(var(--density) * 10px); max-width: 900px; }
+.study { border: 1px solid var(--c-border); border-radius: var(--radius); overflow: hidden; background: var(--c-surface); }
+.study .band { display: flex; align-items: center; gap: 10px; padding: calc(var(--density) * 12px) calc(var(--density) * 14px); background: color-mix(in srgb, var(--c-accent) 9%, var(--c-surface)); }
+.study .band .mark { width: 30px; height: 30px; border-radius: 50%; background: color-mix(in srgb, var(--c-cookie) 20%, transparent); display: grid; place-content: center; flex: none; }
+.study .band .mark svg.logo { width: 21px; height: 21px; }
+.study .band .t1 { font-weight: 750; font-size: 13.5px; }
+.study .band .t2 { color: var(--c-muted); font-size: 11.5px; }
+.study .lab { padding: calc(var(--density) * 6px) calc(var(--density) * 14px); font-size: 11px; color: var(--c-muted); border-top: 1px solid var(--c-border); }
+.study .lab b { color: var(--c-text); }
+.btnlabels { margin-top: calc(var(--density) * 14px); max-width: 900px; }
+.btnlabels .row { display: flex; gap: 9px; flex-wrap: wrap; align-items: center; }
+.btnlabels .cavea { color: var(--c-muted); font-size: 12px; margin-top: 7px; max-width: 74ch; }
+
 /* ---------- settings ---------- */
-.app { display: grid; grid-template-columns: 224px 1fr; min-height: 560px; }
+.app { display: grid; grid-template-columns: 224px 1fr; min-height: 520px; }
 .side { border-right: 1px solid var(--c-border); background: color-mix(in srgb, var(--c-bg) 65%, var(--c-surface)); padding: calc(var(--density) * 16px) calc(var(--density) * 12px); }
-.side .brand { display: flex; gap: 9px; align-items: center; font-weight: 750; padding: calc(var(--density) * 4px) calc(var(--density) * 10px) calc(var(--density) * 16px); }
-.side .brand .mark { width: 27px; height: 27px; border-radius: 8px; background: color-mix(in srgb, var(--c-cookie) 18%, transparent); display: grid; place-content: center; }
-.side .brand .mark svg.logo { width: 19px; height: 19px; }
+.side .brand { display: flex; gap: 10px; align-items: center; padding: calc(var(--density) * 4px) calc(var(--density) * 10px) calc(var(--density) * 16px); }
+.side .brand .mark { width: 30px; height: 30px; border-radius: 8px; background: color-mix(in srgb, var(--c-cookie) 18%, transparent); display: grid; place-content: center; flex: none; }
+.side .brand .mark svg.logo { width: 21px; height: 21px; }
+.side .brand .nm { font-weight: 750; font-size: 12.5px; line-height: 1.25; }
 .side nav a { display: flex; align-items: center; gap: 10px; padding: calc(var(--density) * 8px) calc(var(--density) * 10px); border-radius: var(--radius); color: var(--c-muted); text-decoration: none; font-size: 13.5px; font-weight: 550; }
 .side nav a.on { color: var(--c-accent); background: color-mix(in srgb, var(--c-accent) 11%, transparent); }
 .side nav a:hover { color: var(--c-text); }
@@ -155,17 +208,26 @@ input[type="text"]:focus, select:focus { outline: 3px solid color-mix(in srgb, v
 <div class="stage">
   <header>
     <div class="k">ADCP mockup 05d</div>
-    <h1>Shield / Simple popup — advanced controls gated by settings</h1>
-    <p>Most people don't know *.github.com from github.com — so the popup doesn't ask. One honest action ("Protect this site — keeps github.com and its subdomains") covers the common case, and a "Show advanced controls in the popup" checkbox in Settings → Interface reveals the exact-domain rules and per-domain cleaning for people who want them.</p>
+    <h1>Shield / Simple popup — keep-cookies wording, gated advanced tabs</h1>
+    <p>The popup never says "protect" — the extension doesn't block anything, it deletes later — and never shows wildcard syntax by default. One honest action: "Keep cookies for this site". Flipping "Show advanced controls in the popup" in the settings below reveals the exact-domain rules plus an inspector: Cookies and Storage tabs for the current site, no devtools needed.</p>
   </header>
 
   <section class="demo">
     <div class="demo-label">Browser-action popup</div>
     <div class="gate-note">
-      <span class="off"><b>Advanced controls are OFF.</b> Flip "Show advanced controls in the popup" in the Settings mockup below — this popup reveals the exact-domain rows live.</span>
-      <span class="on"><b>Advanced controls are ON.</b> The exact-domain rules, matched-rule line, and per-domain cleaning options are now visible. Untick the setting below to return to simple mode.</span>
+      <span class="off"><b>Advanced controls are OFF.</b> Flip "Show advanced controls in the popup" in the Settings mockup below — this popup gains exact-domain rules and Cookies/Storage inspector tabs, live.</span>
+      <span class="on"><b>Advanced controls are ON.</b> Use the Overview / Cookies / Storage tabs in the popup. Untick the setting below to return to simple mode.</span>
     </div>
     <div class="frame popup-frame">
+      <div class="pp-name">
+        <svg class="logo" viewBox="0 0 48 48" aria-hidden="true">
+          <circle class="body" cx="24" cy="24" r="15" />
+          <circle class="chip" cx="19" cy="19" r="2.4" /><circle class="chip" cx="28" cy="16" r="2" /><circle class="chip" cx="30" cy="26" r="2.4" /><circle class="chip" cx="21" cy="29" r="2" /><circle class="chip" cx="15" cy="25" r="1.7" />
+          <circle class="ring" cx="24" cy="24" r="20.5" /><line class="ring" x1="9.5" y1="38.5" x2="38.5" y2="9.5" />
+        </svg>
+        <span class="n">Auto-Delete Cookies for Privacy</span>
+        <span class="ver">v4.0.0</span>
+      </div>
       <div class="pp-hero">
         <div class="mark">
           <svg class="logo" viewBox="0 0 48 48" aria-hidden="true">
@@ -175,50 +237,127 @@ input[type="text"]:focus, select:focus { outline: 3px solid color-mix(in srgb, v
           </svg>
         </div>
         <div>
-          <div class="t1">Protection active</div>
-          <div class="t2">Unwanted site data is cleaned automatically</div>
+          <div class="t1">Deleting unwanted cookies</div>
+          <div class="t2">Sites you keep are never touched</div>
         </div>
-        <span class="ver">v4.0.0</span>
       </div>
       <div class="pp-site">
         <div class="r1">
           <span class="domain">github.com</span>
-          <span class="badge warn">not protected</span>
+          <span class="badge warn">will be cleaned</span>
           <span class="count">cookies <b>17</b></span>
         </div>
-        <div class="status">Its data will be cleaned 15 s after you leave.</div>
+        <div class="status">Cookies are deleted 15 s after you leave this site.</div>
       </div>
-      <div class="pp-advanced rule">No saved rule matches this site · Default container</div>
-      <div class="pp-advanced lists">
-        <div class="lrow"><span class="e">*.github.com</span><button class="btn small" type="button">Greylist</button><button class="btn small" type="button">Whitelist</button></div>
-        <div class="lrow"><span class="e">github.com</span><button class="btn small" type="button">Greylist</button><button class="btn small" type="button">Whitelist</button></div>
+
+      <input class="tabctl" type="radio" name="t05d" id="t05d-ov" checked />
+      <input class="tabctl" type="radio" name="t05d" id="t05d-ck" />
+      <input class="tabctl" type="radio" name="t05d" id="t05d-st" />
+      <div class="pp-tabs pp-advanced">
+        <label for="t05d-ov">Overview</label>
+        <label for="t05d-ck">Cookies (17)</label>
+        <label for="t05d-st">Storage</label>
       </div>
-      <div class="pp-actions">
-        <button class="btn primary" type="button">
-          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-          Protect this site
-        </button>
-        <div class="cap">Keeps github.com and its subdomains</div>
-        <div class="row2">
-          <button class="btn" type="button">Protect until restart</button>
-          <button class="btn" type="button">Clean now</button>
+
+      <div class="panel" id="p-ov">
+        <div class="pp-advanced rule">No saved rule matches this site</div>
+        <div class="pp-advanced lists">
+          <div class="lrow"><span class="e">*.github.com</span><button class="btn small" type="button">Greylist</button><button class="btn small" type="button">Whitelist</button></div>
+          <div class="lrow"><span class="e">github.com</span><button class="btn small" type="button">Greylist</button><button class="btn small" type="button">Whitelist</button></div>
+        </div>
+        <div class="pp-actions">
+          <button class="btn primary" type="button">
+            <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            Keep cookies for this site
+          </button>
+          <div class="cap">github.com and its subdomains won't be deleted</div>
+          <div class="row2">
+            <button class="btn" type="button">Keep until browser closes</button>
+            <button class="btn" type="button">Clean now</button>
+          </div>
+        </div>
+        <div class="pp-advanced moreopts">
+          <details>
+            <summary>More cleaning options</summary>
+            <div class="opts">
+              <button type="button">Clean, include open tabs</button>
+              <button type="button">Clear cookies for github.com</button>
+              <button type="button">Clear all site data for github.com</button>
+            </div>
+          </details>
         </div>
       </div>
-      <div class="pp-advanced moreopts">
-        <details>
-          <summary>More cleaning options</summary>
-          <div class="opts">
-            <button type="button">Clean, include open tabs</button>
-            <button type="button">Clear cookies for github.com</button>
-            <button type="button">Clear all site data for github.com</button>
-          </div>
-        </details>
+
+      <div class="panel" id="p-ck">
+        <div class="fbar"><input type="text" placeholder="Filter cookies…" aria-label="Filter cookies" /></div>
+        <div class="ckrows">
+          <div class="ckrow"><span class="nm mono">_gh_sess</span><span class="exp">session</span><button class="btn icon" type="button" aria-label="Delete cookie"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button></div>
+          <div class="ckrow"><span class="nm mono">logged_in</span><span class="exp">1 year</span><button class="btn icon" type="button" aria-label="Delete cookie"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button></div>
+          <div class="ckrow"><span class="nm mono">_octo</span><span class="exp">1 year</span><button class="btn icon" type="button" aria-label="Delete cookie"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button></div>
+          <div class="ckrow"><span class="nm mono">dotcom_user</span><span class="exp">1 year</span><button class="btn icon" type="button" aria-label="Delete cookie"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button></div>
+          <div class="ckrow"><span class="nm mono">tz</span><span class="exp">session</span><button class="btn icon" type="button" aria-label="Delete cookie"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button></div>
+          <div class="ckrow"><span class="nm mono">color_mode</span><span class="exp">1 year</span><button class="btn icon" type="button" aria-label="Delete cookie"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></button></div>
+        </div>
+        <div class="ckmore">…and 11 more<span style="flex: 1"></span><a href="#">Delete all 17</a></div>
       </div>
+
+      <div class="panel" id="p-st">
+        <div class="strows">
+          <div class="strow"><div class="txt"><div class="l">Local storage</div><div class="d">3 items · 12 KB</div></div><button class="btn small" type="button">Clear</button></div>
+          <div class="strow"><div class="txt"><div class="l">IndexedDB</div><div class="d">1 database · 2.1 MB</div></div><button class="btn small" type="button">Clear</button></div>
+          <div class="strow"><div class="txt"><div class="l">Cache</div><div class="d">34 files · 8 MB</div></div><button class="btn small" type="button">Clear</button></div>
+          <div class="strow"><div class="txt"><div class="l">Service worker</div><div class="d">1 registered</div></div><button class="btn small" type="button">Clear</button></div>
+        </div>
+        <div class="stnote">Sizes are estimates reported by the browser.</div>
+      </div>
+
       <div class="pp-foot">
         <span>Last clean: twitter.com · −9 · 2 min ago</span>
         <span class="spacer"></span>
         <a href="#">More controls…</a>
       </div>
+    </div>
+  </section>
+
+  <section class="demo">
+    <div class="demo-label">Copy studies — hero wording alternatives</div>
+    <div class="studies">
+      <div class="study">
+        <div class="band">
+          <span class="mark" aria-hidden="true"><svg class="logo" viewBox="0 0 48 48"><circle class="body" cx="24" cy="24" r="15" /><circle class="chip" cx="19" cy="19" r="2.4" /><circle class="chip" cx="28" cy="16" r="2" /><circle class="chip" cx="30" cy="26" r="2.4" /><circle class="chip" cx="21" cy="29" r="2" /><circle class="chip" cx="15" cy="25" r="1.7" /><circle class="ring" cx="24" cy="24" r="20.5" /><line class="ring" x1="9.5" y1="38.5" x2="38.5" y2="9.5" /></svg></span>
+          <div><div class="t1">Auto-delete is on</div><div class="t2">Unwanted cookies are removed 15 s after you leave a site</div></div>
+        </div>
+        <div class="lab"><b>A · Plain status.</b> States the switch, not the effect.</div>
+      </div>
+      <div class="study">
+        <div class="band">
+          <span class="mark" aria-hidden="true"><svg class="logo" viewBox="0 0 48 48"><circle class="body" cx="24" cy="24" r="15" /><circle class="chip" cx="19" cy="19" r="2.4" /><circle class="chip" cx="28" cy="16" r="2" /><circle class="chip" cx="30" cy="26" r="2.4" /><circle class="chip" cx="21" cy="29" r="2" /><circle class="chip" cx="15" cy="25" r="1.7" /><circle class="ring" cx="24" cy="24" r="20.5" /><line class="ring" x1="9.5" y1="38.5" x2="38.5" y2="9.5" /></svg></span>
+          <div><div class="t1">Deleting unwanted cookies</div><div class="t2">Sites you keep are never touched</div></div>
+        </div>
+        <div class="lab"><b>B · Active verb (used in the live popup above).</b> Says what it's doing plus the reassurance.</div>
+      </div>
+      <div class="study">
+        <div class="band">
+          <span class="mark" aria-hidden="true"><svg class="logo" viewBox="0 0 48 48"><circle class="body" cx="24" cy="24" r="15" /><circle class="chip" cx="19" cy="19" r="2.4" /><circle class="chip" cx="28" cy="16" r="2" /><circle class="chip" cx="30" cy="26" r="2.4" /><circle class="chip" cx="21" cy="29" r="2" /><circle class="chip" cx="15" cy="25" r="1.7" /><circle class="ring" cx="24" cy="24" r="20.5" /><line class="ring" x1="9.5" y1="38.5" x2="38.5" y2="9.5" /></svg></span>
+          <div><div class="t1">This site's cookies will be deleted</div><div class="t2">15 s after you leave — unless you keep them</div></div>
+        </div>
+        <div class="lab"><b>C · Site-aware, cleaning state.</b> Hero carries the per-site verdict; strongest call to action.</div>
+      </div>
+      <div class="study">
+        <div class="band">
+          <span class="mark" aria-hidden="true"><svg class="logo" viewBox="0 0 48 48"><circle class="body" cx="24" cy="24" r="15" /><circle class="chip" cx="19" cy="19" r="2.4" /><circle class="chip" cx="28" cy="16" r="2" /><circle class="chip" cx="30" cy="26" r="2.4" /><circle class="chip" cx="21" cy="29" r="2" /><circle class="chip" cx="15" cy="25" r="1.7" /><circle class="ring" cx="24" cy="24" r="20.5" /><line class="ring" x1="9.5" y1="38.5" x2="38.5" y2="9.5" /></svg></span>
+          <div><div class="t1">Keeping this site's cookies</div><div class="t2">github.com is on your keep list</div></div>
+        </div>
+        <div class="lab"><b>D · Site-aware, kept state.</b> The counterpart of C when a rule matches.</div>
+      </div>
+    </div>
+    <div class="btnlabels">
+      <div class="row">
+        <button class="btn primary" type="button">Keep cookies for this site</button>
+        <button class="btn" type="button">Allow cookies from this site</button>
+        <button class="btn" type="button">Don't delete this site's cookies</button>
+      </div>
+      <p class="cavea">Primary-button label alternates. "Keep cookies for this site" is used live: accurate and short. "Allow…" reads naturally but implies blocking, and the extension never blocks — it deletes after you leave. "Don't delete…" is the most literal but the longest.</p>
     </div>
   </section>
 
@@ -234,7 +373,9 @@ input[type="text"]:focus, select:focus { outline: 3px solid color-mix(in srgb, v
                 <circle class="chip" cx="19" cy="19" r="2.4" /><circle class="chip" cx="28" cy="16" r="2" /><circle class="chip" cx="30" cy="26" r="2.4" /><circle class="chip" cx="21" cy="29" r="2" /><circle class="chip" cx="15" cy="25" r="1.7" />
                 <circle class="ring" cx="24" cy="24" r="20.5" /><line class="ring" x1="9.5" y1="38.5" x2="38.5" y2="9.5" />
               </svg>
-            </span>ADCP</div>
+            </span>
+            <span class="nm">Auto-Delete Cookies<br />for Privacy</span>
+          </div>
           <nav>
             <a href="#">Overview</a>
             <a class="on" href="#">Protection</a>
@@ -276,13 +417,9 @@ input[type="text"]:focus, select:focus { outline: 3px solid color-mix(in srgb, v
             <div class="srow hot">
               <div class="txt">
                 <div class="l">Show advanced controls in the popup</div>
-                <div class="d">Reveals exact-domain rules (like *.github.com vs github.com), the matched-rule detail, and per-domain cleaning options. Off by default — the simple popup covers the common case.</div>
+                <div class="d">Reveals exact-domain rules (like *.github.com vs github.com), per-domain cleaning options, and the Cookies/Storage inspector tabs. Off by default — the simple popup covers the common case.</div>
               </div>
               <label class="tgl"><input type="checkbox" id="adv05d" /><span class="knob"></span></label>
-            </div>
-            <div class="srow">
-              <div class="txt"><div class="l">Container tabs support</div></div>
-              <label class="tgl"><input type="checkbox" /><span class="knob"></span></label>
             </div>
           </div>
         </div>
@@ -291,8 +428,8 @@ input[type="text"]:focus, select:focus { outline: 3px solid color-mix(in srgb, v
   </section>
 
   <details class="design-notes">
-    <summary>Design notes — 05d · Shield / Simple popup</summary>
-    <p><b>Direction:</b> the trust dashboard taken to its logical simple end. The popup's default state has no expressions, no wildcard syntax — one primary "Protect this site" whose caption states the honest default (whitelists *.github.com, i.e. the site including subdomains, which is what non-technical users mean), a greylist equivalent in plain words ("Protect until restart"), and Clean now. The <b>gate</b> is a real setting: "Show advanced controls in the popup" in Settings → Interface — in this mockup the checkbox actually toggles the popup frame above via CSS <code>:has()</code>, exactly the interaction the real extension would implement. Discoverability is handled by the popup's quiet "More controls…" footer link, which would deep-link to this settings row. <b>Palettes:</b> Guardian (default), Signal, Bakery; cookie mark as in 05c. Precedent for the pattern: uBlock Origin's "I am an advanced user" checkbox.</p>
+    <summary>Design notes — 05d · Shield / Simple popup (iteration 2)</summary>
+    <p><b>Wording:</b> all "protect" language is gone — the extension deletes later, it doesn't defend, so the primary action is <b>"Keep cookies for this site"</b> with the honest caption "github.com and its subdomains won't be deleted"; the greylist action is "Keep until browser closes". The copy-studies strip holds four hero alternatives (A–D) and three button-label alternates for comparison. <b>Toggles</b> follow <code>--c-accent</code> (blue in the Signal default; each palette recolors them with its own accent). <b>Brand recall:</b> the popup header and the settings sidebar both spell out "Auto-Delete Cookies for Privacy" — the searchable Chrome Web Store name — instead of an initialism. <b>Containers removed:</b> contextual identities are Firefox-only and this fork is Chromium-only. <b>Inspector tabs:</b> in advanced mode the popup gains Overview / Cookies / Storage tabs (pure CSS radio tabs) — per-cookie rows with expiry chips and delete buttons, storage groups with sizes and Clear actions. This mocks roadmap issue #112's site-data inspector and its #114 popup panel.</p>
   </details>
 </div>
 
@@ -490,15 +627,15 @@ input[type="text"]:focus, select:focus { outline: 3px solid color-mix(in srgb, v
   window.DP_CONFIG = {
     slug: "05d-shield-cookie-simple",
     palettes: [
-      { id: "guardian", label: "Guardian" },
       { id: "signal", label: "Signal" },
+      { id: "guardian", label: "Guardian" },
       { id: "bakery", label: "Bakery" }
     ],
     fonts: [
       { id: "sans", label: "Sans", body: 'system-ui, -apple-system, "Segoe UI", sans-serif', heading: 'system-ui, -apple-system, "Segoe UI", sans-serif' },
       { id: "serif", label: "Serif headings", body: 'system-ui, -apple-system, "Segoe UI", sans-serif', heading: '"Iowan Old Style", "Palatino Linotype", Georgia, serif' }
     ],
-    defaults: { mode: "light", palette: "guardian", font: "sans", radius: 12, density: 1 }
+    defaults: { mode: "light", palette: "signal", font: "sans", radius: 12, density: 1 }
   };
 </script>
 <!-- DP:SCRIPT -->
