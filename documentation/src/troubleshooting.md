@@ -23,16 +23,16 @@ For a running commentary of every decision, enable **Debug Mode (Verbose Console
 
 - Colors only appear when **Don't Recolor the Icon Based on List Matches** is off.
 - The number needs **Show the Site's Cookie Count on the Toolbar Icon** on.
-- Color legend: **blue** = whitelisted, **yellow** = greylisted, **red** = no list matches (will be cleaned). With automatic cleaning off, the badge color carries the same meaning instead.
+- Color legend: **blue** = kept permanently, **yellow** = kept for this session, **red** = no keep rule matches (will be cleaned). With automatic cleaning off, the badge color carries the same meaning instead.
 
 ## Cleanup didn't run when I closed a tab
 
 Checklist, in order:
 
-1. Is automatic cleaning actually on? (Popup toggle.)
+1. Is automatic cleaning actually on? (The popup's header says "Auto-delete is on/off"; the switch is on the Protection page.)
 2. Was the site still open in another tab or window? Open sites are protected.
 3. Did the delay pass? Default is 15 seconds after the last tab closes.
-4. Is the site on a list? Whitelist survives everything; greylist survives until restart.
+4. Does a keep rule match? **Keep** survives everything; **Keep this session** survives until restart.
 5. Was it a discarded (sleeping) tab? Those only count as closed if you enabled that setting.
 
 The cleanup log shows which of these applied.

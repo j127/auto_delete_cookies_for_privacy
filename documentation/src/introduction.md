@@ -14,7 +14,7 @@ Everything in ADCP follows from three ideas:
 
 1. **Cleanup happens when you close a site.** Not on a timer, not while you're using the site. You close the last tab a site has open, a short delay passes, and then its cookies (and optionally other stored data) are removed. Sites you keep open are always left alone.
 
-2. **Keep lists protect the sites you care about.** You put a site on the **whitelist** and its cookies survive everything. You put it on the **greylist** and its cookies survive until you restart the browser — good for "log me in for today, but don't remember me tomorrow."
+2. **Your keep list protects the sites you care about.** Mark a site **Keep** and its cookies survive everything. Mark it **Keep this session** and its cookies survive until you restart the browser — good for "log me in for today, but don't remember me tomorrow."
 
 3. **Everything else is forgotten.** Any site on neither list gets cleaned after you leave it. You don't have to name your enemies — you only name your friends.
 
@@ -23,9 +23,9 @@ flowchart LR
     A[You close a site's last tab] --> B{Short delay}
     B --> C{Still open in another tab?}
     C -- yes --> K[Nothing happens]
-    C -- no --> D{On your whitelist?}
+    C -- no --> D{Marked Keep?}
     D -- yes --> K
-    D -- no --> E{On your greylist?}
+    D -- no --> E{Marked Keep this session?}
     E -- yes --> F[Kept until browser restart]
     E -- no --> G[Cookies and site data wiped]
 ```
