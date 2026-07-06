@@ -13,8 +13,6 @@ import { ReduxAction } from "@/typings/redux-constants";
 import AlarmEvents from "@/services/alarm-events";
 import StoreUser from "@/services/store-user";
 
-jest.requireActual("@/services/alarm-events");
-jest.requireActual("@/redux/actions");
 
 const store: Store<State, ReduxAction> = createStore(initialState);
 StoreUser.init(store);

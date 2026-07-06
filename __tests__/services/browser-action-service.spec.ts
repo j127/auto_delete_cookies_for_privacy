@@ -7,7 +7,6 @@ import {
 } from "@/services/browser-action-service";
 import { ListType, SettingID } from "@/typings/enums";
 
-jest.requireActual("@/services/browser-action-service");
 
 const defaultTab: browser.tabs.Tab = {
   active: true,

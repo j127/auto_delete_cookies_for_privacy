@@ -17,7 +17,6 @@ import CookieEvents from "@/services/cookie-events";
 import * as Lib from "@/services/libs";
 import TabEvents from "@/services/tab-events";
 
-jest.requireActual("@/services/libs");
 const spyLib: JestSpyObject = global.generateSpies(Lib);
 
 const defaultCookie: browser.cookies.Cookie = {

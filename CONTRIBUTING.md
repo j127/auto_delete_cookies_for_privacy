@@ -25,7 +25,7 @@ just install
 | `just build`                          | One-shot build                                                                                                                        |
 | `just check`                          | TypeScript type-check (no emit)                                                                                                       |
 | `just lint`                           | ESLint over the whole repo (flat config, `eslint.config.mjs`)                                                                         |
-| `just test`                           | Jest suite with coverage; fails if coverage drops below the thresholds in `jest.config.js`                                            |
+| `just test`                           | Vitest suite with coverage; fails if coverage drops below the thresholds in `vitest.config.ts`                                            |
 | `just format`                         | Prettier over the repo                                                                                                                |
 | `just ci`                             | Exactly what CI runs: install, check, lint, test, build                                                                               |
 | `just package_zip`                    | Build and zip `extension/` into `builds/`                                                                                             |
@@ -44,7 +44,7 @@ New recipes go in the `justfile` with `snake_case` names.
 
 ## What a change needs
 
-- **Tests.** All code changes come with tests. `just test` must pass, including the coverage thresholds — if your change meaningfully raises coverage, feel free to bump the floors in `jest.config.js` to the new baseline (the long-term target is 90%).
+- **Tests.** All code changes come with tests. `just test` must pass, including the coverage thresholds — if your change meaningfully raises coverage, feel free to bump the floors in `vitest.config.ts` to the new baseline (the long-term target is 90%).
 - **Green `just ci`** locally before you open the PR; the GitHub Actions workflow runs the same recipes.
 - **Scope discipline.** One issue per PR. Don't reformat or refactor code your change doesn't touch.
 - **Comments stay.** Don't delete existing code comments unless the code they describe is going away — several carry load-bearing context (MV3 service-worker constraints, bundler quirks).

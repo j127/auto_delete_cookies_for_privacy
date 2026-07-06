@@ -36,13 +36,11 @@ import {
   returnContainersOfOpenTabDomains,
 } from "@/services/cleanup-service";
 
-jest.requireActual("@/services/libs");
 import * as Lib from "@/services/libs";
 
 // This dynamically generates the spies for all functions in Libs
 const spyLib: JestSpyObject = global.generateSpies(Lib);
 
-jest.requireActual("@/services/cleanup-service");
 import * as CleanupService from "@/services/cleanup-service";
 import { ADCPCOOKIENAME } from "@/services/libs";
 const spyCleanupService: JestSpyObject = global.generateSpies(CleanupService);
@@ -1733,77 +1731,81 @@ describe("CleanupService", () => {
         .mockResolvedValue(undefined as never);
     });
 
+    // Vitest cannot spy on intra-module calls (ESM bindings don't route
+    // through the namespace object the way ts-jest's CJS output did), so
+    // these assert the observable browsingData.remove effect instead of the
+    // internal cleanSiteData dispatch.
+    const unprotectedObj: CleanReasonObject = {
+      cached: false,
+      cleanCookie: true,
+      cookie: {
+        ...mockCookie,
+      },
+      openTabStatus: OpenTabStatus.TabsWasNotIgnored,
+      reason: ReasonClean.NoMatchedExpression,
+    };
+
     it("should return empty object if no other browsingData cleanup setting was enabled.", async () => {
-      await otherBrowsingDataCleanup(initialState, []);
-      expect(spyCleanupService.cleanSiteData).not.toHaveBeenCalled();
+      await otherBrowsingDataCleanup(initialState, [unprotectedObj]);
+      expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
     });
 
-    it("should call cleanSiteData once per enabled SiteDataType", async () => {
-      await otherBrowsingDataCleanup(allSiteDataState, []);
-      expect(spyCleanupService.cleanSiteData).toHaveBeenCalledTimes(5);
+    it("should clean site data once per enabled SiteDataType", async () => {
+      await otherBrowsingDataCleanup(allSiteDataState, [unprotectedObj]);
+      expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(5);
     });
 
     describe("Cache", () => {
-      it("should call cleanSiteData for: cacheCleanup true", async () => {
-        await otherBrowsingDataCleanup(cacheState, []);
-        expect(spyCleanupService.cleanSiteData).toHaveBeenCalledTimes(1);
-        expect(spyCleanupService.cleanSiteData).toHaveBeenCalledWith(
-          cacheState,
-          SiteDataType.CACHE,
-          [],
-          false
+      it("should clean site data for: cacheCleanup true", async () => {
+        await otherBrowsingDataCleanup(cacheState, [unprotectedObj]);
+        expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+        expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
+          { origins: expect.any(Array) },
+          { cache: true }
         );
       });
     });
 
     describe("IndexedDB", () => {
-      it("should call cleanSiteData for: indexedDBCleanup true", async () => {
-        await otherBrowsingDataCleanup(indexedDBState, []);
-        expect(spyCleanupService.cleanSiteData).toHaveBeenCalledTimes(1);
-        expect(spyCleanupService.cleanSiteData).toHaveBeenCalledWith(
-          indexedDBState,
-          SiteDataType.INDEXEDDB,
-          [],
-          false
+      it("should clean site data for: indexedDBCleanup true", async () => {
+        await otherBrowsingDataCleanup(indexedDBState, [unprotectedObj]);
+        expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+        expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
+          { origins: expect.any(Array) },
+          { indexedDB: true }
         );
       });
     });
 
     describe("LocalStorage", () => {
-      it("should call cleanSiteData for: localStorageCleanup true", async () => {
-        await otherBrowsingDataCleanup(localStorageState, []);
-        expect(spyCleanupService.cleanSiteData).toHaveBeenCalledTimes(1);
-        expect(spyCleanupService.cleanSiteData).toHaveBeenCalledWith(
-          localStorageState,
-          SiteDataType.LOCALSTORAGE,
-          [],
-          false
+      it("should clean site data for: localStorageCleanup true", async () => {
+        await otherBrowsingDataCleanup(localStorageState, [unprotectedObj]);
+        expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+        expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
+          { origins: expect.any(Array) },
+          { localStorage: true }
         );
       });
     });
 
     describe("PluginData", () => {
-      it("should call cleanSiteData for: pluginDataCleanup true", async () => {
-        await otherBrowsingDataCleanup(pluginDataState, []);
-        expect(spyCleanupService.cleanSiteData).toHaveBeenCalledTimes(1);
-        expect(spyCleanupService.cleanSiteData).toHaveBeenCalledWith(
-          pluginDataState,
-          SiteDataType.PLUGINDATA,
-          [],
-          false
+      it("should clean site data for: pluginDataCleanup true", async () => {
+        await otherBrowsingDataCleanup(pluginDataState, [unprotectedObj]);
+        expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+        expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
+          { origins: expect.any(Array) },
+          { pluginData: true }
         );
       });
     });
 
     describe("ServiceWorkers", () => {
-      it("should call cleanSiteData for: serviceWorkersCleanup true", async () => {
-        await otherBrowsingDataCleanup(serviceWorkersState, []);
-        expect(spyCleanupService.cleanSiteData).toHaveBeenCalledTimes(1);
-        expect(spyCleanupService.cleanSiteData).toHaveBeenCalledWith(
-          serviceWorkersState,
-          SiteDataType.SERVICEWORKERS,
-          [],
-          false
+      it("should clean site data for: serviceWorkersCleanup true", async () => {
+        await otherBrowsingDataCleanup(serviceWorkersState, [unprotectedObj]);
+        expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+        expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
+          { origins: expect.any(Array) },
+          { serviceWorkers: true }
         );
       });
     });

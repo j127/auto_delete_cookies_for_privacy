@@ -12,9 +12,9 @@
  */
 
 declare module "*.json";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-declare const global: any;
+// The old `declare const global: any` escape hatch lived here; the typed
+// test globals (browser mock tree, generateSpies) now come from
+// ./test-globals.d.ts instead, so `global` is @types/node's own declaration.
 
 // The enums live in ./enums.ts as real runtime objects (Bun.build cannot
 // inline ambient const enums the way ts-loader/ts-jest did). These aliases
@@ -79,4 +79,4 @@ type ADCPLogItem = Readonly<{
   x?: any;
 }>;
 
-type JestSpyObject = { [s: string]: jest.SpyInstance };
+type JestSpyObject = { [s: string]: import("vitest").MockInstance };

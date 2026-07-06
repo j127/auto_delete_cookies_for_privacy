@@ -12,6 +12,5 @@ exact = true
 [serve]
 port = 9000
 
-[test]
-coverage = true
-coverageThreshold = 0.9
+# [test] block removed: the #36 spike chose Vitest over bun test; coverage
+# thresholds live in vitest.config.ts (ratcheting toward 90 percent).

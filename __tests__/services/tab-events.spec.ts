@@ -26,16 +26,12 @@ import * as Lib from "@/services/libs";
 import TabEvents from "@/services/tab-events";
 import StoreUser from "@/services/store-user";
 
-jest.requireActual("@/services/alarm-events");
 const spyAlarmEvents: JestSpyObject = global.generateSpies(AlarmEvents);
 const spyBrowserActions: JestSpyObject =
   global.generateSpies(BrowserActionService);
-jest.requireActual("@/services/libs");
 const spyLib: JestSpyObject = global.generateSpies(Lib);
-jest.requireActual("@/services/tab-events");
 const spyTabEvents: JestSpyObject = global.generateSpies(TabEvents);
 
-jest.requireActual("@/services/store-user");
 
 jest.useFakeTimers();
 

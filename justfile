@@ -20,7 +20,7 @@ check:
 
 # Run the test suite with coverage
 test:
-  bunx jest --coverage
+  bunx vitest run
 
 # Lint sources
 lint:
