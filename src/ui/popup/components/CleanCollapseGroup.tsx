@@ -28,6 +28,11 @@ interface OwnProps {
 
 type CleanCollapseComponentProps = OwnProps;
 
+/**
+ * The additional-cleaning-options panel. Rendered conditionally by the
+ * popup App (React state); the Bootstrap/jQuery collapse plugin that used
+ * to drive it is gone (#41).
+ */
 const CleanCollapseGroup: React.FunctionComponent<
   CleanCollapseComponentProps
 > = (props) => {
@@ -39,17 +44,11 @@ const CleanCollapseGroup: React.FunctionComponent<
   const store = useStore();
   return (
     <div
-      className="row justify-content-center collapse"
+      className="border-b border-base-300 bg-base-200 p-2"
       id="cleanCollapse"
       role="group"
-      style={{
-        alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.05)",
-        borderBottom: "1px solid rgba(0, 0, 0, 0.1)",
-        padding: "4px 4px 8px 4px",
-      }}
     >
-      <div className="btn-group-vertical">
+      <div className="mx-auto flex max-w-sm flex-col gap-1">
         <CleanDataButton
           btnColor="btn-warning"
           onClick={async () => {
@@ -66,7 +65,7 @@ const CleanCollapseGroup: React.FunctionComponent<
         />
         <button
           aria-disabled={true}
-          className="btn btn-light btn-block text-danger font-weight-bold px-2"
+          className="no-animation btn btn-block btn-ghost font-bold text-error btn-sm"
           disabled={true}
           type="button"
         >

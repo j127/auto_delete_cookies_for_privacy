@@ -51,7 +51,7 @@ describe("FilteredExpression", () => {
   it("shows the noRulesText fallback when the store has no expressions", () => {
     const { getByRole, container } = renderFiltered({}, "example.com");
     const alert = getByRole("alert");
-    expect(alert.classList.contains("alert-primary")).toBe(true);
+    expect(alert.classList.contains("alert-info")).toBe(true);
     expect(alert.textContent).toBe("noRulesText");
     expect(container.querySelector("table")).toBeNull();
     expect(console.error).not.toHaveBeenCalled();

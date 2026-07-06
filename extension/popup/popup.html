@@ -16,18 +16,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Auto-Delete Cookies for Privacy Popup</title>
-    <!-- Tailwind loads BEFORE Bootstrap so the legacy UI wins conflicts
-         until the Bootstrap removal (#42). -->
     <link rel="stylesheet" href="../bundles/ui.css" />
-    <link rel="stylesheet" href="../global_files/bootstrap.min.css" />
-    <link rel="stylesheet" href="popup.css" />
   </head>
   <body>
     <!-- browser-polyfill/browserDetect/redux-webext page scripts are gone:
          the polyfill and browser detection are bundled (src/init-globals.ts)
-         and the store bridge is in-repo now. -->
-    <script src="../global_files/jquery.slim.min.js"></script>
-    <script src="../global_files/bootstrap.bundle.min.js"></script>
+         and the store bridge is in-repo now. Bootstrap/jQuery are gone since
+         the #41 DaisyUI rebuild. -->
     <script type="module" src="../bundles/ui/popup/index.js"></script>
   </body>
 </html>
