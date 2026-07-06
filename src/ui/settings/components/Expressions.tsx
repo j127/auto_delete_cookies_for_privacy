@@ -298,9 +298,12 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
 
   return (
     <div style={style}>
-      <h1 className="mb-4 text-2xl font-bold">
-        {browser.i18n.getMessage("expressionListText")}
+      <h1 className="mb-1 text-2xl font-bold">
+        {browser.i18n.getMessage("savedSitesText")}
       </h1>
+      <p className="mb-4 text-sm text-base-content/70">
+        {browser.i18n.getMessage("savedSitesSubText")}
+      </p>
 
       <div className="join w-full">
         <input
@@ -332,8 +335,8 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
             });
           }}
           iconName="plus"
-          title={browser.i18n.getMessage("toGreyListText")}
-          text={browser.i18n.getMessage("greyListWordText")}
+          title={browser.i18n.getMessage("keepSessionButtonTooltipText")}
+          text={browser.i18n.getMessage("keepSessionButtonText")}
         />
         <IconButton
           className="join-item btn-primary"
@@ -345,8 +348,8 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
             });
           }}
           iconName="plus"
-          title={browser.i18n.getMessage("toWhiteListText")}
-          text={browser.i18n.getMessage("whiteListWordText")}
+          title={browser.i18n.getMessage("keepButtonTooltipText")}
+          text={browser.i18n.getMessage("keepButtonText")}
         />
       </div>
       <div className="mt-2 mb-4 flex items-center">

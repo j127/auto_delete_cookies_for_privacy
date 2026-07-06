@@ -23,6 +23,7 @@ import IconButton from "@/ui/common-components/IconButton";
 import SelectInput from "@/ui/common-components/SelectInput";
 import { downloadObjectAsJSON } from "@/ui/ui-libs";
 import SettingsTooltip from "./SettingsTooltip";
+import SiteDataControl from "./SiteDataControl";
 
 interface OwnProps {
   style?: React.CSSProperties;
@@ -202,7 +203,7 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
   return (
     <div style={style}>
       <h1 className="mb-4 text-2xl font-bold">
-        {browser.i18n.getMessage("settingsText")}
+        {browser.i18n.getMessage("protectionText")}
       </h1>
       <div className="mb-4 flex flex-wrap gap-2">
         <IconButton
@@ -351,91 +352,11 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           </span>
         </div>
       </SettingGroup>
-      <SettingGroup
-        title={browser.i18n.getMessage("settingGroupOtherBrowsing")}
-      >
-        <SettingRow>
-          <CheckboxSetting
-            text={browser.i18n.getMessage("siteDataEmptyOnEnable")}
-            settingObject={settings[SettingID.SITEDATA_EMPTY_ON_ENABLE]}
-            inline={true}
-            updateSetting={(payload) => onUpdateSetting(payload)}
-          />
-          <SettingsTooltip
-            hrefURL={"settings.md#other-browsing-data-cleanup-options"}
-          />
-        </SettingRow>
-        <div
-          className={`mb-2 alert ${
-            settings[SettingID.SITEDATA_EMPTY_ON_ENABLE].value === true
-              ? "alert-warning"
-              : "alert-error"
-          }`}
-          role="alert"
-        >
-          {browser.i18n.getMessage(
-            `browsingData${
-              settings[SettingID.SITEDATA_EMPTY_ON_ENABLE].value === true
-                ? ""
-                : "NoEmpty"
-            }Warning`
-          )}
-        </div>
-        <SettingRow>
-          <CheckboxSetting
-            text={browser.i18n.getMessage("cacheCleanupText")}
-            settingObject={settings[SettingID.CLEANUP_CACHE]}
-            inline={true}
-            updateSetting={(payload) => onUpdateSetting(payload)}
-          />
-          <SettingsTooltip
-            hrefURL={"settings.md#other-browsing-data-cleanup-options"}
-          />
-        </SettingRow>
-        <SettingRow>
-          <CheckboxSetting
-            text={browser.i18n.getMessage("indexedDBCleanupText")}
-            settingObject={settings[SettingID.CLEANUP_INDEXEDDB]}
-            inline={true}
-            updateSetting={(payload) => onUpdateSetting(payload)}
-          />
-          <SettingsTooltip
-            hrefURL={"settings.md#other-browsing-data-cleanup-options"}
-          />
-        </SettingRow>
-        <SettingRow>
-          <CheckboxSetting
-            text={browser.i18n.getMessage("localStorageCleanupText")}
-            settingObject={settings[SettingID.CLEANUP_LOCALSTORAGE]}
-            inline={true}
-            updateSetting={(payload) => onUpdateSetting(payload)}
-          />
-          <SettingsTooltip
-            hrefURL={"settings.md#other-browsing-data-cleanup-options"}
-          />
-        </SettingRow>
-        <SettingRow>
-          <CheckboxSetting
-            text={browser.i18n.getMessage("pluginDataCleanupText")}
-            settingObject={settings[SettingID.CLEANUP_PLUGINDATA]}
-            inline={true}
-            updateSetting={(payload) => onUpdateSetting(payload)}
-          />
-          <SettingsTooltip
-            hrefURL={"settings.md#other-browsing-data-cleanup-options"}
-          />
-        </SettingRow>
-        <SettingRow>
-          <CheckboxSetting
-            text={browser.i18n.getMessage("serviceWorkersCleanupText")}
-            settingObject={settings[SettingID.CLEANUP_SERVICEWORKERS]}
-            inline={true}
-            updateSetting={(payload) => onUpdateSetting(payload)}
-          />
-          <SettingsTooltip
-            hrefURL={"settings.md#other-browsing-data-cleanup-options"}
-          />
-        </SettingRow>
+      <SettingGroup title={browser.i18n.getMessage("settingGroupSiteData")}>
+        <SiteDataControl
+          settings={settings}
+          onUpdateSetting={(payload) => onUpdateSetting(payload)}
+        />
       </SettingGroup>
       <SettingGroup title={browser.i18n.getMessage("settingGroupExtension")}>
         <SettingRow>

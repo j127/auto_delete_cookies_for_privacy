@@ -29,22 +29,20 @@ describe("Welcome", () => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
   });
 
-  it("renders the welcome heading", () => {
+  it("renders the overview heading", () => {
     const { container } = renderWelcome();
     expect((container.querySelector("h1") as HTMLElement).textContent).toBe(
-      "welcomeText"
+      "overviewText"
     );
   });
 
-  it("passes the session and total cleanup counters to the welcome message", () => {
+  it("shows the session and total counters as stat cards", () => {
     renderWelcome({
       cookieDeletedCounterSession: 5,
       cookieDeletedCounterTotal: 42,
     });
-    expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
-      "welcomeMessage",
-      ["extensionName", "5", "42"]
-    );
+    expect(document.getElementById("statSession")?.textContent).toBe("5");
+    expect(document.getElementById("statTotal")?.textContent).toBe("42");
   });
 
   it("links to the fork documentation and FAQ pages", () => {

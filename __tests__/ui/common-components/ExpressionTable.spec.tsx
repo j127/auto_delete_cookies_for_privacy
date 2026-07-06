@@ -105,12 +105,12 @@ describe("ExpressionTable", () => {
       "example.org",
     ]);
     expect(textareas[0].readOnly).toBe(true);
-    getByText("whiteListWordText");
-    getByText("greyListWordText");
+    getByText("keptBadgeText");
+    getByText("sessionBadgeText");
     expect(getAllByTitle("removeExpressionText")).toHaveLength(2);
     expect(getAllByTitle("editExpressionText")).toHaveLength(2);
-    getByTitle("toggleToGreyListWordText");
-    getByTitle("toggleToWhiteListWordText");
+    getByTitle("toggleToSessionText");
+    getByTitle("toggleToKeepText");
   });
 
   it("renders expression rows without console errors", () => {
@@ -129,12 +129,12 @@ describe("ExpressionTable", () => {
 
   it("dispatches an update with the flipped list type from the toggle button", () => {
     const view = renderTable([whiteExpression, greyExpression]);
-    fireEvent.click(view.getByTitle("toggleToGreyListWordText"));
+    fireEvent.click(view.getByTitle("toggleToSessionText"));
     expect(view.dispatchedActions()).toContainEqual({
       payload: { ...whiteExpression, listType: ListType.GREY },
       type: ReduxConstants.UPDATE_EXPRESSION,
     });
-    fireEvent.click(view.getByTitle("toggleToWhiteListWordText"));
+    fireEvent.click(view.getByTitle("toggleToKeepText"));
     expect(view.dispatchedActions()).toContainEqual({
       payload: { ...greyExpression, listType: ListType.WHITE },
       type: ReduxConstants.UPDATE_EXPRESSION,

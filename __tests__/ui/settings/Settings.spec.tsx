@@ -36,13 +36,13 @@ describe("Settings", () => {
   it("renders the heading and every settings group", () => {
     const { container, getByText } = renderSettings();
     expect((container.querySelector("h1") as HTMLElement).textContent).toBe(
-      "settingsText"
+      "protectionText"
     );
     // Groups render as card titles since the #40 DaisyUI rebuild.
     [
       "settingGroupAutoClean",
       "settingGroupExpression",
-      "settingGroupOtherBrowsing",
+      "settingGroupSiteData",
       "settingGroupExtension",
     ].forEach((legend) => {
       expect(getByText(legend).tagName).toBe("H2");
