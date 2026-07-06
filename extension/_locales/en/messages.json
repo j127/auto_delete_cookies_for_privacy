@@ -4,12 +4,12 @@
     "description": "About"
   },
   "activeModeDelayText": {
-    "message": "Wait This Long Before Automatic Cleaning",
-    "description": "Wait This Long Before Automatic Cleaning"
+    "message": "Grace period",
+    "description": "Timing: delay-before-clean number row label"
   },
   "activeModeText": {
-    "message": "Enable Automatic Cleaning",
-    "description": "Enable Automatic Cleaning"
+    "message": "Clean automatically",
+    "description": "Timing: master automatic-cleaning toggle"
   },
   "activityLogSiteDataDomainsText": {
     "message": "Removed $siteData$ for: $domains$",
@@ -80,12 +80,12 @@
     "description": "Turn on 'Developer mode', then open the service worker console from the 'Inspect views' link. This is shown if debug mode is enabled."
   },
   "cleanDiscardedText": {
-    "message": "Treat Discarded (Unloaded) Tabs as Closed",
-    "description": "Treat Discarded (Unloaded) Tabs as Closed. Found in Settings."
+    "message": "Treat sleeping tabs as closed",
+    "description": "Advanced timing: discarded/unloaded tabs count as closed"
   },
   "cleanExpiredCookiesText": {
-    "message": "Always Remove Expired Cookies",
-    "description": "Always Remove Expired Cookies. Found in Settings."
+    "message": "Always remove expired cookies",
+    "description": "Advanced timing: expired cookies deleted in every pass"
   },
   "cleanIgnoringOpenTabsText": {
     "message": "Clean, even open tabs",
@@ -96,8 +96,8 @@
     "description": "Clean"
   },
   "cleanupDomainChangeText": {
-    "message": "Also Clean When a Tab Moves to a Different Domain",
-    "description": "Also Clean When a Tab Moves to a Different Domain"
+    "message": "Clean when leaving a site",
+    "description": "Timing: clean the old site when a tab changes domains"
   },
   "cleanupActionsBypass": {
     "message": "Careful — these buttons ignore your keep lists and clean immediately!",
@@ -168,8 +168,8 @@
     "description": "Cookies. Primarily used in popup via alternate clean action dropdown."
   },
   "cookieCleanUpOnStartText": {
-    "message": "On Startup, Also Clean Cookies and Site Data From Tabs That Reopen",
-    "description": "On Startup, Also Clean Cookies and Site Data From Tabs That Reopen"
+    "message": "Clean restored tabs on startup",
+    "description": "Advanced timing: clean sites in tabs that reopen on startup"
   },
   "cookieCleanupIgnoreOpenTabsText": {
     "message": "Clean now, even sites that are open in a tab",
@@ -204,8 +204,8 @@
     "description": "Adds the _Default keep rules to the lists. Saved sites card footer."
   },
   "debugMode": {
-    "message": "Debug Mode (Verbose Console Logging)",
-    "description": "Debug Mode (Verbose Console Logging). Found in ADCP Settings."
+    "message": "Debug mode",
+    "description": "Advanced interface: verbose console logging"
   },
   "debugTitle": {
     "message": "Debug Information",
@@ -244,20 +244,20 @@
     "description": "Switch automatic cleaning on"
   },
   "enableCleanupLogText": {
-    "message": "Keep a Cleanup Log and Running Counter",
-    "description": "Keep a Cleanup Log and Running Counter"
+    "message": "Keep a cleanup log",
+    "description": "Interface: powers the Cleanup log page and counters"
   },
   "enableContextMenus": {
-    "message": "Add Entries to the Right-Click Menu",
-    "description": "Add Entries to the Right-Click Menu. Shown in ADCP Settings"
+    "message": "Right-click menu actions",
+    "description": "Advanced interface: add cleaning actions to the context menu"
   },
   "enableGreyListCleanup": {
-    "message": "Clean Greylist Entries When the Browser Restarts",
-    "description": "Clean Greylist Entries When the Browser Restarts"
+    "message": "Session keep rules",
+    "description": "Advanced timing: enable Keep-until-browser-closes cleanup on restart"
   },
   "enableNewVersionPopup": {
-    "message": "Show a Popup After the Extension Updates",
-    "description": "Show a Popup After the Extension Updates"
+    "message": "Show release notes after updates",
+    "description": "Advanced interface: one-time popup after an update"
   },
   "errorText": {
     "message": "Error!",
@@ -444,8 +444,8 @@
     "description": "Keep Cache until restart. Found in Expression Options. For Greylist entries."
   },
   "keepDefaultIcon": {
-    "message": "Don't Recolor the Icon Based on List Matches",
-    "description": "Don't Recolor the Icon Based on List Matches. Disabled: keep blue icon, grey for automatic cleaning disabled. Enabled: red/yellow/blue depending on matching expressions in list."
+    "message": "Keep the plain icon",
+    "description": "Advanced interface: don't recolor the icon based on keep rules"
   },
   "keepIndexedDBText": {
     "message": "Keep IndexedDB",
@@ -650,8 +650,8 @@
     }
   },
   "manualNotificationsText": {
-    "message": "Notify Me After Manual Cleanups",
-    "description": "Notify Me After Manual Cleanups. Found in settings"
+    "message": "Notify after manual cleanups",
+    "description": "Advanced interface: notification after manual cleanups"
   },
   "matchedDomainExpressionText": {
     "message": "Matched Domain Expression",
@@ -724,12 +724,12 @@
     "description": "Site data cleaned  Used in Notification Title."
   },
   "notifyCookieCleanupDelayText": {
-    "message": "How Long Notifications Stay on Screen",
-    "description": "How Long Notifications Stay on Screen"
+    "message": "Notification duration",
+    "description": "Advanced interface: how long notifications stay on screen"
   },
   "notifyCookieCleanUpText": {
-    "message": "Notify Me After Automatic Cleanups",
-    "description": "Notify Me After Automatic Cleanups. Found in settings."
+    "message": "Notify after cleaning",
+    "description": "Interface: notification after automatic cleanups"
   },
   "oldReleasesText": {
     "message": "Earlier releases are listed on",
@@ -968,16 +968,16 @@
     "description": "SessionStorage. Used in manual localstorage clean notification"
   },
   "settingGroupAutoClean": {
-    "message": "Automatic Cleaning Options",
-    "description": "Automatic Cleaning Options"
+    "message": "Timing",
+    "description": "Protection group: when cleaning happens"
   },
   "settingGroupExpression": {
     "message": "Expression Options",
     "description": "Expression Options"
   },
   "settingGroupExtension": {
-    "message": "Extension Options",
-    "description": "Extension Options"
+    "message": "Interface",
+    "description": "Protection group: notifications, icon, and appearance"
   },
   "settingGroupOtherBrowsing": {
     "message": "Other Browsing Data Cleanup Options",
@@ -994,8 +994,8 @@
     }
   },
   "showNumberOfCookiesInIconText": {
-    "message": "Show the Site's Cookie Count on the Toolbar Icon",
-    "description": "Show the Site's Cookie Count on the Toolbar Icon"
+    "message": "Cookie count on toolbar icon",
+    "description": "Interface: show the site's cookie count on the icon"
   },
   "siteDataEmptyOnEnable": {
     "message": "When a New Data Type Is Enabled, Wipe What's Already Stored",
@@ -1006,12 +1006,12 @@
     "description": "Site Data. Found in Activity Log Summary and Notifications."
   },
   "sizePopupText": {
-    "message": "Size of Popup (in px)",
-    "description": "Size of Popup (in px). This sets the font size in the Popup."
+    "message": "Popup font size",
+    "description": "Advanced interface: popup font size in px"
   },
   "sizeSettingText": {
-    "message": "Size of Setting Pages (in px)",
-    "description": "Size of Setting Pages (in px). This sets the font size in the Setting Pages."
+    "message": "Settings font size",
+    "description": "Advanced interface: settings pages font size in px"
   },
   "stopEditingText": {
     "message": "Stop editing",
@@ -1310,12 +1310,12 @@
     }
   },
   "showAdvancedPopupText": {
-    "message": "Show advanced controls in the popup",
-    "description": "Settings toggle that reveals the popup's advanced controls"
+    "message": "Advanced mode",
+    "description": "The single global advanced toggle (popup extras + advanced settings rows)"
   },
   "showAdvancedPopupDescText": {
-    "message": "Reveals exact-domain rules (like *.example.com vs example.com), the matched rule, and per-site cleaning options.",
-    "description": "Helper text for the advanced popup controls toggle"
+    "message": "Shows the expert settings on this page and extra controls in the popup: exact-domain rules, per-site cleaning options, and the matched rule. Off by default — the simple view covers the common case.",
+    "description": "Description under the Advanced mode toggle"
   },
   "overviewText": {
     "message": "Overview",
@@ -1466,5 +1466,57 @@
   "importExportSubText": {
     "message": "Back up your settings and saved sites, restore them from a file, or reset to defaults.",
     "description": "Subtitle of the Import / Export page"
+  },
+  "activeModeDescText": {
+    "message": "After a site's tabs close.",
+    "description": "Description: Clean automatically"
+  },
+  "gracePeriodDescText": {
+    "message": "Wait before cleaning, in case you return.",
+    "description": "Description: Grace period"
+  },
+  "domainChangeDescText": {
+    "message": "Cleans a tab's old site when you browse somewhere new in that tab.",
+    "description": "Description: Clean when leaving a site"
+  },
+  "greylistDescText": {
+    "message": "Sites marked “Keep until browser closes” are cleaned when the browser restarts.",
+    "description": "Description: Session keep rules"
+  },
+  "cleanDiscardedDescText": {
+    "message": "A tab the browser put to sleep counts as closed for cleaning.",
+    "description": "Description: Treat sleeping tabs as closed"
+  },
+  "startupCleanDescText": {
+    "message": "Sites in tabs restored from the last session get cleaned too.",
+    "description": "Description: Clean restored tabs on startup"
+  },
+  "cleanExpiredDescText": {
+    "message": "Cookies past their expiry date are deleted in every cleanup pass.",
+    "description": "Description: Always remove expired cookies"
+  },
+  "cleanupLogDescText": {
+    "message": "Powers the Cleanup log page and the deleted-cookie counters.",
+    "description": "Description: Keep a cleanup log"
+  },
+  "cookieCountIconDescText": {
+    "message": "Shows how many cookies the current site has stored.",
+    "description": "Description: Cookie count on toolbar icon"
+  },
+  "keepDefaultIconDescText": {
+    "message": "Don't recolor the icon to show whether the site is kept.",
+    "description": "Description: Keep the plain icon"
+  },
+  "notifyAutoDescText": {
+    "message": "A short notification after each automatic cleanup.",
+    "description": "Description: Notify after cleaning"
+  },
+  "notifyDurationDescText": {
+    "message": "How long notifications stay on screen, in seconds.",
+    "description": "Description: Notification duration"
+  },
+  "debugModeDescText": {
+    "message": "Verbose logging to the extension console, for bug reports.",
+    "description": "Description: Debug mode"
   }
 }

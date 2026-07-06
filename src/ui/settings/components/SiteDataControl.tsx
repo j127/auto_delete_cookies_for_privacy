@@ -5,7 +5,6 @@
 import { SettingID } from "@/typings/enums";
 import * as React from "react";
 import CheckboxSetting from "@/ui/common-components/CheckboxSetting";
-import SettingsTooltip from "./SettingsTooltip";
 
 interface OwnProps {
   settings: State["settings"];
@@ -54,7 +53,7 @@ const SiteDataControl: React.FunctionComponent<OwnProps> = ({
   };
 
   return (
-    <div id="siteDataControl">
+    <div id="siteDataControl" className="px-4 py-2.5">
       <label
         className="flex cursor-pointer items-center gap-3 py-1"
         htmlFor="deleteAllSiteData"
@@ -79,9 +78,6 @@ const SiteDataControl: React.FunctionComponent<OwnProps> = ({
           onChange={onMasterToggle}
           ref={masterRef}
           type="checkbox"
-        />
-        <SettingsTooltip
-          hrefURL={"settings.md#other-browsing-data-cleanup-options"}
         />
       </label>
       <details className="collapse-arrow collapse mt-2 border border-base-300">

@@ -36,9 +36,9 @@ const CheckboxSetting: React.FunctionComponent<OwnProps> = ({
       htmlFor={name}
     >
       <span className="min-w-0 flex-1">
-        <span>{text}</span>
+        <span className="font-semibold">{text}</span>
         {description && (
-          <span className="block text-sm text-base-content/70">
+          <span className="block text-sm font-normal text-base-content/70">
             {description}
           </span>
         )}

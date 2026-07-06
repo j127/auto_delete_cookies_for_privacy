@@ -30,7 +30,6 @@ import ExpressionTable from "@/ui/common-components/ExpressionTable";
 import Icon from "@/ui/common-components/Icon";
 import IconButton from "@/ui/common-components/IconButton";
 import { parseRawExpression } from "@/ui/settings/import-plan";
-import SettingsTooltip from "./SettingsTooltip";
 
 interface OwnProps {
   style?: React.CSSProperties;
@@ -313,7 +312,7 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
                 </tr>
               </tbody>
             </table>
-            <div className="mt-2 flex items-center">
+            <div className="mt-2">
               <a
                 className="link text-sm link-primary"
                 target="_blank"
@@ -322,7 +321,6 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
               >
                 {browser.i18n.getMessage("documentationText")}
               </a>
-              <SettingsTooltip hrefURL="expressions.md#writing-expressions" />
             </div>
           </div>
         </details>
