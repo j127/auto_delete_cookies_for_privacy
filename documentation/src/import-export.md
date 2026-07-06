@@ -33,7 +33,7 @@ Field by field:
 | Field             | Required | Meaning                                                                                                                                      |
 | ----------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | `expression`      | yes      | the pattern, exactly as you'd type it (see [Expressions and Lists](./expressions.md))                                                        |
-| `listType`        | yes      | `"WHITE"` (whitelist) or `"GREY"` (greylist)                                                                                                 |
+| `listType`        | yes      | `"WHITE"` (a permanent **Keep** rule) or `"GREY"` (**Keep this session**)                                                                    |
 | `storeId`         | yes      | which cookie store the expression belongs to — `"default"` for normal browsing, `"private"` for incognito                                    |
 | `cleanSiteData`   | no       | array of site-data types this expression still cleans: any of `"Cache"`, `"IndexedDB"`, `"LocalStorage"`, `"PluginData"`, `"ServiceWorkers"` |
 | `cookieNames`     | no       | cookie names to keep when `cleanAllCookies` is `false`                                                                                       |

@@ -2,19 +2,21 @@
 
 An **expression** is a pattern that matches site hostnames. Every expression lives on one of two lists, and together they decide what survives a cleanup.
 
-## The two lists
+## The two kinds of rules
 
-**Whitelist** — matched sites are never cleaned. Your email, your bank, anything you always want to stay logged in to.
+**Keep** — matched sites are never cleaned. Your email, your bank, anything you always want to stay logged in to. The Saved sites table badges these **Kept**.
 
-**Greylist** — matched sites survive normal cleanups but are cleaned when the browser restarts (provided the restart-cleanup setting is on). Think "keep me logged in for this sitting": a shopping site you're comparing prices on all afternoon, but that shouldn't remember you next week.
+**Keep this session** — matched sites survive normal cleanups but are cleaned when the browser restarts (provided the restart-cleanup setting is on). Think "keep me logged in for this sitting": a shopping site you're comparing prices on all afternoon, but that shouldn't remember you next week. Badged **Until restart**.
 
-A site on neither list is cleaned as soon as you leave it. That's the default fate; the lists are the exceptions.
+> Under the hood these are the classic **whitelist** and **greylist** from the original project — `WHITE` and `GREY` in exported files and in the cleanup log's reasons. The UI just says what they do.
 
-If a hostname matches expressions on both lists, the first match found wins, so keep your patterns from overlapping when you can.
+A site matching neither kind of rule is cleaned as soon as you leave it. That's the default fate; the rules are the exceptions.
+
+If a hostname matches rules of both kinds, the first match found wins, so keep your patterns from overlapping when you can.
 
 ## Writing expressions
 
-Add expressions from the popup (quickest), the right-click menu, or by typing them on the settings page's expression list. The settings page shows each expression with its options and lets you edit or remove it.
+Add expressions from the popup (quickest), the right-click menu, or by typing them on the **Saved sites** page. That page shows each expression with its options and lets you edit or remove it.
 
 | You type                         | It matches                                               |
 | -------------------------------- | -------------------------------------------------------- |
@@ -40,7 +42,7 @@ Every expression carries its own cleanup options — click it in the settings li
 
 **Site-data types** (Cache, IndexedDB, LocalStorage, Plugin Data, Service Workers) — per-type checkboxes controlling whether this expression's site data gets cleaned. A checked type means "clean this type for this site even though the site is on a keep list." Unchecked means the keep list protects that type too. These only matter for data types you've enabled globally in settings.
 
-On the greylist, the same options read as "until restart": keep-all-cookies keeps them until the browser closes.
+On a Keep-this-session rule, the same options read as "until restart": keep-all-cookies keeps them until the browser closes.
 
 ## Default options for new expressions
 
@@ -51,8 +53,8 @@ Create a `_Default:` expression for a list (button at the top of the settings pa
 During a cleanup, a site's cookies are kept if **any** of these holds:
 
 1. The site is still open in some tab (unless you chose a manual "include open tabs" clean).
-2. It matches a whitelist expression.
-3. It matches a greylist expression and this isn't a restart cleanup.
+2. It matches a **Keep** expression.
+3. It matches a **Keep this session** expression and this isn't a restart cleanup.
 4. The specific cookie's name is checked in a matching expression's cookie list.
 
 Everything else goes. The [cleanup log](./cleanup-log.md) shows which rule fired for every decision, so you never have to guess.
