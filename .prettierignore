@@ -1,3 +1,7 @@
+# design mockups: the embedded design-panel blocks must stay byte-identical
+# to the design-mockups skill asset, so no reformatting
+mockups/
+
 # output directories
 _site/
 dist/
