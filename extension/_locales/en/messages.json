@@ -1316,5 +1316,65 @@
   "showAdvancedPopupDescText": {
     "message": "Reveals exact-domain rules (like *.example.com vs example.com), the matched rule, and per-site cleaning options.",
     "description": "Helper text for the advanced popup controls toggle"
+  },
+  "overviewText": {
+    "message": "Overview",
+    "description": "Settings sidebar: the overview section (stats + release notes)"
+  },
+  "protectionText": {
+    "message": "Protection",
+    "description": "Settings sidebar: the main settings section"
+  },
+  "savedSitesText": {
+    "message": "Saved sites",
+    "description": "Settings sidebar: the keep-list (expressions) section"
+  },
+  "savedSitesSubText": {
+    "message": "Sites you keep. Kept sites keep their data always; session sites keep it until the browser closes.",
+    "description": "Subtitle of the Saved sites page"
+  },
+  "cookiesDeletedSessionText": {
+    "message": "deleted this session",
+    "description": "Overview stat card label for the session counter"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "deleted in total",
+    "description": "Overview stat card label for the total counter"
+  },
+  "keptBadgeText": {
+    "message": "Kept",
+    "description": "Saved-sites table badge for a permanent keep rule (whitelist)"
+  },
+  "sessionBadgeText": {
+    "message": "Until restart",
+    "description": "Saved-sites table badge for a session keep rule (greylist)"
+  },
+  "toggleToKeepText": {
+    "message": "Switch to Keep",
+    "description": "Saved-sites table action that converts a session rule to a permanent one"
+  },
+  "toggleToSessionText": {
+    "message": "Switch to Keep this session",
+    "description": "Saved-sites table action that converts a permanent rule to a session one"
+  },
+  "settingGroupSiteData": {
+    "message": "What gets deleted",
+    "description": "Settings group title for the site-data controls"
+  },
+  "deleteAllSiteDataText": {
+    "message": "Delete all site data",
+    "description": "Master toggle covering every site-data type"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "Cookies plus saved files, offline databases, and background workers — everything a site stores on your device.",
+    "description": "Helper text for the delete-all-site-data master toggle"
+  },
+  "customBadgeText": {
+    "message": "Custom",
+    "description": "Badge shown when the site-data types are individually mixed"
+  },
+  "advancedChooseTypesText": {
+    "message": "Advanced — choose exactly what to delete",
+    "description": "Accordion label revealing the per-type site-data toggles"
   }
 }

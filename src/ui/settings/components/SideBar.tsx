@@ -23,18 +23,20 @@ const SideBar: React.FunctionComponent<OwnProps> = ({
 }) => {
   // The tab list is built during render rather than at module load so that
   // browser.i18n.getMessage is only called once the message catalog is ready.
+  // Section labels are the 05d keep-family names; the tab IDs stay stable
+  // because the popup and bookmarks deep-link to them (#tabSettings etc.).
   const sideBarTabs = [
     {
       tabId: "tabWelcome",
-      tabText: browser.i18n.getMessage("welcomeText"),
+      tabText: browser.i18n.getMessage("overviewText"),
     },
     {
       tabId: "tabSettings",
-      tabText: browser.i18n.getMessage("settingsText"),
+      tabText: browser.i18n.getMessage("protectionText"),
     },
     {
       tabId: "tabExpressionList",
-      tabText: browser.i18n.getMessage("expressionListText"),
+      tabText: browser.i18n.getMessage("savedSitesText"),
     },
     {
       tabId: "tabCleanupLog",
@@ -48,12 +50,15 @@ const SideBar: React.FunctionComponent<OwnProps> = ({
 
   return (
     <aside className="min-h-full w-64 bg-base-200">
-      <div className="border-b border-base-300 px-4 py-5 text-center">
-        <div className="text-sm opacity-70">
-          {browser.i18n.getMessage("versionNumberText", ["ADCP"])}
-        </div>
-        <div className="font-mono text-lg font-bold">
-          {browser.runtime.getManifest().version}
+      <div className="flex items-center gap-3 border-b border-base-300 px-4 py-5">
+        <img alt="" className="size-9 flex-none" src="../icons/icon_48.png" />
+        <div className="min-w-0">
+          <div className="text-sm leading-tight font-bold">
+            {browser.i18n.getMessage("extensionName")}
+          </div>
+          <div className="font-mono text-xs opacity-70">
+            v{browser.runtime.getManifest().version}
+          </div>
         </div>
       </div>
       <ul className="menu w-full gap-1 p-2">

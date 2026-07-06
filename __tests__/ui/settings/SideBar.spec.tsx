@@ -15,9 +15,9 @@ beforeAll(async () => {
 });
 
 const TABS: Array<[string, string]> = [
-  ["tabWelcome", "welcomeText"],
-  ["tabSettings", "settingsText"],
-  ["tabExpressionList", "expressionListText"],
+  ["tabWelcome", "overviewText"],
+  ["tabSettings", "protectionText"],
+  ["tabExpressionList", "savedSitesText"],
   ["tabCleanupLog", "cleanupLogText"],
   ["tabAbout", "aboutText"],
 ];
@@ -44,14 +44,10 @@ describe("SideBar", () => {
     });
   });
 
-  it("shows the ADCP version number from the manifest", () => {
+  it("shows the full product name and version in the brand block", () => {
     const { getByText } = renderSideBar();
-    expect(getByText("versionNumberText")).not.toBeNull();
-    expect(getByText("1.0.0")).not.toBeNull();
-    expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
-      "versionNumberText",
-      ["ADCP"]
-    );
+    expect(getByText("extensionName")).not.toBeNull();
+    expect(getByText("v1.0.0")).not.toBeNull();
   });
 
   it("marks only the active tab as selected", () => {

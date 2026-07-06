@@ -59,16 +59,27 @@ const Welcome: React.FunctionComponent<OwnProps> = ({ style }) => {
   return (
     <div style={style}>
       <h1 className="mb-4 text-2xl font-bold">
-        {browser.i18n.getMessage("welcomeText")}
+        {browser.i18n.getMessage("overviewText")}
       </h1>
 
-      <p className="mb-4">
-        {browser.i18n.getMessage("welcomeMessage", [
-          browser.i18n.getMessage("extensionName"),
-          cookieDeletedCounterSession.toString(),
-          cookieDeletedCounterTotal.toString(),
-        ])}
-      </p>
+      <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="rounded-box border border-base-300 bg-base-100 p-4">
+          <div className="text-2xl font-bold" id="statSession">
+            {cookieDeletedCounterSession}
+          </div>
+          <div className="text-sm text-base-content/70">
+            {browser.i18n.getMessage("cookiesDeletedSessionText")}
+          </div>
+        </div>
+        <div className="rounded-box border border-base-300 bg-base-100 p-4">
+          <div className="text-2xl font-bold" id="statTotal">
+            {cookieDeletedCounterTotal}
+          </div>
+          <div className="text-sm text-base-content/70">
+            {browser.i18n.getMessage("cookiesDeletedTotalText")}
+          </div>
+        </div>
+      </div>
       <div className="mb-4">
         <IconButton
           iconName="trash"

@@ -219,17 +219,30 @@ function ExpressionTable(props: ExpressionTableProps) {
             </td>
             <td>
               <div>
-                {`${
-                  expression.listType === "WHITE"
-                    ? browser.i18n.getMessage("whiteListWordText")
-                    : browser.i18n.getMessage("greyListWordText")
-                }`}
+                <span
+                  className={`badge badge-sm ${
+                    expression.listType === "WHITE"
+                      ? "badge-success"
+                      : "badge-ghost"
+                  }`}
+                  title={browser.i18n.getMessage(
+                    expression.listType === "WHITE"
+                      ? "keepButtonTooltipText"
+                      : "keepSessionButtonTooltipText"
+                  )}
+                >
+                  {browser.i18n.getMessage(
+                    expression.listType === "WHITE"
+                      ? "keptBadgeText"
+                      : "sessionBadgeText"
+                  )}
+                </span>
               </div>
               <IconButton
                 title={`${
                   expression.listType === "WHITE"
-                    ? browser.i18n.getMessage("toggleToGreyListWordText")
-                    : browser.i18n.getMessage("toggleToWhiteListWordText")
+                    ? browser.i18n.getMessage("toggleToSessionText")
+                    : browser.i18n.getMessage("toggleToKeepText")
                 }`}
                 iconName="exchange-alt"
                 className="showOnRowHover invisible mt-1 w-full btn-outline btn-neutral btn-sm group-hover:visible"

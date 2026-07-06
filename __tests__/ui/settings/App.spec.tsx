@@ -62,7 +62,7 @@ describe("settings App", () => {
     expect(drawerToggle(container)).not.toBeNull();
     expect(container.querySelector("aside")).not.toBeNull();
     expect(container.querySelector("#themeSwitcher")).not.toBeNull();
-    expect(contentHeading(container)).toBe("welcomeText");
+    expect(contentHeading(container)).toBe("overviewText");
     expect(
       (container.querySelector("#tabWelcome") as HTMLElement).className
     ).toContain("menu-active");
@@ -103,7 +103,7 @@ describe("settings App", () => {
 
     fireEvent.click(container.querySelector("#tabSettings") as HTMLElement);
 
-    expect(contentHeading(container)).toBe("settingsText");
+    expect(contentHeading(container)).toBe("protectionText");
     expect(
       (container.querySelector("#tabSettings") as HTMLElement).className
     ).toContain("menu-active");

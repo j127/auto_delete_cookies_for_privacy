@@ -49,7 +49,7 @@ describe("Expressions", () => {
   it("renders the heading, the add input and the empty list message", () => {
     const { container, getByText, input } = renderExpressions();
     expect((container.querySelector("h1") as HTMLElement).textContent).toBe(
-      "expressionListText"
+      "savedSitesText"
     );
     expect(input.getAttribute("placeholder")).toBe("domainPlaceholderText");
     expect(getByText("noExpressionsText")).not.toBeNull();
@@ -108,7 +108,7 @@ describe("Expressions", () => {
   it("adds to the greylist through the grey plus button", () => {
     const { dispatchSpy, getByText, input } = renderExpressions();
     fireEvent.change(input, { target: { value: "example.net" } });
-    fireEvent.click(getByText("greyListWordText"));
+    fireEvent.click(getByText("keepSessionButtonText"));
 
     expect(dispatchSpy).toHaveBeenCalledWith({
       payload: {
@@ -140,11 +140,11 @@ describe("Expressions", () => {
     expect(
       (rows[0].querySelector("textarea") as HTMLTextAreaElement).value
     ).toBe("example.com");
-    expect(rows[0].textContent).toContain("whiteListWordText");
+    expect(rows[0].textContent).toContain("keptBadgeText");
     expect(
       (rows[1].querySelector("textarea") as HTMLTextAreaElement).value
     ).toBe("*.example.org");
-    expect(rows[1].textContent).toContain("greyListWordText");
+    expect(rows[1].textContent).toContain("sessionBadgeText");
   });
 
   it("shows an error when removing all expressions while none exist", () => {
