@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import * as React from "react";
-import { fireEvent, render, waitFor } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
@@ -81,19 +81,19 @@ describe("Expressions", () => {
   });
 
   it("arranges the card as add bar, accordion, table area, footer actions", () => {
-    const { container, getByText } = renderExpressions();
+    const { container, getByText, queryByText } = renderExpressions();
     const card = container.querySelector(".rounded-box") as HTMLElement;
     const children = Array.from(card.children);
     expect(children[0].querySelector("#formText")).not.toBeNull();
     expect(children[1].tagName).toBe("DETAILS");
     expect(children[2].textContent).toContain("noExpressionsText");
     const footer = children[3] as HTMLElement;
-    [
-      "exportURLSText",
-      "importURLSText",
-      "createDefaultExpressionOptionsText",
-      "removeAllExpressions",
-    ].forEach((key) => expect(footer.textContent).toContain(key));
+    ["createDefaultExpressionOptionsText", "removeAllExpressions"].forEach(
+      (key) => expect(footer.textContent).toContain(key)
+    );
+    // Export/import moved to the Import / Export page.
+    expect(queryByText("exportURLSText")).toBeNull();
+    expect(queryByText("importURLSText")).toBeNull();
     // Remove All is error-styled and pushed to the far end.
     const removeAll = getByText("removeAllExpressions").closest(
       "button"
@@ -173,43 +173,6 @@ describe("Expressions", () => {
     expect(rows[0].textContent).toContain("keptBadgeText");
     expect(rows[1].textContent).toContain("*.example.org");
     expect(rows[1].textContent).toContain("sessionBadgeText");
-  });
-
-  it("imports container lists into default and reports the folded count", async () => {
-    const { container, dispatchSpy } = renderExpressions();
-    const file = new File(
-      [
-        JSON.stringify({
-          "firefox-container-1": [
-            {
-              expression: "work.example.com",
-              listType: "WHITE",
-              storeId: "firefox-container-1",
-            },
-          ],
-        }),
-      ],
-      "backup.json",
-      { type: "application/json" }
-    );
-    const fileInput = container.querySelector(
-      'input[type="file"]'
-    ) as HTMLInputElement;
-    fireEvent.change(fileInput, { target: { files: [file] } });
-
-    await waitFor(() => {
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        payload: {
-          expression: "work.example.com",
-          listType: ListType.WHITE,
-          storeId: "default",
-        },
-        type: ReduxConstants.ADD_EXPRESSION,
-      });
-    });
-    const success = container.querySelector(".alert-success") as HTMLElement;
-    expect(success.textContent).toContain("importValidExpressions");
-    expect(success.textContent).toContain("importFoldedContainersText");
   });
 
   it("shows an error when removing all expressions while none exist", () => {

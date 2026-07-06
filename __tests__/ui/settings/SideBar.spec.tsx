@@ -19,6 +19,7 @@ const TABS: Array<[string, string]> = [
   ["tabSettings", "protectionText"],
   ["tabExpressionList", "savedSitesText"],
   ["tabCleanupLog", "cleanupLogText"],
+  ["tabImportExport", "importExportText"],
   ["tabAbout", "aboutText"],
 ];
 

@@ -29,11 +29,7 @@ import { ReduxAction } from "@/typings/redux-constants";
 import ExpressionTable from "@/ui/common-components/ExpressionTable";
 import Icon from "@/ui/common-components/Icon";
 import IconButton from "@/ui/common-components/IconButton";
-import {
-  parseRawExpression,
-  planExpressionImport,
-} from "@/ui/settings/import-plan";
-import { downloadObjectAsJSON } from "@/ui/ui-libs";
+import { parseRawExpression } from "@/ui/settings/import-plan";
 import SettingsTooltip from "./SettingsTooltip";
 
 interface OwnProps {
@@ -62,75 +58,6 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
 
   const onRemoveList = (payload: keyof StoreIdToExpressionList) => {
     dispatch(removeListUI(payload));
-  };
-
-  const setError = (e: Error): void => {
-    setErrorMessage(e.toString());
-    setSuccess("");
-  };
-
-  // Import the expressions into the list
-  const importExpressions = (importFile: File) => {
-    // Do check for import first!
-    if (importFile.type !== "application/json") {
-      setError(
-        new Error(
-          `${browser.i18n.getMessage("importFileTypeInvalid")}:  ${
-            importFile.name
-          } (${importFile.type})`
-        )
-      );
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = (file) => {
-      try {
-        if (!file.target) {
-          setError(
-            new Error(
-              browser.i18n.getMessage("importFileNotFound", [importFile.name])
-            )
-          );
-          return;
-        }
-        // FileReader.result is always string as we used readAsText()
-        const result = file.target.result as string;
-        const newExpressions: StoreIdToExpressionList = JSON.parse(result);
-        const plan = planExpressionImport(newExpressions, lists);
-        plan.additions.forEach((expression) => onNewExpression(expression));
-        setErrorMessage(
-          plan.errors.length > 0
-            ? `${browser.i18n.getMessage(
-                "importInvalidExpressions"
-              )}\n${plan.errors.join("\n")}`
-            : ""
-        );
-        const successParts: string[] = [];
-        if (plan.additions.length > 0) {
-          successParts.push(
-            browser.i18n.getMessage("importValidExpressions", [
-              plan.additions.length.toString(),
-              importFile.name,
-            ])
-          );
-        }
-        if (plan.foldedCount > 0) {
-          successParts.push(
-            browser.i18n.getMessage("importFoldedContainersText", [
-              plan.foldedCount.toString(),
-            ])
-          );
-        }
-        setSuccess(successParts.join("\n"));
-      } catch (error) {
-        if (error instanceof Error) {
-          setErrorMessage(`${importFile.name} - ${error.toString()}.`);
-          setSuccess("");
-        }
-      }
-    };
-
-    reader.readAsText(importFile);
   };
 
   // Add the expression using the + button or the Enter key
@@ -425,24 +352,6 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
         </div>
 
         <div className="flex flex-wrap gap-2 border-t border-base-300 p-3">
-          <IconButton
-            className="btn-primary btn-sm"
-            iconName="download"
-            role="button"
-            onClick={() => downloadObjectAsJSON(lists, "Expressions")}
-            title={browser.i18n.getMessage("exportTitleTimestamp")}
-            text={browser.i18n.getMessage("exportURLSText")}
-          />
-          <IconButton
-            tag="input"
-            className="btn-info btn-sm"
-            iconName="upload"
-            type="file"
-            accept="application/json"
-            onChange={(e) => importExpressions(e.target.files[0])}
-            text={browser.i18n.getMessage("importURLSText")}
-            title={browser.i18n.getMessage("importURLSText")}
-          />
           <IconButton
             tag="button"
             className="btn-neutral btn-sm"
