@@ -76,7 +76,7 @@ describe("popup App", () => {
       (key: string, subs?: string[]) =>
         subs && subs.length ? `${key}[${subs.join("|")}]` : key
     );
-    global.browser.runtime.getManifest.mockReturnValue({ version: "4.0.0" });
+    global.browser.runtime.getManifest.mockReturnValue({ version: "1.0.0" });
     global.browser.tabs.query.mockResolvedValue([tabFixture]);
     global.browser.cookies.getAll.mockResolvedValue([]);
     fakePort = {
@@ -110,7 +110,7 @@ describe("popup App", () => {
     const { getByText } = await renderApp();
     const byId = (id: string) => document.getElementById(id) as HTMLElement;
     expect(byId("CADTitle").textContent).toBe("extensionName");
-    expect(byId("CADVersion").textContent).toBe("v4.0.0");
+    expect(byId("CADVersion").textContent).toBe("v1.0.0");
     expect(getByText("shareText")).toBeTruthy();
   });
 

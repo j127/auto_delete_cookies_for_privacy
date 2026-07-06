@@ -25,7 +25,7 @@ Firefox is deliberately out of scope: Firefox-only features (Container Tabs, Fir
 
 ## Installation
 
-Not yet on the Chrome Web Store (coming with the 4.0.0 release). Until then:
+Not yet on the Chrome Web Store (coming with the 1.0.0 release). Until then:
 
 1. Clone this repo and build it (see Development below)
 2. Open `brave://extensions` (or `chrome://extensions`), enable Developer Mode

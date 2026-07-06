@@ -1,6 +1,6 @@
 # Privacy Policy — Auto-Delete Cookies for Privacy
 
-_Last updated: 2026-07-05 (draft for the 4.0.0 release)_
+_Last updated: 2026-07-05 (draft for the 1.0.0 release)_
 
 ## The short version
 

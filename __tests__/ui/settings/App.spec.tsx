@@ -45,7 +45,7 @@ describe("settings App", () => {
 
   beforeEach(() => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
-    global.browser.runtime.getManifest.mockReturnValue({ version: "4.0.0" });
+    global.browser.runtime.getManifest.mockReturnValue({ version: "1.0.0" });
     global.browser.tabs.getCurrent.mockResolvedValue({
       id: TAB_ID,
       url: SETTINGS_URL,

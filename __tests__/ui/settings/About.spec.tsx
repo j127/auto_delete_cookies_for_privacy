@@ -21,7 +21,7 @@ describe("About", () => {
     );
 
   beforeEach(() => {
-    global.browser.runtime.getManifest.mockReturnValue({ version: "4.0.0" });
+    global.browser.runtime.getManifest.mockReturnValue({ version: "1.0.0" });
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
     writeText = jest.fn().mockResolvedValue(undefined);
     // jsdom has no navigator.clipboard implementation.
@@ -40,7 +40,7 @@ describe("About", () => {
     const { container } = renderAbout();
     const info = container.querySelector("#debugInfo") as HTMLTextAreaElement;
     expect(info.value).toBe(
-      "- Browser Info: (Please add version number on paste)\n- ADCP Version: 4.0.0"
+      "- Browser Info: (Please add version number on paste)\n- ADCP Version: 1.0.0"
     );
   });
 
