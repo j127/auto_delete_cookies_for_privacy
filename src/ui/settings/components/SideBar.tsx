@@ -98,7 +98,9 @@ const SideBar: React.FunctionComponent<OwnProps> = ({
           <div className="sidebar-version">
             {browser.i18n.getMessage("versionNumberText", ["ADCP"])}
             <br />
-            <b>{browser.runtime.getManifest().version}</b>
+            {/* "underline" is the Tailwind pipeline proof class (#39); the
+                settings rebuild (#40) replaces this markup wholesale. */}
+            <b className="underline">{browser.runtime.getManifest().version}</b>
           </div>
           {sideBarTabs.map((element) => (
             <div
