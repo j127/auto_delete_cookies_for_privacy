@@ -7,7 +7,6 @@ import {
 } from "@/services/browser-action-service";
 import { ListType, SettingID } from "@/typings/enums";
 
-
 const defaultTab: browser.tabs.Tab = {
   active: true,
   cookieStoreId: "0",
@@ -433,6 +432,72 @@ describe("BrowserActionService", () => {
         tabId: 1,
         title: "ADCP 4.0.0 [NO LIST] (0)",
       });
+    });
+  });
+
+  describe("closed tabs (missing-tab rejections)", () => {
+    // TabEvents.onTabUpdate delays paints by ~750 ms, so a tab can close
+    // before browser.action.* runs; Chromium rejects those calls with
+    // "No tab with id: N". The service swallows exactly that rejection —
+    // vitest fails the run on any unhandled rejection, which is the real
+    // assertion behind these tests.
+    const missingTab = () => new Error("No tab with id: 99.");
+
+    it("skips the whole title paint when getTitle says the tab is gone", async () => {
+      global.browser.action.getTitle.mockRejectedValue(missingTab());
+      await expect(
+        showNumberOfCookiesInTitle(defaultTab, { cookieLength: 3 })
+      ).resolves.toBeUndefined();
+      expect(global.browser.action.setTitle).not.toHaveBeenCalled();
+    });
+
+    it("re-throws non-missing-tab errors from getTitle", async () => {
+      global.browser.action.getTitle.mockRejectedValue(new Error("boom"));
+      await expect(
+        showNumberOfCookiesInTitle(defaultTab, { cookieLength: 3 })
+      ).rejects.toThrow("boom");
+    });
+
+    it("resolves when only setTitle rejects with a missing tab", async () => {
+      global.browser.action.setTitle.mockRejectedValue(missingTab());
+      await expect(
+        showNumberOfCookiesInTitle(defaultTab, { cookieLength: 3 })
+      ).resolves.toBeUndefined();
+      await flushPromises();
+    });
+
+    it("keeps badge painting silent when the tab closed", async () => {
+      global.browser.action.setBadgeText.mockRejectedValue(missingTab());
+      global.browser.action.setBadgeTextColor.mockRejectedValue(missingTab());
+      expect(() => showNumberOfCookiesInIcon(defaultTab, 5)).not.toThrow();
+      await flushPromises();
+    });
+
+    it("completes checkIfProtected when every paint hits a closed tab", async () => {
+      global.browser.action.getTitle.mockRejectedValue(missingTab());
+      global.browser.action.setIcon.mockRejectedValue(missingTab());
+      global.browser.action.setBadgeBackgroundColor.mockRejectedValue(
+        missingTab()
+      );
+      const state = buildState({ active: true });
+      await expect(
+        checkIfProtected(state, defaultTab, 2)
+      ).resolves.toBeUndefined();
+      await flushPromises();
+    });
+
+    it("keeps repainting the remaining tabs when one closed mid-loop", async () => {
+      const secondTab = { ...defaultTab, id: 2 };
+      global.browser.tabs.query.mockResolvedValue([defaultTab, secondTab]);
+      global.browser.action.setIcon
+        .mockResolvedValueOnce(undefined) // global (no tabId) call
+        .mockRejectedValueOnce(missingTab()) // tab 1 just closed
+        .mockResolvedValue(undefined);
+      await expect(setGlobalIcon(true)).resolves.toBeUndefined();
+      await flushPromises();
+      expect(global.browser.action.setIcon).toHaveBeenCalledWith(
+        expect.objectContaining({ tabId: 2 })
+      );
     });
   });
 });
