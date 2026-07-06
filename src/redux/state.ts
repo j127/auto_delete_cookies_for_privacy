@@ -114,6 +114,10 @@ export const initialState: State = {
       name: SettingID.SITEDATA_EMPTY_ON_ENABLE,
       value: true,
     },
+    [SettingID.POPUP_ADVANCED]: {
+      name: SettingID.POPUP_ADVANCED,
+      value: false,
+    },
     [SettingID.SIZE_POPUP]: {
       name: SettingID.SIZE_POPUP,
       value: 16,

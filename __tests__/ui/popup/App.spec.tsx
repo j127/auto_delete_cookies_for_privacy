@@ -9,6 +9,12 @@ import { initialState } from "@/redux/state";
 import { ListType, SettingID } from "@/typings/enums";
 import App from "@/ui/popup/App";
 
+vi.mock("@/services/cleanup-service", () => ({
+  clearCookiesForThisDomain: vi.fn().mockResolvedValue(true),
+  clearLocalStorageForThisDomain: vi.fn().mockResolvedValue(true),
+  clearSiteDataForThisDomain: vi.fn().mockResolvedValue(true),
+}));
+
 interface FakePort {
   name: string;
   onMessage: { addListener: jest.Mock };
@@ -30,6 +36,23 @@ const tabFixture = {
   windowId: 1,
 };
 
+const whiteExpression: Expression = {
+  expression: "*.example.com",
+  id: "exp-1",
+  listType: ListType.WHITE,
+  storeId: "default",
+};
+
+const settingsWith = (overrides: {
+  [name: string]: boolean | number;
+}): State["settings"] => {
+  const next = { ...initialState.settings };
+  Object.entries(overrides).forEach(([name, value]) => {
+    next[name] = { name, value };
+  });
+  return next;
+};
+
 describe("popup App", () => {
   let fakePort: FakePort;
 
@@ -49,7 +72,10 @@ describe("popup App", () => {
   };
 
   beforeEach(() => {
-    global.browser.i18n.getMessage.mockImplementation((key: string) => key);
+    global.browser.i18n.getMessage.mockImplementation(
+      (key: string, subs?: string[]) =>
+        subs && subs.length ? `${key}[${subs.join("|")}]` : key
+    );
     global.browser.runtime.getManifest.mockReturnValue({ version: "4.0.0" });
     global.browser.tabs.query.mockResolvedValue([tabFixture]);
     global.browser.cookies.getAll.mockResolvedValue([]);
@@ -80,17 +106,50 @@ describe("popup App", () => {
     expect(console.error).not.toHaveBeenCalled();
   });
 
-  it("renders the header, hostname and cookie count for the active tab", async () => {
-    const { container, getAllByText } = await renderApp();
+  it("renders the name bar with the full name, version, and Share menu", async () => {
+    const { getByText } = await renderApp();
     const byId = (id: string) => document.getElementById(id) as HTMLElement;
     expect(byId("CADTitle").textContent).toBe("extensionName");
-    expect(byId("CADVersion").textContent).toBe("4.0.0");
-    expect(byId("CADCookieText").textContent).toBe("popupCookieCountText");
-    expect(byId("CADCookieCount").textContent).toBe("0");
-    expect(getAllByText("example.com").length).toBeGreaterThanOrEqual(1);
-    // No favicon for this tab, and the empty activity log fallback shows.
-    expect(container.querySelector("img")).toBeNull();
-    expect(container.textContent).toContain("noCleanupLogText");
+    expect(byId("CADVersion").textContent).toBe("v4.0.0");
+    expect(getByText("shareText")).toBeTruthy();
+  });
+
+  it("shows the off hero while auto-delete is disabled", async () => {
+    const { getByText } = await renderApp();
+    expect(getByText("popupHeroOffText")).toBeTruthy();
+    expect(getByText("popupHeroOffSubText")).toBeTruthy();
+  });
+
+  it("shows the resting hero and cleaned badge when auto-delete is on", async () => {
+    const { getByText } = await renderApp({
+      settings: settingsWith({ [SettingID.ACTIVE_MODE]: true }),
+    });
+    expect(getByText("popupHeroOnText")).toBeTruthy();
+    expect(getByText("popupHeroForgetText")).toBeTruthy();
+    expect(getByText("siteWillBeCleanedText")).toBeTruthy();
+    expect(getByText("siteCleanDelayText[15]")).toBeTruthy();
+  });
+
+  it("shows the kept hero and badge when a permanent keep rule matches", async () => {
+    const { getByText } = await renderApp({
+      lists: { default: [whiteExpression] },
+      settings: settingsWith({ [SettingID.ACTIVE_MODE]: true }),
+    });
+    expect(getByText("popupHeroKeepingText")).toBeTruthy();
+    expect(getByText("popupHeroKeepListText[example.com]")).toBeTruthy();
+    expect(getByText("siteKeptText")).toBeTruthy();
+    expect(getByText("siteKeptStatusText")).toBeTruthy();
+  });
+
+  it("uses the session wording when only a greylist rule matches", async () => {
+    const { getByText } = await renderApp({
+      lists: {
+        default: [{ ...whiteExpression, listType: ListType.GREY }],
+      },
+      settings: settingsWith({ [SettingID.ACTIVE_MODE]: true }),
+    });
+    expect(getByText("popupHeroKeepSessionListText[example.com]")).toBeTruthy();
+    expect(getByText("siteKeptSessionStatusText")).toBeTruthy();
   });
 
   it("sizes the popup from the default sizePopup setting", async () => {
@@ -101,10 +160,7 @@ describe("popup App", () => {
 
   it("scales the popup size with a larger sizePopup setting", async () => {
     await renderApp({
-      settings: {
-        ...initialState.settings,
-        [SettingID.SIZE_POPUP]: { name: SettingID.SIZE_POPUP, value: 20 },
-      },
+      settings: settingsWith({ [SettingID.SIZE_POPUP]: 20 }),
     });
     expect(document.documentElement.style.fontSize).toBe("20px");
     expect(document.documentElement.style.minWidth).toBe("780px");
@@ -127,59 +183,10 @@ describe("popup App", () => {
     expect(fakePort.disconnect).toHaveBeenCalledTimes(1);
   });
 
-  it("dispatches a cookie cleanup and flashes the clean button group", async () => {
+  it("whitelists the wildcarded main domain from the primary keep action", async () => {
     const { dispatchSpy, getByText } = await renderApp();
-    fireEvent.click(getByText("cleanText"));
-    expect(dispatchSpy).toHaveBeenCalledWith({
-      payload: { greyCleanup: false, ignoreOpenTabs: false },
-      type: "COOKIE_CLEANUP",
-    });
-    const group = document.getElementById(
-      "cleanButtonContainer"
-    ) as HTMLElement;
-    expect(group.classList.contains("successAnimated")).toBe(true);
-  });
-
-  it("toggles the activeMode setting from the power button", async () => {
-    const { dispatchSpy, getByText } = await renderApp();
-    const powerButton = getByText("autoDeleteDisabledText");
-    expect(powerButton.className).toContain("btn-error");
-    expect(powerButton.getAttribute("title")).toBe("enableAutoDeleteText");
-    fireEvent.click(powerButton);
-    expect(dispatchSpy).toHaveBeenCalledWith({
-      payload: { name: "activeMode", value: true },
-      type: "UPDATE_SETTING",
-    });
-  });
-
-  it("shows the enabled labels when activeMode is on", async () => {
-    const { getByText } = await renderApp({
-      settings: {
-        ...initialState.settings,
-        [SettingID.ACTIVE_MODE]: { name: SettingID.ACTIVE_MODE, value: true },
-      },
-    });
-    const powerButton = getByText("autoDeleteEnabledText");
-    expect(powerButton.className).toContain("btn-success");
-    expect(powerButton.getAttribute("title")).toBe("disableAutoDeleteText");
-  });
-
-  it("greylists and whitelists the addable hostnames", async () => {
-    const { dispatchSpy, getAllByText } = await renderApp();
-    const greyButtons = getAllByText("greyListWordText");
-    const whiteButtons = getAllByText("whiteListWordText");
-    expect(greyButtons).toHaveLength(2);
-    expect(whiteButtons).toHaveLength(2);
-    fireEvent.click(greyButtons[0]);
-    expect(dispatchSpy).toHaveBeenCalledWith({
-      payload: {
-        expression: "example.com",
-        listType: ListType.GREY,
-        storeId: "default",
-      },
-      type: "ADD_EXPRESSION",
-    });
-    fireEvent.click(whiteButtons[1]);
+    expect(getByText("keepCookiesCaptionText[example.com]")).toBeTruthy();
+    fireEvent.click(getByText("keepCookiesButtonText"));
     expect(dispatchSpy).toHaveBeenCalledWith({
       payload: {
         expression: "*.example.com",
@@ -190,14 +197,125 @@ describe("popup App", () => {
     });
   });
 
-  it("also offers the wildcarded main domain on subdomains", async () => {
+  it("greylists the wildcarded main domain from the session action", async () => {
+    const { dispatchSpy, getByText } = await renderApp();
+    fireEvent.click(getByText("keepUntilCloseButtonText"));
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      payload: {
+        expression: "*.example.com",
+        listType: ListType.GREY,
+        storeId: "default",
+      },
+      type: "ADD_EXPRESSION",
+    });
+  });
+
+  it("replaces the keep actions with a remove action when a rule matches", async () => {
+    const { dispatchSpy, getByText, queryByText } = await renderApp({
+      lists: { default: [whiteExpression] },
+    });
+    expect(queryByText("keepCookiesButtonText")).toBeNull();
+    expect(queryByText("keepUntilCloseButtonText")).toBeNull();
+    fireEvent.click(getByText("stopKeepingButtonText"));
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      payload: whiteExpression,
+      type: "REMOVE_EXPRESSION",
+    });
+  });
+
+  it("dispatches a cookie cleanup and flashes the actions block", async () => {
+    const { dispatchSpy, getByText } = await renderApp();
+    fireEvent.click(getByText("cleanNowText"));
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      payload: { greyCleanup: false, ignoreOpenTabs: false },
+      type: "COOKIE_CLEANUP",
+    });
+    const actions = document.getElementById("popupActions") as HTMLElement;
+    expect(actions.classList.contains("successAnimated")).toBe(true);
+  });
+
+  it("hides every advanced control by default", async () => {
+    await renderApp();
+    expect(document.getElementById("advancedControls")).toBeNull();
+    expect(document.getElementById("moreCleaningOptions")).toBeNull();
+  });
+
+  it("reveals the rule line, expression rows and clean menu when the setting is on", async () => {
+    const { getAllByText, getByText, dispatchSpy } = await renderApp({
+      settings: settingsWith({ [SettingID.POPUP_ADVANCED]: true }),
+    });
+    expect(document.getElementById("advancedControls")).toBeTruthy();
+    expect(getByText("noRuleMatchText")).toBeTruthy();
+
+    // example.com resolves to two addable expressions, in
+    // [Keep this session] [Keep] order.
+    const sessionButtons = getAllByText("keepSessionButtonText");
+    const keepButtons = getAllByText("keepButtonText");
+    expect(sessionButtons).toHaveLength(2);
+    expect(keepButtons).toHaveLength(2);
+    const row = sessionButtons[0].parentElement as HTMLElement;
+    const rowButtons = Array.from(row.querySelectorAll("button")).map(
+      (b) => b.textContent
+    );
+    expect(rowButtons).toEqual(["keepSessionButtonText", "keepButtonText"]);
+
+    fireEvent.click(sessionButtons[0]);
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      payload: {
+        expression: "example.com",
+        listType: ListType.GREY,
+        storeId: "default",
+      },
+      type: "ADD_EXPRESSION",
+    });
+
+    fireEvent.click(getByText("cleanIncludeOpenTabsText"));
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      payload: { greyCleanup: false, ignoreOpenTabs: true },
+      type: "COOKIE_CLEANUP",
+    });
+  });
+
+  it("names the matched rule in the advanced rule line", async () => {
+    const { getByText } = await renderApp({
+      lists: { default: [whiteExpression] },
+      settings: settingsWith({ [SettingID.POPUP_ADVANCED]: true }),
+    });
+    expect(getByText("matchedRuleText[*.example.com]")).toBeTruthy();
+  });
+
+  it("offers three addable expressions on subdomains in advanced mode", async () => {
     global.browser.tabs.query.mockResolvedValue([
       { ...tabFixture, url: "https://sub.example.com/" },
     ]);
-    const { getByText, getAllByText } = await renderApp();
-    expect(getByText("*.example.com")).toBeTruthy();
-    expect(getAllByText("sub.example.com")).toHaveLength(2);
-    expect(getByText("*.sub.example.com")).toBeTruthy();
+    const { getAllByText } = await renderApp({
+      settings: settingsWith({ [SettingID.POPUP_ADVANCED]: true }),
+    });
+    expect(getAllByText("keepButtonText")).toHaveLength(3);
+  });
+
+  it("summarizes the last clean in the footer and opens settings from More controls", async () => {
+    const closeSpy = jest.spyOn(window, "close").mockImplementation(() => {});
+    const { getByText } = await renderApp({
+      activityLog: [
+        {
+          dateTime: new Date(2026, 6, 6, 14, 32).toString(),
+          recentlyCleaned: 2,
+          siteDataCleaned: false,
+          storeIds: { default: [{}, {}] as CleanReasonObject[] },
+        } as ActivityLog,
+      ],
+    });
+    expect(document.getElementById("lastCleanSummary")?.textContent).toContain(
+      "lastCleanSummaryText[2|"
+    );
+    fireEvent.click(getByText("moreControlsText"));
+    expect(global.browser.tabs.create).toHaveBeenCalledWith({
+      index: 1,
+      url: "/settings/settings.html#tabSettings",
+    });
+    expect(closeSpy).toHaveBeenCalled();
+    closeSpy.mockRestore();
   });
 
   it("recounts the cookies when the port reports a cookie update", async () => {
@@ -213,48 +331,11 @@ describe("popup App", () => {
     listener({ cookieUpdated: true });
     await waitFor(() => {
       expect(
-        (document.getElementById("CADCookieCount") as HTMLElement).textContent
+        (document.getElementById("siteCookieCount") as HTMLElement).textContent
       ).toBe("1");
     });
     expect(global.browser.cookies.getAll).toHaveBeenCalledWith(
       expect.objectContaining({ domain: "example.com" })
     );
-  });
-
-  it("toggles the clean-options panel from the caret and closes it on outside clicks", async () => {
-    await renderApp();
-    // Hidden until the caret expands it (React state since #41; the
-    // Bootstrap collapse plugin and its show class are gone).
-    expect(document.getElementById("cleanCollapse")).toBeNull();
-
-    const caret = document.getElementById("cleanOptionsToggle") as HTMLElement;
-    fireEvent.click(caret);
-    expect(document.getElementById("cleanCollapse")).not.toBeNull();
-    expect(caret.getAttribute("aria-expanded")).toBe("true");
-
-    // A second caret click collapses it again...
-    fireEvent.click(caret);
-    expect(document.getElementById("cleanCollapse")).toBeNull();
-
-    // ...and any click outside the caret closes an open panel.
-    fireEvent.click(caret);
-    expect(document.getElementById("cleanCollapse")).not.toBeNull();
-    fireEvent.click(document.getElementById("CADTitle") as HTMLElement);
-    expect(document.getElementById("cleanCollapse")).toBeNull();
-  });
-
-  it("shows the tab favicon unless it comes from a chrome: url", async () => {
-    global.browser.tabs.query.mockResolvedValue([
-      { ...tabFixture, favIconUrl: "https://example.com/favicon.ico" },
-    ]);
-    const withFavicon = await renderApp();
-    expect(withFavicon.getByAltText("favIcon")).toBeTruthy();
-    withFavicon.unmount();
-
-    global.browser.tabs.query.mockResolvedValue([
-      { ...tabFixture, favIconUrl: "chrome://favicon/https://example.com" },
-    ]);
-    const chromeFavicon = await renderApp();
-    expect(chromeFavicon.queryByAltText("favIcon")).toBeNull();
   });
 });

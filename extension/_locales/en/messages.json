@@ -1104,5 +1104,217 @@
   "keepLocalStorageGreyText": {
     "message": "Keep LocalStorage until restart",
     "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries. (correctly-cased duplicate: SiteDataType.LOCALSTORAGE is \"LocalStorage\", so the expression options build keepLocalStorage*Text; the lowercase originals stay for compatibility)"
+  },
+  "popupHeroOnText": {
+    "message": "Auto-delete is on",
+    "description": "Popup hero title while automatic cleaning is enabled and the current site is not kept"
+  },
+  "popupHeroForgetText": {
+    "message": "This site won't remember you.",
+    "description": "Popup hero subtitle while automatic cleaning is enabled and the current site is not kept"
+  },
+  "popupHeroOffText": {
+    "message": "Auto-delete is off",
+    "description": "Popup hero title while automatic cleaning is disabled"
+  },
+  "popupHeroOffSubText": {
+    "message": "Nothing is deleted automatically.",
+    "description": "Popup hero subtitle while automatic cleaning is disabled"
+  },
+  "popupHeroKeepingText": {
+    "message": "Keeping this site's cookies",
+    "description": "Popup hero title when a keep rule matches the current site"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$ is on your keep list",
+    "description": "Popup hero subtitle when a permanent keep rule (whitelist) matches the current site",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$ is kept until the browser closes",
+    "description": "Popup hero subtitle when a session keep rule (greylist) matches the current site",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "will be cleaned",
+    "description": "Popup site badge when the current site's cookies will be deleted"
+  },
+  "siteKeptText": {
+    "message": "kept",
+    "description": "Popup site badge when a keep rule matches the current site"
+  },
+  "siteCleanDelayText": {
+    "message": "Cookies are deleted $SECONDS$ s after you leave this site.",
+    "description": "Popup site status line when the site will be cleaned",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "This site's cookies are never deleted.",
+    "description": "Popup site status line when a permanent keep rule matches"
+  },
+  "siteKeptSessionStatusText": {
+    "message": "This site's cookies stay until the browser closes.",
+    "description": "Popup site status line when a session keep rule matches"
+  },
+  "keepCookiesButtonText": {
+    "message": "Keep cookies for this site",
+    "description": "Primary popup action: whitelist the current site"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$ and its subdomains won't be deleted",
+    "description": "Caption under the primary keep action",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "Keep until browser closes",
+    "description": "Secondary popup action: greylist the current site"
+  },
+  "stopKeepingButtonText": {
+    "message": "Stop keeping this site",
+    "description": "Popup action that removes the keep rule matching the current site"
+  },
+  "cleanNowText": {
+    "message": "Clean now",
+    "description": "Popup clean action label"
+  },
+  "cleanNowTooltipText": {
+    "message": "Deletes cookies from sites you haven't kept — sites open in other tabs are skipped.",
+    "description": "Tooltip for the Clean now action"
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "Clean now, including open tabs",
+    "description": "Advanced clean menu item"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "Same as Clean now, but sites open in other tabs are no longer skipped. Only kept sites survive.",
+    "description": "Tooltip for the include-open-tabs clean item"
+  },
+  "deleteSiteCookiesText": {
+    "message": "Delete this site's cookies",
+    "description": "Advanced clean menu item scoped to the current site"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "Delete $DOMAIN$'s cookies right now, even though it's open. Keep rules are ignored for this one action.",
+    "description": "Tooltip for the delete-site-cookies item",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "Delete everything this site stored",
+    "description": "Advanced clean menu item scoped to the current site, all data types"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "Delete everything $DOMAIN$ stored on this device: cookies, cache, local storage, databases, workers.",
+    "description": "Tooltip for the delete-site-data item",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "Keep",
+    "description": "Advanced per-domain action: whitelist this exact expression"
+  },
+  "keepButtonTooltipText": {
+    "message": "Cookies for this site are never deleted.",
+    "description": "Tooltip for the per-domain Keep action"
+  },
+  "keepSessionButtonText": {
+    "message": "Keep this session",
+    "description": "Advanced per-domain action: greylist this exact expression"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "Cookies stay until you close the browser, then they're deleted on the next start.",
+    "description": "Tooltip for the per-domain Keep-this-session action"
+  },
+  "noRuleMatchText": {
+    "message": "No saved rule matches this site",
+    "description": "Advanced popup line when no expression matches the current site"
+  },
+  "matchedRuleText": {
+    "message": "Matched rule: $EXPRESSION$",
+    "description": "Advanced popup line naming the expression that matches the current site",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "More cleaning options",
+    "description": "Advanced popup disclosure for the scoped clean actions"
+  },
+  "shareText": {
+    "message": "Share",
+    "description": "Popup share menu button"
+  },
+  "shareTooltipText": {
+    "message": "Tell a friend about this extension",
+    "description": "Tooltip for the share menu button"
+  },
+  "shareCopyLinkText": {
+    "message": "Copy link to the extension page",
+    "description": "Share menu action that copies the extension page URL"
+  },
+  "shareCopiedText": {
+    "message": "Link copied",
+    "description": "Share menu confirmation after copying the link"
+  },
+  "shareEmailText": {
+    "message": "Share by email",
+    "description": "Share menu action that opens a mail draft with the extension page URL"
+  },
+  "moreControlsText": {
+    "message": "More controls…",
+    "description": "Popup footer link that opens the settings page"
+  },
+  "lastCleanSummaryText": {
+    "message": "Last clean: $COUNT$ cookies · $TIME$",
+    "description": "Popup footer summary of the most recent cleanup",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "Show advanced controls in the popup",
+    "description": "Settings toggle that reveals the popup's advanced controls"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "Reveals exact-domain rules (like *.example.com vs example.com), the matched rule, and per-site cleaning options.",
+    "description": "Helper text for the advanced popup controls toggle"
   }
 }

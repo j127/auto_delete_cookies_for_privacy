@@ -11,38 +11,36 @@
  * SOFTWARE.
  */
 import * as React from "react";
-import Icon from "@/ui/common-components/Icon";
-import { useDispatch, useSelector, useStore } from "react-redux";
-import {
-  addExpressionUI,
-  cookieCleanupUI,
-  updateSetting,
-} from "@/redux/actions";
+import { useSelector, useStore } from "react-redux";
 import {
   ADCPCOOKIENAME,
   extractMainDomain,
   getAllCookiesForDomain,
   getHostname,
+  getMatchedExpressions,
   isAnIP,
-  localFileToRegex,
   parseCookieStoreId,
 } from "@/services/libs";
-import { FilterOptions, ListType, SettingID } from "@/typings/enums";
-import ActivityTable from "@/ui/common-components/ActivityTable";
-import IconButton from "@/ui/common-components/IconButton";
-import CleanCollapseGroup from "./components/CleanCollapseGroup";
-import FilteredExpression from "./components/FilteredExpression";
-import { animateFlash } from "./popup-lib";
+import { ListType, SettingID } from "@/typings/enums";
+import AdvancedControls from "./components/AdvancedControls";
+import KeepActions from "./components/KeepActions";
+import MoreCleaningOptions from "./components/MoreCleaningOptions";
+import PopupFooter from "./components/PopupFooter";
+import PopupHero from "./components/PopupHero";
+import ShareMenu from "./components/ShareMenu";
+import SiteCard from "./components/SiteCard";
 
+/**
+ * The 05d-design popup: name bar with Share, state hero, site card, keep
+ * actions — and, behind the "Show advanced controls in the popup" setting,
+ * the matched-rule line, exact-expression rows, and the scoped clean menu.
+ */
 const App: React.FunctionComponent = () => {
-  // Only the settings slice is rendered here; selecting it (instead of the
-  // root state) avoids re-renders on unrelated store changes and react-redux's
-  // dev warning about root-state selectors.
+  // Only the slices rendered here are selected; event handlers read the
+  // full state fresh from the store at event time.
   const settings = useSelector((s: State) => s.settings);
-  // Event handlers and the port listener need the full state; they read it
-  // fresh from the store at event time.
+  const lists = useSelector((s: State) => s.lists);
   const store = useStore();
-  const dispatch = useDispatch<any>();
 
   const [cookieCount, setCookieCount] = React.useState(0);
   const [tab, setTab] = React.useState<browser.tabs.Tab | undefined>(undefined);
@@ -50,18 +48,11 @@ const App: React.FunctionComponent = () => {
   // Bumped after an external port disconnect so the port effect re-runs and
   // reconnects.
   const [reconnectAttempt, setReconnectAttempt] = React.useState(0);
-  // The additional-cleaning-options panel. React state replaces the
-  // Bootstrap/jQuery collapse plugin (#41): the caret toggles it, and any
-  // other click in the popup (including the panel's own buttons, after they
-  // fire) bubbles to the root handler below and closes it — matching the old
-  // data-toggle behavior.
-  const [cleanOptionsOpen, setCleanOptionsOpen] = React.useState(false);
 
   const port = React.useRef<browser.runtime.Port | null>(null);
 
   // Keep the latest tab readable from the long-lived port listeners without
-  // having to re-create the port on every render. The redux state needs no
-  // ref: the listeners read it fresh from the store at event time.
+  // having to re-create the port on every render.
   const tabRef = React.useRef(tab);
   React.useEffect(() => {
     tabRef.current = tab;
@@ -105,9 +96,8 @@ const App: React.FunctionComponent = () => {
     // this effect intentionally runs on mount only.
   }, []);
 
-  // The long-lived port used to be opened as a side effect of render(); as a
-  // function component it lives in this effect, which waits until the active
-  // tab is known and disconnects on unmount.
+  // The long-lived cookie-count port; waits until the active tab is known
+  // and disconnects on unmount.
   React.useEffect(() => {
     if (!tab) return;
     const hostname = getHostname(tab.url);
@@ -166,193 +156,60 @@ const App: React.FunctionComponent = () => {
     addableHostnames.push(`*.${hostname}`);
   }
 
+  const domain = mainDomain || hostname;
+  const keepExpression =
+    addableHostnames.find((h) => h === `*.${domain}`) ?? hostname;
+
+  // Prefer a permanent keep rule for the hero/badge when several match.
+  const matchedExpressions = getMatchedExpressions(lists, storeId, hostname);
+  const matched =
+    matchedExpressions.find((e) => e.listType === ListType.WHITE) ??
+    matchedExpressions[0];
+
+  const activeMode = Boolean(settings[SettingID.ACTIVE_MODE].value);
+  const advanced = Boolean(settings[SettingID.POPUP_ADVANCED]?.value);
+  const cleanDelay = (settings[SettingID.CLEAN_DELAY].value as number) || 15;
+
   return (
-    <div
-      id="cadPopup"
-      className="overflow-auto"
-      onClick={() => {
-        if (cleanOptionsOpen) setCleanOptionsOpen(false);
-      }}
-    >
-      <header className="flex items-center justify-center gap-2 bg-base-200 px-3 pt-2 pb-1">
-        <span id="CADTitle" className="text-sm font-semibold">
+    <div className="flex flex-col" id="cadPopup">
+      <header className="flex items-center gap-2 border-b border-base-300 px-4 py-2">
+        <span
+          className="min-w-0 flex-1 truncate text-sm font-semibold"
+          id="CADTitle"
+        >
           {browser.i18n.getMessage("extensionName")}
         </span>
-        <span
-          id="CADVersion"
-          className="badge font-mono badge-sm badge-neutral"
-        >
-          {browser.runtime.getManifest().version}
+        <span className="text-xs text-base-content/60" id="CADVersion">
+          v{browser.runtime.getManifest().version}
         </span>
+        <ShareMenu />
       </header>
-      <div className="flex flex-wrap items-center justify-center gap-1.5 border-b border-base-300 bg-base-200 p-2">
-        <IconButton
-          iconName="power-off"
-          className={`${
-            settings[SettingID.ACTIVE_MODE].value ? "btn-success" : "btn-error"
-          } btn-sm`}
-          onClick={() =>
-            dispatch(
-              updateSetting({
-                ...settings[SettingID.ACTIVE_MODE],
-                value: !settings[SettingID.ACTIVE_MODE].value,
-              })
-            )
-          }
-          title={
-            settings[SettingID.ACTIVE_MODE].value
-              ? browser.i18n.getMessage("disableAutoDeleteText")
-              : browser.i18n.getMessage("enableAutoDeleteText")
-          }
-          text={
-            settings[SettingID.ACTIVE_MODE].value
-              ? browser.i18n.getMessage("autoDeleteEnabledText")
-              : browser.i18n.getMessage("autoDeleteDisabledText")
-          }
+      <PopupHero
+        activeMode={activeMode}
+        domain={domain}
+        matchedListType={matched?.listType as ListType | undefined}
+      />
+      <SiteCard
+        cleanDelay={cleanDelay}
+        cookieCount={cookieCount}
+        hostname={hostname}
+        matchedListType={matched?.listType as ListType | undefined}
+      />
+      {advanced && (
+        <AdvancedControls
+          addableHostnames={addableHostnames}
+          matched={matched}
+          storeId={storeId}
         />
-        <IconButton
-          iconName={
-            settings[SettingID.NOTIFY_AUTO].value ? "bell" : "bell-slash"
-          }
-          className={`${
-            settings[SettingID.NOTIFY_AUTO].value ? "btn-success" : "btn-error"
-          } btn-sm`}
-          onClick={() =>
-            dispatch(
-              updateSetting({
-                ...settings[SettingID.NOTIFY_AUTO],
-                value: !settings[SettingID.NOTIFY_AUTO].value,
-              })
-            )
-          }
-          title={browser.i18n.getMessage("toggleNotificationText")}
-          text={
-            settings[SettingID.NOTIFY_AUTO].value
-              ? browser.i18n.getMessage("notificationEnabledText")
-              : browser.i18n.getMessage("notificationDisabledText")
-          }
-        />
-        <div
-          id="cleanButtonContainer"
-          className="join"
-          role="group"
-          aria-label="Clean Actions Group"
-        >
-          <IconButton
-            iconName="eraser"
-            className="join-item btn-sm btn-warning"
-            type="button"
-            onClick={() => {
-              dispatch(
-                cookieCleanupUI({
-                  greyCleanup: false,
-                  ignoreOpenTabs: false,
-                })
-              );
-              animateFlash(
-                document.getElementById("cleanButtonContainer"),
-                true
-              );
-            }}
-            title={browser.i18n.getMessage("cookieCleanupText")}
-            text={browser.i18n.getMessage("cleanText")}
-          />
-          <button
-            aria-controls="cleanCollapse"
-            aria-expanded={cleanOptionsOpen}
-            id="cleanOptionsToggle"
-            className="btn join-item px-1.5 btn-sm btn-warning"
-            type="button"
-            onClick={(e) => {
-              // Keep the root close-on-any-click handler from immediately
-              // undoing the toggle.
-              e.stopPropagation();
-              setCleanOptionsOpen((open) => !open);
-            }}
-          >
-            <Icon name="chevron-down" size="sm" />
-            <span className="sr-only">
-              {browser.i18n.getMessage("dropdownAdditionalCleaningOptions")}
-            </span>
-          </button>
-        </div>
-        <IconButton
-          iconName="cog"
-          className="btn-info btn-sm"
-          onClick={() => {
-            browser.tabs.create({
-              index: tab.index + 1,
-              url: "/settings/settings.html#tabSettings",
-            });
-            window.close();
-          }}
-          title={browser.i18n.getMessage("preferencesText")}
-          text={browser.i18n.getMessage("preferencesText")}
-        />
-      </div>
-      {cleanOptionsOpen && (
-        <CleanCollapseGroup hostname={hostname || ""} tab={tab} />
       )}
-
-      <main className="flex flex-col gap-2 p-3">
-        <div className="flex items-center gap-2">
-          {tab.favIconUrl && !tab.favIconUrl.startsWith("chrome:") && (
-            <img alt={"favIcon"} src={tab.favIconUrl} className="h-5 w-5" />
-          )}
-          <span className="min-w-0 flex-1 truncate text-lg">{hostname}</span>
-          <span className="text-end whitespace-nowrap">
-            <span id="CADCookieText">
-              {browser.i18n.getMessage("popupCookieCountText")}
-            </span>
-            :&nbsp;
-            <span id="CADCookieCount" className="font-bold">
-              {cookieCount}
-            </span>
-          </span>
-        </div>
-
-        {addableHostnames.map((addableHostname) => (
-          <div key={addableHostname} className="flex items-center gap-2">
-            <div className="min-w-0 flex-1 truncate">{addableHostname}</div>
-            <div className="join">
-              <IconButton
-                className="join-item btn-secondary btn-sm"
-                onClick={() => {
-                  dispatch(
-                    addExpressionUI({
-                      expression: localFileToRegex(addableHostname),
-                      listType: ListType.GREY,
-                      storeId,
-                    })
-                  );
-                }}
-                iconName="plus"
-                title={browser.i18n.getMessage("toGreyListText")}
-                text={browser.i18n.getMessage("greyListWordText")}
-              />
-
-              <IconButton
-                className="join-item btn-primary btn-sm"
-                onClick={() => {
-                  dispatch(
-                    addExpressionUI({
-                      expression: localFileToRegex(addableHostname),
-                      listType: ListType.WHITE,
-                      storeId,
-                    })
-                  );
-                }}
-                iconName="plus"
-                title={browser.i18n.getMessage("toWhiteListText")}
-                text={browser.i18n.getMessage("whiteListWordText")}
-              />
-            </div>
-          </div>
-        ))}
-
-        <FilteredExpression url={hostname} storeId={storeId} />
-        <ActivityTable numberToShow={3} decisionFilter={FilterOptions.CLEAN} />
-      </main>
+      <KeepActions
+        domain={domain}
+        keepExpression={keepExpression}
+        matched={matched}
+        storeId={storeId}
+      />
+      {advanced && <MoreCleaningOptions hostname={hostname} tab={tab} />}
+      <PopupFooter tabIndex={tab.index} />
     </div>
   );
 };
