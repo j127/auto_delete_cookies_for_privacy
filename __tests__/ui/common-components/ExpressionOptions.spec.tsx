@@ -8,11 +8,7 @@ import { createStore } from "redux";
 import { initialState } from "@/redux/state";
 import { ReduxConstants } from "@/typings/redux-constants";
 import { ListType, SiteDataType } from "@/typings/enums";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
 import ExpressionOptions from "@/ui/common-components/ExpressionOptions";
-
-// Register the FontAwesome icons the entrypoints normally provide.
-fontAwesomeImports();
 
 const baseExpression: Expression = {
   expression: "example.com",

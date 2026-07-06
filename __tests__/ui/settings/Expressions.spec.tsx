@@ -8,11 +8,7 @@ import { createStore } from "redux";
 import { initialState } from "@/redux/state";
 import { ListType } from "@/typings/enums";
 import { ReduxConstants } from "@/typings/redux-constants";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
 import Expressions from "@/ui/settings/components/Expressions";
-
-// Register the FontAwesome icons the settings entrypoint normally provides.
-fontAwesomeImports();
 
 const sampleLists: StoreIdToExpressionList = {
   default: [

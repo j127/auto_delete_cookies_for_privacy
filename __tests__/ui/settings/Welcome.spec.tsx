@@ -7,11 +7,7 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
 import { ReduxConstants } from "@/typings/redux-constants";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
 import Welcome from "@/ui/settings/components/Welcome";
-
-// Register the FontAwesome icons the settings entrypoint normally provides.
-fontAwesomeImports();
 
 const FORK_BASE = "https://github.com/j127/auto_delete_cookies_for_privacy";
 

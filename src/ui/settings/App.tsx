@@ -10,11 +10,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SettingID } from "@/typings/enums";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import ErrorBoundary from "@/ui/common-components/ErrorBoundary";
+import Icon from "@/ui/common-components/Icon";
 import About from "./components/About";
 import ActivityLog from "./components/ActivityLog";
 import Expressions from "./components/Expressions";
@@ -80,7 +80,7 @@ const App: React.FunctionComponent = () => {
               className="drawer-button btn btn-ghost lg:hidden"
               aria-label={browser.i18n.getMessage("menuText")}
             >
-              <FontAwesomeIcon size={"lg"} icon="bars" />
+              <Icon size="lg" name="bars" />
             </label>
             <span className="px-2 text-lg font-semibold">
               {browser.i18n.getMessage("extensionName")}

@@ -7,10 +7,6 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
 import { SettingID } from "@/typings/enums";
-import fontAwesomeImports from "@/ui/font-awesome-imports";
-
-// Register the FontAwesome icons the settings entrypoint normally provides.
-fontAwesomeImports();
 
 // App renders SideBar, which resolves its tab labels through browser.i18n at
 // module load time, so the mock implementation must be in place before the

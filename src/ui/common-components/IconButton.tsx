@@ -10,17 +10,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import {
-  FontAwesomeIcon,
-  FontAwesomeIconProps,
-} from "@fortawesome/react-fontawesome";
 import * as React from "react";
+import Icon, { IconName } from "./Icon";
 
 interface IconButtonProps {
   accept?: string;
-  iconName: IconProp;
-  iconSize?: FontAwesomeIconProps["size"];
+  iconName: IconName;
+  iconSize?: React.ComponentProps<typeof Icon>["size"];
   className: string;
   styleReact?: React.CSSProperties;
   text?: string;
@@ -61,7 +57,7 @@ export default function IconButton(props: IconButtonProps) {
         ...styleReact,
       }}
     >
-      <FontAwesomeIcon
+      <Icon
         style={
           text
             ? {
@@ -69,7 +65,7 @@ export default function IconButton(props: IconButtonProps) {
               }
             : undefined
         }
-        icon={iconName}
+        name={iconName}
         size={iconSize}
       />
       {text}
