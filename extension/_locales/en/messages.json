@@ -200,8 +200,8 @@
     "description": "Copy to Clipboard.  Shown in a button to take action upon click."
   },
   "createDefaultExpressionOptionsText": {
-    "message": "Create Default Options for This List",
-    "description": "Create Default Options for This List. Used in 'List of Expressions'"
+    "message": "Create default options",
+    "description": "Adds the _Default keep rules to the lists. Saved sites card footer."
   },
   "debugMode": {
     "message": "Debug Mode (Verbose Console Logging)",
@@ -224,8 +224,8 @@
     "description": "Documentation"
   },
   "domainExpressionsText": {
-    "message": "Domain Expression",
-    "description": "Domain Expression"
+    "message": "Site",
+    "description": "Saved-sites table column header for the pattern"
   },
   "domainPlaceholderText": {
     "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/",
@@ -268,8 +268,8 @@
     "description": "Export settings... Found in ADCP Settings."
   },
   "exportURLSText": {
-    "message": "Export expressions...",
-    "description": "Export expressions... Found in List of Expressions."
+    "message": "Export saved sites",
+    "description": "Export the saved-sites lists as JSON. Saved sites card footer and crash screen."
   },
   "exportTitleTimestamp": {
     "message": "Exported filenames get a timestamp appended.",
@@ -354,8 +354,8 @@
     "description": "Missing identifier"
   },
   "importURLSText": {
-    "message": "Import expressions...",
-    "description": "Import expressions... Found in List of Expressions."
+    "message": "Import saved sites",
+    "description": "Import saved-sites lists from a JSON export. Saved sites card footer."
   },
   "importValidExpressions": {
     "message": "Imported $num$ expression(s) from $filename$.",
@@ -484,8 +484,8 @@
     "description": "Keep"
   },
   "listTypeText": {
-    "message": "List Type",
-    "description": "List Type"
+    "message": "How long",
+    "description": "Saved-sites table column header for the Kept / Until restart badge"
   },
   "localStorageCleanupText": {
     "message": "Enable LocalStorage Cleanup",
@@ -740,8 +740,8 @@
     "description": "Debug output lives in the extension's console. Open a new tab and go to"
   },
   "optionsText": {
-    "message": "Options",
-    "description": "Options"
+    "message": "What it keeps",
+    "description": "Saved-sites table column header for the plain-language options summary"
   },
   "pluginDataCleanupText": {
     "message": "Enable Plugin Data Cleanup",
@@ -760,8 +760,8 @@
     "description": "Settings"
   },
   "questionExpression": {
-    "message": "What are expressions?",
-    "description": "What are expressions?"
+    "message": "How do patterns work?",
+    "description": "Accordion title above the saved-sites table explaining pattern syntax"
   },
   "reasonCADSiteDataCookie": {
     "message": "Internal marker cookie removed to fire the site-data cleanup for $hostname$.",
@@ -888,8 +888,8 @@
     "description": "Remove Log Entry. Shown in summary activity log for individual log removal."
   },
   "removeAllExpressions": {
-    "message": "Remove All Expressions",
-    "description": "Remove All Expressions"
+    "message": "Remove all",
+    "description": "Removes every saved site after a typed confirmation. Saved sites card footer."
   },
   "removeAllExpressionsConfirm": {
     "message": "This removes all $expressionCount$ expression(s) across $listCount$ list(s), permanently.\n\nThere is no undo.\n\nType [ $expressionCount$ ] and press OK to confirm.",
@@ -1376,5 +1376,77 @@
   "advancedChooseTypesText": {
     "message": "Advanced — choose exactly what to delete",
     "description": "Accordion label revealing the per-type site-data toggles"
+  },
+  "patternColumnText": {
+    "message": "Pattern",
+    "description": "Pattern-syntax help table column header for the example pattern"
+  },
+  "patternMeaningColumnText": {
+    "message": "What it matches",
+    "description": "Pattern-syntax help table column header for the explanation"
+  },
+  "patternDomainMeaningText": {
+    "message": "Exactly this domain",
+    "description": "Pattern-syntax help: plain domain example"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "The domain and every subdomain",
+    "description": "Pattern-syntax help: *.domain example"
+  },
+  "patternIPMeaningText": {
+    "message": "A single IP address",
+    "description": "Pattern-syntax help: IP example"
+  },
+  "patternCIDRMeaningText": {
+    "message": "Every address in the range",
+    "description": "Pattern-syntax help: CIDR example"
+  },
+  "patternRegexMeaningText": {
+    "message": "Advanced: a regular expression between slashes",
+    "description": "Pattern-syntax help: regex example"
+  },
+  "patternFileMeaningText": {
+    "message": "Local files opened in the browser",
+    "description": "Pattern-syntax help: file:// example"
+  },
+  "patternKeepLevelsText": {
+    "message": "“Keep” saves a site's data permanently. “Keep this session” saves it only until the browser closes.",
+    "description": "Sentence above the pattern-syntax table explaining the two keep levels"
+  },
+  "summaryKeepsEverythingText": {
+    "message": "Keeps everything",
+    "description": "Options summary when nothing is cleaned for the site"
+  },
+  "summaryAllCookiesText": {
+    "message": "All cookies",
+    "description": "Options summary part: every cookie is kept"
+  },
+  "toggleOptionsText": {
+    "message": "Show or hide options",
+    "description": "Saved-sites row expander button tooltip"
+  },
+  "summaryNamedCookiesText": {
+    "message": "$COUNT$ named cookies",
+    "description": "Options summary part: only the listed cookies are kept",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "Clears $TYPES$",
+    "description": "Options summary part: these site-data types get cleaned",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "All saved sites were removed.",
+    "description": "Success alert after the remove-all confirmation"
   }
 }

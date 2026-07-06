@@ -27,6 +27,7 @@ import {
 } from "@/services/libs";
 import { ReduxAction } from "@/typings/redux-constants";
 import ExpressionTable from "@/ui/common-components/ExpressionTable";
+import Icon from "@/ui/common-components/Icon";
 import IconButton from "@/ui/common-components/IconButton";
 import { downloadObjectAsJSON } from "@/ui/ui-libs";
 import SettingsTooltip from "./SettingsTooltip";
@@ -246,7 +247,7 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
       );
       if (r !== null && r === expCount.toString()) {
         onClearExpressions(lists);
-        setSuccess(browser.i18n.getMessage("removeAllExpressions"));
+        setSuccess(browser.i18n.getMessage("removedAllExpressionsText"));
       }
     }
   };
@@ -305,103 +306,6 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
         {browser.i18n.getMessage("savedSitesSubText")}
       </p>
 
-      <div className="join w-full">
-        <input
-          className="input join-item w-full"
-          value={expressionInput}
-          onChange={(e) => setExpressionInput(e.target.value)}
-          placeholder={browser.i18n.getMessage("domainPlaceholderText")}
-          onKeyUp={(e) => {
-            if (e.key.toLowerCase() === "enter") {
-              addExpressionByInput({
-                expression: expressionInput,
-                listType: e.shiftKey ? ListType.GREY : ListType.WHITE,
-                storeId,
-              });
-            }
-          }}
-          type="url"
-          id="formText"
-          autoFocus={true}
-          formNoValidate={true}
-        />
-        <IconButton
-          className="join-item btn-secondary"
-          onClick={() => {
-            addExpressionByInput({
-              expression: expressionInput,
-              listType: ListType.GREY,
-              storeId,
-            });
-          }}
-          iconName="plus"
-          title={browser.i18n.getMessage("keepSessionButtonTooltipText")}
-          text={browser.i18n.getMessage("keepSessionButtonText")}
-        />
-        <IconButton
-          className="join-item btn-primary"
-          onClick={() => {
-            addExpressionByInput({
-              expression: expressionInput,
-              listType: ListType.WHITE,
-              storeId,
-            });
-          }}
-          iconName="plus"
-          title={browser.i18n.getMessage("keepButtonTooltipText")}
-          text={browser.i18n.getMessage("keepButtonText")}
-        />
-      </div>
-      <div className="mt-2 mb-4 flex items-center">
-        <a
-          className="link link-primary"
-          target="_blank"
-          rel="help noreferrer noopener"
-          href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
-        >
-          {browser.i18n.getMessage("questionExpression")}
-        </a>
-        <SettingsTooltip hrefURL="expressions.md#writing-expressions" />
-      </div>
-      <div className="mb-4 flex flex-wrap gap-2">
-        <IconButton
-          className="btn-primary btn-sm"
-          iconName="download"
-          role="button"
-          onClick={() => downloadObjectAsJSON(lists, "Expressions")}
-          title={browser.i18n.getMessage("exportTitleTimestamp")}
-          text={browser.i18n.getMessage("exportURLSText")}
-        />
-        <IconButton
-          tag="input"
-          className="btn-info btn-sm"
-          iconName="upload"
-          type="file"
-          accept="application/json"
-          onChange={(e) => importExpressions(e.target.files[0])}
-          text={browser.i18n.getMessage("importURLSText")}
-          title={browser.i18n.getMessage("importURLSText")}
-        />
-        <IconButton
-          tag="button"
-          className="btn-error btn-sm"
-          iconName="trash"
-          role="button"
-          onClick={() => clearListsConfirmation(lists)}
-          text={browser.i18n.getMessage("removeAllExpressions")}
-          title={browser.i18n.getMessage("removeAllExpressions")}
-        />
-        <IconButton
-          tag="button"
-          className="btn-neutral btn-sm"
-          iconName="list-alt"
-          role="button"
-          onClick={() => createDefaultOptions()}
-          text={browser.i18n.getMessage("createDefaultExpressionOptionsText")}
-          title={browser.i18n.getMessage("createDefaultExpressionOptionsText")}
-        />
-      </div>
-
       {error !== "" ? (
         <div
           onClick={() => setErrorMessage("")}
@@ -424,28 +328,189 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
       ) : (
         ""
       )}
-      <div className="max-h-[calc(100vh-16rem)] overflow-auto">
-        <ExpressionTable
-          expressionColumnTitle={browser.i18n.getMessage(
-            "domainExpressionsText"
-          )}
-          expressions={getMatchedExpressions(
-            lists,
-            storeId,
-            expressionInput,
-            true
-          )}
-          storeId={storeId}
-          emptyElement={
-            <span>
-              {browser.i18n.getMessage(
-                expressionInput.trim().length === 0
-                  ? "noExpressionsText"
-                  : "noSearchExpressionsFound"
-              )}
-            </span>
-          }
-        />
+
+      <div className="rounded-box border border-base-300 bg-base-100">
+        <div className="border-b border-base-300 p-3">
+          <div className="join w-full">
+            <input
+              className="input join-item w-full"
+              value={expressionInput}
+              onChange={(e) => setExpressionInput(e.target.value)}
+              placeholder={browser.i18n.getMessage("domainPlaceholderText")}
+              onKeyUp={(e) => {
+                if (e.key.toLowerCase() === "enter") {
+                  addExpressionByInput({
+                    expression: expressionInput,
+                    listType: e.shiftKey ? ListType.GREY : ListType.WHITE,
+                    storeId,
+                  });
+                }
+              }}
+              type="url"
+              id="formText"
+              autoFocus={true}
+              formNoValidate={true}
+            />
+            <IconButton
+              className="join-item btn-secondary"
+              onClick={() => {
+                addExpressionByInput({
+                  expression: expressionInput,
+                  listType: ListType.GREY,
+                  storeId,
+                });
+              }}
+              iconName="plus"
+              title={browser.i18n.getMessage("keepSessionButtonTooltipText")}
+              text={browser.i18n.getMessage("keepSessionButtonText")}
+            />
+            <IconButton
+              className="join-item btn-primary"
+              onClick={() => {
+                addExpressionByInput({
+                  expression: expressionInput,
+                  listType: ListType.WHITE,
+                  storeId,
+                });
+              }}
+              iconName="plus"
+              title={browser.i18n.getMessage("keepButtonTooltipText")}
+              text={browser.i18n.getMessage("keepButtonText")}
+            />
+          </div>
+        </div>
+
+        <details className="group/patterns border-b border-base-300">
+          <summary className="flex cursor-pointer items-center gap-2 p-3 text-sm font-medium">
+            <Icon
+              className="group-open/patterns:rotate-90 rtl:-scale-x-100"
+              name="chevron-right"
+              size="sm"
+            />
+            {browser.i18n.getMessage("questionExpression")}
+          </summary>
+          <div className="px-3 pb-3">
+            <p className="mb-2 text-sm text-base-content/70">
+              {browser.i18n.getMessage("patternKeepLevelsText")}
+            </p>
+            <table className="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    {browser.i18n.getMessage("patternColumnText")}
+                  </th>
+                  <th scope="col">
+                    {browser.i18n.getMessage("patternMeaningColumnText")}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="font-mono">example.com</td>
+                  <td>{browser.i18n.getMessage("patternDomainMeaningText")}</td>
+                </tr>
+                <tr>
+                  <td className="font-mono">*.example.com</td>
+                  <td>
+                    {browser.i18n.getMessage("patternSubdomainsMeaningText")}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="font-mono">192.168.1.1</td>
+                  <td>{browser.i18n.getMessage("patternIPMeaningText")}</td>
+                </tr>
+                <tr>
+                  <td className="font-mono">192.168.1.0/24</td>
+                  <td>{browser.i18n.getMessage("patternCIDRMeaningText")}</td>
+                </tr>
+                <tr>
+                  <td className="font-mono">{"/^mail\\.example\\.com$/"}</td>
+                  <td>{browser.i18n.getMessage("patternRegexMeaningText")}</td>
+                </tr>
+                <tr>
+                  <td className="font-mono">file:///home/user/</td>
+                  <td>{browser.i18n.getMessage("patternFileMeaningText")}</td>
+                </tr>
+              </tbody>
+            </table>
+            <div className="mt-2 flex items-center">
+              <a
+                className="link text-sm link-primary"
+                target="_blank"
+                rel="help noreferrer noopener"
+                href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
+              >
+                {browser.i18n.getMessage("documentationText")}
+              </a>
+              <SettingsTooltip hrefURL="expressions.md#writing-expressions" />
+            </div>
+          </div>
+        </details>
+
+        <div className="max-h-[calc(100vh-20rem)] overflow-auto p-3">
+          <ExpressionTable
+            expressionColumnTitle={browser.i18n.getMessage(
+              "domainExpressionsText"
+            )}
+            expressions={getMatchedExpressions(
+              lists,
+              storeId,
+              expressionInput,
+              true
+            )}
+            storeId={storeId}
+            emptyElement={
+              <span>
+                {browser.i18n.getMessage(
+                  expressionInput.trim().length === 0
+                    ? "noExpressionsText"
+                    : "noSearchExpressionsFound"
+                )}
+              </span>
+            }
+          />
+        </div>
+
+        <div className="flex flex-wrap gap-2 border-t border-base-300 p-3">
+          <IconButton
+            className="btn-primary btn-sm"
+            iconName="download"
+            role="button"
+            onClick={() => downloadObjectAsJSON(lists, "Expressions")}
+            title={browser.i18n.getMessage("exportTitleTimestamp")}
+            text={browser.i18n.getMessage("exportURLSText")}
+          />
+          <IconButton
+            tag="input"
+            className="btn-info btn-sm"
+            iconName="upload"
+            type="file"
+            accept="application/json"
+            onChange={(e) => importExpressions(e.target.files[0])}
+            text={browser.i18n.getMessage("importURLSText")}
+            title={browser.i18n.getMessage("importURLSText")}
+          />
+          <IconButton
+            tag="button"
+            className="btn-neutral btn-sm"
+            iconName="list-alt"
+            role="button"
+            onClick={() => createDefaultOptions()}
+            text={browser.i18n.getMessage("createDefaultExpressionOptionsText")}
+            title={browser.i18n.getMessage(
+              "createDefaultExpressionOptionsText"
+            )}
+          />
+          <IconButton
+            tag="button"
+            className="ms-auto btn-error btn-sm"
+            iconName="trash"
+            role="button"
+            onClick={() => clearListsConfirmation(lists)}
+            text={browser.i18n.getMessage("removeAllExpressions")}
+            title={browser.i18n.getMessage("removeAllExpressions")}
+          />
+        </div>
       </div>
     </div>
   );

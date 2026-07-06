@@ -55,20 +55,51 @@ describe("Expressions", () => {
     expect(getByText("noExpressionsText")).not.toBeNull();
   });
 
-  it("renders the expressions help link with the tooltip as its sibling, not child", () => {
-    const { getByText } = renderExpressions();
-    const helpLink = getByText("questionExpression") as HTMLAnchorElement;
-    expect(helpLink.tagName).toBe("A");
-    expect(helpLink.getAttribute("href")).toBe(
+  it("explains pattern syntax in a collapsed accordion with the docs link", () => {
+    const { container, getByText } = renderExpressions();
+    const details = container.querySelector("details") as HTMLDetailsElement;
+    expect(details.open).toBe(false);
+    expect(
+      (details.querySelector("summary") as HTMLElement).textContent
+    ).toContain("questionExpression");
+    // The syntax table covers all six pattern forms.
+    expect(getByText("*.example.com")).not.toBeNull();
+    expect(getByText("192.168.1.0/24")).not.toBeNull();
+    expect(getByText("/^mail\\.example\\.com$/")).not.toBeNull();
+    expect(getByText("file:///home/user/")).not.toBeNull();
+    expect(getByText("patternKeepLevelsText")).not.toBeNull();
+    const docLink = getByText("documentationText") as HTMLAnchorElement;
+    expect(docLink.getAttribute("href")).toBe(
       "https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
     );
     // Regression guard (PR #91): the tooltip anchor must not be nested
-    // inside the help link.
-    expect(helpLink.querySelector("a")).toBeNull();
-    // Since #40 the doc link sits inside a DaisyUI tooltip wrapper span.
-    const tooltip = helpLink.nextElementSibling as HTMLElement;
+    // inside the help link; it sits in a DaisyUI tooltip wrapper next to it.
+    expect(docLink.querySelector("a")).toBeNull();
+    const tooltip = docLink.nextElementSibling as HTMLElement;
     expect(tooltip.classList.contains("tooltip")).toBe(true);
     expect(tooltip.querySelector("a")).not.toBeNull();
+  });
+
+  it("arranges the card as add bar, accordion, table area, footer actions", () => {
+    const { container, getByText } = renderExpressions();
+    const card = container.querySelector(".rounded-box") as HTMLElement;
+    const children = Array.from(card.children);
+    expect(children[0].querySelector("#formText")).not.toBeNull();
+    expect(children[1].tagName).toBe("DETAILS");
+    expect(children[2].textContent).toContain("noExpressionsText");
+    const footer = children[3] as HTMLElement;
+    [
+      "exportURLSText",
+      "importURLSText",
+      "createDefaultExpressionOptionsText",
+      "removeAllExpressions",
+    ].forEach((key) => expect(footer.textContent).toContain(key));
+    // Remove All is error-styled and pushed to the far end.
+    const removeAll = getByText("removeAllExpressions").closest(
+      "button"
+    ) as HTMLButtonElement;
+    expect(removeAll.className).toContain("btn-error");
+    expect(removeAll.className).toContain("ms-auto");
   });
 
   it("adds a whitelist expression when Enter is pressed in the input", () => {
@@ -135,15 +166,12 @@ describe("Expressions", () => {
 
   it("renders a table row per stored expression with its list type", () => {
     const { container } = renderExpressions({ lists: sampleLists });
-    const rows = container.querySelectorAll("tbody tr");
+    // The syntax-help table renders too, so scope to the expression table.
+    const rows = container.querySelectorAll("tbody.expressionTable tr");
     expect(rows).toHaveLength(2);
-    expect(
-      (rows[0].querySelector("textarea") as HTMLTextAreaElement).value
-    ).toBe("example.com");
+    expect(rows[0].textContent).toContain("example.com");
     expect(rows[0].textContent).toContain("keptBadgeText");
-    expect(
-      (rows[1].querySelector("textarea") as HTMLTextAreaElement).value
-    ).toBe("*.example.org");
+    expect(rows[1].textContent).toContain("*.example.org");
     expect(rows[1].textContent).toContain("sessionBadgeText");
   });
 
