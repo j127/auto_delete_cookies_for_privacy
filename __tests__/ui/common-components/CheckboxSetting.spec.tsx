@@ -12,10 +12,10 @@ describe("CheckboxSetting", () => {
     updateSetting = jest.fn();
   });
 
-  const renderCheckbox = (value: boolean, inline?: boolean) =>
+  const renderCheckbox = (value: boolean, description?: string) =>
     render(
       <CheckboxSetting
-        inline={inline}
+        description={description}
         settingObject={{ name: "activeMode", value }}
         text="activeModeText"
         updateSetting={updateSetting}
@@ -58,14 +58,20 @@ describe("CheckboxSetting", () => {
     });
   });
 
-  it("only renders the wrapper inline when the inline prop is given", () => {
-    const inlineRender = renderCheckbox(true, true);
-    const inlineWrapper = inlineRender.container.firstChild as HTMLElement;
-    expect(inlineWrapper.classList.contains("inline-flex")).toBe(true);
+  it("lays out text before the toggle (05d row order)", () => {
+    const { container } = renderCheckbox(true);
+    const label = container.firstChild as HTMLLabelElement;
+    expect(label.classList.contains("flex")).toBe(true);
+    const children = Array.from(label.children);
+    expect(children[0].tagName).toBe("SPAN");
+    expect(children[children.length - 1].tagName).toBe("INPUT");
+  });
 
-    const blockRender = renderCheckbox(true);
-    const blockWrapper = blockRender.container.firstChild as HTMLElement;
-    expect(blockWrapper.classList.contains("inline-flex")).toBe(false);
-    expect(blockWrapper.classList.contains("flex")).toBe(true);
+  it("renders a muted description under the label when given", () => {
+    const withDescription = renderCheckbox(true, "helper words");
+    expect(withDescription.getByText("helper words")).toBeTruthy();
+    withDescription.unmount();
+    const without = renderCheckbox(true);
+    expect(without.queryByText("helper words")).toBeNull();
   });
 });
