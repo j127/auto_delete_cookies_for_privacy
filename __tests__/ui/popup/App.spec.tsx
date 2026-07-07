@@ -174,7 +174,11 @@ describe("popup App", () => {
 
   it("opens a long-lived port named after the hostname and store", async () => {
     await renderApp();
-    expect(global.browser.runtime.connect).toHaveBeenCalledTimes(1);
+    // The port is connected in an effect; on a slow runner it may not have
+    // fired yet when this test resumes.
+    await waitFor(() =>
+      expect(global.browser.runtime.connect).toHaveBeenCalledTimes(1)
+    );
     expect(global.browser.runtime.connect).toHaveBeenCalledWith({
       name: "popupADCP_example.com,default",
     });
@@ -184,6 +188,11 @@ describe("popup App", () => {
 
   it("disconnects the port when the popup unmounts", async () => {
     const { unmount } = await renderApp();
+    // Unmount cleanup only disconnects a port that exists — wait for the
+    // connect effect before pulling the plug.
+    await waitFor(() =>
+      expect(global.browser.runtime.connect).toHaveBeenCalledTimes(1)
+    );
     expect(fakePort.disconnect).not.toHaveBeenCalled();
     unmount();
     expect(fakePort.disconnect).toHaveBeenCalledTimes(1);
