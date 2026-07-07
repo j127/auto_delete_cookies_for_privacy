@@ -12,7 +12,7 @@ Think of the handful of sites where being logged out would annoy you: your email
 
 That's it — the rule covers the domain and all its subdomains (sites often spread their login across several), exactly as the caption under the button says. If you only want the site remembered until you close the browser, use **Keep until browser closes** instead.
 
-Power users who want exact-hostname rules (`mail.example.com` vs `*.example.com`) can turn on **Show advanced controls in the popup** on the settings page; the popup then offers a per-hostname row for each variant. You can also right-click any page or link and add it from the context menu, or type expressions by hand on the **Saved sites** page — see [Expressions and Lists](./expressions.md).
+Power users who want exact-hostname rules (`mail.example.com` vs `*.example.com`) can turn on **Advanced mode** on the settings page; the popup then offers a per-hostname row for each variant. You can also right-click any page or link and add it from the context menu, or type expressions by hand on the **Saved sites** page — see [Expressions and Lists](./expressions.md).
 
 ## Step 2: Decide what "clean" means for you
 
@@ -20,7 +20,7 @@ Out of the box, cleaning removes **cookies only**. If you want a site's other le
 
 ## Step 3: Turn on automatic cleaning
 
-On the settings page (**Protection**), flip **Enable Automatic Cleaning**. The popup's header now reads "Auto-delete is on" — and from now on:
+On the settings page (**Protection**), flip **Clean automatically**. The popup's header now reads "Auto-delete is on" — and from now on:
 
 - Close a site's last tab, and after a short delay (15 seconds by default) its cookies are gone — unless you keep the site or it's still open somewhere else.
 - The toolbar icon shows how many cookies the current site has set, and its color tells you the site's status at a glance:
@@ -30,7 +30,7 @@ On the settings page (**Protection**), flip **Enable Automatic Cleaning**. The p
 
 ## Step 4 (optional): Turn on the cleanup log
 
-In settings, enable **Keep a Cleanup Log and Running Counter**. Every automatic cleanup then records which sites were cleaned and why, which is the single most useful tool when you're wondering "why did I get logged out of X?" — see [The Cleanup Log](./cleanup-log.md).
+In settings, enable **Keep a cleanup log**. Every automatic cleanup then records which sites were cleaned and why, which is the single most useful tool when you're wondering "why did I get logged out of X?" — see [The Cleanup Log](./cleanup-log.md).
 
 ## Trying it out
 

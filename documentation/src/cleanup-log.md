@@ -2,7 +2,7 @@
 
 The cleanup log answers the two questions every cookie cleaner eventually raises: _"why did I get logged out of that site?"_ and _"is this thing actually doing anything?"_
 
-Enable it in settings (**Keep a Cleanup Log and Running Counter**), then open the **Cleanup Log** tab on the settings page.
+Enable it in settings (**Keep a cleanup log**), then open the **Cleanup Log** tab on the settings page.
 
 ## Reading an entry
 
