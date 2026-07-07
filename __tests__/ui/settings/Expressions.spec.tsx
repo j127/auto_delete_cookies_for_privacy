@@ -55,8 +55,8 @@ describe("Expressions", () => {
     expect(getByText("noExpressionsText")).not.toBeNull();
   });
 
-  it("explains pattern syntax in a collapsed accordion with the docs link", () => {
-    const { container, getByText } = renderExpressions();
+  it("explains pattern syntax in a self-contained collapsed accordion", () => {
+    const { container, getByText, queryByText } = renderExpressions();
     const details = container.querySelector("details") as HTMLDetailsElement;
     expect(details.open).toBe(false);
     expect(
@@ -68,12 +68,10 @@ describe("Expressions", () => {
     expect(getByText("/^mail\\.example\\.com$/")).not.toBeNull();
     expect(getByText("file:///home/user/")).not.toBeNull();
     expect(getByText("patternKeepLevelsText")).not.toBeNull();
-    const docLink = getByText("documentationText") as HTMLAnchorElement;
-    expect(docLink.getAttribute("href")).toBe(
-      "https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
-    );
-    // The question-mark tooltip is gone (#171): the labeled documentation
-    // link is the only external pointer left on the page.
+    // No external documentation link and no tooltip (#171/#179): the
+    // in-app Help page owns the full guide.
+    expect(queryByText("documentationText")).toBeNull();
+    expect(container.querySelectorAll("a")).toHaveLength(0);
     expect(container.querySelectorAll(".tooltip")).toHaveLength(0);
   });
 

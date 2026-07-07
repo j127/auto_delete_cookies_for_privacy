@@ -17,6 +17,7 @@ import ErrorBoundary from "@/ui/common-components/ErrorBoundary";
 import Icon from "@/ui/common-components/Icon";
 import ActivityLog from "./components/ActivityLog";
 import Expressions from "./components/Expressions";
+import Help from "./components/Help";
 import ImportExport from "./components/ImportExport";
 import Settings from "./components/Settings";
 import Support from "./components/Support";
@@ -107,6 +108,7 @@ const App: React.FunctionComponent = () => {
               {activeTab === "tabExpressionList" ? <Expressions /> : ""}
               {activeTab === "tabCleanupLog" ? <ActivityLog /> : ""}
               {activeTab === "tabImportExport" ? <ImportExport /> : ""}
+              {activeTab === "tabHelp" ? <Help /> : ""}
               {activeTab === "tabSupport" ? <Support /> : ""}
             </main>
           </ErrorBoundary>
