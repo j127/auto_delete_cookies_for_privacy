@@ -1,19 +1,15 @@
 {
   "aboutText": {
-    "message": "Acerca",
-    "description": "About"
+    "message": "Acerca de"
   },
   "activeModeDelayText": {
-    "message": "Atraso antes da limpeza automática",
-    "description": "Delay Before Automatic Cleaning"
+    "message": "Período de tolerância"
   },
   "activeModeText": {
-    "message": "Ativar limpeza automática",
-    "description": "Enable Automatic Cleaning"
+    "message": "Limpar automaticamente"
   },
   "activityLogSiteDataDomainsText": {
-    "message": "Limpeza de $siteData$ invocada para: $domains$",
-    "description": "Invoked cleanup of $siteData$ for: $domains$. Found in Activity Log Detailed Entries.",
+    "message": "$siteData$ removido de: $domains$",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -26,8 +22,7 @@
     }
   },
   "addNewExpressionNotification": {
-    "message": "A adicionar $expression$ para a lista tipo $listType$ sob o armazenamento de cookies $cookieStore$.",
-    "description": "Adding $expression$ to list type $listType$ under cookie store $cookieStore$. Used in notification when right-click action was performed.",
+    "message": "$expression$ guardado na lista $listType$ (armazenamento de cookies: $cookieStore$).",
     "placeholders": {
       "expression": {
         "content": "$1",
@@ -39,101 +34,78 @@
       },
       "cookieStore": {
         "content": "$3",
-        "example": "'default' -or- 'firefox-container-1 (Personal)'"
+        "example": "'default' -or- 'private'"
       }
     }
   },
   "addNewExpressionNotificationFailed": {
-    "message": "Não foi possível obter o domínio para adicionar a partir de onde foi emitido o botão direito.",
-    "description": "Could not fetch domain to add from where right-click was issued."
+    "message": "Não foi possível ler nenhum domínio do local do clique direito."
   },
   "addNewExpressionNotificationIgnore": {
-    "message": "Se a expressão já existe, esta irá ser ignorada.",
-    "description": "If expression already exists, this will be ignored. Used in notification when right-click action was performed."
+    "message": "Os duplicados são ignorados automaticamente."
   },
   "autoDeleteDisabledText": {
-    "message": "Limpeza automática desativada",
-    "description": "Auto-clean disabled"
+    "message": "Limpeza automática desativada"
   },
   "autoDeleteEnabledText": {
-    "message": "Limpeza automática ativada",
-    "description": "Auto-clean enabled"
+    "message": "Limpeza automática ativada"
+  },
+  "browsingDataNoEmptyWarning": {
+    "message": "Atenção: ativar isto não mexe nos dados que os sites guardaram antes. Os restos de um site só se tornam limpáveis depois de o visitar de novo — até lá ficam onde estão, mesmo nos sites de que se quereria livrar."
   },
   "browsingDataWarning": {
-    "message": "AVISO: Ao ativar quaisquer das seguintes opções de limpeza de dados de sites, TODOS os dados existentes para esse tipo irão ser limpos.",
-    "description": "WARNING: Upon enabling any of the following site data cleanup options, ALL existing data for that type will be cleared. Found in CAD Settings"
+    "message": "Cuidado: ligar qualquer tipo de limpeza abaixo apaga imediatamente TODOS os dados desse tipo atualmente armazenados, de todos os sites."
   },
   "cacheCleanupText": {
-    "message": "Ativar limpeza de cache (Firefox 78+, Chrome 74+)",
-    "description": "Enable Cache Cleanup (Firefox 78+, Chrome 74+). Found in CAD Settings."
+    "message": "Ativar limpeza de cache"
   },
   "cacheText": {
-    "message": "Cache",
-    "description": "Cache. Primarily used in notifications."
+    "message": "Cache"
   },
   "chromeDebugMode": {
-    "message": "Certifique-se de que o 'Modo de programador' está ativado, depois clique em 'página em segundo plano' em Inspecionar visualização.",
-    "description": "Ensure 'Developer Mode' is enabled, then click on 'background page' under Inspect View. This is shown if debug mode is enabled."
+    "message": "Ative o 'Modo de programador' e abra a consola do service worker através da ligação 'Inspecionar vistas'."
   },
   "cleanDiscardedText": {
-    "message": "Ativar limpeza para separadores descartados/descarregados",
-    "description": "Enable Cleanup for Discarded/Unloaded Tabs. Found in Settings."
+    "message": "Tratar separadores adormecidos como fechados"
   },
   "cleanExpiredCookiesText": {
-    "message": "Limpar todos os cookies expirados",
-    "description": "Clean All Expired Cookies. Found in Settings."
+    "message": "Remover sempre cookies expirados"
   },
   "cleanIgnoringOpenTabsText": {
-    "message": "Limpar, incluir separadores abertos",
-    "description": "Clean, include open tabs. Found in the additional cleanup options in the popup."
+    "message": "Limpar, mesmo separadores abertos"
   },
   "cleanText": {
-    "message": "Limpar",
-    "description": "Clean"
+    "message": "Limpar"
   },
   "cleanupDomainChangeText": {
-    "message": "Ativar limpeza ao mudar de domínio",
-    "description": "Enable Cleanup on Domain Change"
+    "message": "Limpar ao sair de um site"
   },
   "cleanupActionsBypass": {
-    "message": "Aviso - As ações abaixo ignoram as definições!",
-    "description": "Warning - Actions below ignore settings! Found in the additional cleanup options in the popup."
+    "message": "Cuidado — estes botões ignoram as suas listas de manter e limpam de imediato!"
   },
   "cleanupLogText": {
-    "message": "Registo de limpeza",
-    "description": "Cleanup Log"
+    "message": "Registo de limpeza"
   },
   "clearLogsText": {
-    "message": "Limpar registo",
-    "description": "Clear Logs"
+    "message": "Limpar registo"
   },
   "consoleDebugMode": {
-    "message": "Clique no separador Consola",
-    "description": "Click on the Console Tab. Found after enabling debug mode."
-  },
-  "containerSiteDataWarning": {
-    "message": "AVISO: Ativar separadores contentores com quaisquer limpezas de dados de navegação pode causar efeitos secundários devido a limitações das API dos navegadores. Os tipos de dados dos sites, com a exceção dos cookies, irão ser limpos por nome de anfitrião para TODOS os contentores.",
-    "description": "WARNING: Enabling Container Tabs with any of the additional browsing data cleanups above may cause unwanted side effects due to browser API limitations. Site data types, with the exception of cookies, will be cleared by hostname for ALL containers. Found in CAD Settings."
+    "message": "Mude para o separador Consola."
   },
   "contextMenusParentClean": {
-    "message": "Menu de limpeza manual",
-    "description": "Manual Cleaning Menu. Shown on right-clicks of Page/Browser Action."
+    "message": "Limpeza manual"
   },
   "contextMenusParentExpression": {
-    "message": "Menu para adicionar domínio/expressão",
-    "description": "Add Domain/Expression Menu. Shown on right-clicks of Page/Link/Selection."
+    "message": "Adicionar às listas de manter"
   },
   "contextMenusSelectedDomainLink": {
-    "message": "Apenas para o domínio da ligação selecionada",
-    "description": "For domain only of selected link. Shown in right-click menu."
+    "message": "Apenas o domínio desta ligação"
   },
   "contextMenusSelectedDomainPage": {
-    "message": "Para domínio somente de página selecionada",
-    "description": "For domain only of selected page. Shown in right-click menu."
+    "message": "Apenas o domínio desta página"
   },
   "contextMenusSelectedDomainText": {
-    "message": "Apenas para o domínio do texto selecionado: $selected$",
-    "description": "For domain only of selected text: $selected$. Shown in right-click menu.",
+    "message": "Apenas o domínio de: $selected$",
     "placeholders": {
       "selected": {
         "content": "$1",
@@ -142,16 +114,13 @@
     }
   },
   "contextMenusSelectedSubdomainLink": {
-    "message": "Para todos os subdomínios com o domínio da ligação selecionada",
-    "description": "For all subdomains with domain of selected link. Shown in right-click menu."
+    "message": "O domínio da ligação e todos os subdomínios"
   },
   "contextMenusSelectedSubdomainPage": {
-    "message": "Para todos os subdomínios com o domínio da página selecionada",
-    "description": "For all subdomains with domain of selected page. Shown in right-click menu."
+    "message": "O domínio desta página e todos os subdomínios"
   },
   "contextMenusSelectedSubdomainText": {
-    "message": "Para todos os subdomínios com o domínio do texto selecionado: $selected$",
-    "description": "For all subdomains with domain of selected text: $selected$. Shown in right-click menu.",
+    "message": "Todos os subdomínios de: $selected$",
     "placeholders": {
       "selected": {
         "content": "$1",
@@ -159,183 +128,113 @@
       }
     }
   },
-  "contextualIdentitiesAutoRemoveText": {
-    "message": "Ativar remoção automática de lista de expressões se o respetivo contentor for removido.",
-    "description": "Enable Automatic Removal of Expression List when its Container is Removed. Only in Firefox."
-  },
-  "contextualIdentitiesEnabledText": {
-    "message": "Ativar suporte a separadores contentores",
-    "description": "Enable Support for Container Tabs. Currently only in Firefox."
-  },
-  "contributeText": {
-    "message": "Contribuir",
-    "description": "Contribute"
-  },
   "contributorsText": {
-    "message": "Colaboradores",
-    "description": "Contributors"
+    "message": "Colaboradores"
   },
   "cookiesText": {
-    "message": "Cookies",
-    "description": "Cookies. Primarily used in popup via alternate clean action dropdown."
+    "message": "Cookies"
   },
   "cookieCleanUpOnStartText": {
-    "message": "Limpar cookies e outros dados de sites para os separadores abertos ao iniciar",
-    "description": "Clean Cookies and other Site Data from Open Tabs on Startup"
+    "message": "Limpar separadores restaurados no arranque"
   },
   "cookieCleanupIgnoreOpenTabsText": {
-    "message": "Executar limpeza agora, incluir domínios de separadores abertos",
-    "description": "Run cleanup now, include cookies from open tabs. This is shown on mouseover from the available dropdown buttons."
+    "message": "Limpar agora, mesmo sites abertos num separador"
   },
   "cookieCleanupText": {
-    "message": "Executar limpeza agora, excluir domínios de separadores abertos",
-    "description": "Run cleanup now, exclude domains from open tabs. This is shown on mouseover on the button."
+    "message": "Limpar agora, ignorando sites abertos num separador"
   },
   "copyDebugSettingText": {
-    "message": "As suas definições atuais.  Se necessário, copie e cole esta informação no GitHub.",
-    "description": "Your current settings.  If necessary, copy and paste this into the GitHub Issue."
+    "message": "Uma cópia das suas definições atuais. Cole-a no issue do GitHub se for relevante."
   },
   "copyDebugSystemText": {
-    "message": "A sua informação de sistema.  Copie e cole na secção relevante do GitHub.",
-    "description": "Your System Info.  Copy and paste into the relevant section of the GitHub Issue."
+    "message": "Os detalhes do seu sistema. Cole-os na secção correspondente do issue do GitHub."
   },
   "copyFailedText": {
-    "message": "Falha ao copiar.  Tente selecionar e copiar manualmente o texto.",
-    "description": "Copy failed.  Try manually selecting and copying the text.  Shown after a failed attempt to write text to clipboard."
+    "message": "Não foi possível copiar automaticamente — selecione o texto e copie-o você mesmo."
   },
   "copySuccessText": {
-    "message": "Copiado com sucesso!",
-    "description": "Copied successfully!  Shows after a successful text copy to clipboard."
+    "message": "Copiado!"
   },
   "copyToClipboardText": {
-    "message": "Copiar para a área de transferência",
-    "description": "Copy to Clipboard.  Shown in a button to take action upon click."
+    "message": "Copiar para a área de transferência"
   },
   "createDefaultExpressionOptionsText": {
-    "message": "Opções de criação de expressão predefinida",
-    "description": "Create Default Expression Options. Used in 'List of Expressions'"
-  },
-  "currentContainerInfo": {
-    "message": "Contentor atual selecionado:  $ID$ ( $Name$ )",
-    "description": "Current Container Selected: $ID$ ( $Name ). Found in List of Expressions only if Firefox containers enabled.",
-    "placeholders": {
-      "ID": {
-        "content": "$1",
-        "example": "firefox-container-1"
-      },
-      "Name": {
-        "content": "$2",
-        "example": "Personal (whatever the user has named the container) - or - translated version of 'Invalid Container'"
-      }
-    }
+    "message": "Criar opções predefinidas"
   },
   "debugMode": {
-    "message": "Ativar modo de depuração (saídas adicionais de consola)",
-    "description": "Enable Debug Mode (Additional Console Outputs). Found in CAD Settings."
+    "message": "Modo de depuração"
   },
   "debugTitle": {
-    "message": "Informação de depuração",
-    "description": "Debug Information.  Header shown on About page."
-  },
-  "defaultText": {
-    "message": "Predefinição",
-    "description": "Default. Used in List of Expression in Firefox for Default / No Container."
-  },
-  "defaultContainerText": {
-    "message": "Nenhum contentor",
-    "description": "No Container. This will be in brackets. Used in List of Expression in Firefox for Default / No Container"
+    "message": "Informações de depuração"
   },
   "defaultSettingsText": {
-    "message": "Restaurar predefinições",
-    "description": "Restore Default Settings"
+    "message": "Repor as definições predefinidas"
   },
   "disableAutoDeleteText": {
-    "message": "Alternar para desativar limpeza automática (modo manual)",
-    "description": "Toggle to disable automatic cleanup (manual mode)"
+    "message": "Desligar a limpeza automática (modo manual)"
   },
   "documentationText": {
-    "message": "Documentação",
-    "description": "Documentation"
+    "message": "Documentação"
   },
   "domainExpressionsText": {
-    "message": "Expressão do domínio",
-    "description": "Domain Expression"
+    "message": "Site"
   },
   "domainPlaceholderText": {
-    "message": "exemplo.com, subdomínio.exemplo.com, *.exemplo.com, /(^|.)exemplo\\.com/",
-    "description": "Domain Expression Example. For this one we'll keep the string as is.  Kept for historical purposes."
+    "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/"
   },
   "dropdownAdditionalCleaningOptions": {
-    "message": "Alternar menu de ações de limpeza adicionais",
-    "description": "(Screen-readers only) - Toggle Additional Cleaning Actions Dropdown"
+    "message": "Mais ações de limpeza"
   },
   "editExpressionText": {
-    "message": "Editar expressão",
-    "description": "Edit expression"
+    "message": "Editar expressão"
   },
   "enableAutoDeleteText": {
-    "message": "Clique para ativar a limpeza automática (modo automático)",
-    "description": "Toggle to enable automatic cleanup (automatic mode)"
+    "message": "Ligar a limpeza automática"
   },
   "enableCleanupLogText": {
-    "message": "Ativar registo de limpeza e contador",
-    "description": "Enable Cleanup Log and Counter"
+    "message": "Manter um registo de limpeza"
   },
   "enableContextMenus": {
-    "message": "Ativar menus de contexto (botão direito do rato)",
-    "description": "Enable Context Menus (Right-Click Menu). Shown in CAD Settings"
+    "message": "Ações do menu de contexto"
   },
   "enableGreyListCleanup": {
-    "message": "Ativar limpeza da lista cinza ao reiniciar o navegador",
-    "description": "Enable Greylist Cleanup on Browser Restart"
+    "message": "Regras de manter da sessão"
   },
   "enableNewVersionPopup": {
-    "message": "Ativar popup quando uma nova versão é lançada",
-    "description": "Enable Popup when New Version is Released"
+    "message": "Mostrar notas de versão após atualizações"
   },
   "errorText": {
-    "message": "Erro!",
-    "description": "Error!"
+    "message": "Erro!"
   },
   "exportSettingsText": {
-    "message": "Exportar definições nucleares...",
-    "description": "Export Core Settings... Found in CAD Settings."
+    "message": "Exportar definições..."
   },
   "exportURLSText": {
-    "message": "Exportar expressões...",
-    "description": "Export Expressions... Found in List of Expressions."
+    "message": "Exportar sites guardados"
   },
   "exportTitleTimestamp": {
-    "message": "Uma marca temporal irá ser adicionada ao nome do ficheiro ao exportar.",
-    "description": "A timestamp will be appended to the filename on export."
+    "message": "Os ficheiros exportados recebem um carimbo temporal no nome."
   },
   "extensionDescription": {
-    "message": "Controle os seus cookies! Apague automaticamente cookies não utilizados dos seus separadores fechados, enquanto mantém os que pretende.",
-    "description": "Control your cookies! Automatically delete unwanted cookies from your closed tabs while keeping the ones you want."
+    "message": "Arruma atrás dos seus separadores: fecha um separador, apaga os cookies e dados do site — exceto os sites das suas listas de manter."
   },
   "extensionName": {
-    "message": "Auto-Delete Cookies for Privacy",
-    "description": "Name of the extension."
+    "message": "Auto-Delete Cookies for Privacy"
   },
   "faqText": {
-    "message": "Perguntas frequentes, problemas e soluções comuns",
-    "description": "Frequently Asked Questions, Common issues and solutions"
+    "message": "Perguntas frequentes e resolução de problemas"
   },
   "filterDebugMode": {
-    "message": "Para ver apenas as saídas de depuração desta extensão, filtre a saída com a seguinte linha:",
-    "description": "To see only debug outputs by this extension, filter output by the following line. Found after enabling debug mode."
+    "message": "Para mostrar só as mensagens desta extensão, cole isto no filtro da consola:"
   },
   "filterText": {
-    "message": "Filtro",
-    "description": "Filter"
+    "message": "Filtro"
   },
   "greyListWordText": {
-    "message": "Lista cinza",
-    "description": "Greylist"
+    "message": "Lista cinzenta"
   },
   "groupExpressionDefaultNotice": {
-    "message": "À procura de definir opções de expressão predefinidas para novas expressões?  Isto foi melhorado para ser uma opção de expressão!  Visite $listExpression$ para começar!",
-    "description": "Looking to set default expression options for new expressions?  It has been enhanced to be an expression option itself!  Visit $listExpression$ to get started!  Shown in Settings",
+    "message": "As opções predefinidas de novas expressões vivem agora na própria expressão — abra $listExpression$ para as definir.",
     "placeholders": {
       "listExpression": {
         "content": "$1",
@@ -344,16 +243,13 @@
     }
   },
   "importCoreSettingsFailed": {
-    "message": "Exportação das definições nucleares falhou - Definição desconhecida encontrada",
-    "description": "Import Core Settings Failed - Found unknown setting"
+    "message": "Importação cancelada: o ficheiro contém uma definição desconhecida."
   },
   "importCoreSettingsText": {
-    "message": "Importar definições nucleares...",
-    "description": "Import Core Settings... Found in CAD Settings."
+    "message": "Importar definições..."
   },
   "importFileNotFound": {
-    "message": "Ficheiro não encontrado: $filename$",
-    "description": "File not found: $filename$.  Found in List of Expressions and CAD Settings.",
+    "message": "Ficheiro inexistente: $filename$",
     "placeholders": {
       "filename": {
         "content": "$1",
@@ -362,20 +258,16 @@
     }
   },
   "importFileTypeInvalid": {
-    "message": "O ficheiro indicado não é de um tipo que possamos trabalhar",
-    "description": "File given is not a type we handle"
+    "message": "Esse tipo de ficheiro não é aceite na importação."
   },
   "importFileValidationFailed": {
-    "message": "Ficheiro fornecido falhou validação",
-    "description": "File given failed validation"
+    "message": "O ficheiro não passou na validação."
   },
   "importInvalidExpressions": {
-    "message": "Detetadas expressões inválidas durante a importação. Em baixo pode ver as expressões e o motivo da falha. Analise e corrija os erros e tente novamente.",
-    "description": "Detected invalid expression(s) from file import. They are noted below with its reason. Check and fix any errors in that file and try importing again. Found in List of Expressions when imported file as expressions that aren't valid."
+    "message": "Algumas expressões importadas eram inválidas; cada uma está listada abaixo com o motivo. Corrija-as no ficheiro e importe de novo."
   },
   "importListNotArray": {
-    "message": "$identifier$ não está formatado como uma lista de matriz.",
-    "description": "$identifier$ is not formatted as an array list.  Found in List of Expressions during import validation.",
+    "message": "$identifier$ devia ser um array, mas não é.",
     "placeholders": {
       "identifier": {
         "content": "$1",
@@ -384,16 +276,13 @@
     }
   },
   "importMissingKey": {
-    "message": "Identificador em falta",
-    "description": "Missing identifier"
+    "message": "Identificador em falta"
   },
   "importURLSText": {
-    "message": "Importar expressões...",
-    "description": "Import Expressions... Found in List of Expressions."
+    "message": "Importar sites guardados"
   },
   "importValidExpressions": {
-    "message": "Adicionadas com sucesso $num$ expressões do ficheiro: $filename$.",
-    "description": "Successfully added $num$ expression(s) from imported file: $filename$.  Found in List of Expressions after successful valid expressions from import.",
+    "message": "Importada(s) $num$ expressão(ões) de $filename$.",
     "placeholders": {
       "num": {
         "content": "$1",
@@ -406,24 +295,19 @@
     }
   },
   "indexedDBCleanupText": {
-    "message": "Ativar limpeza de IndexedDB (Firefox 77+, Chrome 74+)",
-    "description": "Enable IndexedDB Cleanup (Firefox 77+, Chrome 74+). Found in CAD Settings."
+    "message": "Ativar limpeza de IndexedDB"
   },
   "indexedDBText": {
-    "message": "IndexedDB",
-    "description": "IndexedDB. Primarily used in notifications."
+    "message": "IndexedDB"
   },
   "inputErrorComma": {
-    "message": "As vírgulas apenas são permitidas em expressões regulares.",
-    "description": "Commas are only allowed in Regular Expressions. Found in editing expression errors."
+    "message": "As vírgulas só fazem sentido em expressões regulares."
   },
   "inputErrorEmpty": {
-    "message": "A expressão revista não pode estar vazia!",
-    "description": "Revised expression cannot be empty!  Found in editing expression errors."
+    "message": "A expressão não pode ficar vazia."
   },
   "inputErrorRegExp": {
-    "message": "A expressão regular não é válida. $RegexError$",
-    "description": "Regular Expression is not valid. <Error from new RegExp()>. Found in editing expression errors.",
+    "message": "Expressão regular inválida: $RegexError$",
     "placeholders": {
       "RegexError": {
         "content": "$1",
@@ -432,20 +316,16 @@
     }
   },
   "inputErrorSlashEndMissingStart": {
-    "message": "Detetada barra no final, mas não existe uma barra no início da expressão. Remova a barra no final para os domínios.",
-    "description": "End slash detected, but missing start slash for Regular Expression. Remove end slash for domains. Found in editing expression errors."
+    "message": "Termina com uma barra mas não começa com uma. Para um domínio simples, retire a barra final; para uma regex, acrescente a inicial."
   },
   "inputErrorSlashStartMissingEnd": {
-    "message": "Detetada barra no final, mas não existe uma barra no início da expressão.",
-    "description": "Start slash detected, but missing end slash for Regular Expression. Found in editing expression errors."
+    "message": "Começa com uma barra mas nunca a fecha. Acrescente a barra final para completar a expressão regular."
   },
   "inputErrorSpace": {
-    "message": "Não são permitidos espaços para 'hostnames'.",
-    "description": "Spaces are not allowed in hostnames. Found in editing expression errors."
+    "message": "Os nomes de anfitrião não podem conter espaços."
   },
   "inputAddSuccess": {
-    "message": "Adicionadas com sucesso $num$ expressões com o tipo $listType$ à lista atualmente ativa.",
-    "description": "Successfully added $num$ expression(s) to $listType$ Type in the currently active list.  Found in List of Expressions after successful inputs.",
+    "message": "Adicionada(s) $num$ expressão(ões) à lista ativa como $listType$.",
     "placeholders": {
       "num": {
         "content": "$1",
@@ -458,84 +338,64 @@
     }
   },
   "invalidNewExpressions": {
-    "message": "Detetadas novas expressões inválidas. Em baixo pode ver as expressões e o motivo pelo qual foram mantidas para edição.",
-    "description": "Detected invalid new expression(s). They are noted below with its reason and have been kept above for editing. Found in List of Expressions Settings Page."
+    "message": "Algumas expressões novas eram inválidas; ficam acima para edição, com os motivos listados abaixo."
   },
   "keepAllCookiesText": {
-    "message": "Manter todos os cookies",
-    "description": "Keep All Cookies. Found in Expression Options. For Whitelist entries."
+    "message": "Manter todos os cookies"
   },
   "keepAllCookiesGreyText": {
-    "message": "Manter todos os cookies até reiniciar",
-    "description": "Keep All Cookies until restart. Found in Expression Options. For Greylist entries."
+    "message": "Manter todos os cookies até reiniciar"
   },
   "keepCacheText": {
-    "message": "Manter cache",
-    "description": "Keep Cache. Found in Expression Options. For Whitelist entries."
+    "message": "Manter cache"
   },
   "keepCacheGreyText": {
-    "message": "Manter cache até reiniciar",
-    "description": "Keep Cache until restart. Found in Expression Options. For Greylist entries."
+    "message": "Manter cache até reiniciar"
   },
   "keepDefaultIcon": {
-    "message": "Manter ícones predefinidos em todos os tipos de listas",
-    "description": "Keep Default Icons on all list types. Disabled: keep blue icon, grey for automatic cleaning disabled. Enabled: red/yellow/blue depending on matching expressions in list."
+    "message": "Manter o ícone simples"
   },
   "keepIndexedDBText": {
-    "message": "Manter IndexedDB",
-    "description": "Keep IndexedDB. Found in Expression Options. For Whitelist entries."
+    "message": "Manter IndexedDB"
   },
   "keepIndexedDBGreyText": {
-    "message": "Manter IndexedDB até reiniciar",
-    "description": "Keep IndexedDB until restart. Found in Expression Options. For Greylist entries."
+    "message": "Manter IndexedDB até reiniciar"
   },
   "keepLocalstorageText": {
-    "message": "Manter LocalStorage",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries."
+    "message": "Manter LocalStorage"
   },
   "keepLocalstorageGreyText": {
-    "message": "Manter LocalStorage até reiniciar",
-    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries."
+    "message": "Manter LocalStorage até reiniciar"
   },
   "keepPluginDataText": {
-    "message": "Manter dados de plugins",
-    "description": "Keep Plugin Data. Found in Expression Options. For Whitelist entries."
+    "message": "Manter dados de plugins"
   },
   "keepPluginDataGreyText": {
-    "message": "Manter dados de plugins até reiniciar",
-    "description": "Keep Plugin Data until restart. Found in Expression Options. For Greylist entries."
+    "message": "Manter dados de plugins até reiniciar"
   },
   "keepServiceWorkersText": {
-    "message": "Manter Service Workers",
-    "description": "Keep Service Workers. Found in Expression Options. For Whitelist entries."
+    "message": "Manter service workers"
   },
   "keepServiceWorkersGreyText": {
-    "message": "Manter Service Workers até reiniciar",
-    "description": "Keep Service Workers until restart. Found in Expression Options. For Greylist entries."
+    "message": "Manter service workers até reiniciar"
   },
   "keepText": {
-    "message": "Manter",
-    "description": "Keep"
+    "message": "Manter"
   },
   "listTypeText": {
-    "message": "Tipo de lista",
-    "description": "List Type"
+    "message": "Por quanto tempo"
   },
   "localStorageCleanupText": {
-    "message": "Ativar limpeza de LocalStorage (Firefox 58+, Chrome 74+)",
-    "description": "Enable LocalStorage Cleanup (Firefox 58+, Chrome 74+). Found in CAD Settings."
+    "message": "Ativar limpeza de LocalStorage"
   },
   "localStorageText": {
-    "message": "LocalStorage",
-    "description": "LocalStorage. Primarily used in notifications."
+    "message": "LocalStorage"
   },
   "manualActionNotification": {
-    "message": "Notificação de ação manual",
-    "description": "Manual Action Notification - used as Notification Title."
+    "message": "Limpeza manual"
   },
   "manualCleanError": {
-    "message": "$siteData$ não podem ser limpos para o separador:",
-    "description": "$siteData$ cannot be cleaned for tab:. Shown as notification if manual clean cookies cannot be done.",
+    "message": "Não foi possível limpar $siteData$ deste separador:",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -544,8 +404,7 @@
     }
   },
   "manualCleanNothing": {
-    "message": "Nenhum $siteData$ encontrado para limpeza em $url$.",
-    "description": "No $siteData$ were found for cleaning on $url$. Used in notification after manual clean.",
+    "message": "Nada para limpar: nenhum $siteData$ encontrado em $url$.",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -559,7 +418,6 @@
   },
   "manualCleanRemoved": {
     "message": "Removido(s) $deleted$ de $total$.",
-    "description": "Removed $deleted$ of $total$. Used as part of success notification on manual clean.",
     "placeholders": {
       "deleted": {
         "content": "$1",
@@ -572,12 +430,10 @@
     }
   },
   "manualCleanSiteDataAll": {
-    "message": "Limpar tudo para este domínio",
-    "description": "Clean All for this domain. Found in Popup clean dropdown menu."
+    "message": "Apagar tudo deste site"
   },
   "manualCleanSiteDataAllDomain": {
-    "message": "Limpar todos os dados de sites para $domain$",
-    "description": "Clear all site data for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Apagar todos os dados armazenados por $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -586,12 +442,10 @@
     }
   },
   "manualCleanSiteDataCache": {
-    "message": "Limpar cache para este domínio",
-    "description": "Clean Cache for this domain. Found in Popup clean dropdown menu."
+    "message": "Apagar a cache deste site"
   },
   "manualCleanSiteDataCacheDomain": {
-    "message": "Limpar toda a cache para $domain$",
-    "description": "Clear all Cache for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Apagar toda a cache armazenada por $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -600,12 +454,10 @@
     }
   },
   "manualCleanSiteDataCookies": {
-    "message": "Limpar cookies para este domínio",
-    "description": "Clean Cookies for this domain. Found in Popup clean dropdown menu."
+    "message": "Apagar os cookies deste site"
   },
   "manualCleanSiteDataCookiesDomain": {
-    "message": "Limpar todos os cookies para $domain$",
-    "description": "Clear all Cookies for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Apagar todos os cookies armazenados por $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -614,12 +466,10 @@
     }
   },
   "manualCleanSiteDataIndexedDB": {
-    "message": "Limpar IndexedDB para este domínio",
-    "description": "Clean IndexedDB for this domain. Found in Popup clean dropdown menu."
+    "message": "Apagar o IndexedDB deste site"
   },
   "manualCleanSiteDataIndexedDBDomain": {
-    "message": "Limpar toda a IndexedDB para $domain$",
-    "description": "Clear all IndexedDB for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Apagar todos os dados IndexedDB armazenados por $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -628,12 +478,10 @@
     }
   },
   "manualCleanSiteDataLocalStorage": {
-    "message": "Limpar LocalStorage para este domínio",
-    "description": "Clean LocalStorage for this domain. Found in Popup clean dropdown menu."
+    "message": "Apagar o LocalStorage deste site"
   },
   "manualCleanSiteDataLocalStorageDomain": {
-    "message": "Limpar todo o LocalStorage para $domain$",
-    "description": "Clear all LocalStorage for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Apagar todo o LocalStorage armazenado por $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -642,12 +490,10 @@
     }
   },
   "manualCleanSiteDataPluginData": {
-    "message": "Limpar dados de plugins para este domínio",
-    "description": "Clean Plugin Data for this domain. Found in Popup clean dropdown menu."
+    "message": "Apagar os dados de plugins deste site"
   },
   "manualCleanSiteDataPluginDataDomain": {
-    "message": "Limpar todos os dados de plugins para $domain$",
-    "description": "Clear all Plugin Data for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Apagar todos os dados de plugins armazenados por $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -656,12 +502,10 @@
     }
   },
   "manualCleanSiteDataServiceWorkers": {
-    "message": "Limpar Service Workers para este domínio",
-    "description": "Clean Service Workers for this domain. Found in Popup clean dropdown menu."
+    "message": "Apagar os service workers deste site"
   },
   "manualCleanSiteDataServiceWorkersDomain": {
-    "message": "Limpar todos os Service Workers para $domain$",
-    "description": "Clear all Service Workers for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Apagar todos os service workers registados por $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -670,8 +514,7 @@
     }
   },
   "manualCleanSuccess": {
-    "message": "Resultado da limpeza para $siteData$ em $url$:",
-    "description": "Cleanup for $siteData$ on $url$ result:  Shown as notification after successful manual cleaning.",
+    "message": "Resultado da limpeza de $siteData$ em $url$:",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -684,52 +527,37 @@
     }
   },
   "manualNotificationsText": {
-    "message": "Mostrar notificação de limpeza manual de dados de sites",
-    "description": "Show Notification from Manual Site Data Cleanups. Found in settings"
+    "message": "Notificar após limpezas manuais"
   },
   "matchedDomainExpressionText": {
-    "message": "Expressão de domínio correspondente",
-    "description": "Matched Domain Expression"
+    "message": "Expressão de domínio correspondente"
   },
   "menuText": {
-    "message": "Menu",
-    "description": "Menu. Only shown when the settings screen is small / when the hamburger icon shows / when the menu is collapsed."
+    "message": "Menu"
   },
   "minutesText": {
-    "message": "minuto(s)",
-    "description": "minute(s)"
-  },
-  "missingContainerText": {
-    "message": "CONTENTOR INVÁLIDO",
-    "description": "INVALID CONTAINER. Shown when a CAD list exists but cannot link id to available containers (Firefox)."
+    "message": "minuto(s)"
   },
   "noCleanupLogText": {
-    "message": "Nenhum registo de limpeza encontrado",
-    "description": "No Cleanup Logs Found"
+    "message": "O registo de limpeza está vazio."
   },
   "noExpressionsText": {
-    "message": "Nenhuma expressão definida.",
-    "description": "No expressions defined."
+    "message": "Ainda não adicionou expressões."
   },
   "noPrivateLogging": {
-    "message": "Os registos de limpeza não serão gerados para separadores em Navegação Privada / Incógnito / InPrivate.",
-    "description": "Cleanup Logs will not be generated for tabs in Private Browsing / Incognito / InPrivate."
+    "message": "Separadores privados/anónimos nunca são registados."
   },
   "noSearchExpressionsFound": {
-    "message": "Nenhuma expressão encontrada a partir da pesquisa acima.",
-    "description": "No expressions found from search above.  Found in List of Expressions."
+    "message": "Nada corresponde à sua pesquisa."
   },
   "noRulesText": {
-    "message": "Nenhuma regra corresponde a este domínio.",
-    "description": "No rules matched this domain"
+    "message": "Nenhuma expressão corresponde a este site."
   },
   "noneText": {
-    "message": "Nenhum",
-    "description": "None"
+    "message": "Nenhum"
   },
   "notificationContent": {
-    "message": "Alguns dados de sites, incluindo $Num$ Cookie(s), apagado(s) de $total$ domínio(s), incluindo: $Websites$",
-    "description": "Some site data, including 123 Cookie(s), removed from 8 domain(s), including: google.com, facebook.com",
+    "message": "Dados de sites removidos — $Num$ cookie(s) de $total$ site(s), incluindo: $Websites$",
     "placeholders": {
       "num": {
         "content": "$1",
@@ -746,64 +574,58 @@
     }
   },
   "notificationDisabledText": {
-    "message": "Notificação desativada",
-    "description": "Notification disabled"
+    "message": "Notificação desativada"
   },
   "notificationEnabledText": {
-    "message": "Notificação ativada",
-    "description": "Notification enabled"
+    "message": "Notificação ativada"
   },
   "notificationTitle": {
-    "message": "Cookies foram apagados!",
-    "description": "Cookies were deleted!  Used in Notification Title."
+    "message": "Cookies limpos"
   },
   "notificationTitleSiteData": {
-    "message": "Remoção de dados de sites acionada!",
-    "description": "Site Data Removal Triggered!  Used in Notification Title."
+    "message": "Dados de sites limpos"
   },
   "notifyCookieCleanupDelayText": {
-    "message": "Duração das notificações",
-    "description": "Duration for Notifications"
+    "message": "Duração da notificação"
   },
   "notifyCookieCleanUpText": {
-    "message": "Mostrar notificação após limpeza automática",
-    "description": "Show Notification After Automatic Cleanup. Found in settings."
+    "message": "Notificar após a limpeza"
   },
   "oldReleasesText": {
-    "message": "As notas de lançamento mais antigas podem ser vistas online em",
-    "description": "Older release notes can be viewed online at"
+    "message": "As versões anteriores estão listadas em"
   },
   "openDebugMode": {
-    "message": "Para ver as saídas de depuração, abra um novo separador e visite",
-    "description": "To view the debug outputs, open a new tab and visit"
+    "message": "A saída de depuração vive na consola da extensão. Abra um novo separador e vá a"
   },
   "optionsText": {
-    "message": "Opções",
-    "description": "Options"
+    "message": "O que mantém"
   },
   "pluginDataCleanupText": {
-    "message": "Ativar limpeza de dados de plugins (Firefox 78+, Chrome 74+)",
-    "description": "Enable Plugin Data Cleanup (Firefox 78+, Chrome 74+). Found in CAD Settings."
+    "message": "Ativar limpeza de dados de plugins"
   },
   "pluginDataText": {
-    "message": "Dados de plugins",
-    "description": "Plugin Data. Primarily used in notifications."
+    "message": "Dados de plugins"
   },
   "popupCookieCountText": {
-    "message": "Cookies",
-    "description": "Cookies. Due to visual formatting, Cookie Count will always be located on the right side after the colon. Found in Popup near top-right."
+    "message": "Cookies"
   },
   "preferencesText": {
-    "message": "Definições",
-    "description": "Settings"
+    "message": "Definições"
   },
   "questionExpression": {
-    "message": "Como é que as expressões funcionam?",
-    "description": "How do Expressions work?"
+    "message": "Como funcionam os padrões?"
   },
   "reasonCADSiteDataCookie": {
-    "message": "Limpar para acionar limpeza de dados de sites para $hostname$.",
-    "description": "Clean to trigger Site Data cleaning for $hostname$. Found in Activity Log Detailed Entries.",
+    "message": "Cookie marcador interno removido para acionar a limpeza de dados do site de $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCADSiteDataCookieRestart": {
+    "message": "Cookie marcador interno removido no reinício para acionar a limpeza de dados do site de $hostname$.",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -812,8 +634,16 @@
     }
   },
   "reasonCleanCookieExpired": {
-    "message": "Limpeza parcial devido a cookies expirados de $hostname$.",
-    "description": "Partial clean because of expired cookies from $hostname$. Found in Activity Log Detailed Entries.",
+    "message": "Removidos apenas os cookies expirados de $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpiredRestart": {
+    "message": "Removidos apenas os cookies expirados de $hostname$ durante a limpeza de reinício.",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -822,8 +652,7 @@
     }
   },
   "reasonCleanCookieName": {
-    "message": "Limpeza parcial devido a $matchedExpression$ correspondente na $listType$",
-    "description": "Partial clean because of matched $matchedExpression$ in the $listType$. Used in cleanup logs.",
+    "message": "Limpeza seletiva: $matchedExpression$ na $listType$ protege outros cookies, mas não este",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -836,8 +665,7 @@
     }
   },
   "reasonCleanGreyList": {
-    "message": "Limpar porque limpeza de arranque e $matchedExpression$ está na lista cinza",
-    "description": "Clean because of startup cleanup and $matchedExpression$ is in the Greylist. Used in cleanup log.",
+    "message": "Limpo no arranque: $matchedExpression$ está na lista cinzenta",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -846,8 +674,7 @@
     }
   },
   "reasonCleanNoList": {
-    "message": "Limpar porque $hostname$ não está nas listas branca ou cinza",
-    "description": "Clean because $hostname$ is not in the White or Grey lists",
+    "message": "Limpo: $hostname$ não consta nem da lista branca nem da cinzenta",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -856,8 +683,7 @@
     }
   },
   "reasonCleanStartupNoList": {
-    "message": "Limpar por causa da limpeza de arranque e $hostname$ não está nas listas branca ou cinza",
-    "description": "Clean because of startup cleanup and $hostname$ is not in the White or Grey lists",
+    "message": "Limpo no arranque: $hostname$ não consta nem da lista branca nem da cinzenta",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -866,8 +692,7 @@
     }
   },
   "reasonKeep": {
-    "message": "Manter por causa de $matchedExpression$ correspondentes na $listType$",
-    "description": "Keep because of matched $matchedExpression$ in the $listType$",
+    "message": "Mantido: $matchedExpression$ correspondeu na $listType$",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -880,8 +705,7 @@
     }
   },
   "reasonKeepOpenTab": {
-    "message": "Manter por causa de separadores abertos de *.$mainDomain$",
-    "description": "Keep because of open tabs of *.$mainDomain$",
+    "message": "Mantido: *.$mainDomain$ ainda está aberto num separador",
     "placeholders": {
       "mainDomain": {
         "content": "$1",
@@ -890,28 +714,22 @@
     }
   },
   "reasonTabsWereIgnored": {
-    "message": "e os separadores abertos também foram ignorados",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] and also open tabs were ignored"
+    "message": "(os separadores abertos foram ignorados nesta passagem)"
   },
   "reasonTabsWereNotIgnored": {
-    "message": "ou em quaisquer separadores abertos",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] or in any open tabs"
+    "message": "(e não está aberto em nenhum separador)"
   },
   "releaseNotesText": {
-    "message": "Notas de lançamento",
-    "description": "Release Notes"
+    "message": "Notas de versão"
   },
   "removeActivityLogEntryText": {
-    "message": "Remover entrada de registo",
-    "description": "Remove Log Entry. Shown in summary activity log for individual log removal."
+    "message": "Remover entrada do registo"
   },
   "removeAllExpressions": {
-    "message": "Remover todas as expressões",
-    "description": "Remove All Expressions"
+    "message": "Remover tudo"
   },
   "removeAllExpressionsConfirm": {
-    "message": "Tem certeza de que pretende remover TODAS as ($expressionCount$) expressões guardadas de ($listCount$) lista(s)?\n\nISTO NÃO PODE SER DESFEITO!\n\nEscreva [ $expressionCount$ ] e clique OK para apagar.",
-    "description": "Are you sure you want to remove ALL ($expressionCount$) saved expression(s) from ($listCount$) list(s)?\n\nTHIS CANNOT BE UNDONE!\n\nType [ $expressionCount$ ] and click OK to delete. Popup prompt if Delete All Expression is clicked.",
+    "message": "Isto remove permanentemente as $expressionCount$ expressão(ões) de $listCount$ lista(s).\n\nNão há como desfazer.\n\nEscreva [ $expressionCount$ ] e prima OK para confirmar.",
     "placeholders": {
       "expressionCount": {
         "content": "$1",
@@ -924,20 +742,16 @@
     }
   },
   "removeAllExpressionsNoneFound": {
-    "message": "Nenhuma expressão para remover!",
-    "description": "No expressions to remove!"
+    "message": "Não há expressões para remover."
   },
   "removeExpressionText": {
-    "message": "Remover expressão",
-    "description": "Remove expression"
+    "message": "Remover expressão"
   },
   "removeListText": {
-    "message": "Remover todas as expressões da lista selecionada",
-    "description": "Remove All Expressions from Selected List. Shown in List of Expressions, only on Firefox and if containers/contextual identities is enabled."
+    "message": "Remover todas as expressões da lista selecionada"
   },
   "removeStorageCount": {
-    "message": "$count$ item(s) removido(s) de $storageType$.",
-    "description": "Removed $count$ item(s) from $storageType$. Used in manual localstorage clean notification.",
+    "message": "Removido(s) $count$ item(ns) de $storageType$.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -950,148 +764,147 @@
     }
   },
   "reportIssuesText": {
-    "message": "Reportar problemas e sugerir funcionalidades",
-    "description": "Report issues and suggest features"
+    "message": "Relatórios de erros e ideias"
   },
   "resetCookieCounterText": {
-    "message": "Repor contadores de cookies",
-    "description": "Reset Cookie Counters. Button in Welcome Page."
+    "message": "Repor contadores de cookies"
   },
   "resetExtensionDataText": {
-    "message": "Repor dados da extensão",
-    "description": "Reset Extension Data"
+    "message": "Apagar todos os dados da extensão"
   },
   "restoreText": {
-    "message": "Restaurar",
-    "description": "Restore. Restores cookies that was cleaned up by this extension. Found in Activity Log entries."
-  },
-  "reviewLinkMessage": {
-    "message": "Obrigado por experimentar $cadTitle$. Se gostou, então por favor deixe uma crítica.",
-    "description": "Thanks for trying out Cookie AutoDelete. If you liked it, then please give a review.",
-    "placeholders": {
-      "cadTitle": {
-        "content": "$1",
-        "example": "Cookie AutoDelete"
-      }
-    }
+    "message": "Restaurar"
   },
   "saveExpressionText": {
-    "message": "Guardar expressão",
-    "description": "Save expression"
+    "message": "Guardar expressão"
   },
   "secondsText": {
-    "message": "segundo(s)",
-    "description": "second(s)"
+    "message": "segundo(s)"
   },
   "serviceWorkersCleanupText": {
-    "message": "Ativar limpeza de Service Workers (Firefox 77+, Chrome 74+)",
-    "description": "Enable Service Workers Cleanup (Firefox 77+, Chrome 74+). Found in CAD Settings."
+    "message": "Ativar limpeza de service workers"
   },
   "serviceWorkersText": {
-    "message": "Service Workers",
-    "description": "Service Workers. Primarily used in notifications."
+    "message": "Service workers"
   },
   "sessionStorageText": {
-    "message": "SessionStorage",
-    "description": "SessionStorage. Used in manual localstorage clean notification"
+    "message": "SessionStorage"
   },
   "settingGroupAutoClean": {
-    "message": "Opções de limpeza automática",
-    "description": "Automatic Cleaning Options"
+    "message": "Momento"
   },
   "settingGroupExpression": {
-    "message": "Opções da expressão",
-    "description": "Expression Options"
+    "message": "Opções de expressão"
   },
   "settingGroupExtension": {
-    "message": "Opções da extensão",
-    "description": "Extension Options"
+    "message": "Interface"
   },
   "settingGroupOtherBrowsing": {
-    "message": "Outras opções de limpeza de dados de navegação",
-    "description": "Other Browsing Data Cleanup Options"
+    "message": "Outras opções de limpeza de dados de navegação"
   },
   "settingsText": {
-    "message": "$CAD$ - Definições",
-    "description": "$CAD$ Settings",
+    "message": "Definições do $CAD$",
     "placeholders": {
       "CAD": {
-        "content": "CAD",
-        "example": "CAD - Short form of Cookie AutoDelete"
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "showNumberOfCookiesInIconText": {
-    "message": "Mostrar número de cookies para o domínio sobre o ícone",
-    "description": "Show Number of Cookies for that Domain over the Icon"
+    "message": "Contagem de cookies no ícone da barra"
+  },
+  "siteDataEmptyOnEnable": {
+    "message": "Ao ativar um novo tipo de dados, apagar o que já está armazenado"
   },
   "siteDataText": {
-    "message": "Dados de sites",
-    "description": "Site Data. Found in Activity Log Summary and Notifications."
+    "message": "Dados do site"
   },
-  "sizePopupText": {
-    "message": "Tamanho do popup (em px)",
-    "description": "Size of Popup (in px). This sets the font size in the Popup."
+  "siteDataPanelTitle": {
+    "message": "Dados armazenados por este site"
   },
-  "sizeSettingText": {
-    "message": "Tamanho das páginas de definições (em px)",
-    "description": "Size of Setting Pages (in px). This sets the font size in the Setting Pages."
+  "siteDataLoadingText": {
+    "message": "A verificar o que este site armazena…"
   },
-  "stopEditingText": {
-    "message": "Parar de editar",
-    "description": "Stop editing"
+  "siteDataNotAvailableText": {
+    "message": "Indisponível nesta página"
   },
-  "successText": {
-    "message": "Sucesso!",
-    "description": "Success!"
+  "siteDataEmptyText": {
+    "message": "Este site não armazena nada de momento"
   },
-  "toGreyListText": {
-    "message": "Adicionar à lista cinza (limpar ao reiniciar o navegador)",
-    "description": "Add to Greylist (Clean on Browser Restart)"
-  },
-  "toWhiteListText": {
-    "message": "Adicionar à lista branca (nunca limpar)",
-    "description": "Add to Whitelist (Never Clean)"
-  },
-  "toggleNotificationText": {
-    "message": "Clique para ativar ou desativar as notificações",
-    "description": "Toggle to enable or disable notifications"
-  },
-  "toggleToGreyListWordText": {
-    "message": "Alternar para a lista cinza",
-    "description": "Toggle to greylist"
-  },
-  "toggleToWhiteListWordText": {
-    "message": "Alternar para a lista branca",
-    "description": "Toggle to whitelist"
-  },
-  "versionNumberText": {
-    "message": "Versão do $CAD$",
-    "description": "$CAD$ version 3.2.1. The actual number is formatted differently and will be right below this text.",
+  "siteDataUsageText": {
+    "message": "A usar $used$ de $quota$",
     "placeholders": {
-      "CAD": {
+      "used": {
         "content": "$1",
-        "example": "CAD or Cookie AutoDelete"
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
       }
     }
   },
-  "versionText": {
-    "message": "Versão do $browser$",
-    "description": "Firefox version",
+  "siteDataSessionCookieText": {
+    "message": "sessão"
+  },
+  "siteDataExpiresText": {
+    "message": "expira a $date$",
     "placeholders": {
-      "browser": {
+      "date": {
         "content": "$1",
-        "example": "Firefox"
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "desconhecido"
+  },
+  "siteDataRefreshTitle": {
+    "message": "Atualizar"
+  },
+  "sizePopupText": {
+    "message": "Tamanho da letra do popup"
+  },
+  "sizeSettingText": {
+    "message": "Tamanho da letra das definições"
+  },
+  "stopEditingText": {
+    "message": "Parar de editar"
+  },
+  "successText": {
+    "message": "Sucesso!"
+  },
+  "toGreyListText": {
+    "message": "Adicionar à lista cinzenta (mantido até o navegador reiniciar)"
+  },
+  "toWhiteListText": {
+    "message": "Adicionar à lista branca (nunca limpo)"
+  },
+  "toggleNotificationText": {
+    "message": "Ligar ou desligar notificações"
+  },
+  "toggleToGreyListWordText": {
+    "message": "Mudar para a lista cinzenta"
+  },
+  "toggleToWhiteListWordText": {
+    "message": "Mudar para a lista branca"
+  },
+  "versionNumberText": {
+    "message": "Versão do $CAD$",
+    "placeholders": {
+      "CAD": {
+        "content": "$1",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "welcomeMessage": {
-    "message": "Olá! Durante esta sessão, $cadTitle$ apagou $sessionDeleted$ cookies de um total de $totalDeleted$ cookies.",
-    "description": "Hi there! During this session, Cookie AutoDelete has deleted 123 cookies and in total 456 cookies.",
+    "message": "O $cadTitle$ removeu $sessionDeleted$ cookies nesta sessão do navegador e $totalDeleted$ no total desde a instalação.",
     "placeholders": {
       "cadTitle": {
         "content": "$1",
-        "example": "Cookie AutoDelete"
+        "example": "Auto-Delete Cookies for Privacy"
       },
       "sessionDeleted": {
         "content": "$2",
@@ -1104,15 +917,415 @@
     }
   },
   "welcomeText": {
-    "message": "Boas vindas",
-    "description": "Welcome"
+    "message": "Bem-vindo"
   },
   "expressionListText": {
-    "message": "Lista de expressões",
-    "description": "List of Expressions"
+    "message": "Lista de expressões"
   },
   "whiteListWordText": {
-    "message": "Lista branca",
-    "description": "Whitelist"
+    "message": "Lista branca"
+  },
+  "themeText": {
+    "message": "Tema"
+  },
+  "themeAutoText": {
+    "message": "Automático"
+  },
+  "themeLightText": {
+    "message": "Claro"
+  },
+  "themeDarkText": {
+    "message": "Escuro"
+  },
+  "keepLocalStorageText": {
+    "message": "Manter LocalStorage"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "Manter LocalStorage até reiniciar"
+  },
+  "popupHeroOnText": {
+    "message": "A eliminação automática está ligada"
+  },
+  "popupHeroForgetText": {
+    "message": "Este site não se vai lembrar de si."
+  },
+  "popupHeroOffText": {
+    "message": "A eliminação automática está desligada"
+  },
+  "popupHeroOffSubText": {
+    "message": "Nada é eliminado automaticamente."
+  },
+  "popupHeroKeepingText": {
+    "message": "A manter os cookies deste site"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$ está na sua lista de manter",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$ é mantido até o navegador fechar",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "será limpo"
+  },
+  "siteKeptText": {
+    "message": "mantido"
+  },
+  "siteCleanDelayText": {
+    "message": "Os cookies são eliminados $SECONDS$ s depois de sair deste site.",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "Os cookies deste site nunca são eliminados."
+  },
+  "siteKeptSessionStatusText": {
+    "message": "Os cookies deste site ficam até o navegador fechar."
+  },
+  "keepCookiesButtonText": {
+    "message": "Manter os cookies deste site"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$ e os seus subdomínios não serão eliminados",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "Manter até o navegador fechar"
+  },
+  "stopKeepingButtonText": {
+    "message": "Deixar de manter este site"
+  },
+  "cleanNowText": {
+    "message": "Limpar agora"
+  },
+  "cleanNowTooltipText": {
+    "message": "Elimina cookies de sites que não mantém — sites abertos noutros separadores são ignorados."
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "Limpar agora, incluindo separadores abertos"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "Igual a «Limpar agora», mas os sites abertos noutros separadores deixam de ser ignorados. Só os sites mantidos sobrevivem."
+  },
+  "deleteSiteCookiesText": {
+    "message": "Eliminar os cookies deste site"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "Eliminar já os cookies de $DOMAIN$, mesmo estando aberto. As regras de manter são ignoradas só nesta ação.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "Eliminar tudo o que este site armazenou"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "Eliminar tudo o que $DOMAIN$ armazenou neste dispositivo: cookies, cache, armazenamento local, bases de dados, workers.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "Manter"
+  },
+  "keepButtonTooltipText": {
+    "message": "Os cookies deste site nunca são eliminados."
+  },
+  "keepSessionButtonText": {
+    "message": "Manter nesta sessão"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "Os cookies ficam até fechar o navegador; no arranque seguinte são eliminados."
+  },
+  "noRuleMatchText": {
+    "message": "Nenhuma regra guardada corresponde a este site"
+  },
+  "matchedRuleText": {
+    "message": "Regra correspondente: $EXPRESSION$",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "Mais opções de limpeza"
+  },
+  "shareText": {
+    "message": "Partilhar"
+  },
+  "shareTooltipText": {
+    "message": "Fale desta extensão a alguém"
+  },
+  "shareCopyLinkText": {
+    "message": "Copiar ligação para a página da extensão"
+  },
+  "shareCopiedText": {
+    "message": "Ligação copiada"
+  },
+  "shareEmailText": {
+    "message": "Partilhar por e-mail"
+  },
+  "moreControlsText": {
+    "message": "Mais controlos…"
+  },
+  "lastCleanSummaryText": {
+    "message": "Última limpeza: $COUNT$ cookies · $TIME$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "Modo avançado"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "Mostra as definições avançadas nesta página e controlos extra no popup: regras de domínio exato, opções de limpeza por site e a regra correspondente. Desligado por predefinição — a vista simples cobre o caso comum."
+  },
+  "overviewText": {
+    "message": "Visão geral"
+  },
+  "protectionText": {
+    "message": "Proteção"
+  },
+  "savedSitesText": {
+    "message": "Sites guardados"
+  },
+  "savedSitesSubText": {
+    "message": "Os sites que mantém. Os sites mantidos guardam os dados para sempre; os de sessão, até o navegador fechar."
+  },
+  "cookiesDeletedSessionText": {
+    "message": "eliminados nesta sessão"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "eliminados no total"
+  },
+  "keptBadgeText": {
+    "message": "Mantido"
+  },
+  "sessionBadgeText": {
+    "message": "Até reiniciar"
+  },
+  "toggleToKeepText": {
+    "message": "Mudar para «Manter»"
+  },
+  "toggleToSessionText": {
+    "message": "Mudar para «Manter nesta sessão»"
+  },
+  "settingGroupSiteData": {
+    "message": "O que é eliminado"
+  },
+  "deleteAllSiteDataText": {
+    "message": "Eliminar todos os dados do site"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "Cookies mais ficheiros guardados, bases de dados offline e workers em segundo plano — tudo o que um site guarda no seu dispositivo."
+  },
+  "customBadgeText": {
+    "message": "Personalizado"
+  },
+  "advancedChooseTypesText": {
+    "message": "Avançado — escolher exatamente o que eliminar"
+  },
+  "patternColumnText": {
+    "message": "Padrão"
+  },
+  "patternMeaningColumnText": {
+    "message": "O que abrange"
+  },
+  "patternDomainMeaningText": {
+    "message": "Exatamente este domínio"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "O domínio e cada subdomínio"
+  },
+  "patternIPMeaningText": {
+    "message": "Um único endereço IP"
+  },
+  "patternCIDRMeaningText": {
+    "message": "Cada endereço do intervalo"
+  },
+  "patternRegexMeaningText": {
+    "message": "Avançado: uma expressão regular entre barras"
+  },
+  "patternFileMeaningText": {
+    "message": "Ficheiros locais abertos no navegador"
+  },
+  "patternKeepLevelsText": {
+    "message": "«Manter» guarda os dados de um site permanentemente. «Manter nesta sessão» guarda-os só até o navegador fechar."
+  },
+  "summaryKeepsEverythingText": {
+    "message": "Mantém tudo"
+  },
+  "summaryAllCookiesText": {
+    "message": "Todos os cookies"
+  },
+  "toggleOptionsText": {
+    "message": "Mostrar ou ocultar opções"
+  },
+  "summaryNamedCookiesText": {
+    "message": "$COUNT$ cookies nomeados",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "Apaga $TYPES$",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "Todos os sites guardados foram removidos."
+  },
+  "importFoldedContainersText": {
+    "message": "$COUNT$ entradas de antigas listas de contentores foram fundidas na lista predefinida.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
+  },
+  "importExportText": {
+    "message": "Importar / Exportar"
+  },
+  "importExportSubText": {
+    "message": "Faça cópia das definições e sites guardados, restaure-os de um ficheiro ou volte às predefinições."
+  },
+  "activeModeDescText": {
+    "message": "Depois de os separadores de um site fecharem."
+  },
+  "gracePeriodDescText": {
+    "message": "Esperar antes de limpar, caso volte."
+  },
+  "domainChangeDescText": {
+    "message": "Limpa o site antigo de um separador quando navega para outro lugar nesse separador."
+  },
+  "greylistDescText": {
+    "message": "Sites marcados «Manter até o navegador fechar» são limpos quando o navegador reinicia."
+  },
+  "cleanDiscardedDescText": {
+    "message": "Um separador que o navegador adormeceu conta como fechado para a limpeza."
+  },
+  "startupCleanDescText": {
+    "message": "Sites em separadores restaurados da última sessão também são limpos."
+  },
+  "cleanExpiredDescText": {
+    "message": "Cookies além da data de validade são eliminados em cada passagem de limpeza."
+  },
+  "cleanupLogDescText": {
+    "message": "Alimenta a página do registo de limpeza e os contadores de cookies eliminados."
+  },
+  "cookieCountIconDescText": {
+    "message": "Mostra quantos cookies o site atual armazenou."
+  },
+  "keepDefaultIconDescText": {
+    "message": "Não recolorir o ícone para indicar se o site é mantido."
+  },
+  "notifyAutoDescText": {
+    "message": "Uma notificação curta após cada limpeza automática."
+  },
+  "notifyDurationDescText": {
+    "message": "Quanto tempo as notificações ficam no ecrã, em segundos."
+  },
+  "debugModeDescText": {
+    "message": "Registo detalhado na consola da extensão, para relatórios de erros."
+  },
+  "supportText": {
+    "message": "Suporte"
+  },
+  "helpText": {
+    "message": "Ajuda"
+  },
+  "helpSubText": {
+    "message": "Tudo o que a extensão faz, explicado. Cada secção abre separadamente."
+  },
+  "helpGettingStartedTitle": {
+    "message": "Primeiros passos"
+  },
+  "helpGettingStartedBody": {
+    "message": "As instalações novas começam em modo manual: nada é eliminado até que o diga. É de propósito — construa primeiro a sua lista de manter, para que ligar a limpeza automática depois não o desligue de tudo o que lhe importa.\n\n1. Mantenha os sites que importam. Visite cada site onde ficar desligado seria irritante (e-mail, banco, tudo o que paga), clique no ícone da barra e prima «Manter os cookies deste site». A regra cobre o domínio e todos os subdomínios. Use «Manter até o navegador fechar» para sites que só devem ser lembrados desta vez.\n\n2. Decida o que «limpar» significa. De origem, a limpeza remove só cookies. Ligue «Eliminar todos os dados do site» na página Proteção para apagar também os outros restos de um site.\n\n3. Ligue a limpeza automática. Ative «Limpar automaticamente» na página Proteção. A partir daí: feche o último separador de um site e, passado o período de tolerância, os cookies desaparecem — a menos que mantenha o site ou ele ainda esteja aberto noutro lugar.\n\n4. Opcional: deixe o registo de limpeza ligado, para ver sempre o que foi limpo e porquê."
+  },
+  "helpCleaningTitle": {
+    "message": "Como funciona a limpeza"
+  },
+  "helpCleaningBody": {
+    "message": "A limpeza automática dispara quando o último separador de um site fecha. O período de tolerância (15 segundos por predefinição) é a sua janela de desfazer: reabra o site dentro dele e nada é removido.\n\n«Limpar ao sair de um site» faz com que navegar num separador de um site para outro conte como sair do primeiro — mais rígido, mas nota-se se saltar entre sites num único separador.\n\nDurante uma limpeza, os cookies de um site sobrevivem se alguma destas condições se verificar: o site ainda está aberto nalgum separador; corresponde a uma regra Manter; corresponde a uma regra «Manter até fechar» e não é uma limpeza de reinício; ou o nome específico do cookie está assinalado na lista de cookies de uma regra correspondente. Tudo o resto desaparece.\n\nO modo avançado acrescenta: tratar separadores adormecidos (descartados) como fechados, limpar separadores restaurados uma vez no arranque, remover sempre cookies expirados, e regras de manter da sessão — sites «Manter até fechar» são limpos quando o navegador reinicia."
+  },
+  "helpSiteDataTitle": {
+    "message": "O que é eliminado"
+  },
+  "helpSiteDataBody": {
+    "message": "Por predefinição a extensão elimina só cookies. O interruptor «Eliminar todos os dados do site» estende a limpeza a tudo o resto que um site guarda no seu dispositivo: cache, IndexedDB, LocalStorage, dados de plugins e service workers. O acordeão Avançado por baixo permite escolher tipos individuais.\n\nDuas coisas a saber antes de os ligar:\n\n• Ativar um tipo apaga-o uma vez, em todo o lado. No momento em que liga um tipo, todos os dados desse tipo atualmente armazenados são apagados de todos os sites (é o aviso na página). Desligue primeiro o interruptor de apagar-ao-ativar se não quiser essa primeira varredura.\n\n• Os dados antigos não podem ser limpos seletivamente. O navegador só deixa a extensão apagar estes tipos por site daqui em diante, em sites que visite de novo. Os restos de antes de ativar a opção ficam até o site ser visitado outra vez."
+  },
+  "helpPatternsTitle": {
+    "message": "Regras de manter e padrões"
+  },
+  "helpPatternsBody": {
+    "message": "Cada site guardado é um padrão numa de duas listas. Sites «Manter» nunca são limpos. Sites «Manter até o navegador fechar» sobrevivem às limpezas normais mas são limpos no reinício. Um site que não corresponda a nenhuma é limpo assim que sai dele — o destino por defeito; as regras são as exceções.\n\nOs padrões olham só para o nome de anfitrião — sem https://, sem caminhos:\n\n• example.com — exatamente esse domínio, não mail.example.com\n• *.example.com — o domínio e cada subdomínio\n• 192.168.1.100 — esse endereço IP\n• 10.0.0.0/8 — qualquer IP do intervalo CIDR\n• /^(mail|news)\\.example\\.com$/ — uma expressão regular entre barras\n• file:///home/user/notes — páginas abertas dessa pasta local\n\nCada regra transporta também opções por site (expanda a linha na página Sites guardados): manter só cookies nomeados em vez de todos, e escolhas de dados por tipo. Uma regra «Criar opções predefinidas» define as opções iniciais de cada regra adicionada depois.\n\nDica: para TODOS os cookies desaparecerem no reinício, adicione * como regra «Manter até o navegador fechar» e marque «Manter» nos sites verdadeiramente permanentes."
+  },
+  "helpImportExportTitle": {
+    "message": "Importar e exportar"
+  },
+  "helpImportExportBody": {
+    "message": "A página Importar / Exportar faz cópia de duas coisas em separado: os sites guardados e as definições. Ambos são ficheiros JSON simples com carimbo temporal no nome, pelo que cópias repetidas não se sobrepõem. Importar nunca elimina o que já tem; duplicados exatos são ignorados e entradas inválidas são rejeitadas com um motivo, enquanto o resto é importado na mesma.\n\nExportações do Cookie AutoDelete original importam-se sem problemas — mesmo formato. Exportações da era Firefox podem conter listas de separadores contentores (uma função do Firefox que não existe no Chromium); essas entradas são fundidas na lista predefinida, ignorando duplicados, e a mensagem de importação diz quantas foram fundidas.\n\nRepor as definições predefinidas também vive nessa página. Não toca nos sites guardados."
+  },
+  "helpLogTitle": {
+    "message": "O registo de limpeza"
+  },
+  "helpLogBody": {
+    "message": "O registo de limpeza responde a «porque fui desligado daquele site?» e «isto faz mesmo alguma coisa?». Mantenha «Manter um registo de limpeza» ligado e abra a página do registo depois de uma limpeza.\n\nCada entrada lista os sites afetados e a decisão tomada para cada um, em palavras simples: mantido porque uma regra correspondeu, mantido porque o site ainda estava aberto, limpo porque nada correspondeu, limpo no arranque (é isso que esvazia os sites até-reiniciar), ou limpo seletivamente quando uma regra mantém só cookies nomeados. As linhas de decisão usam os nomes internos das listas: lista branca significa uma regra Manter permanente, lista cinzenta significa Manter até o navegador fechar.\n\nO registo nunca contém valores de cookies, nunca regista separadores privados/anónimos, nunca sai do seu navegador, e as entradas antigas caem sozinhas do fim. Os contadores da página Visão geral (esta sessão / total) vêm da mesma contabilidade."
+  },
+  "helpPermissionsTitle": {
+    "message": "Porque precisa destas permissões"
+  },
+  "helpPermissionsBody": {
+    "message": "O aviso de instalação «Ler e alterar dados de sites em todos os sites» é o inevitável: os cookies podem pertencer a qualquer site que visite, portanto eliminá-los exige acesso a todos os sites. É usado apenas para ler e remover cookies e dados de sites — nunca para ler o conteúdo das páginas, e nunca para falar com um servidor (não existe nenhum).\n\nO resto, em resumo. Cookies: listar os cookies de um site para o contador e eliminá-los. Dados de navegação: eliminar os extras opcionais — cache, IndexedDB, LocalStorage, dados de plugins, service workers. Armazenamento: guardar localmente as definições e regras de manter. Alarmes: manter uma limpeza adiada no horário mesmo que o navegador suspenda a extensão durante a espera. Separadores: saber que sites estão abertos (sites abertos estão protegidos) e notar quando um separador fecha ou sai de um site. Separador ativo e Scripting: executar as ações por site do popup. Menus de contexto e Notificações: duas funções opcionais que pode desligar nas definições.\n\nDeliberadamente ausentes: histórico de navegação, interceção de pedidos web e qualquer acesso à rede. A extensão não consegue ver o que escreve nem que páginas lê."
+  },
+  "helpTroubleshootingTitle": {
+    "message": "Resolução de problemas e perguntas frequentes"
+  },
+  "helpTroubleshootingBody": {
+    "message": "Desligado de um site? Por ordem de probabilidade: o site não tem regra de manter (ou só o nome de anfitrião exato tem, enquanto o início de sessão vive num subdomínio — use a forma *.example.com); é um site até-reiniciar e o navegador reiniciou; uma regra correspondente mantém só cookies nomeados e o cookie de sessão não está assinalado; ou o cookie do site simplesmente expirou. Não adivinhe — o registo de limpeza nomeia a regra exata que atuou.\n\nOs cookies reaparecem logo após a limpeza? O site está quase sempre ainda aberto nalgum separador — sites abertos recriam cookies à vontade e estão protegidos de qualquer forma.\n\nA limpeza não correu? Verifique por ordem: a limpeza automática está ligada (o cabeçalho do popup di-lo); o site não está aberto noutro separador; o período de tolerância passou; nenhuma regra de manter corresponde; não era um separador adormecido (esses só contam como fechados se essa definição avançada estiver ligada).\n\nAtivou a limpeza de dados do site mas os dados antigos continuam lá? O navegador só deixa apagar esses tipos em sites que visite de novo; os restos ficam até à próxima visita.\n\nAnónimo? Só se o permitir: página de extensões do navegador → Permitir em modo anónimo. O modo anónimo tem o seu próprio armazenamento de cookies e sites guardados, e nunca entra no registo.\n\nAinda preso? A página Suporte tem a versão, um bloco de depuração copiável e a ligação para relatar erros. O modo de depuração (Avançado) faz a extensão narrar cada decisão na consola do service worker, com os valores dos cookies mascarados."
   }
 }
