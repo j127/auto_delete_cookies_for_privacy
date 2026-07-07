@@ -1005,6 +1005,58 @@
     "message": "Site Data",
     "description": "Site Data. Found in Activity Log Summary and Notifications."
   },
+  "siteDataPanelTitle": {
+    "message": "Data stored by this site",
+    "description": "Popup site-data inspector: title of the collapsed panel"
+  },
+  "siteDataLoadingText": {
+    "message": "Checking what this site stores…",
+    "description": "Popup site-data inspector: loading state while the page is being read"
+  },
+  "siteDataNotAvailableText": {
+    "message": "Not available on this page",
+    "description": "Popup site-data inspector: shown on restricted pages (chrome://, Web Store, extension pages)"
+  },
+  "siteDataEmptyText": {
+    "message": "This site stores nothing right now",
+    "description": "Popup site-data inspector: shown when every category is empty"
+  },
+  "siteDataUsageText": {
+    "message": "Using $used$ of $quota$",
+    "description": "Popup site-data inspector: overall origin usage vs quota from storage.estimate(). $USED$ and $QUOTA$ are formatted byte sizes.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
+      }
+    }
+  },
+  "siteDataSessionCookieText": {
+    "message": "session",
+    "description": "Popup site-data inspector: marks a cookie that lasts until the browser closes"
+  },
+  "siteDataExpiresText": {
+    "message": "expires $date$",
+    "description": "Popup site-data inspector: cookie expiry marker. $DATE$ is a locale-formatted date.",
+    "placeholders": {
+      "date": {
+        "content": "$1",
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "unknown",
+    "description": "Popup site-data inspector: category count when the page did not expose that API"
+  },
+  "siteDataRefreshTitle": {
+    "message": "Refresh",
+    "description": "Popup site-data inspector: tooltip of the refresh button"
+  },
   "sizePopupText": {
     "message": "Popup font size",
     "description": "Advanced interface: popup font size in px"
