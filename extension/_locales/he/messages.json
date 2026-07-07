@@ -1,0 +1,1331 @@
+{
+  "aboutText": {
+    "message": "אודות"
+  },
+  "activeModeDelayText": {
+    "message": "זמן המתנה"
+  },
+  "activeModeText": {
+    "message": "ניקוי אוטומטי"
+  },
+  "activityLogSiteDataDomainsText": {
+    "message": "נמחקו נתוני $siteData$ עבור: $domains$",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cache (translated version)"
+      },
+      "domains": {
+        "content": "$2",
+        "example": "example.com, github.com"
+      }
+    }
+  },
+  "addNewExpressionNotification": {
+    "message": "$expression$ נשמר ל$listType$ (מאגר עוגיות: $cookieStore$).",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "example.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "WHITE"
+      },
+      "cookieStore": {
+        "content": "$3",
+        "example": "'default' -or- 'private'"
+      }
+    }
+  },
+  "addNewExpressionNotificationFailed": {
+    "message": "לא ניתן היה לזהות דומיין במקום שעליו לחצתם לחיצה ימנית."
+  },
+  "addNewExpressionNotificationIgnore": {
+    "message": "כפילויות מדולגות אוטומטית."
+  },
+  "autoDeleteDisabledText": {
+    "message": "ניקוי אוטומטי כבוי"
+  },
+  "autoDeleteEnabledText": {
+    "message": "ניקוי אוטומטי פועל"
+  },
+  "browsingDataNoEmptyWarning": {
+    "message": "שימו לב: הפעלת האפשרות הזו לא נוגעת בנתונים שאתרים שמרו בעבר. נתונים ישנים של אתר ניתנים לניקוי רק אחרי שמבקרים בו שוב — עד אז הם נשארים במקומם, גם עבור אתרים שהייתם מעדיפים לנקות."
+  },
+  "browsingDataWarning": {
+    "message": "זהירות: הפעלת כל אחד מסוגי הניקוי שלמטה מוחקת מיד את כל הנתונים השמורים כרגע מהסוג הזה, עבור כל האתרים."
+  },
+  "cacheCleanupText": {
+    "message": "הפעלת ניקוי מטמון"
+  },
+  "cacheText": {
+    "message": "מטמון"
+  },
+  "chromeDebugMode": {
+    "message": "הפעילו את 'מצב פיתוח', ואז פתחו את המסוף של ה-service worker דרך הקישור 'Inspect views'."
+  },
+  "cleanDiscardedText": {
+    "message": "התייחסות לכרטיסיות רדומות כסגורות"
+  },
+  "cleanExpiredCookiesText": {
+    "message": "תמיד להסיר עוגיות שפג תוקפן"
+  },
+  "cleanIgnoringOpenTabsText": {
+    "message": "ניקוי, כולל כרטיסיות פתוחות"
+  },
+  "cleanText": {
+    "message": "ניקוי"
+  },
+  "cleanupDomainChangeText": {
+    "message": "ניקוי בעת עזיבת אתר"
+  },
+  "cleanupActionsBypass": {
+    "message": "זהירות — הכפתורים האלה מתעלמים מרשימות השמירה שלכם ומנקים מיד!"
+  },
+  "cleanupLogText": {
+    "message": "יומן ניקוי"
+  },
+  "clearLogsText": {
+    "message": "מחיקת היומן"
+  },
+  "consoleDebugMode": {
+    "message": "עברו לכרטיסיית Console."
+  },
+  "contextMenusParentClean": {
+    "message": "ניקוי ידני"
+  },
+  "contextMenusParentExpression": {
+    "message": "הוספה לרשימות השמירה"
+  },
+  "contextMenusSelectedDomainLink": {
+    "message": "רק הדומיין של הקישור הזה"
+  },
+  "contextMenusSelectedDomainPage": {
+    "message": "רק הדומיין של הדף הזה"
+  },
+  "contextMenusSelectedDomainText": {
+    "message": "רק הדומיין של: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "contextMenusSelectedSubdomainLink": {
+    "message": "הדומיין של הקישור וכל תת-הדומיינים"
+  },
+  "contextMenusSelectedSubdomainPage": {
+    "message": "הדומיין של הדף וכל תת-הדומיינים"
+  },
+  "contextMenusSelectedSubdomainText": {
+    "message": "כל תת-הדומיינים של: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "contributorsText": {
+    "message": "תורמים"
+  },
+  "cookiesText": {
+    "message": "עוגיות"
+  },
+  "cookieCleanUpOnStartText": {
+    "message": "ניקוי כרטיסיות משוחזרות בעת ההפעלה"
+  },
+  "cookieCleanupIgnoreOpenTabsText": {
+    "message": "ניקוי עכשיו, כולל אתרים שפתוחים בכרטיסייה"
+  },
+  "cookieCleanupText": {
+    "message": "ניקוי עכשיו, תוך דילוג על אתרים שפתוחים בכרטיסייה"
+  },
+  "copyDebugSettingText": {
+    "message": "עותק של ההגדרות הנוכחיות שלכם. הדביקו אותו בדיווח ב-GitHub אם הוא רלוונטי."
+  },
+  "copyDebugSystemText": {
+    "message": "פרטי המערכת שלכם. הדביקו אותם בחלק המתאים של הדיווח ב-GitHub."
+  },
+  "copyFailedText": {
+    "message": "ההעתקה האוטומטית נכשלה — סמנו את הטקסט והעתיקו אותו ידנית."
+  },
+  "copySuccessText": {
+    "message": "הועתק!"
+  },
+  "copyToClipboardText": {
+    "message": "העתקה ללוח"
+  },
+  "createDefaultExpressionOptionsText": {
+    "message": "יצירת אפשרויות ברירת מחדל"
+  },
+  "debugMode": {
+    "message": "מצב ניפוי באגים"
+  },
+  "debugTitle": {
+    "message": "פרטי ניפוי באגים"
+  },
+  "defaultSettingsText": {
+    "message": "איפוס ההגדרות לברירת המחדל"
+  },
+  "disableAutoDeleteText": {
+    "message": "כיבוי הניקוי האוטומטי (מצב ידני)"
+  },
+  "documentationText": {
+    "message": "תיעוד"
+  },
+  "domainExpressionsText": {
+    "message": "אתר"
+  },
+  "domainPlaceholderText": {
+    "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/"
+  },
+  "dropdownAdditionalCleaningOptions": {
+    "message": "פעולות ניקוי נוספות"
+  },
+  "editExpressionText": {
+    "message": "עריכת ביטוי"
+  },
+  "enableAutoDeleteText": {
+    "message": "הפעלת הניקוי האוטומטי"
+  },
+  "enableCleanupLogText": {
+    "message": "ניהול יומן ניקוי"
+  },
+  "enableContextMenus": {
+    "message": "פעולות בתפריט הלחיצה הימנית"
+  },
+  "enableGreyListCleanup": {
+    "message": "כללי שמירה לסשן"
+  },
+  "enableNewVersionPopup": {
+    "message": "הצגת הערות הגרסה לאחר עדכון"
+  },
+  "errorText": {
+    "message": "שגיאה!"
+  },
+  "exportSettingsText": {
+    "message": "ייצוא הגדרות..."
+  },
+  "exportURLSText": {
+    "message": "ייצוא אתרים שמורים"
+  },
+  "exportTitleTimestamp": {
+    "message": "לשמות הקבצים המיוצאים מתווספת חותמת זמן."
+  },
+  "extensionDescription": {
+    "message": "עושה סדר אחרי הכרטיסיות שלכם: כשכרטיסייה נסגרת, העוגיות ונתוני האתר שלה נמחקים — חוץ מאתרים שברשימות השמירה שלכם."
+  },
+  "extensionName": {
+    "message": "Auto-Delete Cookies for Privacy"
+  },
+  "faqText": {
+    "message": "שאלות נפוצות ופתרון בעיות"
+  },
+  "filterDebugMode": {
+    "message": "כדי להציג רק הודעות של התוסף הזה, הדביקו את זה בתיבת הסינון של המסוף:"
+  },
+  "filterText": {
+    "message": "סינון"
+  },
+  "greyListWordText": {
+    "message": "רשימה אפורה"
+  },
+  "groupExpressionDefaultNotice": {
+    "message": "אפשרויות ברירת המחדל לביטויים חדשים נמצאות עכשיו על הביטוי עצמו — פתחו את $listExpression$ כדי להגדיר אותן.",
+    "placeholders": {
+      "listExpression": {
+        "content": "$1",
+        "example": "List of Expressions <- the translated version"
+      }
+    }
+  },
+  "importCoreSettingsFailed": {
+    "message": "ייבוא ההגדרות בוטל: הקובץ מכיל הגדרה לא מוכרת."
+  },
+  "importCoreSettingsText": {
+    "message": "ייבוא הגדרות..."
+  },
+  "importFileNotFound": {
+    "message": "הקובץ לא נמצא: $filename$",
+    "placeholders": {
+      "filename": {
+        "content": "$1",
+        "example": "filename.json"
+      }
+    }
+  },
+  "importFileTypeInvalid": {
+    "message": "סוג הקובץ הזה לא נתמך לייבוא."
+  },
+  "importFileValidationFailed": {
+    "message": "הקובץ לא עבר את בדיקת התקינות."
+  },
+  "importInvalidExpressions": {
+    "message": "חלק מהביטויים שיובאו לא היו תקינים; כל אחד מפורט למטה עם הסיבה. תקנו אותם בקובץ וייבאו שוב."
+  },
+  "importListNotArray": {
+    "message": "$identifier$ אמור להיות מערך, אבל הוא לא.",
+    "placeholders": {
+      "identifier": {
+        "content": "$1",
+        "example": "jsonObjectKey"
+      }
+    }
+  },
+  "importMissingKey": {
+    "message": "מזהה חסר"
+  },
+  "importURLSText": {
+    "message": "ייבוא אתרים שמורים"
+  },
+  "importValidExpressions": {
+    "message": "יובאו $num$ ביטויים מתוך $filename$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "filename": {
+        "content": "$2",
+        "example": "filename.json"
+      }
+    }
+  },
+  "indexedDBCleanupText": {
+    "message": "הפעלת ניקוי IndexedDB"
+  },
+  "indexedDBText": {
+    "message": "IndexedDB"
+  },
+  "inputErrorComma": {
+    "message": "פסיקים מותרים רק בביטויים רגולריים."
+  },
+  "inputErrorEmpty": {
+    "message": "הביטוי לא יכול להיות ריק."
+  },
+  "inputErrorRegExp": {
+    "message": "ביטוי רגולרי לא תקין: $RegexError$",
+    "placeholders": {
+      "RegexError": {
+        "content": "$1",
+        "example": "SyntaxError:  unterminated character class."
+      }
+    }
+  },
+  "inputErrorSlashEndMissingStart": {
+    "message": "מסתיים בלוכסן אבל לא מתחיל באחד. לדומיין רגיל, הסירו את הלוכסן הסופי; לביטוי רגולרי, הוסיפו את הלוכסן הפותח."
+  },
+  "inputErrorSlashStartMissingEnd": {
+    "message": "מתחיל בלוכסן אבל לא סוגר אותו. הוסיפו את הלוכסן הסוגר כדי להשלים את הביטוי הרגולרי."
+  },
+  "inputErrorSpace": {
+    "message": "שמות מארח לא יכולים להכיל רווחים."
+  },
+  "inputAddSuccess": {
+    "message": "נוספו $num$ ביטויים לרשימה הפעילה בתור $listType$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "GreyList"
+      }
+    }
+  },
+  "invalidNewExpressions": {
+    "message": "חלק מהביטויים החדשים לא היו תקינים; הם נשארים למעלה לעריכה, והסיבות מפורטות למטה."
+  },
+  "keepAllCookiesText": {
+    "message": "שמירת כל העוגיות"
+  },
+  "keepAllCookiesGreyText": {
+    "message": "שמירת כל העוגיות עד להפעלה מחדש"
+  },
+  "keepCacheText": {
+    "message": "שמירת מטמון"
+  },
+  "keepCacheGreyText": {
+    "message": "שמירת מטמון עד להפעלה מחדש"
+  },
+  "keepDefaultIcon": {
+    "message": "השארת הסמל הרגיל"
+  },
+  "keepIndexedDBText": {
+    "message": "שמירת IndexedDB"
+  },
+  "keepIndexedDBGreyText": {
+    "message": "שמירת IndexedDB עד להפעלה מחדש"
+  },
+  "keepLocalstorageText": {
+    "message": "שמירת LocalStorage"
+  },
+  "keepLocalstorageGreyText": {
+    "message": "שמירת LocalStorage עד להפעלה מחדש"
+  },
+  "keepPluginDataText": {
+    "message": "שמירת נתוני תוספים"
+  },
+  "keepPluginDataGreyText": {
+    "message": "שמירת נתוני תוספים עד להפעלה מחדש"
+  },
+  "keepServiceWorkersText": {
+    "message": "שמירת Service Workers"
+  },
+  "keepServiceWorkersGreyText": {
+    "message": "שמירת Service Workers עד להפעלה מחדש"
+  },
+  "keepText": {
+    "message": "שמירה"
+  },
+  "listTypeText": {
+    "message": "לכמה זמן"
+  },
+  "localStorageCleanupText": {
+    "message": "הפעלת ניקוי LocalStorage"
+  },
+  "localStorageText": {
+    "message": "LocalStorage"
+  },
+  "manualActionNotification": {
+    "message": "ניקוי ידני"
+  },
+  "manualCleanError": {
+    "message": "לא ניתן לנקות $siteData$ עבור הכרטיסייה הזו:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      }
+    }
+  },
+  "manualCleanNothing": {
+    "message": "אין מה לנקות: לא נמצא מידע מסוג $siteData$ ב-$url$.",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanRemoved": {
+    "message": "נוקו $deleted$ מתוך $total$.",
+    "placeholders": {
+      "deleted": {
+        "content": "$1",
+        "example": "5"
+      },
+      "total": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "manualCleanSiteDataAll": {
+    "message": "מחיקת הכול עבור האתר הזה"
+  },
+  "manualCleanSiteDataAllDomain": {
+    "message": "מחיקת כל נתוני האתר שנשמרו על ידי $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataCache": {
+    "message": "מחיקת מטמון עבור האתר הזה"
+  },
+  "manualCleanSiteDataCacheDomain": {
+    "message": "מחיקת כל המטמון שנשמר על ידי $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataCookies": {
+    "message": "מחיקת עוגיות עבור האתר הזה"
+  },
+  "manualCleanSiteDataCookiesDomain": {
+    "message": "מחיקת כל העוגיות שנשמרו על ידי $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataIndexedDB": {
+    "message": "מחיקת IndexedDB עבור האתר הזה"
+  },
+  "manualCleanSiteDataIndexedDBDomain": {
+    "message": "מחיקת כל נתוני ה-IndexedDB שנשמרו על ידי $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataLocalStorage": {
+    "message": "מחיקת LocalStorage עבור האתר הזה"
+  },
+  "manualCleanSiteDataLocalStorageDomain": {
+    "message": "מחיקת כל ה-LocalStorage שנשמר על ידי $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataPluginData": {
+    "message": "מחיקת נתוני תוספים עבור האתר הזה"
+  },
+  "manualCleanSiteDataPluginDataDomain": {
+    "message": "מחיקת כל נתוני התוספים שנשמרו על ידי $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataServiceWorkers": {
+    "message": "מחיקת Service Workers עבור האתר הזה"
+  },
+  "manualCleanSiteDataServiceWorkersDomain": {
+    "message": "מחיקת כל ה-Service Workers שנרשמו על ידי $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSuccess": {
+    "message": "תוצאת ניקוי $siteData$ ב-$url$:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualNotificationsText": {
+    "message": "התראה לאחר ניקוי ידני"
+  },
+  "matchedDomainExpressionText": {
+    "message": "ביטוי הדומיין שהתאים"
+  },
+  "menuText": {
+    "message": "תפריט"
+  },
+  "minutesText": {
+    "message": "דקות"
+  },
+  "noCleanupLogText": {
+    "message": "יומן הניקוי ריק."
+  },
+  "noExpressionsText": {
+    "message": "עדיין לא הוספתם ביטויים."
+  },
+  "noPrivateLogging": {
+    "message": "כרטיסיות פרטיות/אנונימיות לעולם לא נרשמות ביומן."
+  },
+  "noSearchExpressionsFound": {
+    "message": "אין תוצאות לחיפוש שלכם."
+  },
+  "noRulesText": {
+    "message": "אף ביטוי לא תואם לאתר הזה."
+  },
+  "noneText": {
+    "message": "ללא"
+  },
+  "notificationContent": {
+    "message": "הוסרו נתוני אתרים — $Num$ עוגיות מ-$total$ אתרים, כולל: $Websites$",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "123"
+      },
+      "total": {
+        "content": "$2",
+        "example": "8"
+      },
+      "websites": {
+        "content": "$3",
+        "example": "google.com, facebook.com"
+      }
+    }
+  },
+  "notificationDisabledText": {
+    "message": "התראות כבויות"
+  },
+  "notificationEnabledText": {
+    "message": "התראות פועלות"
+  },
+  "notificationTitle": {
+    "message": "העוגיות נוקו"
+  },
+  "notificationTitleSiteData": {
+    "message": "נתוני האתר נוקו"
+  },
+  "notifyCookieCleanupDelayText": {
+    "message": "משך ההתראה"
+  },
+  "notifyCookieCleanUpText": {
+    "message": "התראה לאחר ניקוי"
+  },
+  "oldReleasesText": {
+    "message": "גרסאות קודמות מפורטות באתר"
+  },
+  "openDebugMode": {
+    "message": "פלט ניפוי הבאגים נמצא במסוף של התוסף. פתחו כרטיסייה חדשה ועברו אל"
+  },
+  "optionsText": {
+    "message": "מה נשמר"
+  },
+  "pluginDataCleanupText": {
+    "message": "הפעלת ניקוי נתוני תוספים"
+  },
+  "pluginDataText": {
+    "message": "נתוני תוספים"
+  },
+  "popupCookieCountText": {
+    "message": "עוגיות"
+  },
+  "preferencesText": {
+    "message": "הגדרות"
+  },
+  "questionExpression": {
+    "message": "איך התבניות עובדות?"
+  },
+  "reasonCADSiteDataCookie": {
+    "message": "עוגיית סימון פנימית הוסרה כדי להפעיל את ניקוי נתוני האתר עבור $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCADSiteDataCookieRestart": {
+    "message": "עוגיית סימון פנימית הוסרה בהפעלה מחדש כדי להפעיל את ניקוי נתוני האתר עבור $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpired": {
+    "message": "הוסרו רק עוגיות שפג תוקפן מ-$hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpiredRestart": {
+    "message": "הוסרו רק עוגיות שפג תוקפן מ-$hostname$ במהלך ניקוי ההפעלה מחדש.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieName": {
+    "message": "נוקה סלקטיבית: $matchedExpression$ ב$listType$ מגן על עוגיות אחרות, אבל לא על העוגייה הזו",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.google.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      }
+    }
+  },
+  "reasonCleanGreyList": {
+    "message": "נוקה בעת ההפעלה: $matchedExpression$ נמצא ברשימה האפורה",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.google.com"
+      }
+    }
+  },
+  "reasonCleanNoList": {
+    "message": "נוקה: $hostname$ לא מופיע לא ברשימה הלבנה ולא ברשימה האפורה",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "example": "sub.google.com"
+      }
+    }
+  },
+  "reasonCleanStartupNoList": {
+    "message": "נוקה בעת ההפעלה: $hostname$ לא מופיע לא ברשימה הלבנה ולא ברשימה האפורה",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "example": "sub.google.com"
+      }
+    }
+  },
+  "reasonKeep": {
+    "message": "נשמר: התאים ל-$matchedExpression$ ב$listType$",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.google.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      }
+    }
+  },
+  "reasonKeepOpenTab": {
+    "message": "נשמר: *.$mainDomain$ עדיין פתוח בכרטיסייה",
+    "placeholders": {
+      "mainDomain": {
+        "content": "$1",
+        "example": "google.com"
+      }
+    }
+  },
+  "reasonTabsWereIgnored": {
+    "message": "(כרטיסיות פתוחות לא נלקחו בחשבון בניקוי הזה)"
+  },
+  "reasonTabsWereNotIgnored": {
+    "message": "(וגם לא פתוח באף כרטיסייה)"
+  },
+  "releaseNotesText": {
+    "message": "הערות גרסה"
+  },
+  "removeActivityLogEntryText": {
+    "message": "הסרת רשומת יומן"
+  },
+  "removeAllExpressions": {
+    "message": "הסרת הכול"
+  },
+  "removeAllExpressionsConfirm": {
+    "message": "פעולה זו מסירה את כל $expressionCount$ הביטויים מ-$listCount$ רשימות, לצמיתות.\n\nאין אפשרות לביטול.\n\nהקלידו [ $expressionCount$ ] ולחצו על אישור כדי לאשר.",
+    "placeholders": {
+      "expressionCount": {
+        "content": "$1",
+        "example": "75"
+      },
+      "listCount": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "removeAllExpressionsNoneFound": {
+    "message": "אין ביטויים להסרה."
+  },
+  "removeExpressionText": {
+    "message": "הסרת ביטוי"
+  },
+  "removeListText": {
+    "message": "הסרת כל הביטויים מהרשימה שנבחרה"
+  },
+  "removeStorageCount": {
+    "message": "נוקו $count$ פריטים מ-$storageType$.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      },
+      "storageType": {
+        "content": "$2",
+        "example": "LocalStorage"
+      }
+    }
+  },
+  "reportIssuesText": {
+    "message": "דיווח על באגים ורעיונות לתכונות"
+  },
+  "resetCookieCounterText": {
+    "message": "איפוס מוני העוגיות"
+  },
+  "resetExtensionDataText": {
+    "message": "מחיקת כל נתוני התוסף"
+  },
+  "restoreText": {
+    "message": "שחזור"
+  },
+  "saveExpressionText": {
+    "message": "שמירת ביטוי"
+  },
+  "secondsText": {
+    "message": "שניות"
+  },
+  "serviceWorkersCleanupText": {
+    "message": "הפעלת ניקוי Service Workers"
+  },
+  "serviceWorkersText": {
+    "message": "Service Workers"
+  },
+  "sessionStorageText": {
+    "message": "SessionStorage"
+  },
+  "settingGroupAutoClean": {
+    "message": "תזמון"
+  },
+  "settingGroupExpression": {
+    "message": "אפשרויות ביטוי"
+  },
+  "settingGroupExtension": {
+    "message": "ממשק"
+  },
+  "settingGroupOtherBrowsing": {
+    "message": "אפשרויות ניקוי נוספות לנתוני גלישה"
+  },
+  "settingsText": {
+    "message": "הגדרות $CAD$",
+    "placeholders": {
+      "CAD": {
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
+      }
+    }
+  },
+  "showNumberOfCookiesInIconText": {
+    "message": "מספר העוגיות על סמל סרגל הכלים"
+  },
+  "siteDataEmptyOnEnable": {
+    "message": "בהפעלת סוג נתונים חדש, מחיקת מה שכבר שמור"
+  },
+  "siteDataText": {
+    "message": "נתוני אתר"
+  },
+  "siteDataPanelTitle": {
+    "message": "נתונים שהאתר הזה שומר"
+  },
+  "siteDataLoadingText": {
+    "message": "בודקים מה האתר הזה שומר…"
+  },
+  "siteDataNotAvailableText": {
+    "message": "לא זמין בדף הזה"
+  },
+  "siteDataEmptyText": {
+    "message": "האתר הזה לא שומר שום דבר כרגע"
+  },
+  "siteDataUsageText": {
+    "message": "בשימוש $used$ מתוך $quota$",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
+      }
+    }
+  },
+  "siteDataSessionCookieText": {
+    "message": "סשן"
+  },
+  "siteDataExpiresText": {
+    "message": "תוקף עד $date$",
+    "placeholders": {
+      "date": {
+        "content": "$1",
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "לא ידוע"
+  },
+  "siteDataRefreshTitle": {
+    "message": "רענון"
+  },
+  "sizePopupText": {
+    "message": "גודל הגופן בחלון הקופץ"
+  },
+  "sizeSettingText": {
+    "message": "גודל הגופן בהגדרות"
+  },
+  "stopEditingText": {
+    "message": "סיום עריכה"
+  },
+  "successText": {
+    "message": "הצלחה!"
+  },
+  "toGreyListText": {
+    "message": "הוספה לרשימה האפורה (נשמר עד הפעלה מחדש של הדפדפן)"
+  },
+  "toWhiteListText": {
+    "message": "הוספה לרשימה הלבנה (לעולם לא מנוקה)"
+  },
+  "toggleNotificationText": {
+    "message": "הפעלה או כיבוי של התראות"
+  },
+  "toggleToGreyListWordText": {
+    "message": "העברה לרשימה האפורה"
+  },
+  "toggleToWhiteListWordText": {
+    "message": "העברה לרשימה הלבנה"
+  },
+  "versionNumberText": {
+    "message": "גרסת $CAD$",
+    "placeholders": {
+      "CAD": {
+        "content": "$1",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
+      }
+    }
+  },
+  "welcomeMessage": {
+    "message": "$cadTitle$ הסיר $sessionDeleted$ עוגיות בסשן הנוכחי של הדפדפן, ובסך הכול $totalDeleted$ מאז ההתקנה.",
+    "placeholders": {
+      "cadTitle": {
+        "content": "$1",
+        "example": "Auto-Delete Cookies for Privacy"
+      },
+      "sessionDeleted": {
+        "content": "$2",
+        "example": "123"
+      },
+      "totalDeleted": {
+        "content": "$3",
+        "example": "456"
+      }
+    }
+  },
+  "welcomeText": {
+    "message": "ברוכים הבאים"
+  },
+  "expressionListText": {
+    "message": "רשימת הביטויים"
+  },
+  "whiteListWordText": {
+    "message": "רשימה לבנה"
+  },
+  "themeText": {
+    "message": "ערכת נושא"
+  },
+  "themeAutoText": {
+    "message": "אוטומטי"
+  },
+  "themeLightText": {
+    "message": "בהיר"
+  },
+  "themeDarkText": {
+    "message": "כהה"
+  },
+  "keepLocalStorageText": {
+    "message": "שמירת LocalStorage"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "שמירת LocalStorage עד להפעלה מחדש"
+  },
+  "popupHeroOnText": {
+    "message": "מחיקה אוטומטית פועלת"
+  },
+  "popupHeroForgetText": {
+    "message": "האתר הזה לא יזכור אתכם."
+  },
+  "popupHeroOffText": {
+    "message": "מחיקה אוטומטית כבויה"
+  },
+  "popupHeroOffSubText": {
+    "message": "שום דבר לא נמחק אוטומטית."
+  },
+  "popupHeroKeepingText": {
+    "message": "העוגיות של האתר הזה נשמרות"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$ נמצא ברשימת השמירה שלכם",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$ נשמר עד לסגירת הדפדפן",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "ינוקה"
+  },
+  "siteKeptText": {
+    "message": "נשמר"
+  },
+  "siteCleanDelayText": {
+    "message": "העוגיות נמחקות $SECONDS$ שניות אחרי שעוזבים את האתר.",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "העוגיות של האתר הזה לעולם לא נמחקות."
+  },
+  "siteKeptSessionStatusText": {
+    "message": "העוגיות של האתר הזה נשארות עד לסגירת הדפדפן."
+  },
+  "keepCookiesButtonText": {
+    "message": "שמירת עוגיות לאתר הזה"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$ ותת-הדומיינים שלו לא יימחקו",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "שמירה עד לסגירת הדפדפן"
+  },
+  "stopKeepingButtonText": {
+    "message": "הפסקת השמירה של האתר הזה"
+  },
+  "cleanNowText": {
+    "message": "ניקוי עכשיו"
+  },
+  "cleanNowTooltipText": {
+    "message": "מוחק עוגיות מאתרים שלא שמרתם — אתרים שפתוחים בכרטיסיות אחרות מדולגים."
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "ניקוי עכשיו, כולל כרטיסיות פתוחות"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "כמו 'ניקוי עכשיו', אבל בלי לדלג על אתרים שפתוחים בכרטיסיות אחרות. רק אתרים שמורים שורדים."
+  },
+  "deleteSiteCookiesText": {
+    "message": "מחיקת העוגיות של האתר הזה"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "מחיקת העוגיות של $DOMAIN$ עכשיו, למרות שהאתר פתוח. כללי השמירה לא חלים על הפעולה הזו.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "מחיקת כל מה שהאתר הזה שמר"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "מחיקת כל מה ש-$DOMAIN$ שמר במכשיר הזה: עוגיות, מטמון, אחסון מקומי, מסדי נתונים ו-workers.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "שמירה"
+  },
+  "keepButtonTooltipText": {
+    "message": "העוגיות של האתר הזה לעולם לא נמחקות."
+  },
+  "keepSessionButtonText": {
+    "message": "שמירה לסשן הזה"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "העוגיות נשארות עד לסגירת הדפדפן, ואז נמחקות בהפעלה הבאה."
+  },
+  "noRuleMatchText": {
+    "message": "אף כלל שמור לא תואם לאתר הזה"
+  },
+  "matchedRuleText": {
+    "message": "כלל תואם: $EXPRESSION$",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "אפשרויות ניקוי נוספות"
+  },
+  "shareText": {
+    "message": "שיתוף"
+  },
+  "shareTooltipText": {
+    "message": "ספרו לחברים על התוסף הזה"
+  },
+  "shareCopyLinkText": {
+    "message": "העתקת קישור לדף התוסף"
+  },
+  "shareCopiedText": {
+    "message": "הקישור הועתק"
+  },
+  "shareEmailText": {
+    "message": "שיתוף באימייל"
+  },
+  "moreControlsText": {
+    "message": "עוד אפשרויות…"
+  },
+  "lastCleanSummaryText": {
+    "message": "ניקוי אחרון: $COUNT$ עוגיות · $TIME$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "מצב מתקדם"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "מציג את הגדרות המומחים בדף הזה ואמצעי שליטה נוספים בחלון הקופץ: כללים לדומיין מדויק, אפשרויות ניקוי לכל אתר, והכלל התואם. כבוי כברירת מחדל — התצוגה הפשוטה מכסה את המקרה הנפוץ."
+  },
+  "overviewText": {
+    "message": "סקירה"
+  },
+  "protectionText": {
+    "message": "הגנה"
+  },
+  "savedSitesText": {
+    "message": "אתרים שמורים"
+  },
+  "savedSitesSubText": {
+    "message": "האתרים ששמרתם. אתרים שמורים שומרים על הנתונים שלהם תמיד; אתרי סשן שומרים אותם עד לסגירת הדפדפן."
+  },
+  "cookiesDeletedSessionText": {
+    "message": "נמחקו בסשן הנוכחי"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "נמחקו בסך הכול"
+  },
+  "keptBadgeText": {
+    "message": "נשמר"
+  },
+  "sessionBadgeText": {
+    "message": "עד הפעלה מחדש"
+  },
+  "toggleToKeepText": {
+    "message": "העברה לשמירה קבועה"
+  },
+  "toggleToSessionText": {
+    "message": "העברה לשמירה עד לסגירת הדפדפן"
+  },
+  "settingGroupSiteData": {
+    "message": "מה נמחק"
+  },
+  "deleteAllSiteDataText": {
+    "message": "מחיקת כל נתוני האתר"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "עוגיות ובנוסף קבצים שמורים, מסדי נתונים לא-מקוונים ותהליכי רקע — כל מה שאתר שומר במכשיר שלכם."
+  },
+  "customBadgeText": {
+    "message": "מותאם אישית"
+  },
+  "advancedChooseTypesText": {
+    "message": "מתקדם — בחירה מדויקת של מה שיימחק"
+  },
+  "patternColumnText": {
+    "message": "תבנית"
+  },
+  "patternMeaningColumnText": {
+    "message": "למה זה תואם"
+  },
+  "patternDomainMeaningText": {
+    "message": "בדיוק הדומיין הזה"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "הדומיין וכל תת-דומיין"
+  },
+  "patternIPMeaningText": {
+    "message": "כתובת IP בודדת"
+  },
+  "patternCIDRMeaningText": {
+    "message": "כל כתובת בטווח"
+  },
+  "patternRegexMeaningText": {
+    "message": "מתקדם: ביטוי רגולרי בין לוכסנים"
+  },
+  "patternFileMeaningText": {
+    "message": "קבצים מקומיים שנפתחו בדפדפן"
+  },
+  "patternKeepLevelsText": {
+    "message": "“שמירה” שומרת את נתוני האתר לצמיתות. “שמירה לסשן הזה” שומרת אותם רק עד לסגירת הדפדפן."
+  },
+  "summaryKeepsEverythingText": {
+    "message": "שומר הכול"
+  },
+  "summaryAllCookiesText": {
+    "message": "כל העוגיות"
+  },
+  "toggleOptionsText": {
+    "message": "הצגה או הסתרה של אפשרויות"
+  },
+  "summaryNamedCookiesText": {
+    "message": "$COUNT$ עוגיות לפי שם",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "מנקה $TYPES$",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "כל האתרים השמורים הוסרו."
+  },
+  "importFoldedContainersText": {
+    "message": "$COUNT$ רשומות מרשימות קונטיינרים ישנות מוזגו לרשימת ברירת המחדל.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
+  },
+  "importExportText": {
+    "message": "ייבוא / ייצוא"
+  },
+  "importExportSubText": {
+    "message": "גיבוי ההגדרות והאתרים השמורים, שחזור מקובץ, או איפוס לברירת המחדל."
+  },
+  "activeModeDescText": {
+    "message": "אחרי שהכרטיסיות של אתר נסגרות."
+  },
+  "gracePeriodDescText": {
+    "message": "המתנה לפני הניקוי, למקרה שתחזרו."
+  },
+  "domainChangeDescText": {
+    "message": "מנקה את האתר הקודם של כרטיסייה כשגולשים בה למקום חדש."
+  },
+  "greylistDescText": {
+    "message": "אתרים שסומנו “שמירה עד לסגירת הדפדפן” מנוקים כשהדפדפן מופעל מחדש."
+  },
+  "cleanDiscardedDescText": {
+    "message": "כרטיסייה שהדפדפן הרדים נחשבת סגורה לצורך הניקוי."
+  },
+  "startupCleanDescText": {
+    "message": "אתרים בכרטיסיות ששוחזרו מהסשן הקודם מנוקים גם הם."
+  },
+  "cleanExpiredDescText": {
+    "message": "עוגיות שפג תוקפן נמחקות בכל מחזור ניקוי."
+  },
+  "cleanupLogDescText": {
+    "message": "מפעיל את דף יומן הניקוי ואת מוני העוגיות שנמחקו."
+  },
+  "cookieCountIconDescText": {
+    "message": "מציג כמה עוגיות האתר הנוכחי שמר."
+  },
+  "keepDefaultIconDescText": {
+    "message": "לא לצבוע את הסמל כדי לציין אם האתר שמור."
+  },
+  "notifyAutoDescText": {
+    "message": "התראה קצרה אחרי כל ניקוי אוטומטי."
+  },
+  "notifyDurationDescText": {
+    "message": "כמה זמן ההתראות נשארות על המסך, בשניות."
+  },
+  "debugModeDescText": {
+    "message": "רישום מפורט למסוף התוסף, לצורך דיווחי באגים."
+  },
+  "supportText": {
+    "message": "תמיכה"
+  },
+  "helpText": {
+    "message": "עזרה"
+  },
+  "helpSubText": {
+    "message": "הסבר על כל מה שהתוסף עושה. כל קטע נפתח בנפרד."
+  },
+  "helpGettingStartedTitle": {
+    "message": "צעדים ראשונים"
+  },
+  "helpGettingStartedBody": {
+    "message": "התקנות חדשות מתחילות במצב ידני: שום דבר לא נמחק עד שתגידו. זה מכוון — בנו קודם את רשימת השמירה, כך שהפעלת הניקוי האוטומטי אחר כך לא תנתק אתכם מכל מה שחשוב לכם.\n\n1. שמרו את האתרים שחשובים. בקרו בכל אתר שבו ניתוק היה מעצבן (אימייל, בנק, כל שירות בתשלום), לחצו על הסמל בסרגל הכלים ולחצו על “שמירת עוגיות לאתר הזה”. הכלל מכסה את הדומיין ואת כל תת-הדומיינים שלו. השתמשו ב“שמירה עד לסגירת הדפדפן” לאתרים שצריכים להיזכר רק בסשן הנוכחי.\n\n2. החליטו מה “ניקוי” אומר. כברירת מחדל, ניקוי מסיר עוגיות בלבד. הפעילו את “מחיקת כל נתוני האתר” בדף ההגנה כדי לנקות גם שאריות אחרות של אתר.\n\n3. הפעילו את הניקוי האוטומטי. הפעילו את “ניקוי אוטומטי” בדף ההגנה. מאותו רגע: סגירת הכרטיסייה האחרונה של אתר — ואחרי זמן ההמתנה העוגיות שלו נעלמות, אלא אם שמרתם את האתר או שהוא עדיין פתוח במקום אחר.\n\n4. אופציונלי: השאירו את יומן הניקוי פועל, כדי שתמיד תוכלו לראות מה נוקה ולמה."
+  },
+  "helpCleaningTitle": {
+    "message": "איך הניקוי עובד"
+  },
+  "helpCleaningBody": {
+    "message": "הניקוי האוטומטי מופעל כשהכרטיסייה האחרונה של אתר נסגרת. זמן ההמתנה (15 שניות כברירת מחדל) הוא חלון הביטול שלכם: פתחו את האתר מחדש בתוכו ושום דבר לא יוסר.\n\n“ניקוי בעת עזיבת אתר” גורם לכך שמעבר של כרטיסייה מאתר אחד לאחר ייחשב כעזיבת האתר הראשון — קפדני יותר, אבל מורגש אם קופצים בין אתרים בכרטיסייה אחת.\n\nבמהלך ניקוי, העוגיות של אתר שורדות אם אחד מאלה מתקיים: האתר עדיין פתוח בכרטיסייה כלשהי; הוא תואם כלל שמירה; הוא תואם כלל שמירה-עד-סגירת-הדפדפן וזה לא ניקוי של הפעלה מחדש; או ששמה של העוגייה הספציפית מסומן ברשימת העוגיות של כלל תואם. כל השאר נמחק.\n\nמצב מתקדם מוסיף: התייחסות לכרטיסיות רדומות כסגורות, ניקוי חד-פעמי של כרטיסיות משוחזרות בהפעלה, הסרה קבועה של עוגיות שפג תוקפן, וכללי שמירה לסשן — אתרים שסומנו “שמירה עד לסגירת הדפדפן” מנוקים כשהדפדפן מופעל מחדש."
+  },
+  "helpSiteDataTitle": {
+    "message": "מה נמחק"
+  },
+  "helpSiteDataBody": {
+    "message": "כברירת מחדל התוסף מוחק עוגיות בלבד. המתג “מחיקת כל נתוני האתר” מרחיב את הניקוי לכל שאר מה שאתר שומר במכשיר: מטמון, IndexedDB, LocalStorage, נתוני תוספים ו-Service Workers. האקורדיון “מתקדם” שמתחתיו מאפשר לבחור סוגים בודדים.\n\nשני דברים שכדאי לדעת לפני שמפעילים:\n\n• הפעלת סוג מוחקת אותו פעם אחת, בכל מקום. ברגע שמדליקים סוג, כל הנתונים השמורים כרגע מהסוג הזה נמחקים לכל האתרים (זו האזהרה שבדף). כבו קודם את מתג המחיקה-בעת-הפעלה אם אתם לא רוצים את הניקוי הראשוני הזה.\n\n• נתונים ישנים לא ניתנים לניקוי סלקטיבי. הדפדפן מאפשר לתוסף לנקות את הסוגים האלה רק לכל אתר בנפרד מכאן והלאה, לאתרים שתבקרו בהם שוב. שאריות מלפני הפעלת האפשרות נשארות עד הביקור הבא באתר."
+  },
+  "helpPatternsTitle": {
+    "message": "כללי שמירה ותבניות"
+  },
+  "helpPatternsBody": {
+    "message": "כל אתר שמור הוא תבנית באחת משתי רשימות. אתרי “שמירה” לעולם לא מנוקים. אתרי “שמירה עד לסגירת הדפדפן” שורדים ניקויים רגילים אך מנוקים כשהדפדפן מופעל מחדש. אתר שלא תואם אף אחת מהן מנוקה ברגע שעוזבים אותו — זו ברירת המחדל; הכללים הם החריגים.\n\nתבניות תואמות רק את שם המארח — בלי https://, בלי נתיבים:\n\n• example.com — בדיוק הדומיין הזה, לא mail.example.com\n• *.example.com — הדומיין וכל תת-דומיין\n• 192.168.1.100 — כתובת ה-IP הזו\n• 10.0.0.0/8 — כל IP בטווח ה-CIDR\n• /^(mail|news)\\.example\\.com$/ — ביטוי רגולרי בין לוכסנים\n• file:///home/user/notes — דפים שנפתחו מהתיקייה המקומית הזו\n\nלכל כלל יש גם אפשרויות פר-אתר (הרחיבו את השורה שלו בדף האתרים השמורים): שמירה של עוגיות לפי שם בלבד במקום כולן, ובחירות פר-סוג של נתוני אתר. כלל “יצירת אפשרויות ברירת מחדל” קובע את אפשרויות ההתחלה של כל כלל שיתווסף אחריו.\n\nטיפ: כדי שכל העוגיות ייעלמו בהפעלה מחדש, הוסיפו * ככלל “שמירה עד לסגירת הדפדפן” וסמנו את האתרים הקבועים באמת כ“שמירה”."
+  },
+  "helpImportExportTitle": {
+    "message": "ייבוא וייצוא"
+  },
+  "helpImportExportBody": {
+    "message": "דף הייבוא / ייצוא מגבה שני דברים בנפרד: האתרים השמורים וההגדרות. שניהם קובצי JSON פשוטים עם חותמת זמן בשם, כך שגיבויים חוזרים לא דורסים זה את זה. ייבוא לעולם לא מוחק את מה שכבר יש; כפילויות מדויקות מדולגות, ורשומות לא תקינות נדחות עם סיבה בזמן שהשאר עדיין מיובאות.\n\nקובצי ייצוא מ-Cookie AutoDelete המקורי מיובאים כרגיל — אותו פורמט. ייצוא מעידן Firefox עשוי להכיל רשימות של כרטיסיות קונטיינר (תכונה של Firefox שלא קיימת ב-Chromium); רשומות כאלה ממוזגות לרשימת ברירת המחדל שלכם, כפילויות מדולגות, והודעת הייבוא מציינת כמה מוזגו.\n\nאיפוס ההגדרות לברירת המחדל נמצא גם הוא בדף הזה. הוא לא נוגע באתרים השמורים שלכם."
+  },
+  "helpLogTitle": {
+    "message": "יומן הניקוי"
+  },
+  "helpLogBody": {
+    "message": "יומן הניקוי עונה על “למה נותקתי מהאתר ההוא?” ועל “הדבר הזה בכלל עושה משהו?”. השאירו את “ניהול יומן ניקוי” פועל, ואז פתחו את דף יומן הניקוי אחרי ניקוי.\n\nכל רשומה מפרטת את האתרים שהושפעו ואת ההחלטה שהתקבלה לכל אחד, במילים פשוטות: נשמר כי כלל התאים, נשמר כי האתר עדיין היה פתוח, נוקה כי שום דבר לא התאים, נוקה בעת ההפעלה (זה מה שמרוקן את אתרי עד-ההפעלה-מחדש), או נוקה סלקטיבית כשכלל שומר רק עוגיות לפי שם. שורות ההחלטה משתמשות בשמות הרשימות הפנימיים: רשימה לבנה פירושה כלל שמירה קבוע, רשימה אפורה פירושה שמירה עד לסגירת הדפדפן.\n\nהיומן לעולם לא מכיל ערכי עוגיות, לעולם לא מתעד כרטיסיות פרטיות/אנונימיות, לעולם לא עוזב את הדפדפן, ורשומות ישנות נמחקות מעצמן עם הזמן. המונים בדף הסקירה (הסשן הנוכחי / סך הכול) מגיעים מאותו רישום."
+  },
+  "helpPermissionsTitle": {
+    "message": "למה התוסף צריך את ההרשאות האלה"
+  },
+  "helpPermissionsBody": {
+    "message": "האזהרה בזמן ההתקנה “קריאה ושינוי של הנתונים שלך בכל האתרים” היא הבלתי-נמנעת: עוגיות יכולות להשתייך לכל אתר שמבקרים בו, ולכן מחיקתן דורשת גישה לכל האתרים. היא משמשת אך ורק לקריאה ולהסרה של עוגיות ונתוני אתר — לעולם לא לקריאת תוכן הדפים, ולעולם לא לתקשורת עם שרת (אין כזה).\n\nוהשאר, בקצרה. עוגיות: קריאת רשימת העוגיות של אתר עבור המונה שעל הסמל, ומחיקתן. נתוני גלישה: מחיקת התוספות האופציונליות — מטמון, IndexedDB, LocalStorage, נתוני תוספים, Service Workers. אחסון: שמירת ההגדרות וכללי השמירה שלכם מקומית. תזכורות (Alarms): שמירה על ניקוי דחוי בלוח הזמנים גם אם הדפדפן משעה את התוסף בזמן ההמתנה. כרטיסיות: לדעת אילו אתרים פתוחים (אתרים פתוחים מוגנים) ולזהות מתי כרטיסייה נסגרת או עוזבת אתר. הכרטיסייה הפעילה וסקריפטים (Scripting): הפעלת הפעולות פר-אתר שבחלון הקופץ. תפריטי הקשר והתראות: שתי תכונות אופציונליות שאפשר לכבות בהגדרות.\n\nנעדרים בכוונה: היסטוריית גלישה, יירוט בקשות רשת, וכל גישה לרשת בכלל. התוסף לא יכול לראות מה אתם מקלידים או אילו דפים אתם קוראים."
+  },
+  "helpTroubleshootingTitle": {
+    "message": "פתרון בעיות ושאלות נפוצות"
+  },
+  "helpTroubleshootingBody": {
+    "message": "נותקתם מאתר? לפי סדר הסבירות: לאתר אין כלל שמירה (או שרק לשם המארח המדויק שלו יש, בעוד שההתחברות יושבת על תת-דומיין — השתמשו בצורה *.example.com); זה אתר עד-הפעלה-מחדש והדפדפן הופעל מחדש; כלל תואם שומר רק עוגיות לפי שם ועוגיית ההתחברות לא מסומנת; או שהעוגייה של האתר עצמו פגה. אל תנחשו — יומן הניקוי נוקב בשם הכלל המדויק שפעל.\n\nהעוגיות חוזרות מיד אחרי ניקוי? האתר כמעט תמיד עדיין פתוח בכרטיסייה כלשהי — אתרים פתוחים יוצרים עוגיות מחדש כרצונם וממילא מוגנים.\n\nהניקוי לא רץ? בדקו לפי הסדר: הניקוי האוטומטי פועל (כותרת החלון הקופץ אומרת זאת); האתר לא פתוח בכרטיסייה אחרת; זמן ההמתנה עבר; אף כלל שמירה לא תואם; זו לא הייתה כרטיסייה רדומה (כאלה נחשבות סגורות רק אם ההגדרה המתקדמת הזו פועלת).\n\nהפעלתם ניקוי נתוני אתר אבל נתונים ישנים עדיין שם? הדפדפן מאפשר לתוסף לנקות את הסוגים האלה רק לאתרים שמבקרים בהם שוב; שאריות נשארות עד הביקור הבא.\n\nגלישה בסתר? רק אם תאפשרו זאת: בדף התוספים של הדפדפן, הפעילו את 'אישור במצב אנונימי'. מצב אנונימי מחזיק מאגר עוגיות ואתרים שמורים משלו, ולעולם לא נכתב ליומן.\n\nעדיין תקועים? בדף התמיכה יש את הגרסה, בלוק ניפוי באגים להעתקה, והקישור לדיווח על באגים. מצב ניפוי באגים (מתקדם) גורם לתוסף לתאר כל החלטה במסוף ה-service worker, עם ערכי עוגיות מוסתרים."
+  }
+}
