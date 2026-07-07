@@ -36,8 +36,7 @@ New recipes go in the `justfile` with `snake_case` names.
 
 ## Branch and merge rules
 
-- `main` holds the released state. Nothing lands there directly; the final merge from the working branch into `main` is done manually by the maintainer after hands-on testing.
-- Ongoing work happens on the working branch (currently `manifest-v3-prep`) via short-lived branches, one per issue: branch off the working branch, open a PR back into it.
+- `main` is the working and released branch. Nothing lands there directly: work happens on short-lived branches, one per issue — branch off `main`, open a PR back into it.
 - PRs merge with a **merge commit** — never squash, never rebase-merge.
 - Never rewrite or force-push shared history.
 
