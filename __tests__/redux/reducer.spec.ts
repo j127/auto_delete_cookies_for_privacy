@@ -560,5 +560,10 @@ describe("Reducer", () => {
       );
       expect(newState).toStrictEqual(initialState.settings);
     });
+    it("defaults the release-notes-after-updates popup to on for fresh installs", () => {
+      expect(initialState.settings[SettingID.ENABLE_NEW_POPUP].value).toBe(
+        true
+      );
+    });
   });
 });

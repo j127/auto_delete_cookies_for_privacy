@@ -113,6 +113,29 @@ describe("settings App", () => {
     expect(console.error).not.toHaveBeenCalled();
   });
 
+  it("keeps the page scrolled to the top on load and on every tab switch", async () => {
+    // The URL hash names the sidebar button's element ID, so the browser
+    // anchor-scrolls to it; the app must undo that jump.
+    const scrollSpy = jest
+      .spyOn(window, "scrollTo")
+      .mockImplementation(() => undefined);
+    global.browser.tabs.getCurrent.mockResolvedValue({
+      id: TAB_ID,
+      url: `${SETTINGS_URL}#tabCleanupLog`,
+    });
+    const { container } = renderApp();
+    await waitFor(() =>
+      expect(contentHeading(container)).toBe("cleanupLogText")
+    );
+    expect(scrollSpy).toHaveBeenCalledWith(0, 0);
+
+    scrollSpy.mockClear();
+    await act(async () => {});
+    fireEvent.click(container.querySelector("#tabSettings") as HTMLElement);
+    expect(scrollSpy).toHaveBeenCalledWith(0, 0);
+    scrollSpy.mockRestore();
+  });
+
   it("closes the mobile drawer when a sidebar tab is clicked", async () => {
     const { container } = renderApp();
     await waitFor(() =>
