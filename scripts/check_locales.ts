@@ -104,7 +104,10 @@ for (const locale of locales) {
     }
   }
 
-  if (data.extensionName && data.extensionName.message !== en.extensionName.message) {
+  if (
+    data.extensionName &&
+    data.extensionName.message !== en.extensionName.message
+  ) {
     problems.push(
       `${locale}: extensionName must stay the literal brand "${en.extensionName.message}"`
     );
