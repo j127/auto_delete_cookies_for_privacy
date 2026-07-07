@@ -312,16 +312,6 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
                 </tr>
               </tbody>
             </table>
-            <div className="mt-2">
-              <a
-                className="link text-sm link-primary"
-                target="_blank"
-                rel="help noreferrer noopener"
-                href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/expressions.md"
-              >
-                {browser.i18n.getMessage("documentationText")}
-              </a>
-            </div>
           </div>
         </details>
 

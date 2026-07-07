@@ -1522,5 +1522,69 @@
   "supportText": {
     "message": "Support",
     "description": "Sidebar tab: version, contact links, and debug information"
+  },
+  "helpText": {
+    "message": "Help",
+    "description": "Sidebar tab: the in-app user guide"
+  },
+  "helpSubText": {
+    "message": "Everything the extension does, explained. Each section opens on its own.",
+    "description": "Subtitle of the Help page"
+  },
+  "helpGettingStartedTitle": {
+    "message": "Getting started",
+    "description": "Help section title"
+  },
+  "helpGettingStartedBody": {
+    "message": "Fresh installs start in manual mode: nothing is deleted until you say so. That's deliberate — build your keep list first, so turning on automatic cleaning later doesn't log you out of everything you care about.\n\n1. Keep the sites that matter. Visit each site where being logged out would annoy you (email, bank, anything you pay for), click the toolbar icon, and press “Keep cookies for this site”. The rule covers the domain and all its subdomains. Use “Keep until browser closes” for sites that should only be remembered this sitting.\n\n2. Decide what “clean” means. Out of the box, cleaning removes cookies only. Flip “Delete all site data” on the Protection page to also clear a site's other leftovers.\n\n3. Turn on automatic cleaning. Flip “Clean automatically” on the Protection page. From then on: close a site's last tab, and after the grace period its cookies are gone — unless you keep the site or it's still open elsewhere.\n\n4. Optional: keep the cleanup log on, so you can always see what was cleaned and why.",
+    "description": "Help section body: getting started"
+  },
+  "helpCleaningTitle": {
+    "message": "How cleaning works",
+    "description": "Help section title"
+  },
+  "helpCleaningBody": {
+    "message": "Automatic cleaning triggers when a site's last tab closes. The grace period (15 seconds by default) is your undo window: reopen the site within it and nothing is removed.\n\n“Clean when leaving a site” makes navigating a tab from one site to another count as leaving the first one — stricter, but noticeable if you bounce between sites in a single tab.\n\nDuring a cleanup, a site's cookies survive if any of these holds: the site is still open in some tab; it matches a Keep rule; it matches a Keep-until-browser-closes rule and this isn't a restart cleanup; or the specific cookie's name is checked in a matching rule's cookie list. Everything else goes.\n\nAdvanced mode adds: treating sleeping (discarded) tabs as closed, cleaning restored tabs once at startup, always removing expired cookies, and session keep rules — sites marked “Keep until browser closes” are cleaned when the browser restarts.",
+    "description": "Help section body: how cleaning works"
+  },
+  "helpSiteDataTitle": {
+    "message": "What gets deleted",
+    "description": "Help section title"
+  },
+  "helpSiteDataBody": {
+    "message": "By default the extension deletes cookies only. The “Delete all site data” switch extends cleaning to everything else a site stores on your device: Cache, IndexedDB, LocalStorage, Plugin Data, and Service Workers. The Advanced accordion under it lets you pick individual types.\n\nTwo things to know before flipping these:\n\n• Enabling a type wipes it once, everywhere. The moment you switch a type on, all currently stored data of that type is cleared for every site (that's the warning on the page). Turn off the wipe-on-enable switch first if you don't want that initial sweep.\n\n• Old data can't be selectively cleaned. The browser only lets the extension clear these types per-site going forward, for sites you visit again. Leftovers from before you enabled the option stay until the site is visited once more.",
+    "description": "Help section body: what gets deleted"
+  },
+  "helpPatternsTitle": {
+    "message": "Keep rules and patterns",
+    "description": "Help section title"
+  },
+  "helpPatternsBody": {
+    "message": "Every saved site is a pattern on one of two lists. “Keep” sites are never cleaned. “Keep until browser closes” sites survive normal cleanups but are cleaned when the browser restarts. A site matching neither is cleaned as soon as you leave it — the default fate; rules are the exceptions.\n\nPatterns match the hostname only — no https://, no paths:\n\n• example.com — exactly that domain, not mail.example.com\n• *.example.com — the domain and every subdomain\n• 192.168.1.100 — that IP address\n• 10.0.0.0/8 — any IP in the CIDR range\n• /^(mail|news)\\.example\\.com$/ — a regular expression between slashes\n• file:///home/user/notes — pages opened from that local folder\n\nEvery rule also carries per-site options (expand its row on the Saved sites page): keep only named cookies instead of all of them, and per-type site-data choices. A “Create default options” rule sets the starting options for every rule added afterwards.\n\nTip: to make ALL cookies vanish on restart, add * as a “Keep until browser closes” rule and mark your truly permanent sites “Keep”.",
+    "description": "Help section body: keep rules and patterns"
+  },
+  "helpImportExportTitle": {
+    "message": "Import and export",
+    "description": "Help section title"
+  },
+  "helpImportExportBody": {
+    "message": "The Import / Export page backs up two things separately: your saved sites and your settings. Both are plain JSON files with timestamped names, so repeated backups don't overwrite each other. Importing never deletes what you already have; exact duplicates are skipped, and invalid entries are rejected with a reason while the rest still import.\n\nExports from the original Cookie AutoDelete import cleanly — same format. Firefox-era exports may contain container-tab lists (a Firefox feature that doesn't exist in Chromium); those entries are merged into your default list, duplicates skipped, and the import message tells you how many were merged.\n\nResetting the settings to their defaults also lives on that page. It leaves your saved sites untouched.",
+    "description": "Help section body: import and export"
+  },
+  "helpLogTitle": {
+    "message": "The cleanup log",
+    "description": "Help section title"
+  },
+  "helpLogBody": {
+    "message": "The cleanup log answers “why did I get logged out of that site?” and “is this thing actually doing anything?”. Keep “Keep a cleanup log” on, then open the Cleanup Log page after a cleanup.\n\nEach entry lists the affected sites and the decision made for each, in plain words: kept because a rule matched, kept because the site was still open, cleaned because nothing matched, cleaned at startup (that's what empties the until-restart sites), or cleaned selectively when a rule keeps only named cookies. The decision lines use the internal list names: Whitelist means a permanent Keep rule, Greylist means Keep until browser closes.\n\nThe log never contains cookie values, never records private/incognito tabs, never leaves your browser, and old entries fall off the end on their own. The Overview page's counters (this session / total) come from the same bookkeeping.",
+    "description": "Help section body: the cleanup log"
+  },
+  "helpTroubleshootingTitle": {
+    "message": "Troubleshooting and FAQ",
+    "description": "Help section title"
+  },
+  "helpTroubleshootingBody": {
+    "message": "Logged out of a site? In order of likelihood: the site has no keep rule (or only its exact hostname does, while the login lives on a subdomain — use the *.example.com form); it's an until-restart site and the browser restarted; a matching rule keeps only named cookies and the login cookie isn't checked; or the site's own cookie expired. Don't guess — the cleanup log names the exact rule that fired.\n\nCookies reappear right after cleaning? The site is almost always still open in some tab — open sites re-create cookies at will and are protected anyway.\n\nCleanup didn't run? Check in order: automatic cleaning is on (the popup header says so); the site isn't open in another tab; the grace period has passed; no keep rule matches; it wasn't a sleeping tab (those only count as closed if that Advanced setting is on).\n\nEnabled site-data cleaning but old data is still there? The browser only lets the extension clear those types for sites you visit again; leftovers stay until the next visit.\n\nIncognito? Only if you allow it: your browser's extension page → Allow in Incognito/Private. Incognito keeps its own cookie store and saved sites, and is never written to the log.\n\nStill stuck? The Support page has the version, a copyable debug block, and the link for bug reports. Debug mode (Advanced) makes the extension narrate every decision to the service-worker console, with cookie values masked.",
+    "description": "Help section body: troubleshooting and FAQ"
   }
 }
