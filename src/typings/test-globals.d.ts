@@ -8,9 +8,10 @@
  *   jest.fn()/jest.spyOn() call sites keep working. The namespace mirrors
  *   the jest type names specs use in TYPE positions (jest.Mock etc.).
  * - __tests__/setup.js installs the WebExtension mock tree on global.browser
- *   / global.chrome and a spy factory on global.generateSpies. @types/node
- *   is pinned to 14.11.2 (see package.json overrides), where augmenting
- *   NodeJS.Global is the supported way to type `global.*` members.
+ *   / global.chrome and a spy factory on global.generateSpies. Only `var`
+ *   declarations exist as properties of `typeof globalThis`, so these are
+ *   plain vars (`browser` itself is declared in ./webext.d.ts, typed for
+ *   src and specs at once).
  */
 
 declare const jest: (typeof import("vitest"))["vi"];
@@ -20,10 +21,7 @@ declare namespace jest {
   type SpyInstance = import("vitest").MockInstance;
 }
 
-declare namespace NodeJS {
-  interface Global {
-    browser: any;
-    chrome: any;
-    generateSpies: (parent: object) => JestSpyObject;
-  }
-}
+// eslint-disable-next-line no-var
+declare var chrome: any;
+// eslint-disable-next-line no-var
+declare var generateSpies: (parent: object) => JestSpyObject;

@@ -123,7 +123,7 @@ describe("ContextMenuEvents", () => {
     it("should do nothing if browser.contextMenus do not exist", () => {
       // Override setup of browser.contextMenus
       const jestContextMenus = global.browser.contextMenus;
-      global.browser.contextMenus = undefined;
+      global.browser.contextMenus = undefined as any;
       ContextMenuEvents.menuInit();
       expect(spyLib.getSetting).not.toHaveBeenCalled();
       // Restore browser.contextMenus for future tests
@@ -178,7 +178,7 @@ describe("ContextMenuEvents", () => {
   // While the above test does also call onCreatedOrUpdated, we need a fail catch
   describe("onCreatedOrUpdated", () => {
     it("should show error if failed", () => {
-      global.browser.runtime.lastError = "testError";
+      global.browser.runtime.lastError = "testError" as any;
       ContextMenuEvents.onCreatedOrUpdated();
       // The if statements both perform adcpLog, so we need to check for the error one.
       expect(spyLib.adcpLog.mock.calls[0][0].msg.indexOf("testError")).not.toBe(

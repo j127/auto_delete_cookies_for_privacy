@@ -15,8 +15,7 @@
   },
   "private": true,
   "overrides": {
-    "@types/react": "^19",
-    "@types/node": "14.11.2"
+    "@types/react": "^19"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.12.0",

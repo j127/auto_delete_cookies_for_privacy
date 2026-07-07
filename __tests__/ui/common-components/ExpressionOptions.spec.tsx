@@ -32,7 +32,7 @@ describe("ExpressionOptions", () => {
   });
 
   const renderOptions = (expression: Expression) => {
-    const reducer = jest.fn<State, [State | undefined, any]>(
+    const reducer = jest.fn<(state: State | undefined, action: any) => State>(
       () => initialState
     );
     const store = createStore(reducer);

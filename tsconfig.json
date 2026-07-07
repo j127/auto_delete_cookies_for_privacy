@@ -38,7 +38,7 @@
     "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
     "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file; keeps macOS (case-insensitive FS) from hiding import-casing mistakes that break Linux CI. */,
-    "skipLibCheck": true /* Don't type-check declaration files; the locked @types/node@14.11.2 is a known-broken DefinitelyTyped release (duplicate 'global' declaration) that otherwise fails every tsc run. */,
+    "skipLibCheck": true /* Don't type-check declaration files; transitive .d.ts (webextension-polyfill, jest-flavored type chains) aren't ours to fix, and checking them adds noise rather than safety. */,
     /* Module Resolution Options */
     "moduleResolution": "bundler" /* Matches Bun.build's resolution; jest overrides in its transform. */,
     "paths": {
@@ -49,7 +49,9 @@
       "node_modules/@types",
       "src/typings"
     ] /* List of folders to include type definitions from. */,
-    // "types": [],                           /* Type declaration files to be included in compilation. */
+    "types": [
+      "bun"
+    ] /* TypeScript 6 no longer auto-includes every package under node_modules/@types, so the Bun globals (Bun, import.meta.dir) used by scripts/ must be listed explicitly. Nothing else belongs here: test globals come from src/typings/test-globals.d.ts, and all other types resolve through imports. */,
     "allowSyntheticDefaultImports": true /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
