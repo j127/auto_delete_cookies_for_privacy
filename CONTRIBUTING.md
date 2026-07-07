@@ -1,13 +1,13 @@
 # Contributing
 
-Thanks for helping out. This page covers the toolchain, the branch rules, and what a change needs before it merges.
+This page covers the toolchain, the branch rules, and what a change needs before it merges.
 
 ## Toolchain
 
 You need two tools installed globally:
 
-- [Bun](https://bun.sh) >= 1.3 — package manager and bundler (there is no npm/node workflow here; use `bun`/`bunx`, not `npm`/`npx`)
-- [just](https://github.com/casey/just) — task runner; every project task is a `just` recipe
+- [Bun](https://bun.sh) -- this is the package manager and bundler (there is no npm/node workflow here; use `bun`/`bunx`, not `npm`/`npx`). See the `.bun-version` file for the current version used.
+- [just](https://github.com/casey/just) -- this is the task runner. Every project task is a `just` recipe.
 
 Everything else is a local dependency. First-time setup:
 
@@ -34,12 +34,6 @@ To try your build: `just build`, open `brave://extensions` (or `chrome://extensi
 
 New recipes go in the `justfile` with `snake_case` names.
 
-## Branch and merge rules
-
-- `main` is the working and released branch. Nothing lands there directly: work happens on short-lived branches, one per issue — branch off `main`, open a PR back into it.
-- PRs merge with a **merge commit** — never squash, never rebase-merge.
-- Never rewrite or force-push shared history.
-
 ## What a change needs
 
 - **Tests.** All code changes come with tests. `just test` must pass, including the coverage thresholds — if your change meaningfully raises coverage, feel free to bump the floors in `vitest.config.ts` to the new baseline (the long-term target is 90%).
@@ -50,7 +44,7 @@ New recipes go in the `justfile` with `snake_case` names.
 
 ## Project constraints worth knowing
 
-- The extension is Manifest V3, Chromium-only (Chrome, Brave, Chromium). Firefox support was deliberately removed — don't add browser detection or Firefox branches back.
+- The extension is Manifest V3, Chromium-only (Chrome, Brave, Chromium). Firefox support was deliberately removed, because the original extension still works in Firefox.
 - The background script is a service worker: it can be killed at any idle moment and restarted on the next event. Never rely on module-level state surviving between events; use `chrome.storage.session` for state that must survive a restart within a browser session. Event listeners must be registered synchronously at the top level of `src/background.ts`.
 - Runtime enums live as plain `export enum` in `src/typings/enums.ts`. Never declare ambient `const enum`s in `.d.ts` files — Bun.build transpiles per-file and cannot inline them, which crashes at runtime while tests still pass.
 

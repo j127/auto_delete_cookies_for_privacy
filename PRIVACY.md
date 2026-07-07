@@ -1,10 +1,12 @@
-# Privacy Policy — Auto-Delete Cookies for Privacy
+# Privacy Policy
 
 _Last updated: 2026-07-07_
 
-**Auto-Delete Cookies for Privacy deletes data; it does not collect it.** Everything the extension knows — your settings, your keep lists, and (if you enable it) a cleanup log of which sites had data removed — is stored locally in your browser profile and never leaves your machine. The extension makes no network requests of any kind: no telemetry, no analytics, no crash reporting, no update pings, no third-party services, and no server of its own. Cookie values are read only in transit to the browser's removal calls — never logged, persisted, or displayed beyond the cookie names a site set. Per-session working state is erased by the browser when it exits; the cleanup log is capped in size, contains no cookie values, and is never written for private/incognito tabs. There are no accounts, nothing is sold or shared, and uninstalling the extension removes everything.
+**Auto-Delete Cookies for Privacy deletes data; it does not collect it.**
 
-## Permissions, one by one
+All of the browsers settings and data are stored locally on your device and are never shared with anyone.
+
+## Permissions Explained
 
 | Permission                | Why the extension needs it                                                                                                                                                                                |
 | ------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
