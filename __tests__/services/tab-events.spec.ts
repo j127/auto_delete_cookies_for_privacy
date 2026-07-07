@@ -32,7 +32,6 @@ const spyBrowserActions: JestSpyObject =
 const spyLib: JestSpyObject = global.generateSpies(Lib);
 const spyTabEvents: JestSpyObject = global.generateSpies(TabEvents);
 
-
 jest.useFakeTimers();
 
 const store: Store<State, ReduxAction> = createStore(initialState);

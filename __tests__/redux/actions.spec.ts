@@ -7,7 +7,6 @@ import * as Lib from "@/services/libs";
 import { ListType, SettingID, SiteDataType } from "@/typings/enums";
 import { ReduxConstants } from "@/typings/redux-constants";
 
-
 const spyBrowserActions: JestSpyObject =
   global.generateSpies(BrowserActionService);
 const spyCleanupService: JestSpyObject = global.generateSpies(CleanupService);

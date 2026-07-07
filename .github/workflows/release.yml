@@ -26,6 +26,8 @@ jobs:
 
       - run: just lint
 
+      - run: just format_check
+
       - run: just test
 
       - run: just release_check

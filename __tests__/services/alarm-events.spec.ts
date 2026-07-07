@@ -13,7 +13,6 @@ import { ReduxAction } from "@/typings/redux-constants";
 import AlarmEvents from "@/services/alarm-events";
 import StoreUser from "@/services/store-user";
 
-
 const store: Store<State, ReduxAction> = createStore(initialState);
 StoreUser.init(store);
 

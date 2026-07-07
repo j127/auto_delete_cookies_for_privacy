@@ -11,7 +11,6 @@ import {
   handleBridgeConnection,
 } from "@/redux/store-bridge";
 
-
 describe("StoreBridge", () => {
   describe("protocol constants", () => {
     it("should keep the redux-webext wire protocol values", () => {

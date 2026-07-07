@@ -35,7 +35,7 @@ format_check:
   bunx prettier --check .
 
 # Everything CI runs, in order
-ci: install check lint test build
+ci: install check lint format_check test build
 
 # Regenerate the extension icon PNGs from image_editing/cookie-prohibited.svg
 # (requires rsvg-convert: `brew install librsvg`; the PNGs are committed, so
