@@ -1,19 +1,15 @@
 {
   "aboutText": {
-    "message": "Tietoa",
-    "description": "About"
+    "message": "Tietoja"
   },
   "activeModeDelayText": {
-    "message": "Viive ennen automaattista puhdistusta",
-    "description": "Delay Before Automatic Cleaning"
+    "message": "Viiveaika"
   },
   "activeModeText": {
-    "message": "Ota automaattinen puhdistus käyttöön",
-    "description": "Enable Automatic Cleaning"
+    "message": "Siivoa automaattisesti"
   },
   "activityLogSiteDataDomainsText": {
-    "message": "Kutsuttu puhdistus $siteData$ kohteelle: $domains$",
-    "description": "Invoked cleanup of $siteData$ for: $domains$. Found in Activity Log Detailed Entries.",
+    "message": "Poistettiin $siteData$ kohteille: $domains$",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -26,8 +22,7 @@
     }
   },
   "addNewExpressionNotification": {
-    "message": "Lisätään $expression$ listalle tyyppi $listType$ eväskaupan alle $cookieStore$.",
-    "description": "Adding $expression$ to list type $listType$ under cookie store $cookieStore$. Used in notification when right-click action was performed.",
+    "message": "$expression$ tallennettu listalle $listType$ (evästesäilö: $cookieStore$).",
     "placeholders": {
       "expression": {
         "content": "$1",
@@ -39,101 +34,78 @@
       },
       "cookieStore": {
         "content": "$3",
-        "example": "'default' -or- 'firefox-container-1 (Personal)'"
+        "example": "'default' -or- 'private'"
       }
     }
   },
   "addNewExpressionNotificationFailed": {
-    "message": "Verkkotunnusta ei voitu noutaa, jotta se voitaisiin lisätä, mistä hiiren kakkospainike on myönnetty.",
-    "description": "Could not fetch domain to add from where right-click was issued."
+    "message": "Oikean napsautuksen kohdasta ei voitu lukea verkkotunnusta."
   },
   "addNewExpressionNotificationIgnore": {
-    "message": "Jos lauseke on jo olemassa, tämä ohitetaan.",
-    "description": "If expression already exists, this will be ignored. Used in notification when right-click action was performed."
+    "message": "Kaksoiskappaleet ohitetaan automaattisesti."
   },
   "autoDeleteDisabledText": {
-    "message": "Automaattinen puhdistus poistettu käytöstä",
-    "description": "Auto-clean disabled"
+    "message": "Automaattisiivous pois päältä"
   },
   "autoDeleteEnabledText": {
-    "message": "Automaattinen puhdistus käytössä",
-    "description": "Auto-clean enabled"
+    "message": "Automaattisiivous päällä"
+  },
+  "browsingDataNoEmptyWarning": {
+    "message": "Huomio: tämän kytkeminen päälle ei koske sivustojen aiemmin tallentamiin tietoihin. Sivuston jäänteet muuttuvat siivottaviksi vasta, kun vierailet sivustolla uudelleen — siihen asti ne pysyvät paikoillaan, myös sivustoilla joista haluaisit eroon."
   },
   "browsingDataWarning": {
-    "message": "VAROITUS: Kun otat käyttöön jonkin seuraavan sivuston tietojen puhdistusvaihtoehdot, kaikki olemassa olevat tiedot kyseisen tyypin tyhjennetään.",
-    "description": "WARNING: Upon enabling any of the following site data cleanup options, ALL existing data for that type will be cleared. Found in CAD Settings"
+    "message": "Varoitus: minkä tahansa alla olevan siivoustyypin kytkeminen päälle pyyhkii heti KAIKKI kyseisen tyypin tallennetut tiedot jokaiselta sivustolta."
   },
   "cacheCleanupText": {
-    "message": "Ota Välimuistin Puhdistus Käyttöön (Firefox 78+, Chrome 74+)",
-    "description": "Enable Cache Cleanup (Firefox 78+, Chrome 74+). Found in CAD Settings."
+    "message": "Ota välimuistin siivous käyttöön"
   },
   "cacheText": {
-    "message": "Välimuisti",
-    "description": "Cache. Primarily used in notifications."
+    "message": "Välimuisti"
   },
   "chromeDebugMode": {
-    "message": "Varmista, että 'Kehittäjätila' on käytössä, napsauta sitten Taustasivu kohdassa Tarkasta näkymä.",
-    "description": "Ensure 'Developer Mode' is enabled, then click on 'background page' under Inspect View. This is shown if debug mode is enabled."
+    "message": "Kytke Kehittäjätila päälle ja avaa sitten service workerin konsoli Tarkastele näkymiä -linkistä."
   },
   "cleanDiscardedText": {
-    "message": "Ota puhdistus käyttöön hylätyissä/ladattavissa välilehdissä",
-    "description": "Enable Cleanup for Discarded/Unloaded Tabs. Found in Settings."
+    "message": "Kohtele nukkuvia välilehtiä suljettuina"
   },
   "cleanExpiredCookiesText": {
-    "message": "Puhdista Kaikki Vanhentuneet Evästeet",
-    "description": "Clean All Expired Cookies. Found in Settings."
+    "message": "Poista vanhentuneet evästeet aina"
   },
   "cleanIgnoringOpenTabsText": {
-    "message": "Puhdista kaikki",
-    "description": "Clean, include open tabs. Found in the additional cleanup options in the popup."
+    "message": "Siivoa, myös avoimet välilehdet"
   },
   "cleanText": {
-    "message": "Puhdista",
-    "description": "Clean"
+    "message": "Siivoa"
   },
   "cleanupDomainChangeText": {
-    "message": "Ota puhdistus käyttöön verkkotunnuksen vaihdossa",
-    "description": "Enable Cleanup on Domain Change"
+    "message": "Siivoa, kun poistut sivustolta"
   },
   "cleanupActionsBypass": {
-    "message": "Varoitus - alla olevat toimet ohittavat asetukset!",
-    "description": "Warning - Actions below ignore settings! Found in the additional cleanup options in the popup."
+    "message": "Varo — nämä painikkeet ohittavat säilytyslistasi ja siivoavat heti!"
   },
   "cleanupLogText": {
-    "message": "Siivousloki",
-    "description": "Cleanup Log"
+    "message": "Siivousloki"
   },
   "clearLogsText": {
-    "message": "Tyhjennä loki",
-    "description": "Clear Logs"
+    "message": "Tyhjennä loki"
   },
   "consoleDebugMode": {
-    "message": "Napsauta Console-välilehteä",
-    "description": "Click on the Console Tab. Found after enabling debug mode."
-  },
-  "containerSiteDataWarning": {
-    "message": "VAROITUS: Säiliövälilehtien salliminen yhdessä minkä tahansa ylläolevan selausdatan puhdistuksen kanssa voi aiheuttaa selaimen API-rajoituksista johtuvia ei-toivottuja sivuvaikutuksia. Evästeitä lukuun ottamatta kaikki sivuston tietotyypit tyhjennetään isäntänimen mukaan KAIKKIEN säiliöiden osalta.",
-    "description": "WARNING: Enabling Container Tabs with any of the additional browsing data cleanups above may cause unwanted side effects due to browser API limitations. Site data types, with the exception of cookies, will be cleared by hostname for ALL containers. Found in CAD Settings."
+    "message": "Vaihda Konsoli-välilehdelle."
   },
   "contextMenusParentClean": {
-    "message": "Manuaalinen Puhdistusvalikko",
-    "description": "Manual Cleaning Menu. Shown on right-clicks of Page/Browser Action."
+    "message": "Manuaalinen siivous"
   },
   "contextMenusParentExpression": {
-    "message": "Lisää Verkkotunnuksen / Painamisen Valikko",
-    "description": "Add Domain/Expression Menu. Shown on right-clicks of Page/Link/Selection."
+    "message": "Lisää säilytyslistoille"
   },
   "contextMenusSelectedDomainLink": {
-    "message": "Vain valitun linkin verkkotunnus",
-    "description": "For domain only of selected link. Shown in right-click menu."
+    "message": "Vain tämän linkin verkkotunnus"
   },
   "contextMenusSelectedDomainPage": {
-    "message": "Vain valitun sivun verkkotunnus",
-    "description": "For domain only of selected page. Shown in right-click menu."
+    "message": "Vain tämän sivun verkkotunnus"
   },
   "contextMenusSelectedDomainText": {
-    "message": "Vain valitun tekstin verkkotunnukselle: $selected$",
-    "description": "For domain only of selected text: $selected$. Shown in right-click menu.",
+    "message": "Vain verkkotunnus: $selected$",
     "placeholders": {
       "selected": {
         "content": "$1",
@@ -142,16 +114,13 @@
     }
   },
   "contextMenusSelectedSubdomainLink": {
-    "message": "Kaikille aliverkkotunnuksille, joilla on valitun linkin verkkotunnus",
-    "description": "For all subdomains with domain of selected link. Shown in right-click menu."
+    "message": "Linkin verkkotunnus ja kaikki aliverkkotunnukset"
   },
   "contextMenusSelectedSubdomainPage": {
-    "message": "Kaikille aliverkkotunnuksille, joissa on valitun sivun verkkotunnus",
-    "description": "For all subdomains with domain of selected page. Shown in right-click menu."
+    "message": "Tämän sivun verkkotunnus ja kaikki aliverkkotunnukset"
   },
   "contextMenusSelectedSubdomainText": {
-    "message": "Kaikille aliverkkotunnuksille, joilla on valitun tekstin verkkotunnus: $selected$",
-    "description": "For all subdomains with domain of selected text: $selected$. Shown in right-click menu.",
+    "message": "Kaikki aliverkkotunnukset: $selected$",
     "placeholders": {
       "selected": {
         "content": "$1",
@@ -159,155 +128,113 @@
       }
     }
   },
-  "contextualIdentitiesAutoRemoveText": {
-    "message": "Ota käyttöön automaattinen lausekeluettelon poisto, kun siihen liittyvä säiliö poistetaan.",
-    "description": "Enable Automatic Removal of Expression List when its Container is Removed. Only in Firefox."
-  },
-  "contextualIdentitiesEnabledText": {
-    "message": "Ota käyttöön tuki säiliövälilehdille (Container Tabs)",
-    "description": "Enable Support for Container Tabs. Currently only in Firefox."
-  },
-  "contributeText": {
-    "message": "Osallistu",
-    "description": "Contribute"
-  },
   "contributorsText": {
-    "message": "Avustajat",
-    "description": "Contributors"
+    "message": "Tekijät"
   },
   "cookiesText": {
-    "message": "Evästeet",
-    "description": "Cookies. Primarily used in popup via alternate clean action dropdown."
+    "message": "Evästeet"
   },
   "cookieCleanUpOnStartText": {
-    "message": "Puhdista Evästeet ja muut sivuston tiedot Open Tabs -välilehdiltä käynnistettäessä",
-    "description": "Clean Cookies and other Site Data from Open Tabs on Startup"
+    "message": "Siivoa palautetut välilehdet käynnistyksessä"
   },
   "cookieCleanupIgnoreOpenTabsText": {
-    "message": "Suorita siivous nyt, sisällytä verkkotunnukset avoimista välilehdistä",
-    "description": "Run cleanup now, include cookies from open tabs. This is shown on mouseover from the available dropdown buttons."
+    "message": "Siivoa nyt, myös välilehdissä avoimet sivustot"
   },
   "cookieCleanupText": {
-    "message": "Suorita siivous nyt, sulje verkkotunnukset avoimista välilehdistä",
-    "description": "Run cleanup now, exclude domains from open tabs. This is shown on mouseover on the button."
+    "message": "Siivoa nyt, mutta ohita välilehdissä avoimet sivustot"
+  },
+  "copyDebugSettingText": {
+    "message": "Kopio nykyisistä asetuksistasi. Liitä GitHub-issueen, jos se on olennainen."
+  },
+  "copyDebugSystemText": {
+    "message": "Järjestelmätietosi. Liitä ne GitHub-issuen vastaavaan kohtaan."
+  },
+  "copyFailedText": {
+    "message": "Automaattinen kopiointi epäonnistui — valitse teksti ja kopioi itse."
+  },
+  "copySuccessText": {
+    "message": "Kopioitu!"
+  },
+  "copyToClipboardText": {
+    "message": "Kopioi leikepöydälle"
   },
   "createDefaultExpressionOptionsText": {
-    "message": "Luo Lausekkeen Oletusasetukset",
-    "description": "Create Default Expression Options. Used in 'List of Expressions'"
-  },
-  "currentContainerInfo": {
-    "message": "Valittuna oleva säiliö: $ID$ ( $Name$ )",
-    "description": "Current Container Selected: $ID$ ( $Name ). Found in List of Expressions only if Firefox containers enabled.",
-    "placeholders": {
-      "ID": {
-        "content": "$1",
-        "example": "firefox-container-1"
-      },
-      "Name": {
-        "content": "$2",
-        "example": "Personal (whatever the user has named the container) - or - translated version of 'Invalid Container'"
-      }
-    }
+    "message": "Luo oletusvalinnat"
   },
   "debugMode": {
-    "message": "Ota virheenkorjaustila käyttöön (lisäkonsolilähdöt)",
-    "description": "Enable Debug Mode (Additional Console Outputs). Found in CAD Settings."
+    "message": "Virheenjäljitystila"
   },
-  "defaultText": {
-    "message": "Oletus",
-    "description": "Default. Used in List of Expression in Firefox for Default / No Container."
-  },
-  "defaultContainerText": {
-    "message": "Ei säiliötä",
-    "description": "No Container. This will be in brackets. Used in List of Expression in Firefox for Default / No Container"
+  "debugTitle": {
+    "message": "Virheenjäljitystiedot"
   },
   "defaultSettingsText": {
-    "message": "Palauta oletusasetukset",
-    "description": "Restore Default Settings"
+    "message": "Palauta asetukset oletuksiin"
   },
   "disableAutoDeleteText": {
-    "message": "Vaihda automaattisen puhdistuksen poistamiseksi käytöstä (manuaalitila)",
-    "description": "Toggle to disable automatic cleanup (manual mode)"
+    "message": "Kytke automaattisiivous pois (manuaalitila)"
   },
   "documentationText": {
-    "message": "Dokumentaatio",
-    "description": "Documentation"
+    "message": "Dokumentaatio"
   },
   "domainExpressionsText": {
-    "message": "Domain sääntö",
-    "description": "Domain Expression"
+    "message": "Sivusto"
+  },
+  "domainPlaceholderText": {
+    "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/"
   },
   "dropdownAdditionalCleaningOptions": {
-    "message": "Vaihda avattava lisäpuhdistustoimenpide",
-    "description": "(Screen-readers only) - Toggle Additional Cleaning Actions Dropdown"
+    "message": "Lisää siivoustoimintoja"
   },
   "editExpressionText": {
-    "message": "Muokkaa sääntöä",
-    "description": "Edit expression"
+    "message": "Muokkaa lauseketta"
   },
   "enableAutoDeleteText": {
-    "message": "Vaihda automaattisen puhdistuksen käyttöön (automaattinen tila)",
-    "description": "Toggle to enable automatic cleanup (automatic mode)"
+    "message": "Kytke automaattisiivous päälle"
   },
   "enableCleanupLogText": {
-    "message": "Ota puhdistusloki ja laskuri käyttöön",
-    "description": "Enable Cleanup Log and Counter"
+    "message": "Pidä siivouslokia"
   },
   "enableContextMenus": {
-    "message": "Ota Käyttöön Kontekstivalinnat (Oikea-Klikkaa Valikko)",
-    "description": "Enable Context Menus (Right-Click Menu). Shown in CAD Settings"
+    "message": "Pikavalikon toiminnot"
   },
   "enableGreyListCleanup": {
-    "message": "Ota Greylist Cleanup käyttöön selaimen uudelleenkäynnistyksessä",
-    "description": "Enable Greylist Cleanup on Browser Restart"
+    "message": "Istuntokohtaiset säilytyssäännöt"
   },
   "enableNewVersionPopup": {
-    "message": "Ota ponnahdusikkuna käyttöön, kun uusi versio julkaistaan",
-    "description": "Enable Popup when New Version is Released"
+    "message": "Näytä julkaisutiedot päivitysten jälkeen"
   },
   "errorText": {
-    "message": "Virhe!",
-    "description": "Error!"
+    "message": "Virhe!"
   },
   "exportSettingsText": {
-    "message": "Vie Ydinasetukset...",
-    "description": "Export Core Settings... Found in CAD Settings."
+    "message": "Vie asetukset..."
   },
   "exportURLSText": {
-    "message": "Vie Lausekkeet...",
-    "description": "Export Expressions... Found in List of Expressions."
+    "message": "Vie tallennetut sivustot"
   },
   "exportTitleTimestamp": {
-    "message": "Aikaleima lisätään tiedostonimeen vietäessä.",
-    "description": "A timestamp will be appended to the filename on export."
+    "message": "Vietyihin tiedostonimiin lisätään aikaleima."
   },
   "extensionDescription": {
-    "message": "Hallitse evästeitäsi! Poista käyttämättömät evästeet automaattisesti suljetuilta välilehdiltä, kuitenkin säilyttäen valitsemasi evästeet.",
-    "description": "Control your cookies! Automatically delete unwanted cookies from your closed tabs while keeping the ones you want."
+    "message": "Siivoaa välilehtiesi jäljet: sulje välilehti, ja sen evästeet ja sivustotiedot pyyhkiytyvät — paitsi säilytyslistojesi sivustoilta."
   },
   "extensionName": {
-    "message": "Auto-Delete Cookies for Privacy",
-    "description": "Name of the extension."
+    "message": "Auto-Delete Cookies for Privacy"
   },
   "faqText": {
-    "message": "Usein kysyttyjä kysymyksiä, yleisiä kysymyksiä ja ratkaisuja",
-    "description": "Frequently Asked Questions, Common issues and solutions"
+    "message": "UKK ja vianetsintä"
   },
   "filterDebugMode": {
-    "message": "Jos haluat nähdä vain tämän laajennuksen virheenkorjausulostulot, suodata lähtö seuraavan rivin mukaan:",
-    "description": "To see only debug outputs by this extension, filter output by the following line. Found after enabling debug mode."
+    "message": "Nähdäksesi vain tämän laajennuksen viestit liitä tämä konsolin suodatuskenttään:"
   },
   "filterText": {
-    "message": "Filter",
-    "description": "Filter"
+    "message": "Suodatin"
   },
   "greyListWordText": {
-    "message": "Harmaa lista",
-    "description": "Greylist"
+    "message": "Harmaa lista"
   },
   "groupExpressionDefaultNotice": {
-    "message": "Etsitkö asettaa oletuslausekkeen vaihtoehtoja uusille lausekkeille? Se on parannettu itse lausekkeen asetukseksi! Vieraile osoitteessa $listExpression$ aloittaaksesi!",
-    "description": "Looking to set default expression options for new expressions?  It has been enhanced to be an expression option itself!  Visit $listExpression$ to get started!  Shown in Settings",
+    "message": "Uusien lausekkeiden oletusvalinnat ovat nyt itse lausekkeessa — avaa $listExpression$ asettaaksesi ne.",
     "placeholders": {
       "listExpression": {
         "content": "$1",
@@ -316,112 +243,159 @@
     }
   },
   "importCoreSettingsFailed": {
-    "message": "Core-asetusten tuonti epäonnistui - Tuntematon asetus löytyi",
-    "description": "Import Core Settings Failed - Found unknown setting"
+    "message": "Asetusten tuonti keskeytetty: tiedostossa on tunnistamaton asetus."
   },
   "importCoreSettingsText": {
-    "message": "Tuo Ydinasetukset...",
-    "description": "Import Core Settings... Found in CAD Settings."
+    "message": "Tuo asetukset..."
+  },
+  "importFileNotFound": {
+    "message": "Tiedostoa ei ole: $filename$",
+    "placeholders": {
+      "filename": {
+        "content": "$1",
+        "example": "filename.json"
+      }
+    }
   },
   "importFileTypeInvalid": {
-    "message": "Annettu tiedosto ei ole tyyppi, jota käsittelemme",
-    "description": "File given is not a type we handle"
+    "message": "Tuo tiedostotyyppi ei kelpaa tuontiin."
   },
   "importFileValidationFailed": {
-    "message": "Tiedoston validointi epäonnistui",
-    "description": "File given failed validation"
+    "message": "Tiedosto ei läpäissyt tarkistusta."
+  },
+  "importInvalidExpressions": {
+    "message": "Osa tuoduista lausekkeista oli virheellisiä; jokainen on listattu alla syineen. Korjaa ne tiedostossa ja tuo uudelleen."
+  },
+  "importListNotArray": {
+    "message": "$identifier$ pitäisi olla taulukko, mutta ei ole.",
+    "placeholders": {
+      "identifier": {
+        "content": "$1",
+        "example": "jsonObjectKey"
+      }
+    }
   },
   "importMissingKey": {
-    "message": "Puuttuu tunniste",
-    "description": "Missing identifier"
+    "message": "Tunniste puuttuu"
   },
   "importURLSText": {
-    "message": "Tuo Lausekkeita...",
-    "description": "Import Expressions... Found in List of Expressions."
+    "message": "Tuo tallennetut sivustot"
+  },
+  "importValidExpressions": {
+    "message": "Tuotiin $num$ lauseketta tiedostosta $filename$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "filename": {
+        "content": "$2",
+        "example": "filename.json"
+      }
+    }
   },
   "indexedDBCleanupText": {
-    "message": "Ota IndexedDb Siivoaminen Käyttöön (Firefox 77+, Chrome 74+)",
-    "description": "Enable IndexedDB Cleanup (Firefox 77+, Chrome 74+). Found in CAD Settings."
+    "message": "Ota IndexedDB-siivous käyttöön"
   },
   "indexedDBText": {
-    "message": "Indeksoitu DB",
-    "description": "IndexedDB. Primarily used in notifications."
+    "message": "IndexedDB"
+  },
+  "inputErrorComma": {
+    "message": "Pilkut kuuluvat vain säännöllisiin lausekkeisiin."
+  },
+  "inputErrorEmpty": {
+    "message": "Lauseke ei voi olla tyhjä."
+  },
+  "inputErrorRegExp": {
+    "message": "Virheellinen säännöllinen lauseke: $RegexError$",
+    "placeholders": {
+      "RegexError": {
+        "content": "$1",
+        "example": "SyntaxError:  unterminated character class."
+      }
+    }
+  },
+  "inputErrorSlashEndMissingStart": {
+    "message": "Päättyy kauttaviivaan mutta ei ala sellaisella. Tavalliselle verkkotunnukselle poista loppuviiva; regexille lisää alkuviiva."
+  },
+  "inputErrorSlashStartMissingEnd": {
+    "message": "Alkaa kauttaviivalla mutta ei koskaan sulje sitä. Lisää loppuviiva viimeistelläksesi säännöllisen lausekkeen."
+  },
+  "inputErrorSpace": {
+    "message": "Isäntänimissä ei voi olla välilyöntejä."
+  },
+  "inputAddSuccess": {
+    "message": "Lisättiin $num$ lauseketta aktiiviselle listalle tyyppinä $listType$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "GreyList"
+      }
+    }
+  },
+  "invalidNewExpressions": {
+    "message": "Osa uusista lausekkeista oli virheellisiä; ne jäävät ylle muokattaviksi, syyt listattu alla."
   },
   "keepAllCookiesText": {
-    "message": "Pidä kaikki evästeet",
-    "description": "Keep All Cookies. Found in Expression Options. For Whitelist entries."
+    "message": "Säilytä kaikki evästeet"
   },
   "keepAllCookiesGreyText": {
-    "message": "Pidä kaikki evästeet uudelleenkäynnistykseen asti",
-    "description": "Keep All Cookies until restart. Found in Expression Options. For Greylist entries."
+    "message": "Säilytä kaikki evästeet uudelleenkäynnistykseen asti"
   },
   "keepCacheText": {
-    "message": "Pidä Välimuisti",
-    "description": "Keep Cache. Found in Expression Options. For Whitelist entries."
+    "message": "Säilytä välimuisti"
   },
   "keepCacheGreyText": {
-    "message": "Säilytä välimuisti uudelleenkäynnistykseen asti",
-    "description": "Keep Cache until restart. Found in Expression Options. For Greylist entries."
+    "message": "Säilytä välimuisti uudelleenkäynnistykseen asti"
   },
   "keepDefaultIcon": {
-    "message": "Pidä oletuskuvakkeet kaikissa luettelotyypeissä",
-    "description": "Keep Default Icons on all list types. Disabled: keep blue icon, grey for automatic cleaning disabled. Enabled: red/yellow/blue depending on matching expressions in list."
+    "message": "Pidä pelkistetty kuvake"
   },
   "keepIndexedDBText": {
-    "message": "Säilytä Indeksoitu DB",
-    "description": "Keep IndexedDB. Found in Expression Options. For Whitelist entries."
+    "message": "Säilytä IndexedDB"
   },
   "keepIndexedDBGreyText": {
-    "message": "Pidä IndexedDB uudelleenkäynnistykseen asti",
-    "description": "Keep IndexedDB until restart. Found in Expression Options. For Greylist entries."
+    "message": "Säilytä IndexedDB uudelleenkäynnistykseen asti"
   },
   "keepLocalstorageText": {
-    "message": "Pidä LocalStorage",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries."
+    "message": "Säilytä LocalStorage"
   },
   "keepLocalstorageGreyText": {
-    "message": "Säilytä paikallinen tallennustila uudelleenkäynnistykseen asti",
-    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries."
+    "message": "Säilytä LocalStorage uudelleenkäynnistykseen asti"
   },
   "keepPluginDataText": {
-    "message": "Säilytä Liitännäisen Tiedot",
-    "description": "Keep Plugin Data. Found in Expression Options. For Whitelist entries."
+    "message": "Säilytä lisäosatiedot"
   },
   "keepPluginDataGreyText": {
-    "message": "Pidä lisäosan tiedot uudelleenkäynnistykseen asti",
-    "description": "Keep Plugin Data until restart. Found in Expression Options. For Greylist entries."
+    "message": "Säilytä lisäosatiedot uudelleenkäynnistykseen asti"
   },
   "keepServiceWorkersText": {
-    "message": "Säilytä Palvelun Työntekijät",
-    "description": "Keep Service Workers. Found in Expression Options. For Whitelist entries."
+    "message": "Säilytä service workerit"
   },
   "keepServiceWorkersGreyText": {
-    "message": "Säilytä huoltotyöntekijät uudelleenkäynnistykseen asti",
-    "description": "Keep Service Workers until restart. Found in Expression Options. For Greylist entries."
+    "message": "Säilytä service workerit uudelleenkäynnistykseen asti"
   },
   "keepText": {
-    "message": "Säilytä",
-    "description": "Keep"
+    "message": "Säilytä"
   },
   "listTypeText": {
-    "message": "Tyyppi",
-    "description": "List Type"
+    "message": "Kuinka kauan"
   },
   "localStorageCleanupText": {
-    "message": "Ota Käyttöön Paikallinen Tallennustila (Firefox 58+, Chrome 74+)",
-    "description": "Enable LocalStorage Cleanup (Firefox 58+, Chrome 74+). Found in CAD Settings."
+    "message": "Ota LocalStorage-siivous käyttöön"
   },
   "localStorageText": {
-    "message": "Paikallinen Tallennustila",
-    "description": "LocalStorage. Primarily used in notifications."
+    "message": "LocalStorage"
   },
   "manualActionNotification": {
-    "message": "Manuaalinen Toiminta-Ilmoitus",
-    "description": "Manual Action Notification - used as Notification Title."
+    "message": "Manuaalinen siivous"
   },
   "manualCleanError": {
-    "message": "$siteData$ ei voi puhdistaa välilehdellä:",
-    "description": "$siteData$ cannot be cleaned for tab:. Shown as notification if manual clean cookies cannot be done.",
+    "message": "Tämän välilehden kohteen $siteData$ siivous epäonnistui:",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -430,8 +404,7 @@
     }
   },
   "manualCleanNothing": {
-    "message": "Siivousta varten ei löytynyt $siteData$ $url$.",
-    "description": "No $siteData$ were found for cleaning on $url$. Used in notification after manual clean.",
+    "message": "Ei siivottavaa: kohdetta $siteData$ ei löytynyt osoitteesta $url$.",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -444,8 +417,7 @@
     }
   },
   "manualCleanRemoved": {
-    "message": "Poistettu $deleted$ / $total$.",
-    "description": "Removed $deleted$ of $total$. Used as part of success notification on manual clean.",
+    "message": "Poistettiin $deleted$/$total$.",
     "placeholders": {
       "deleted": {
         "content": "$1",
@@ -458,12 +430,10 @@
     }
   },
   "manualCleanSiteDataAll": {
-    "message": "Puhdista kaikki tälle verkkotunnukselle",
-    "description": "Clean All for this domain. Found in Popup clean dropdown menu."
+    "message": "Pyyhi kaikki tältä sivustolta"
   },
   "manualCleanSiteDataAllDomain": {
-    "message": "Tyhjennä kaikki sivuston tiedot $domain$",
-    "description": "Clear all site data for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Pyyhi kaikki sivuston $domain$ tallentamat tiedot",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -472,12 +442,10 @@
     }
   },
   "manualCleanSiteDataCache": {
-    "message": "Puhdista välimuisti tälle verkkotunnukselle",
-    "description": "Clean Cache for this domain. Found in Popup clean dropdown menu."
+    "message": "Pyyhi tämän sivuston välimuisti"
   },
   "manualCleanSiteDataCacheDomain": {
-    "message": "Tyhjennä kaikki välimuisti kohteelle $domain$",
-    "description": "Clear all Cache for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Pyyhi kaikki sivuston $domain$ tallentama välimuisti",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -486,12 +454,10 @@
     }
   },
   "manualCleanSiteDataCookies": {
-    "message": "Puhdista evästeet tälle verkkotunnukselle",
-    "description": "Clean Cookies for this domain. Found in Popup clean dropdown menu."
+    "message": "Pyyhi tämän sivuston evästeet"
   },
   "manualCleanSiteDataCookiesDomain": {
-    "message": "Tyhjennä kaikki Evästeet kohteelle $domain$",
-    "description": "Clear all Cookies for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Pyyhi kaikki sivuston $domain$ tallentamat evästeet",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -500,12 +466,10 @@
     }
   },
   "manualCleanSiteDataIndexedDB": {
-    "message": "Puhdista indeksoitu DB tälle verkkotunnukselle",
-    "description": "Clean IndexedDB for this domain. Found in Popup clean dropdown menu."
+    "message": "Pyyhi tämän sivuston IndexedDB"
   },
   "manualCleanSiteDataIndexedDBDomain": {
-    "message": "Tyhjennä kaikki indeksoitu DB kohteelle $domain$",
-    "description": "Clear all IndexedDB for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Pyyhi kaikki sivuston $domain$ tallentamat IndexedDB-tiedot",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -514,12 +478,10 @@
     }
   },
   "manualCleanSiteDataLocalStorage": {
-    "message": "Puhdista paikallinen tallennustila tälle verkkotunnukselle",
-    "description": "Clean LocalStorage for this domain. Found in Popup clean dropdown menu."
+    "message": "Pyyhi tämän sivuston LocalStorage"
   },
   "manualCleanSiteDataLocalStorageDomain": {
-    "message": "Poista kaikki paikallinen tallennustila käyttäjältä $domain$",
-    "description": "Clear all LocalStorage for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Pyyhi kaikki sivuston $domain$ tallentama LocalStorage",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -528,12 +490,10 @@
     }
   },
   "manualCleanSiteDataPluginData": {
-    "message": "Puhdista tämän verkkotunnuksen lisätiedot",
-    "description": "Clean Plugin Data for this domain. Found in Popup clean dropdown menu."
+    "message": "Pyyhi tämän sivuston lisäosatiedot"
   },
   "manualCleanSiteDataPluginDataDomain": {
-    "message": "Tyhjennä kaikki lisäosan tiedot $domain$",
-    "description": "Clear all Plugin Data for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Pyyhi kaikki sivuston $domain$ tallentamat lisäosatiedot",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -542,12 +502,10 @@
     }
   },
   "manualCleanSiteDataServiceWorkers": {
-    "message": "Clean Service Workers tälle verkkotunnukselle",
-    "description": "Clean Service Workers for this domain. Found in Popup clean dropdown menu."
+    "message": "Pyyhi tämän sivuston service workerit"
   },
   "manualCleanSiteDataServiceWorkersDomain": {
-    "message": "Tyhjennä kaikki huoltotyöntekijät kohteelle $domain$",
-    "description": "Clear all Service Workers for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Pyyhi kaikki sivuston $domain$ rekisteröimät service workerit",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -556,8 +514,7 @@
     }
   },
   "manualCleanSuccess": {
-    "message": "Siivoa $siteData$ $url$ tuloksella:",
-    "description": "Cleanup for $siteData$ on $url$ result:  Shown as notification after successful manual cleaning.",
+    "message": "Kohteen $siteData$ siivouksen tulos osoitteessa $url$:",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -570,48 +527,37 @@
     }
   },
   "manualNotificationsText": {
-    "message": "Näytä ilmoitukset manuaalisesta sivuston tietojen puhdistuksesta",
-    "description": "Show Notification from Manual Site Data Cleanups. Found in settings"
+    "message": "Ilmoita manuaalisten siivousten jälkeen"
   },
   "matchedDomainExpressionText": {
-    "message": "Vastaava verkkotunnuksen lauseke",
-    "description": "Matched Domain Expression"
+    "message": "Osunut verkkotunnuslauseke"
   },
   "menuText": {
-    "message": "Valikko",
-    "description": "Menu. Only shown when the settings screen is small / when the hamburger icon shows / when the menu is collapsed."
+    "message": "Valikko"
   },
   "minutesText": {
-    "message": "Minuutti(a)",
-    "description": "minute(s)"
-  },
-  "missingContainerText": {
-    "message": "VIRHEELLINEN SÄILIÖ",
-    "description": "INVALID CONTAINER. Shown when a CAD list exists but cannot link id to available containers (Firefox)."
+    "message": "minuutti(a)"
   },
   "noCleanupLogText": {
-    "message": "Siivouslokeja ei löytynyt",
-    "description": "No Cleanup Logs Found"
+    "message": "Siivousloki on tyhjä."
   },
   "noExpressionsText": {
-    "message": "Ei määritelmiä.",
-    "description": "No expressions defined."
+    "message": "Et ole vielä lisännyt lausekkeita."
   },
   "noPrivateLogging": {
-    "message": "Siivouslokeja ei luoda välilehdille Yksityinen selaus / Incognito / InPrivate.",
-    "description": "Cleanup Logs will not be generated for tabs in Private Browsing / Incognito / InPrivate."
+    "message": "Yksityisiä/incognito-välilehtiä ei koskaan kirjata."
+  },
+  "noSearchExpressionsFound": {
+    "message": "Mikään ei vastaa hakuasi."
   },
   "noRulesText": {
-    "message": "Ei sääntöjä tällä domainilla.",
-    "description": "No rules matched this domain"
+    "message": "Mikään lauseke ei vastaa tätä sivustoa."
   },
   "noneText": {
-    "message": "Ei mitään",
-    "description": "None"
+    "message": "Ei mitään"
   },
   "notificationContent": {
-    "message": "Jotkin sivustotiedot, mukaan lukien $Num$ Cookie(t), poistettu $total$ verkkotunnukselta, mukaan lukien: $Websites$",
-    "description": "Some site data, including 123 Cookie(s), removed from 8 domain(s), including: google.com, facebook.com",
+    "message": "Sivustotietoja poistettu — $Num$ evästettä $total$ sivustolta, muun muassa: $Websites$",
     "placeholders": {
       "num": {
         "content": "$1",
@@ -628,64 +574,58 @@
     }
   },
   "notificationDisabledText": {
-    "message": "Ilmoitus poistettu käytöstä",
-    "description": "Notification disabled"
+    "message": "Ilmoitukset pois päältä"
   },
   "notificationEnabledText": {
-    "message": "Ilmoitus käytössä",
-    "description": "Notification enabled"
+    "message": "Ilmoitukset päällä"
   },
   "notificationTitle": {
-    "message": "Evästeet poistettu!",
-    "description": "Cookies were deleted!  Used in Notification Title."
+    "message": "Evästeet siivottu"
   },
   "notificationTitleSiteData": {
-    "message": "Sivuston Tietojen Poisto Käynnistetty!",
-    "description": "Site Data Removal Triggered!  Used in Notification Title."
+    "message": "Sivustotiedot siivottu"
   },
   "notifyCookieCleanupDelayText": {
-    "message": "Ilmoitusten kesto",
-    "description": "Duration for Notifications"
+    "message": "Ilmoituksen kesto"
   },
   "notifyCookieCleanUpText": {
-    "message": "Näytä Ilmoitukset Automaattisen Puhdistuksen Jälkeen",
-    "description": "Show Notification After Automatic Cleanup. Found in settings."
+    "message": "Ilmoita siivouksen jälkeen"
   },
   "oldReleasesText": {
-    "message": "Vanhemmat julkaisutiedot voidaan katsella verkossa osoitteessa",
-    "description": "Older release notes can be viewed online at"
+    "message": "Aiemmat julkaisut on listattu osoitteessa"
   },
   "openDebugMode": {
-    "message": "Voit tarkastella vianetsintuloksia avaamalla uuden välilehden ja käymällä",
-    "description": "To view the debug outputs, open a new tab and visit"
+    "message": "Virheenjäljitystuloste on laajennuksen konsolissa. Avaa uusi välilehti ja siirry osoitteeseen"
   },
   "optionsText": {
-    "message": "Asetukset",
-    "description": "Options"
+    "message": "Mitä se säilyttää"
   },
   "pluginDataCleanupText": {
-    "message": "Ota Käyttöön Lisäosien Tietojen Puhdistus (Firefox 78+, Chrome 74+)",
-    "description": "Enable Plugin Data Cleanup (Firefox 78+, Chrome 74+). Found in CAD Settings."
+    "message": "Ota lisäosatietojen siivous käyttöön"
   },
   "pluginDataText": {
-    "message": "Liitännäisen Tiedot",
-    "description": "Plugin Data. Primarily used in notifications."
+    "message": "Lisäosatiedot"
   },
   "popupCookieCountText": {
-    "message": "Evästeet",
-    "description": "Cookies. Due to visual formatting, Cookie Count will always be located on the right side after the colon. Found in Popup near top-right."
+    "message": "Evästeet"
   },
   "preferencesText": {
-    "message": "Asetukset",
-    "description": "Settings"
+    "message": "Asetukset"
   },
   "questionExpression": {
-    "message": "Kuinka lausekkeet toimivat?",
-    "description": "How do Expressions work?"
+    "message": "Miten kuviot toimivat?"
   },
   "reasonCADSiteDataCookie": {
-    "message": "Puhdas käynnistääksesi Sivuston tietojen puhdistuksen kohteelle $hostname$.",
-    "description": "Clean to trigger Site Data cleaning for $hostname$. Found in Activity Log Detailed Entries.",
+    "message": "Sisäinen merkkieväste poistettu, jotta sivuston $hostname$ sivustotietojen siivous käynnistyy.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCADSiteDataCookieRestart": {
+    "message": "Sisäinen merkkieväste poistettu uudelleenkäynnistyksessä, jotta sivuston $hostname$ sivustotietojen siivous käynnistyy.",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -694,8 +634,16 @@
     }
   },
   "reasonCleanCookieExpired": {
-    "message": "Puhdista osittain vanhentuneiden evästeiden takia käyttäjältä $hostname$.",
-    "description": "Partial clean because of expired cookies from $hostname$. Found in Activity Log Detailed Entries.",
+    "message": "Poistettiin vain vanhentuneet evästeet sivustolta $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpiredRestart": {
+    "message": "Poistettiin vain vanhentuneet evästeet sivustolta $hostname$ uudelleenkäynnistyssiivouksessa.",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -704,8 +652,7 @@
     }
   },
   "reasonCleanCookieName": {
-    "message": "Osittain puhdas, koska vastaava $matchedExpression$ johtuu $listType$ -luettelosta",
-    "description": "Partial clean because of matched $matchedExpression$ in the $listType$. Used in cleanup logs.",
+    "message": "Siivottu valikoiden: $matchedExpression$ listalla $listType$ suojaa muut evästeet, mutta ei tätä",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -718,8 +665,7 @@
     }
   },
   "reasonCleanGreyList": {
-    "message": "Puhdas käynnistyksen puhdistuksen takia, ja $matchedExpression$ on Greylist-luettelossa",
-    "description": "Clean because of startup cleanup and $matchedExpression$ is in the Greylist. Used in cleanup log.",
+    "message": "Siivottu käynnistyksessä: $matchedExpression$ on harmaalla listalla",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -728,8 +674,7 @@
     }
   },
   "reasonCleanNoList": {
-    "message": "Puhdas, koska $hostname$ ei ole Valkoinen tai Harmaa -luetteloissa",
-    "description": "Clean because $hostname$ is not in the White or Grey lists",
+    "message": "Siivottu: $hostname$ ei ole valkoisella eikä harmaalla listalla",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -738,8 +683,7 @@
     }
   },
   "reasonCleanStartupNoList": {
-    "message": "Puhdas käynnistyksen yhteydessä, joten $hostname$ ei ole Valkoinen tai Harmaa -luetteloissa",
-    "description": "Clean because of startup cleanup and $hostname$ is not in the White or Grey lists",
+    "message": "Siivottu käynnistyksessä: $hostname$ ei ole valkoisella eikä harmaalla listalla",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -748,8 +692,7 @@
     }
   },
   "reasonKeep": {
-    "message": "Pidä, koska vastaava $matchedExpression$ on listassa $listType$",
-    "description": "Keep because of matched $matchedExpression$ in the $listType$",
+    "message": "Säilytetty: $matchedExpression$ listalla $listType$ osui",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -762,8 +705,7 @@
     }
   },
   "reasonKeepOpenTab": {
-    "message": "Pidä, koska *.$mainDomain$ on avoinna",
-    "description": "Keep because of open tabs of *.$mainDomain$",
+    "message": "Säilytetty: *.$mainDomain$ on yhä auki välilehdessä",
     "placeholders": {
       "mainDomain": {
         "content": "$1",
@@ -772,28 +714,22 @@
     }
   },
   "reasonTabsWereIgnored": {
-    "message": "ja myös avoimet välilehdet jätettiin huomioimatta",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] and also open tabs were ignored"
+    "message": "(avoimet välilehdet ohitettiin tällä kierroksella)"
   },
   "reasonTabsWereNotIgnored": {
-    "message": "tai missä tahansa avoimessa välilehdessä",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] or in any open tabs"
+    "message": "(eikä auki missään välilehdessä)"
   },
   "releaseNotesText": {
-    "message": "Julkaisutiedot",
-    "description": "Release Notes"
+    "message": "Julkaisutiedot"
   },
   "removeActivityLogEntryText": {
-    "message": "Poista Lokimerkintä",
-    "description": "Remove Log Entry. Shown in summary activity log for individual log removal."
+    "message": "Poista lokimerkintä"
   },
   "removeAllExpressions": {
-    "message": "Poista kaikki lausekkeet",
-    "description": "Remove All Expressions"
+    "message": "Poista kaikki"
   },
   "removeAllExpressionsConfirm": {
-    "message": "Haluatko varmasti poistaa KAIKKI ($expressionCount$) tallennetut lausekkeet ($listCount$) -luetteloista? \n\nTÄTÄ EI VOI PERUUTTAA! \n\nKirjoita [$expressionCount$] ja poista napsauttamalla OK.",
-    "description": "Are you sure you want to remove ALL ($expressionCount$) saved expression(s) from ($listCount$) list(s)?\n\nTHIS CANNOT BE UNDONE!\n\nType [ $expressionCount$ ] and click OK to delete. Popup prompt if Delete All Expression is clicked.",
+    "message": "Tämä poistaa pysyvästi kaikki $expressionCount$ lauseketta $listCount$ listalta.\n\nTätä ei voi perua.\n\nVahvista kirjoittamalla [ $expressionCount$ ] ja painamalla OK.",
     "placeholders": {
       "expressionCount": {
         "content": "$1",
@@ -806,20 +742,16 @@
     }
   },
   "removeAllExpressionsNoneFound": {
-    "message": "Ei poistettavia lausekkeita!",
-    "description": "No expressions to remove!"
+    "message": "Poistettavia lausekkeita ei ole."
   },
   "removeExpressionText": {
-    "message": "Poista sääntö",
-    "description": "Remove expression"
+    "message": "Poista lauseke"
   },
   "removeListText": {
-    "message": "Poista kaikki ilmaukset valitusta luettelosta",
-    "description": "Remove All Expressions from Selected List. Shown in List of Expressions, only on Firefox and if containers/contextual identities is enabled."
+    "message": "Poista kaikki lausekkeet valitulta listalta"
   },
   "removeStorageCount": {
-    "message": "Poistettu $count$ kohdetta $storageType$.",
-    "description": "Removed $count$ item(s) from $storageType$. Used in manual localstorage clean notification.",
+    "message": "Pyyhittiin $count$ kohdetta säilöstä $storageType$.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -832,148 +764,147 @@
     }
   },
   "reportIssuesText": {
-    "message": "Ilmoita ongelmista ja ehdota ominaisuuksia",
-    "description": "Report issues and suggest features"
+    "message": "Virheraportit ja ideat"
   },
   "resetCookieCounterText": {
-    "message": "Nollaa Evästeen Laskurit",
-    "description": "Reset Cookie Counters. Button in Welcome Page."
+    "message": "Nollaa evästelaskurit"
   },
   "resetExtensionDataText": {
-    "message": "Nollaa laajennustiedot",
-    "description": "Reset Extension Data"
+    "message": "Pyyhi kaikki laajennuksen tiedot"
   },
   "restoreText": {
-    "message": "Palauta",
-    "description": "Restore. Restores cookies that was cleaned up by this extension. Found in Activity Log entries."
-  },
-  "reviewLinkMessage": {
-    "message": "Kiitos, että kokeilet $cadTitle$. Anna sitten arvostelu, jos pidit siitä.",
-    "description": "Thanks for trying out Cookie AutoDelete. If you liked it, then please give a review.",
-    "placeholders": {
-      "cadTitle": {
-        "content": "$1",
-        "example": "Cookie AutoDelete"
-      }
-    }
+    "message": "Palauta"
   },
   "saveExpressionText": {
-    "message": "Tallenna sääntö",
-    "description": "Save expression"
+    "message": "Tallenna lauseke"
   },
   "secondsText": {
-    "message": "sekuntia",
-    "description": "second(s)"
+    "message": "sekunti(a)"
   },
   "serviceWorkersCleanupText": {
-    "message": "Ota Käyttöön Palvelutyöntekijöiden Puhdistus (Firefox 77+, Chrome 74+)",
-    "description": "Enable Service Workers Cleanup (Firefox 77+, Chrome 74+). Found in CAD Settings."
+    "message": "Ota service workereiden siivous käyttöön"
   },
   "serviceWorkersText": {
-    "message": "Palvelun Työntekijät",
-    "description": "Service Workers. Primarily used in notifications."
+    "message": "Service workerit"
   },
   "sessionStorageText": {
-    "message": "SessionStorage",
-    "description": "SessionStorage. Used in manual localstorage clean notification"
+    "message": "SessionStorage"
   },
   "settingGroupAutoClean": {
-    "message": "Automaattiset puhdistusasetukset",
-    "description": "Automatic Cleaning Options"
+    "message": "Ajoitus"
   },
   "settingGroupExpression": {
-    "message": "Lausekkeen asetukset",
-    "description": "Expression Options"
+    "message": "Lausekevalinnat"
   },
   "settingGroupExtension": {
-    "message": "Lausekkeen asetukset",
-    "description": "Extension Options"
+    "message": "Käyttöliittymä"
   },
   "settingGroupOtherBrowsing": {
-    "message": "Muut selaustietojen puhdistusasetukset",
-    "description": "Other Browsing Data Cleanup Options"
+    "message": "Muut selaustietojen siivousvalinnat"
   },
   "settingsText": {
-    "message": "$CAD$ Asetukset",
-    "description": "$CAD$ Settings",
+    "message": "$CAD$ — asetukset",
     "placeholders": {
       "CAD": {
-        "content": "CAD",
-        "example": "CAD - Short form of Cookie AutoDelete"
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "showNumberOfCookiesInIconText": {
-    "message": "Näytä kyseisen verkkotunnuksen evästeiden määrä kuvakkeen päällä",
-    "description": "Show Number of Cookies for that Domain over the Icon"
+    "message": "Evästemäärä työkalupalkin kuvakkeessa"
+  },
+  "siteDataEmptyOnEnable": {
+    "message": "Kun uusi tietotyyppi otetaan käyttöön, pyyhi jo tallennettu"
   },
   "siteDataText": {
-    "message": "Sivuston Tiedot",
-    "description": "Site Data. Found in Activity Log Summary and Notifications."
+    "message": "Sivustotiedot"
   },
-  "sizePopupText": {
-    "message": "Ponnahdusikkunan koko (px)",
-    "description": "Size of Popup (in px). This sets the font size in the Popup."
+  "siteDataPanelTitle": {
+    "message": "Tämän sivuston tallentamat tiedot"
   },
-  "sizeSettingText": {
-    "message": "Asetussivujen koko (px)",
-    "description": "Size of Setting Pages (in px). This sets the font size in the Setting Pages."
+  "siteDataLoadingText": {
+    "message": "Tarkistetaan, mitä sivusto tallentaa…"
   },
-  "stopEditingText": {
-    "message": "Lopeta muokkaus",
-    "description": "Stop editing"
+  "siteDataNotAvailableText": {
+    "message": "Ei saatavilla tällä sivulla"
   },
-  "successText": {
-    "message": "Valmista!",
-    "description": "Success!"
+  "siteDataEmptyText": {
+    "message": "Tämä sivusto ei tallenna nyt mitään"
   },
-  "toGreyListText": {
-    "message": "Lisää harmaalle listalle (puhdista selaimen käynnistyksessä)",
-    "description": "Add to Greylist (Clean on Browser Restart)"
-  },
-  "toWhiteListText": {
-    "message": "Lisää valkoiselle listalle (älä puhdista)",
-    "description": "Add to Whitelist (Never Clean)"
-  },
-  "toggleNotificationText": {
-    "message": "Ota käyttöön tai poista käytöstä ilmoitukset",
-    "description": "Toggle to enable or disable notifications"
-  },
-  "toggleToGreyListWordText": {
-    "message": "Vaihda ryhmään",
-    "description": "Toggle to greylist"
-  },
-  "toggleToWhiteListWordText": {
-    "message": "Vaihda sallittujen luetteloon",
-    "description": "Toggle to whitelist"
-  },
-  "versionNumberText": {
-    "message": "$CAD$ -versio",
-    "description": "$CAD$ version 3.2.1. The actual number is formatted differently and will be right below this text.",
+  "siteDataUsageText": {
+    "message": "Käytössä $used$/$quota$",
     "placeholders": {
-      "CAD": {
+      "used": {
         "content": "$1",
-        "example": "CAD or Cookie AutoDelete"
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
       }
     }
   },
-  "versionText": {
-    "message": "$browser$ versio",
-    "description": "Firefox version",
+  "siteDataSessionCookieText": {
+    "message": "istunto"
+  },
+  "siteDataExpiresText": {
+    "message": "vanhenee $date$",
     "placeholders": {
-      "browser": {
+      "date": {
         "content": "$1",
-        "example": "Firefox"
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "tuntematon"
+  },
+  "siteDataRefreshTitle": {
+    "message": "Päivitä"
+  },
+  "sizePopupText": {
+    "message": "Ponnahdusikkunan fonttikoko"
+  },
+  "sizeSettingText": {
+    "message": "Asetusten fonttikoko"
+  },
+  "stopEditingText": {
+    "message": "Lopeta muokkaus"
+  },
+  "successText": {
+    "message": "Valmis!"
+  },
+  "toGreyListText": {
+    "message": "Lisää harmaalle listalle (säilytetään selaimen uudelleenkäynnistykseen asti)"
+  },
+  "toWhiteListText": {
+    "message": "Lisää valkoiselle listalle (ei siivota koskaan)"
+  },
+  "toggleNotificationText": {
+    "message": "Kytke ilmoitukset päälle tai pois"
+  },
+  "toggleToGreyListWordText": {
+    "message": "Vaihda harmaalle listalle"
+  },
+  "toggleToWhiteListWordText": {
+    "message": "Vaihda valkoiselle listalle"
+  },
+  "versionNumberText": {
+    "message": "$CAD$ — versio",
+    "placeholders": {
+      "CAD": {
+        "content": "$1",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "welcomeMessage": {
-    "message": "Moikka! Tämän istunnon aikana $cadTitle$ on poistanut $sessionDeleted$ evästettä ja yhteensä $totalDeleted$ evästettä.",
-    "description": "Hi there! During this session, Cookie AutoDelete has deleted 123 cookies and in total 456 cookies.",
+    "message": "$cadTitle$ on poistanut tässä selainistunnossa $sessionDeleted$ evästettä ja asennuksesta lähtien yhteensä $totalDeleted$.",
     "placeholders": {
       "cadTitle": {
         "content": "$1",
-        "example": "Cookie AutoDelete"
+        "example": "Auto-Delete Cookies for Privacy"
       },
       "sessionDeleted": {
         "content": "$2",
@@ -986,15 +917,415 @@
     }
   },
   "welcomeText": {
-    "message": "Tervetuloa",
-    "description": "Welcome"
+    "message": "Tervetuloa"
   },
   "expressionListText": {
-    "message": "Luettelo lausekkeista",
-    "description": "List of Expressions"
+    "message": "Lausekeluettelo"
   },
   "whiteListWordText": {
-    "message": "Sallitut sivut",
-    "description": "Whitelist"
+    "message": "Valkoinen lista"
+  },
+  "themeText": {
+    "message": "Teema"
+  },
+  "themeAutoText": {
+    "message": "Automaattinen"
+  },
+  "themeLightText": {
+    "message": "Vaalea"
+  },
+  "themeDarkText": {
+    "message": "Tumma"
+  },
+  "keepLocalStorageText": {
+    "message": "Säilytä LocalStorage"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "Säilytä LocalStorage uudelleenkäynnistykseen asti"
+  },
+  "popupHeroOnText": {
+    "message": "Automaattipoisto on päällä"
+  },
+  "popupHeroForgetText": {
+    "message": "Tämä sivusto ei muista sinua."
+  },
+  "popupHeroOffText": {
+    "message": "Automaattipoisto on pois päältä"
+  },
+  "popupHeroOffSubText": {
+    "message": "Mitään ei poisteta automaattisesti."
+  },
+  "popupHeroKeepingText": {
+    "message": "Tämän sivuston evästeet säilytetään"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$ on säilytyslistallasi",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$ säilytetään selaimen sulkemiseen asti",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "siivotaan"
+  },
+  "siteKeptText": {
+    "message": "säilytetty"
+  },
+  "siteCleanDelayText": {
+    "message": "Evästeet poistetaan $SECONDS$ s sen jälkeen, kun poistut sivustolta.",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "Tämän sivuston evästeitä ei koskaan poisteta."
+  },
+  "siteKeptSessionStatusText": {
+    "message": "Tämän sivuston evästeet pysyvät selaimen sulkemiseen asti."
+  },
+  "keepCookiesButtonText": {
+    "message": "Säilytä tämän sivuston evästeet"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$ aliverkkotunnuksineen ei poisteta",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "Säilytä selaimen sulkemiseen asti"
+  },
+  "stopKeepingButtonText": {
+    "message": "Lopeta sivuston säilyttäminen"
+  },
+  "cleanNowText": {
+    "message": "Siivoa nyt"
+  },
+  "cleanNowTooltipText": {
+    "message": "Poistaa evästeet sivustoilta, joita et säilytä — muissa välilehdissä avoimet sivustot ohitetaan."
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "Siivoa nyt, myös avoimet välilehdet"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "Sama kuin Siivoa nyt, mutta muissa välilehdissä avoimia sivustoja ei enää ohiteta. Vain säilytetyt sivustot selviävät."
+  },
+  "deleteSiteCookiesText": {
+    "message": "Poista tämän sivuston evästeet"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "Poista sivuston $DOMAIN$ evästeet heti, vaikka se on auki. Säilytyssäännöt ohitetaan vain tässä yhdessä toimenpiteessä.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "Poista kaikki sivuston tallentama"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "Poista kaikki, mitä $DOMAIN$ on tallentanut tälle laitteelle: evästeet, välimuisti, paikallinen tallennustila, tietokannat, workerit.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "Säilytä"
+  },
+  "keepButtonTooltipText": {
+    "message": "Tämän sivuston evästeitä ei koskaan poisteta."
+  },
+  "keepSessionButtonText": {
+    "message": "Säilytä tämä istunto"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "Evästeet pysyvät, kunnes suljet selaimen; seuraavassa käynnistyksessä ne poistetaan."
+  },
+  "noRuleMatchText": {
+    "message": "Mikään tallennettu sääntö ei vastaa tätä sivustoa"
+  },
+  "matchedRuleText": {
+    "message": "Osunut sääntö: $EXPRESSION$",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "Lisää siivousvalintoja"
+  },
+  "shareText": {
+    "message": "Jaa"
+  },
+  "shareTooltipText": {
+    "message": "Kerro laajennuksesta jollekulle"
+  },
+  "shareCopyLinkText": {
+    "message": "Kopioi linkki laajennuksen sivulle"
+  },
+  "shareCopiedText": {
+    "message": "Linkki kopioitu"
+  },
+  "shareEmailText": {
+    "message": "Jaa sähköpostitse"
+  },
+  "moreControlsText": {
+    "message": "Lisää säätimiä…"
+  },
+  "lastCleanSummaryText": {
+    "message": "Edellinen siivous: $COUNT$ evästettä · $TIME$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "Edistynyt tila"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "Näyttää asiantuntija-asetukset tällä sivulla ja lisäsäätimet ponnahdusikkunassa: tarkkojen verkkotunnusten säännöt, sivustokohtaiset siivousvalinnat ja osuneen säännön. Oletuksena pois — yksinkertainen näkymä kattaa tavallisen tapauksen."
+  },
+  "overviewText": {
+    "message": "Yleiskatsaus"
+  },
+  "protectionText": {
+    "message": "Suojaus"
+  },
+  "savedSitesText": {
+    "message": "Tallennetut sivustot"
+  },
+  "savedSitesSubText": {
+    "message": "Sivustot, jotka säilytät. Säilytetyt sivustot pitävät tietonsa aina; istuntosivustot selaimen sulkemiseen asti."
+  },
+  "cookiesDeletedSessionText": {
+    "message": "poistettu tässä istunnossa"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "poistettu yhteensä"
+  },
+  "keptBadgeText": {
+    "message": "Säilytetty"
+  },
+  "sessionBadgeText": {
+    "message": "Uudelleenkäynnistykseen asti"
+  },
+  "toggleToKeepText": {
+    "message": "Vaihda tilaan Säilytä"
+  },
+  "toggleToSessionText": {
+    "message": "Vaihda tilaan Säilytä tämä istunto"
+  },
+  "settingGroupSiteData": {
+    "message": "Mitä poistetaan"
+  },
+  "deleteAllSiteDataText": {
+    "message": "Poista kaikki sivustotiedot"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "Evästeet sekä tallennetut tiedostot, offline-tietokannat ja taustaworkerit — kaikki, mitä sivusto tallentaa laitteellesi."
+  },
+  "customBadgeText": {
+    "message": "Mukautettu"
+  },
+  "advancedChooseTypesText": {
+    "message": "Edistynyt — valitse tarkalleen mitä poistetaan"
+  },
+  "patternColumnText": {
+    "message": "Kuvio"
+  },
+  "patternMeaningColumnText": {
+    "message": "Mitä se kattaa"
+  },
+  "patternDomainMeaningText": {
+    "message": "Täsmälleen tämä verkkotunnus"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "Verkkotunnus ja jokainen aliverkkotunnus"
+  },
+  "patternIPMeaningText": {
+    "message": "Yksittäinen IP-osoite"
+  },
+  "patternCIDRMeaningText": {
+    "message": "Jokainen osoite alueella"
+  },
+  "patternRegexMeaningText": {
+    "message": "Edistynyt: säännöllinen lauseke kauttaviivojen välissä"
+  },
+  "patternFileMeaningText": {
+    "message": "Selaimessa avatut paikalliset tiedostot"
+  },
+  "patternKeepLevelsText": {
+    "message": "Säilytä tallentaa sivuston tiedot pysyvästi. Säilytä tämä istunto tallentaa ne vain selaimen sulkemiseen asti."
+  },
+  "summaryKeepsEverythingText": {
+    "message": "Säilyttää kaiken"
+  },
+  "summaryAllCookiesText": {
+    "message": "Kaikki evästeet"
+  },
+  "toggleOptionsText": {
+    "message": "Näytä tai piilota valinnat"
+  },
+  "summaryNamedCookiesText": {
+    "message": "$COUNT$ nimettyä evästettä",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "Pyyhkii: $TYPES$",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "Kaikki tallennetut sivustot poistettiin."
+  },
+  "importFoldedContainersText": {
+    "message": "$COUNT$ merkintää vanhoista säiliölistoista yhdistettiin oletuslistaan.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
+  },
+  "importExportText": {
+    "message": "Tuonti / Vienti"
+  },
+  "importExportSubText": {
+    "message": "Varmuuskopioi asetuksesi ja tallennetut sivustot, palauta ne tiedostosta tai palaa oletuksiin."
+  },
+  "activeModeDescText": {
+    "message": "Kun sivuston välilehdet on suljettu."
+  },
+  "gracePeriodDescText": {
+    "message": "Odota ennen siivousta siltä varalta, että palaat."
+  },
+  "domainChangeDescText": {
+    "message": "Siivoaa välilehden edellisen sivuston, kun siirryt siinä muualle."
+  },
+  "greylistDescText": {
+    "message": "Säilytä selaimen sulkemiseen asti -merkityt sivustot siivotaan, kun selain käynnistyy uudelleen."
+  },
+  "cleanDiscardedDescText": {
+    "message": "Selaimen nukuttama välilehti lasketaan siivouksessa suljetuksi."
+  },
+  "startupCleanDescText": {
+    "message": "Myös edellisestä istunnosta palautettujen välilehtien sivustot siivotaan."
+  },
+  "cleanExpiredDescText": {
+    "message": "Vanhentumispäivänsä ohittaneet evästeet poistetaan joka siivouskierroksella."
+  },
+  "cleanupLogDescText": {
+    "message": "Syöttää siivouslokisivua ja poistettujen evästeiden laskureita."
+  },
+  "cookieCountIconDescText": {
+    "message": "Näyttää, montako evästettä nykyinen sivusto on tallentanut."
+  },
+  "keepDefaultIconDescText": {
+    "message": "Älä värjää kuvaketta osoittamaan, säilytetäänkö sivusto."
+  },
+  "notifyAutoDescText": {
+    "message": "Lyhyt ilmoitus jokaisen automaattisen siivouksen jälkeen."
+  },
+  "notifyDurationDescText": {
+    "message": "Kuinka kauan ilmoitukset pysyvät näytöllä, sekunneissa."
+  },
+  "debugModeDescText": {
+    "message": "Yksityiskohtainen loki laajennuksen konsoliin virheraportteja varten."
+  },
+  "supportText": {
+    "message": "Tuki"
+  },
+  "helpText": {
+    "message": "Ohje"
+  },
+  "helpSubText": {
+    "message": "Kaikki, mitä laajennus tekee, selitettynä. Jokainen osio avautuu erikseen."
+  },
+  "helpGettingStartedTitle": {
+    "message": "Alkuun pääseminen"
+  },
+  "helpGettingStartedBody": {
+    "message": "Uudet asennukset alkavat manuaalitilassa: mitään ei poisteta ennen kuin käsket. Se on tarkoituksellista — rakenna ensin säilytyslistasi, jottei automaattisiivouksen kytkeminen myöhemmin kirjaa sinua ulos kaikkialta, missä sillä on väliä.\n\n1. Säilytä tärkeät sivustot. Käy jokaisella sivustolla, jolla uloskirjautuminen harmittaisi (sähköposti, pankki, kaikki maksullinen), napsauta työkalupalkin kuvaketta ja paina Säilytä tämän sivuston evästeet. Sääntö kattaa verkkotunnuksen ja kaikki aliverkkotunnukset. Käytä Säilytä selaimen sulkemiseen asti sivustoille, joiden pitää muistaa sinut vain tämän kerran.\n\n2. Päätä, mitä siivoaminen tarkoittaa. Oletuksena siivous poistaa vain evästeet. Kytke Poista kaikki sivustotiedot Suojaus-sivulla, jos haluat pyyhkiä myös sivuston muut jäänteet.\n\n3. Kytke automaattisiivous päälle. Kytke Siivoa automaattisesti Suojaus-sivulla. Siitä lähtien: sulje sivuston viimeinen välilehti, ja viiveajan jälkeen sen evästeet ovat poissa — paitsi jos säilytät sivuston tai se on yhä auki muualla.\n\n4. Valinnaista: pidä siivousloki päällä, niin näet aina, mitä siivottiin ja miksi."
+  },
+  "helpCleaningTitle": {
+    "message": "Miten siivous toimii"
+  },
+  "helpCleaningBody": {
+    "message": "Automaattisiivous laukeaa, kun sivuston viimeinen välilehti sulkeutuu. Viiveaika (oletuksena 15 sekuntia) on perumisikkunasi: avaa sivusto uudelleen sen sisällä, eikä mitään poisteta.\n\nSiivoa, kun poistut sivustolta laskee myös välilehden siirtymisen sivustolta toiselle ensimmäiseltä poistumiseksi — tiukempi, mutta huomaat sen, jos hyppelet sivustojen välillä yhdessä välilehdessä.\n\nSiivouksen aikana sivuston evästeet selviävät, jos jokin näistä pätee: sivusto on yhä auki jossakin välilehdessä; se osuu Säilytä-sääntöön; se osuu Säilytä sulkemiseen asti -sääntöön eikä kyseessä ole uudelleenkäynnistyssiivous; tai kyseisen evästeen nimi on rastittu osuneen säännön evästelistassa. Kaikki muu katoaa.\n\nEdistynyt tila lisää: nukkuvien (hylättyjen) välilehtien laskemisen suljetuiksi, palautettujen välilehtien siivoamisen kerran käynnistyksessä, vanhentuneiden evästeiden poistamisen aina ja istuntokohtaiset säilytyssäännöt — Säilytä selaimen sulkemiseen asti -sivustot siivotaan uudelleenkäynnistyksessä."
+  },
+  "helpSiteDataTitle": {
+    "message": "Mitä poistetaan"
+  },
+  "helpSiteDataBody": {
+    "message": "Oletuksena laajennus poistaa vain evästeet. Poista kaikki sivustotiedot -kytkin laajentaa siivouksen kaikkeen muuhun, mitä sivusto tallentaa laitteellesi: välimuistiin, IndexedDB:hen, LocalStorageen, lisäosatietoihin ja service workereihin. Sen alla oleva Edistynyt-haitari antaa valita yksittäiset tyypit.\n\nKaksi asiaa, jotka kannattaa tietää ennen kytkemistä:\n\n• Tyypin käyttöönotto pyyhkii sen kerran, kaikkialta. Sillä hetkellä kun kytket tyypin päälle, kaikki kyseisen tyypin tallennetut tiedot pyyhitään jokaiselta sivustolta (siitä sivun varoitus kertoo). Kytke ensin pyyhi-käyttöönotossa-kytkin pois, jos et halua tuota ensimmäistä lakaisua.\n\n• Vanhoja tietoja ei voi siivota valikoiden. Selain sallii laajennuksen pyyhkiä näitä tyyppejä sivustokohtaisesti vain tästä eteenpäin, sivustoilta joilla vierailet uudelleen. Ennen valinnan kytkemistä kertyneet jäänteet pysyvät, kunnes sivustolla käydään vielä kerran."
+  },
+  "helpPatternsTitle": {
+    "message": "Säilytyssäännöt ja kuviot"
+  },
+  "helpPatternsBody": {
+    "message": "Jokainen tallennettu sivusto on kuvio jommallakummalla kahdesta listasta. Säilytä-sivustoja ei siivota koskaan. Säilytä selaimen sulkemiseen asti -sivustot selviävät tavallisista siivouksista, mutta siivotaan uudelleenkäynnistyksessä. Sivusto, joka ei osu kumpaankaan, siivotaan heti kun poistut siltä — se on oletuskohtalo; säännöt ovat poikkeuksia.\n\nKuviot vertautuvat vain isäntänimeen — ei https://-alkua, ei polkuja:\n\n• example.com — täsmälleen tuo verkkotunnus, ei mail.example.com\n• *.example.com — verkkotunnus ja jokainen aliverkkotunnus\n• 192.168.1.100 — tuo IP-osoite\n• 10.0.0.0/8 — mikä tahansa IP CIDR-alueella\n• /^(mail|news)\\.example\\.com$/ — säännöllinen lauseke kauttaviivojen välissä\n• file:///home/user/notes — tuosta paikallisesta kansiosta avatut sivut\n\nJokaisella säännöllä on myös sivustokohtaiset valinnat (laajenna sen rivi Tallennetut sivustot -sivulla): säilytä vain nimetyt evästeet kaikkien sijaan ja tyyppikohtaiset sivustotietovalinnat. Luo oletusvalinnat -sääntö määrää aloitusvalinnat jokaiselle myöhemmin lisätylle säännölle.\n\nVinkki: jotta KAIKKI evästeet katoaisivat uudelleenkäynnistyksessä, lisää * Säilytä selaimen sulkemiseen asti -sääntönä ja merkitse todella pysyvät sivustosi Säilytä-tilaan."
+  },
+  "helpImportExportTitle": {
+    "message": "Tuonti ja vienti"
+  },
+  "helpImportExportBody": {
+    "message": "Tuonti / Vienti -sivu varmuuskopioi kaksi asiaa erikseen: tallennetut sivustosi ja asetuksesi. Molemmat ovat tavallisia JSON-tiedostoja aikaleimatuin nimin, joten toistuvat varmuuskopiot eivät ylikirjoita toisiaan. Tuonti ei koskaan poista sitä, mitä sinulla jo on; täsmälleen samat kaksoiskappaleet ohitetaan ja virheelliset merkinnät hylätään syineen, kun taas loput tuodaan silti.\n\nAlkuperäisen Cookie AutoDeleten viennit tuontuvat sellaisenaan — sama muoto. Firefox-ajan vienneissä voi olla säiliövälilehtilistoja (Firefox-ominaisuus, jota Chromiumissa ei ole); ne merkinnät yhdistetään oletuslistaasi kaksoiskappaleet ohittaen, ja tuonti-ilmoitus kertoo montako yhdistettiin.\n\nAsetusten palautus oletuksiin asuu myös tuolla sivulla. Se ei koske tallennettuihin sivustoihisi."
+  },
+  "helpLogTitle": {
+    "message": "Siivousloki"
+  },
+  "helpLogBody": {
+    "message": "Siivousloki vastaa kysymyksiin miksi minut kirjattiin ulos siltä sivustolta? ja tekeekö tämä oikeasti mitään?. Pidä Pidä siivouslokia päällä ja avaa lokisivu siivouksen jälkeen.\n\nJokainen merkintä listaa kohteena olleet sivustot ja kunkin kohdalla tehdyn päätöksen selkokielellä: säilytetty koska sääntö osui, säilytetty koska sivusto oli yhä auki, siivottu koska mikään ei osunut, siivottu käynnistyksessä (juuri se tyhjentää uudelleenkäynnistykseen-asti-sivustot), tai siivottu valikoiden kun sääntö säilyttää vain nimetyt evästeet. Päätösrivit käyttävät sisäisiä listanimiä: valkoinen lista tarkoittaa pysyvää Säilytä-sääntöä, harmaa lista Säilytä selaimen sulkemiseen asti -sääntöä.\n\nLoki ei koskaan sisällä evästeiden arvoja, ei koskaan kirjaa yksityisiä/incognito-välilehtiä, ei koskaan poistu selaimestasi, ja vanhat merkinnät putoavat lopusta itsestään. Yleiskatsaus-sivun laskurit (tämä istunto / yhteensä) tulevat samasta kirjanpidosta."
+  },
+  "helpPermissionsTitle": {
+    "message": "Miksi se tarvitsee nämä oikeudet"
+  },
+  "helpPermissionsBody": {
+    "message": "Asennuksen varoitus Lukea ja muuttaa tietoja kaikilla sivustoilla on se väistämätön: evästeet voivat kuulua mille tahansa vierailemallesi sivustolle, joten niiden poistaminen vaatii pääsyn kaikille sivustoille. Sitä käytetään ainoastaan evästeiden ja sivustotietojen lukemiseen ja poistamiseen — ei koskaan sivujen sisällön lukemiseen eikä koskaan palvelimen kanssa puhumiseen (sellaista ei ole).\n\nLoput lyhyesti. Evästeet: listaa sivuston evästeet laskuria varten ja poista ne. Selaustiedot: poista valinnaiset lisät — välimuisti, IndexedDB, LocalStorage, lisäosatiedot, service workerit. Tallennustila: tallenna asetuksesi ja säilytyssääntösi paikallisesti. Hälytykset: pidä viivästetty siivous aikataulussa, vaikka selain nukuttaisi laajennuksen odotuksen aikana. Välilehdet: tiedä mitkä sivustot ovat auki (avoimet sivustot ovat suojattuja) ja huomaa kun välilehti sulkeutuu tai poistuu sivustolta. Aktiivinen välilehti ja Scripting: suorita ponnahdusikkunan sivustokohtaiset toiminnot. Pikavalikot ja Ilmoitukset: kaksi valinnaista ominaisuutta, jotka voi kytkeä pois asetuksista.\n\nTarkoituksella puuttuvat: selaushistoria, verkkopyyntöjen sieppaus ja ylipäätään kaikki verkkoyhteydet. Laajennus ei näe, mitä kirjoitat tai mitä sivuja luet."
+  },
+  "helpTroubleshootingTitle": {
+    "message": "Vianetsintä ja UKK"
+  },
+  "helpTroubleshootingBody": {
+    "message": "Kirjattiin ulos sivustolta? Todennäköisyysjärjestyksessä: sivustolla ei ole säilytyssääntöä (tai vain sen tarkalla isäntänimellä on, kun kirjautuminen asuu aliverkkotunnuksella — käytä muotoa *.example.com); se on uudelleenkäynnistykseen-asti-sivusto ja selain käynnistyi uudelleen; osunut sääntö säilyttää vain nimetyt evästeet eikä kirjautumiseväste ole rastittuna; tai sivuston oma eväste yksinkertaisesti vanheni. Älä arvaile — siivousloki nimeää täsmälleen säännön, joka laukesi.\n\nEvästeet ilmestyvät heti siivouksen jälkeen? Sivusto on lähes aina yhä auki jossakin välilehdessä — avoimet sivustot luovat evästeitä mielensä mukaan ja ovat joka tapauksessa suojattuja.\n\nSiivous ei tapahtunut? Tarkista järjestyksessä: automaattisiivous on päällä (ponnahdusikkunan otsake kertoo sen); sivusto ei ole auki toisessa välilehdessä; viiveaika on kulunut; mikään säilytyssääntö ei osu; kyse ei ollut nukkuvasta välilehdestä (ne lasketaan suljetuiksi vain, jos kyseinen edistynyt asetus on päällä).\n\nKytkit sivustotietojen siivouksen mutta vanhat tiedot ovat yhä siellä? Selain sallii näiden tyyppien pyyhkimisen vain sivustoilta, joilla vierailet uudelleen; jäänteet pysyvät seuraavaan käyntiin asti.\n\nIncognito? Vain jos sallit sen: selaimesi laajennussivu → Salli incognito-tilassa. Incognitolla on oma evästesäilönsä ja omat tallennetut sivustonsa, eikä sitä koskaan kirjata lokiin.\n\nYhä jumissa? Tuki-sivulla on versio, kopioitava virheenjäljityslohko ja linkki virheraportteihin. Virheenjäljitystila (Edistynyt) saa laajennuksen selostamaan jokaisen päätöksen service workerin konsoliin evästearvot peitettyinä."
   }
 }

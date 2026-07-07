@@ -1,19 +1,15 @@
 {
   "aboutText": {
-    "message": "关于",
-    "description": "About"
+    "message": "关于"
   },
   "activeModeDelayText": {
-    "message": "自动清理前延迟",
-    "description": "Delay Before Automatic Cleaning"
+    "message": "宽限时间"
   },
   "activeModeText": {
-    "message": "启用自动清理",
-    "description": "Enable Automatic Cleaning"
+    "message": "自动清理"
   },
   "activityLogSiteDataDomainsText": {
-    "message": "调用了对以下域名的 $siteData$ 的清理： $domains$",
-    "description": "Invoked cleanup of $siteData$ for: $domains$. Found in Activity Log Detailed Entries.",
+    "message": "已为以下站点删除 $siteData$：$domains$",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -26,8 +22,7 @@
     }
   },
   "addNewExpressionNotification": {
-    "message": "正在将 $expression$ 添加到 cookie 存储 $cookieStore$ 下的列表类型 $listType$。",
-    "description": "Adding $expression$ to list type $listType$ under cookie store $cookieStore$. Used in notification when right-click action was performed.",
+    "message": "已将 $expression$ 保存到 $listType$ 列表（Cookie 存储区：$cookieStore$）。",
     "placeholders": {
       "expression": {
         "content": "$1",
@@ -39,105 +34,78 @@
       },
       "cookieStore": {
         "content": "$3",
-        "example": "'default' -or- 'firefox-container-1 (Personal)'"
+        "example": "'default' -or- 'private'"
       }
     }
   },
   "addNewExpressionNotificationFailed": {
-    "message": "无法从发出右键单击的位置获取要添加的域名。",
-    "description": "Could not fetch domain to add from where right-click was issued."
+    "message": "无法从右键点击的位置读取域名。"
   },
   "addNewExpressionNotificationIgnore": {
-    "message": "如果表达式已存在，此操作将会被忽略。",
-    "description": "If expression already exists, this will be ignored. Used in notification when right-click action was performed."
+    "message": "重复项会被自动跳过。"
   },
   "autoDeleteDisabledText": {
-    "message": "自动清理已禁用",
-    "description": "Auto-clean disabled"
+    "message": "自动清理已关闭"
   },
   "autoDeleteEnabledText": {
-    "message": "自动清理已启用",
-    "description": "Auto-clean enabled"
+    "message": "自动清理已开启"
   },
   "browsingDataNoEmptyWarning": {
-    "message": "警告：新启用但现有的站点数据类型不会被清理。在再次访问其域前，无法清除现有数据。",
-    "description": "WARNING:  Existing site data types will NOT be cleaned when newly enabled. We will NOT be able to clean any of the existing data until its domain has been visited at least once, including from unwanted domains. Found in CAD Settings"
+    "message": "注意：开启此项不会影响网站之前存储的数据。网站的残留数据只有在你再次访问后才能被清理——在那之前它们会一直留着，哪怕是你想摆脱的网站。"
   },
   "browsingDataWarning": {
-    "message": "警告：一旦启用以下任何一个站点数据清理选项，该类型的所有现有数据将会被清除。",
-    "description": "WARNING: Upon enabling any of the following site data cleanup options, ALL existing data for that type will be cleared. Found in CAD Settings"
+    "message": "小心：开启下面任意一种清理类型，会立即抹掉所有网站当前存储的该类型全部数据。"
   },
   "cacheCleanupText": {
-    "message": "启用缓存清理 (Firefox 78+, Chrome 74+)",
-    "description": "Enable Cache Cleanup (Firefox 78+, Chrome 74+). Found in CAD Settings."
+    "message": "启用缓存清理"
   },
   "cacheText": {
-    "message": "缓存",
-    "description": "Cache. Primarily used in notifications."
+    "message": "缓存"
   },
   "chromeDebugMode": {
-    "message": "确保“开发模式”已启用，然后点击查看下的“背景页面”。",
-    "description": "Ensure 'Developer Mode' is enabled, then click on 'background page' under Inspect View. This is shown if debug mode is enabled."
+    "message": "开启“开发者模式”，然后通过“检查视图”链接打开 Service Worker 控制台。"
   },
   "cleanDiscardedText": {
-    "message": "启用已丢弃/未加载标签的清理",
-    "description": "Enable Cleanup for Discarded/Unloaded Tabs. Found in Settings."
+    "message": "把休眠标签页当作已关闭"
   },
   "cleanExpiredCookiesText": {
-    "message": "清理所有过期的 Cookie",
-    "description": "Clean All Expired Cookies. Found in Settings."
+    "message": "始终删除已过期的 Cookie"
   },
   "cleanIgnoringOpenTabsText": {
-    "message": "清理，包括已打开标签页",
-    "description": "Clean, include open tabs. Found in the additional cleanup options in the popup."
+    "message": "清理，包括打开的标签页"
   },
   "cleanText": {
-    "message": "清理",
-    "description": "Clean"
+    "message": "清理"
   },
   "cleanupDomainChangeText": {
-    "message": "启用域变更时清理",
-    "description": "Enable Cleanup on Domain Change"
+    "message": "离开网站时清理"
   },
   "cleanupActionsBypass": {
-    "message": "警告 - 忽略设置下面的操作！",
-    "description": "Warning - Actions below ignore settings! Found in the additional cleanup options in the popup."
+    "message": "小心——这些按钮会无视你的保留列表并立即清理！"
   },
   "cleanupLogText": {
-    "message": "清理日志",
-    "description": "Cleanup Log"
+    "message": "清理日志"
   },
   "clearLogsText": {
-    "message": "清除日志",
-    "description": "Clear Logs"
+    "message": "清空日志"
   },
   "consoleDebugMode": {
-    "message": "点击控制台标签",
-    "description": "Click on the Console Tab. Found after enabling debug mode."
-  },
-  "containerSiteDataWarning": {
-    "message": "警告：由于浏览器 API 的限制，在启用容器标签页的同时，启用以上任何一项额外浏览数据清理，都可能会导致意想不到的副作用。除 cookie 以外的、所有类型的网站数据，都会被按照主机名，跨越所有容器，一同被清除。",
-    "description": "WARNING: Enabling Container Tabs with any of the additional browsing data cleanups above may cause unwanted side effects due to browser API limitations. Site data types, with the exception of cookies, will be cleared by hostname for ALL containers. Found in CAD Settings."
+    "message": "切换到“控制台”标签页。"
   },
   "contextMenusParentClean": {
-    "message": "手动清理菜单",
-    "description": "Manual Cleaning Menu. Shown on right-clicks of Page/Browser Action."
+    "message": "手动清理"
   },
   "contextMenusParentExpression": {
-    "message": "添加域名/表达式菜单",
-    "description": "Add Domain/Expression Menu. Shown on right-clicks of Page/Link/Selection."
+    "message": "添加到保留列表"
   },
   "contextMenusSelectedDomainLink": {
-    "message": "仅用于所选链接的域名",
-    "description": "For domain only of selected link. Shown in right-click menu."
+    "message": "仅此链接的域名"
   },
   "contextMenusSelectedDomainPage": {
-    "message": "仅用于所选页面的域名",
-    "description": "For domain only of selected page. Shown in right-click menu."
+    "message": "仅此页面的域名"
   },
   "contextMenusSelectedDomainText": {
-    "message": "仅用于所选文本的域名：$selected$",
-    "description": "For domain only of selected text: $selected$. Shown in right-click menu.",
+    "message": "仅此域名：$selected$",
     "placeholders": {
       "selected": {
         "content": "$1",
@@ -146,16 +114,13 @@
     }
   },
   "contextMenusSelectedSubdomainLink": {
-    "message": "用于所选链接的域名的全部子域名",
-    "description": "For all subdomains with domain of selected link. Shown in right-click menu."
+    "message": "链接的域名及其全部子域名"
   },
   "contextMenusSelectedSubdomainPage": {
-    "message": "用于所选页面的域名的全部子域名",
-    "description": "For all subdomains with domain of selected page. Shown in right-click menu."
+    "message": "此页面的域名及其全部子域名"
   },
   "contextMenusSelectedSubdomainText": {
-    "message": "用于所选文本的域名的全部子域名：$selected$",
-    "description": "For all subdomains with domain of selected text: $selected$. Shown in right-click menu.",
+    "message": "全部子域名：$selected$",
     "placeholders": {
       "selected": {
         "content": "$1",
@@ -163,179 +128,113 @@
       }
     }
   },
-  "contextualIdentitiesAutoRemoveText": {
-    "message": "当容器被删除时自动删除表达式列表。",
-    "description": "Enable Automatic Removal of Expression List when its Container is Removed. Only in Firefox."
-  },
-  "contextualIdentitiesEnabledText": {
-    "message": "启用容器标签支持",
-    "description": "Enable Support for Container Tabs. Currently only in Firefox."
-  },
-  "contributeText": {
-    "message": "贡献",
-    "description": "Contribute"
-  },
   "contributorsText": {
-    "message": "贡献者",
-    "description": "Contributors"
+    "message": "贡献者"
   },
   "cookiesText": {
-    "message": "Cookie",
-    "description": "Cookies. Primarily used in popup via alternate clean action dropdown."
+    "message": "Cookie"
   },
   "cookieCleanUpOnStartText": {
-    "message": "启动时清理打开标签页的 Cookie 和其他站点数据",
-    "description": "Clean Cookies and other Site Data from Open Tabs on Startup"
+    "message": "启动时清理恢复的标签页"
   },
   "cookieCleanupIgnoreOpenTabsText": {
-    "message": "现在运行清理，包括打开标签页中的域",
-    "description": "Run cleanup now, include cookies from open tabs. This is shown on mouseover from the available dropdown buttons."
+    "message": "立即清理，包括在标签页中打开的网站"
   },
   "cookieCleanupText": {
-    "message": "现在运行清理，在打开的标签中排除域",
-    "description": "Run cleanup now, exclude domains from open tabs. This is shown on mouseover on the button."
+    "message": "立即清理，但跳过在标签页中打开的网站"
   },
   "copyDebugSettingText": {
-    "message": "您当前的设置。如有必要，复制并粘贴到 GitHub Issue。",
-    "description": "Your current settings.  If necessary, copy and paste this into the GitHub Issue."
+    "message": "你当前设置的副本。若相关，请粘贴到 GitHub issue 中。"
   },
   "copyDebugSystemText": {
-    "message": "您的系统信息。复制并粘贴到 GitHub Issue 的相关位置。",
-    "description": "Your System Info.  Copy and paste into the relevant section of the GitHub Issue."
+    "message": "你的系统信息。请粘贴到 GitHub issue 的对应部分。"
   },
   "copyFailedText": {
-    "message": "复制失败。请尝试手动选中后复制文本。",
-    "description": "Copy failed.  Try manually selecting and copying the text.  Shown after a failed attempt to write text to clipboard."
+    "message": "无法自动复制——请选中文本后自行复制。"
   },
   "copySuccessText": {
-    "message": "复制成功!",
-    "description": "Copied successfully!  Shows after a successful text copy to clipboard."
+    "message": "已复制！"
   },
   "copyToClipboardText": {
-    "message": "复制到剪贴板",
-    "description": "Copy to Clipboard.  Shown in a button to take action upon click."
+    "message": "复制到剪贴板"
   },
   "createDefaultExpressionOptionsText": {
-    "message": "创建默认表达式选项",
-    "description": "Create Default Expression Options. Used in 'List of Expressions'"
-  },
-  "currentContainerInfo": {
-    "message": "当前选择的容器: $ID$ ( $Name$ )",
-    "description": "Current Container Selected: $ID$ ( $Name ). Found in List of Expressions only if Firefox containers enabled.",
-    "placeholders": {
-      "ID": {
-        "content": "$1",
-        "example": "firefox-container-1"
-      },
-      "Name": {
-        "content": "$2",
-        "example": "Personal (whatever the user has named the container) - or - translated version of 'Invalid Container'"
-      }
-    }
+    "message": "创建默认选项"
   },
   "debugMode": {
-    "message": "启用调试模式 (额外控制台输出)",
-    "description": "Enable Debug Mode (Additional Console Outputs). Found in CAD Settings."
+    "message": "调试模式"
   },
   "debugTitle": {
-    "message": "调试信息",
-    "description": "Debug Information.  Header shown on About page."
-  },
-  "defaultText": {
-    "message": "默认​​​​​",
-    "description": "Default. Used in List of Expression in Firefox for Default / No Container."
-  },
-  "defaultContainerText": {
-    "message": "无容器",
-    "description": "No Container. This will be in brackets. Used in List of Expression in Firefox for Default / No Container"
+    "message": "调试信息"
   },
   "defaultSettingsText": {
-    "message": "恢复默认设置",
-    "description": "Restore Default Settings"
+    "message": "恢复默认设置"
   },
   "disableAutoDeleteText": {
-    "message": "切换来禁用自动清理（手动模式）",
-    "description": "Toggle to disable automatic cleanup (manual mode)"
+    "message": "关闭自动清理（手动模式）"
   },
   "documentationText": {
-    "message": "文档",
-    "description": "Documentation"
+    "message": "文档"
   },
   "domainExpressionsText": {
-    "message": "域名表达式",
-    "description": "Domain Expression"
+    "message": "站点"
+  },
+  "domainPlaceholderText": {
+    "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/"
   },
   "dropdownAdditionalCleaningOptions": {
-    "message": "切换额外的清理操作下拉列表",
-    "description": "(Screen-readers only) - Toggle Additional Cleaning Actions Dropdown"
+    "message": "更多清理操作"
   },
   "editExpressionText": {
-    "message": "编辑表达式",
-    "description": "Edit expression"
+    "message": "编辑表达式"
   },
   "enableAutoDeleteText": {
-    "message": "切换来启用自动清理（自动模式）",
-    "description": "Toggle to enable automatic cleanup (automatic mode)"
+    "message": "开启自动清理"
   },
   "enableCleanupLogText": {
-    "message": "启用清理日志和计数器",
-    "description": "Enable Cleanup Log and Counter"
+    "message": "记录清理日志"
   },
   "enableContextMenus": {
-    "message": "启用上下文菜单(右键菜单)",
-    "description": "Enable Context Menus (Right-Click Menu). Shown in CAD Settings"
+    "message": "右键菜单操作"
   },
   "enableGreyListCleanup": {
-    "message": "在浏览器重启时启用 Greylist 清理",
-    "description": "Enable Greylist Cleanup on Browser Restart"
+    "message": "会话保留规则"
   },
   "enableNewVersionPopup": {
-    "message": "当新版本发布时启用弹窗提醒",
-    "description": "Enable Popup when New Version is Released"
+    "message": "更新后显示版本说明"
   },
   "errorText": {
-    "message": "错误！",
-    "description": "Error!"
+    "message": "出错了！"
   },
   "exportSettingsText": {
-    "message": "导出核心设置...",
-    "description": "Export Core Settings... Found in CAD Settings."
+    "message": "导出设置..."
   },
   "exportURLSText": {
-    "message": "导出表达式...",
-    "description": "Export Expressions... Found in List of Expressions."
+    "message": "导出已保存的站点"
   },
   "exportTitleTimestamp": {
-    "message": "导出时的时间戳将被添加到文件名。",
-    "description": "A timestamp will be appended to the filename on export."
+    "message": "导出的文件名会附加时间戳。"
   },
   "extensionDescription": {
-    "message": "掌控你的 Cookie！关闭标签页后自动删除未想保留的 Cookie。您可以设置想要保留的白名单。",
-    "description": "Control your cookies! Automatically delete unwanted cookies from your closed tabs while keeping the ones you want."
+    "message": "替你的标签页善后：关掉标签页，抹掉它的 Cookie 和站点数据——保留列表中的网站除外。"
   },
   "extensionName": {
-    "message": "Auto-Delete Cookies for Privacy",
-    "description": "Name of the extension."
+    "message": "Auto-Delete Cookies for Privacy"
   },
   "faqText": {
-    "message": "常见问题解答及解决方法",
-    "description": "Frequently Asked Questions, Common issues and solutions"
+    "message": "常见问题与故障排查"
   },
   "filterDebugMode": {
-    "message": "要只看到此扩展的调试输出, 按以下行过滤输出:",
-    "description": "To see only debug outputs by this extension, filter output by the following line. Found after enabling debug mode."
+    "message": "要只显示本扩展的消息，请把这个粘贴到控制台的过滤框："
   },
   "filterText": {
-    "message": "过滤",
-    "description": "Filter"
+    "message": "筛选"
   },
   "greyListWordText": {
-    "message": "灰名单",
-    "description": "Greylist"
+    "message": "灰名单"
   },
   "groupExpressionDefaultNotice": {
-    "message": "正在为新的表达式设置默认表达式选项吗？表达式选项自身已经得到增强！请访问 $listExpression$ 开始使用！",
-    "description": "Looking to set default expression options for new expressions?  It has been enhanced to be an expression option itself!  Visit $listExpression$ to get started!  Shown in Settings",
+    "message": "新表达式的默认选项现在位于表达式本身——打开 $listExpression$ 进行设置。",
     "placeholders": {
       "listExpression": {
         "content": "$1",
@@ -344,16 +243,13 @@
     }
   },
   "importCoreSettingsFailed": {
-    "message": "导入核心设置失败 - 发现未知设置",
-    "description": "Import Core Settings Failed - Found unknown setting"
+    "message": "设置导入已中止：文件包含无法识别的设置。"
   },
   "importCoreSettingsText": {
-    "message": "导入核心设置...",
-    "description": "Import Core Settings... Found in CAD Settings."
+    "message": "导入设置..."
   },
   "importFileNotFound": {
     "message": "找不到文件：$filename$",
-    "description": "File not found: $filename$.  Found in List of Expressions and CAD Settings.",
     "placeholders": {
       "filename": {
         "content": "$1",
@@ -362,20 +258,16 @@
     }
   },
   "importFileTypeInvalid": {
-    "message": "给出的文件不是我们处理的类型",
-    "description": "File given is not a type we handle"
+    "message": "不支持导入该类型的文件。"
   },
   "importFileValidationFailed": {
-    "message": "给定的文件验证失败",
-    "description": "File given failed validation"
+    "message": "文件未通过校验。"
   },
   "importInvalidExpressions": {
-    "message": "从文件导入中检测到无效的新表达式。下面说明了它们的错误原因，请修复导入文件中的错误并重新导入。",
-    "description": "Detected invalid expression(s) from file import. They are noted below with its reason. Check and fix any errors in that file and try importing again. Found in List of Expressions when imported file as expressions that aren't valid."
+    "message": "部分导入的表达式无效；每条都在下方列出并附原因。请在文件中修正后重新导入。"
   },
   "importListNotArray": {
-    "message": "$identifier$ 未被格式化为数组。",
-    "description": "$identifier$ is not formatted as an array list.  Found in List of Expressions during import validation.",
+    "message": "$identifier$ 应当是数组，但不是。",
     "placeholders": {
       "identifier": {
         "content": "$1",
@@ -384,16 +276,13 @@
     }
   },
   "importMissingKey": {
-    "message": "缺少标识符",
-    "description": "Missing identifier"
+    "message": "缺少标识符"
   },
   "importURLSText": {
-    "message": "导入表达式...",
-    "description": "Import Expressions... Found in List of Expressions."
+    "message": "导入已保存的站点"
   },
   "importValidExpressions": {
-    "message": "成功从以下导入文件中导入 $num$ 条表达式：$filename$。",
-    "description": "Successfully added $num$ expression(s) from imported file: $filename$.  Found in List of Expressions after successful valid expressions from import.",
+    "message": "已从 $filename$ 导入 $num$ 条表达式。",
     "placeholders": {
       "num": {
         "content": "$1",
@@ -406,24 +295,19 @@
     }
   },
   "indexedDBCleanupText": {
-    "message": "启用 IndexedDB 清理 (Firefox 77+, Chrome 74+)",
-    "description": "Enable IndexedDB Cleanup (Firefox 77+, Chrome 74+). Found in CAD Settings."
+    "message": "启用 IndexedDB 清理"
   },
   "indexedDBText": {
-    "message": "IndexedDB",
-    "description": "IndexedDB. Primarily used in notifications."
+    "message": "IndexedDB"
   },
   "inputErrorComma": {
-    "message": "逗号仅允许在正则表达式中出现。",
-    "description": "Commas are only allowed in Regular Expressions. Found in editing expression errors."
+    "message": "逗号只能出现在正则表达式里。"
   },
   "inputErrorEmpty": {
-    "message": "修改后的表达式不能为空！",
-    "description": "Revised expression cannot be empty!  Found in editing expression errors."
+    "message": "表达式不能为空。"
   },
   "inputErrorRegExp": {
-    "message": "正则表达式无效。$RegexError$",
-    "description": "Regular Expression is not valid. <Error from new RegExp()>. Found in editing expression errors.",
+    "message": "无效的正则表达式：$RegexError$",
     "placeholders": {
       "RegexError": {
         "content": "$1",
@@ -432,20 +316,16 @@
     }
   },
   "inputErrorSlashEndMissingStart": {
-    "message": "检测到结束斜杠，但缺少正则表达式的开始斜杠。请删除域名的结束斜杠。",
-    "description": "End slash detected, but missing start slash for Regular Expression. Remove end slash for domains. Found in editing expression errors."
+    "message": "以斜杠结尾却不以斜杠开头。普通域名请去掉末尾斜杠；正则表达式请补上开头斜杠。"
   },
   "inputErrorSlashStartMissingEnd": {
-    "message": "检测到开始斜杠，但缺少正则表达式的结束斜杠。",
-    "description": "Start slash detected, but missing end slash for Regular Expression. Found in editing expression errors."
+    "message": "以斜杠开头却没有收尾。请补上末尾斜杠以完成正则表达式。"
   },
   "inputErrorSpace": {
-    "message": "主机名中不允许出现空格。",
-    "description": "Spaces are not allowed in hostnames. Found in editing expression errors."
+    "message": "主机名不能包含空格。"
   },
   "inputAddSuccess": {
-    "message": "成功添加了 $num$ 个表达式和 $listType$ 个类型到当前活动列表中 。",
-    "description": "Successfully added $num$ expression(s) to $listType$ Type in the currently active list.  Found in List of Expressions after successful inputs.",
+    "message": "已将 $num$ 条表达式以 $listType$ 加入当前列表。",
     "placeholders": {
       "num": {
         "content": "$1",
@@ -458,84 +338,64 @@
     }
   },
   "invalidNewExpressions": {
-    "message": "检测到无效的新表达式。下面说明了它们的错误原因，可以对其进行编辑以修复错误。",
-    "description": "Detected invalid new expression(s). They are noted below with its reason and have been kept above for editing. Found in List of Expressions Settings Page."
+    "message": "部分新表达式无效；它们保留在上方供编辑，原因列在下方。"
   },
   "keepAllCookiesText": {
-    "message": "保存所有 Cookies",
-    "description": "Keep All Cookies. Found in Expression Options. For Whitelist entries."
+    "message": "保留全部 Cookie"
   },
   "keepAllCookiesGreyText": {
-    "message": "保留所有 Cookie 直到重启",
-    "description": "Keep All Cookies until restart. Found in Expression Options. For Greylist entries."
+    "message": "保留全部 Cookie 直到重启"
   },
   "keepCacheText": {
-    "message": "保留缓存",
-    "description": "Keep Cache. Found in Expression Options. For Whitelist entries."
+    "message": "保留缓存"
   },
   "keepCacheGreyText": {
-    "message": "保留缓存直到重启",
-    "description": "Keep Cache until restart. Found in Expression Options. For Greylist entries."
+    "message": "保留缓存直到重启"
   },
   "keepDefaultIcon": {
-    "message": "在所有列表类型上保留默认图标",
-    "description": "Keep Default Icons on all list types. Disabled: keep blue icon, grey for automatic cleaning disabled. Enabled: red/yellow/blue depending on matching expressions in list."
+    "message": "保持朴素图标"
   },
   "keepIndexedDBText": {
-    "message": "保留 IndexedDB",
-    "description": "Keep IndexedDB. Found in Expression Options. For Whitelist entries."
+    "message": "保留 IndexedDB"
   },
   "keepIndexedDBGreyText": {
-    "message": "保留 IndexedDB 直到重启",
-    "description": "Keep IndexedDB until restart. Found in Expression Options. For Greylist entries."
+    "message": "保留 IndexedDB 直到重启"
   },
   "keepLocalstorageText": {
-    "message": "保存在本地",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries."
+    "message": "保留 LocalStorage"
   },
   "keepLocalstorageGreyText": {
-    "message": "保留本地存储直到重启",
-    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries."
+    "message": "保留 LocalStorage 直到重启"
   },
   "keepPluginDataText": {
-    "message": "保留插件数据",
-    "description": "Keep Plugin Data. Found in Expression Options. For Whitelist entries."
+    "message": "保留插件数据"
   },
   "keepPluginDataGreyText": {
-    "message": "保留插件数据直到重启",
-    "description": "Keep Plugin Data until restart. Found in Expression Options. For Greylist entries."
+    "message": "保留插件数据直到重启"
   },
   "keepServiceWorkersText": {
-    "message": "保留 Service Worker",
-    "description": "Keep Service Workers. Found in Expression Options. For Whitelist entries."
+    "message": "保留 Service Worker"
   },
   "keepServiceWorkersGreyText": {
-    "message": "保留 Service Worker 直到重启",
-    "description": "Keep Service Workers until restart. Found in Expression Options. For Greylist entries."
+    "message": "保留 Service Worker 直到重启"
   },
   "keepText": {
-    "message": "保留",
-    "description": "Keep"
+    "message": "保留"
   },
   "listTypeText": {
-    "message": "列表类型",
-    "description": "List Type"
+    "message": "保留多久"
   },
   "localStorageCleanupText": {
-    "message": "启用本地存储清理 (Firefox 58+, Chrome 74+)",
-    "description": "Enable LocalStorage Cleanup (Firefox 58+, Chrome 74+). Found in CAD Settings."
+    "message": "启用 LocalStorage 清理"
   },
   "localStorageText": {
-    "message": "本地存储",
-    "description": "LocalStorage. Primarily used in notifications."
+    "message": "LocalStorage"
   },
   "manualActionNotification": {
-    "message": "手动操作通知",
-    "description": "Manual Action Notification - used as Notification Title."
+    "message": "手动清理"
   },
   "manualCleanError": {
-    "message": "无法清理以下标签页的$siteData$：",
-    "description": "$siteData$ cannot be cleaned for tab:. Shown as notification if manual clean cookies cannot be done.",
+    "message": "无法清理此标签页的 $siteData$：",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -544,8 +404,7 @@
     }
   },
   "manualCleanNothing": {
-    "message": "在 $url$ 上未找到可用于清理的 $siteData$。",
-    "description": "No $siteData$ were found for cleaning on $url$. Used in notification after manual clean.",
+    "message": "无可清理：在 $url$ 上没有找到 $siteData$。",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -558,8 +417,7 @@
     }
   },
   "manualCleanRemoved": {
-    "message": "已移除 $deleted$ / $total$。",
-    "description": "Removed $deleted$ of $total$. Used as part of success notification on manual clean.",
+    "message": "已清除 $deleted$ / $total$。",
     "placeholders": {
       "deleted": {
         "content": "$1",
@@ -572,12 +430,10 @@
     }
   },
   "manualCleanSiteDataAll": {
-    "message": "清理此域名的所有内容",
-    "description": "Clean All for this domain. Found in Popup clean dropdown menu."
+    "message": "抹掉此站点的一切"
   },
   "manualCleanSiteDataAllDomain": {
-    "message": "清除 $domain$ 的所有站点数据",
-    "description": "Clear all site data for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "抹掉 $domain$ 存储的全部站点数据",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -586,12 +442,10 @@
     }
   },
   "manualCleanSiteDataCache": {
-    "message": "清除此域名的缓存",
-    "description": "Clean Cache for this domain. Found in Popup clean dropdown menu."
+    "message": "抹掉此站点的缓存"
   },
   "manualCleanSiteDataCacheDomain": {
-    "message": "清除 $domain$ 的所有缓存",
-    "description": "Clear all Cache for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "抹掉 $domain$ 存储的全部缓存",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -600,12 +454,10 @@
     }
   },
   "manualCleanSiteDataCookies": {
-    "message": "清理此域名的 Cookie",
-    "description": "Clean Cookies for this domain. Found in Popup clean dropdown menu."
+    "message": "抹掉此站点的 Cookie"
   },
   "manualCleanSiteDataCookiesDomain": {
-    "message": "清除 $domain$ 的所有 Cookie",
-    "description": "Clear all Cookies for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "抹掉 $domain$ 存储的全部 Cookie",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -614,12 +466,10 @@
     }
   },
   "manualCleanSiteDataIndexedDB": {
-    "message": "清理此域名的 IndexedDB",
-    "description": "Clean IndexedDB for this domain. Found in Popup clean dropdown menu."
+    "message": "抹掉此站点的 IndexedDB"
   },
   "manualCleanSiteDataIndexedDBDomain": {
-    "message": "清除 $domain$ 的所有 IndexedDB",
-    "description": "Clear all IndexedDB for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "抹掉 $domain$ 存储的全部 IndexedDB 数据",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -628,12 +478,10 @@
     }
   },
   "manualCleanSiteDataLocalStorage": {
-    "message": "清理此域名的本地存储",
-    "description": "Clean LocalStorage for this domain. Found in Popup clean dropdown menu."
+    "message": "抹掉此站点的 LocalStorage"
   },
   "manualCleanSiteDataLocalStorageDomain": {
-    "message": "清除 $domain$ 的所有本地存储",
-    "description": "Clear all LocalStorage for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "抹掉 $domain$ 存储的全部 LocalStorage",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -642,12 +490,10 @@
     }
   },
   "manualCleanSiteDataPluginData": {
-    "message": "清理此域名的插件数据",
-    "description": "Clean Plugin Data for this domain. Found in Popup clean dropdown menu."
+    "message": "抹掉此站点的插件数据"
   },
   "manualCleanSiteDataPluginDataDomain": {
-    "message": "清除 $domain$ 的所有插件数据",
-    "description": "Clear all Plugin Data for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "抹掉 $domain$ 存储的全部插件数据",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -656,12 +502,10 @@
     }
   },
   "manualCleanSiteDataServiceWorkers": {
-    "message": "清理此域名的 Service Worker",
-    "description": "Clean Service Workers for this domain. Found in Popup clean dropdown menu."
+    "message": "抹掉此站点的 Service Worker"
   },
   "manualCleanSiteDataServiceWorkersDomain": {
-    "message": "清除 $domain$ 的Service Worker",
-    "description": "Clear all Service Workers for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "抹掉 $domain$ 注册的全部 Service Worker",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -670,8 +514,7 @@
     }
   },
   "manualCleanSuccess": {
-    "message": "$url$ 的 $siteData$ 清理结果：",
-    "description": "Cleanup for $siteData$ on $url$ result:  Shown as notification after successful manual cleaning.",
+    "message": "清理 $url$ 上 $siteData$ 的结果：",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -684,52 +527,37 @@
     }
   },
   "manualNotificationsText": {
-    "message": "显示手动站点数据清理的通知",
-    "description": "Show Notification from Manual Site Data Cleanups. Found in settings"
+    "message": "手动清理后通知"
   },
   "matchedDomainExpressionText": {
-    "message": "匹配的域名表达式",
-    "description": "Matched Domain Expression"
+    "message": "匹配到的域名表达式"
   },
   "menuText": {
-    "message": "菜单",
-    "description": "Menu. Only shown when the settings screen is small / when the hamburger icon shows / when the menu is collapsed."
+    "message": "菜单"
   },
   "minutesText": {
-    "message": "分钟",
-    "description": "minute(s)"
-  },
-  "missingContainerText": {
-    "message": "无效容器",
-    "description": "INVALID CONTAINER. Shown when a CAD list exists but cannot link id to available containers (Firefox)."
+    "message": "分钟"
   },
   "noCleanupLogText": {
-    "message": "没有找到清理日志",
-    "description": "No Cleanup Logs Found"
+    "message": "清理日志是空的。"
   },
   "noExpressionsText": {
-    "message": "未定义表达式。",
-    "description": "No expressions defined."
+    "message": "你还没有添加任何表达式。"
   },
   "noPrivateLogging": {
-    "message": "私密浏览 / 隐身 / 非私密时不会生成清理日志。",
-    "description": "Cleanup Logs will not be generated for tabs in Private Browsing / Incognito / InPrivate."
+    "message": "隐私/无痕标签页绝不会被记录。"
   },
   "noSearchExpressionsFound": {
-    "message": "在上面的搜索中没有找到表达式。",
-    "description": "No expressions found from search above.  Found in List of Expressions."
+    "message": "没有匹配你搜索的内容。"
   },
   "noRulesText": {
-    "message": "没有匹配此域的规则。",
-    "description": "No rules matched this domain"
+    "message": "没有表达式匹配此站点。"
   },
   "noneText": {
-    "message": "无",
-    "description": "None"
+    "message": "无"
   },
   "notificationContent": {
-    "message": "包含从 $total$ 个站点的 $Num$ 个 Cookie(s) 数据已被清除。这些站点有: $Websites$",
-    "description": "Some site data, including 123 Cookie(s), removed from 8 domain(s), including: google.com, facebook.com",
+    "message": "已删除站点数据——来自 $total$ 个站点的 $Num$ 个 Cookie，包括：$Websites$",
     "placeholders": {
       "num": {
         "content": "$1",
@@ -746,64 +574,49 @@
     }
   },
   "notificationDisabledText": {
-    "message": "通知已停用",
-    "description": "Notification disabled"
+    "message": "通知已关闭"
   },
   "notificationEnabledText": {
-    "message": "通知已启用",
-    "description": "Notification enabled"
+    "message": "通知已开启"
   },
   "notificationTitle": {
-    "message": "Cookie 已被删除！",
-    "description": "Cookies were deleted!  Used in Notification Title."
+    "message": "Cookie 已清理"
   },
   "notificationTitleSiteData": {
-    "message": "删除站点数据已触发！",
-    "description": "Site Data Removal Triggered!  Used in Notification Title."
+    "message": "站点数据已清理"
   },
   "notifyCookieCleanupDelayText": {
-    "message": "通知持续时间",
-    "description": "Duration for Notifications"
+    "message": "通知显示时长"
   },
   "notifyCookieCleanUpText": {
-    "message": "自动清理后显示通知",
-    "description": "Show Notification After Automatic Cleanup. Found in settings."
+    "message": "清理后通知"
   },
   "oldReleasesText": {
-    "message": "更早的发布便笺可以在线查看",
-    "description": "Older release notes can be viewed online at"
+    "message": "更早的版本列在"
   },
   "openDebugMode": {
-    "message": "要查看调试输出, 请打开一个新标签页并访问",
-    "description": "To view the debug outputs, open a new tab and visit"
+    "message": "调试输出在扩展的控制台里。打开新标签页并前往"
   },
   "optionsText": {
-    "message": "选项",
-    "description": "Options"
+    "message": "保留的内容"
   },
   "pluginDataCleanupText": {
-    "message": "启用插件数据清理 (Firefox 78+, Chrome 74+)",
-    "description": "Enable Plugin Data Cleanup (Firefox 78+, Chrome 74+). Found in CAD Settings."
+    "message": "启用插件数据清理"
   },
   "pluginDataText": {
-    "message": "插件数据",
-    "description": "Plugin Data. Primarily used in notifications."
+    "message": "插件数据"
   },
   "popupCookieCountText": {
-    "message": "Cookies",
-    "description": "Cookies. Due to visual formatting, Cookie Count will always be located on the right side after the colon. Found in Popup near top-right."
+    "message": "Cookie"
   },
   "preferencesText": {
-    "message": "设置",
-    "description": "Settings"
+    "message": "设置"
   },
   "questionExpression": {
-    "message": "表达式怎么工作的？",
-    "description": "How do Expressions work?"
+    "message": "匹配模式是怎么工作的？"
   },
   "reasonCADSiteDataCookie": {
-    "message": "清理自设以便触发 $hostname$ 的站点数据清理功能。",
-    "description": "Clean to trigger Site Data cleaning for $hostname$. Found in Activity Log Detailed Entries.",
+    "message": "已删除内部标记 Cookie，以触发 $hostname$ 的站点数据清理。",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -812,8 +625,7 @@
     }
   },
   "reasonCADSiteDataCookieRestart": {
-    "message": "清理以在下次启动 $hostname$ 时触发站点数据清理。",
-    "description": "Clean to trigger Site Data cleaning for $hostname$ on restart. Found in Activity Log Detailed Entries.",
+    "message": "重启时已删除内部标记 Cookie，以触发 $hostname$ 的站点数据清理。",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -822,8 +634,16 @@
     }
   },
   "reasonCleanCookieExpired": {
-    "message": "由于 $hostname$ 中的cookie过期，因此进行部分清理。",
-    "description": "Partial clean because of expired cookies from $hostname$. Found in Activity Log Detailed Entries.",
+    "message": "只删除了 $hostname$ 的过期 Cookie。",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpiredRestart": {
+    "message": "重启清理中只删除了 $hostname$ 的过期 Cookie。",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -832,8 +652,7 @@
     }
   },
   "reasonCleanCookieName": {
-    "message": "因为在 $listType$ 设置了 $matchedExpression$ 从而只清理了一部分",
-    "description": "Partial clean because of matched $matchedExpression$ in the $listType$. Used in cleanup logs.",
+    "message": "选择性清理：$listType$ 中的 $matchedExpression$ 保护其他 Cookie，但不保护这个",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -846,8 +665,7 @@
     }
   },
   "reasonCleanGreyList": {
-    "message": "清理，因为自启动清理同时 $matchedExpression$ 在灰名单中",
-    "description": "Clean because of startup cleanup and $matchedExpression$ is in the Greylist. Used in cleanup log.",
+    "message": "启动时清理：$matchedExpression$ 在灰名单上",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -856,8 +674,7 @@
     }
   },
   "reasonCleanNoList": {
-    "message": "清理，因为 $hostname$ 不在白灰名单中",
-    "description": "Clean because $hostname$ is not in the White or Grey lists",
+    "message": "已清理：$hostname$ 既不在白名单也不在灰名单上",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -866,8 +683,7 @@
     }
   },
   "reasonCleanStartupNoList": {
-    "message": "清理，因为自启动清理同时 $hostname$ 不在白灰名单中",
-    "description": "Clean because of startup cleanup and $hostname$ is not in the White or Grey lists",
+    "message": "启动时清理：$hostname$ 既不在白名单也不在灰名单上",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -876,8 +692,7 @@
     }
   },
   "reasonKeep": {
-    "message": "保留因为匹配了 $listType$ 中的 $matchedExpression$",
-    "description": "Keep because of matched $matchedExpression$ in the $listType$",
+    "message": "已保留：匹配了 $listType$ 中的 $matchedExpression$",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -890,8 +705,7 @@
     }
   },
   "reasonKeepOpenTab": {
-    "message": "保留，因为 *.$mainDomain$ 在打开的标签页中",
-    "description": "Keep because of open tabs of *.$mainDomain$",
+    "message": "已保留：*.$mainDomain$ 仍在某个标签页中打开",
     "placeholders": {
       "mainDomain": {
         "content": "$1",
@@ -900,28 +714,22 @@
     }
   },
   "reasonTabsWereIgnored": {
-    "message": "同时已打开的标签页被忽略",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] and also open tabs were ignored"
+    "message": "（本次运行忽略了打开的标签页）"
   },
   "reasonTabsWereNotIgnored": {
-    "message": "或者在任何已打开的标签页中",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] or in any open tabs"
+    "message": "（且未在任何标签页中打开）"
   },
   "releaseNotesText": {
-    "message": "发行日志",
-    "description": "Release Notes"
+    "message": "版本说明"
   },
   "removeActivityLogEntryText": {
-    "message": "删除日志条目",
-    "description": "Remove Log Entry. Shown in summary activity log for individual log removal."
+    "message": "删除日志条目"
   },
   "removeAllExpressions": {
-    "message": "删除所有表达式",
-    "description": "Remove All Expressions"
+    "message": "全部删除"
   },
   "removeAllExpressionsConfirm": {
-    "message": "你确定你想要从 ($listCount$) 列表中删除所有 ($expressionCount$) 保存的表达式?\n\n这个不可用!\n\n输入 [ $expressionCount$ ] 然后单击确定以删除。",
-    "description": "Are you sure you want to remove ALL ($expressionCount$) saved expression(s) from ($listCount$) list(s)?\n\nTHIS CANNOT BE UNDONE!\n\nType [ $expressionCount$ ] and click OK to delete. Popup prompt if Delete All Expression is clicked.",
+    "message": "这会永久删除 $listCount$ 个列表中的全部 $expressionCount$ 条表达式。\n\n无法撤销。\n\n输入 [ $expressionCount$ ] 并按确定以确认。",
     "placeholders": {
       "expressionCount": {
         "content": "$1",
@@ -934,20 +742,16 @@
     }
   },
   "removeAllExpressionsNoneFound": {
-    "message": "没有要删除的表达式！",
-    "description": "No expressions to remove!"
+    "message": "没有可删除的表达式。"
   },
   "removeExpressionText": {
-    "message": "移除表达式",
-    "description": "Remove expression"
+    "message": "删除表达式"
   },
   "removeListText": {
-    "message": "从所选列表中删除所有表达式",
-    "description": "Remove All Expressions from Selected List. Shown in List of Expressions, only on Firefox and if containers/contextual identities is enabled."
+    "message": "删除所选列表的全部表达式"
   },
   "removeStorageCount": {
-    "message": "已从 $storageType$ 删除 $count$ 项。",
-    "description": "Removed $count$ item(s) from $storageType$. Used in manual localstorage clean notification.",
+    "message": "已从 $storageType$ 清除 $count$ 项。",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -960,152 +764,147 @@
     }
   },
   "reportIssuesText": {
-    "message": "报告问题和建议功能",
-    "description": "Report issues and suggest features"
+    "message": "错误报告与功能建议"
   },
   "resetCookieCounterText": {
-    "message": "重置 Cookie 计数器",
-    "description": "Reset Cookie Counters. Button in Welcome Page."
+    "message": "重置 Cookie 计数器"
   },
   "resetExtensionDataText": {
-    "message": "还原扩展数据",
-    "description": "Reset Extension Data"
+    "message": "抹掉扩展的全部数据"
   },
   "restoreText": {
-    "message": "还原",
-    "description": "Restore. Restores cookies that was cleaned up by this extension. Found in Activity Log entries."
-  },
-  "reviewLinkMessage": {
-    "message": "感谢您尝试 $cadTitle$。如果您喜欢，请来评价吧。",
-    "description": "Thanks for trying out Cookie AutoDelete. If you liked it, then please give a review.",
-    "placeholders": {
-      "cadTitle": {
-        "content": "$1",
-        "example": "Cookie AutoDelete"
-      }
-    }
+    "message": "恢复"
   },
   "saveExpressionText": {
-    "message": "保存表达式",
-    "description": "Save expression"
+    "message": "保存表达式"
   },
   "secondsText": {
-    "message": "秒",
-    "description": "second(s)"
+    "message": "秒"
   },
   "serviceWorkersCleanupText": {
-    "message": "启用 Service Worker 清理 (Firefox 77+, Chrome 74+)",
-    "description": "Enable Service Workers Cleanup (Firefox 77+, Chrome 74+). Found in CAD Settings."
+    "message": "启用 Service Worker 清理"
   },
   "serviceWorkersText": {
-    "message": "Service Worker",
-    "description": "Service Workers. Primarily used in notifications."
+    "message": "Service Worker"
   },
   "sessionStorageText": {
-    "message": "会话存储",
-    "description": "SessionStorage. Used in manual localstorage clean notification"
+    "message": "SessionStorage"
   },
   "settingGroupAutoClean": {
-    "message": "自动清理选项",
-    "description": "Automatic Cleaning Options"
+    "message": "时机"
   },
   "settingGroupExpression": {
-    "message": "表达式选项",
-    "description": "Expression Options"
+    "message": "表达式选项"
   },
   "settingGroupExtension": {
-    "message": "扩展选项",
-    "description": "Extension Options"
+    "message": "界面"
   },
   "settingGroupOtherBrowsing": {
-    "message": "其他浏览数据清理选项",
-    "description": "Other Browsing Data Cleanup Options"
+    "message": "其他浏览数据清理选项"
   },
   "settingsText": {
     "message": "$CAD$ 设置",
-    "description": "$CAD$ Settings",
     "placeholders": {
       "CAD": {
-        "content": "CAD",
-        "example": "CAD - Short form of Cookie AutoDelete"
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "showNumberOfCookiesInIconText": {
-    "message": "在图标上显示该域的 Cookie 数量",
-    "description": "Show Number of Cookies for that Domain over the Icon"
+    "message": "在工具栏图标上显示 Cookie 数量"
   },
   "siteDataEmptyOnEnable": {
-    "message": "清理新启用的浏览数据类型的现有数据",
-    "description": "Clean Existing Data for Newly Enabled Browsing Data Types"
+    "message": "启用新数据类型时，抹掉已存储的内容"
   },
   "siteDataText": {
-    "message": "站点数据",
-    "description": "Site Data. Found in Activity Log Summary and Notifications."
+    "message": "站点数据"
   },
-  "sizePopupText": {
-    "message": "弹出窗口大小(以px为单位)",
-    "description": "Size of Popup (in px). This sets the font size in the Popup."
+  "siteDataPanelTitle": {
+    "message": "此站点存储的数据"
   },
-  "sizeSettingText": {
-    "message": "设置页面大小(以px为单位)",
-    "description": "Size of Setting Pages (in px). This sets the font size in the Setting Pages."
+  "siteDataLoadingText": {
+    "message": "正在检查此站点存储了什么…"
   },
-  "stopEditingText": {
-    "message": "停止编辑",
-    "description": "Stop editing"
+  "siteDataNotAvailableText": {
+    "message": "此页面不可用"
   },
-  "successText": {
-    "message": "成功！",
-    "description": "Success!"
+  "siteDataEmptyText": {
+    "message": "此站点目前没有存储任何东西"
   },
-  "toGreyListText": {
-    "message": "添加到灰名单（浏览器重启时清理）",
-    "description": "Add to Greylist (Clean on Browser Restart)"
-  },
-  "toWhiteListText": {
-    "message": "添加到白名单（永不清理）",
-    "description": "Add to Whitelist (Never Clean)"
-  },
-  "toggleNotificationText": {
-    "message": "切换以启用或禁用通知",
-    "description": "Toggle to enable or disable notifications"
-  },
-  "toggleToGreyListWordText": {
-    "message": "切换到绿名单",
-    "description": "Toggle to greylist"
-  },
-  "toggleToWhiteListWordText": {
-    "message": "切换到白名单",
-    "description": "Toggle to whitelist"
-  },
-  "versionNumberText": {
-    "message": "$CAD$ 版本",
-    "description": "$CAD$ version 3.2.1. The actual number is formatted differently and will be right below this text.",
+  "siteDataUsageText": {
+    "message": "已用 $used$ / $quota$",
     "placeholders": {
-      "CAD": {
+      "used": {
         "content": "$1",
-        "example": "CAD or Cookie AutoDelete"
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
       }
     }
   },
-  "versionText": {
-    "message": "$browser$ 版本",
-    "description": "Firefox version",
+  "siteDataSessionCookieText": {
+    "message": "会话"
+  },
+  "siteDataExpiresText": {
+    "message": "$date$ 过期",
     "placeholders": {
-      "browser": {
+      "date": {
         "content": "$1",
-        "example": "Firefox"
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "未知"
+  },
+  "siteDataRefreshTitle": {
+    "message": "刷新"
+  },
+  "sizePopupText": {
+    "message": "弹窗字号"
+  },
+  "sizeSettingText": {
+    "message": "设置页字号"
+  },
+  "stopEditingText": {
+    "message": "结束编辑"
+  },
+  "successText": {
+    "message": "成功！"
+  },
+  "toGreyListText": {
+    "message": "加入灰名单（保留到浏览器重启）"
+  },
+  "toWhiteListText": {
+    "message": "加入白名单（绝不清理）"
+  },
+  "toggleNotificationText": {
+    "message": "开启或关闭通知"
+  },
+  "toggleToGreyListWordText": {
+    "message": "切换到灰名单"
+  },
+  "toggleToWhiteListWordText": {
+    "message": "切换到白名单"
+  },
+  "versionNumberText": {
+    "message": "$CAD$ 版本",
+    "placeholders": {
+      "CAD": {
+        "content": "$1",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "welcomeMessage": {
-    "message": "$cadTitle$ 在本次会话期间已删除 $sessionDeleted$ 个 Cookie；累计已删除 $totalDeleted$ 个 Cookie。",
-    "description": "Hi there! During this session, Cookie AutoDelete has deleted 123 cookies and in total 456 cookies.",
+    "message": "$cadTitle$ 本次浏览器会话已删除 $sessionDeleted$ 个 Cookie，自安装以来共删除 $totalDeleted$ 个。",
     "placeholders": {
       "cadTitle": {
         "content": "$1",
-        "example": "Cookie AutoDelete"
+        "example": "Auto-Delete Cookies for Privacy"
       },
       "sessionDeleted": {
         "content": "$2",
@@ -1118,15 +917,415 @@
     }
   },
   "welcomeText": {
-    "message": "欢迎使用",
-    "description": "Welcome"
+    "message": "欢迎"
   },
   "expressionListText": {
-    "message": "表达式列表",
-    "description": "List of Expressions"
+    "message": "表达式列表"
   },
   "whiteListWordText": {
-    "message": "白名单",
-    "description": "Whitelist"
+    "message": "白名单"
+  },
+  "themeText": {
+    "message": "主题"
+  },
+  "themeAutoText": {
+    "message": "自动"
+  },
+  "themeLightText": {
+    "message": "浅色"
+  },
+  "themeDarkText": {
+    "message": "深色"
+  },
+  "keepLocalStorageText": {
+    "message": "保留 LocalStorage"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "保留 LocalStorage 直到重启"
+  },
+  "popupHeroOnText": {
+    "message": "自动删除已开启"
+  },
+  "popupHeroForgetText": {
+    "message": "这个网站不会记住你。"
+  },
+  "popupHeroOffText": {
+    "message": "自动删除已关闭"
+  },
+  "popupHeroOffSubText": {
+    "message": "不会自动删除任何东西。"
+  },
+  "popupHeroKeepingText": {
+    "message": "正在保留此站点的 Cookie"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$ 在你的保留列表上",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$ 会保留到浏览器关闭",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "将被清理"
+  },
+  "siteKeptText": {
+    "message": "已保留"
+  },
+  "siteCleanDelayText": {
+    "message": "离开此站点 $SECONDS$ 秒后删除 Cookie。",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "此站点的 Cookie 绝不会被删除。"
+  },
+  "siteKeptSessionStatusText": {
+    "message": "此站点的 Cookie 会保留到浏览器关闭。"
+  },
+  "keepCookiesButtonText": {
+    "message": "保留此站点的 Cookie"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$ 及其子域名不会被删除",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "保留到浏览器关闭"
+  },
+  "stopKeepingButtonText": {
+    "message": "不再保留此站点"
+  },
+  "cleanNowText": {
+    "message": "立即清理"
+  },
+  "cleanNowTooltipText": {
+    "message": "删除未保留站点的 Cookie——在其他标签页中打开的站点会被跳过。"
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "立即清理，包括打开的标签页"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "与“立即清理”相同，但不再跳过在其他标签页中打开的站点。只有保留的站点能幸免。"
+  },
+  "deleteSiteCookiesText": {
+    "message": "删除此站点的 Cookie"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "立即删除 $DOMAIN$ 的 Cookie，即便它正打开着。仅此一次操作会无视保留规则。",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "删除此站点存储的一切"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "删除 $DOMAIN$ 在此设备上存储的一切：Cookie、缓存、本地存储、数据库、Worker。",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "保留"
+  },
+  "keepButtonTooltipText": {
+    "message": "此站点的 Cookie 绝不会被删除。"
+  },
+  "keepSessionButtonText": {
+    "message": "保留本次会话"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "Cookie 保留到你关闭浏览器，下次启动时删除。"
+  },
+  "noRuleMatchText": {
+    "message": "没有已保存的规则匹配此站点"
+  },
+  "matchedRuleText": {
+    "message": "匹配的规则：$EXPRESSION$",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "更多清理选项"
+  },
+  "shareText": {
+    "message": "分享"
+  },
+  "shareTooltipText": {
+    "message": "把这个扩展介绍给朋友"
+  },
+  "shareCopyLinkText": {
+    "message": "复制扩展页面链接"
+  },
+  "shareCopiedText": {
+    "message": "链接已复制"
+  },
+  "shareEmailText": {
+    "message": "通过邮件分享"
+  },
+  "moreControlsText": {
+    "message": "更多控制…"
+  },
+  "lastCleanSummaryText": {
+    "message": "上次清理：$COUNT$ 个 Cookie · $TIME$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "高级模式"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "在此页面显示专家设置，并在弹窗中显示额外控制：精确域名规则、按站点清理选项、匹配的规则。默认关闭——简单视图已覆盖常见场景。"
+  },
+  "overviewText": {
+    "message": "概览"
+  },
+  "protectionText": {
+    "message": "防护"
+  },
+  "savedSitesText": {
+    "message": "已保存的站点"
+  },
+  "savedSitesSubText": {
+    "message": "你保留的站点。“保留”站点的数据永久保留；会话站点保留到浏览器关闭。"
+  },
+  "cookiesDeletedSessionText": {
+    "message": "本次会话已删除"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "累计已删除"
+  },
+  "keptBadgeText": {
+    "message": "保留"
+  },
+  "sessionBadgeText": {
+    "message": "重启前"
+  },
+  "toggleToKeepText": {
+    "message": "切换为“保留”"
+  },
+  "toggleToSessionText": {
+    "message": "切换为“保留本次会话”"
+  },
+  "settingGroupSiteData": {
+    "message": "清理的内容"
+  },
+  "deleteAllSiteDataText": {
+    "message": "删除全部站点数据"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "除 Cookie 之外，还有保存的文件、离线数据库和后台 Worker——网站在你设备上存储的一切。"
+  },
+  "customBadgeText": {
+    "message": "自定义"
+  },
+  "advancedChooseTypesText": {
+    "message": "高级——精确选择要删除的内容"
+  },
+  "patternColumnText": {
+    "message": "模式"
+  },
+  "patternMeaningColumnText": {
+    "message": "匹配范围"
+  },
+  "patternDomainMeaningText": {
+    "message": "仅此域名"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "该域名及每个子域名"
+  },
+  "patternIPMeaningText": {
+    "message": "单个 IP 地址"
+  },
+  "patternCIDRMeaningText": {
+    "message": "范围内的每个地址"
+  },
+  "patternRegexMeaningText": {
+    "message": "高级：斜杠之间的正则表达式"
+  },
+  "patternFileMeaningText": {
+    "message": "在浏览器中打开的本地文件"
+  },
+  "patternKeepLevelsText": {
+    "message": "“保留”永久保存站点数据。“保留本次会话”只保存到浏览器关闭。"
+  },
+  "summaryKeepsEverythingText": {
+    "message": "保留一切"
+  },
+  "summaryAllCookiesText": {
+    "message": "全部 Cookie"
+  },
+  "toggleOptionsText": {
+    "message": "显示或隐藏选项"
+  },
+  "summaryNamedCookiesText": {
+    "message": "$COUNT$ 个指定名称的 Cookie",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "清除 $TYPES$",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "已删除全部已保存的站点。"
+  },
+  "importFoldedContainersText": {
+    "message": "旧容器列表中的 $COUNT$ 条条目已合并进默认列表。",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
+  },
+  "importExportText": {
+    "message": "导入 / 导出"
+  },
+  "importExportSubText": {
+    "message": "备份你的设置和已保存的站点，从文件恢复，或恢复默认。"
+  },
+  "activeModeDescText": {
+    "message": "在站点的标签页关闭之后。"
+  },
+  "gracePeriodDescText": {
+    "message": "清理前先等待，以防你返回。"
+  },
+  "domainChangeDescText": {
+    "message": "当你在标签页里前往别处时，清理它原来的站点。"
+  },
+  "greylistDescText": {
+    "message": "标为“保留到浏览器关闭”的站点会在浏览器重启时被清理。"
+  },
+  "cleanDiscardedDescText": {
+    "message": "被浏览器休眠的标签页在清理时算作已关闭。"
+  },
+  "startupCleanDescText": {
+    "message": "从上次会话恢复的标签页中的站点也会被清理。"
+  },
+  "cleanExpiredDescText": {
+    "message": "每轮清理都会删除超过有效期的 Cookie。"
+  },
+  "cleanupLogDescText": {
+    "message": "为清理日志页面和已删除 Cookie 计数器提供数据。"
+  },
+  "cookieCountIconDescText": {
+    "message": "显示当前站点存储了多少 Cookie。"
+  },
+  "keepDefaultIconDescText": {
+    "message": "不通过改变图标颜色来提示站点是否被保留。"
+  },
+  "notifyAutoDescText": {
+    "message": "每次自动清理后弹出简短通知。"
+  },
+  "notifyDurationDescText": {
+    "message": "通知在屏幕上停留的时长，单位秒。"
+  },
+  "debugModeDescText": {
+    "message": "向扩展控制台输出详细日志，用于错误报告。"
+  },
+  "supportText": {
+    "message": "支持"
+  },
+  "helpText": {
+    "message": "帮助"
+  },
+  "helpSubText": {
+    "message": "扩展的全部功能，逐一说明。每节可单独展开。"
+  },
+  "helpGettingStartedTitle": {
+    "message": "快速上手"
+  },
+  "helpGettingStartedBody": {
+    "message": "全新安装从手动模式开始：在你下令之前什么都不会删。这是有意为之——先建好保留列表，之后再开自动清理就不会把你从在意的网站上全部登出。\n\n1. 保留重要的站点。逐个访问那些被登出会很烦的网站（邮箱、银行、所有付费服务），点击工具栏图标，按“保留此站点的 Cookie”。规则覆盖该域名及其全部子域名。只需这次记住的网站用“保留到浏览器关闭”。\n\n2. 决定“清理”的含义。默认只删除 Cookie。在“防护”页打开“删除全部站点数据”即可同时清除网站的其他残留。\n\n3. 打开自动清理。在“防护”页开启“自动清理”。从此：关掉站点的最后一个标签页，宽限时间一过它的 Cookie 就没了——除非你保留了该站点，或它还在别处开着。\n\n4. 可选：让清理日志保持开启，随时可以查看清理了什么、为什么。"
+  },
+  "helpCleaningTitle": {
+    "message": "清理是如何进行的"
+  },
+  "helpCleaningBody": {
+    "message": "自动清理在站点的最后一个标签页关闭时触发。宽限时间（默认 15 秒）是你的后悔窗口：期间重新打开该站点就什么都不会删。\n\n“离开网站时清理”会把标签页从一个站点导航到另一个也算作离开前者——更严格，但如果你习惯在同一个标签页里来回跳站点会有感觉。\n\n清理时，满足以下任一条件的站点 Cookie 会幸存：站点仍在某个标签页中打开；匹配某条“保留”规则；匹配“保留到关闭”规则且这不是重启清理；或该 Cookie 的名字在匹配规则的 Cookie 列表中被勾选。其余全部清除。\n\n高级模式额外提供：把休眠（被丢弃）的标签页当作已关闭、启动时对恢复的标签页做一次清理、始终删除过期 Cookie，以及会话保留规则——“保留到浏览器关闭”的站点在重启时被清理。"
+  },
+  "helpSiteDataTitle": {
+    "message": "清理的内容"
+  },
+  "helpSiteDataBody": {
+    "message": "默认情况下扩展只删除 Cookie。“删除全部站点数据”开关把清理范围扩展到网站在你设备上存储的其余一切：缓存、IndexedDB、LocalStorage、插件数据和 Service Worker。下方的“高级”折叠面板可以单独挑选类型。\n\n动手前要知道两件事：\n\n• 启用某类型会把它一次性全部抹掉。你打开某个类型的那一刻，所有网站当前存储的该类型数据都会被清除（页面上的警告说的就是这个）。不想要这次初始清扫，就先关掉“启用时抹掉”的开关。\n\n• 旧数据无法选择性清理。浏览器只允许扩展对你再次访问的网站按站点清除这些类型。启用之前的残留会一直留到你再访问那个网站。"
+  },
+  "helpPatternsTitle": {
+    "message": "保留规则与匹配模式"
+  },
+  "helpPatternsBody": {
+    "message": "每个已保存的站点都是两张列表之一上的一个模式。“保留”站点绝不清理。“保留到浏览器关闭”站点能挺过平时的清理，但会在浏览器重启时被清理。两边都不匹配的站点在你离开时就被清理——这是默认命运；规则是例外。\n\n模式只匹配主机名——不带 https://，不带路径：\n\n• example.com——仅该域名，不含 mail.example.com\n• *.example.com——该域名及每个子域名\n• 192.168.1.100——该 IP 地址\n• 10.0.0.0/8——CIDR 范围内的任意 IP\n• /^(mail|news)\\.example\\.com$/——斜杠之间的正则表达式\n• file:///home/user/notes——从该本地目录打开的页面\n\n每条规则还带有按站点的选项（在“已保存的站点”页展开它的行）：只保留指定名称的 Cookie 而不是全部，以及按类型的站点数据选择。“创建默认选项”规则决定之后新增规则的初始选项。\n\n提示：想让所有 Cookie 在重启时消失，就把 * 添加为“保留到浏览器关闭”规则，再把真正要永久保留的站点标为“保留”。"
+  },
+  "helpImportExportTitle": {
+    "message": "导入与导出"
+  },
+  "helpImportExportBody": {
+    "message": "“导入 / 导出”页面分开备份两样东西：已保存的站点和设置。两者都是文件名带时间戳的普通 JSON 文件，反复备份不会互相覆盖。导入绝不会删除你已有的内容；完全重复的条目被跳过，无效条目连同原因被拒绝，其余照常导入。\n\n原版 Cookie AutoDelete 的导出文件可以直接导入——格式相同。Firefox 时代的导出可能含有容器标签页列表（Chromium 没有的 Firefox 功能）；这些条目会合并进你的默认列表并跳过重复项，导入消息会告诉你合并了多少条。\n\n恢复默认设置也在这个页面上。它不会碰你已保存的站点。"
+  },
+  "helpLogTitle": {
+    "message": "清理日志"
+  },
+  "helpLogBody": {
+    "message": "清理日志回答“我怎么被那个网站登出了？”和“这东西到底干活没有？”。保持“记录清理日志”开启，清理后打开清理日志页面。\n\n每条记录列出涉及的站点和对每个站点的处置，用大白话写：因规则匹配而保留、因站点仍开着而保留、因无匹配而清理、启动时清理（清空“重启前”站点的就是它）、或在规则只保留指定 Cookie 时的选择性清理。处置行使用内部列表名：白名单指永久保留规则，灰名单指保留到浏览器关闭。\n\n日志绝不包含 Cookie 的值，绝不记录隐私/无痕标签页，绝不离开你的浏览器，旧条目会自行从末尾掉落。概览页的计数器（本次会话 / 累计）来自同一套账目。"
+  },
+  "helpPermissionsTitle": {
+    "message": "为什么需要这些权限"
+  },
+  "helpPermissionsBody": {
+    "message": "安装时的警告“读取和更改所有网站上的数据”是绕不开的：Cookie 可能属于你访问的任何网站，删除它们就需要访问所有网站。这项权限只用于读取和删除 Cookie 与站点数据——绝不读取页面内容，也绝不与服务器通信（根本没有服务器）。\n\n其余的，简述如下。Cookie：列出站点的 Cookie 用于角标计数并删除它们。浏览数据：删除可选的额外内容——缓存、IndexedDB、LocalStorage、插件数据、Service Worker。存储：在本地保存你的设置和保留规则。闹钟：即使浏览器在等待期间挂起扩展，也能按时执行延迟清理。标签页：知道哪些站点开着（开着的站点受保护），并察觉标签页关闭或离开站点。活动标签页与 Scripting：执行弹窗中的按站点操作。右键菜单与通知：两个可在设置中关闭的可选功能。\n\n刻意不要的：浏览历史、网络请求拦截，以及任何形式的网络访问。扩展看不到你输入了什么、读了哪些页面。"
+  },
+  "helpTroubleshootingTitle": {
+    "message": "故障排查与常见问题"
+  },
+  "helpTroubleshootingBody": {
+    "message": "被网站登出了？按可能性排序：该站点没有保留规则（或只有精确主机名的规则，而登录在子域名上——用 *.example.com 形式）；它是“重启前”站点且浏览器重启了；匹配的规则只保留指定名称的 Cookie 而登录 Cookie 没被勾选；或者站点自己的 Cookie 过期了。别猜——清理日志会写明触发的那条规则。\n\nCookie 刚清完就回来了？几乎总是因为站点还在某个标签页里开着——开着的站点随时能重建 Cookie，而且本来就受保护。\n\n清理没有执行？按顺序检查：自动清理已开启（弹窗顶部会显示）；站点没有在其他标签页中打开；宽限时间已过；没有保留规则匹配；不是休眠标签页（只有开了那项高级设置才算已关闭）。\n\n开了站点数据清理但旧数据还在？浏览器只允许对你再次访问的网站清除这些类型；残留会留到下次访问。\n\n无痕模式？只有你允许才行：浏览器的扩展页面 → 在无痕模式下启用。无痕模式有自己独立的 Cookie 存储和已保存站点，且绝不写入日志。\n\n还是不行？“支持”页面有版本号、可复制的调试信息块和错误报告链接。调试模式（高级）会让扩展把每个决定讲给 Service Worker 控制台听，Cookie 的值会被遮盖。"
   }
 }

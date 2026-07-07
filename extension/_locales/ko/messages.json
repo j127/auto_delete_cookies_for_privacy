@@ -1,123 +1,255 @@
 {
   "aboutText": {
-    "message": "알아보기",
-    "description": "About"
+    "message": "정보"
   },
   "activeModeDelayText": {
-    "message": "자동 청소 전 딜레이",
-    "description": "Delay Before Automatic Cleaning"
+    "message": "유예 시간"
   },
   "activeModeText": {
-    "message": "자동 청소 활성화",
-    "description": "Enable Automatic Cleaning"
+    "message": "자동으로 정리"
+  },
+  "activityLogSiteDataDomainsText": {
+    "message": "$siteData$ 삭제됨: $domains$",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cache (translated version)"
+      },
+      "domains": {
+        "content": "$2",
+        "example": "example.com, github.com"
+      }
+    }
+  },
+  "addNewExpressionNotification": {
+    "message": "$expression$을(를) $listType$ 목록에 저장했습니다(쿠키 저장소: $cookieStore$).",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "example.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "WHITE"
+      },
+      "cookieStore": {
+        "content": "$3",
+        "example": "'default' -or- 'private'"
+      }
+    }
+  },
+  "addNewExpressionNotificationFailed": {
+    "message": "우클릭한 위치에서 도메인을 읽을 수 없었습니다."
+  },
+  "addNewExpressionNotificationIgnore": {
+    "message": "중복 항목은 자동으로 건너뜁니다."
   },
   "autoDeleteDisabledText": {
-    "message": "자동 청소 꺼짐",
-    "description": "Auto-clean disabled"
+    "message": "자동 정리 꺼짐"
   },
   "autoDeleteEnabledText": {
-    "message": "자동 청소 켜짐",
-    "description": "Auto-clean enabled"
+    "message": "자동 정리 켜짐"
+  },
+  "browsingDataNoEmptyWarning": {
+    "message": "참고: 이 옵션을 켜도 사이트가 이전에 저장한 데이터는 건드리지 않습니다. 사이트의 잔여 데이터는 다시 방문해야 정리할 수 있게 됩니다. 그때까지는 없애고 싶은 사이트의 것이라도 그대로 남습니다."
+  },
+  "browsingDataWarning": {
+    "message": "주의: 아래 정리 유형을 하나라도 켜면 해당 유형의 현재 저장된 데이터가 모든 사이트에서 즉시 지워집니다."
+  },
+  "cacheCleanupText": {
+    "message": "캐시 정리 사용"
   },
   "cacheText": {
-    "message": "캐시",
-    "description": "Cache. Primarily used in notifications."
+    "message": "캐시"
+  },
+  "chromeDebugMode": {
+    "message": "'개발자 모드'를 켠 뒤 '뷰 검사' 링크에서 서비스 워커 콘솔을 여세요."
+  },
+  "cleanDiscardedText": {
+    "message": "잠자는 탭을 닫힌 것으로 취급"
   },
   "cleanExpiredCookiesText": {
-    "message": "모든 만료된 쿠키 청소",
-    "description": "Clean All Expired Cookies. Found in Settings."
+    "message": "만료된 쿠키는 항상 삭제"
   },
   "cleanIgnoringOpenTabsText": {
-    "message": "열린 탭 포함 청소",
-    "description": "Clean, include open tabs. Found in the additional cleanup options in the popup."
+    "message": "열린 탭까지 포함해 정리"
   },
   "cleanText": {
-    "message": "청소",
-    "description": "Clean"
+    "message": "정리"
   },
   "cleanupDomainChangeText": {
-    "message": "도메인 바뀔 때 청소 활성화",
-    "description": "Enable Cleanup on Domain Change"
+    "message": "사이트를 떠날 때 정리"
+  },
+  "cleanupActionsBypass": {
+    "message": "주의 — 이 버튼들은 유지 목록을 무시하고 즉시 정리합니다!"
   },
   "cleanupLogText": {
-    "message": "청소 기록",
-    "description": "Cleanup Log"
+    "message": "정리 로그"
   },
   "clearLogsText": {
-    "message": "로그 지우기",
-    "description": "Clear Logs"
+    "message": "로그 비우기"
+  },
+  "consoleDebugMode": {
+    "message": "콘솔 탭으로 전환하세요."
   },
   "contextMenusParentClean": {
-    "message": "수동 청소 메뉴",
-    "description": "Manual Cleaning Menu. Shown on right-clicks of Page/Browser Action."
+    "message": "수동 정리"
   },
-  "contributeText": {
-    "message": "기여",
-    "description": "Contribute"
+  "contextMenusParentExpression": {
+    "message": "유지 목록에 추가"
+  },
+  "contextMenusSelectedDomainLink": {
+    "message": "이 링크의 도메인만"
+  },
+  "contextMenusSelectedDomainPage": {
+    "message": "이 페이지의 도메인만"
+  },
+  "contextMenusSelectedDomainText": {
+    "message": "이 도메인만: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "contextMenusSelectedSubdomainLink": {
+    "message": "링크의 도메인과 모든 하위 도메인"
+  },
+  "contextMenusSelectedSubdomainPage": {
+    "message": "이 페이지의 도메인과 모든 하위 도메인"
+  },
+  "contextMenusSelectedSubdomainText": {
+    "message": "모든 하위 도메인: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
   },
   "contributorsText": {
-    "message": "기여자",
-    "description": "Contributors"
+    "message": "기여자"
   },
   "cookiesText": {
-    "message": "쿠키",
-    "description": "Cookies. Primarily used in popup via alternate clean action dropdown."
+    "message": "쿠키"
+  },
+  "cookieCleanUpOnStartText": {
+    "message": "시작 시 복원된 탭 정리"
+  },
+  "cookieCleanupIgnoreOpenTabsText": {
+    "message": "지금 정리(탭에 열린 사이트 포함)"
+  },
+  "cookieCleanupText": {
+    "message": "지금 정리(탭에 열린 사이트는 건너뜀)"
+  },
+  "copyDebugSettingText": {
+    "message": "현재 설정의 사본입니다. 관련이 있다면 GitHub 이슈에 붙여넣으세요."
+  },
+  "copyDebugSystemText": {
+    "message": "시스템 정보입니다. GitHub 이슈의 해당 항목에 붙여넣으세요."
+  },
+  "copyFailedText": {
+    "message": "자동 복사에 실패했습니다. 텍스트를 선택해 직접 복사하세요."
   },
   "copySuccessText": {
-    "message": "성공적으로 복사됨",
-    "description": "Copied successfully!  Shows after a successful text copy to clipboard."
+    "message": "복사됨!"
   },
   "copyToClipboardText": {
-    "message": "클립보드에 복사",
-    "description": "Copy to Clipboard.  Shown in a button to take action upon click."
+    "message": "클립보드에 복사"
   },
-  "defaultText": {
-    "message": "기본",
-    "description": "Default. Used in List of Expression in Firefox for Default / No Container."
+  "createDefaultExpressionOptionsText": {
+    "message": "기본 옵션 만들기"
   },
-  "defaultContainerText": {
-    "message": "컨테이너 없음",
-    "description": "No Container. This will be in brackets. Used in List of Expression in Firefox for Default / No Container"
+  "debugMode": {
+    "message": "디버그 모드"
+  },
+  "debugTitle": {
+    "message": "디버그 정보"
   },
   "defaultSettingsText": {
-    "message": "기본 설정 복원",
-    "description": "Restore Default Settings"
+    "message": "설정을 기본값으로 되돌리기"
   },
   "disableAutoDeleteText": {
-    "message": "토글해서 자동 청소를 끄세요 (매뉴얼 모드)",
-    "description": "Toggle to disable automatic cleanup (manual mode)"
+    "message": "자동 정리 끄기(수동 모드)"
   },
   "documentationText": {
-    "message": "문서",
-    "description": "Documentation"
+    "message": "문서"
+  },
+  "domainExpressionsText": {
+    "message": "사이트"
+  },
+  "domainPlaceholderText": {
+    "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/"
+  },
+  "dropdownAdditionalCleaningOptions": {
+    "message": "추가 정리 작업"
+  },
+  "editExpressionText": {
+    "message": "표현식 편집"
+  },
+  "enableAutoDeleteText": {
+    "message": "자동 정리 켜기"
+  },
+  "enableCleanupLogText": {
+    "message": "정리 로그 기록"
+  },
+  "enableContextMenus": {
+    "message": "우클릭 메뉴 동작"
+  },
+  "enableGreyListCleanup": {
+    "message": "세션 유지 규칙"
+  },
+  "enableNewVersionPopup": {
+    "message": "업데이트 후 릴리스 노트 표시"
   },
   "errorText": {
-    "message": "오류!",
-    "description": "Error!"
+    "message": "오류!"
+  },
+  "exportSettingsText": {
+    "message": "설정 내보내기..."
+  },
+  "exportURLSText": {
+    "message": "저장한 사이트 내보내기"
+  },
+  "exportTitleTimestamp": {
+    "message": "내보낸 파일 이름에는 타임스탬프가 붙습니다."
   },
   "extensionDescription": {
-    "message": "당신의 쿠키를 관리하세요! 닫힌 탭의 원하지 않는 쿠키는 자동으로 지우고 원하는 탭의 것은 놔둘 수 있습니다.",
-    "description": "Control your cookies! Automatically delete unwanted cookies from your closed tabs while keeping the ones you want."
+    "message": "탭 뒤처리를 해 줍니다. 탭을 닫으면 그 쿠키와 사이트 데이터를 지웁니다. 유지 목록의 사이트는 예외입니다."
   },
   "extensionName": {
-    "message": "Auto-Delete Cookies for Privacy",
-    "description": "Name of the extension."
+    "message": "Auto-Delete Cookies for Privacy"
   },
   "faqText": {
-    "message": "자주 묻는 질문, 일반적인 문제와 해결책",
-    "description": "Frequently Asked Questions, Common issues and solutions"
+    "message": "자주 묻는 질문과 문제 해결"
+  },
+  "filterDebugMode": {
+    "message": "이 확장 프로그램의 메시지만 보려면 콘솔 필터 창에 이것을 붙여넣으세요:"
   },
   "filterText": {
-    "message": "필터",
-    "description": "Filter"
+    "message": "필터"
   },
   "greyListWordText": {
-    "message": "그레이리스트",
-    "description": "Greylist"
+    "message": "그레이리스트"
+  },
+  "groupExpressionDefaultNotice": {
+    "message": "새 표현식의 기본 옵션은 이제 표현식 자체에 있습니다. $listExpression$을(를) 열어 설정하세요.",
+    "placeholders": {
+      "listExpression": {
+        "content": "$1",
+        "example": "List of Expressions <- the translated version"
+      }
+    }
+  },
+  "importCoreSettingsFailed": {
+    "message": "설정 가져오기 중단: 파일에 인식할 수 없는 설정이 있습니다."
+  },
+  "importCoreSettingsText": {
+    "message": "설정 가져오기..."
   },
   "importFileNotFound": {
-    "message": "파일 발견되지 않음: $filename$",
-    "description": "File not found: $filename$.  Found in List of Expressions and CAD Settings.",
+    "message": "파일이 없습니다: $filename$",
     "placeholders": {
       "filename": {
         "content": "$1",
@@ -125,77 +257,183 @@
       }
     }
   },
+  "importFileTypeInvalid": {
+    "message": "가져오기에서 지원하지 않는 파일 형식입니다."
+  },
+  "importFileValidationFailed": {
+    "message": "파일이 검증을 통과하지 못했습니다."
+  },
+  "importInvalidExpressions": {
+    "message": "가져온 표현식 중 일부가 잘못되었습니다. 아래에 이유와 함께 나열되어 있습니다. 파일에서 고친 뒤 다시 가져오세요."
+  },
+  "importListNotArray": {
+    "message": "$identifier$은(는) 배열이어야 하지만 아닙니다.",
+    "placeholders": {
+      "identifier": {
+        "content": "$1",
+        "example": "jsonObjectKey"
+      }
+    }
+  },
+  "importMissingKey": {
+    "message": "식별자 없음"
+  },
+  "importURLSText": {
+    "message": "저장한 사이트 가져오기"
+  },
+  "importValidExpressions": {
+    "message": "$filename$에서 표현식 $num$개를 가져왔습니다.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "filename": {
+        "content": "$2",
+        "example": "filename.json"
+      }
+    }
+  },
+  "indexedDBCleanupText": {
+    "message": "IndexedDB 정리 사용"
+  },
   "indexedDBText": {
-    "message": "IndexedDB",
-    "description": "IndexedDB. Primarily used in notifications."
+    "message": "IndexedDB"
+  },
+  "inputErrorComma": {
+    "message": "쉼표는 정규식 안에서만 쓸 수 있습니다."
+  },
+  "inputErrorEmpty": {
+    "message": "표현식은 비워둘 수 없습니다."
+  },
+  "inputErrorRegExp": {
+    "message": "잘못된 정규식: $RegexError$",
+    "placeholders": {
+      "RegexError": {
+        "content": "$1",
+        "example": "SyntaxError:  unterminated character class."
+      }
+    }
+  },
+  "inputErrorSlashEndMissingStart": {
+    "message": "슬래시로 끝나지만 슬래시로 시작하지 않습니다. 일반 도메인이면 끝의 슬래시를 지우고, 정규식이면 앞에 슬래시를 붙이세요."
+  },
+  "inputErrorSlashStartMissingEnd": {
+    "message": "슬래시로 시작하지만 닫히지 않았습니다. 끝에 슬래시를 붙여 정규식을 완성하세요."
+  },
+  "inputErrorSpace": {
+    "message": "호스트 이름에는 공백을 넣을 수 없습니다."
+  },
+  "inputAddSuccess": {
+    "message": "표현식 $num$개를 $listType$(으)로 현재 목록에 추가했습니다.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "GreyList"
+      }
+    }
+  },
+  "invalidNewExpressions": {
+    "message": "새 표현식 중 일부가 잘못되었습니다. 편집할 수 있도록 위에 남겨 두었고, 이유는 아래에 있습니다."
   },
   "keepAllCookiesText": {
-    "message": "모든 쿠키 남기기",
-    "description": "Keep All Cookies. Found in Expression Options. For Whitelist entries."
+    "message": "모든 쿠키 유지"
   },
   "keepAllCookiesGreyText": {
-    "message": "재시작까지 모든 쿠키 남기기",
-    "description": "Keep All Cookies until restart. Found in Expression Options. For Greylist entries."
+    "message": "모든 쿠키를 재시작까지 유지"
   },
   "keepCacheText": {
-    "message": "캐시 남기기",
-    "description": "Keep Cache. Found in Expression Options. For Whitelist entries."
+    "message": "캐시 유지"
   },
   "keepCacheGreyText": {
-    "message": "재시작까지 캐시 남기기",
-    "description": "Keep Cache until restart. Found in Expression Options. For Greylist entries."
+    "message": "캐시를 재시작까지 유지"
+  },
+  "keepDefaultIcon": {
+    "message": "기본 아이콘 유지"
   },
   "keepIndexedDBText": {
-    "message": "IndexedDB 남기기",
-    "description": "Keep IndexedDB. Found in Expression Options. For Whitelist entries."
+    "message": "IndexedDB 유지"
   },
   "keepIndexedDBGreyText": {
-    "message": "재시작까지 IndexedDB 남기기",
-    "description": "Keep IndexedDB until restart. Found in Expression Options. For Greylist entries."
+    "message": "IndexedDB를 재시작까지 유지"
   },
   "keepLocalstorageText": {
-    "message": "LocalStorage 남기기",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries."
+    "message": "LocalStorage 유지"
   },
   "keepLocalstorageGreyText": {
-    "message": "재시작까지 Localstorage 남기기",
-    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries."
+    "message": "LocalStorage를 재시작까지 유지"
   },
   "keepPluginDataText": {
-    "message": "Plugin Data 남기기",
-    "description": "Keep Plugin Data. Found in Expression Options. For Whitelist entries."
+    "message": "플러그인 데이터 유지"
   },
   "keepPluginDataGreyText": {
-    "message": "재시작까지 Plugin Data 남기기",
-    "description": "Keep Plugin Data until restart. Found in Expression Options. For Greylist entries."
+    "message": "플러그인 데이터를 재시작까지 유지"
   },
   "keepServiceWorkersText": {
-    "message": "Service Workers 남기기",
-    "description": "Keep Service Workers. Found in Expression Options. For Whitelist entries."
+    "message": "서비스 워커 유지"
   },
   "keepServiceWorkersGreyText": {
-    "message": "재시작까지 Serivce Workers 남기기",
-    "description": "Keep Service Workers until restart. Found in Expression Options. For Greylist entries."
+    "message": "서비스 워커를 재시작까지 유지"
   },
   "keepText": {
-    "message": "남기기",
-    "description": "Keep"
+    "message": "유지"
+  },
+  "listTypeText": {
+    "message": "기간"
+  },
+  "localStorageCleanupText": {
+    "message": "LocalStorage 정리 사용"
   },
   "localStorageText": {
-    "message": "LocalStorage",
-    "description": "LocalStorage. Primarily used in notifications."
+    "message": "LocalStorage"
   },
   "manualActionNotification": {
-    "message": "수동 행동 알림",
-    "description": "Manual Action Notification - used as Notification Title."
+    "message": "수동 정리"
+  },
+  "manualCleanError": {
+    "message": "이 탭의 $siteData$을(를) 정리하지 못했습니다:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      }
+    }
+  },
+  "manualCleanNothing": {
+    "message": "정리할 것 없음: $url$에서 $siteData$을(를) 찾지 못했습니다.",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanRemoved": {
+    "message": "$total$개 중 $deleted$개를 지웠습니다.",
+    "placeholders": {
+      "deleted": {
+        "content": "$1",
+        "example": "5"
+      },
+      "total": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
   },
   "manualCleanSiteDataAll": {
-    "message": "이 도메인에서 모두 청소",
-    "description": "Clean All for this domain. Found in Popup clean dropdown menu."
+    "message": "이 사이트의 모든 것 지우기"
   },
   "manualCleanSiteDataAllDomain": {
-    "message": "$domain$ 의 모든 사이트 정보 지우기",
-    "description": "Clear all site data for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "$domain$이(가) 저장한 모든 사이트 데이터 지우기",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -204,12 +442,10 @@
     }
   },
   "manualCleanSiteDataCache": {
-    "message": "이 도메인의 캐시 지우기",
-    "description": "Clean Cache for this domain. Found in Popup clean dropdown menu."
+    "message": "이 사이트의 캐시 지우기"
   },
   "manualCleanSiteDataCacheDomain": {
-    "message": "$domain$의 모든 쿠키 청소",
-    "description": "Clear all Cache for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "$domain$이(가) 저장한 모든 캐시 지우기",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -218,12 +454,10 @@
     }
   },
   "manualCleanSiteDataCookies": {
-    "message": "이 도메인의 쿠키 청소",
-    "description": "Clean Cookies for this domain. Found in Popup clean dropdown menu."
+    "message": "이 사이트의 쿠키 지우기"
   },
   "manualCleanSiteDataCookiesDomain": {
-    "message": "$domain$의 쿠키 청소",
-    "description": "Clear all Cookies for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "$domain$이(가) 저장한 모든 쿠키 지우기",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -232,12 +466,10 @@
     }
   },
   "manualCleanSiteDataIndexedDB": {
-    "message": "이 도메인의 IndexedDB 청소",
-    "description": "Clean IndexedDB for this domain. Found in Popup clean dropdown menu."
+    "message": "이 사이트의 IndexedDB 지우기"
   },
   "manualCleanSiteDataIndexedDBDomain": {
-    "message": "$domain$의 IndexDB 청소",
-    "description": "Clear all IndexedDB for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "$domain$이(가) 저장한 모든 IndexedDB 데이터 지우기",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -246,12 +478,10 @@
     }
   },
   "manualCleanSiteDataLocalStorage": {
-    "message": "이 도메인의 LocalStorage 청소",
-    "description": "Clean LocalStorage for this domain. Found in Popup clean dropdown menu."
+    "message": "이 사이트의 LocalStorage 지우기"
   },
   "manualCleanSiteDataLocalStorageDomain": {
-    "message": "$domain$의 LocalStorage 청소",
-    "description": "Clear all LocalStorage for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "$domain$이(가) 저장한 모든 LocalStorage 지우기",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -260,79 +490,842 @@
     }
   },
   "manualCleanSiteDataPluginData": {
-    "message": "이 도메인의 플러그인 데이터 청소",
-    "description": "Clean Plugin Data for this domain. Found in Popup clean dropdown menu."
+    "message": "이 사이트의 플러그인 데이터 지우기"
   },
-  "menuText": {
-    "message": "메뉴",
-    "description": "Menu. Only shown when the settings screen is small / when the hamburger icon shows / when the menu is collapsed."
-  },
-  "notificationEnabledText": {
-    "message": "알림 켜짐",
-    "description": "Notification enabled"
-  },
-  "notificationTitle": {
-    "message": "쿠키가 삭제되었습니다!",
-    "description": "Cookies were deleted!  Used in Notification Title."
-  },
-  "optionsText": {
-    "message": "옵션",
-    "description": "Options"
-  },
-  "popupCookieCountText": {
-    "message": "쿠키",
-    "description": "Cookies. Due to visual formatting, Cookie Count will always be located on the right side after the colon. Found in Popup near top-right."
-  },
-  "preferencesText": {
-    "message": "설정",
-    "description": "Settings"
-  },
-  "releaseNotesText": {
-    "message": "릴리즈 정보",
-    "description": "Release Notes"
-  },
-  "settingsText": {
-    "message": "$CAD$ 설정",
-    "description": "$CAD$ Settings",
+  "manualCleanSiteDataPluginDataDomain": {
+    "message": "$domain$이(가) 저장한 모든 플러그인 데이터 지우기",
     "placeholders": {
-      "CAD": {
-        "content": "CAD",
-        "example": "CAD - Short form of Cookie AutoDelete"
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
       }
     }
   },
+  "manualCleanSiteDataServiceWorkers": {
+    "message": "이 사이트의 서비스 워커 지우기"
+  },
+  "manualCleanSiteDataServiceWorkersDomain": {
+    "message": "$domain$이(가) 등록한 모든 서비스 워커 지우기",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSuccess": {
+    "message": "$url$에서 $siteData$ 정리 결과:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualNotificationsText": {
+    "message": "수동 정리 후 알림"
+  },
+  "matchedDomainExpressionText": {
+    "message": "일치한 도메인 표현식"
+  },
+  "menuText": {
+    "message": "메뉴"
+  },
+  "minutesText": {
+    "message": "분"
+  },
+  "noCleanupLogText": {
+    "message": "정리 로그가 비어 있습니다."
+  },
+  "noExpressionsText": {
+    "message": "아직 추가한 표현식이 없습니다."
+  },
+  "noPrivateLogging": {
+    "message": "사생활 보호/시크릿 탭은 절대 기록되지 않습니다."
+  },
+  "noSearchExpressionsFound": {
+    "message": "검색과 일치하는 항목이 없습니다."
+  },
+  "noRulesText": {
+    "message": "이 사이트와 일치하는 표현식이 없습니다."
+  },
+  "noneText": {
+    "message": "없음"
+  },
+  "notificationContent": {
+    "message": "사이트 데이터 삭제됨 — 사이트 $total$곳에서 쿠키 $Num$개, 포함: $Websites$",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "123"
+      },
+      "total": {
+        "content": "$2",
+        "example": "8"
+      },
+      "websites": {
+        "content": "$3",
+        "example": "google.com, facebook.com"
+      }
+    }
+  },
+  "notificationDisabledText": {
+    "message": "알림 꺼짐"
+  },
+  "notificationEnabledText": {
+    "message": "알림 켜짐"
+  },
+  "notificationTitle": {
+    "message": "쿠키 정리됨"
+  },
+  "notificationTitleSiteData": {
+    "message": "사이트 데이터 정리됨"
+  },
+  "notifyCookieCleanupDelayText": {
+    "message": "알림 표시 시간"
+  },
+  "notifyCookieCleanUpText": {
+    "message": "정리 후 알림"
+  },
+  "oldReleasesText": {
+    "message": "이전 릴리스 목록:"
+  },
+  "openDebugMode": {
+    "message": "디버그 출력은 확장 프로그램 콘솔에 있습니다. 새 탭을 열고 다음으로 이동하세요:"
+  },
+  "optionsText": {
+    "message": "유지하는 항목"
+  },
+  "pluginDataCleanupText": {
+    "message": "플러그인 데이터 정리 사용"
+  },
+  "pluginDataText": {
+    "message": "플러그인 데이터"
+  },
+  "popupCookieCountText": {
+    "message": "쿠키"
+  },
+  "preferencesText": {
+    "message": "설정"
+  },
+  "questionExpression": {
+    "message": "패턴은 어떻게 동작하나요?"
+  },
+  "reasonCADSiteDataCookie": {
+    "message": "$hostname$의 사이트 데이터 정리를 실행하려고 내부 마커 쿠키를 삭제했습니다.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCADSiteDataCookieRestart": {
+    "message": "재시작 시 $hostname$의 사이트 데이터 정리를 실행하려고 내부 마커 쿠키를 삭제했습니다.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpired": {
+    "message": "$hostname$의 만료된 쿠키만 삭제했습니다.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpiredRestart": {
+    "message": "재시작 정리 중 $hostname$의 만료된 쿠키만 삭제했습니다.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieName": {
+    "message": "선택 정리: $listType$의 $matchedExpression$이(가) 다른 쿠키는 보호하지만 이 쿠키는 아닙니다",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.google.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      }
+    }
+  },
+  "reasonCleanGreyList": {
+    "message": "시작 시 정리: $matchedExpression$이(가) 그레이리스트에 있습니다",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.google.com"
+      }
+    }
+  },
+  "reasonCleanNoList": {
+    "message": "정리됨: $hostname$이(가) 화이트리스트에도 그레이리스트에도 없습니다",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "example": "sub.google.com"
+      }
+    }
+  },
+  "reasonCleanStartupNoList": {
+    "message": "시작 시 정리: $hostname$이(가) 화이트리스트에도 그레이리스트에도 없습니다",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "example": "sub.google.com"
+      }
+    }
+  },
+  "reasonKeep": {
+    "message": "유지됨: $listType$의 $matchedExpression$과(와) 일치",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.google.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      }
+    }
+  },
+  "reasonKeepOpenTab": {
+    "message": "유지됨: *.$mainDomain$이(가) 아직 탭에 열려 있습니다",
+    "placeholders": {
+      "mainDomain": {
+        "content": "$1",
+        "example": "google.com"
+      }
+    }
+  },
+  "reasonTabsWereIgnored": {
+    "message": "(이번 실행에서는 열린 탭을 무시했습니다)"
+  },
+  "reasonTabsWereNotIgnored": {
+    "message": "(어느 탭에도 열려 있지 않음)"
+  },
+  "releaseNotesText": {
+    "message": "릴리스 노트"
+  },
+  "removeActivityLogEntryText": {
+    "message": "로그 항목 삭제"
+  },
+  "removeAllExpressions": {
+    "message": "모두 삭제"
+  },
+  "removeAllExpressionsConfirm": {
+    "message": "목록 $listCount$개의 표현식 $expressionCount$개를 모두 영구히 삭제합니다.\n\n되돌릴 수 없습니다.\n\n[ $expressionCount$ ]을(를) 입력하고 확인을 누르면 진행됩니다.",
+    "placeholders": {
+      "expressionCount": {
+        "content": "$1",
+        "example": "75"
+      },
+      "listCount": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "removeAllExpressionsNoneFound": {
+    "message": "삭제할 표현식이 없습니다."
+  },
+  "removeExpressionText": {
+    "message": "표현식 삭제"
+  },
+  "removeListText": {
+    "message": "선택한 목록의 표현식 모두 삭제"
+  },
+  "removeStorageCount": {
+    "message": "$storageType$에서 $count$개 항목을 지웠습니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      },
+      "storageType": {
+        "content": "$2",
+        "example": "LocalStorage"
+      }
+    }
+  },
+  "reportIssuesText": {
+    "message": "버그 신고와 기능 제안"
+  },
+  "resetCookieCounterText": {
+    "message": "쿠키 카운터 초기화"
+  },
+  "resetExtensionDataText": {
+    "message": "확장 프로그램의 모든 데이터 지우기"
+  },
+  "restoreText": {
+    "message": "복원"
+  },
+  "saveExpressionText": {
+    "message": "표현식 저장"
+  },
+  "secondsText": {
+    "message": "초"
+  },
+  "serviceWorkersCleanupText": {
+    "message": "서비스 워커 정리 사용"
+  },
+  "serviceWorkersText": {
+    "message": "서비스 워커"
+  },
+  "sessionStorageText": {
+    "message": "SessionStorage"
+  },
+  "settingGroupAutoClean": {
+    "message": "시점"
+  },
+  "settingGroupExpression": {
+    "message": "표현식 옵션"
+  },
+  "settingGroupExtension": {
+    "message": "인터페이스"
+  },
+  "settingGroupOtherBrowsing": {
+    "message": "기타 브라우징 데이터 정리 옵션"
+  },
+  "settingsText": {
+    "message": "$CAD$ 설정",
+    "placeholders": {
+      "CAD": {
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
+      }
+    }
+  },
+  "showNumberOfCookiesInIconText": {
+    "message": "툴바 아이콘에 쿠키 개수 표시"
+  },
+  "siteDataEmptyOnEnable": {
+    "message": "새 데이터 유형을 켤 때 이미 저장된 것 지우기"
+  },
+  "siteDataText": {
+    "message": "사이트 데이터"
+  },
+  "siteDataPanelTitle": {
+    "message": "이 사이트가 저장한 데이터"
+  },
+  "siteDataLoadingText": {
+    "message": "이 사이트가 무엇을 저장하는지 확인 중…"
+  },
+  "siteDataNotAvailableText": {
+    "message": "이 페이지에서는 사용할 수 없음"
+  },
+  "siteDataEmptyText": {
+    "message": "이 사이트는 지금 아무것도 저장하고 있지 않습니다"
+  },
+  "siteDataUsageText": {
+    "message": "$quota$ 중 $used$ 사용",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
+      }
+    }
+  },
+  "siteDataSessionCookieText": {
+    "message": "세션"
+  },
+  "siteDataExpiresText": {
+    "message": "$date$ 만료",
+    "placeholders": {
+      "date": {
+        "content": "$1",
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "알 수 없음"
+  },
+  "siteDataRefreshTitle": {
+    "message": "새로 고침"
+  },
+  "sizePopupText": {
+    "message": "팝업 글자 크기"
+  },
+  "sizeSettingText": {
+    "message": "설정 글자 크기"
+  },
+  "stopEditingText": {
+    "message": "편집 끝내기"
+  },
+  "successText": {
+    "message": "성공!"
+  },
   "toGreyListText": {
-    "message": "그레이리스트로 추가 (브라우저 재시작에 청소)",
-    "description": "Add to Greylist (Clean on Browser Restart)"
+    "message": "그레이리스트에 추가(브라우저 재시작까지 유지)"
   },
   "toWhiteListText": {
-    "message": "화이트리스트에 추가 (절대 청소하지 않음)",
-    "description": "Add to Whitelist (Never Clean)"
+    "message": "화이트리스트에 추가(절대 정리 안 함)"
+  },
+  "toggleNotificationText": {
+    "message": "알림 켜기/끄기"
   },
   "toggleToGreyListWordText": {
-    "message": "토글해서 그레이리스트",
-    "description": "Toggle to greylist"
+    "message": "그레이리스트로 전환"
   },
   "toggleToWhiteListWordText": {
-    "message": "토글해서 화이트리스트",
-    "description": "Toggle to whitelist"
+    "message": "화이트리스트로 전환"
   },
   "versionNumberText": {
     "message": "$CAD$ 버전",
-    "description": "$CAD$ version 3.2.1. The actual number is formatted differently and will be right below this text.",
     "placeholders": {
       "CAD": {
         "content": "$1",
-        "example": "CAD or Cookie AutoDelete"
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
+      }
+    }
+  },
+  "welcomeMessage": {
+    "message": "$cadTitle$은(는) 이번 브라우저 세션에 쿠키 $sessionDeleted$개, 설치 이후 총 $totalDeleted$개를 삭제했습니다.",
+    "placeholders": {
+      "cadTitle": {
+        "content": "$1",
+        "example": "Auto-Delete Cookies for Privacy"
+      },
+      "sessionDeleted": {
+        "content": "$2",
+        "example": "123"
+      },
+      "totalDeleted": {
+        "content": "$3",
+        "example": "456"
       }
     }
   },
   "welcomeText": {
-    "message": "환영합니다",
-    "description": "Welcome"
+    "message": "환영합니다"
+  },
+  "expressionListText": {
+    "message": "표현식 목록"
   },
   "whiteListWordText": {
-    "message": "화이트리스트",
-    "description": "Whitelist"
+    "message": "화이트리스트"
+  },
+  "themeText": {
+    "message": "테마"
+  },
+  "themeAutoText": {
+    "message": "자동"
+  },
+  "themeLightText": {
+    "message": "라이트"
+  },
+  "themeDarkText": {
+    "message": "다크"
+  },
+  "keepLocalStorageText": {
+    "message": "LocalStorage 유지"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "LocalStorage를 재시작까지 유지"
+  },
+  "popupHeroOnText": {
+    "message": "자동 삭제가 켜져 있습니다"
+  },
+  "popupHeroForgetText": {
+    "message": "이 사이트는 당신을 기억하지 못합니다."
+  },
+  "popupHeroOffText": {
+    "message": "자동 삭제가 꺼져 있습니다"
+  },
+  "popupHeroOffSubText": {
+    "message": "자동으로 삭제되는 것은 없습니다."
+  },
+  "popupHeroKeepingText": {
+    "message": "이 사이트의 쿠키를 유지하는 중"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$이(가) 유지 목록에 있습니다",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$은(는) 브라우저를 닫을 때까지 유지됩니다",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "정리 예정"
+  },
+  "siteKeptText": {
+    "message": "유지됨"
+  },
+  "siteCleanDelayText": {
+    "message": "이 사이트를 떠나고 $SECONDS$초 후에 쿠키가 삭제됩니다.",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "이 사이트의 쿠키는 절대 삭제되지 않습니다."
+  },
+  "siteKeptSessionStatusText": {
+    "message": "이 사이트의 쿠키는 브라우저를 닫을 때까지 남습니다."
+  },
+  "keepCookiesButtonText": {
+    "message": "이 사이트의 쿠키 유지"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$과(와) 하위 도메인은 삭제되지 않습니다",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "브라우저를 닫을 때까지 유지"
+  },
+  "stopKeepingButtonText": {
+    "message": "이 사이트 유지 중단"
+  },
+  "cleanNowText": {
+    "message": "지금 정리"
+  },
+  "cleanNowTooltipText": {
+    "message": "유지하지 않는 사이트의 쿠키를 삭제합니다. 다른 탭에 열린 사이트는 건너뜁니다."
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "지금 정리(열린 탭 포함)"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "'지금 정리'와 같지만 다른 탭에 열린 사이트도 건너뛰지 않습니다. 유지한 사이트만 살아남습니다."
+  },
+  "deleteSiteCookiesText": {
+    "message": "이 사이트의 쿠키 삭제"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "열려 있어도 $DOMAIN$의 쿠키를 지금 삭제합니다. 이 한 번의 동작에서만 유지 규칙을 무시합니다.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "이 사이트가 저장한 모든 것 삭제"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "$DOMAIN$이(가) 이 기기에 저장한 모든 것 — 쿠키, 캐시, 로컬 저장소, 데이터베이스, 워커 — 를 삭제합니다.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "유지"
+  },
+  "keepButtonTooltipText": {
+    "message": "이 사이트의 쿠키는 절대 삭제되지 않습니다."
+  },
+  "keepSessionButtonText": {
+    "message": "이번 세션만 유지"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "쿠키는 브라우저를 닫을 때까지 남고, 다음 시작 때 삭제됩니다."
+  },
+  "noRuleMatchText": {
+    "message": "이 사이트와 일치하는 저장된 규칙이 없습니다"
+  },
+  "matchedRuleText": {
+    "message": "일치한 규칙: $EXPRESSION$",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "더 많은 정리 옵션"
+  },
+  "shareText": {
+    "message": "공유"
+  },
+  "shareTooltipText": {
+    "message": "이 확장 프로그램을 친구에게 알려 주세요"
+  },
+  "shareCopyLinkText": {
+    "message": "확장 프로그램 페이지 링크 복사"
+  },
+  "shareCopiedText": {
+    "message": "링크 복사됨"
+  },
+  "shareEmailText": {
+    "message": "이메일로 공유"
+  },
+  "moreControlsText": {
+    "message": "추가 컨트롤…"
+  },
+  "lastCleanSummaryText": {
+    "message": "마지막 정리: 쿠키 $COUNT$개 · $TIME$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "고급 모드"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "이 페이지에 전문가 설정을, 팝업에 추가 컨트롤을 표시합니다: 정확한 도메인 규칙, 사이트별 정리 옵션, 일치한 규칙. 기본은 꺼짐 — 단순 보기로 일반적인 경우는 충분합니다."
+  },
+  "overviewText": {
+    "message": "개요"
+  },
+  "protectionText": {
+    "message": "보호"
+  },
+  "savedSitesText": {
+    "message": "저장한 사이트"
+  },
+  "savedSitesSubText": {
+    "message": "유지 중인 사이트입니다. 유지 사이트는 데이터를 계속 보관하고, 세션 사이트는 브라우저를 닫을 때까지 보관합니다."
+  },
+  "cookiesDeletedSessionText": {
+    "message": "이번 세션 삭제"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "누적 삭제"
+  },
+  "keptBadgeText": {
+    "message": "유지"
+  },
+  "sessionBadgeText": {
+    "message": "재시작까지"
+  },
+  "toggleToKeepText": {
+    "message": "'유지'로 전환"
+  },
+  "toggleToSessionText": {
+    "message": "'이번 세션만 유지'로 전환"
+  },
+  "settingGroupSiteData": {
+    "message": "삭제되는 항목"
+  },
+  "deleteAllSiteDataText": {
+    "message": "모든 사이트 데이터 삭제"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "쿠키에 더해 저장된 파일, 오프라인 데이터베이스, 백그라운드 워커까지 — 사이트가 기기에 저장하는 모든 것."
+  },
+  "customBadgeText": {
+    "message": "사용자 지정"
+  },
+  "advancedChooseTypesText": {
+    "message": "고급 — 삭제할 항목을 정확히 선택"
+  },
+  "patternColumnText": {
+    "message": "패턴"
+  },
+  "patternMeaningColumnText": {
+    "message": "적용 범위"
+  },
+  "patternDomainMeaningText": {
+    "message": "정확히 이 도메인"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "도메인과 모든 하위 도메인"
+  },
+  "patternIPMeaningText": {
+    "message": "단일 IP 주소"
+  },
+  "patternCIDRMeaningText": {
+    "message": "범위 안의 모든 주소"
+  },
+  "patternRegexMeaningText": {
+    "message": "고급: 슬래시 사이의 정규식"
+  },
+  "patternFileMeaningText": {
+    "message": "브라우저에서 연 로컬 파일"
+  },
+  "patternKeepLevelsText": {
+    "message": "'유지'는 사이트 데이터를 영구히 보관합니다. '이번 세션만 유지'는 브라우저를 닫을 때까지만 보관합니다."
+  },
+  "summaryKeepsEverythingText": {
+    "message": "모두 유지"
+  },
+  "summaryAllCookiesText": {
+    "message": "모든 쿠키"
+  },
+  "toggleOptionsText": {
+    "message": "옵션 표시/숨기기"
+  },
+  "summaryNamedCookiesText": {
+    "message": "이름 지정 쿠키 $COUNT$개",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "$TYPES$ 지우기",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "저장한 사이트를 모두 삭제했습니다."
+  },
+  "importFoldedContainersText": {
+    "message": "옛 컨테이너 목록의 항목 $COUNT$개를 기본 목록에 합쳤습니다.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
+  },
+  "importExportText": {
+    "message": "가져오기 / 내보내기"
+  },
+  "importExportSubText": {
+    "message": "설정과 저장한 사이트를 백업하고, 파일에서 복원하거나 기본값으로 되돌립니다."
+  },
+  "activeModeDescText": {
+    "message": "사이트의 탭이 닫힌 뒤에."
+  },
+  "gracePeriodDescText": {
+    "message": "다시 돌아올 경우를 대비해 정리 전에 기다립니다."
+  },
+  "domainChangeDescText": {
+    "message": "탭에서 다른 곳으로 이동하면 그 탭의 이전 사이트를 정리합니다."
+  },
+  "greylistDescText": {
+    "message": "'브라우저를 닫을 때까지 유지'로 표시한 사이트는 브라우저 재시작 시 정리됩니다."
+  },
+  "cleanDiscardedDescText": {
+    "message": "브라우저가 재운 탭은 정리 시 닫힌 것으로 칩니다."
+  },
+  "startupCleanDescText": {
+    "message": "지난 세션에서 복원된 탭의 사이트도 정리됩니다."
+  },
+  "cleanExpiredDescText": {
+    "message": "만료일이 지난 쿠키는 매 정리 때 삭제됩니다."
+  },
+  "cleanupLogDescText": {
+    "message": "정리 로그 페이지와 삭제된 쿠키 카운터의 원천입니다."
+  },
+  "cookieCountIconDescText": {
+    "message": "현재 사이트가 저장한 쿠키 개수를 보여 줍니다."
+  },
+  "keepDefaultIconDescText": {
+    "message": "사이트 유지 여부에 따라 아이콘 색을 바꾸지 않습니다."
+  },
+  "notifyAutoDescText": {
+    "message": "자동 정리 때마다 짧은 알림을 띄웁니다."
+  },
+  "notifyDurationDescText": {
+    "message": "알림이 화면에 머무는 시간(초)."
+  },
+  "debugModeDescText": {
+    "message": "버그 신고용으로 확장 프로그램 콘솔에 상세 로그를 남깁니다."
+  },
+  "supportText": {
+    "message": "지원"
+  },
+  "helpText": {
+    "message": "도움말"
+  },
+  "helpSubText": {
+    "message": "확장 프로그램이 하는 모든 일을 설명합니다. 각 섹션은 따로 펼쳐집니다."
+  },
+  "helpGettingStartedTitle": {
+    "message": "시작하기"
+  },
+  "helpGettingStartedBody": {
+    "message": "새로 설치하면 수동 모드로 시작합니다. 당신이 지시하기 전엔 아무것도 삭제되지 않습니다. 의도된 것입니다 — 먼저 유지 목록을 만들어 두면, 나중에 자동 정리를 켜도 아끼는 사이트에서 전부 로그아웃되지 않습니다.\n\n1. 중요한 사이트를 유지하세요. 로그아웃되면 성가신 사이트(이메일, 은행, 유료 서비스)를 하나씩 방문해 툴바 아이콘을 누르고 '이 사이트의 쿠키 유지'를 누르세요. 규칙은 도메인과 모든 하위 도메인을 포함합니다. 이번만 기억되면 되는 사이트에는 '브라우저를 닫을 때까지 유지'를 쓰세요.\n\n2. '정리'의 범위를 정하세요. 기본값은 쿠키만 삭제합니다. 보호 페이지에서 '모든 사이트 데이터 삭제'를 켜면 사이트의 다른 잔여물도 지웁니다.\n\n3. 자동 정리를 켜세요. 보호 페이지에서 '자동으로 정리'를 켭니다. 이후로는 사이트의 마지막 탭을 닫으면 유예 시간이 지난 뒤 그 쿠키가 사라집니다 — 사이트를 유지 중이거나 다른 곳에 열려 있으면 예외입니다.\n\n4. 선택: 정리 로그를 켜 두면 무엇이 왜 정리됐는지 언제든 확인할 수 있습니다."
+  },
+  "helpCleaningTitle": {
+    "message": "정리 동작 방식"
+  },
+  "helpCleaningBody": {
+    "message": "자동 정리는 사이트의 마지막 탭이 닫힐 때 발동합니다. 유예 시간(기본 15초)은 되돌리기 창입니다. 그 안에 사이트를 다시 열면 아무것도 지워지지 않습니다.\n\n'사이트를 떠날 때 정리'는 탭이 한 사이트에서 다른 사이트로 이동하는 것도 첫 사이트를 떠난 것으로 칩니다 — 더 엄격하지만, 한 탭에서 사이트를 오가는 사람에게는 체감됩니다.\n\n정리 중에 다음 중 하나라도 해당하면 사이트의 쿠키는 살아남습니다: 사이트가 아직 어느 탭에 열려 있음; 유지 규칙과 일치함; '닫을 때까지 유지' 규칙과 일치하고 이번이 재시작 정리가 아님; 또는 일치한 규칙의 쿠키 목록에서 그 쿠키 이름이 체크됨. 그 밖의 것은 모두 사라집니다.\n\n고급 모드는 다음을 추가합니다: 잠자는(버려진) 탭을 닫힌 것으로 취급, 복원된 탭을 시작 시 한 번 정리, 만료된 쿠키 상시 삭제, 세션 유지 규칙 — '브라우저를 닫을 때까지 유지' 사이트를 재시작 시 정리."
+  },
+  "helpSiteDataTitle": {
+    "message": "삭제되는 항목"
+  },
+  "helpSiteDataBody": {
+    "message": "기본적으로 확장 프로그램은 쿠키만 삭제합니다. '모든 사이트 데이터 삭제' 스위치는 사이트가 기기에 저장하는 나머지 모든 것 — 캐시, IndexedDB, LocalStorage, 플러그인 데이터, 서비스 워커 — 로 정리를 확장합니다. 그 아래 고급 아코디언에서 유형을 개별 선택할 수 있습니다.\n\n켜기 전에 알아둘 두 가지:\n\n• 유형을 켜면 한 번, 모든 곳에서 지워집니다. 유형을 켜는 순간 그 유형의 현재 저장된 데이터가 모든 사이트에서 지워집니다(페이지의 경고가 이것입니다). 이 최초 청소를 원치 않으면 켤 때 지우기 스위치를 먼저 끄세요.\n\n• 옛 데이터는 선택적으로 정리할 수 없습니다. 브라우저는 다시 방문하는 사이트에 한해서만 사이트별로 이 유형들을 지우게 해 줍니다. 옵션을 켜기 전의 잔여물은 그 사이트를 다시 방문할 때까지 남습니다."
+  },
+  "helpPatternsTitle": {
+    "message": "유지 규칙과 패턴"
+  },
+  "helpPatternsBody": {
+    "message": "저장한 사이트는 각각 두 목록 중 하나의 패턴입니다. '유지' 사이트는 절대 정리되지 않습니다. '브라우저를 닫을 때까지 유지' 사이트는 평소 정리는 견디지만 재시작 때 정리됩니다. 어느 쪽에도 해당하지 않는 사이트는 떠나는 즉시 정리됩니다 — 그것이 기본 운명이고 규칙은 예외입니다.\n\n패턴은 호스트 이름만 봅니다 — https://도 경로도 없습니다:\n\n• example.com — 정확히 그 도메인, mail.example.com 제외\n• *.example.com — 도메인과 모든 하위 도메인\n• 192.168.1.100 — 그 IP 주소\n• 10.0.0.0/8 — CIDR 범위 안의 모든 IP\n• /^(mail|news)\\.example\\.com$/ — 슬래시 사이의 정규식\n• file:///home/user/notes — 그 로컬 폴더에서 연 페이지\n\n각 규칙에는 사이트별 옵션도 있습니다(저장한 사이트 페이지에서 행 펼치기): 전부 대신 이름 지정 쿠키만 유지, 유형별 사이트 데이터 선택. '기본 옵션 만들기' 규칙은 이후 추가되는 규칙들의 시작 옵션을 정합니다.\n\n팁: 재시작 때 모든 쿠키를 없애려면 *를 '브라우저를 닫을 때까지 유지' 규칙으로 추가하고, 정말 영구적인 사이트만 '유지'로 표시하세요."
+  },
+  "helpImportExportTitle": {
+    "message": "가져오기와 내보내기"
+  },
+  "helpImportExportBody": {
+    "message": "가져오기 / 내보내기 페이지는 두 가지 — 저장한 사이트와 설정 — 를 따로 백업합니다. 둘 다 타임스탬프가 붙은 평범한 JSON 파일이라 반복 백업이 서로를 덮어쓰지 않습니다. 가져오기는 이미 가진 것을 절대 삭제하지 않습니다. 완전한 중복은 건너뛰고, 잘못된 항목은 이유와 함께 거절되며 나머지는 그대로 들어옵니다.\n\n원조 Cookie AutoDelete의 내보내기는 그대로 들어옵니다 — 형식이 같습니다. Firefox 시절 내보내기에는 컨테이너 탭 목록(Chromium에 없는 Firefox 기능)이 있을 수 있는데, 이 항목들은 중복을 빼고 기본 목록에 합쳐지며 몇 개가 합쳐졌는지 가져오기 메시지가 알려 줍니다.\n\n설정을 기본값으로 되돌리는 것도 이 페이지에 있습니다. 저장한 사이트는 건드리지 않습니다."
+  },
+  "helpLogTitle": {
+    "message": "정리 로그"
+  },
+  "helpLogBody": {
+    "message": "정리 로그는 '왜 그 사이트에서 로그아웃됐지?'와 '이거 진짜 뭔가 하고는 있나?'에 답합니다. '정리 로그 기록'을 켜 두고 정리 후 정리 로그 페이지를 여세요.\n\n각 항목은 영향을 받은 사이트와 각 사이트에 내린 결정을 쉬운 말로 나열합니다: 규칙이 일치해서 유지, 사이트가 아직 열려 있어서 유지, 아무것도 일치하지 않아 정리, 시작 시 정리(재시작까지 사이트를 비우는 것이 이것), 또는 규칙이 이름 지정 쿠키만 유지할 때의 선택 정리. 결정 줄은 내부 목록 이름을 씁니다: 화이트리스트는 영구 유지 규칙, 그레이리스트는 브라우저를 닫을 때까지 유지를 뜻합니다.\n\n로그에는 쿠키 값이 절대 없고, 사생활 보호/시크릿 탭은 기록하지 않으며, 브라우저 밖으로 나가지 않고, 오래된 항목은 끝에서 저절로 떨어져 나갑니다. 개요 페이지의 카운터(이번 세션 / 누적)도 같은 장부에서 옵니다."
+  },
+  "helpPermissionsTitle": {
+    "message": "이 권한들이 필요한 이유"
+  },
+  "helpPermissionsBody": {
+    "message": "설치 때 뜨는 '모든 사이트의 데이터 읽기 및 변경' 경고는 피할 수 없는 것입니다. 쿠키는 방문하는 어느 사이트의 것이든 될 수 있으므로 삭제하려면 모든 사이트 접근이 필요합니다. 이 권한은 쿠키와 사이트 데이터를 읽고 지우는 데만 쓰입니다 — 페이지 내용을 읽는 일도, 서버와 통신하는 일도 없습니다(서버 자체가 없습니다).\n\n나머지는 간단히. 쿠키: 배지 카운트를 위해 사이트의 쿠키를 나열하고 삭제. 브라우징 데이터: 선택 항목 — 캐시, IndexedDB, LocalStorage, 플러그인 데이터, 서비스 워커 — 삭제. 저장소: 설정과 유지 규칙을 로컬에 저장. 알람: 대기 중 브라우저가 확장 프로그램을 재워도 지연 정리를 제때 실행. 탭: 어떤 사이트가 열려 있는지 파악(열린 사이트는 보호됨)하고 탭이 닫히거나 사이트를 떠나는 것을 감지. 활성 탭과 Scripting: 팝업의 사이트별 동작 실행. 컨텍스트 메뉴와 알림: 설정에서 끌 수 있는 두 가지 선택 기능.\n\n일부러 없는 것: 방문 기록, 웹 요청 가로채기, 그리고 어떤 네트워크 접근도. 확장 프로그램은 당신이 무엇을 입력하고 어떤 페이지를 읽는지 볼 수 없습니다."
+  },
+  "helpTroubleshootingTitle": {
+    "message": "문제 해결과 FAQ"
+  },
+  "helpTroubleshootingBody": {
+    "message": "사이트에서 로그아웃됐나요? 가능성 순서대로: 사이트에 유지 규칙이 없음(또는 정확한 호스트 이름만 있고 로그인은 하위 도메인에 있음 — *.example.com 형식을 쓰세요); 재시작까지 사이트인데 브라우저가 재시작됨; 일치한 규칙이 이름 지정 쿠키만 유지하는데 로그인 쿠키가 체크 안 됨; 아니면 사이트 쿠키가 그냥 만료됨. 추측하지 마세요 — 정리 로그가 발동한 규칙을 정확히 알려 줍니다.\n\n정리 직후 쿠키가 되살아나나요? 거의 항상 사이트가 아직 어느 탭에 열려 있는 경우입니다 — 열린 사이트는 언제든 쿠키를 다시 만들 수 있고 어차피 보호됩니다.\n\n정리가 안 됐나요? 순서대로 확인: 자동 정리가 켜져 있음(팝업 머리글에 표시); 사이트가 다른 탭에 열려 있지 않음; 유예 시간이 지남; 유지 규칙이 일치하지 않음; 잠자는 탭이 아니었음(그 고급 설정이 켜져 있어야만 닫힌 것으로 침).\n\n사이트 데이터 정리를 켰는데 옛 데이터가 남아 있나요? 브라우저는 다시 방문하는 사이트에 한해서만 그 유형들을 지우게 해 줍니다. 잔여물은 다음 방문까지 남습니다.\n\n시크릿 모드? 허용해야만 동작합니다: 브라우저의 확장 프로그램 페이지 → 시크릿 모드에서 허용. 시크릿 모드는 자체 쿠키 저장소와 저장한 사이트를 가지며 로그에는 절대 기록되지 않습니다.\n\n여전히 막혔나요? 지원 페이지에 버전, 복사 가능한 디버그 블록, 버그 신고 링크가 있습니다. 디버그 모드(고급)를 켜면 확장 프로그램이 모든 결정을 서비스 워커 콘솔에 서술합니다. 쿠키 값은 가려집니다."
   }
 }

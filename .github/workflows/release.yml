@@ -28,6 +28,8 @@ jobs:
 
       - run: just format_check
 
+      - run: just check_locales
+
       - run: just test
 
       - run: just release_check

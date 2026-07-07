@@ -1,19 +1,15 @@
 {
   "aboutText": {
-    "message": "О расширении",
-    "description": "About"
+    "message": "О расширении"
   },
   "activeModeDelayText": {
-    "message": "Задержка перед автоматической очисткой",
-    "description": "Delay Before Automatic Cleaning"
+    "message": "Отсрочка"
   },
   "activeModeText": {
-    "message": "Включить автоматическую очистку",
-    "description": "Enable Automatic Cleaning"
+    "message": "Чистить автоматически"
   },
   "activityLogSiteDataDomainsText": {
-    "message": "Выполнена очистка $siteData$ для: $domains$",
-    "description": "Invoked cleanup of $siteData$ for: $domains$. Found in Activity Log Detailed Entries.",
+    "message": "Удалено $siteData$ для: $domains$",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -26,8 +22,7 @@
     }
   },
   "addNewExpressionNotification": {
-    "message": "Добавление $expression$ в список типа $listType$ под cookie магазином $cookieStore$.",
-    "description": "Adding $expression$ to list type $listType$ under cookie store $cookieStore$. Used in notification when right-click action was performed.",
+    "message": "$expression$ сохранено в списке $listType$ (хранилище куки: $cookieStore$).",
     "placeholders": {
       "expression": {
         "content": "$1",
@@ -39,101 +34,78 @@
       },
       "cookieStore": {
         "content": "$3",
-        "example": "'default' -or- 'firefox-container-1 (Personal)'"
+        "example": "'default' -or- 'private'"
       }
     }
   },
   "addNewExpressionNotificationFailed": {
-    "message": "Не удалось получить домен из места вызова контекстного меню.",
-    "description": "Could not fetch domain to add from where right-click was issued."
+    "message": "Не удалось распознать домен в месте правого клика."
   },
   "addNewExpressionNotificationIgnore": {
-    "message": "Если выражение уже существует, это будет игнорироваться.",
-    "description": "If expression already exists, this will be ignored. Used in notification when right-click action was performed."
+    "message": "Дубликаты пропускаются автоматически."
   },
   "autoDeleteDisabledText": {
-    "message": "Автоочистка выключена",
-    "description": "Auto-clean disabled"
+    "message": "Автоочистка выключена"
   },
   "autoDeleteEnabledText": {
-    "message": "Автоочистка включена",
-    "description": "Auto-clean enabled"
+    "message": "Автоочистка включена"
+  },
+  "browsingDataNoEmptyWarning": {
+    "message": "Внимание: включение этого не затрагивает данные, сохранённые сайтами ранее. Остатки сайта становятся доступными для очистки только после повторного посещения — до тех пор они остаются, даже у сайтов, от которых вы хотели бы избавиться."
   },
   "browsingDataWarning": {
-    "message": "ПРЕДУПРЕЖДЕНИЕ: При включении любого из следующих параметров очистки данных сайта все существующие данные для этого типа будут очищены.",
-    "description": "WARNING: Upon enabling any of the following site data cleanup options, ALL existing data for that type will be cleared. Found in CAD Settings"
+    "message": "Осторожно: включение любого из типов очистки ниже немедленно стирает ВСЕ сохранённые данные этого типа у всех сайтов."
   },
   "cacheCleanupText": {
-    "message": "Включить очистку кэша (Firefox 78+, Chrome 74+)",
-    "description": "Enable Cache Cleanup (Firefox 78+, Chrome 74+). Found in CAD Settings."
+    "message": "Включить очистку кэша"
   },
   "cacheText": {
-    "message": "Кэш",
-    "description": "Cache. Primarily used in notifications."
+    "message": "Кэш"
   },
   "chromeDebugMode": {
-    "message": "Убедитесь, что 'Режим разработчика' включен, а затем нажмите на 'фоновая страница' напротив 'Отладка страниц'.",
-    "description": "Ensure 'Developer Mode' is enabled, then click on 'background page' under Inspect View. This is shown if debug mode is enabled."
+    "message": "Включите «Режим разработчика», затем откройте консоль сервис-воркера по ссылке «Проверить представления»."
   },
   "cleanDiscardedText": {
-    "message": "Включить очистку для выгруженных/незагруженных вкладок",
-    "description": "Enable Cleanup for Discarded/Unloaded Tabs. Found in Settings."
+    "message": "Считать спящие вкладки закрытыми"
   },
   "cleanExpiredCookiesText": {
-    "message": "Очистить все устаревшие куки",
-    "description": "Clean All Expired Cookies. Found in Settings."
+    "message": "Всегда удалять просроченные куки"
   },
   "cleanIgnoringOpenTabsText": {
-    "message": "Очистить, включая открытые вкладки",
-    "description": "Clean, include open tabs. Found in the additional cleanup options in the popup."
+    "message": "Чистить, включая открытые вкладки"
   },
   "cleanText": {
-    "message": "Очистить",
-    "description": "Clean"
+    "message": "Очистить"
   },
   "cleanupDomainChangeText": {
-    "message": "Включить очистку при смене домена",
-    "description": "Enable Cleanup on Domain Change"
+    "message": "Чистить при уходе с сайта"
   },
   "cleanupActionsBypass": {
-    "message": "Предупреждение - Действия ниже игнорируют настройки!",
-    "description": "Warning - Actions below ignore settings! Found in the additional cleanup options in the popup."
+    "message": "Осторожно — эти кнопки игнорируют ваши списки хранения и чистят немедленно!"
   },
   "cleanupLogText": {
-    "message": "Журнал очистки",
-    "description": "Cleanup Log"
+    "message": "Журнал очистки"
   },
   "clearLogsText": {
-    "message": "Очистить журнал",
-    "description": "Clear Logs"
+    "message": "Очистить журнал"
   },
   "consoleDebugMode": {
-    "message": "Нажмите на вкладку 'Консоль'",
-    "description": "Click on the Console Tab. Found after enabling debug mode."
-  },
-  "containerSiteDataWarning": {
-    "message": "ПРЕДУПРЕЖДЕНИЕ: включение вкладок контейнеров с любой из вышеперечисленных дополнительных очистки данных может привести к нежелательным побочным эффектам из-за ограничений API браузера. Типы данных сайта, за исключением cookies, будут очищены по имени хоста для ВСЕХ контейнеров.",
-    "description": "WARNING: Enabling Container Tabs with any of the additional browsing data cleanups above may cause unwanted side effects due to browser API limitations. Site data types, with the exception of cookies, will be cleared by hostname for ALL containers. Found in CAD Settings."
+    "message": "Перейдите на вкладку «Консоль»."
   },
   "contextMenusParentClean": {
-    "message": "Меню ручной очистки",
-    "description": "Manual Cleaning Menu. Shown on right-clicks of Page/Browser Action."
+    "message": "Ручная очистка"
   },
   "contextMenusParentExpression": {
-    "message": "Добавить домен/выражение",
-    "description": "Add Domain/Expression Menu. Shown on right-clicks of Page/Link/Selection."
+    "message": "Добавить в списки хранения"
   },
   "contextMenusSelectedDomainLink": {
-    "message": "Только для домена из выбранной ссылки",
-    "description": "For domain only of selected link. Shown in right-click menu."
+    "message": "Только домен этой ссылки"
   },
   "contextMenusSelectedDomainPage": {
-    "message": "Только для домена из текущей страницы",
-    "description": "For domain only of selected page. Shown in right-click menu."
+    "message": "Только домен этой страницы"
   },
   "contextMenusSelectedDomainText": {
-    "message": "Только для домена из выделенного текста: $selected$",
-    "description": "For domain only of selected text: $selected$. Shown in right-click menu.",
+    "message": "Только домен: $selected$",
     "placeholders": {
       "selected": {
         "content": "$1",
@@ -142,16 +114,13 @@
     }
   },
   "contextMenusSelectedSubdomainLink": {
-    "message": "Для всех поддоменов и домена из выбранной ссылки",
-    "description": "For all subdomains with domain of selected link. Shown in right-click menu."
+    "message": "Домен ссылки со всеми поддоменами"
   },
   "contextMenusSelectedSubdomainPage": {
-    "message": "Для всех поддоменов и домена из текущей страницы",
-    "description": "For all subdomains with domain of selected page. Shown in right-click menu."
+    "message": "Домен этой страницы со всеми поддоменами"
   },
   "contextMenusSelectedSubdomainText": {
-    "message": "Для всех поддоменов и домена из выделенного текста: $selected$",
-    "description": "For all subdomains with domain of selected text: $selected$. Shown in right-click menu.",
+    "message": "Все поддомены: $selected$",
     "placeholders": {
       "selected": {
         "content": "$1",
@@ -159,151 +128,113 @@
       }
     }
   },
-  "contextualIdentitiesEnabledText": {
-    "message": "Включить поддержку вкладок контейнеров",
-    "description": "Enable Support for Container Tabs. Currently only in Firefox."
-  },
-  "contributeText": {
-    "message": "Внести свой вклад",
-    "description": "Contribute"
-  },
   "contributorsText": {
-    "message": "Участники проекта",
-    "description": "Contributors"
+    "message": "Участники"
   },
   "cookiesText": {
-    "message": "Куки",
-    "description": "Cookies. Primarily used in popup via alternate clean action dropdown."
+    "message": "Куки"
   },
   "cookieCleanUpOnStartText": {
-    "message": "Очищать куки и другие данные сайта при запуске",
-    "description": "Clean Cookies and other Site Data from Open Tabs on Startup"
+    "message": "Чистить восстановленные вкладки при запуске"
   },
   "cookieCleanupIgnoreOpenTabsText": {
-    "message": "Выполнить очистку сейчас, включить домены из открытых вкладок",
-    "description": "Run cleanup now, include cookies from open tabs. This is shown on mouseover from the available dropdown buttons."
+    "message": "Очистить сейчас, включая сайты в открытых вкладках"
   },
   "cookieCleanupText": {
-    "message": "Запустить очистку сейчас, исключить домены из открытых вкладок",
-    "description": "Run cleanup now, exclude domains from open tabs. This is shown on mouseover on the button."
+    "message": "Очистить сейчас, пропуская сайты в открытых вкладках"
+  },
+  "copyDebugSettingText": {
+    "message": "Копия ваших текущих настроек. Вставьте её в GitHub-issue, если это уместно."
+  },
+  "copyDebugSystemText": {
+    "message": "Сведения о вашей системе. Вставьте их в соответствующий раздел GitHub-issue."
+  },
+  "copyFailedText": {
+    "message": "Не удалось скопировать автоматически — выделите текст и скопируйте его сами."
+  },
+  "copySuccessText": {
+    "message": "Скопировано!"
+  },
+  "copyToClipboardText": {
+    "message": "Скопировать в буфер обмена"
   },
   "createDefaultExpressionOptionsText": {
-    "message": "Создать параметры выражения по умолчанию",
-    "description": "Create Default Expression Options. Used in 'List of Expressions'"
-  },
-  "currentContainerInfo": {
-    "message": "Выбранный контейнер: $ID$ ( $Name$)",
-    "description": "Current Container Selected: $ID$ ( $Name ). Found in List of Expressions only if Firefox containers enabled.",
-    "placeholders": {
-      "ID": {
-        "content": "$1",
-        "example": "firefox-container-1"
-      },
-      "Name": {
-        "content": "$2",
-        "example": "Personal (whatever the user has named the container) - or - translated version of 'Invalid Container'"
-      }
-    }
+    "message": "Создать параметры по умолчанию"
   },
   "debugMode": {
-    "message": "Включить режим отладки (дополнительные сообщения в консоли)",
-    "description": "Enable Debug Mode (Additional Console Outputs). Found in CAD Settings."
+    "message": "Режим отладки"
   },
-  "defaultText": {
-    "message": "По умолчанию",
-    "description": "Default. Used in List of Expression in Firefox for Default / No Container."
-  },
-  "defaultContainerText": {
-    "message": "Нет контейнера",
-    "description": "No Container. This will be in brackets. Used in List of Expression in Firefox for Default / No Container"
+  "debugTitle": {
+    "message": "Отладочная информация"
   },
   "defaultSettingsText": {
-    "message": "Восстановить первоначальные настройки",
-    "description": "Restore Default Settings"
+    "message": "Сбросить настройки к значениям по умолчанию"
   },
   "disableAutoDeleteText": {
-    "message": "Переключите, чтобы отключить автоматическую очистку (ручной режим)",
-    "description": "Toggle to disable automatic cleanup (manual mode)"
+    "message": "Выключить автоматическую очистку (ручной режим)"
   },
   "documentationText": {
-    "message": "Документация",
-    "description": "Documentation"
+    "message": "Документация"
   },
   "domainExpressionsText": {
-    "message": "Выражение для домена",
-    "description": "Domain Expression"
+    "message": "Сайт"
+  },
+  "domainPlaceholderText": {
+    "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/"
   },
   "dropdownAdditionalCleaningOptions": {
-    "message": "Переключить выпадающий список дополнительных действий по очистке",
-    "description": "(Screen-readers only) - Toggle Additional Cleaning Actions Dropdown"
+    "message": "Ещё действия очистки"
   },
   "editExpressionText": {
-    "message": "Редактировать правило",
-    "description": "Edit expression"
+    "message": "Изменить выражение"
   },
   "enableAutoDeleteText": {
-    "message": "Переключите, чтобы включить автоматическую очистку (автоматический режим)",
-    "description": "Toggle to enable automatic cleanup (automatic mode)"
+    "message": "Включить автоматическую очистку"
   },
   "enableCleanupLogText": {
-    "message": "Включить журнал очистки и счётчик",
-    "description": "Enable Cleanup Log and Counter"
+    "message": "Вести журнал очистки"
   },
   "enableContextMenus": {
-    "message": "Включить контекстное меню (меню по правому клику)",
-    "description": "Enable Context Menus (Right-Click Menu). Shown in CAD Settings"
+    "message": "Действия в контекстном меню"
   },
   "enableGreyListCleanup": {
-    "message": "Включить очистку серого списка при перезапуске браузера",
-    "description": "Enable Greylist Cleanup on Browser Restart"
+    "message": "Сеансовые правила хранения"
   },
   "enableNewVersionPopup": {
-    "message": "Включить всплывающее окно при выпуске новой версии",
-    "description": "Enable Popup when New Version is Released"
+    "message": "Показывать заметки о выпуске после обновлений"
   },
   "errorText": {
-    "message": "Ошибка!",
-    "description": "Error!"
+    "message": "Ошибка!"
   },
   "exportSettingsText": {
-    "message": "Экспортировать настройки...",
-    "description": "Export Core Settings... Found in CAD Settings."
+    "message": "Экспорт настроек..."
   },
   "exportURLSText": {
-    "message": "Экспорт выражений...",
-    "description": "Export Expressions... Found in List of Expressions."
+    "message": "Экспорт сохранённых сайтов"
   },
   "exportTitleTimestamp": {
-    "message": "Временная метка будет добавлена к имени файла при экспорте.",
-    "description": "A timestamp will be appended to the filename on export."
+    "message": "К именам экспортированных файлов добавляется отметка времени."
   },
   "extensionDescription": {
-    "message": "Контролируйте ваши куки! Автоматически очищайте неиспользуемые куки закрытых вкладок, оставляя только те, которые вам нужны.",
-    "description": "Control your cookies! Automatically delete unwanted cookies from your closed tabs while keeping the ones you want."
+    "message": "Прибирает за вашими вкладками: закрыли вкладку — её куки и данные сайта стёрты, кроме сайтов из ваших списков хранения."
   },
   "extensionName": {
-    "message": "Auto-Delete Cookies for Privacy",
-    "description": "Name of the extension."
+    "message": "Auto-Delete Cookies for Privacy"
   },
   "faqText": {
-    "message": "Часто задаваемые вопросы, распространенные проблемы и решения",
-    "description": "Frequently Asked Questions, Common issues and solutions"
+    "message": "Вопросы и устранение неполадок"
   },
   "filterDebugMode": {
-    "message": "Чтобы увидеть только отладочные сообщения этого расширения, отфильтруйте вывод по этой строке:",
-    "description": "To see only debug outputs by this extension, filter output by the following line. Found after enabling debug mode."
+    "message": "Чтобы видеть только сообщения этого расширения, вставьте это в поле фильтра консоли:"
   },
   "filterText": {
-    "message": "Фильтр",
-    "description": "Filter"
+    "message": "Фильтр"
   },
   "greyListWordText": {
-    "message": "Серый список",
-    "description": "Greylist"
+    "message": "Серый список"
   },
   "groupExpressionDefaultNotice": {
-    "message": "Хотите установить параметры выражения по умолчанию для новых выражений? Оно было расширено как вариант выражения! Посетите $listExpression$ , чтобы начать!",
-    "description": "Looking to set default expression options for new expressions?  It has been enhanced to be an expression option itself!  Visit $listExpression$ to get started!  Shown in Settings",
+    "message": "Параметры по умолчанию для новых выражений теперь живут в самом выражении — откройте $listExpression$, чтобы их задать.",
     "placeholders": {
       "listExpression": {
         "content": "$1",
@@ -312,112 +243,159 @@
     }
   },
   "importCoreSettingsFailed": {
-    "message": "Не удалось импортировать настройки - Найден неизвестный параметр",
-    "description": "Import Core Settings Failed - Found unknown setting"
+    "message": "Импорт настроек прерван: файл содержит неизвестную настройку."
   },
   "importCoreSettingsText": {
-    "message": "Импортировать настройки...",
-    "description": "Import Core Settings... Found in CAD Settings."
+    "message": "Импорт настроек..."
+  },
+  "importFileNotFound": {
+    "message": "Нет такого файла: $filename$",
+    "placeholders": {
+      "filename": {
+        "content": "$1",
+        "example": "filename.json"
+      }
+    }
   },
   "importFileTypeInvalid": {
-    "message": "Файл данного типа не поддерживается",
-    "description": "File given is not a type we handle"
+    "message": "Этот тип файла не поддерживается при импорте."
   },
   "importFileValidationFailed": {
-    "message": "Файл не прошел проверку",
-    "description": "File given failed validation"
+    "message": "Файл не прошёл проверку."
+  },
+  "importInvalidExpressions": {
+    "message": "Некоторые импортированные выражения оказались некорректными; каждое перечислено ниже с причиной. Исправьте их в файле и импортируйте снова."
+  },
+  "importListNotArray": {
+    "message": "$identifier$ должен быть массивом, но им не является.",
+    "placeholders": {
+      "identifier": {
+        "content": "$1",
+        "example": "jsonObjectKey"
+      }
+    }
   },
   "importMissingKey": {
-    "message": "Отсутствует идентификатор",
-    "description": "Missing identifier"
+    "message": "Отсутствует идентификатор"
   },
   "importURLSText": {
-    "message": "Импортировать правила...",
-    "description": "Import Expressions... Found in List of Expressions."
+    "message": "Импорт сохранённых сайтов"
+  },
+  "importValidExpressions": {
+    "message": "Импортировано выражений: $num$ из $filename$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "filename": {
+        "content": "$2",
+        "example": "filename.json"
+      }
+    }
   },
   "indexedDBCleanupText": {
-    "message": "Включить очистку IndexedDB (Firefox 77+, Chrome 74+)",
-    "description": "Enable IndexedDB Cleanup (Firefox 77+, Chrome 74+). Found in CAD Settings."
+    "message": "Включить очистку IndexedDB"
   },
   "indexedDBText": {
-    "message": "ИндексБД",
-    "description": "IndexedDB. Primarily used in notifications."
+    "message": "IndexedDB"
+  },
+  "inputErrorComma": {
+    "message": "Запятым место только в регулярных выражениях."
+  },
+  "inputErrorEmpty": {
+    "message": "Выражение не может быть пустым."
+  },
+  "inputErrorRegExp": {
+    "message": "Некорректное регулярное выражение: $RegexError$",
+    "placeholders": {
+      "RegexError": {
+        "content": "$1",
+        "example": "SyntaxError:  unterminated character class."
+      }
+    }
+  },
+  "inputErrorSlashEndMissingStart": {
+    "message": "Заканчивается косой чертой, но не начинается с неё. Для обычного домена уберите черту в конце; для регулярного выражения добавьте её в начале."
+  },
+  "inputErrorSlashStartMissingEnd": {
+    "message": "Начинается с косой черты, но не закрывает её. Добавьте черту в конце, чтобы завершить регулярное выражение."
+  },
+  "inputErrorSpace": {
+    "message": "Имена хостов не могут содержать пробелы."
+  },
+  "inputAddSuccess": {
+    "message": "Добавлено выражений: $num$ в активный список как $listType$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "GreyList"
+      }
+    }
+  },
+  "invalidNewExpressions": {
+    "message": "Некоторые новые выражения оказались некорректными; они остаются выше для правки, причины перечислены ниже."
   },
   "keepAllCookiesText": {
-    "message": "Сохранять все куки",
-    "description": "Keep All Cookies. Found in Expression Options. For Whitelist entries."
+    "message": "Хранить все куки"
   },
   "keepAllCookiesGreyText": {
-    "message": "Сохранить все Cookie до перезапуска",
-    "description": "Keep All Cookies until restart. Found in Expression Options. For Greylist entries."
+    "message": "Хранить все куки до перезапуска"
   },
   "keepCacheText": {
-    "message": "Оставить кэш",
-    "description": "Keep Cache. Found in Expression Options. For Whitelist entries."
+    "message": "Хранить кэш"
   },
   "keepCacheGreyText": {
-    "message": "Сохранять кэш до перезапуска",
-    "description": "Keep Cache until restart. Found in Expression Options. For Greylist entries."
+    "message": "Хранить кэш до перезапуска"
   },
   "keepDefaultIcon": {
-    "message": "Сохранять значки по умолчанию во всех списках",
-    "description": "Keep Default Icons on all list types. Disabled: keep blue icon, grey for automatic cleaning disabled. Enabled: red/yellow/blue depending on matching expressions in list."
+    "message": "Оставить простой значок"
   },
   "keepIndexedDBText": {
-    "message": "Оставить IndexedDB",
-    "description": "Keep IndexedDB. Found in Expression Options. For Whitelist entries."
+    "message": "Хранить IndexedDB"
   },
   "keepIndexedDBGreyText": {
-    "message": "Сохранить IndexedDB до перезапуска",
-    "description": "Keep IndexedDB until restart. Found in Expression Options. For Greylist entries."
+    "message": "Хранить IndexedDB до перезапуска"
   },
   "keepLocalstorageText": {
-    "message": "Сохранять локальное хранилище",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries."
+    "message": "Хранить LocalStorage"
   },
   "keepLocalstorageGreyText": {
-    "message": "Сохранить локальное хранилище до перезапуска",
-    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries."
+    "message": "Хранить LocalStorage до перезапуска"
   },
   "keepPluginDataText": {
-    "message": "Сохранить данные плагинов",
-    "description": "Keep Plugin Data. Found in Expression Options. For Whitelist entries."
+    "message": "Хранить данные плагинов"
   },
   "keepPluginDataGreyText": {
-    "message": "Сохранить данные плагинов до перезапуска",
-    "description": "Keep Plugin Data until restart. Found in Expression Options. For Greylist entries."
+    "message": "Хранить данные плагинов до перезапуска"
   },
   "keepServiceWorkersText": {
-    "message": "Оставить сервисных рабочих",
-    "description": "Keep Service Workers. Found in Expression Options. For Whitelist entries."
+    "message": "Хранить сервис-воркеры"
   },
   "keepServiceWorkersGreyText": {
-    "message": "Оставить сервисных рабочих до перезапуска",
-    "description": "Keep Service Workers until restart. Found in Expression Options. For Greylist entries."
+    "message": "Хранить сервис-воркеры до перезапуска"
   },
   "keepText": {
-    "message": "Оставить",
-    "description": "Keep"
+    "message": "Хранить"
   },
   "listTypeText": {
-    "message": "Тип списка",
-    "description": "List Type"
+    "message": "Как долго"
   },
   "localStorageCleanupText": {
-    "message": "Включить локальную очистку хранилища (Firefox 58+, Chrome 74+)",
-    "description": "Enable LocalStorage Cleanup (Firefox 58+, Chrome 74+). Found in CAD Settings."
+    "message": "Включить очистку LocalStorage"
   },
   "localStorageText": {
-    "message": "Локальное хранилище",
-    "description": "LocalStorage. Primarily used in notifications."
+    "message": "LocalStorage"
   },
   "manualActionNotification": {
-    "message": "Уведомление о действии пользователя",
-    "description": "Manual Action Notification - used as Notification Title."
+    "message": "Ручная очистка"
   },
   "manualCleanError": {
-    "message": "$siteData$ не может быть очищено для вкладки:",
-    "description": "$siteData$ cannot be cleaned for tab:. Shown as notification if manual clean cookies cannot be done.",
+    "message": "Не удалось очистить $siteData$ для этой вкладки:",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -426,8 +404,7 @@
     }
   },
   "manualCleanNothing": {
-    "message": "$siteData$ для $url$ не содержит элементов для очистки.",
-    "description": "No $siteData$ were found for cleaning on $url$. Used in notification after manual clean.",
+    "message": "Нечего чистить: $siteData$ не найдено на $url$.",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -441,7 +418,6 @@
   },
   "manualCleanRemoved": {
     "message": "Удалено $deleted$ из $total$.",
-    "description": "Removed $deleted$ of $total$. Used as part of success notification on manual clean.",
     "placeholders": {
       "deleted": {
         "content": "$1",
@@ -454,12 +430,10 @@
     }
   },
   "manualCleanSiteDataAll": {
-    "message": "Очистить все для этого домена",
-    "description": "Clean All for this domain. Found in Popup clean dropdown menu."
+    "message": "Стереть всё у этого сайта"
   },
   "manualCleanSiteDataAllDomain": {
-    "message": "Очистить все данные сайта для $domain$",
-    "description": "Clear all site data for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Стереть все данные, сохранённые $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -468,12 +442,10 @@
     }
   },
   "manualCleanSiteDataCache": {
-    "message": "Очистить кэш для этого домена",
-    "description": "Clean Cache for this domain. Found in Popup clean dropdown menu."
+    "message": "Стереть кэш этого сайта"
   },
   "manualCleanSiteDataCacheDomain": {
-    "message": "Очистить весь кэш $domain$",
-    "description": "Clear all Cache for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Стереть весь кэш, сохранённый $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -482,12 +454,10 @@
     }
   },
   "manualCleanSiteDataCookies": {
-    "message": "Очистить куки для этого домена",
-    "description": "Clean Cookies for this domain. Found in Popup clean dropdown menu."
+    "message": "Стереть куки этого сайта"
   },
   "manualCleanSiteDataCookiesDomain": {
-    "message": "Очистить все Cookie для $domain$",
-    "description": "Clear all Cookies for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Стереть все куки, сохранённые $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -496,12 +466,10 @@
     }
   },
   "manualCleanSiteDataIndexedDB": {
-    "message": "Очистить IndexedDB для этого домена",
-    "description": "Clean IndexedDB for this domain. Found in Popup clean dropdown menu."
+    "message": "Стереть IndexedDB этого сайта"
   },
   "manualCleanSiteDataIndexedDBDomain": {
-    "message": "Очистить все IndexedDB для $domain$",
-    "description": "Clear all IndexedDB for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Стереть все данные IndexedDB, сохранённые $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -510,12 +478,10 @@
     }
   },
   "manualCleanSiteDataLocalStorage": {
-    "message": "Очистить локальное хранилище для этого домена",
-    "description": "Clean LocalStorage for this domain. Found in Popup clean dropdown menu."
+    "message": "Стереть LocalStorage этого сайта"
   },
   "manualCleanSiteDataLocalStorageDomain": {
-    "message": "Очистить все локальное хранилище для $domain$",
-    "description": "Clear all LocalStorage for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Стереть весь LocalStorage, сохранённый $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -524,12 +490,10 @@
     }
   },
   "manualCleanSiteDataPluginData": {
-    "message": "Очистить данные плагинов для этого домена",
-    "description": "Clean Plugin Data for this domain. Found in Popup clean dropdown menu."
+    "message": "Стереть данные плагинов этого сайта"
   },
   "manualCleanSiteDataPluginDataDomain": {
-    "message": "Очистить все данные плагинов для $domain$",
-    "description": "Clear all Plugin Data for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Стереть все данные плагинов, сохранённые $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -538,12 +502,10 @@
     }
   },
   "manualCleanSiteDataServiceWorkers": {
-    "message": "Очистить сервисные работники для этого домена",
-    "description": "Clean Service Workers for this domain. Found in Popup clean dropdown menu."
+    "message": "Стереть сервис-воркеры этого сайта"
   },
   "manualCleanSiteDataServiceWorkersDomain": {
-    "message": "Очистить все сервисные рабочие для $domain$",
-    "description": "Clear all Service Workers for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Стереть все сервис-воркеры, зарегистрированные $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -552,8 +514,7 @@
     }
   },
   "manualCleanSuccess": {
-    "message": "Результат очистки $siteData$ для $url$:",
-    "description": "Cleanup for $siteData$ on $url$ result:  Shown as notification after successful manual cleaning.",
+    "message": "Итог очистки $siteData$ на $url$:",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -566,48 +527,37 @@
     }
   },
   "manualNotificationsText": {
-    "message": "Показывать уведомления от ручной очистки данных сайта",
-    "description": "Show Notification from Manual Site Data Cleanups. Found in settings"
+    "message": "Уведомлять после ручной очистки"
   },
   "matchedDomainExpressionText": {
-    "message": "Правило соответствующее домену",
-    "description": "Matched Domain Expression"
+    "message": "Совпавшее выражение домена"
   },
   "menuText": {
-    "message": "Меню",
-    "description": "Menu. Only shown when the settings screen is small / when the hamburger icon shows / when the menu is collapsed."
+    "message": "Меню"
   },
   "minutesText": {
-    "message": "минут(ы)",
-    "description": "minute(s)"
-  },
-  "missingContainerText": {
-    "message": "НЕВЕРНЫЙ КОНТАЙН",
-    "description": "INVALID CONTAINER. Shown when a CAD list exists but cannot link id to available containers (Firefox)."
+    "message": "мин."
   },
   "noCleanupLogText": {
-    "message": "Журналов очистки не найдено",
-    "description": "No Cleanup Logs Found"
+    "message": "Журнал очистки пуст."
   },
   "noExpressionsText": {
-    "message": "Правила не заданы.",
-    "description": "No expressions defined."
+    "message": "Вы ещё не добавили ни одного выражения."
   },
   "noPrivateLogging": {
-    "message": "Журнал очистки не будет вестись для вкладок в приватном / инкогнито / InPrivate режиме.",
-    "description": "Cleanup Logs will not be generated for tabs in Private Browsing / Incognito / InPrivate."
+    "message": "Приватные вкладки/инкогнито никогда не попадают в журнал."
+  },
+  "noSearchExpressionsFound": {
+    "message": "По вашему запросу ничего не найдено."
   },
   "noRulesText": {
-    "message": "Нет правил для этого домена.",
-    "description": "No rules matched this domain"
+    "message": "Ни одно выражение не подходит к этому сайту."
   },
   "noneText": {
-    "message": "Без фильтра",
-    "description": "None"
+    "message": "Нет"
   },
   "notificationContent": {
-    "message": "Некоторые данные сайта, включая $Num$ Cookie(ы), удалены из $total$ доменов(ов), включая: $Websites$",
-    "description": "Some site data, including 123 Cookie(s), removed from 8 domain(s), including: google.com, facebook.com",
+    "message": "Удалены данные сайтов — куки: $Num$ с $total$ сайта(ов), в том числе: $Websites$",
     "placeholders": {
       "num": {
         "content": "$1",
@@ -624,64 +574,58 @@
     }
   },
   "notificationDisabledText": {
-    "message": "Уведомления отключены",
-    "description": "Notification disabled"
+    "message": "Уведомления выключены"
   },
   "notificationEnabledText": {
-    "message": "Уведомления включены",
-    "description": "Notification enabled"
+    "message": "Уведомления включены"
   },
   "notificationTitle": {
-    "message": "Куки удалены!",
-    "description": "Cookies were deleted!  Used in Notification Title."
+    "message": "Куки очищены"
   },
   "notificationTitleSiteData": {
-    "message": "Срабатывание удаления данных сайта!",
-    "description": "Site Data Removal Triggered!  Used in Notification Title."
+    "message": "Данные сайтов очищены"
   },
   "notifyCookieCleanupDelayText": {
-    "message": "Длительность уведомлений",
-    "description": "Duration for Notifications"
+    "message": "Длительность уведомления"
   },
   "notifyCookieCleanUpText": {
-    "message": "Показывать уведомление после автоматической очистки",
-    "description": "Show Notification After Automatic Cleanup. Found in settings."
+    "message": "Уведомлять после очистки"
   },
   "oldReleasesText": {
-    "message": "Примечания к старым релизам можно посмотреть онлайн",
-    "description": "Older release notes can be viewed online at"
+    "message": "Прежние выпуски перечислены на"
   },
   "openDebugMode": {
-    "message": "Для просмотра отладочных сообщений откройте новую вкладку и посетите",
-    "description": "To view the debug outputs, open a new tab and visit"
+    "message": "Отладочный вывод живёт в консоли расширения. Откройте новую вкладку и перейдите на"
   },
   "optionsText": {
-    "message": "Настройки",
-    "description": "Options"
+    "message": "Что хранится"
   },
   "pluginDataCleanupText": {
-    "message": "Включить очистку данных плагинов (Firefox 78+, Chrome 74+)",
-    "description": "Enable Plugin Data Cleanup (Firefox 78+, Chrome 74+). Found in CAD Settings."
+    "message": "Включить очистку данных плагинов"
   },
   "pluginDataText": {
-    "message": "Данные плагина",
-    "description": "Plugin Data. Primarily used in notifications."
+    "message": "Данные плагинов"
   },
   "popupCookieCountText": {
-    "message": "Куки",
-    "description": "Cookies. Due to visual formatting, Cookie Count will always be located on the right side after the colon. Found in Popup near top-right."
+    "message": "Куки"
   },
   "preferencesText": {
-    "message": "Настройки",
-    "description": "Settings"
+    "message": "Настройки"
   },
   "questionExpression": {
-    "message": "Как работают правила?",
-    "description": "How do Expressions work?"
+    "message": "Как работают шаблоны?"
   },
   "reasonCADSiteDataCookie": {
-    "message": "Очистите, чтобы вызвать очистку данных сайта $hostname$.",
-    "description": "Clean to trigger Site Data cleaning for $hostname$. Found in Activity Log Detailed Entries.",
+    "message": "Внутренняя куки-метка удалена, чтобы запустить очистку данных сайта $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCADSiteDataCookieRestart": {
+    "message": "Внутренняя куки-метка удалена при перезапуске, чтобы запустить очистку данных сайта $hostname$.",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -690,8 +634,16 @@
     }
   },
   "reasonCleanCookieExpired": {
-    "message": "Частичная очистка из-за устаревших cookies от $hostname$.",
-    "description": "Partial clean because of expired cookies from $hostname$. Found in Activity Log Detailed Entries.",
+    "message": "Удалены только просроченные куки с $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpiredRestart": {
+    "message": "Удалены только просроченные куки с $hostname$ при очистке после перезапуска.",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -700,8 +652,7 @@
     }
   },
   "reasonCleanCookieName": {
-    "message": "Частичная очистка из-за наличия $matchedExpression$ в $listType$",
-    "description": "Partial clean because of matched $matchedExpression$ in the $listType$. Used in cleanup logs.",
+    "message": "Выборочная очистка: $matchedExpression$ в списке $listType$ защищает другие куки, но не эту",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -714,8 +665,7 @@
     }
   },
   "reasonCleanGreyList": {
-    "message": "Очищено по причине очистки при запуске и наличия $matchedExpression$ в сером списке",
-    "description": "Clean because of startup cleanup and $matchedExpression$ is in the Greylist. Used in cleanup log.",
+    "message": "Очищено при запуске: $matchedExpression$ находится в сером списке",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -724,8 +674,7 @@
     }
   },
   "reasonCleanNoList": {
-    "message": "Очищено по причине отсутствия $hostname$ в белом/сером списках",
-    "description": "Clean because $hostname$ is not in the White or Grey lists",
+    "message": "Очищено: $hostname$ нет ни в белом, ни в сером списке",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -734,8 +683,7 @@
     }
   },
   "reasonCleanStartupNoList": {
-    "message": "Очищено по причине очистки при запуске и отсутствия $hostname$ в белом/сером списках",
-    "description": "Clean because of startup cleanup and $hostname$ is not in the White or Grey lists",
+    "message": "Очищено при запуске: $hostname$ нет ни в белом, ни в сером списке",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -744,8 +692,7 @@
     }
   },
   "reasonKeep": {
-    "message": "Оставлено по причине наличия $matchedExpression$ в $listType$",
-    "description": "Keep because of matched $matchedExpression$ in the $listType$",
+    "message": "Сохранено: совпало $matchedExpression$ в списке $listType$",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -758,8 +705,7 @@
     }
   },
   "reasonKeepOpenTab": {
-    "message": "Оставлено по причине открытой вкладки для *.$mainDomain$",
-    "description": "Keep because of open tabs of *.$mainDomain$",
+    "message": "Сохранено: *.$mainDomain$ всё ещё открыт во вкладке",
     "placeholders": {
       "mainDomain": {
         "content": "$1",
@@ -768,28 +714,22 @@
     }
   },
   "reasonTabsWereIgnored": {
-    "message": "а открытые вкладки были проигнорированы",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] and also open tabs were ignored"
+    "message": "(открытые вкладки в этот раз игнорировались)"
   },
   "reasonTabsWereNotIgnored": {
-    "message": "или в какой-либо открытой вкладке",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] or in any open tabs"
+    "message": "(и не открыт ни в одной вкладке)"
   },
   "releaseNotesText": {
-    "message": "Примечания к выпуску",
-    "description": "Release Notes"
+    "message": "Заметки о выпуске"
   },
   "removeActivityLogEntryText": {
-    "message": "Удалить запись журнала",
-    "description": "Remove Log Entry. Shown in summary activity log for individual log removal."
+    "message": "Удалить запись журнала"
   },
   "removeAllExpressions": {
-    "message": "Удалить все выражения",
-    "description": "Remove All Expressions"
+    "message": "Удалить все"
   },
   "removeAllExpressionsConfirm": {
-    "message": "Вы уверены, что хотите удалить ВСЕ ($expressionCount$) сохраненные выражения из списка ($listCount$))?\n\nЭТО НЕ МОЖЕТ БЫТЬ ОТМЕНЕНО!\n\nНапишите [ $expressionCount$ ] и нажмите ОК для удаления.",
-    "description": "Are you sure you want to remove ALL ($expressionCount$) saved expression(s) from ($listCount$) list(s)?\n\nTHIS CANNOT BE UNDONE!\n\nType [ $expressionCount$ ] and click OK to delete. Popup prompt if Delete All Expression is clicked.",
+    "message": "Это навсегда удалит все выражения ($expressionCount$) из списков ($listCount$).\n\nОтменить будет нельзя.\n\nВведите [ $expressionCount$ ] и нажмите ОК для подтверждения.",
     "placeholders": {
       "expressionCount": {
         "content": "$1",
@@ -802,20 +742,16 @@
     }
   },
   "removeAllExpressionsNoneFound": {
-    "message": "Нет выражений для удаления!",
-    "description": "No expressions to remove!"
+    "message": "Удалять нечего — выражений нет."
   },
   "removeExpressionText": {
-    "message": "Удалить правило",
-    "description": "Remove expression"
+    "message": "Удалить выражение"
   },
   "removeListText": {
-    "message": "Удалить все выражения из выбранного списка",
-    "description": "Remove All Expressions from Selected List. Shown in List of Expressions, only on Firefox and if containers/contextual identities is enabled."
+    "message": "Удалить все выражения из выбранного списка"
   },
   "removeStorageCount": {
-    "message": "Удалено $count$ элемент(ов) из $storageType$.",
-    "description": "Removed $count$ item(s) from $storageType$. Used in manual localstorage clean notification.",
+    "message": "Удалено записей: $count$ из $storageType$.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -828,148 +764,147 @@
     }
   },
   "reportIssuesText": {
-    "message": "Сообщить об ошибке или предложить идею",
-    "description": "Report issues and suggest features"
+    "message": "Сообщения об ошибках и идеи"
   },
   "resetCookieCounterText": {
-    "message": "Сбросить счетчики куки",
-    "description": "Reset Cookie Counters. Button in Welcome Page."
+    "message": "Сбросить счётчики куки"
   },
   "resetExtensionDataText": {
-    "message": "Сбросить данные расширения",
-    "description": "Reset Extension Data"
+    "message": "Стереть все данные расширения"
   },
   "restoreText": {
-    "message": "Восстановить",
-    "description": "Restore. Restores cookies that was cleaned up by this extension. Found in Activity Log entries."
-  },
-  "reviewLinkMessage": {
-    "message": "Спасибо за использование $cadTitle$. Если вам понравилось, пожалуйста, оставьте отзыв.",
-    "description": "Thanks for trying out Cookie AutoDelete. If you liked it, then please give a review.",
-    "placeholders": {
-      "cadTitle": {
-        "content": "$1",
-        "example": "Cookie AutoDelete"
-      }
-    }
+    "message": "Восстановить"
   },
   "saveExpressionText": {
-    "message": "Сохранить правило",
-    "description": "Save expression"
+    "message": "Сохранить выражение"
   },
   "secondsText": {
-    "message": "секунд(ы)",
-    "description": "second(s)"
+    "message": "сек."
   },
   "serviceWorkersCleanupText": {
-    "message": "Включить очистку рабочих служб (Firefox 77+, Chrome 74+)",
-    "description": "Enable Service Workers Cleanup (Firefox 77+, Chrome 74+). Found in CAD Settings."
+    "message": "Включить очистку сервис-воркеров"
   },
   "serviceWorkersText": {
-    "message": "Рабочие службы",
-    "description": "Service Workers. Primarily used in notifications."
+    "message": "Сервис-воркеры"
   },
   "sessionStorageText": {
-    "message": "Сессионное хранилище",
-    "description": "SessionStorage. Used in manual localstorage clean notification"
+    "message": "SessionStorage"
   },
   "settingGroupAutoClean": {
-    "message": "Параметры автоматической очистки",
-    "description": "Automatic Cleaning Options"
+    "message": "Время"
   },
   "settingGroupExpression": {
-    "message": "Параметры выражения",
-    "description": "Expression Options"
+    "message": "Параметры выражений"
   },
   "settingGroupExtension": {
-    "message": "Параметры расширения",
-    "description": "Extension Options"
+    "message": "Интерфейс"
   },
   "settingGroupOtherBrowsing": {
-    "message": "Другие параметры очистки данных",
-    "description": "Other Browsing Data Cleanup Options"
+    "message": "Прочие параметры очистки данных браузера"
   },
   "settingsText": {
     "message": "Настройки $CAD$",
-    "description": "$CAD$ Settings",
     "placeholders": {
       "CAD": {
-        "content": "CAD",
-        "example": "CAD - Short form of Cookie AutoDelete"
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "showNumberOfCookiesInIconText": {
-    "message": "Показывать количество куки для этого домена поверх значка",
-    "description": "Show Number of Cookies for that Domain over the Icon"
+    "message": "Число куки на значке панели инструментов"
+  },
+  "siteDataEmptyOnEnable": {
+    "message": "При включении нового типа данных стирать уже сохранённое"
   },
   "siteDataText": {
-    "message": "Данные сайта",
-    "description": "Site Data. Found in Activity Log Summary and Notifications."
+    "message": "Данные сайта"
   },
-  "sizePopupText": {
-    "message": "Размер всплывающего окна (в пикселях)",
-    "description": "Size of Popup (in px). This sets the font size in the Popup."
+  "siteDataPanelTitle": {
+    "message": "Данные, сохранённые этим сайтом"
   },
-  "sizeSettingText": {
-    "message": "Размер страниц настроек (в пикселях)",
-    "description": "Size of Setting Pages (in px). This sets the font size in the Setting Pages."
+  "siteDataLoadingText": {
+    "message": "Проверяем, что хранит этот сайт…"
   },
-  "stopEditingText": {
-    "message": "Отменить редактирование",
-    "description": "Stop editing"
+  "siteDataNotAvailableText": {
+    "message": "Недоступно на этой странице"
   },
-  "successText": {
-    "message": "Успешно!",
-    "description": "Success!"
+  "siteDataEmptyText": {
+    "message": "Сейчас этот сайт ничего не хранит"
   },
-  "toGreyListText": {
-    "message": "Добавить в серый список (очистка при перезапуске браузера)",
-    "description": "Add to Greylist (Clean on Browser Restart)"
-  },
-  "toWhiteListText": {
-    "message": "Добавить в белый список (никогда не очищать)",
-    "description": "Add to Whitelist (Never Clean)"
-  },
-  "toggleNotificationText": {
-    "message": "Переключите, чтобы включить или отключить уведомления",
-    "description": "Toggle to enable or disable notifications"
-  },
-  "toggleToGreyListWordText": {
-    "message": "Перенести в серый список",
-    "description": "Toggle to greylist"
-  },
-  "toggleToWhiteListWordText": {
-    "message": "Перенести в белый список",
-    "description": "Toggle to whitelist"
-  },
-  "versionNumberText": {
-    "message": "Версия $CAD$",
-    "description": "$CAD$ version 3.2.1. The actual number is formatted differently and will be right below this text.",
+  "siteDataUsageText": {
+    "message": "Занято $used$ из $quota$",
     "placeholders": {
-      "CAD": {
+      "used": {
         "content": "$1",
-        "example": "CAD or Cookie AutoDelete"
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
       }
     }
   },
-  "versionText": {
-    "message": "Версия $browser$",
-    "description": "Firefox version",
+  "siteDataSessionCookieText": {
+    "message": "сеансовая"
+  },
+  "siteDataExpiresText": {
+    "message": "истекает $date$",
     "placeholders": {
-      "browser": {
+      "date": {
         "content": "$1",
-        "example": "Firefox"
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "неизвестно"
+  },
+  "siteDataRefreshTitle": {
+    "message": "Обновить"
+  },
+  "sizePopupText": {
+    "message": "Размер шрифта попапа"
+  },
+  "sizeSettingText": {
+    "message": "Размер шрифта настроек"
+  },
+  "stopEditingText": {
+    "message": "Закончить правку"
+  },
+  "successText": {
+    "message": "Готово!"
+  },
+  "toGreyListText": {
+    "message": "Добавить в серый список (хранится до перезапуска браузера)"
+  },
+  "toWhiteListText": {
+    "message": "Добавить в белый список (никогда не чистится)"
+  },
+  "toggleNotificationText": {
+    "message": "Включить или выключить уведомления"
+  },
+  "toggleToGreyListWordText": {
+    "message": "Перевести в серый список"
+  },
+  "toggleToWhiteListWordText": {
+    "message": "Перевести в белый список"
+  },
+  "versionNumberText": {
+    "message": "Версия $CAD$",
+    "placeholders": {
+      "CAD": {
+        "content": "$1",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "welcomeMessage": {
-    "message": "Привет! За время данной сессии с помощью $cadTitle$ было удалено $sessionDeleted$ куки, а общее количество удалённых куки - $totalDeleted$.",
-    "description": "Hi there! During this session, Cookie AutoDelete has deleted 123 cookies and in total 456 cookies.",
+    "message": "$cadTitle$ удалил $sessionDeleted$ куки за этот сеанс браузера и $totalDeleted$ всего с момента установки.",
     "placeholders": {
       "cadTitle": {
         "content": "$1",
-        "example": "Cookie AutoDelete"
+        "example": "Auto-Delete Cookies for Privacy"
       },
       "sessionDeleted": {
         "content": "$2",
@@ -982,15 +917,415 @@
     }
   },
   "welcomeText": {
-    "message": "Добро пожаловать",
-    "description": "Welcome"
+    "message": "Добро пожаловать"
   },
   "expressionListText": {
-    "message": "Список выражений",
-    "description": "List of Expressions"
+    "message": "Список выражений"
   },
   "whiteListWordText": {
-    "message": "Белый список",
-    "description": "Whitelist"
+    "message": "Белый список"
+  },
+  "themeText": {
+    "message": "Тема"
+  },
+  "themeAutoText": {
+    "message": "Авто"
+  },
+  "themeLightText": {
+    "message": "Светлая"
+  },
+  "themeDarkText": {
+    "message": "Тёмная"
+  },
+  "keepLocalStorageText": {
+    "message": "Хранить LocalStorage"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "Хранить LocalStorage до перезапуска"
+  },
+  "popupHeroOnText": {
+    "message": "Автоудаление включено"
+  },
+  "popupHeroForgetText": {
+    "message": "Этот сайт вас не запомнит."
+  },
+  "popupHeroOffText": {
+    "message": "Автоудаление выключено"
+  },
+  "popupHeroOffSubText": {
+    "message": "Автоматически ничего не удаляется."
+  },
+  "popupHeroKeepingText": {
+    "message": "Куки этого сайта сохраняются"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$ в вашем списке хранения",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$ хранится до закрытия браузера",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "будет очищен"
+  },
+  "siteKeptText": {
+    "message": "хранится"
+  },
+  "siteCleanDelayText": {
+    "message": "Куки удаляются через $SECONDS$ с после ухода с этого сайта.",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "Куки этого сайта никогда не удаляются."
+  },
+  "siteKeptSessionStatusText": {
+    "message": "Куки этого сайта остаются до закрытия браузера."
+  },
+  "keepCookiesButtonText": {
+    "message": "Хранить куки этого сайта"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$ и его поддомены удаляться не будут",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "Хранить до закрытия браузера"
+  },
+  "stopKeepingButtonText": {
+    "message": "Больше не хранить этот сайт"
+  },
+  "cleanNowText": {
+    "message": "Очистить сейчас"
+  },
+  "cleanNowTooltipText": {
+    "message": "Удаляет куки сайтов, которые вы не храните — сайты в других открытых вкладках пропускаются."
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "Очистить сейчас, включая открытые вкладки"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "То же, что «Очистить сейчас», но сайты в других вкладках больше не пропускаются. Выживают только хранимые сайты."
+  },
+  "deleteSiteCookiesText": {
+    "message": "Удалить куки этого сайта"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "Удалить куки $DOMAIN$ прямо сейчас, хоть он и открыт. Правила хранения игнорируются только для этого действия.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "Удалить всё, что сохранил этот сайт"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "Удалить всё, что $DOMAIN$ сохранил на этом устройстве: куки, кэш, локальное хранилище, базы данных, воркеры.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "Хранить"
+  },
+  "keepButtonTooltipText": {
+    "message": "Куки этого сайта никогда не удаляются."
+  },
+  "keepSessionButtonText": {
+    "message": "Хранить этот сеанс"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "Куки остаются, пока вы не закроете браузер; при следующем запуске они удаляются."
+  },
+  "noRuleMatchText": {
+    "message": "Ни одно сохранённое правило не подходит к этому сайту"
+  },
+  "matchedRuleText": {
+    "message": "Совпавшее правило: $EXPRESSION$",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "Ещё параметры очистки"
+  },
+  "shareText": {
+    "message": "Поделиться"
+  },
+  "shareTooltipText": {
+    "message": "Расскажите кому-нибудь об этом расширении"
+  },
+  "shareCopyLinkText": {
+    "message": "Скопировать ссылку на страницу расширения"
+  },
+  "shareCopiedText": {
+    "message": "Ссылка скопирована"
+  },
+  "shareEmailText": {
+    "message": "Поделиться по почте"
+  },
+  "moreControlsText": {
+    "message": "Ещё элементы управления…"
+  },
+  "lastCleanSummaryText": {
+    "message": "Последняя очистка: куки: $COUNT$ · $TIME$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "Расширенный режим"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "Показывает экспертные настройки на этой странице и дополнительные элементы в попапе: правила точных доменов, параметры очистки по сайтам и совпавшее правило. По умолчанию выключен — простой вид покрывает обычный случай."
+  },
+  "overviewText": {
+    "message": "Обзор"
+  },
+  "protectionText": {
+    "message": "Защита"
+  },
+  "savedSitesText": {
+    "message": "Сохранённые сайты"
+  },
+  "savedSitesSubText": {
+    "message": "Сайты, которые вы храните. Хранимые сайты держат данные всегда; сеансовые — до закрытия браузера."
+  },
+  "cookiesDeletedSessionText": {
+    "message": "удалено за сеанс"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "удалено всего"
+  },
+  "keptBadgeText": {
+    "message": "Хранится"
+  },
+  "sessionBadgeText": {
+    "message": "До перезапуска"
+  },
+  "toggleToKeepText": {
+    "message": "Перевести в «Хранить»"
+  },
+  "toggleToSessionText": {
+    "message": "Перевести в «Хранить этот сеанс»"
+  },
+  "settingGroupSiteData": {
+    "message": "Что удаляется"
+  },
+  "deleteAllSiteDataText": {
+    "message": "Удалять все данные сайта"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "Куки плюс сохранённые файлы, офлайн-базы и фоновые воркеры — всё, что сайт хранит на вашем устройстве."
+  },
+  "customBadgeText": {
+    "message": "Настроено"
+  },
+  "advancedChooseTypesText": {
+    "message": "Дополнительно — выбрать, что именно удалять"
+  },
+  "patternColumnText": {
+    "message": "Шаблон"
+  },
+  "patternMeaningColumnText": {
+    "message": "Что покрывает"
+  },
+  "patternDomainMeaningText": {
+    "message": "Ровно этот домен"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "Домен и каждый поддомен"
+  },
+  "patternIPMeaningText": {
+    "message": "Один IP-адрес"
+  },
+  "patternCIDRMeaningText": {
+    "message": "Каждый адрес в диапазоне"
+  },
+  "patternRegexMeaningText": {
+    "message": "Дополнительно: регулярное выражение между косыми чертами"
+  },
+  "patternFileMeaningText": {
+    "message": "Локальные файлы, открытые в браузере"
+  },
+  "patternKeepLevelsText": {
+    "message": "«Хранить» сохраняет данные сайта навсегда. «Хранить этот сеанс» — только до закрытия браузера."
+  },
+  "summaryKeepsEverythingText": {
+    "message": "Хранит всё"
+  },
+  "summaryAllCookiesText": {
+    "message": "Все куки"
+  },
+  "toggleOptionsText": {
+    "message": "Показать или скрыть параметры"
+  },
+  "summaryNamedCookiesText": {
+    "message": "Именованных куки: $COUNT$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "Стирает $TYPES$",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "Все сохранённые сайты удалены."
+  },
+  "importFoldedContainersText": {
+    "message": "Записей из старых списков контейнеров слито в основной список: $COUNT$.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
+  },
+  "importExportText": {
+    "message": "Импорт / Экспорт"
+  },
+  "importExportSubText": {
+    "message": "Сделайте резервную копию настроек и сохранённых сайтов, восстановите их из файла или вернитесь к значениям по умолчанию."
+  },
+  "activeModeDescText": {
+    "message": "После закрытия вкладок сайта."
+  },
+  "gracePeriodDescText": {
+    "message": "Подождать перед очисткой — вдруг вы вернётесь."
+  },
+  "domainChangeDescText": {
+    "message": "Чистит прежний сайт вкладки, когда вы уходите в ней на другой."
+  },
+  "greylistDescText": {
+    "message": "Сайты с пометкой «Хранить до закрытия браузера» чистятся при его перезапуске."
+  },
+  "cleanDiscardedDescText": {
+    "message": "Вкладка, усыплённая браузером, считается закрытой для очистки."
+  },
+  "startupCleanDescText": {
+    "message": "Сайты во вкладках, восстановленных из прошлого сеанса, тоже чистятся."
+  },
+  "cleanExpiredDescText": {
+    "message": "Куки с истёкшим сроком удаляются при каждом проходе очистки."
+  },
+  "cleanupLogDescText": {
+    "message": "Питает страницу журнала очистки и счётчики удалённых куки."
+  },
+  "cookieCountIconDescText": {
+    "message": "Показывает, сколько куки сохранил текущий сайт."
+  },
+  "keepDefaultIconDescText": {
+    "message": "Не перекрашивать значок, показывая, хранится ли сайт."
+  },
+  "notifyAutoDescText": {
+    "message": "Короткое уведомление после каждой автоматической очистки."
+  },
+  "notifyDurationDescText": {
+    "message": "Сколько секунд уведомления остаются на экране."
+  },
+  "debugModeDescText": {
+    "message": "Подробное логирование в консоль расширения — для сообщений об ошибках."
+  },
+  "supportText": {
+    "message": "Поддержка"
+  },
+  "helpText": {
+    "message": "Справка"
+  },
+  "helpSubText": {
+    "message": "Всё, что делает расширение, с объяснениями. Каждый раздел открывается отдельно."
+  },
+  "helpGettingStartedTitle": {
+    "message": "С чего начать"
+  },
+  "helpGettingStartedBody": {
+    "message": "Свежие установки начинают в ручном режиме: ничего не удаляется, пока вы не скажете. Это сделано намеренно — сначала соберите список хранения, чтобы включение автоочистки потом не разлогинило вас везде, где важно.\n\n1. Сохраните важные сайты. Зайдите на каждый сайт, где выход из аккаунта раздражал бы (почта, банк, всё платное), нажмите значок на панели и кнопку «Хранить куки этого сайта». Правило покрывает домен и все поддомены. Для сайтов, которые должны помнить вас только в этот раз, используйте «Хранить до закрытия браузера».\n\n2. Решите, что значит «очистка». Из коробки очистка удаляет только куки. Включите «Удалять все данные сайта» на странице «Защита», чтобы стирать и прочие остатки сайта.\n\n3. Включите автоматическую очистку. Переключите «Чистить автоматически» на странице «Защита». С этого момента: закрыли последнюю вкладку сайта — после отсрочки его куки исчезают, если только сайт не хранится или не открыт где-то ещё.\n\n4. По желанию: оставьте журнал очистки включённым, чтобы всегда видеть, что и почему было очищено."
+  },
+  "helpCleaningTitle": {
+    "message": "Как работает очистка"
+  },
+  "helpCleaningBody": {
+    "message": "Автоматическая очистка срабатывает, когда закрывается последняя вкладка сайта. Отсрочка (по умолчанию 15 секунд) — ваше окно отмены: откройте сайт заново в этот срок, и ничего не удалится.\n\n«Чистить при уходе с сайта» заставляет переход вкладки с одного сайта на другой считаться уходом с первого — строже, но заметно, если вы скачете между сайтами в одной вкладке.\n\nВо время очистки куки сайта выживают, если верно хоть одно: сайт всё ещё открыт в какой-то вкладке; он подпадает под правило «Хранить»; он подпадает под правило «Хранить до закрытия», и это не очистка после перезапуска; или имя конкретной куки отмечено в списке куки совпавшего правила. Всё остальное исчезает.\n\nРасширенный режим добавляет: считать спящие (выгруженные) вкладки закрытыми, чистить восстановленные вкладки один раз при запуске, всегда удалять просроченные куки и сеансовые правила хранения — сайты «Хранить до закрытия браузера» чистятся при перезапуске."
+  },
+  "helpSiteDataTitle": {
+    "message": "Что удаляется"
+  },
+  "helpSiteDataBody": {
+    "message": "По умолчанию расширение удаляет только куки. Переключатель «Удалять все данные сайта» распространяет очистку на всё остальное, что сайт хранит на устройстве: кэш, IndexedDB, LocalStorage, данные плагинов и сервис-воркеры. Раздел «Дополнительно» под ним позволяет выбирать типы по отдельности.\n\nДве вещи, которые стоит знать заранее:\n\n• Включение типа стирает его один раз и везде. В момент включения типа все сохранённые данные этого типа стираются у всех сайтов (об этом предупреждение на странице). Если этот первый проход не нужен, сначала выключите переключатель стирания-при-включении.\n\n• Старые данные нельзя чистить выборочно. Браузер позволяет расширению стирать эти типы по-сайтово только впредь — для сайтов, которые вы посетите снова. Остатки, накопленные до включения, лежат до следующего визита."
+  },
+  "helpPatternsTitle": {
+    "message": "Правила хранения и шаблоны"
+  },
+  "helpPatternsBody": {
+    "message": "Каждый сохранённый сайт — это шаблон в одном из двух списков. Сайты «Хранить» не чистятся никогда. Сайты «Хранить до закрытия браузера» переживают обычные очистки, но чистятся при перезапуске. Сайт, не подпавший ни под один, чистится сразу после ухода — участь по умолчанию; правила — исключения.\n\nШаблоны сопоставляются только с именем хоста — без https:// и путей:\n\n• example.com — ровно этот домен, не mail.example.com\n• *.example.com — домен и каждый поддомен\n• 192.168.1.100 — этот IP-адрес\n• 10.0.0.0/8 — любой IP из диапазона CIDR\n• /^(mail|news)\\.example\\.com$/ — регулярное выражение между косыми чертами\n• file:///home/user/notes — страницы, открытые из этой локальной папки\n\nУ каждого правила есть и по-сайтовые параметры (раскройте его строку на странице «Сохранённые сайты»): хранить только именованные куки вместо всех и выбор типов данных. Правило «Создать параметры по умолчанию» задаёт стартовые параметры каждому правилу, добавленному после.\n\nСовет: чтобы ВСЕ куки исчезали при перезапуске, добавьте * как правило «Хранить до закрытия браузера», а по-настоящему постоянные сайты пометьте «Хранить»."
+  },
+  "helpImportExportTitle": {
+    "message": "Импорт и экспорт"
+  },
+  "helpImportExportBody": {
+    "message": "Страница «Импорт / Экспорт» сохраняет две вещи по отдельности: сохранённые сайты и настройки. Оба — обычные JSON-файлы с отметкой времени в имени, так что повторные копии не затирают друг друга. Импорт никогда не удаляет то, что у вас уже есть; точные дубликаты пропускаются, некорректные записи отклоняются с причиной, а остальное всё равно импортируется.\n\nЭкспорты из оригинального Cookie AutoDelete импортируются без проблем — формат тот же. Экспорты эпохи Firefox могут содержать списки контейнерных вкладок (функция Firefox, которой нет в Chromium); такие записи сливаются в основной список без дубликатов, а сообщение импорта укажет, сколько слито.\n\nСброс настроек к значениям по умолчанию тоже живёт на этой странице. Сохранённые сайты он не трогает."
+  },
+  "helpLogTitle": {
+    "message": "Журнал очистки"
+  },
+  "helpLogBody": {
+    "message": "Журнал очистки отвечает на вопросы «почему меня разлогинило на том сайте?» и «а оно вообще что-то делает?». Держите «Вести журнал очистки» включённым и откройте страницу журнала после очистки.\n\nКаждая запись перечисляет затронутые сайты и решение по каждому простыми словами: сохранён, потому что совпало правило; сохранён, потому что сайт был ещё открыт; очищен, потому что ничего не совпало; очищен при запуске (именно это опустошает сайты «до перезапуска»); или очищен выборочно, когда правило хранит только именованные куки. Строки решений используют внутренние имена списков: белый список — постоянное правило «Хранить», серый список — «Хранить до закрытия браузера».\n\nЖурнал никогда не содержит значений куки, никогда не записывает приватные вкладки/инкогнито, никогда не покидает браузер, а старые записи сами выпадают с конца. Счётчики страницы «Обзор» (за сеанс / всего) берутся из той же бухгалтерии."
+  },
+  "helpPermissionsTitle": {
+    "message": "Зачем ему эти разрешения"
+  },
+  "helpPermissionsBody": {
+    "message": "Предупреждение при установке «Просмотр и изменение данных на всех сайтах» — неизбежное: куки могут принадлежать любому посещаемому сайту, поэтому для их удаления нужен доступ ко всем сайтам. Используется он исключительно для чтения и удаления куки и данных сайтов — никогда для чтения содержимого страниц и никогда для связи с сервером (его нет).\n\nОстальное кратко. Куки: перечислить куки сайта для счётчика и удалить их. Данные браузера: удалить необязательные дополнения — кэш, IndexedDB, LocalStorage, данные плагинов, сервис-воркеры. Хранилище: локально сохранять ваши настройки и правила хранения. Будильники: выдержать расписание отложенной очистки, даже если браузер усыпит расширение во время ожидания. Вкладки: знать, какие сайты открыты (открытые защищены) и замечать, когда вкладка закрывается или уходит с сайта. Активная вкладка и Scripting: выполнять по-сайтовые действия из попапа. Контекстные меню и Уведомления: две необязательные функции, отключаемые в настройках.\n\nНамеренно отсутствуют: история браузера, перехват сетевых запросов и вообще любой доступ к сети. Расширение не видит, что вы печатаете и какие страницы читаете."
+  },
+  "helpTroubleshootingTitle": {
+    "message": "Неполадки и вопросы"
+  },
+  "helpTroubleshootingBody": {
+    "message": "Разлогинило на сайте? По убыванию вероятности: у сайта нет правила хранения (или оно есть только у точного хоста, а логин живёт на поддомене — используйте форму *.example.com); это сайт «до перезапуска», и браузер перезапускался; совпавшее правило хранит только именованные куки, а куки входа не отмечена; или куки сайта просто истекла. Не гадайте — журнал очистки называет точное сработавшее правило.\n\nКуки появляются сразу после очистки? Сайт почти наверняка ещё открыт в какой-то вкладке — открытые сайты создают куки когда угодно и в любом случае защищены.\n\nОчистка не прошла? Проверьте по порядку: автоочистка включена (шапка попапа это показывает); сайт не открыт в другой вкладке; отсрочка истекла; ни одно правило хранения не совпадает; это была не спящая вкладка (те считаются закрытыми только при включённой соответствующей расширенной настройке).\n\nВключили очистку данных сайтов, а старые данные на месте? Браузер позволяет стирать эти типы только у сайтов, которые вы посетите снова; остатки лежат до следующего визита.\n\nИнкогнито? Только если разрешите: страница расширений браузера → «Разрешить в режиме инкогнито». У инкогнито своё хранилище куки и свои сохранённые сайты, и в журнал он не попадает никогда.\n\nВсё ещё не выходит? На странице «Поддержка» есть версия, копируемый отладочный блок и ссылка для сообщений об ошибках. Режим отладки (Дополнительно) заставляет расширение проговаривать каждое решение в консоли сервис-воркера с замаскированными значениями куки."
   }
 }

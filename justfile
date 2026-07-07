@@ -35,7 +35,7 @@ format_check:
   bunx prettier --check .
 
 # Everything CI runs, in order
-ci: install check lint format_check test build
+ci: install check lint format_check check_locales test build
 
 # Regenerate the extension icon PNGs from image_editing/cookie-prohibited.svg
 # (requires rsvg-convert: `brew install librsvg`; the PNGs are committed, so
@@ -59,3 +59,7 @@ release_check:
 # Remove build artifacts
 clean:
   ./scripts/clean.sh
+
+# Verify every locale matches en: key sets, placeholder tokens, brand name.
+check_locales:
+    bun scripts/check_locales.ts

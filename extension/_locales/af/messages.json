@@ -1,279 +1,658 @@
 {
   "aboutText": {
-    "message": "Aangaande",
-    "description": "About"
+    "message": "Meer oor"
   },
   "activeModeDelayText": {
-    "message": "Vertraag voordat outomatiese skoonmaak",
-    "description": "Delay Before Automatic Cleaning"
+    "message": "Grasietydperk"
   },
   "activeModeText": {
-    "message": "Aktiveer outomatiese skoonmaak",
-    "description": "Enable Automatic Cleaning"
+    "message": "Maak outomaties skoon"
+  },
+  "activityLogSiteDataDomainsText": {
+    "message": "$siteData$ verwyder vir: $domains$",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cache (translated version)"
+      },
+      "domains": {
+        "content": "$2",
+        "example": "example.com, github.com"
+      }
+    }
+  },
+  "addNewExpressionNotification": {
+    "message": "$expression$ gestoor in die $listType$-lys (koekiestoor: $cookieStore$).",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "example.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "WHITE"
+      },
+      "cookieStore": {
+        "content": "$3",
+        "example": "'default' -or- 'private'"
+      }
+    }
+  },
+  "addNewExpressionNotificationFailed": {
+    "message": "Geen domein kon gelees word van waar jy regs geklik het nie."
+  },
+  "addNewExpressionNotificationIgnore": {
+    "message": "Duplikate word outomaties oorgeslaan."
   },
   "autoDeleteDisabledText": {
-    "message": "Outo-skoonmaak gedeaktiveer",
-    "description": "Auto-clean disabled"
+    "message": "Outoskoonmaak af"
   },
   "autoDeleteEnabledText": {
-    "message": "Outo-skoonmaak geaktiveer",
-    "description": "Auto-clean enabled"
+    "message": "Outoskoonmaak aan"
+  },
+  "browsingDataNoEmptyWarning": {
+    "message": "Let wel: om dit aan te skakel raak nie data wat webwerwe vroeër gestoor het nie. 'n Werf se oorblyfsels word eers skoonmaakbaar nadat jy dit weer besoek — tot dan bly dit lê, selfs vir werwe waarvan jy ontslae wil raak."
+  },
+  "browsingDataWarning": {
+    "message": "Versigtig: om enige van die skoonmaaktipes hieronder aan te skakel vee dadelik AL die tans gestoorde data van daardie tipe uit, vir elke werf."
+  },
+  "cacheCleanupText": {
+    "message": "Aktiveer kasskoonmaak"
+  },
+  "cacheText": {
+    "message": "Kas"
   },
   "chromeDebugMode": {
-    "message": "Maak seker dat 'ontwikkelaarmodus' geaktiveer is, en klik dan op 'agtergrondbladsy' onder Inspekteer.",
-    "description": "Ensure 'Developer Mode' is enabled, then click on 'background page' under Inspect View. This is shown if debug mode is enabled."
+    "message": "Skakel 'Ontwikkelaarmodus' aan en maak dan die service worker-konsole oop via die skakel 'Inspekteer aansigte'."
+  },
+  "cleanDiscardedText": {
+    "message": "Hanteer slapende oortjies as gesluit"
+  },
+  "cleanExpiredCookiesText": {
+    "message": "Verwyder altyd vervalde koekies"
   },
   "cleanIgnoringOpenTabsText": {
-    "message": "Maak skoon, insluitend oop oortjies",
-    "description": "Clean, include open tabs. Found in the additional cleanup options in the popup."
+    "message": "Maak skoon, ook oop oortjies"
   },
   "cleanText": {
-    "message": "Maak skoon",
-    "description": "Clean"
+    "message": "Maak skoon"
   },
   "cleanupDomainChangeText": {
-    "message": "Aktiveer opruiming met domeinverandering",
-    "description": "Enable Cleanup on Domain Change"
+    "message": "Maak skoon wanneer jy 'n werf verlaat"
   },
   "cleanupActionsBypass": {
-    "message": "Waarskuwing - aksies hieronder ignoreer instellings!",
-    "description": "Warning - Actions below ignore settings! Found in the additional cleanup options in the popup."
+    "message": "Versigtig — hierdie knoppies ignoreer jou hou-lyste en maak dadelik skoon!"
   },
   "cleanupLogText": {
-    "message": "Opruim Log",
-    "description": "Cleanup Log"
+    "message": "Skoonmaaklogboek"
   },
   "clearLogsText": {
-    "message": "Maak log skoon",
-    "description": "Clear Logs"
+    "message": "Maak logboek leeg"
   },
   "consoleDebugMode": {
-    "message": "Klik op die konsole-oortjie",
-    "description": "Click on the Console Tab. Found after enabling debug mode."
+    "message": "Skakel oor na die Konsole-oortjie."
   },
-  "contextualIdentitiesEnabledText": {
-    "message": "Aktiveer ondersteuning vir Firefox se houertabs",
-    "description": "Enable Support for Container Tabs. Currently only in Firefox."
+  "contextMenusParentClean": {
+    "message": "Handmatige skoonmaak"
   },
-  "contributeText": {
-    "message": "Dra By",
-    "description": "Contribute"
+  "contextMenusParentExpression": {
+    "message": "Voeg by die hou-lyste"
+  },
+  "contextMenusSelectedDomainLink": {
+    "message": "Net hierdie skakel se domein"
+  },
+  "contextMenusSelectedDomainPage": {
+    "message": "Net hierdie bladsy se domein"
+  },
+  "contextMenusSelectedDomainText": {
+    "message": "Net die domein van: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "contextMenusSelectedSubdomainLink": {
+    "message": "Die skakel se domein plus alle subdomeine"
+  },
+  "contextMenusSelectedSubdomainPage": {
+    "message": "Hierdie bladsy se domein plus alle subdomeine"
+  },
+  "contextMenusSelectedSubdomainText": {
+    "message": "Alle subdomeine van: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
   },
   "contributorsText": {
-    "message": "Bydraers",
-    "description": "Contributors"
+    "message": "Bydraers"
+  },
+  "cookiesText": {
+    "message": "Koekies"
+  },
+  "cookieCleanUpOnStartText": {
+    "message": "Maak herstelde oortjies met begin skoon"
   },
   "cookieCleanupIgnoreOpenTabsText": {
-    "message": "Ruim nou op, sluit domeine van oop oortjies in",
-    "description": "Run cleanup now, include cookies from open tabs. This is shown on mouseover from the available dropdown buttons."
+    "message": "Maak nou skoon, ook werwe wat in 'n oortjie oop is"
   },
   "cookieCleanupText": {
-    "message": "Begin nou opruiming, sluit domeine uit van oop oortjies",
-    "description": "Run cleanup now, exclude domains from open tabs. This is shown on mouseover on the button."
+    "message": "Maak nou skoon, maar slaan werwe oor wat in 'n oortjie oop is"
+  },
+  "copyDebugSettingText": {
+    "message": "'n Kopie van jou huidige instellings. Plak dit in die GitHub-kwessie as dit relevant is."
+  },
+  "copyDebugSystemText": {
+    "message": "Jou stelselbesonderhede. Plak dit in die ooreenstemmende deel van die GitHub-kwessie."
+  },
+  "copyFailedText": {
+    "message": "Kon nie outomaties kopieer nie — merk die teks en kopieer dit self."
+  },
+  "copySuccessText": {
+    "message": "Gekopieer!"
+  },
+  "copyToClipboardText": {
+    "message": "Kopieer na knipbord"
+  },
+  "createDefaultExpressionOptionsText": {
+    "message": "Skep verstekopsies"
   },
   "debugMode": {
-    "message": "Aktiveer ontfoutmodus (bykomende konsole-uitsette)",
-    "description": "Enable Debug Mode (Additional Console Outputs). Found in CAD Settings."
+    "message": "Ontfoutmodus"
+  },
+  "debugTitle": {
+    "message": "Ontfoutinligting"
   },
   "defaultSettingsText": {
-    "message": "Herstel oorspronklike instellings",
-    "description": "Restore Default Settings"
+    "message": "Stel instellings terug na verstek"
   },
   "disableAutoDeleteText": {
-    "message": "Wissel om outomatiese opruim (handmatige modus) te deaktiveer",
-    "description": "Toggle to disable automatic cleanup (manual mode)"
+    "message": "Skakel outomatiese skoonmaak af (handmatige modus)"
   },
   "documentationText": {
-    "message": "Dokumentasie",
-    "description": "Documentation"
+    "message": "Dokumentasie"
   },
   "domainExpressionsText": {
-    "message": "Domein Uitdrukking",
-    "description": "Domain Expression"
+    "message": "Werf"
+  },
+  "domainPlaceholderText": {
+    "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/"
   },
   "dropdownAdditionalCleaningOptions": {
-    "message": "Wissel van die aftreklys vir bykomende skoonmaakaksies",
-    "description": "(Screen-readers only) - Toggle Additional Cleaning Actions Dropdown"
+    "message": "Meer skoonmaakaksies"
   },
   "editExpressionText": {
-    "message": "Wysig uitdrukking",
-    "description": "Edit expression"
+    "message": "Wysig uitdrukking"
   },
   "enableAutoDeleteText": {
-    "message": "Wissel om outomatiese opruim (outomatiese modus) te aktiveer",
-    "description": "Toggle to enable automatic cleanup (automatic mode)"
+    "message": "Skakel outomatiese skoonmaak aan"
   },
   "enableCleanupLogText": {
-    "message": "Aktiveer skoonmaaklogboek en toonbank",
-    "description": "Enable Cleanup Log and Counter"
+    "message": "Hou 'n skoonmaaklogboek"
+  },
+  "enableContextMenus": {
+    "message": "Regskliekkieslys-aksies"
   },
   "enableGreyListCleanup": {
-    "message": "Aktiveer Greylist-opruiming met die herblaai van die blaaier",
-    "description": "Enable Greylist Cleanup on Browser Restart"
+    "message": "Sessie-houreëls"
   },
   "enableNewVersionPopup": {
-    "message": "Aktiveer pop-up as die nuwe weergawe vrygestel word",
-    "description": "Enable Popup when New Version is Released"
+    "message": "Wys vrystellingsnotas ná opdaterings"
   },
   "errorText": {
-    "message": "Fout!",
-    "description": "Error!"
+    "message": "Fout!"
   },
   "exportSettingsText": {
-    "message": "Voer kerninstellings uit...",
-    "description": "Export Core Settings... Found in CAD Settings."
+    "message": "Voer instellings uit..."
   },
   "exportURLSText": {
-    "message": "Voer uitdrukkings uit...",
-    "description": "Export Expressions... Found in List of Expressions."
+    "message": "Voer gestoorde werwe uit"
   },
   "exportTitleTimestamp": {
-    "message": "'N Tydstempel word bygevoeg by die lêernaam wat uitgevoer word.",
-    "description": "A timestamp will be appended to the filename on export."
+    "message": "Uitgevoerde lêername kry 'n tydstempel."
   },
   "extensionDescription": {
-    "message": "Beheer jou koekies! Skrap ongebruikte koekies outomaties van jou geslote oortjies en behou die wat u nog wil gebruik.",
-    "description": "Control your cookies! Automatically delete unwanted cookies from your closed tabs while keeping the ones you want."
+    "message": "Ruim op agter jou oortjies: maak 'n oortjie toe en sy koekies en werfdata word uitgevee — behalwe vir werwe op jou hou-lyste."
   },
   "extensionName": {
-    "message": "Auto-Delete Cookies for Privacy",
-    "description": "Name of the extension."
+    "message": "Auto-Delete Cookies for Privacy"
   },
   "faqText": {
-    "message": "Algemene vrae, algemene probleme en oplossings",
-    "description": "Frequently Asked Questions, Common issues and solutions"
+    "message": "Gereelde vrae en probleemoplossing"
   },
   "filterDebugMode": {
-    "message": "Filter slegs uitsette deur hierdie uitbreiding, filter die uitset volgens die volgende reël:",
-    "description": "To see only debug outputs by this extension, filter output by the following line. Found after enabling debug mode."
+    "message": "Om net hierdie uitbreiding se boodskappe te sien, plak dit in die konsole se filterveld:"
   },
   "filterText": {
-    "message": "Filter",
-    "description": "Filter"
+    "message": "Filter"
   },
   "greyListWordText": {
-    "message": "Gryslys",
-    "description": "Greylist"
+    "message": "Gryslys"
+  },
+  "groupExpressionDefaultNotice": {
+    "message": "Verstekopsies vir nuwe uitdrukkings woon nou op die uitdrukking self — maak $listExpression$ oop om dit te stel.",
+    "placeholders": {
+      "listExpression": {
+        "content": "$1",
+        "example": "List of Expressions <- the translated version"
+      }
+    }
   },
   "importCoreSettingsFailed": {
-    "message": "Invoer van kerninstellings misluk - Onbekende instelling gevind",
-    "description": "Import Core Settings Failed - Found unknown setting"
+    "message": "Instellingsinvoer gestaak: die lêer bevat 'n onbekende instelling."
   },
   "importCoreSettingsText": {
-    "message": "Voer kerninstellings in...",
-    "description": "Import Core Settings... Found in CAD Settings."
+    "message": "Voer instellings in..."
+  },
+  "importFileNotFound": {
+    "message": "Geen so 'n lêer nie: $filename$",
+    "placeholders": {
+      "filename": {
+        "content": "$1",
+        "example": "filename.json"
+      }
+    }
   },
   "importFileTypeInvalid": {
-    "message": "Die gegewe lêer is nie 'n tipe wat ons hanteer nie",
-    "description": "File given is not a type we handle"
+    "message": "Daardie lêertipe word nie vir invoer ondersteun nie."
   },
   "importFileValidationFailed": {
-    "message": "Validering van die lêer is misluk",
-    "description": "File given failed validation"
+    "message": "Die lêer het nie die validering geslaag nie."
+  },
+  "importInvalidExpressions": {
+    "message": "Sommige ingevoerde uitdrukkings was ongeldig; elkeen word hieronder gelys met die rede. Maak hulle in die lêer reg en voer weer in."
+  },
+  "importListNotArray": {
+    "message": "$identifier$ behoort 'n skikking te wees, maar is nie.",
+    "placeholders": {
+      "identifier": {
+        "content": "$1",
+        "example": "jsonObjectKey"
+      }
+    }
   },
   "importMissingKey": {
-    "message": "Ontbrekende identifiseerder",
-    "description": "Missing identifier"
+    "message": "Ontbrekende identifiseerder"
   },
   "importURLSText": {
-    "message": "Voer uitdrukkings in...",
-    "description": "Import Expressions... Found in List of Expressions."
+    "message": "Voer gestoorde werwe in"
+  },
+  "importValidExpressions": {
+    "message": "$num$ uitdrukking(s) ingevoer uit $filename$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "filename": {
+        "content": "$2",
+        "example": "filename.json"
+      }
+    }
+  },
+  "indexedDBCleanupText": {
+    "message": "Aktiveer IndexedDB-skoonmaak"
+  },
+  "indexedDBText": {
+    "message": "IndexedDB"
+  },
+  "inputErrorComma": {
+    "message": "Kommas hoort net in reëlmatige uitdrukkings."
+  },
+  "inputErrorEmpty": {
+    "message": "Die uitdrukking kan nie leeg wees nie."
+  },
+  "inputErrorRegExp": {
+    "message": "Ongeldige reëlmatige uitdrukking: $RegexError$",
+    "placeholders": {
+      "RegexError": {
+        "content": "$1",
+        "example": "SyntaxError:  unterminated character class."
+      }
+    }
+  },
+  "inputErrorSlashEndMissingStart": {
+    "message": "Eindig met 'n skuinsstreep maar begin nie met een nie. Vir 'n gewone domein, verwyder die laaste streep; vir 'n regex, voeg die eerste by."
+  },
+  "inputErrorSlashStartMissingEnd": {
+    "message": "Begin met 'n skuinsstreep maar sluit dit nooit nie. Voeg die laaste streep by om die reëlmatige uitdrukking te voltooi."
+  },
+  "inputErrorSpace": {
+    "message": "Gasheername kan nie spasies bevat nie."
+  },
+  "inputAddSuccess": {
+    "message": "$num$ uitdrukking(s) by die aktiewe lys gevoeg as $listType$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "GreyList"
+      }
+    }
+  },
+  "invalidNewExpressions": {
+    "message": "Sommige nuwe uitdrukkings was ongeldig; hulle bly bo vir wysiging, met die redes hieronder gelys."
   },
   "keepAllCookiesText": {
-    "message": "Hou alle koekies",
-    "description": "Keep All Cookies. Found in Expression Options. For Whitelist entries."
+    "message": "Hou alle koekies"
+  },
+  "keepAllCookiesGreyText": {
+    "message": "Hou alle koekies tot herbegin"
+  },
+  "keepCacheText": {
+    "message": "Hou kas"
+  },
+  "keepCacheGreyText": {
+    "message": "Hou kas tot herbegin"
   },
   "keepDefaultIcon": {
-    "message": "Hou standaardikone by alle lystipes",
-    "description": "Keep Default Icons on all list types. Disabled: keep blue icon, grey for automatic cleaning disabled. Enabled: red/yellow/blue depending on matching expressions in list."
+    "message": "Hou die gewone ikoon"
+  },
+  "keepIndexedDBText": {
+    "message": "Hou IndexedDB"
+  },
+  "keepIndexedDBGreyText": {
+    "message": "Hou IndexedDB tot herbegin"
   },
   "keepLocalstorageText": {
-    "message": "Hou LocalStorage",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries."
+    "message": "Hou LocalStorage"
+  },
+  "keepLocalstorageGreyText": {
+    "message": "Hou LocalStorage tot herbegin"
+  },
+  "keepPluginDataText": {
+    "message": "Hou inpropdata"
+  },
+  "keepPluginDataGreyText": {
+    "message": "Hou inpropdata tot herbegin"
+  },
+  "keepServiceWorkersText": {
+    "message": "Hou service workers"
+  },
+  "keepServiceWorkersGreyText": {
+    "message": "Hou service workers tot herbegin"
   },
   "keepText": {
-    "message": "Hou",
-    "description": "Keep"
+    "message": "Hou"
   },
   "listTypeText": {
-    "message": "Lys Tipe",
-    "description": "List Type"
+    "message": "Hoe lank"
+  },
+  "localStorageCleanupText": {
+    "message": "Aktiveer LocalStorage-skoonmaak"
+  },
+  "localStorageText": {
+    "message": "LocalStorage"
+  },
+  "manualActionNotification": {
+    "message": "Handmatige skoonmaak"
+  },
+  "manualCleanError": {
+    "message": "Kon nie $siteData$ vir hierdie oortjie skoonmaak nie:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      }
+    }
+  },
+  "manualCleanNothing": {
+    "message": "Niks om skoon te maak nie: geen $siteData$ gevind op $url$ nie.",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanRemoved": {
+    "message": "$deleted$ uit $total$ verwyder.",
+    "placeholders": {
+      "deleted": {
+        "content": "$1",
+        "example": "5"
+      },
+      "total": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "manualCleanSiteDataAll": {
+    "message": "Vee alles vir hierdie werf uit"
+  },
+  "manualCleanSiteDataAllDomain": {
+    "message": "Vee alle werfdata uit wat deur $domain$ gestoor is",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataCache": {
+    "message": "Vee hierdie werf se kas uit"
+  },
+  "manualCleanSiteDataCacheDomain": {
+    "message": "Vee alle kas uit wat deur $domain$ gestoor is",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataCookies": {
+    "message": "Vee hierdie werf se koekies uit"
+  },
+  "manualCleanSiteDataCookiesDomain": {
+    "message": "Vee alle koekies uit wat deur $domain$ gestoor is",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataIndexedDB": {
+    "message": "Vee hierdie werf se IndexedDB uit"
+  },
+  "manualCleanSiteDataIndexedDBDomain": {
+    "message": "Vee alle IndexedDB-data uit wat deur $domain$ gestoor is",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataLocalStorage": {
+    "message": "Vee hierdie werf se LocalStorage uit"
+  },
+  "manualCleanSiteDataLocalStorageDomain": {
+    "message": "Vee alle LocalStorage uit wat deur $domain$ gestoor is",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataPluginData": {
+    "message": "Vee hierdie werf se inpropdata uit"
+  },
+  "manualCleanSiteDataPluginDataDomain": {
+    "message": "Vee alle inpropdata uit wat deur $domain$ gestoor is",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataServiceWorkers": {
+    "message": "Vee hierdie werf se service workers uit"
+  },
+  "manualCleanSiteDataServiceWorkersDomain": {
+    "message": "Vee alle service workers uit wat deur $domain$ geregistreer is",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSuccess": {
+    "message": "Uitslag van die skoonmaak van $siteData$ op $url$:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualNotificationsText": {
+    "message": "Stel in kennis ná handmatige skoonmaak"
   },
   "matchedDomainExpressionText": {
-    "message": "Gepaste Domein Uitdrukking",
-    "description": "Matched Domain Expression"
+    "message": "Passende domeinuitdrukking"
   },
   "menuText": {
-    "message": "Kieslys",
-    "description": "Menu. Only shown when the settings screen is small / when the hamburger icon shows / when the menu is collapsed."
+    "message": "Kieslys"
   },
   "minutesText": {
-    "message": "Minuut (e)",
-    "description": "minute(s)"
+    "message": "minuut/minute"
   },
   "noCleanupLogText": {
-    "message": "Geen Opruim logs gevind",
-    "description": "No Cleanup Logs Found"
+    "message": "Die skoonmaaklogboek is leeg."
   },
   "noExpressionsText": {
-    "message": "Geen uitdrukkings gedefinieer nie.",
-    "description": "No expressions defined."
+    "message": "Jy het nog geen uitdrukkings bygevoeg nie."
   },
   "noPrivateLogging": {
-    "message": "Opruimingslogboeke sal nie gegenereer word vir oortjies in privaat blaai / incognito / InPrivate nie.",
-    "description": "Cleanup Logs will not be generated for tabs in Private Browsing / Incognito / InPrivate."
+    "message": "Privaat-/inkognito-oortjies word nooit aangeteken nie."
+  },
+  "noSearchExpressionsFound": {
+    "message": "Niks pas by jou soektog nie."
   },
   "noRulesText": {
-    "message": "Geen reëls pas by hierdie domein.",
-    "description": "No rules matched this domain"
+    "message": "Geen uitdrukkings pas by hierdie werf nie."
   },
   "noneText": {
-    "message": "Geen",
-    "description": "None"
+    "message": "Geen"
+  },
+  "notificationContent": {
+    "message": "Werfdata verwyder — $Num$ koekie(s) van $total$ werf/werwe, insluitend: $Websites$",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "123"
+      },
+      "total": {
+        "content": "$2",
+        "example": "8"
+      },
+      "websites": {
+        "content": "$3",
+        "example": "google.com, facebook.com"
+      }
+    }
   },
   "notificationDisabledText": {
-    "message": "Kennisgewings gedeaktiveer",
-    "description": "Notification disabled"
+    "message": "Kennisgewing af"
   },
   "notificationEnabledText": {
-    "message": "Kennisgewings geaktiveer",
-    "description": "Notification enabled"
+    "message": "Kennisgewing aan"
   },
   "notificationTitle": {
-    "message": "Koekies is geskrap!",
-    "description": "Cookies were deleted!  Used in Notification Title."
+    "message": "Koekies skoongemaak"
+  },
+  "notificationTitleSiteData": {
+    "message": "Werfdata skoongemaak"
   },
   "notifyCookieCleanupDelayText": {
-    "message": "Tydsduur vir kennisgewings",
-    "description": "Duration for Notifications"
+    "message": "Kennisgewingduur"
+  },
+  "notifyCookieCleanUpText": {
+    "message": "Stel in kennis ná skoonmaak"
   },
   "oldReleasesText": {
-    "message": "Ouer vrystellingsnotas kan aanlyn gesien word by",
-    "description": "Older release notes can be viewed online at"
+    "message": "Vroeëre vrystellings word gelys op"
   },
   "openDebugMode": {
-    "message": "Maak 'n nuwe oortjie oop en besoek die foutuitsette",
-    "description": "To view the debug outputs, open a new tab and visit"
+    "message": "Ontfoutuitset woon in die uitbreiding se konsole. Maak 'n nuwe oortjie oop en gaan na"
   },
   "optionsText": {
-    "message": "Opsies",
-    "description": "Options"
+    "message": "Wat dit hou"
+  },
+  "pluginDataCleanupText": {
+    "message": "Aktiveer inpropdata-skoonmaak"
+  },
+  "pluginDataText": {
+    "message": "Inpropdata"
   },
   "popupCookieCountText": {
-    "message": "Koekies",
-    "description": "Cookies. Due to visual formatting, Cookie Count will always be located on the right side after the colon. Found in Popup near top-right."
+    "message": "Koekies"
   },
   "preferencesText": {
-    "message": "Instellings",
-    "description": "Settings"
+    "message": "Instellings"
   },
   "questionExpression": {
-    "message": "Hoe werk uitdrukkings?",
-    "description": "How do Expressions work?"
+    "message": "Hoe werk patrone?"
+  },
+  "reasonCADSiteDataCookie": {
+    "message": "Interne merkerkoekie verwyder om die werfdata-skoonmaak vir $hostname$ af te skop.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCADSiteDataCookieRestart": {
+    "message": "Interne merkerkoekie met herbegin verwyder om die werfdata-skoonmaak vir $hostname$ af te skop.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpired": {
+    "message": "Net vervalde koekies van $hostname$ verwyder.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpiredRestart": {
+    "message": "Net vervalde koekies van $hostname$ verwyder tydens die herbegin-skoonmaak.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
   },
   "reasonCleanCookieName": {
-    "message": "Gedeeltelik skoon as gevolg van die gepaste $matchedExpression$ in die $listType$",
-    "description": "Partial clean because of matched $matchedExpression$ in the $listType$. Used in cleanup logs.",
+    "message": "Selektief skoongemaak: $matchedExpression$ op die $listType$ beskerm ander koekies, maar nie hierdie een nie",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -286,8 +665,7 @@
     }
   },
   "reasonCleanGreyList": {
-    "message": "Maak skoon as gevolg van opstartopruiming en $matchedExpression$ is in die Greylist",
-    "description": "Clean because of startup cleanup and $matchedExpression$ is in the Greylist. Used in cleanup log.",
+    "message": "Met begin skoongemaak: $matchedExpression$ is op die gryslys",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -296,8 +674,7 @@
     }
   },
   "reasonCleanNoList": {
-    "message": "Maak skoon omdat $hostname$ nie in die wit- of gryslyste is nie",
-    "description": "Clean because $hostname$ is not in the White or Grey lists",
+    "message": "Skoongemaak: $hostname$ verskyn nie op die witlys of die gryslys nie",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -306,8 +683,7 @@
     }
   },
   "reasonCleanStartupNoList": {
-    "message": "Maak skoon as gevolg van opstartopruiming en $hostname$ is nie in die wit- of gryslyste nie",
-    "description": "Clean because of startup cleanup and $hostname$ is not in the White or Grey lists",
+    "message": "Met begin skoongemaak: $hostname$ verskyn nie op die witlys of die gryslys nie",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -316,8 +692,7 @@
     }
   },
   "reasonKeep": {
-    "message": "Hou as gevolg van die gepaste $matchedExpression$ in die $listType$",
-    "description": "Keep because of matched $matchedExpression$ in the $listType$",
+    "message": "Gehou: $matchedExpression$ op die $listType$ het gepas",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -330,8 +705,7 @@
     }
   },
   "reasonKeepOpenTab": {
-    "message": "Hou as gevolg van oop oortjies van *.$mainDomain$",
-    "description": "Keep because of open tabs of *.$mainDomain$",
+    "message": "Gehou: *.$mainDomain$ is nog in 'n oortjie oop",
     "placeholders": {
       "mainDomain": {
         "content": "$1",
@@ -340,24 +714,22 @@
     }
   },
   "reasonTabsWereIgnored": {
-    "message": "en oop oortjies is ook geïgnoreer",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] and also open tabs were ignored"
+    "message": "(oop oortjies is dié keer geïgnoreer)"
   },
   "reasonTabsWereNotIgnored": {
-    "message": "of in enige oop oortjies",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] or in any open tabs"
+    "message": "(en in geen oortjie oop nie)"
   },
   "releaseNotesText": {
-    "message": "Vrystelling Notas",
-    "description": "Release Notes"
+    "message": "Vrystellingsnotas"
+  },
+  "removeActivityLogEntryText": {
+    "message": "Verwyder logboekinskrywing"
   },
   "removeAllExpressions": {
-    "message": "Verwyder alle uitdrukkings",
-    "description": "Remove All Expressions"
+    "message": "Verwyder almal"
   },
   "removeAllExpressionsConfirm": {
-    "message": "Is u seker dat u ALLE ($expressionCount$) gestoorde uitdrukking(s) van ($listCount$) lys(s) wil verwyder? \n\nDIT KAN NIE ONGEDAAN GEMAAK WORD NIE! \n\nTik [ $expressionCount$ ] en klik OK om te verwyder.",
-    "description": "Are you sure you want to remove ALL ($expressionCount$) saved expression(s) from ($listCount$) list(s)?\n\nTHIS CANNOT BE UNDONE!\n\nType [ $expressionCount$ ] and click OK to delete. Popup prompt if Delete All Expression is clicked.",
+    "message": "Dit verwyder al $expressionCount$ uitdrukking(s) uit $listCount$ lys(te), permanent.\n\nDaar is geen ontdoen nie.\n\nTik [ $expressionCount$ ] en druk OK om te bevestig.",
     "placeholders": {
       "expressionCount": {
         "content": "$1",
@@ -370,136 +742,169 @@
     }
   },
   "removeAllExpressionsNoneFound": {
-    "message": "Geen uitdrukkings om te verwyder nie!",
-    "description": "No expressions to remove!"
+    "message": "Daar is geen uitdrukkings om te verwyder nie."
   },
   "removeExpressionText": {
-    "message": "Verwyder uitdrukking",
-    "description": "Remove expression"
+    "message": "Verwyder uitdrukking"
   },
-  "reportIssuesText": {
-    "message": "Rapporteer probleme en stel funksies voor",
-    "description": "Report issues and suggest features"
+  "removeListText": {
+    "message": "Verwyder alle uitdrukkings uit die gekose lys"
   },
-  "resetExtensionDataText": {
-    "message": "Stel verlengingsdata terug",
-    "description": "Reset Extension Data"
-  },
-  "restoreText": {
-    "message": "Laai terug",
-    "description": "Restore. Restores cookies that was cleaned up by this extension. Found in Activity Log entries."
-  },
-  "reviewLinkMessage": {
-    "message": "Dankie dat u $cadTitle$ probeer het. As u daarvan hou, gee asseblief 'n resensie.",
-    "description": "Thanks for trying out Cookie AutoDelete. If you liked it, then please give a review.",
+  "removeStorageCount": {
+    "message": "$count$ item(s) uit $storageType$ verwyder.",
     "placeholders": {
-      "cadTitle": {
+      "count": {
         "content": "$1",
-        "example": "Cookie AutoDelete"
+        "example": "1"
+      },
+      "storageType": {
+        "content": "$2",
+        "example": "LocalStorage"
       }
     }
   },
+  "reportIssuesText": {
+    "message": "Foutverslae en idees"
+  },
+  "resetCookieCounterText": {
+    "message": "Stel koekietellers terug"
+  },
+  "resetExtensionDataText": {
+    "message": "Vee alle uitbreidingsdata uit"
+  },
+  "restoreText": {
+    "message": "Herstel"
+  },
   "saveExpressionText": {
-    "message": "Stoor uitdrukking",
-    "description": "Save expression"
+    "message": "Stoor uitdrukking"
   },
   "secondsText": {
-    "message": "Sekonde (s)",
-    "description": "second(s)"
+    "message": "sekonde(s)"
+  },
+  "serviceWorkersCleanupText": {
+    "message": "Aktiveer service worker-skoonmaak"
+  },
+  "serviceWorkersText": {
+    "message": "Service workers"
+  },
+  "sessionStorageText": {
+    "message": "SessionStorage"
   },
   "settingGroupAutoClean": {
-    "message": "Outomatiese skoonmaakopsies",
-    "description": "Automatic Cleaning Options"
+    "message": "Tydsberekening"
   },
   "settingGroupExpression": {
-    "message": "Uitdrukkingsopsies",
-    "description": "Expression Options"
+    "message": "Uitdrukkingsopsies"
   },
   "settingGroupExtension": {
-    "message": "Uitbreidingsopsies",
-    "description": "Extension Options"
+    "message": "Koppelvlak"
   },
   "settingGroupOtherBrowsing": {
-    "message": "Ander opsies vir opruiming van data",
-    "description": "Other Browsing Data Cleanup Options"
+    "message": "Ander blaaidata-skoonmaakopsies"
   },
   "settingsText": {
-    "message": "$CAD$ Opstelling",
-    "description": "$CAD$ Settings",
+    "message": "$CAD$-instellings",
     "placeholders": {
       "CAD": {
-        "content": "CAD",
-        "example": "CAD - Short form of Cookie AutoDelete"
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "showNumberOfCookiesInIconText": {
-    "message": "Toon aantal koekies vir daardie domein op die ikoon",
-    "description": "Show Number of Cookies for that Domain over the Icon"
+    "message": "Koekietelling op die nutsbalkikoon"
   },
-  "sizePopupText": {
-    "message": "Grootte van die opspringer (in px)",
-    "description": "Size of Popup (in px). This sets the font size in the Popup."
+  "siteDataEmptyOnEnable": {
+    "message": "Wanneer 'n nuwe datatipe aangeskakel word, vee uit wat reeds gestoor is"
   },
-  "sizeSettingText": {
-    "message": "Grootte van instellingsbladsye (in px)",
-    "description": "Size of Setting Pages (in px). This sets the font size in the Setting Pages."
+  "siteDataText": {
+    "message": "Werfdata"
   },
-  "stopEditingText": {
-    "message": "Hou op wysig",
-    "description": "Stop editing"
+  "siteDataPanelTitle": {
+    "message": "Data wat hierdie werf gestoor het"
   },
-  "successText": {
-    "message": "Sukses!",
-    "description": "Success!"
+  "siteDataLoadingText": {
+    "message": "Kyk wat hierdie werf stoor…"
   },
-  "toGreyListText": {
-    "message": "Voeg by Gryslys (maak skoon op herlaaiing van blaaier)",
-    "description": "Add to Greylist (Clean on Browser Restart)"
+  "siteDataNotAvailableText": {
+    "message": "Nie op hierdie bladsy beskikbaar nie"
   },
-  "toWhiteListText": {
-    "message": "Voeg by Witlys (maak nooit skoon)",
-    "description": "Add to Whitelist (Never Clean)"
+  "siteDataEmptyText": {
+    "message": "Hierdie werf stoor tans niks nie"
   },
-  "toggleNotificationText": {
-    "message": "Wissel om kennisgewings te aktiveer of deaktiveer",
-    "description": "Toggle to enable or disable notifications"
-  },
-  "toggleToGreyListWordText": {
-    "message": "Verwissel na gryslys",
-    "description": "Toggle to greylist"
-  },
-  "toggleToWhiteListWordText": {
-    "message": "Verwissel na witlys",
-    "description": "Toggle to whitelist"
-  },
-  "versionNumberText": {
-    "message": "$CAD$ weergawe",
-    "description": "$CAD$ version 3.2.1. The actual number is formatted differently and will be right below this text.",
+  "siteDataUsageText": {
+    "message": "Gebruik $used$ van $quota$",
     "placeholders": {
-      "CAD": {
+      "used": {
         "content": "$1",
-        "example": "CAD or Cookie AutoDelete"
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
       }
     }
   },
-  "versionText": {
-    "message": "$browser$ weergawe",
-    "description": "Firefox version",
+  "siteDataSessionCookieText": {
+    "message": "sessie"
+  },
+  "siteDataExpiresText": {
+    "message": "verval $date$",
     "placeholders": {
-      "browser": {
+      "date": {
         "content": "$1",
-        "example": "Firefox"
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "onbekend"
+  },
+  "siteDataRefreshTitle": {
+    "message": "Verfris"
+  },
+  "sizePopupText": {
+    "message": "Opspringer se lettergrootte"
+  },
+  "sizeSettingText": {
+    "message": "Instellings se lettergrootte"
+  },
+  "stopEditingText": {
+    "message": "Hou op wysig"
+  },
+  "successText": {
+    "message": "Sukses!"
+  },
+  "toGreyListText": {
+    "message": "Voeg by die gryslys (gehou tot die blaaier herbegin)"
+  },
+  "toWhiteListText": {
+    "message": "Voeg by die witlys (word nooit skoongemaak nie)"
+  },
+  "toggleNotificationText": {
+    "message": "Skakel kennisgewings aan of af"
+  },
+  "toggleToGreyListWordText": {
+    "message": "Skakel oor na die gryslys"
+  },
+  "toggleToWhiteListWordText": {
+    "message": "Skakel oor na die witlys"
+  },
+  "versionNumberText": {
+    "message": "$CAD$-weergawe",
+    "placeholders": {
+      "CAD": {
+        "content": "$1",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "welcomeMessage": {
-    "message": "Haai daar! Tydens hierdie sessie, het $cadTitle$ $sessionDeleted$ koekies geskrap. In totaal is $totalDeleted$ koekies geskrap.",
-    "description": "Hi there! During this session, Cookie AutoDelete has deleted 123 cookies and in total 456 cookies.",
+    "message": "$cadTitle$ het $sessionDeleted$ koekies in hierdie blaaisessie verwyder en $totalDeleted$ in totaal sedert installasie.",
     "placeholders": {
       "cadTitle": {
         "content": "$1",
-        "example": "Cookie AutoDelete"
+        "example": "Auto-Delete Cookies for Privacy"
       },
       "sessionDeleted": {
         "content": "$2",
@@ -512,11 +917,415 @@
     }
   },
   "welcomeText": {
-    "message": "Welkom",
-    "description": "Welcome"
+    "message": "Welkom"
+  },
+  "expressionListText": {
+    "message": "Lys van uitdrukkings"
   },
   "whiteListWordText": {
-    "message": "Witlys",
-    "description": "Whitelist"
+    "message": "Witlys"
+  },
+  "themeText": {
+    "message": "Tema"
+  },
+  "themeAutoText": {
+    "message": "Outomaties"
+  },
+  "themeLightText": {
+    "message": "Lig"
+  },
+  "themeDarkText": {
+    "message": "Donker"
+  },
+  "keepLocalStorageText": {
+    "message": "Hou LocalStorage"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "Hou LocalStorage tot herbegin"
+  },
+  "popupHeroOnText": {
+    "message": "Outoskrap is aan"
+  },
+  "popupHeroForgetText": {
+    "message": "Hierdie werf sal jou nie onthou nie."
+  },
+  "popupHeroOffText": {
+    "message": "Outoskrap is af"
+  },
+  "popupHeroOffSubText": {
+    "message": "Niks word outomaties geskrap nie."
+  },
+  "popupHeroKeepingText": {
+    "message": "Hou hierdie werf se koekies"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$ is op jou hou-lys",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$ word gehou tot die blaaier toemaak",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "sal skoongemaak word"
+  },
+  "siteKeptText": {
+    "message": "gehou"
+  },
+  "siteCleanDelayText": {
+    "message": "Koekies word $SECONDS$ s nadat jy hierdie werf verlaat, geskrap.",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "Hierdie werf se koekies word nooit geskrap nie."
+  },
+  "siteKeptSessionStatusText": {
+    "message": "Hierdie werf se koekies bly tot die blaaier toemaak."
+  },
+  "keepCookiesButtonText": {
+    "message": "Hou hierdie werf se koekies"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$ en sy subdomeine sal nie geskrap word nie",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "Hou tot die blaaier toemaak"
+  },
+  "stopKeepingButtonText": {
+    "message": "Hou op om hierdie werf te hou"
+  },
+  "cleanNowText": {
+    "message": "Maak nou skoon"
+  },
+  "cleanNowTooltipText": {
+    "message": "Skrap koekies van werwe wat jy nie hou nie — werwe wat in ander oortjies oop is, word oorgeslaan."
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "Maak nou skoon, insluitend oop oortjies"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "Soos Maak nou skoon, maar werwe wat in ander oortjies oop is, word nie meer oorgeslaan nie. Net gehoude werwe oorleef."
+  },
+  "deleteSiteCookiesText": {
+    "message": "Skrap hierdie werf se koekies"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "Skrap $DOMAIN$ se koekies nou dadelik, al is dit oop. Hou-reëls word net vir hierdie een aksie geïgnoreer.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "Skrap alles wat hierdie werf gestoor het"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "Skrap alles wat $DOMAIN$ op hierdie toestel gestoor het: koekies, kas, plaaslike berging, databasisse, workers.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "Hou"
+  },
+  "keepButtonTooltipText": {
+    "message": "Hierdie werf se koekies word nooit geskrap nie."
+  },
+  "keepSessionButtonText": {
+    "message": "Hou hierdie sessie"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "Koekies bly totdat jy die blaaier toemaak, dan word hulle met die volgende begin geskrap."
+  },
+  "noRuleMatchText": {
+    "message": "Geen gestoorde reël pas by hierdie werf nie"
+  },
+  "matchedRuleText": {
+    "message": "Passende reël: $EXPRESSION$",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "Meer skoonmaakopsies"
+  },
+  "shareText": {
+    "message": "Deel"
+  },
+  "shareTooltipText": {
+    "message": "Vertel iemand van hierdie uitbreiding"
+  },
+  "shareCopyLinkText": {
+    "message": "Kopieer skakel na die uitbreiding se bladsy"
+  },
+  "shareCopiedText": {
+    "message": "Skakel gekopieer"
+  },
+  "shareEmailText": {
+    "message": "Deel per e-pos"
+  },
+  "moreControlsText": {
+    "message": "Meer kontroles…"
+  },
+  "lastCleanSummaryText": {
+    "message": "Laaste skoonmaak: $COUNT$ koekies · $TIME$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "Gevorderde modus"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "Wys die kundige instellings op hierdie bladsy en ekstra kontroles in die opspringer: reëls vir presiese domeine, skoonmaakopsies per werf en die passende reël. By verstek af — die eenvoudige aansig dek die gewone geval."
+  },
+  "overviewText": {
+    "message": "Oorsig"
+  },
+  "protectionText": {
+    "message": "Beskerming"
+  },
+  "savedSitesText": {
+    "message": "Gestoorde werwe"
+  },
+  "savedSitesSubText": {
+    "message": "Werwe wat jy hou. Gehoude werwe hou hul data altyd; sessiewerwe tot die blaaier toemaak."
+  },
+  "cookiesDeletedSessionText": {
+    "message": "geskrap hierdie sessie"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "geskrap in totaal"
+  },
+  "keptBadgeText": {
+    "message": "Gehou"
+  },
+  "sessionBadgeText": {
+    "message": "Tot herbegin"
+  },
+  "toggleToKeepText": {
+    "message": "Skakel oor na Hou"
+  },
+  "toggleToSessionText": {
+    "message": "Skakel oor na Hou hierdie sessie"
+  },
+  "settingGroupSiteData": {
+    "message": "Wat geskrap word"
+  },
+  "deleteAllSiteDataText": {
+    "message": "Skrap alle werfdata"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "Koekies plus gestoorde lêers, vanlyn databasisse en agtergrond-workers — alles wat 'n werf op jou toestel stoor."
+  },
+  "customBadgeText": {
+    "message": "Pasgemaak"
+  },
+  "advancedChooseTypesText": {
+    "message": "Gevorderd — kies presies wat geskrap word"
+  },
+  "patternColumnText": {
+    "message": "Patroon"
+  },
+  "patternMeaningColumnText": {
+    "message": "Wat dit dek"
+  },
+  "patternDomainMeaningText": {
+    "message": "Presies hierdie domein"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "Die domein en elke subdomein"
+  },
+  "patternIPMeaningText": {
+    "message": "'n Enkele IP-adres"
+  },
+  "patternCIDRMeaningText": {
+    "message": "Elke adres in die reeks"
+  },
+  "patternRegexMeaningText": {
+    "message": "Gevorderd: 'n reëlmatige uitdrukking tussen skuinsstrepe"
+  },
+  "patternFileMeaningText": {
+    "message": "Plaaslike lêers wat in die blaaier oopgemaak is"
+  },
+  "patternKeepLevelsText": {
+    "message": "Hou stoor 'n werf se data permanent. Hou hierdie sessie stoor dit net tot die blaaier toemaak."
+  },
+  "summaryKeepsEverythingText": {
+    "message": "Hou alles"
+  },
+  "summaryAllCookiesText": {
+    "message": "Alle koekies"
+  },
+  "toggleOptionsText": {
+    "message": "Wys of versteek opsies"
+  },
+  "summaryNamedCookiesText": {
+    "message": "$COUNT$ benoemde koekies",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "Vee $TYPES$ uit",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "Alle gestoorde werwe is verwyder."
+  },
+  "importFoldedContainersText": {
+    "message": "$COUNT$ inskrywings uit ou houerlyste is by die versteklys ingesmelt.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
+  },
+  "importExportText": {
+    "message": "Invoer / Uitvoer"
+  },
+  "importExportSubText": {
+    "message": "Rugsteun jou instellings en gestoorde werwe, herstel hulle uit 'n lêer, of keer terug na verstek."
+  },
+  "activeModeDescText": {
+    "message": "Nadat 'n werf se oortjies toegemaak is."
+  },
+  "gracePeriodDescText": {
+    "message": "Wag voor skoonmaak, ingeval jy terugkom."
+  },
+  "domainChangeDescText": {
+    "message": "Maak 'n oortjie se ou werf skoon wanneer jy elders in daardie oortjie blaai."
+  },
+  "greylistDescText": {
+    "message": "Werwe gemerk Hou tot die blaaier toemaak word skoongemaak wanneer die blaaier herbegin."
+  },
+  "cleanDiscardedDescText": {
+    "message": "'n Oortjie wat die blaaier laat slaap het, tel as gesluit vir skoonmaak."
+  },
+  "startupCleanDescText": {
+    "message": "Werwe in oortjies wat uit die vorige sessie herstel is, word ook skoongemaak."
+  },
+  "cleanExpiredDescText": {
+    "message": "Koekies verby hul vervaldatum word in elke skoonmaakrondte geskrap."
+  },
+  "cleanupLogDescText": {
+    "message": "Voed die skoonmaaklogboek-bladsy en die tellers van geskrapte koekies."
+  },
+  "cookieCountIconDescText": {
+    "message": "Wys hoeveel koekies die huidige werf gestoor het."
+  },
+  "keepDefaultIconDescText": {
+    "message": "Moenie die ikoon herkleur om te wys of die werf gehou word nie."
+  },
+  "notifyAutoDescText": {
+    "message": "'n Kort kennisgewing ná elke outomatiese skoonmaak."
+  },
+  "notifyDurationDescText": {
+    "message": "Hoe lank kennisgewings op die skerm bly, in sekondes."
+  },
+  "debugModeDescText": {
+    "message": "Breedvoerige logboek na die uitbreiding se konsole, vir foutverslae."
+  },
+  "supportText": {
+    "message": "Ondersteuning"
+  },
+  "helpText": {
+    "message": "Hulp"
+  },
+  "helpSubText": {
+    "message": "Alles wat die uitbreiding doen, verduidelik. Elke afdeling maak apart oop."
+  },
+  "helpGettingStartedTitle": {
+    "message": "Om te begin"
+  },
+  "helpGettingStartedBody": {
+    "message": "Nuwe installasies begin in handmatige modus: niks word geskrap totdat jy sê nie. Dis doelbewus — bou eers jou hou-lys, sodat die latere aanskakel van outomatiese skoonmaak jou nie oral uitteken nie.\n\n1. Hou die werwe wat saak maak. Besoek elke werf waar uitteken jou sal irriteer (e-pos, bank, alles waarvoor jy betaal), klik die nutsbalkikoon en druk Hou hierdie werf se koekies. Die reël dek die domein en al sy subdomeine. Gebruik Hou tot die blaaier toemaak vir werwe wat jou net dié keer moet onthou.\n\n2. Besluit wat skoonmaak beteken. Uit die boks verwyder skoonmaak net koekies. Skakel Skrap alle werfdata op die Beskerming-bladsy aan om ook 'n werf se ander oorblyfsels uit te vee.\n\n3. Skakel outomatiese skoonmaak aan. Skakel Maak outomaties skoon op die Beskerming-bladsy aan. Van dan af: maak 'n werf se laaste oortjie toe, en ná die grasietydperk is sy koekies weg — tensy jy die werf hou of dit êrens anders nog oop is.\n\n4. Opsioneel: hou die skoonmaaklogboek aan, sodat jy altyd kan sien wat skoongemaak is en hoekom."
+  },
+  "helpCleaningTitle": {
+    "message": "Hoe skoonmaak werk"
+  },
+  "helpCleaningBody": {
+    "message": "Outomatiese skoonmaak word afgeskop wanneer 'n werf se laaste oortjie toemaak. Die grasietydperk (by verstek 15 sekondes) is jou ontdoen-venster: maak die werf binne dié tyd weer oop en niks word verwyder nie.\n\nMaak skoon wanneer jy 'n werf verlaat laat die blaai van een werf na 'n ander in dieselfde oortjie ook tel as die verlaat van die eerste — strenger, maar merkbaar as jy tussen werwe in een oortjie rondspring.\n\nTydens 'n skoonmaak oorleef 'n werf se koekies as enige van dié geld: die werf is nog in 'n oortjie oop; dit pas by 'n Hou-reël; dit pas by 'n Hou-tot-toemaak-reël en dit is nie 'n herbegin-skoonmaak nie; of die spesifieke koekie se naam is gemerk in 'n passende reël se koekielys. Al die res verdwyn.\n\nGevorderde modus voeg by: slapende (weggegooide) oortjies tel as gesluit, herstelde oortjies word een maal met begin skoongemaak, vervalde koekies word altyd verwyder, en sessie-houreëls — werwe met Hou tot die blaaier toemaak word met herbegin skoongemaak."
+  },
+  "helpSiteDataTitle": {
+    "message": "Wat geskrap word"
+  },
+  "helpSiteDataBody": {
+    "message": "By verstek skrap die uitbreiding net koekies. Die skakelaar Skrap alle werfdata brei die skoonmaak uit na alles anders wat 'n werf op jou toestel stoor: kas, IndexedDB, LocalStorage, inpropdata en service workers. Die Gevorderd-trekklavier daaronder laat jou individuele tipes kies.\n\nTwee dinge om te weet voor jy hulle omskakel:\n\n• Om 'n tipe te aktiveer vee dit een maal uit, oral. Die oomblik dat jy 'n tipe aanskakel, word al die tans gestoorde data van daardie tipe vir elke werf uitgevee (dis die waarskuwing op die bladsy). Skakel eers die vee-uit-met-aktivering-skakelaar af as jy nie daardie eerste vee wil hê nie.\n\n• Ou data kan nie selektief skoongemaak word nie. Die blaaier laat die uitbreiding net toe om hierdie tipes per werf vorentoe uit te vee, vir werwe wat jy weer besoek. Oorblyfsels van voor jy die opsie aangeskakel het, bly tot die werf weer besoek word."
+  },
+  "helpPatternsTitle": {
+    "message": "Hou-reëls en patrone"
+  },
+  "helpPatternsBody": {
+    "message": "Elke gestoorde werf is 'n patroon op een van twee lyste. Hou-werwe word nooit skoongemaak nie. Hou-tot-die-blaaier-toemaak-werwe oorleef gewone skoonmake, maar word met herbegin skoongemaak. 'n Werf wat by geeneen pas nie, word skoongemaak sodra jy dit verlaat — die versteklot; reëls is die uitsonderings.\n\nPatrone pas net by die gasheernaam — geen https://, geen paaie nie:\n\n• example.com — presies daardie domein, nie mail.example.com nie\n• *.example.com — die domein en elke subdomein\n• 192.168.1.100 — daardie IP-adres\n• 10.0.0.0/8 — enige IP in die CIDR-reeks\n• /^(mail|news)\\.example\\.com$/ — 'n reëlmatige uitdrukking tussen skuinsstrepe\n• file:///home/user/notes — bladsye wat uit daardie plaaslike gids oopgemaak is\n\nElke reël dra ook opsies per werf (vou sy ry op die Gestoorde werwe-bladsy oop): hou net benoemde koekies pleks van almal, en werfdata-keuses per tipe. 'n Skep verstekopsies-reël bepaal die beginopsies vir elke reël wat daarna bygevoeg word.\n\nWenk: om AL die koekies met herbegin te laat verdwyn, voeg * as 'n Hou-tot-die-blaaier-toemaak-reël by en merk jou werklik permanente werwe as Hou."
+  },
+  "helpImportExportTitle": {
+    "message": "Invoer en uitvoer"
+  },
+  "helpImportExportBody": {
+    "message": "Die Invoer / Uitvoer-bladsy rugsteun twee dinge apart: jou gestoorde werwe en jou instellings. Albei is gewone JSON-lêers met tydgestempelde name, sodat herhaalde rugsteune mekaar nie oorskryf nie. Invoer skrap nooit wat jy reeds het nie; presiese duplikate word oorgeslaan en ongeldige inskrywings word met 'n rede verwerp terwyl die res steeds ingevoer word.\n\nUitvoere uit die oorspronklike Cookie AutoDelete voer skoon in — selfde formaat. Uitvoere uit die Firefox-era kan houer-oortjielyste bevat ('n Firefox-funksie wat nie in Chromium bestaan nie); daardie inskrywings word by jou versteklys ingesmelt met duplikate oorgeslaan, en die invoerboodskap sê hoeveel ingesmelt is.\n\nDie terugstel van die instellings na verstek woon ook op daardie bladsy. Dit los jou gestoorde werwe uit."
+  },
+  "helpLogTitle": {
+    "message": "Die skoonmaaklogboek"
+  },
+  "helpLogBody": {
+    "message": "Die skoonmaaklogboek beantwoord hoekom is ek by daardie werf uitgeteken? en doen hierdie ding regtig iets?. Hou Hou 'n skoonmaaklogboek aan en maak die logboekbladsy ná 'n skoonmaak oop.\n\nElke inskrywing lys die geraakte werwe en die besluit vir elkeen, in gewone taal: gehou omdat 'n reël gepas het, gehou omdat die werf nog oop was, skoongemaak omdat niks gepas het nie, met begin skoongemaak (dis wat die tot-herbegin-werwe leegmaak), of selektief skoongemaak wanneer 'n reël net benoemde koekies hou. Die besluitreëls gebruik die interne lysname: witlys beteken 'n permanente Hou-reël, gryslys beteken Hou tot die blaaier toemaak.\n\nDie logboek bevat nooit koekiewaardes nie, teken nooit privaat-/inkognito-oortjies aan nie, verlaat nooit jou blaaier nie, en ou inskrywings val vanself agter af. Die Oorsig-bladsy se tellers (hierdie sessie / totaal) kom uit dieselfde boekhouding."
+  },
+  "helpPermissionsTitle": {
+    "message": "Hoekom dit hierdie toestemmings nodig het"
+  },
+  "helpPermissionsBody": {
+    "message": "Die installasiewaarskuwing Lees en verander werfdata op alle werwe is die onvermydelike een: koekies kan aan enige werf behoort wat jy besoek, so om hulle te skrap verg toegang tot alle werwe. Dit word uitsluitlik gebruik om koekies en werfdata te lees en te verwyder — nooit om bladsy-inhoud te lees nie, en nooit om met 'n bediener te praat nie (daar is nie een nie).\n\nDie res, kortliks. Koekies: lys 'n werf se koekies vir die teller en skrap hulle. Blaaidata: skrap die opsionele ekstras — kas, IndexedDB, LocalStorage, inpropdata, service workers. Berging: stoor jou instellings en hou-reëls plaaslik. Wekkers: hou 'n uitgestelde skoonmaak op skedule selfs al laat die blaaier die uitbreiding slaap terwyl dit wag. Oortjies: weet watter werwe oop is (oop werwe word beskerm) en merk op wanneer 'n oortjie toemaak of 'n werf verlaat. Aktiewe oortjie en Scripting: voer die opspringer se aksies per werf uit. Kontekskieslyste en Kennisgewings: twee opsionele funksies wat jy in die instellings kan afskakel.\n\nDoelbewus afwesig: blaaigeskiedenis, die onderskep van webversoeke en enige netwerktoegang hoegenaamd. Die uitbreiding kan nie sien wat jy tik of watter bladsye jy lees nie."
+  },
+  "helpTroubleshootingTitle": {
+    "message": "Probleemoplossing en gereelde vrae"
+  },
+  "helpTroubleshootingBody": {
+    "message": "By 'n werf uitgeteken? In volgorde van waarskynlikheid: die werf het geen hou-reël nie (of net sy presiese gasheernaam het een, terwyl die aanmelding op 'n subdomein woon — gebruik die vorm *.example.com); dit is 'n tot-herbegin-werf en die blaaier het herbegin; 'n passende reël hou net benoemde koekies en die aanmeldkoekie is nie gemerk nie; of die werf se eie koekie het verval. Moenie raai nie — die skoonmaaklogboek noem die presiese reël wat afgegaan het.\n\nKoekies verskyn net ná die skoonmaak weer? Die werf is byna altyd nog in 'n oortjie oop — oop werwe herskep koekies na willekeur en word in elk geval beskerm.\n\nSkoonmaak het nie gebeur nie? Kyk in volgorde: outomatiese skoonmaak is aan (die opspringer se opskrif sê so); die werf is nie in 'n ander oortjie oop nie; die grasietydperk is verby; geen hou-reël pas nie; dit was nie 'n slapende oortjie nie (dié tel net as gesluit as daardie gevorderde instelling aan is).\n\nWerfdata-skoonmaak aangeskakel maar ou data is nog daar? Die blaaier laat die uitbreiding net toe om daardie tipes te skrap vir werwe wat jy weer besoek; oorblyfsels bly tot die volgende besoek.\n\nInkognito? Net as jy dit toelaat: jou blaaier se uitbreidingsbladsy → Laat toe in inkognito. Inkognito het sy eie koekiestoor en gestoorde werwe, en word nooit in die logboek geskryf nie.\n\nNog steeds vas? Die Ondersteuning-bladsy het die weergawe, 'n kopieerbare ontfoutblok en die skakel vir foutverslae. Ontfoutmodus (Gevorderd) laat die uitbreiding elke besluit in die service worker-konsole vertel, met koekiewaardes gemasker."
   }
 }
