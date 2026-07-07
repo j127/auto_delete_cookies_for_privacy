@@ -39,7 +39,7 @@ jobs:
       # package_zip depends on the build recipe, so this also verifies the build
       - run: just package_zip
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: chrome-zip
           path: builds/*.zip
