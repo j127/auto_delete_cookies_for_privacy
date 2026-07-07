@@ -9,14 +9,7 @@
     "webextension",
     "extension"
   ],
-  "engines": {
-    "node": ">=16.14.0",
-    "npm": ">=8.5.0"
-  },
   "private": true,
-  "overrides": {
-    "@types/react": "^19"
-  },
   "dependencies": {
     "@reduxjs/toolkit": "^2.12.0",
     "ipaddr.js": "^2.4.0",
