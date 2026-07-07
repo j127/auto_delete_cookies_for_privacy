@@ -36,6 +36,8 @@ jobs:
 
       - run: just format_check
 
+      - run: just check_locales
+
       - run: just test
 
       # package_zip depends on the build recipe, so this also verifies the build

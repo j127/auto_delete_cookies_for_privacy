@@ -1,0 +1,121 @@
+/**
+ * Part of Auto-Delete Cookies for Privacy, a fork of Cookie AutoDelete.
+ * Copyright (c) 2026 j127. Licensed under MIT (see LICENSE).
+ */
+
+/**
+ * Locale consistency gate (#70). For every non-English locale under
+ * extension/_locales/ it verifies, against en/messages.json:
+ *
+ * - the file parses as JSON;
+ * - the key set matches en exactly (no missing keys, no stale extras);
+ * - the $placeholder$ tokens used in each message match en's per key
+ *   (a broken placeholder crashes browser.i18n substitution at runtime);
+ * - every "placeholders" definition block matches en's for that key;
+ * - extensionName stays the literal untranslated brand.
+ *
+ * Run with: bun scripts/check_locales.ts (just check_locales)
+ */
+
+import { readdirSync } from "fs";
+import { join } from "path";
+
+const localesRoot = join(import.meta.dir, "..", "extension", "_locales");
+
+type Message = {
+  message: string;
+  description?: string;
+  placeholders?: { [name: string]: { content: string; example?: string } };
+};
+type MessagesFile = { [key: string]: Message };
+
+// $name$ substitution tokens; $$ is an escaped dollar and not a token.
+const placeholderTokens = (message: string): string[] =>
+  [...message.matchAll(/\$([a-zA-Z0-9_@]+)\$/g)]
+    .map((m) => m[1].toLowerCase())
+    .sort();
+
+const en: MessagesFile = await Bun.file(
+  join(localesRoot, "en", "messages.json")
+).json();
+const enKeys = Object.keys(en).sort();
+
+const locales = readdirSync(localesRoot, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory() && entry.name !== "en")
+  .map((entry) => entry.name)
+  .sort();
+
+const problems: string[] = [];
+
+for (const locale of locales) {
+  const path = join(localesRoot, locale, "messages.json");
+  let data: MessagesFile;
+  try {
+    data = await Bun.file(path).json();
+  } catch (e) {
+    problems.push(`${locale}: does not parse (${e})`);
+    continue;
+  }
+
+  const keys = Object.keys(data).sort();
+  const missing = enKeys.filter((k) => !(k in data));
+  const extra = keys.filter((k) => !(k in en));
+  if (missing.length > 0) {
+    problems.push(`${locale}: missing keys: ${missing.join(", ")}`);
+  }
+  if (extra.length > 0) {
+    problems.push(`${locale}: stale extra keys: ${extra.join(", ")}`);
+  }
+
+  for (const key of enKeys) {
+    const entry = data[key];
+    if (!entry) continue;
+    if (typeof entry.message !== "string" || entry.message.length === 0) {
+      problems.push(`${locale}/${key}: empty or non-string message`);
+      continue;
+    }
+    const want = placeholderTokens(en[key].message);
+    const got = placeholderTokens(entry.message);
+    if (want.join("|") !== got.join("|")) {
+      problems.push(
+        `${locale}/${key}: placeholder tokens [${got.join(", ")}] != en [${want.join(", ")}]`
+      );
+    }
+    const wantDefs = Object.keys(en[key].placeholders ?? {})
+      .map((n) => n.toLowerCase())
+      .sort();
+    const gotDefs = Object.keys(entry.placeholders ?? {})
+      .map((n) => n.toLowerCase())
+      .sort();
+    if (wantDefs.join("|") !== gotDefs.join("|")) {
+      problems.push(
+        `${locale}/${key}: placeholders block [${gotDefs.join(", ")}] != en [${wantDefs.join(", ")}]`
+      );
+    }
+    for (const [name, def] of Object.entries(entry.placeholders ?? {})) {
+      const enDef = Object.entries(en[key].placeholders ?? {}).find(
+        ([n]) => n.toLowerCase() === name.toLowerCase()
+      );
+      if (enDef && def.content !== enDef[1].content) {
+        problems.push(
+          `${locale}/${key}: placeholder ${name} content "${def.content}" != en "${enDef[1].content}"`
+        );
+      }
+    }
+  }
+
+  if (data.extensionName && data.extensionName.message !== en.extensionName.message) {
+    problems.push(
+      `${locale}: extensionName must stay the literal brand "${en.extensionName.message}"`
+    );
+  }
+}
+
+if (problems.length > 0) {
+  console.error(`${problems.length} locale problem(s):`);
+  for (const p of problems) console.error(`  - ${p}`);
+  process.exit(1);
+}
+console.log(
+  `${locales.length} locales consistent with en (${enKeys.length} keys each).`
+);
