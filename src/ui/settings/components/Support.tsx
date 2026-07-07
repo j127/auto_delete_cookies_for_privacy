@@ -47,7 +47,7 @@ const settingOrder = [
   SettingID.DEBUG_MODE,
 ];
 
-const About: React.FunctionComponent<OwnProps> = ({ style }) => {
+const Support: React.FunctionComponent<OwnProps> = ({ style }) => {
   const settings = useSelector((state: State) => state.settings);
   const settingSlim = settingOrder.map((s) => {
     const so = settings[s];
@@ -56,7 +56,7 @@ const About: React.FunctionComponent<OwnProps> = ({ style }) => {
   return (
     <div style={style}>
       <h1 className="mb-4 text-2xl font-bold">
-        {browser.i18n.getMessage("aboutText")}
+        {browser.i18n.getMessage("supportText")}
       </h1>
       <p className="mb-4">
         {browser.i18n.getMessage("versionNumberText", [
@@ -73,12 +73,6 @@ const About: React.FunctionComponent<OwnProps> = ({ style }) => {
           href="https://github.com/j127/auto_delete_cookies_for_privacy/issues"
         >
           {browser.i18n.getMessage("reportIssuesText")}
-        </a>
-        <a
-          className="link link-primary"
-          href="https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/introduction.md"
-        >
-          <span>{`${browser.i18n.getMessage("documentationText")}`}</span>
         </a>
       </div>
       <div className="divider" />
@@ -209,4 +203,4 @@ const About: React.FunctionComponent<OwnProps> = ({ style }) => {
   );
 };
 
-export default About;
+export default Support;

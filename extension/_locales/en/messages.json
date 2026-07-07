@@ -1518,5 +1518,9 @@
   "debugModeDescText": {
     "message": "Verbose logging to the extension console, for bug reports.",
     "description": "Description: Debug mode"
+  },
+  "supportText": {
+    "message": "Support",
+    "description": "Sidebar tab: version, contact links, and debug information"
   }
 }
