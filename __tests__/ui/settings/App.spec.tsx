@@ -147,7 +147,7 @@ describe("settings App", () => {
     fireEvent.click(drawerToggle(container));
     expect(drawerToggle(container).checked).toBe(true);
 
-    fireEvent.click(container.querySelector("#tabAbout") as HTMLElement);
+    fireEvent.click(container.querySelector("#tabSupport") as HTMLElement);
     expect(drawerToggle(container).checked).toBe(false);
   });
 });

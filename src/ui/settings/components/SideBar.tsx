@@ -47,8 +47,8 @@ const SideBar: React.FunctionComponent<OwnProps> = ({
       tabText: browser.i18n.getMessage("importExportText"),
     },
     {
-      tabId: "tabAbout",
-      tabText: browser.i18n.getMessage("aboutText"),
+      tabId: "tabSupport",
+      tabText: browser.i18n.getMessage("supportText"),
     },
   ];
 

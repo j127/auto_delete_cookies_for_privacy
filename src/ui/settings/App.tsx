@@ -15,11 +15,11 @@ import * as React from "react";
 import { useSelector } from "react-redux";
 import ErrorBoundary from "@/ui/common-components/ErrorBoundary";
 import Icon from "@/ui/common-components/Icon";
-import About from "./components/About";
 import ActivityLog from "./components/ActivityLog";
 import Expressions from "./components/Expressions";
 import ImportExport from "./components/ImportExport";
 import Settings from "./components/Settings";
+import Support from "./components/Support";
 import SideBar from "./components/SideBar";
 import ThemeSwitcher from "./components/ThemeSwitcher";
 import Welcome from "./components/Welcome";
@@ -107,7 +107,7 @@ const App: React.FunctionComponent = () => {
               {activeTab === "tabExpressionList" ? <Expressions /> : ""}
               {activeTab === "tabCleanupLog" ? <ActivityLog /> : ""}
               {activeTab === "tabImportExport" ? <ImportExport /> : ""}
-              {activeTab === "tabAbout" ? <About /> : ""}
+              {activeTab === "tabSupport" ? <Support /> : ""}
             </main>
           </ErrorBoundary>
         </div>

@@ -20,7 +20,7 @@ const TABS: Array<[string, string]> = [
   ["tabExpressionList", "savedSitesText"],
   ["tabCleanupLog", "cleanupLogText"],
   ["tabImportExport", "importExportText"],
-  ["tabAbout", "aboutText"],
+  ["tabSupport", "supportText"],
 ];
 
 describe("SideBar", () => {

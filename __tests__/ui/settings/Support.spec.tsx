@@ -6,17 +6,17 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
-import About from "@/ui/settings/components/About";
+import Support from "@/ui/settings/components/Support";
 
 const SETTING_COUNT = 24;
 
-describe("About", () => {
+describe("Support", () => {
   let writeText: jest.Mock;
 
-  const renderAbout = () =>
+  const renderSupport = () =>
     render(
       <Provider store={createStore(() => initialState)}>
-        <About />
+        <Support />
       </Provider>
     );
 
@@ -32,44 +32,37 @@ describe("About", () => {
   });
 
   it("renders without React warnings", () => {
-    renderAbout();
+    renderSupport();
     expect(console.error).not.toHaveBeenCalled();
   });
 
   it("shows the version line under the full product name, not ADCP", () => {
-    renderAbout();
+    renderSupport();
     expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
       "versionNumberText",
       ["extensionName"]
     );
   });
 
-  it("links to exactly two places: bug reports and the documentation", () => {
-    const { container, getByText, queryByText } = renderAbout();
+  it("renders the Support heading with the bug-reports link as the only anchor", () => {
+    const { container, getByText, queryByText } = renderSupport();
+    expect((container.querySelector("h1") as HTMLElement).textContent).toBe(
+      "supportText"
+    );
     const bugLink = getByText("reportIssuesText").closest(
       "a"
     ) as HTMLAnchorElement;
     expect(bugLink.getAttribute("href")).toBe(
       "https://github.com/j127/auto_delete_cookies_for_privacy/issues"
     );
-    const docLink = getByText("documentationText").closest(
-      "a"
-    ) as HTMLAnchorElement;
-    expect(docLink.getAttribute("href")).toBe(
-      "https://github.com/j127/auto_delete_cookies_for_privacy/blob/main/documentation/src/introduction.md"
-    );
-    expect(container.querySelectorAll("a")).toHaveLength(2);
-    expect(queryByText("faqText")).toBeNull();
-  });
-
-  it("has no contributors section", () => {
-    const { queryByText } = renderAbout();
-    expect(queryByText(/contributorsText/)).toBeNull();
-    expect(queryByText(/Kenny Do/)).toBeNull();
+    // The external documentation link is gone — the in-app Help page owns
+    // the docs now.
+    expect(queryByText("documentationText")).toBeNull();
+    expect(container.querySelectorAll("a")).toHaveLength(1);
   });
 
   it("fills the debug info textarea through the value prop", () => {
-    const { container } = renderAbout();
+    const { container } = renderSupport();
     const info = container.querySelector("#debugInfo") as HTMLTextAreaElement;
     expect(info.value).toBe(
       "- Browser Info: (Please add version number on paste)\n- extensionName version: 1.0.0"
@@ -77,7 +70,7 @@ describe("About", () => {
   });
 
   it("fills the settings dump textarea with one line per setting", () => {
-    const { container } = renderAbout();
+    const { container } = renderSupport();
     const dump = container.querySelector(
       "#debugSettings"
     ) as HTMLTextAreaElement;
@@ -87,7 +80,7 @@ describe("About", () => {
   });
 
   it("copies the debug info textarea value to the clipboard", async () => {
-    const { container, getAllByRole } = renderAbout();
+    const { container, getAllByRole } = renderSupport();
     const info = container.querySelector("#debugInfo") as HTMLTextAreaElement;
     fireEvent.click(getAllByRole("button")[0]);
     expect(writeText).toHaveBeenCalledWith(info.value);
@@ -99,7 +92,7 @@ describe("About", () => {
   });
 
   it("copies the settings dump textarea value to the clipboard", async () => {
-    const { container, getAllByRole } = renderAbout();
+    const { container, getAllByRole } = renderSupport();
     const dump = container.querySelector(
       "#debugSettings"
     ) as HTMLTextAreaElement;
@@ -116,7 +109,7 @@ describe("About", () => {
 
   it("marks the status span as failed when the clipboard write rejects", async () => {
     writeText.mockRejectedValue(new Error("denied"));
-    const { container, getAllByRole } = renderAbout();
+    const { container, getAllByRole } = renderSupport();
     fireEvent.click(getAllByRole("button")[0]);
     const status = container.querySelector("#copy-debugInfo") as HTMLElement;
     await waitFor(() => {
