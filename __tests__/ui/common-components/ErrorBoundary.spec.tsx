@@ -45,11 +45,16 @@ describe("ErrorBoundary", () => {
     const alert = getByRole("alert");
     // Class ORDER is formatter-owned (tailwind class sorting); assert
     // membership only.
-    ["alert", "alert-danger", "alertPreWrap"].forEach((cls) =>
+    ["alert", "alert-error", "block", "whitespace-pre-wrap"].forEach((cls) =>
       expect(alert.classList.contains(cls)).toBe(true)
     );
-    const heading = alert.querySelector("h4.alert-heading") as HTMLElement;
+    // DaisyUI has no alert-heading; the heading is styled with font
+    // utilities instead.
+    const heading = alert.querySelector("h4") as HTMLElement;
     expect(heading.textContent).toBe("errorText");
+    ["text-lg", "font-bold"].forEach((cls) =>
+      expect(heading.classList.contains(cls)).toBe(true)
+    );
     expect(alert.textContent).toContain("Error: boom");
     const details = container.querySelector("details") as HTMLElement;
     expect(details).not.toBeNull();
@@ -62,7 +67,7 @@ describe("ErrorBoundary", () => {
     getByText("exportSettingsText");
     getByText("exportURLSText");
     const reset = container.querySelector("a") as HTMLAnchorElement;
-    expect(reset.className).toBe("btn btn-danger");
+    expect(reset.className).toBe("btn btn-error");
     expect(reset.getAttribute("title")).toBe("resetExtensionDataText");
     expect(reset.textContent).toBe("resetExtensionDataText");
   });

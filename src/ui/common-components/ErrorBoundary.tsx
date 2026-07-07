@@ -70,19 +70,22 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
     if (this.state.hasError) {
       // You can render any custom fallback UI
       return (
-        <div className="alert-danger alertPreWrap alert" role="alert">
-          <h4 className="alert-heading">
+        <div
+          className="alert block whitespace-pre-wrap alert-error"
+          role="alert"
+        >
+          <h4 className="mb-2 text-lg font-bold">
             {browser.i18n.getMessage("errorText")}
           </h4>
           {this.state.error && this.state.error.toString()}
           <br />
           {this.state.error && this.state.error.stack && (
-            <details style={{ whiteSpace: "pre-wrap" }}>
-              {this.state.error.stack}
-            </details>
+            // whitespace-pre-wrap on the alert container keeps the stack's
+            // line breaks; no inline style needed.
+            <details>{this.state.error.stack}</details>
           )}
-          <hr />
-          <p className="mb-0">
+          <div className="divider" />
+          <div className="flex flex-wrap gap-2">
             <IconButton
               className="btn-primary"
               iconName="download"
@@ -92,7 +95,6 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
               }
               title={browser.i18n.getMessage("exportTitleTimestamp")}
               text={browser.i18n.getMessage("exportSettingsText")}
-              styleReact={{ marginRight: "5px" }}
             />
             <IconButton
               className="btn-primary"
@@ -103,17 +105,16 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
               }
               title={browser.i18n.getMessage("exportTitleTimestamp")}
               text={browser.i18n.getMessage("exportURLSText")}
-              styleReact={{ marginRight: "5px" }}
             />
             <IconButton
               tag="a"
-              className="btn-danger"
+              className="btn-error"
               iconName="skull-crossbones"
               onClick={() => this.resetExtensionData()}
               title={browser.i18n.getMessage("resetExtensionDataText")}
               text={browser.i18n.getMessage("resetExtensionDataText")}
             />
-          </p>
+          </div>
         </div>
       );
     }
