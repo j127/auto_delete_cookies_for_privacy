@@ -1,8 +1,8 @@
 ---
 name: Bug Report
-description: Create a bug report to help us improve. Please check the Documentation and FAQ first!
-title: '[Bug]  ???'
-labels: 'untested bug/issue'
+description: Create a bug report to help us improve. Please check the extension's Help page first!
+title: "[Bug]  ???"
+labels: "untested bug/issue"
 body:
   - type: markdown
     attributes:
@@ -10,10 +10,8 @@ body:
         Please read carefully.  Issues that do not follow the format WILL be closed and may not be answered/resolved!
         - Please check both open and closed issues to ensure that it is not previously reported!  Duplicate issues will be closed.
 
-        - PLEASE READ THE FAQ AND DOCUMENTATION BEFORE POSTING:
-          - https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/Documentation
-          - https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/FAQ:-Common-Questions-and-Issues
-        - Issues that have an answer in the Documentation and/or FAQ WILL get closed and be pointed into the right direction
+        - PLEASE READ THE USER GUIDE BEFORE POSTING: open the extension's settings and check the Help page (user guide, FAQ, and troubleshooting).
+        - Issues that have an answer on the Help page WILL get closed and be pointed into the right direction
 
         - Please ensure that the bug report title starts with `[BUG] `.
 
@@ -28,13 +26,13 @@ body:
   - type: textarea
     attributes:
       label: Describe the bug
-      description: 'A clear and concise description of what the bug is.  A console output may be helpful to determine where the bug is.'
+      description: "A clear and concise description of what the bug is.  A console output may be helpful to determine where the bug is."
     validations:
       required: true
   - type: textarea
     attributes:
       label: To Reproduce
-      description: 'How did you trigger this bug?  Please walk us through it step by step.'
+      description: "How did you trigger this bug?  Please walk us through it step by step."
       placeholder: |
         Steps to reproduce the behavior:
 
@@ -47,7 +45,7 @@ body:
   - type: textarea
     attributes:
       label: Expected Behavior
-      description: 'A clear and concise description of what you expected to happen.'
+      description: "A clear and concise description of what you expected to happen."
     validations:
       required: true
   - type: textarea
@@ -65,13 +63,13 @@ body:
   - type: input
     attributes:
       label: System Info - Browser Info
-      description: '** If you are using a browser edition that is not standard/public release, please include the edition alongside the version number (e.g. Chrome Dev, Chrome Canary, Firefox Dev, Firefox Nightly)'
-      placeholder: e.g. Chrome 88.9.1234.567, Firefox 88.0.1
+      description: "** If you are using a browser edition that is not standard/public release, please include the edition alongside the version number (e.g. Chrome Dev, Chrome Canary, Brave Beta)"
+      placeholder: e.g. Chrome 120.0.6099.109, Brave 1.61.104
     validations:
       required: true
   - type: input
     attributes:
-      label: System Info - CookieAutoDelete Version
+      label: System Info - ADCP Version
       description: 'DO NOT PUT "LATEST"'
       placeholder: e.g. 3.6.0
     validations:
@@ -79,4 +77,4 @@ body:
   - type: textarea
     attributes:
       label: Additional Context
-      description: 'Add any other context about the bug below.'
+      description: "Add any other context about the bug below."

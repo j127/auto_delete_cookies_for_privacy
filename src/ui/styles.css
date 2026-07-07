@@ -1,0 +1,163 @@
+/**
+ * Part of Auto-Delete Cookies for Privacy, a fork of Cookie AutoDelete.
+ * Copyright (c) 2026 j127. Licensed under MIT (see LICENSE).
+ *
+ * Tailwind 4 CSS entry, compiled by @tailwindcss/cli from scripts/build.ts
+ * into extension/bundles/ui.css and linked by both HTML pages. Until the
+ * Bootstrap removal (#42) this sheet loads BEFORE bootstrap.min.css so the
+ * legacy UI wins every conflict during the transition.
+ */
+
+/* source(none) turns off automatic source detection; the @source lines below
+   are the complete scan list, so built bundles and vendor files can never
+   leak utility names into the output. */
+@import "tailwindcss" source(none);
+
+@source "./**/*.{ts,tsx}";
+@source "../../extension/popup/popup.html";
+@source "../../extension/settings/settings.html";
+
+/* Bundled fonts (#159): Inter for UI text, JetBrains Mono for the mono
+   bits. Packaged in extension/fonts/ (SIL OFL 1.1 — licenses beside the
+   files and in THIRD-PARTY-NOTICES.md); the url()s resolve relative to
+   the compiled bundles/ui.css. */
+@font-face {
+  font-family: "Inter";
+  src: url("../fonts/InterVariable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("../fonts/JetBrainsMono-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans:
+    "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono:
+    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+/* DaisyUI themes: "light" applies when <html> has no data-theme attribute
+   (the auto/default case) and "dark" also auto-applies under
+   prefers-color-scheme: dark. An explicit user choice is set as
+   data-theme="light" / data-theme="dark" by src/ui/theme.ts. */
+@plugin "daisyui" {
+  themes:
+    light --default,
+    dark --prefersdark;
+}
+
+/* The chosen 05d design system (issue #147): the built-in light/dark theme
+   NAMES are overridden with the "Signal" palette from the winning mockup
+   (mockups/05d-shield-cookie-simple.html), radius 12px (0.75rem), default
+   density, system sans. Keeping the names means theme.ts and every spec
+   stay untouched. */
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  color-scheme: light;
+  --color-base-100: #ffffff;
+  --color-base-200: #f6f8fa;
+  --color-base-300: #dde4ea;
+  --color-base-content: #101923;
+  --color-primary: #0969da;
+  --color-primary-content: #ffffff;
+  --color-secondary: #5e7183;
+  --color-secondary-content: #ffffff;
+  --color-accent: #0969da;
+  --color-accent-content: #ffffff;
+  --color-neutral: #364a5e;
+  --color-neutral-content: #ffffff;
+  --color-info: #0969da;
+  --color-info-content: #ffffff;
+  --color-success: #1a7f37;
+  --color-success-content: #ffffff;
+  --color-warning: #9a6700;
+  --color-warning-content: #ffffff;
+  --color-error: #cf222e;
+  --color-error-content: #ffffff;
+  --radius-selector: 0.75rem;
+  --radius-field: 0.75rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  prefersdark: true;
+  color-scheme: dark;
+  --color-base-100: #131a23;
+  --color-base-200: #0b1017;
+  --color-base-300: #222c38;
+  --color-base-content: #e3eaf1;
+  --color-primary: #539bf5;
+  --color-primary-content: #0b1017;
+  --color-secondary: #8598ab;
+  --color-secondary-content: #0b1017;
+  --color-accent: #539bf5;
+  --color-accent-content: #0b1017;
+  --color-neutral: #222c38;
+  --color-neutral-content: #e3eaf1;
+  --color-info: #539bf5;
+  --color-info-content: #0b1017;
+  --color-success: #46c55a;
+  --color-success-content: #0b1017;
+  --color-warning: #e3b341;
+  --color-warning-content: #0b1017;
+  --color-error: #f47067;
+  --color-error-content: #0b1017;
+  --radius-selector: 0.75rem;
+  --radius-field: 0.75rem;
+  --radius-box: 0.75rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+/* Clean-result feedback flash for the popup's clean button group
+   (animateFlash in src/ui/popup/popup-lib.tsx adds/removes the classes).
+   Ported from the deleted popup.css, recolored with DaisyUI theme vars. */
+@keyframes success-flash {
+  10%,
+  50% {
+    background-color: var(--color-success);
+    border-color: var(--color-success);
+    color: var(--color-success-content);
+  }
+}
+
+.successAnimated button {
+  animation: success-flash 1.5s ease-in-out;
+}
+
+@keyframes failure-flash {
+  10%,
+  50% {
+    background-color: var(--color-error);
+    border-color: var(--color-error);
+    color: var(--color-error-content);
+  }
+}
+
+.failureAnimated button {
+  animation: failure-flash 1.5s ease-in-out;
+}

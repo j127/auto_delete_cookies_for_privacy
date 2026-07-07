@@ -1,0 +1,111 @@
+/**
+ * Part of Auto-Delete Cookies for Privacy, a fork of Cookie AutoDelete.
+ * Copyright (c) 2017-2022 Kenny Do and CAD Team; fork changes (c) 2026 j127.
+ * Licensed under MIT (see LICENSE).
+ */
+
+/**
+ * Extension build script (replaces webpack). Run with:
+ *   bun run scripts/build.ts          one-shot build
+ *   bun run scripts/build.ts --watch  rebuild on changes under src/
+ *
+ * Emits three ESM entry bundles (plus shared chunks) into extension/bundles/
+ * and compiles the Tailwind 4 stylesheet (src/ui/styles.css) into
+ * extension/bundles/ui.css via @tailwindcss/cli. The MV3 service worker runs
+ * the background bundle with "type": "module", and both HTML pages load
+ * their entry with <script type="module"> plus the compiled stylesheet.
+ * The bootstrap/jquery vendor copies are gone since #42.
+ */
+
+// Bare specifiers (not node:-prefixed) and older fs APIs (rmdirSync) because
+// the locked @types/node is too old for the node: aliases and for
+// cpSync/rmSync; Bun implements all of these.
+import { existsSync, rmdirSync, watch } from "fs";
+import { join } from "path";
+
+const root = join(import.meta.dir, "..");
+const srcDir = join(root, "src");
+const outDir = join(root, "extension", "bundles");
+
+const BANNER = `/*!
+ * Copyright (c) 2017-2022 Kenny Do and CAD Team (https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/graphs/contributors)
+ * Fork: Auto-Delete Cookies for Privacy, Copyright (c) 2026 j127 (https://github.com/j127/auto_delete_cookies_for_privacy)
+ * Licensed under MIT (https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/blob/3.X.X-Branch/LICENSE)
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */`;
+
+/**
+ * Compiles src/ui/styles.css (Tailwind 4 + DaisyUI) into
+ * extension/bundles/ui.css. Spawns the CLI binary directly from
+ * node_modules/.bin so no global install is needed; Bun runs it fine.
+ * Unminified, matching the JS bundles (reviewable output).
+ */
+async function buildTailwind(): Promise<boolean> {
+  const proc = Bun.spawn(
+    [
+      join(root, "node_modules", ".bin", "tailwindcss"),
+      "-i",
+      join(srcDir, "ui", "styles.css"),
+      "-o",
+      join(outDir, "ui.css"),
+    ],
+    { cwd: root, stdout: "ignore", stderr: "inherit" }
+  );
+  return (await proc.exited) === 0;
+}
+
+async function buildOnce(): Promise<boolean> {
+  const started = Date.now();
+  if (existsSync(outDir)) rmdirSync(outDir, { recursive: true });
+  const result = await Bun.build({
+    entrypoints: [
+      join(srcDir, "background.ts"),
+      join(srcDir, "ui", "popup", "index.tsx"),
+      join(srcDir, "ui", "settings", "index.tsx"),
+    ],
+    outdir: outDir,
+    root: srcDir,
+    format: "esm",
+    splitting: true,
+    sourcemap: "linked",
+    // Unminified on purpose: trivial sizes, and reviewable bundles make
+    // Chrome Web Store review less painful.
+    minify: false,
+    banner: BANNER,
+  });
+  if (!result.success) {
+    for (const log of result.logs) console.error(log);
+    return false;
+  }
+  if (!(await buildTailwind())) return false;
+  const files = result.outputs
+    .map((o) => o.path.replace(`${root}/`, ""))
+    .filter((p) => !p.endsWith(".map"))
+    .concat("extension/bundles/ui.css");
+  console.log(
+    `built ${files.length} files in ${Date.now() - started}ms\n  ${files.join("\n  ")}`
+  );
+  return true;
+}
+
+const ok = await buildOnce();
+
+if (process.argv.includes("--watch")) {
+  console.log("watching src/ for changes...");
+  let pending: ReturnType<typeof setTimeout> | undefined;
+  watch(srcDir, { recursive: true }, () => {
+    if (pending) clearTimeout(pending);
+    pending = setTimeout(() => {
+      void buildOnce();
+    }, 150);
+  });
+} else if (!ok) {
+  process.exit(1);
+}

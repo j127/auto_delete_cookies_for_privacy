@@ -1,0 +1,831 @@
+/**
+ * Copyright (c) 2017-2022 Kenny Do and CAD Team (https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/graphs/contributors)
+ * Licensed under MIT (https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/blob/3.X.X-Branch/LICENSE)
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+import { ListType, SettingID, SiteDataType } from "@/typings/enums";
+import { addExpressionUI, cookieCleanup, updateSetting } from "@/redux/actions";
+import {
+  clearCookiesForThisDomain,
+  clearLocalStorageForThisDomain,
+  clearSiteDataForThisDomain,
+} from "./cleanup-service";
+import {
+  adcpLog,
+  getHostname,
+  getSetting,
+  localFileToRegex,
+  parseCookieStoreId,
+  showNotification,
+  siteDataToBrowser,
+  SITEDATATYPES,
+} from "./libs";
+import StoreUser from "./store-user";
+
+export default class ContextMenuEvents extends StoreUser {
+  public static MenuID = {
+    ACTIVE_MODE: "adcp-active-mode",
+    CLEAN: "adcp-clean",
+    CLEAN_OPEN: "adcp-clean-open",
+    LINK_ADD_GREY_DOMAIN: "adcp-link-add-grey-domain",
+    LINK_ADD_GREY_SUBS: "adcp-link-add-grey-subs",
+    LINK_ADD_WHITE_DOMAIN: "adcp-link-add-white-domain",
+    LINK_ADD_WHITE_SUBS: "adcp-link-add-white-subs",
+    PAGE_ADD_GREY_DOMAIN: "adcp-page-add-grey-domain",
+    PAGE_ADD_GREY_SUBS: "adcp-page-add-grey-subs",
+    PAGE_ADD_WHITE_DOMAIN: "adcp-page-add-white-domain",
+    PAGE_ADD_WHITE_SUBS: "adcp-page-add-white-subs",
+    PARENT_CLEAN: "adcp-parent-clean",
+    PARENT_EXPRESSION: "adcp-parent-expression",
+    PARENT_LINK_DOMAIN: "adcp-parent-link-domain",
+    PARENT_LINK_SUBS: "adcp-parent-link-subs",
+    PARENT_PAGE_DOMAIN: "adcp-parent-page-domain",
+    PARENT_PAGE_SUBS: "adcp-parent-page-subs",
+    PARENT_SELECT_DOMAIN: "adcp-parent-select-domain",
+    PARENT_SELECT_SUBS: "adcp-parent-select-subs",
+    MANUAL_CLEAN_SITEDATA: "adcp-clean-sitedata-",
+    // MV3 service workers require an explicit id on EVERY menu item,
+    // including separators and disabled label rows.
+    CLEAN_WARNING: "adcp-clean-warning",
+    SEPARATOR_CLEAN: "adcp-separator-clean",
+    SEPARATOR_EXPRESSION: "adcp-separator-expression",
+    SEPARATOR_SETTINGS: "adcp-separator-settings",
+    SELECT_ADD_GREY_DOMAIN: "adcp-select-add-grey-domain",
+    SELECT_ADD_GREY_SUBS: "adcp-select-add-grey-subs",
+    SELECT_ADD_WHITE_DOMAIN: "adcp-select-add-white-domain",
+    SELECT_ADD_WHITE_SUBS: "adcp-select-add-white-subs",
+    SETTINGS: "adcp-settings",
+  };
+
+  public static async menuInit(): Promise<void> {
+    if (!browser.contextMenus) return;
+    if (
+      !getSetting(
+        StoreUser.store.getState(),
+        SettingID.CONTEXT_MENUS
+      ) as boolean
+    )
+      return;
+    if (ContextMenuEvents.isInitialized) return;
+    ContextMenuEvents.isInitialized = true;
+    // MV3: init() runs on every service worker wake, but menu registrations
+    // persist browser-side across wakes. Clearing first makes recreation
+    // idempotent instead of erroring on duplicate ids.
+    await browser.contextMenus.removeAll();
+    // Clean Option Group
+    ContextMenuEvents.menuCreate({
+      id: ContextMenuEvents.MenuID.PARENT_CLEAN,
+      title: browser.i18n.getMessage("contextMenusParentClean"),
+    });
+    // Regular Clean (exclude open tabs)
+    ContextMenuEvents.menuCreate({
+      id: ContextMenuEvents.MenuID.CLEAN,
+      parentId: ContextMenuEvents.MenuID.PARENT_CLEAN,
+      title: browser.i18n.getMessage("cleanText"),
+    });
+    // Clean (include open tabs)
+    ContextMenuEvents.menuCreate({
+      id: ContextMenuEvents.MenuID.CLEAN_OPEN,
+      parentId: ContextMenuEvents.MenuID.PARENT_CLEAN,
+      title: browser.i18n.getMessage("cleanIgnoringOpenTabsText"),
+    });
+    // Separator
+    ContextMenuEvents.menuCreate({
+      id: ContextMenuEvents.MenuID.SEPARATOR_CLEAN,
+      parentId: ContextMenuEvents.MenuID.PARENT_CLEAN,
+      type: "separator",
+    });
+    // Cleanup Warning
+    ContextMenuEvents.menuCreate({
+      enabled: false,
+      id: ContextMenuEvents.MenuID.CLEAN_WARNING,
+      parentId: ContextMenuEvents.MenuID.PARENT_CLEAN,
+      title: browser.i18n.getMessage("cleanupActionsBypass"),
+    });
+    // Clean all available site data for domain.
+    // SiteDataType (declare enum via Global.d.ts) somehow doesn't exist through the browser...
+    [...SITEDATATYPES, "All", "Cookies"].sort().forEach((sd) => {
+      ContextMenuEvents.menuCreate({
+        id: `${ContextMenuEvents.MenuID.MANUAL_CLEAN_SITEDATA}${sd}`,
+        parentId: ContextMenuEvents.MenuID.PARENT_CLEAN,
+        title: browser.i18n.getMessage(`manualCleanSiteData${sd}`),
+      });
+    });
+    // Separator
+    ContextMenuEvents.menuCreate({
+      id: ContextMenuEvents.MenuID.SEPARATOR_EXPRESSION,
+      type: "separator",
+    });
+    // Add Expression Option Group - page
+    ContextMenuEvents.menuCreate({
+      contexts: ["link", "page", "selection"],
+      id: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
+      title: browser.i18n.getMessage("contextMenusParentExpression"),
+    });
+    // Link Group
+    ContextMenuEvents.menuCreate({
+      contexts: ["link"],
+      id: ContextMenuEvents.MenuID.PARENT_LINK_DOMAIN,
+      parentId: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
+      title: browser.i18n.getMessage("contextMenusSelectedDomainLink"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["link"],
+      id: ContextMenuEvents.MenuID.LINK_ADD_GREY_DOMAIN,
+      parentId: ContextMenuEvents.MenuID.PARENT_LINK_DOMAIN,
+      title: browser.i18n.getMessage("toGreyListText"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["link"],
+      id: ContextMenuEvents.MenuID.LINK_ADD_WHITE_DOMAIN,
+      parentId: ContextMenuEvents.MenuID.PARENT_LINK_DOMAIN,
+      title: browser.i18n.getMessage("toWhiteListText"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["link"],
+      id: ContextMenuEvents.MenuID.PARENT_LINK_SUBS,
+      parentId: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
+      title: browser.i18n.getMessage("contextMenusSelectedSubdomainLink"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["link"],
+      id: ContextMenuEvents.MenuID.LINK_ADD_GREY_SUBS,
+      parentId: ContextMenuEvents.MenuID.PARENT_LINK_SUBS,
+      title: browser.i18n.getMessage("toGreyListText"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["link"],
+      id: ContextMenuEvents.MenuID.LINK_ADD_WHITE_SUBS,
+      parentId: ContextMenuEvents.MenuID.PARENT_LINK_SUBS,
+      title: browser.i18n.getMessage("toWhiteListText"),
+    });
+    // Page Group
+    ContextMenuEvents.menuCreate({
+      contexts: ["page"],
+      id: ContextMenuEvents.MenuID.PARENT_PAGE_DOMAIN,
+      parentId: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
+      title: browser.i18n.getMessage("contextMenusSelectedDomainPage"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["page"],
+      id: ContextMenuEvents.MenuID.PAGE_ADD_GREY_DOMAIN,
+      parentId: ContextMenuEvents.MenuID.PARENT_PAGE_DOMAIN,
+      title: browser.i18n.getMessage("toGreyListText"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["page"],
+      id: ContextMenuEvents.MenuID.PAGE_ADD_WHITE_DOMAIN,
+      parentId: ContextMenuEvents.MenuID.PARENT_PAGE_DOMAIN,
+      title: browser.i18n.getMessage("toWhiteListText"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["page"],
+      id: ContextMenuEvents.MenuID.PARENT_PAGE_SUBS,
+      parentId: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
+      title: browser.i18n.getMessage("contextMenusSelectedSubdomainPage"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["page"],
+      id: ContextMenuEvents.MenuID.PAGE_ADD_GREY_SUBS,
+      parentId: ContextMenuEvents.MenuID.PARENT_PAGE_SUBS,
+      title: browser.i18n.getMessage("toGreyListText"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["page"],
+      id: ContextMenuEvents.MenuID.PAGE_ADD_WHITE_SUBS,
+      parentId: ContextMenuEvents.MenuID.PARENT_PAGE_SUBS,
+      title: browser.i18n.getMessage("toWhiteListText"),
+    });
+    // Selection Group
+    ContextMenuEvents.menuCreate({
+      contexts: ["selection"],
+      id: ContextMenuEvents.MenuID.PARENT_SELECT_DOMAIN,
+      parentId: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
+      title: browser.i18n.getMessage("contextMenusSelectedDomainText", ["%s"]),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["selection"],
+      id: ContextMenuEvents.MenuID.SELECT_ADD_GREY_DOMAIN,
+      parentId: ContextMenuEvents.MenuID.PARENT_SELECT_DOMAIN,
+      title: browser.i18n.getMessage("toGreyListText"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["selection"],
+      id: ContextMenuEvents.MenuID.SELECT_ADD_WHITE_DOMAIN,
+      parentId: ContextMenuEvents.MenuID.PARENT_SELECT_DOMAIN,
+      title: browser.i18n.getMessage("toWhiteListText"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["selection"],
+      id: ContextMenuEvents.MenuID.PARENT_SELECT_SUBS,
+      parentId: ContextMenuEvents.MenuID.PARENT_EXPRESSION,
+      title: browser.i18n.getMessage("contextMenusSelectedSubdomainText", [
+        "%s",
+      ]),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["selection"],
+      id: ContextMenuEvents.MenuID.SELECT_ADD_GREY_SUBS,
+      parentId: ContextMenuEvents.MenuID.PARENT_SELECT_SUBS,
+      title: browser.i18n.getMessage("toGreyListText"),
+    });
+    ContextMenuEvents.menuCreate({
+      contexts: ["selection"],
+      id: ContextMenuEvents.MenuID.SELECT_ADD_WHITE_SUBS,
+      parentId: ContextMenuEvents.MenuID.PARENT_SELECT_SUBS,
+      title: browser.i18n.getMessage("toWhiteListText"),
+    });
+    // Separator
+    ContextMenuEvents.menuCreate({
+      id: ContextMenuEvents.MenuID.SEPARATOR_SETTINGS,
+      type: "separator",
+    });
+    // Active Mode
+    ContextMenuEvents.menuCreate({
+      checked: getSetting(
+        StoreUser.store.getState(),
+        SettingID.ACTIVE_MODE
+      ) as boolean,
+      id: ContextMenuEvents.MenuID.ACTIVE_MODE,
+      title: browser.i18n.getMessage("activeModeText"),
+      type: "checkbox",
+    });
+    // CAD Settings Page.  Opens in a new tab next to the current one.
+    ContextMenuEvents.menuCreate({
+      id: ContextMenuEvents.MenuID.SETTINGS,
+      title: browser.i18n.getMessage("settingsText"),
+    });
+    // The onClicked listener is registered once, synchronously, at the top
+    // level of background.ts (an MV3 requirement); menu items themselves are
+    // what get created/removed here.
+  }
+
+  public static async menuClear(): Promise<void> {
+    await browser.contextMenus.removeAll();
+    ContextMenuEvents.isInitialized = false;
+    adcpLog(
+      {
+        msg: `ContextMenuEvents.menuClear:  Context Menu has been removed.`,
+      },
+      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean
+    );
+  }
+
+  protected static menuCreate(
+    createProperties: Parameters<typeof browser.contextMenus.create>[0]
+  ): number | string {
+    return browser.contextMenus.create(
+      {
+        ...createProperties,
+        // MV3 renamed the toolbar-button context from browser_action to
+        // action; Chrome rejects the old name outright.
+        contexts: createProperties.contexts
+          ? createProperties.contexts
+          : ["action", "page"],
+      },
+      ContextMenuEvents.onCreatedOrUpdated
+    );
+  }
+
+  public static updateMenuItemCheckbox(id: string, checked: boolean): void {
+    browser.contextMenus
+      .update(id, {
+        checked,
+      })
+      .finally(this.onCreatedOrUpdated);
+    adcpLog(
+      {
+        msg: `ContextMenuEvents.updateMenuItemCheckbox: Updated Menu Item.`,
+        x: { id, checked },
+      },
+      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean
+    );
+  }
+
+  public static onCreatedOrUpdated(): void {
+    const debug = getSetting(
+      StoreUser.store.getState(),
+      SettingID.DEBUG_MODE
+    ) as boolean;
+    if (browser.runtime.lastError) {
+      adcpLog(
+        {
+          msg: `ContextMenuEvents.onCreatedOrUpdated received an error: ${
+            // Chrome gives {message}; web-ext-types says string.
+            (browser.runtime.lastError as { message?: string }).message ??
+            browser.runtime.lastError
+          }`,
+          type: "error",
+        },
+        true
+      );
+    } else {
+      adcpLog(
+        {
+          msg: `ContextMenuEvents.onCreatedOrUpdated:  Create/Update contextMenuItem was successful.`,
+        },
+        debug
+      );
+    }
+  }
+
+  public static async onContextMenuClicked(
+    info: browser.contextMenus.OnClickData,
+    tab: browser.tabs.Tab
+  ): Promise<void> {
+    const debug = getSetting(
+      StoreUser.store.getState(),
+      SettingID.DEBUG_MODE
+    ) as boolean;
+    adcpLog(
+      {
+        msg: `ContextMenuEvents.onContextMenuClicked:  Data received`,
+        x: { info, tab },
+      },
+      debug
+    );
+    const cookieStoreId = (tab && tab.cookieStoreId) || "";
+    const selectionText = (info && info.selectionText) || "";
+    if (
+      info.menuItemId
+        .toString()
+        .startsWith(ContextMenuEvents.MenuID.MANUAL_CLEAN_SITEDATA)
+    ) {
+      const siteData = info.menuItemId
+        .toString()
+        .slice(ContextMenuEvents.MenuID.MANUAL_CLEAN_SITEDATA.length);
+      const hostname = getHostname(tab.url);
+      if (!hostname) {
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked cannot clean ${siteData} from tab:`,
+            type: "warn",
+            x: { tab },
+          },
+          debug
+        );
+        showNotification({
+          duration: getSetting(
+            StoreUser.store.getState(),
+            SettingID.NOTIFY_DURATION
+          ) as number,
+          msg: `${browser.i18n.getMessage("manualCleanError", [
+            browser.i18n.getMessage(
+              `${siteDataToBrowser(siteData as SiteDataType)}Text`
+            ),
+          ])}\n
+              ${tab.title}\n\n
+              ${tab.url}
+              `,
+        });
+        return;
+      }
+      adcpLog(
+        {
+          msg: `ContextMenuEvents.onContextMenuClicked triggered Clean Site Data (${siteData}) For This Domain.`,
+        },
+        debug
+      );
+      if (siteData === "Cookies") {
+        await clearCookiesForThisDomain(StoreUser.store.getState(), tab);
+        return;
+      }
+      switch (siteData) {
+        case "All":
+        case SiteDataType.CACHE:
+        case SiteDataType.INDEXEDDB:
+        case SiteDataType.PLUGINDATA:
+        case SiteDataType.SERVICEWORKERS:
+          await clearSiteDataForThisDomain(
+            StoreUser.store.getState(),
+            siteData,
+            hostname
+          );
+          break;
+        case SiteDataType.LOCALSTORAGE:
+          await clearLocalStorageForThisDomain(StoreUser.store.getState(), tab);
+          break;
+        default:
+          adcpLog(
+            {
+              msg: `ContextMenuEvents.onContextMenuClicked received unknown manual clean site data type: ${info.menuItemId}`,
+              type: "warn",
+              x: { info, tab },
+            },
+            debug
+          );
+          break;
+      }
+      return;
+    }
+
+    switch (info.menuItemId) {
+      case ContextMenuEvents.MenuID.CLEAN:
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked triggered Normal Clean.`,
+          },
+          debug
+        );
+        StoreUser.store.dispatch<any>(
+          cookieCleanup({
+            greyCleanup: false,
+            ignoreOpenTabs: false,
+          })
+        );
+        break;
+      case ContextMenuEvents.MenuID.CLEAN_OPEN:
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked triggered Clean, include open tabs.`,
+          },
+          debug
+        );
+        StoreUser.store.dispatch<any>(
+          cookieCleanup({
+            greyCleanup: false,
+            ignoreOpenTabs: true,
+          })
+        );
+        break;
+      case ContextMenuEvents.MenuID.LINK_ADD_GREY_DOMAIN:
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was LINK_ADD_GREY_DOMAIN.`,
+            x: {
+              linkUrl: info.linkUrl,
+              hostname: getHostname(info.linkUrl),
+              cookieStoreId,
+            },
+          },
+          debug
+        );
+        ContextMenuEvents.addNewExpression(
+          getHostname(info.linkUrl),
+          ListType.GREY,
+          cookieStoreId
+        );
+        break;
+      case ContextMenuEvents.MenuID.LINK_ADD_WHITE_DOMAIN:
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was LINK_ADD_WHITE_DOMAIN.`,
+            x: {
+              linkUrl: info.linkUrl,
+              hostname: getHostname(info.linkUrl),
+              cookieStoreId,
+            },
+          },
+          debug
+        );
+        ContextMenuEvents.addNewExpression(
+          getHostname(info.linkUrl),
+          ListType.WHITE,
+          cookieStoreId
+        );
+        break;
+      case ContextMenuEvents.MenuID.LINK_ADD_GREY_SUBS:
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was LINK_ADD_GREY_SUBS.`,
+            x: {
+              linkUrl: info.linkUrl,
+              hostname: getHostname(info.linkUrl),
+              cookieStoreId,
+            },
+          },
+          debug
+        );
+        ContextMenuEvents.addNewExpression(
+          `*.${getHostname(info.linkUrl)}`,
+          ListType.GREY,
+          cookieStoreId
+        );
+        break;
+      case ContextMenuEvents.MenuID.LINK_ADD_WHITE_SUBS:
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was LINK_ADD_WHITE_SUBS.`,
+            x: {
+              linkUrl: info.linkUrl,
+              hostname: getHostname(info.linkUrl),
+              cookieStoreId,
+            },
+          },
+          debug
+        );
+        ContextMenuEvents.addNewExpression(
+          `*.${getHostname(info.linkUrl)}`,
+          ListType.WHITE,
+          cookieStoreId
+        );
+        break;
+      case ContextMenuEvents.MenuID.PAGE_ADD_GREY_DOMAIN:
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was PAGE_ADD_GREY_DOMAIN.`,
+            x: {
+              pageURL: info.pageUrl,
+              hostname: getHostname(info.pageUrl),
+              cookieStoreId,
+              parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
+            },
+          },
+          debug
+        );
+        ContextMenuEvents.addNewExpression(
+          getHostname(info.pageUrl),
+          ListType.GREY,
+          cookieStoreId
+        );
+        break;
+      case ContextMenuEvents.MenuID.PAGE_ADD_WHITE_DOMAIN:
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was PAGE_ADD_WHITE_DOMAIN.`,
+            x: {
+              pageURL: info.pageUrl,
+              hostname: getHostname(info.pageUrl),
+              cookieStoreId,
+              parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
+            },
+          },
+          debug
+        );
+        ContextMenuEvents.addNewExpression(
+          getHostname(info.pageUrl),
+          ListType.WHITE,
+          cookieStoreId
+        );
+        break;
+      case ContextMenuEvents.MenuID.PAGE_ADD_GREY_SUBS:
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was PAGE_ADD_GREY_SUBS.`,
+            x: {
+              pageURL: info.pageUrl,
+              hostname: getHostname(info.pageUrl),
+              cookieStoreId,
+              parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
+            },
+          },
+          debug
+        );
+        ContextMenuEvents.addNewExpression(
+          `*.${getHostname(info.pageUrl)}`,
+          ListType.GREY,
+          cookieStoreId
+        );
+        break;
+      case ContextMenuEvents.MenuID.PAGE_ADD_WHITE_SUBS:
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was PAGE_ADD_WHITE_SUBS.`,
+            x: {
+              pageURL: info.pageUrl,
+              hostname: getHostname(info.pageUrl),
+              cookieStoreId,
+              parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
+            },
+          },
+          debug
+        );
+        ContextMenuEvents.addNewExpression(
+          `*.${getHostname(info.pageUrl)}`,
+          ListType.WHITE,
+          cookieStoreId
+        );
+        break;
+      case ContextMenuEvents.MenuID.SELECT_ADD_GREY_DOMAIN:
+        {
+          const texts = selectionText.trim().split(",");
+          adcpLog(
+            {
+              msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was SELECT_ADD_GREY_DOMAIN.`,
+              x: {
+                selectionText: info.selectionText,
+                texts,
+                cookieStoreId,
+                parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
+              },
+            },
+            debug
+          );
+          texts.forEach((text) => {
+            adcpLog(
+              {
+                msg: `ContextMenuEvents.onContextMenuClicked:  encodeURI on selected text`,
+                x: {
+                  rawInput: text.trim(),
+                  encodedInput: encodeURI(text.trim()),
+                },
+              },
+              debug
+            );
+            ContextMenuEvents.addNewExpression(
+              encodeURI(text.trim()),
+              ListType.GREY,
+              cookieStoreId
+            );
+          });
+        }
+        break;
+      case ContextMenuEvents.MenuID.SELECT_ADD_WHITE_DOMAIN:
+        {
+          const texts = selectionText.trim().split(",");
+          adcpLog(
+            {
+              msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was SELECT_ADD_WHITE_DOMAIN.`,
+              x: {
+                selectionText: info.selectionText,
+                texts,
+                cookieStoreId,
+                parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
+              },
+            },
+            debug
+          );
+          texts.forEach((text) => {
+            adcpLog(
+              {
+                msg: `ContextMenuEvents.onContextMenuClicked:  encodeURI on selected text`,
+                x: {
+                  rawInput: text.trim(),
+                  encodedInput: encodeURI(text.trim()),
+                },
+              },
+              debug
+            );
+            ContextMenuEvents.addNewExpression(
+              encodeURI(text.trim()),
+              ListType.WHITE,
+              cookieStoreId
+            );
+          });
+        }
+        break;
+      case ContextMenuEvents.MenuID.SELECT_ADD_GREY_SUBS:
+        {
+          const texts = selectionText.trim().split(",");
+          adcpLog(
+            {
+              msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was SELECT_ADD_GREY_SUBS.`,
+              x: {
+                selectionText: info.selectionText,
+                texts,
+                cookieStoreId,
+                parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
+              },
+            },
+            debug
+          );
+          texts.forEach((text) => {
+            adcpLog(
+              {
+                msg: `ContextMenuEvents.onContextMenuClicked:  encodeURI on selected text`,
+                x: {
+                  rawInput: text.trim(),
+                  encodedInput: encodeURI(text.trim()),
+                },
+              },
+              debug
+            );
+            ContextMenuEvents.addNewExpression(
+              `*.${encodeURI(text.trim())}`,
+              ListType.GREY,
+              cookieStoreId
+            );
+          });
+        }
+        break;
+      case ContextMenuEvents.MenuID.SELECT_ADD_WHITE_SUBS:
+        {
+          const texts = selectionText.trim().split(",");
+          adcpLog(
+            {
+              msg: `ContextMenuEvents.onContextMenuClicked:  menuItemId was SELECT_ADD_WHITE_SUBS.`,
+              x: {
+                selectionText: info.selectionText,
+                texts,
+                cookieStoreId,
+                parsedCookieStoreId: parseCookieStoreId(cookieStoreId),
+              },
+            },
+            debug
+          );
+          texts.forEach((text) => {
+            adcpLog(
+              {
+                msg: `ContextMenuEvents.onContextMenuClicked:  encodeURI on selected text`,
+                x: {
+                  rawInput: text.trim(),
+                  encodedInput: encodeURI(text.trim()),
+                },
+              },
+              debug
+            );
+            ContextMenuEvents.addNewExpression(
+              `*.${encodeURI(text.trim())}`,
+              ListType.WHITE,
+              cookieStoreId
+            );
+          });
+        }
+        break;
+      case ContextMenuEvents.MenuID.ACTIVE_MODE:
+        if (
+          Object.prototype.hasOwnProperty.call(info, "checked") &&
+          Object.prototype.hasOwnProperty.call(info, "wasChecked") &&
+          info.checked !== info.wasChecked
+        ) {
+          adcpLog(
+            {
+              msg: `ContextMenuEvents.onContextMenuClicked changed Automatic Cleaning value to:  ${info.checked}.`,
+            },
+            debug
+          );
+          // Setting Updated.
+          StoreUser.store.dispatch<any>(
+            updateSetting({
+              name: SettingID.ACTIVE_MODE,
+              value: info.checked!,
+            })
+          );
+        }
+        break;
+      case ContextMenuEvents.MenuID.SETTINGS:
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked triggered Open Settings.`,
+          },
+          debug
+        );
+        await browser.tabs.create({
+          index: tab.index + 1,
+          url: "/settings/settings.html#tabSettings",
+        });
+        break;
+      default:
+        adcpLog(
+          {
+            msg: `ContextMenuEvents.onContextMenuClicked received unknown menu id: ${info.menuItemId}`,
+            type: "warn",
+            x: { info, tab },
+          },
+          debug
+        );
+        break;
+    }
+  }
+
+  protected static addNewExpression(
+    input: string,
+    listType: ListType,
+    cookieStoreId: string | undefined
+  ): void {
+    if (input.trim() === "" || input === "*.") {
+      showNotification({
+        duration: getSetting(
+          StoreUser.store.getState(),
+          SettingID.NOTIFY_DURATION
+        ) as number,
+        msg: `${browser.i18n.getMessage("addNewExpressionNotificationFailed")}`,
+      });
+      return;
+    }
+    const payload = {
+      expression: localFileToRegex(input.trim()),
+      listType,
+      storeId: parseCookieStoreId(cookieStoreId),
+    };
+    adcpLog(
+      {
+        msg: `background.addNewExpression - Parsed from Right-Click:`,
+        x: payload,
+      },
+      getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean
+    );
+    showNotification({
+      duration: getSetting(
+        StoreUser.store.getState(),
+        SettingID.NOTIFY_DURATION
+      ) as number,
+      msg: `${browser.i18n.getMessage("addNewExpressionNotification", [
+        payload.expression,
+        payload.listType,
+        payload.storeId,
+      ])}\n${browser.i18n.getMessage("addNewExpressionNotificationIgnore")}`,
+    });
+    StoreUser.store.dispatch<any>(addExpressionUI(payload));
+  }
+
+  protected static isInitialized = false;
+}

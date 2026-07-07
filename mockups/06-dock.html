@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-palette="harbor" data-font="sans">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>06 · Dock — ADCP mockup</title>
+<style>
+/* ---------- palettes ---------- */
+[data-palette="harbor"] {
+  --c-bg: #f3f5f8; --c-surface: #ffffff; --c-text: #1b2733; --c-muted: #647585;
+  --c-accent: #2f6fed; --c-on-accent: #ffffff; --c-border: #dfe5ec;
+  --c-ok: #188554; --c-warn: #a8700d; --c-danger: #d24444;
+}
+[data-palette="harbor"][data-theme="dark"] {
+  --c-bg: #0e1319; --c-surface: #171e27; --c-text: #e5eaf0; --c-muted: #8b99a9;
+  --c-accent: #6a9bff; --c-on-accent: #0a1524; --c-border: #27313d;
+  --c-ok: #43c98a; --c-warn: #e0af45; --c-danger: #f47c7c;
+}
+[data-palette="plum"] {
+  --c-bg: #f7f4f9; --c-surface: #ffffff; --c-text: #2a1e33; --c-muted: #7c6f88;
+  --c-accent: #7a3fc0; --c-on-accent: #ffffff; --c-border: #e7e0ee;
+  --c-ok: #1d7a52; --c-warn: #a16207; --c-danger: #cc4141;
+}
+[data-palette="plum"][data-theme="dark"] {
+  --c-bg: #130e18; --c-surface: #1d1626; --c-text: #ece5f3; --c-muted: #a293b3;
+  --c-accent: #b78af0; --c-on-accent: #1c0f2c; --c-border: #342a41;
+  --c-ok: #4cc98e; --c-warn: #e0b03a; --c-danger: #f08080;
+}
+[data-palette="sand"] {
+  --c-bg: #f8f5f0; --c-surface: #fffefb; --c-text: #33291c; --c-muted: #82735f;
+  --c-accent: #b06e28; --c-on-accent: #fff8ee; --c-border: #e9e1d3;
+  --c-ok: #3f7d54; --c-warn: #b06e28; --c-danger: #c23b2c;
+}
+[data-palette="sand"][data-theme="dark"] {
+  --c-bg: #16120c; --c-surface: #211b12; --c-text: #f0e9dd; --c-muted: #ab9c85;
+  --c-accent: #dfa050; --c-on-accent: #241503; --c-border: #392f20;
+  --c-ok: #83c98f; --c-warn: #dfa050; --c-danger: #ef8070;
+}
+
+/* ---------- base ---------- */
+:root { --radius: 10px; --density: 0.95; --font-body: system-ui, sans-serif; --font-heading: system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--c-bg); color: var(--c-text); font-family: var(--font-body); font-size: 13.5px; line-height: 1.5; }
+h1, h2, h3 { font-family: var(--font-heading); margin: 0; }
+svg.i { width: 1.15em; height: 1.15em; vertical-align: -0.2em; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+.stage { max-width: 1180px; margin: 0 auto; padding: calc(var(--density) * 28px) calc(var(--density) * 20px) calc(var(--density) * 90px); }
+.stage > header { margin-bottom: calc(var(--density) * 24px); }
+.stage > header .k { color: var(--c-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; }
+.stage > header h1 { font-size: 25px; letter-spacing: -0.01em; }
+.stage > header p { color: var(--c-muted); max-width: 62ch; margin: 6px 0 0; }
+.demo { margin-top: calc(var(--density) * 32px); }
+.demo > .demo-label { color: var(--c-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: calc(var(--density) * 10px); }
+.frame { border: 1px solid var(--c-border); border-radius: calc(var(--radius) * 1.5); background: var(--c-surface); overflow: hidden; box-shadow: 0 8px 26px color-mix(in srgb, var(--c-text) 7%, transparent); }
+.popup-frame { width: 430px; max-width: 100%; }
+
+/* ---------- primitives ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--c-border); background: var(--c-surface); color: var(--c-text); font: inherit; font-size: 13px; font-weight: 550; cursor: pointer; border-radius: var(--radius); padding: calc(var(--density) * 6px) calc(var(--density) * 12px); }
+.btn:hover { background: color-mix(in srgb, var(--c-text) 4%, var(--c-surface)); }
+.btn.primary { background: var(--c-accent); border-color: var(--c-accent); color: var(--c-on-accent); font-weight: 650; }
+.btn.small { padding: calc(var(--density) * 3.5px) calc(var(--density) * 10px); font-size: 12px; }
+.pill { display: inline-flex; align-items: center; font-size: 11px; font-weight: 650; border-radius: 999px; padding: 2px 9px; }
+.pill.ok { color: var(--c-ok); background: color-mix(in srgb, var(--c-ok) 12%, transparent); }
+.pill.grey { color: var(--c-muted); background: color-mix(in srgb, var(--c-muted) 14%, transparent); }
+.pill.acc { color: var(--c-accent); background: color-mix(in srgb, var(--c-accent) 11%, transparent); }
+.tgl { position: relative; display: inline-block; width: 38px; height: 22px; flex: none; }
+.tgl input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.tgl .knob { position: absolute; inset: 0; background: color-mix(in srgb, var(--c-muted) 34%, var(--c-bg)); border-radius: 999px; transition: background 0.14s; }
+.tgl .knob::after { content: ""; position: absolute; top: 2.5px; left: 2.5px; width: 17px; height: 17px; background: var(--c-surface); border-radius: 50%; transition: left 0.14s; box-shadow: 0 1px 2px color-mix(in srgb, var(--c-text) 26%, transparent); }
+.tgl input:checked + .knob { background: var(--c-accent); }
+.tgl input:checked + .knob::after { left: 18.5px; }
+.tgl input:focus-visible + .knob { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+input[type="text"], select { font: inherit; font-size: 13px; color: var(--c-text); background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius); padding: calc(var(--density) * 6px) calc(var(--density) * 11px); }
+input[type="text"]:focus, select:focus { outline: 2px solid color-mix(in srgb, var(--c-accent) 45%, transparent); border-color: var(--c-accent); }
+.ico { width: 30px; height: 30px; border-radius: calc(var(--radius) * 0.9); display: inline-flex; align-items: center; justify-content: center; flex: none; background: color-mix(in srgb, var(--c-accent) 11%, transparent); color: var(--c-accent); }
+
+/* ---------- popup: stacked rows ---------- */
+.pp-head { display: flex; align-items: center; gap: 9px; padding: calc(var(--density) * 12px) calc(var(--density) * 15px); border-bottom: 1px solid var(--c-border); }
+.pp-head .name { font-weight: 650; font-size: 13px; }
+.pp-head .ver { margin-left: auto; color: var(--c-muted); font-size: 11px; }
+.rows { display: grid; }
+.row { display: flex; align-items: center; gap: 11px; padding: calc(var(--density) * 10px) calc(var(--density) * 15px); border-bottom: 1px solid var(--c-border); }
+.row:hover { background: color-mix(in srgb, var(--c-text) 3%, transparent); }
+.row .txt { flex: 1; min-width: 0; }
+.row .l { font-weight: 600; font-size: 13.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.row .d { color: var(--c-muted); font-size: 12px; }
+.row .end { display: inline-flex; gap: 7px; align-items: center; }
+.row.site .l { font-size: 15px; }
+.pp-bar { display: flex; gap: 8px; padding: calc(var(--density) * 12px) calc(var(--density) * 15px); background: color-mix(in srgb, var(--c-bg) 55%, var(--c-surface)); }
+.pp-bar .btn.primary { flex: 1; padding-block: calc(var(--density) * 9px); }
+details.morebar { border-bottom: 1px solid var(--c-border); }
+details.morebar summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 11px; padding: calc(var(--density) * 10px) calc(var(--density) * 15px); }
+details.morebar summary::-webkit-details-marker { display: none; }
+details.morebar summary .chev { margin-left: auto; color: var(--c-muted); transition: transform 0.15s; }
+details.morebar[open] summary .chev { transform: rotate(180deg); }
+details.morebar .opts { display: grid; padding-bottom: calc(var(--density) * 6px); }
+details.morebar .opts button { font: inherit; font-size: 13px; text-align: left; background: none; border: 0; color: var(--c-text); padding: calc(var(--density) * 7px) calc(var(--density) * 15px) calc(var(--density) * 7px) calc(var(--density) * 56px); cursor: pointer; }
+details.morebar .opts button:hover { background: color-mix(in srgb, var(--c-accent) 8%, transparent); }
+
+/* ---------- settings: icon rail ---------- */
+.app { display: grid; grid-template-columns: 64px 1fr; min-height: 620px; }
+.rail { border-right: 1px solid var(--c-border); background: color-mix(in srgb, var(--c-bg) 65%, var(--c-surface)); display: flex; flex-direction: column; align-items: center; padding: calc(var(--density) * 14px) 0; gap: calc(var(--density) * 6px); }
+.rail .logo { width: 34px; height: 34px; border-radius: calc(var(--radius) * 1.1); background: var(--c-accent); color: var(--c-on-accent); display: grid; place-content: center; font-weight: 800; font-size: 15px; margin-bottom: calc(var(--density) * 10px); }
+.rail a { width: 42px; height: 42px; border-radius: calc(var(--radius) * 1.1); display: grid; place-content: center; color: var(--c-muted); position: relative; }
+.rail a:hover { color: var(--c-text); background: color-mix(in srgb, var(--c-text) 5%, transparent); }
+.rail a.on { color: var(--c-accent); background: color-mix(in srgb, var(--c-accent) 12%, transparent); }
+.rail a.on::before { content: ""; position: absolute; left: -11px; top: 10px; bottom: 10px; width: 3px; border-radius: 2px; background: var(--c-accent); }
+.rail a svg { width: 19px; height: 19px; }
+.rail .tip { position: absolute; left: 52px; top: 50%; transform: translateY(-50%); background: var(--c-text); color: var(--c-bg); font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 6px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.12s; z-index: 3; }
+.rail a:hover .tip { opacity: 1; }
+.main { padding: calc(var(--density) * 22px) calc(var(--density) * 28px) calc(var(--density) * 34px); max-width: 780px; }
+.main > h2 { font-size: 19px; }
+.main > .sub { color: var(--c-muted); font-size: 12.5px; margin: 3px 0 calc(var(--density) * 18px); }
+.panel { border: 1px solid var(--c-border); border-radius: calc(var(--radius) * 1.4); background: var(--c-surface); margin-bottom: calc(var(--density) * 14px); overflow: hidden; }
+.panel > .ph { display: flex; align-items: center; gap: 11px; padding: calc(var(--density) * 12px) calc(var(--density) * 16px); border-bottom: 1px solid var(--c-border); }
+.panel > .ph h3 { font-size: 14px; flex: 1; }
+.srow { display: flex; align-items: center; gap: 13px; padding: calc(var(--density) * 10px) calc(var(--density) * 16px); }
+.srow + .srow { border-top: 1px solid var(--c-border); }
+.srow .txt { flex: 1; }
+.srow .l { font-weight: 600; font-size: 13.5px; }
+.srow .d { color: var(--c-muted); font-size: 12px; }
+.srow input.n { width: 66px; text-align: right; }
+.srow .unit { color: var(--c-muted); font-size: 12px; }
+
+/* master + accordion */
+.master { display: flex; align-items: flex-start; gap: 13px; padding: calc(var(--density) * 14px) calc(var(--density) * 16px); }
+.master .txt { flex: 1; }
+.master .l { font-weight: 700; font-size: 14px; }
+.master .d { color: var(--c-muted); font-size: 12.5px; margin-top: 2px; max-width: 52ch; }
+details.adv { border-top: 1px solid var(--c-border); background: color-mix(in srgb, var(--c-bg) 45%, var(--c-surface)); }
+details.adv summary { list-style: none; cursor: pointer; padding: calc(var(--density) * 10px) calc(var(--density) * 16px); font-size: 12.5px; font-weight: 650; color: var(--c-accent); display: flex; gap: 7px; align-items: center; }
+details.adv summary::-webkit-details-marker { display: none; }
+details.adv .types { padding: 0 calc(var(--density) * 16px) calc(var(--density) * 14px); display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--density) * 7px) calc(var(--density) * 18px); font-size: 13px; }
+details.adv label { display: flex; gap: 9px; align-items: baseline; }
+details.adv input { accent-color: var(--c-accent); }
+details.adv .d { color: var(--c-muted); font-size: 11.5px; }
+
+/* expressions */
+.xbar { display: flex; gap: 8px; padding: calc(var(--density) * 12px) calc(var(--density) * 16px); border-bottom: 1px solid var(--c-border); flex-wrap: wrap; align-items: center; }
+.xbar input[type="text"] { flex: 1; min-width: 200px; }
+.xrow { display: flex; align-items: center; gap: 11px; padding: calc(var(--density) * 10px) calc(var(--density) * 16px); border-bottom: 1px solid var(--c-border); }
+.xrow:last-of-type { border-bottom: 0; }
+.xrow .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; }
+.xrow .keeps { flex: 1; color: var(--c-muted); font-size: 12px; }
+.xrow details { flex: 1; font-size: 12px; color: var(--c-muted); }
+.xrow details summary { list-style: none; cursor: pointer; }
+.xrow details summary::-webkit-details-marker { display: none; }
+.xrow details summary b { color: var(--c-accent); }
+.xrow details .klist { margin-top: 6px; display: flex; gap: 12px; flex-wrap: wrap; }
+.xrow details label { display: inline-flex; gap: 6px; align-items: center; }
+.xrow details input { accent-color: var(--c-accent); }
+
+.design-notes { max-width: 1180px; margin: calc(var(--density) * 38px) auto 0; color: var(--c-muted); font-size: 12.5px; border-top: 1px dashed var(--c-border); padding-top: calc(var(--density) * 13px); }
+.design-notes summary { cursor: pointer; color: var(--c-text); font-weight: 650; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <header>
+    <div class="k">ADCP mockup 06</div>
+    <h1>Dock — icon-rail app</h1>
+    <p>A compact app shell: 64px icon rail with tooltips in settings, and a popup built entirely from stacked rows with trailing controls — every row is scannable, nothing floats loose.</p>
+  </header>
+
+  <section class="demo">
+    <div class="demo-label">Browser-action popup</div>
+    <div class="frame popup-frame">
+      <div class="pp-head">
+        <span class="ico" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M5 19 19 5"/></svg></span>
+        <span class="name">Auto-Delete Cookies for Privacy</span>
+        <span class="ver">v1.0.0</span>
+      </div>
+      <div class="rows">
+        <div class="row site">
+          <span class="ico" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.9 5.7 3.9 9S14.5 18.4 12 21c-2.5-2.6-3.9-5.7-3.9-9S9.5 5.6 12 3z"/></svg></span>
+          <div class="txt">
+            <div class="l">github.com</div>
+            <div class="d">17 cookies · whitelisted via *.github.com</div>
+          </div>
+          <span class="end"><span class="pill ok">kept</span></span>
+        </div>
+        <div class="row">
+          <div class="txt"><div class="l">Auto-clean</div><div class="d">Cleaning 15 s after tabs close</div></div>
+          <span class="end"><label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label></span>
+        </div>
+        <div class="row">
+          <div class="txt"><div class="l">Notifications</div><div class="d">Summary after each clean</div></div>
+          <span class="end"><label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label></span>
+        </div>
+        <div class="row">
+          <div class="txt"><div class="l">*.github.com</div></div>
+          <span class="end"><button class="btn small" type="button">Greylist</button><button class="btn small" type="button">Whitelist</button></span>
+        </div>
+        <div class="row">
+          <div class="txt"><div class="l">github.com</div></div>
+          <span class="end"><button class="btn small" type="button">Greylist</button><button class="btn small" type="button">Whitelist</button></span>
+        </div>
+        <details class="morebar">
+          <summary>
+            <span class="ico" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/></svg></span>
+            <div class="txt"><div class="l">More cleaning options</div><div class="d">Open tabs, this site only, all site data</div></div>
+            <svg class="i chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <div class="opts">
+            <button type="button">Clean, include open tabs</button>
+            <button type="button">Clear cookies for github.com</button>
+            <button type="button">Clear all site data for github.com</button>
+          </div>
+        </details>
+        <div class="row">
+          <div class="txt"><div class="l">Recent activity</div><div class="d">twitter.com −9 · doubleclick.net −4 · reddit.com −6</div></div>
+          <span class="end"><button class="btn small" type="button">Log</button></span>
+        </div>
+      </div>
+      <div class="pp-bar">
+        <button class="btn primary" type="button">Clean now</button>
+        <button class="btn" type="button" aria-label="Settings"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo">
+    <div class="demo-label">Settings — General</div>
+    <div class="frame">
+      <div class="app">
+        <aside class="rail">
+          <div class="logo" aria-hidden="true">A</div>
+          <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/></svg><span class="tip">Welcome</span></a>
+          <a class="on" href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg><span class="tip">Settings</span></a>
+          <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="tip">Expressions</span></a>
+          <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 1.5"/></svg><span class="tip">Cleanup log</span></a>
+          <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg><span class="tip">About</span></a>
+        </aside>
+        <div class="main">
+          <h2>Settings</h2>
+          <p class="sub">Saved automatically as you change them.</p>
+
+          <div class="panel">
+            <div class="ph"><span class="ico" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 1.5"/></svg></span><h3>Automatic cleaning</h3></div>
+            <div class="srow">
+              <div class="txt"><div class="l">Clean automatically</div><div class="d">Remove unwanted cookies after a site's tabs close.</div></div>
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Delay before cleaning</div></div>
+              <input class="n" type="text" value="15" /><span class="unit">seconds</span>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Clean when leaving a site</div></div>
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Clean on browser restart</div></div>
+              <label class="tgl"><input type="checkbox" /><span class="knob"></span></label>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="ph"><span class="ico" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg></span><h3>What gets deleted</h3></div>
+            <div class="master">
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+              <div class="txt">
+                <div class="l">Delete all site data</div>
+                <div class="d">Cookies plus saved files, offline databases, and background workers — everything a site keeps on this device.</div>
+              </div>
+              <span class="pill acc">Recommended</span>
+            </div>
+            <details class="adv">
+              <summary><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>Advanced — choose data types</summary>
+              <div class="types">
+                <label><input type="checkbox" checked /><span>Cache <span class="d">— saved pages and images</span></span></label>
+                <label><input type="checkbox" checked /><span>Local storage <span class="d">— site preferences</span></span></label>
+                <label><input type="checkbox" checked /><span>IndexedDB <span class="d">— offline databases</span></span></label>
+                <label><input type="checkbox" checked /><span>Service workers <span class="d">— background scripts</span></span></label>
+                <label><input type="checkbox" checked /><span>Plugin data</span></label>
+              </div>
+            </details>
+          </div>
+
+          <div class="panel">
+            <div class="ph"><span class="ico" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span><h3>Notifications</h3></div>
+            <div class="srow">
+              <div class="txt"><div class="l">Notify after cleaning</div></div>
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Duration</div></div>
+              <input class="n" type="text" value="3" /><span class="unit">seconds</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="ph"><span class="ico" aria-hidden="true"><svg class="i" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8"/></svg></span><h3>Interface</h3></div>
+            <div class="srow">
+              <div class="txt"><div class="l">Cookie count on toolbar icon</div></div>
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo">
+    <div class="demo-label">Settings — Expressions</div>
+    <div class="frame">
+      <div class="app">
+        <aside class="rail">
+          <div class="logo" aria-hidden="true">A</div>
+          <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/></svg><span class="tip">Welcome</span></a>
+          <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9 17 7M7 17l-2.1 2.1"/></svg><span class="tip">Settings</span></a>
+          <a class="on" href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg><span class="tip">Expressions</span></a>
+          <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 1.5"/></svg><span class="tip">Cleanup log</span></a>
+          <a href="#"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg><span class="tip">About</span></a>
+        </aside>
+        <div class="main">
+          <h2>Expressions</h2>
+          <p class="sub">Whitelist keeps site data always; greylist keeps it until the browser restarts.</p>
+          <div class="panel">
+            <div class="xbar">
+              <input type="text" placeholder="*.example.com" />
+              <button class="btn" type="button">Greylist</button>
+              <button class="btn primary" type="button">Whitelist</button>
+            </div>
+            <div class="xrow">
+              <span class="mono">*.github.com</span>
+              <span class="pill ok">Whitelist</span>
+              <span class="keeps">keeps everything</span>
+              <button class="btn small" type="button">Remove</button>
+            </div>
+            <div class="xrow">
+              <span class="mono">twitter.com</span>
+              <span class="pill grey">Greylist</span>
+              <details>
+                <summary>keeps cookies until restart · <b>customize</b></summary>
+                <div class="klist">
+                  <label><input type="checkbox" checked />Local storage</label>
+                  <label><input type="checkbox" />IndexedDB</label>
+                  <label><input type="checkbox" />Cache</label>
+                </div>
+              </details>
+              <button class="btn small" type="button">Remove</button>
+            </div>
+            <div class="xrow">
+              <span class="mono">/^mail\.(google|proton)\.com$/</span>
+              <span class="pill acc">regex</span>
+              <span class="pill ok">Whitelist</span>
+              <span class="keeps">keeps everything</span>
+              <button class="btn small" type="button">Remove</button>
+            </div>
+            <div class="xbar" style="border-bottom: 0; border-top: 1px solid var(--c-border)">
+              <button class="btn small" type="button">Export</button>
+              <button class="btn small" type="button">Import</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <details class="design-notes">
+    <summary>Design notes — 06 · Dock</summary>
+    <p><b>Direction:</b> a productivity-app shell — icon rail with hover tooltips for settings navigation, and a popup composed purely of uniform rows (icon, label + caption, trailing control). Rows make the popup feel like a native panel rather than a web page. <b>Typography:</b> compact system sans; the alternate stack leans Segoe/Roboto for a Windows-native feel. <b>Palettes:</b> Harbor blue-grey (default), Plum for a friendlier violet, Sand as a warm neutral nodding to the logo. <b>Site data:</b> master toggle row with an Advanced accordion on a recessed band.</p>
+  </details>
+</div>
+
+<!-- DP:STYLE -->
+<style id="dp-style">
+  #design-panel {
+    --dp-bg: rgba(28, 30, 34, 0.92);
+    --dp-text: #e7e9ee;
+    --dp-muted: #9aa1ad;
+    --dp-line: rgba(255, 255, 255, 0.14);
+    --dp-active: #6ea8fe;
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 99999;
+    width: 240px;
+    max-height: min(70vh, 560px);
+    overflow: auto;
+    background: var(--dp-bg);
+    color: var(--dp-text);
+    font:
+      12px/1.45 system-ui,
+      -apple-system,
+      "Segoe UI",
+      sans-serif;
+    border: 1px solid var(--dp-line);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px);
+  }
+  #design-panel * {
+    box-sizing: border-box;
+    font: inherit;
+    color: inherit;
+  }
+  #design-panel header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--dp-line);
+  }
+  #design-panel header strong {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  #dp-toggle {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+    line-height: 1;
+  }
+  #dp-toggle:hover {
+    background: var(--dp-line);
+  }
+  #design-panel[data-collapsed="true"] {
+    width: auto;
+    max-height: none;
+    overflow: hidden;
+  }
+  #design-panel[data-collapsed="true"] #dp-body {
+    display: none;
+  }
+  #design-panel[data-collapsed="true"] header {
+    border-bottom: 0;
+  }
+  #dp-body {
+    padding: 10px 12px 12px;
+    display: grid;
+    gap: 12px;
+  }
+  #design-panel fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+  #design-panel legend {
+    padding: 0 0 6px;
+    color: var(--dp-muted);
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+  #design-panel .dp-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  #design-panel .dp-options label {
+    border: 1px solid var(--dp-line);
+    border-radius: 999px;
+    padding: 3px 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+  #design-panel .dp-options input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  #design-panel .dp-options input:checked + span {
+    color: var(--dp-active);
+  }
+  #design-panel .dp-options label:has(input:checked) {
+    border-color: var(--dp-active);
+  }
+  #design-panel .dp-slider {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 8px;
+  }
+  #design-panel .dp-slider input[type="range"] {
+    width: 100%;
+    accent-color: var(--dp-active);
+  }
+  #design-panel .dp-slider output {
+    min-width: 42px;
+    text-align: right;
+    color: var(--dp-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  #dp-reset {
+    width: 100%;
+    border: 1px solid var(--dp-line);
+    background: transparent;
+    border-radius: 8px;
+    padding: 6px 0;
+    cursor: pointer;
+  }
+  #dp-reset:hover {
+    border-color: var(--dp-active);
+    color: var(--dp-active);
+  }
+</style>
+<!-- /DP:STYLE -->
+
+<!-- DP:MARKUP -->
+<aside
+  id="design-panel"
+  data-collapsed="false"
+  aria-label="Design control panel"
+>
+  <header>
+    <strong>Design panel</strong>
+    <button
+      id="dp-toggle"
+      type="button"
+      aria-expanded="true"
+      title="Collapse panel"
+    >
+      −
+    </button>
+  </header>
+  <div id="dp-body">
+    <fieldset data-dp-group="mode">
+      <legend>Mode</legend>
+      <div class="dp-options"></div>
+    </fieldset>
+    <fieldset data-dp-group="palette">
+      <legend>Palette</legend>
+      <div class="dp-options"></div>
+    </fieldset>
+    <fieldset data-dp-group="font">
+      <legend>Font</legend>
+      <div class="dp-options"></div>
+    </fieldset>
+    <fieldset>
+      <legend>Radius</legend>
+      <div class="dp-slider">
+        <input type="range" data-dp-range="radius" min="0" max="24" step="1" />
+        <output data-dp-out="radius"></output>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Density</legend>
+      <div class="dp-slider">
+        <input
+          type="range"
+          data-dp-range="density"
+          min="0.8"
+          max="1.3"
+          step="0.05"
+        />
+        <output data-dp-out="density"></output>
+      </div>
+    </fieldset>
+    <button id="dp-reset" type="button">Reset to defaults</button>
+  </div>
+</aside>
+<!-- /DP:MARKUP -->
+<script>
+  window.DP_CONFIG = {
+    slug: "06-dock",
+    palettes: [
+      { id: "harbor", label: "Harbor" },
+      { id: "plum", label: "Plum" },
+      { id: "sand", label: "Sand" }
+    ],
+    fonts: [
+      { id: "sans", label: "Sans", body: 'system-ui, -apple-system, "Segoe UI", sans-serif', heading: 'system-ui, -apple-system, "Segoe UI", sans-serif' },
+      { id: "grotesk", label: "Grotesk", body: '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif', heading: '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif' }
+    ],
+    defaults: { mode: "light", palette: "harbor", font: "sans", radius: 10, density: 0.95 }
+  };
+</script>
+<!-- DP:SCRIPT -->
+<script id="dp-script">
+  (function () {
+    var config = window.DP_CONFIG;
+    if (
+      !config ||
+      !config.slug ||
+      !Array.isArray(config.palettes) ||
+      !Array.isArray(config.fonts)
+    ) {
+      console.error("design-panel: window.DP_CONFIG is missing or malformed");
+      return;
+    }
+    var KEY = "design-panel:" + config.slug;
+    var root = document.documentElement;
+    var panel = document.getElementById("design-panel");
+    var defaults = {
+      mode: config.defaults.mode === "dark" ? "dark" : "light",
+      palette: idOrFirst(config.palettes, config.defaults.palette),
+      font: idOrFirst(config.fonts, config.defaults.font),
+      radius: clamp(num(config.defaults.radius, 8), 0, 24),
+      density: clamp(num(config.defaults.density, 1), 0.8, 1.3),
+      collapsed: false,
+    };
+
+    function idOrFirst(list, id) {
+      for (var i = 0; i < list.length; i += 1) {
+        if (list[i].id === id) return id;
+      }
+      return list.length > 0 ? list[0].id : "";
+    }
+    function hasId(list, id) {
+      for (var i = 0; i < list.length; i += 1) {
+        if (list[i].id === id) return true;
+      }
+      return false;
+    }
+    function num(value, fallback) {
+      return typeof value === "number" && isFinite(value) ? value : fallback;
+    }
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+    function findFont(id) {
+      for (var i = 0; i < config.fonts.length; i += 1) {
+        if (config.fonts[i].id === id) return config.fonts[i];
+      }
+      return config.fonts[0];
+    }
+
+    function load() {
+      var state = {};
+      try {
+        state = JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+      } catch (error) {
+        state = {};
+      }
+      return {
+        mode:
+          state.mode === "dark" || state.mode === "light"
+            ? state.mode
+            : defaults.mode,
+        palette: hasId(config.palettes, state.palette)
+          ? state.palette
+          : defaults.palette,
+        font: hasId(config.fonts, state.font) ? state.font : defaults.font,
+        radius: clamp(num(state.radius, defaults.radius), 0, 24),
+        density: clamp(num(state.density, defaults.density), 0.8, 1.3),
+        collapsed: state.collapsed === true,
+      };
+    }
+    function save() {
+      try {
+        localStorage.setItem(
+          KEY,
+          JSON.stringify(Object.assign({ v: 1 }, current))
+        );
+      } catch (error) {
+        /* storage unavailable (e.g. some file:// modes): live state still works */
+      }
+    }
+
+    var current = load();
+
+    function apply() {
+      root.setAttribute("data-theme", current.mode);
+      root.setAttribute("data-palette", current.palette);
+      root.setAttribute("data-font", current.font);
+      root.style.setProperty("--radius", current.radius + "px");
+      root.style.setProperty("--density", String(current.density));
+      var font = findFont(current.font);
+      root.style.setProperty("--font-body", font.body);
+      root.style.setProperty("--font-heading", font.heading || font.body);
+      panel.setAttribute("data-collapsed", String(current.collapsed));
+      var toggle = document.getElementById("dp-toggle");
+      toggle.textContent = current.collapsed ? "✦" : "−";
+      toggle.setAttribute("aria-expanded", String(!current.collapsed));
+      toggle.setAttribute(
+        "title",
+        current.collapsed ? "Expand panel" : "Collapse panel"
+      );
+      syncControls();
+    }
+
+    function radioGroup(group, options, getValue) {
+      var container = panel.querySelector(
+        '[data-dp-group="' + group + '"] .dp-options'
+      );
+      options.forEach(function (option) {
+        var label = document.createElement("label");
+        var input = document.createElement("input");
+        input.type = "radio";
+        input.name = "dp-" + group + "-" + config.slug;
+        input.setAttribute("value", option.id);
+        input.addEventListener("change", function () {
+          current[group] = option.id;
+          save();
+          apply();
+        });
+        var text = document.createElement("span");
+        text.textContent = option.label;
+        label.appendChild(input);
+        label.appendChild(text);
+        container.appendChild(label);
+      });
+    }
+
+    function syncControls() {
+      ["mode", "palette", "font"].forEach(function (group) {
+        var inputs = panel.querySelectorAll(
+          '[data-dp-group="' + group + '"] input'
+        );
+        inputs.forEach(function (input) {
+          input.checked = input.value === current[group];
+        });
+      });
+      var radius = panel.querySelector('[data-dp-range="radius"]');
+      var density = panel.querySelector('[data-dp-range="density"]');
+      radius.value = String(current.radius);
+      density.value = String(current.density);
+      panel.querySelector('[data-dp-out="radius"]').textContent =
+        current.radius + "px";
+      panel.querySelector('[data-dp-out="density"]').textContent =
+        "×" + current.density.toFixed(2);
+    }
+
+    radioGroup("mode", [
+      { id: "light", label: "Light" },
+      { id: "dark", label: "Dark" },
+    ]);
+    radioGroup("palette", config.palettes);
+    radioGroup("font", config.fonts);
+
+    panel
+      .querySelector('[data-dp-range="radius"]')
+      .addEventListener("input", function (event) {
+        current.radius = clamp(
+          num(Number(event.target.value), defaults.radius),
+          0,
+          24
+        );
+        save();
+        apply();
+      });
+    panel
+      .querySelector('[data-dp-range="density"]')
+      .addEventListener("input", function (event) {
+        current.density = clamp(
+          num(Number(event.target.value), defaults.density),
+          0.8,
+          1.3
+        );
+        save();
+        apply();
+      });
+    document.getElementById("dp-toggle").addEventListener("click", function () {
+      current.collapsed = !current.collapsed;
+      save();
+      apply();
+    });
+    document.getElementById("dp-reset").addEventListener("click", function () {
+      try {
+        localStorage.removeItem(KEY);
+      } catch (error) {
+        /* ignore */
+      }
+      current = load();
+      apply();
+    });
+
+    apply();
+  })();
+</script>
+<!-- /DP:SCRIPT -->
+</body>
+</html>

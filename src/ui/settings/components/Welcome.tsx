@@ -10,138 +10,93 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 // tslint:disable-next-line: import-name
-import ReleaseNotes from '../ReleaseNotes.json';
-import IconButton from '../../common_components/IconButton';
-import { ReduxAction } from '../../../typings/ReduxConstants';
-import { resetCookieDeletedCounter } from '../../../redux/Actions';
+import ReleaseNotes from "@/ui/settings/release-notes.json";
+import IconButton from "@/ui/common-components/IconButton";
+import { ReduxAction } from "@/typings/redux-constants";
+import { resetCookieDeletedCounter } from "@/redux/actions";
 
 const displayReleaseNotes = (releases: ReleaseNote[]) => {
   return (
-    <div className="col">
-      {releases.map((release, index) => [
-        <span
-          style={{
-            fontWeight: 'bold',
-            marginLeft: '10px',
-          }}
-          key={`release1${index}`}
-        >
-          {release.version}
-        </span>,
-        <ul key={`release2${index}`}>
-          {release.notes.map((element, index2) => (
-            <li key={`release3${index2}`}>{element}</li>
-          ))}
-        </ul>,
-      ])}
+    <div className="flex flex-col gap-3">
+      {releases.map((release, index) => (
+        <div key={`release${index}`}>
+          <span className="badge font-mono badge-neutral">
+            {release.version}
+          </span>
+          <ul className="mt-1 list-disc ps-6">
+            {release.notes.map((element, index2) => (
+              <li key={`release3${index2}`}>{element}</li>
+            ))}
+          </ul>
+        </div>
+      ))}
     </div>
   );
-};
-
-// Get the review link for different browsers
-const getReviewLink = (bName: browserName = browserDetect() as browserName) => {
-  switch (bName) {
-    case browserName.Chrome:
-      return 'https://chrome.google.com/webstore/detail/cookie-autodelete/fhcgjolkccmbidfldomjliifgaodjagh/reviews';
-    case browserName.EdgeChromium:
-      return 'https://microsoftedge.microsoft.com/addons/detail/djkjpnciiommncecmdefpdllknjdmmmo#reviewList';
-    case browserName.Firefox:
-      return 'https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/reviews/';
-    default:
-      return '';
-  }
 };
 
 interface OwnProps {
   style?: React.CSSProperties;
-  cookieDeletedCounterSession: number;
-  cookieDeletedCounterTotal: number;
-  bName: browserName;
 }
 
-interface DispatchProps {
-  onResetCounterButtonClick: () => void;
-}
+const Welcome: React.FunctionComponent<OwnProps> = ({ style }) => {
+  const cookieDeletedCounterTotal = useSelector(
+    (state: State) => state.cookieDeletedCounterTotal
+  );
+  const cookieDeletedCounterSession = useSelector(
+    (state: State) => state.cookieDeletedCounterSession
+  );
+  const dispatch = useDispatch<Dispatch<ReduxAction>>();
 
-type WelcomeProps = OwnProps & DispatchProps;
+  const onResetCounterButtonClick = () => {
+    dispatch(resetCookieDeletedCounter());
+  };
 
-const Welcome: React.FunctionComponent<WelcomeProps> = ({
-  style,
-  cookieDeletedCounterTotal,
-  cookieDeletedCounterSession,
-  bName,
-  onResetCounterButtonClick,
-}) => {
   const { releases } = ReleaseNotes as { releases: ReleaseNote[] };
   return (
     <div style={style}>
-      <h1>{browser.i18n.getMessage('welcomeText')}</h1>
+      <h1 className="mb-4 text-2xl font-bold">
+        {browser.i18n.getMessage("overviewText")}
+      </h1>
 
-      <p>
-        {browser.i18n.getMessage('welcomeMessage', [
-          browser.i18n.getMessage('extensionName'),
-          cookieDeletedCounterSession.toString(),
-          cookieDeletedCounterTotal.toString(),
-        ])}
+      <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="rounded-box border border-base-300 bg-base-100 p-4">
+          <div className="text-2xl font-bold" id="statSession">
+            {cookieDeletedCounterSession}
+          </div>
+          <div className="text-sm text-base-content/70">
+            {browser.i18n.getMessage("cookiesDeletedSessionText")}
+          </div>
+        </div>
+        <div className="rounded-box border border-base-300 bg-base-100 p-4">
+          <div className="text-2xl font-bold" id="statTotal">
+            {cookieDeletedCounterTotal}
+          </div>
+          <div className="text-sm text-base-content/70">
+            {browser.i18n.getMessage("cookiesDeletedTotalText")}
+          </div>
+        </div>
+      </div>
+      <div className="mb-4">
         <IconButton
           iconName="trash"
-          text={browser.i18n.getMessage('resetCookieCounterText')}
-          title={browser.i18n.getMessage('resetCookieCounterText')}
+          text={browser.i18n.getMessage("resetCookieCounterText")}
+          title={browser.i18n.getMessage("resetCookieCounterText")}
           onClick={() => onResetCounterButtonClick()}
-          className="btn-warning"
+          className="btn-sm btn-warning"
         />
-      </p>
-      <a href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/Documentation">
-        <span>{`${browser.i18n.getMessage('documentationText')}`}</span>
-      </a>
-      <br />
-      <a href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/FAQ:-Common-Questions-and-Issues">
-        <span>{`${browser.i18n.getMessage('faqText')}`}</span>
-      </a>
-      <br />
-      <br />
-      <a href={getReviewLink(bName)}>
-        {browser.i18n.getMessage(
-          'reviewLinkMessage',
-          browser.i18n.getMessage('extensionName'),
-        )}
-      </a>
-      <hr />
-      <h2>{browser.i18n.getMessage('releaseNotesText')}</h2>
+      </div>
+      <div className="divider" />
+      <h2 className="mb-3 text-xl font-semibold">
+        {browser.i18n.getMessage("releaseNotesText")}
+      </h2>
 
-      <div className="row">{displayReleaseNotes(releases.slice(0, 5))}</div>
-      <p>
-        {browser.i18n.getMessage('oldReleasesText')}{' '}
-        <a
-          href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/releases"
-          target="_blank"
-          rel="noreferrer"
-        >
-          GitHub
-        </a>
-      </p>
+      {displayReleaseNotes(releases.slice(0, 5))}
     </div>
   );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
-  onResetCounterButtonClick() {
-    dispatch(resetCookieDeletedCounter());
-  },
-});
-
-const mapStateToProps = (state: State) => {
-  const { cookieDeletedCounterTotal, cookieDeletedCounterSession, cache } =
-    state;
-  return {
-    bName: cache.browserDetect || (browserDetect() as browserName),
-    cookieDeletedCounterSession,
-    cookieDeletedCounterTotal,
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Welcome);
+export default Welcome;

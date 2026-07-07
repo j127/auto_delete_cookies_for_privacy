@@ -11,14 +11,22 @@
  * SOFTWARE.
  */
 /* istanbul ignore file: React-redux init */
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createUIStore } from 'redux-webext';
-import { sleep } from '../../services/Libs';
-import fontAwesomeImports from '../font-awesome-imports';
-import App from './App';
+// Must be the first import: provides the `browser`/`browserDetect` globals
+// that MV2 supplied via script tags.
+import "@/init-globals";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import { createUIStore } from "@/redux/ui-store-bridge";
+import { sleep } from "@/services/libs";
+import { initPageDirection } from "@/ui/page-direction";
+import { initTheme } from "@/ui/theme";
+import App from "./App";
 
-fontAwesomeImports();
+// Before the store hydrates, so an explicit dark/light choice applies
+// without a flash of the wrong theme, and the document direction matches
+// the UI locale (RTL languages) before anything renders.
+void initTheme();
+initPageDirection();
 
 async function initApp() {
   let store = await createUIStore();
@@ -26,14 +34,13 @@ async function initApp() {
     await sleep(250);
     store = await createUIStore();
   }
-  const mountNode = document.createElement('div');
+  const mountNode = document.createElement("div");
   document.body.appendChild(mountNode);
 
-  ReactDOM.render(
-    <Provider store={store}>
+  createRoot(mountNode).render(
+    <Provider store={store as any}>
       <App />
-    </Provider>,
-    mountNode,
+    </Provider>
   );
 }
 

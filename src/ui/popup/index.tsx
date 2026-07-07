@@ -12,15 +12,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createUIStore } from 'redux-webext';
-import { isChrome, sleep } from '../../services/Libs';
-import ErrorBoundary from '../common_components/ErrorBoundary';
-import fontAwesomeImports from '../font-awesome-imports';
-import App from './App';
+// Must be the first import: provides the `browser` global
+// that MV2 supplied via script tags.
+import "@/init-globals";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import { createUIStore } from "@/redux/ui-store-bridge";
+import { sleep } from "@/services/libs";
+import ErrorBoundary from "@/ui/common-components/ErrorBoundary";
+import { initPageDirection } from "@/ui/page-direction";
+import { initTheme } from "@/ui/theme";
+import App from "./App";
 
-fontAwesomeImports();
+// Before the store hydrates, so an explicit dark/light choice applies
+// without a flash of the wrong theme, and the document direction matches
+// the UI locale (RTL languages) before anything renders.
+void initTheme();
+initPageDirection();
 
 async function initApp() {
   let store = await createUIStore();
@@ -28,20 +36,17 @@ async function initApp() {
     await sleep(250);
     store = await createUIStore();
   }
-  const mountNode = document.createElement('div');
+  const mountNode = document.createElement("div");
   document.body.appendChild(mountNode);
 
-  if (isChrome(store.getState().cache)) {
-    await new Promise((resolve) => setTimeout(resolve, 100));
-  }
+  await new Promise((resolve) => setTimeout(resolve, 100));
 
-  ReactDOM.render(
-    <Provider store={store}>
+  createRoot(mountNode).render(
+    <Provider store={store as any}>
       <ErrorBoundary>
         <App />
       </ErrorBoundary>
-    </Provider>,
-    mountNode,
+    </Provider>
   );
 }
 

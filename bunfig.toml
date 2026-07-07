@@ -1,0 +1,16 @@
+telemetry = false
+
+[install]
+# Minimum publish age (seconds) before a version is installable.
+# 1 week
+minimumReleaseAge = 604800
+# Pin exact versions in package.json (no ^ / ~) to reduce drift.
+exact = true
+# Note: Bun does not run lifecycle scripts by default. Allowlist trusted
+# packages via `"trustedDependencies"` in package.json.
+
+[serve]
+port = 9000
+
+# [test] block removed: the #36 spike chose Vitest over bun test; coverage
+# thresholds live in vitest.config.ts (ratcheting toward 90 percent).

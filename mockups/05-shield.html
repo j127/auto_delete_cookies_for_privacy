@@ -1,0 +1,800 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-palette="guardian" data-font="sans">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>05 · Shield — ADCP mockup</title>
+<style>
+/* ---------- palettes ---------- */
+[data-palette="guardian"] {
+  --c-bg: #f2f7f6; --c-surface: #ffffff; --c-text: #0c2925; --c-muted: #5a7570;
+  --c-accent: #0c7d6c; --c-on-accent: #ffffff; --c-border: #d9e5e2;
+  --c-ok: #0c7d6c; --c-warn: #a76e0d; --c-danger: #c43d3d;
+}
+[data-palette="guardian"][data-theme="dark"] {
+  --c-bg: #0a1614; --c-surface: #12211e; --c-text: #e2edea; --c-muted: #8aa39d;
+  --c-accent: #2fbfa4; --c-on-accent: #06231d; --c-border: #22352f;
+  --c-ok: #2fbfa4; --c-warn: #dfa54c; --c-danger: #ef7272;
+}
+[data-palette="forest"] {
+  --c-bg: #f4f8f2; --c-surface: #ffffff; --c-text: #17250f; --c-muted: #67785e;
+  --c-accent: #3a7d2c; --c-on-accent: #ffffff; --c-border: #dde7d8;
+  --c-ok: #3a7d2c; --c-warn: #9c6d0f; --c-danger: #bd3f30;
+}
+[data-palette="forest"][data-theme="dark"] {
+  --c-bg: #0e150a; --c-surface: #182112; --c-text: #e7eee2; --c-muted: #94a58a;
+  --c-accent: #7ec86a; --c-on-accent: #10240a; --c-border: #2a3623;
+  --c-ok: #7ec86a; --c-warn: #dcae3c; --c-danger: #f08070;
+}
+[data-palette="midnight"] {
+  --c-bg: #f4f6fa; --c-surface: #ffffff; --c-text: #131c2e; --c-muted: #63708a;
+  --c-accent: #274690; --c-on-accent: #ffffff; --c-border: #dee3ee;
+  --c-ok: #1d7a52; --c-warn: #a16207; --c-danger: #c43d3d;
+}
+[data-palette="midnight"][data-theme="dark"] {
+  --c-bg: #0b0f1a; --c-surface: #141a29; --c-text: #e4e9f4; --c-muted: #8b96af;
+  --c-accent: #7b96e8; --c-on-accent: #0a1020; --c-border: #26304a;
+  --c-ok: #46c98e; --c-warn: #e0b03a; --c-danger: #f07a7a;
+}
+
+/* ---------- base ---------- */
+:root { --radius: 12px; --density: 1; --font-body: system-ui, sans-serif; --font-heading: system-ui, sans-serif; }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--c-bg); color: var(--c-text); font-family: var(--font-body); font-size: 14px; line-height: 1.55; }
+h1, h2, h3 { font-family: var(--font-heading); margin: 0; }
+svg.i { width: 1.1em; height: 1.1em; vertical-align: -0.18em; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+
+.stage { max-width: 1180px; margin: 0 auto; padding: calc(var(--density) * 28px) calc(var(--density) * 20px) calc(var(--density) * 90px); }
+.stage > header { margin-bottom: calc(var(--density) * 24px); }
+.stage > header .k { color: var(--c-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; }
+.stage > header h1 { font-size: 26px; letter-spacing: -0.01em; }
+.stage > header p { color: var(--c-muted); max-width: 62ch; margin: 6px 0 0; }
+.demo { margin-top: calc(var(--density) * 32px); }
+.demo > .demo-label { color: var(--c-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: calc(var(--density) * 10px); }
+.frame { border: 1px solid var(--c-border); border-radius: calc(var(--radius) * 1.4); background: var(--c-surface); overflow: hidden; box-shadow: 0 10px 30px color-mix(in srgb, var(--c-text) 7%, transparent); }
+.popup-frame { width: 430px; max-width: 100%; }
+
+/* ---------- primitives ---------- */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; border: 1px solid var(--c-border); background: var(--c-surface); color: var(--c-text); font: inherit; font-weight: 550; cursor: pointer; border-radius: var(--radius); padding: calc(var(--density) * 7px) calc(var(--density) * 14px); }
+.btn:hover { border-color: color-mix(in srgb, var(--c-accent) 50%, var(--c-border)); }
+.btn.primary { background: var(--c-accent); border-color: var(--c-accent); color: var(--c-on-accent); font-weight: 650; }
+.btn.small { padding: calc(var(--density) * 4px) calc(var(--density) * 11px); font-size: 12.5px; }
+.badge { display: inline-flex; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 650; border-radius: 999px; padding: 2.5px 10px; }
+.badge.ok { color: var(--c-ok); background: color-mix(in srgb, var(--c-ok) 12%, transparent); }
+.badge.warn { color: var(--c-warn); background: color-mix(in srgb, var(--c-warn) 13%, transparent); }
+.badge.grey { color: var(--c-muted); background: color-mix(in srgb, var(--c-muted) 14%, transparent); }
+.tgl { position: relative; display: inline-block; width: 46px; height: 26px; flex: none; }
+.tgl input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.tgl .knob { position: absolute; inset: 0; background: color-mix(in srgb, var(--c-muted) 32%, var(--c-bg)); border-radius: 999px; transition: background 0.15s; }
+.tgl .knob::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: var(--c-surface); border-radius: 50%; box-shadow: 0 1px 3px color-mix(in srgb, var(--c-text) 25%, transparent); transition: left 0.15s; }
+.tgl input:checked + .knob { background: var(--c-ok); }
+.tgl input:checked + .knob::after { left: 23px; }
+.tgl input:focus-visible + .knob { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+input[type="text"], select { font: inherit; color: var(--c-text); background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius); padding: calc(var(--density) * 7px) calc(var(--density) * 12px); }
+input[type="text"]:focus, select:focus { outline: 3px solid color-mix(in srgb, var(--c-accent) 28%, transparent); border-color: var(--c-accent); }
+
+/* ---------- popup ---------- */
+.pp-hero { padding: calc(var(--density) * 18px); background: color-mix(in srgb, var(--c-accent) 9%, var(--c-surface)); border-bottom: 1px solid var(--c-border); }
+.pp-hero .row { display: flex; align-items: center; gap: 12px; }
+.pp-hero .shield { width: 44px; height: 44px; border-radius: 50%; background: color-mix(in srgb, var(--c-ok) 16%, transparent); color: var(--c-ok); display: grid; place-content: center; flex: none; }
+.pp-hero .shield svg { width: 24px; height: 24px; }
+.pp-hero .t1 { font-weight: 750; font-size: 16px; font-family: var(--font-heading); }
+.pp-hero .t2 { color: var(--c-muted); font-size: 12.5px; }
+.pp-hero .stats { display: flex; gap: calc(var(--density) * 10px); margin-top: calc(var(--density) * 14px); }
+.pp-hero .stat { flex: 1; background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius); padding: calc(var(--density) * 8px) calc(var(--density) * 11px); }
+.pp-hero .stat b { display: block; font-size: 17px; line-height: 1.15; }
+.pp-hero .stat span { font-size: 10.5px; color: var(--c-muted); text-transform: uppercase; letter-spacing: 0.06em; }
+.pp-head { display: flex; align-items: center; gap: 8px; padding: calc(var(--density) * 10px) calc(var(--density) * 18px); border-bottom: 1px solid var(--c-border); }
+.pp-head .name { font-weight: 650; font-size: 12.5px; }
+.pp-head .ver { margin-left: auto; color: var(--c-muted); font-size: 11px; }
+.pp-site { padding: calc(var(--density) * 13px) calc(var(--density) * 18px); border-bottom: 1px solid var(--c-border); }
+.pp-site .r1 { display: flex; align-items: center; gap: 9px; }
+.pp-site .domain { font-size: 16px; font-weight: 700; }
+.pp-site .count { margin-left: auto; color: var(--c-muted); font-size: 12.5px; }
+.pp-site .count b { color: var(--c-text); }
+.pp-site .lists { display: grid; gap: calc(var(--density) * 7px); margin-top: calc(var(--density) * 11px); }
+.pp-site .lrow { display: flex; gap: 8px; align-items: center; font-size: 13px; }
+.pp-site .lrow .e { flex: 1; color: var(--c-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pp-controls { padding: calc(var(--density) * 13px) calc(var(--density) * 18px); display: grid; gap: calc(var(--density) * 9px); border-bottom: 1px solid var(--c-border); }
+.pp-controls .c { display: flex; align-items: center; gap: 10px; }
+.pp-controls .c .txt { flex: 1; }
+.pp-controls .c .l { font-weight: 600; font-size: 13.5px; }
+.pp-controls .c .d { color: var(--c-muted); font-size: 12px; }
+.pp-clean { padding: calc(var(--density) * 14px) calc(var(--density) * 18px); display: grid; gap: 8px; }
+.pp-clean .btn.primary { padding-block: calc(var(--density) * 11px); font-size: 14.5px; }
+.pp-clean details summary { list-style: none; cursor: pointer; color: var(--c-muted); font-size: 12.5px; text-align: center; }
+.pp-clean details summary::-webkit-details-marker { display: none; }
+.pp-clean .opts { margin-top: 8px; display: grid; gap: 6px; }
+.pp-clean .opts button { font: inherit; font-size: 13px; background: var(--c-bg); border: 1px solid var(--c-border); color: var(--c-text); border-radius: var(--radius); padding: calc(var(--density) * 8px) calc(var(--density) * 12px); cursor: pointer; text-align: left; }
+.pp-clean .opts button:hover { border-color: var(--c-accent); }
+.pp-foot { display: flex; gap: 8px; align-items: center; padding: calc(var(--density) * 10px) calc(var(--density) * 18px); background: color-mix(in srgb, var(--c-bg) 60%, var(--c-surface)); font-size: 12.5px; color: var(--c-muted); }
+.pp-foot .spacer { flex: 1; }
+
+/* ---------- settings ---------- */
+.app { display: grid; grid-template-columns: 224px 1fr; min-height: 640px; }
+.side { border-right: 1px solid var(--c-border); background: color-mix(in srgb, var(--c-bg) 65%, var(--c-surface)); padding: calc(var(--density) * 16px) calc(var(--density) * 12px); }
+.side .brand { display: flex; gap: 9px; align-items: center; font-weight: 750; padding: calc(var(--density) * 4px) calc(var(--density) * 10px) calc(var(--density) * 16px); }
+.side .brand .shield { width: 26px; height: 26px; border-radius: 8px; background: color-mix(in srgb, var(--c-accent) 14%, transparent); color: var(--c-accent); display: grid; place-content: center; }
+.side .brand .shield svg { width: 15px; height: 15px; }
+.side nav a { display: flex; align-items: center; gap: 10px; padding: calc(var(--density) * 8px) calc(var(--density) * 10px); border-radius: var(--radius); color: var(--c-muted); text-decoration: none; font-size: 13.5px; font-weight: 550; }
+.side nav a.on { color: var(--c-accent); background: color-mix(in srgb, var(--c-accent) 11%, transparent); }
+.side nav a:hover { color: var(--c-text); }
+.main { padding: calc(var(--density) * 24px) calc(var(--density) * 28px) calc(var(--density) * 36px); max-width: 780px; }
+.main > h2 { font-size: 20px; }
+.main > .sub { color: var(--c-muted); font-size: 13px; margin: 3px 0 calc(var(--density) * 18px); }
+.statrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(var(--density) * 12px); margin-bottom: calc(var(--density) * 20px); }
+.stat { border: 1px solid var(--c-border); border-radius: var(--radius); padding: calc(var(--density) * 12px) calc(var(--density) * 14px); background: var(--c-surface); }
+.stat b { display: block; font-size: 20px; }
+.stat span { color: var(--c-muted); font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.06em; }
+.card { border: 1px solid var(--c-border); border-radius: calc(var(--radius) * 1.3); background: var(--c-surface); margin-bottom: calc(var(--density) * 16px); overflow: hidden; }
+.card > h3 { font-size: 14.5px; padding: calc(var(--density) * 13px) calc(var(--density) * 17px); border-bottom: 1px solid var(--c-border); display: flex; gap: 8px; align-items: center; }
+.srow { display: flex; align-items: center; gap: 14px; padding: calc(var(--density) * 12px) calc(var(--density) * 17px); }
+.srow + .srow { border-top: 1px solid var(--c-border); }
+.srow .txt { flex: 1; }
+.srow .l { font-weight: 600; font-size: 13.5px; }
+.srow .d { color: var(--c-muted); font-size: 12.5px; }
+.srow input.n { width: 70px; text-align: right; }
+.srow .unit { color: var(--c-muted); font-size: 12px; }
+
+/* preset radio cards */
+.presets { padding: calc(var(--density) * 14px) calc(var(--density) * 17px) calc(var(--density) * 16px); display: grid; grid-template-columns: repeat(3, 1fr); gap: calc(var(--density) * 10px); }
+.preset { position: relative; border: 1.5px solid var(--c-border); border-radius: var(--radius); padding: calc(var(--density) * 12px) calc(var(--density) * 13px); cursor: pointer; display: block; }
+.preset input { position: absolute; opacity: 0; pointer-events: none; }
+.preset .t { font-weight: 700; font-size: 13.5px; display: flex; align-items: center; gap: 7px; }
+.preset .d { color: var(--c-muted); font-size: 12px; margin-top: 3px; }
+.preset .mark { position: absolute; top: 10px; right: 10px; width: 16px; height: 16px; border: 1.5px solid var(--c-border); border-radius: 50%; }
+.preset:has(input:checked) { border-color: var(--c-accent); background: color-mix(in srgb, var(--c-accent) 6%, transparent); }
+.preset:has(input:checked) .mark { border-color: var(--c-accent); background: var(--c-accent); box-shadow: inset 0 0 0 3px var(--c-surface); }
+.preset:has(input:focus-visible) { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+.custom-fold { border-top: 1px solid var(--c-border); }
+.custom-fold summary { list-style: none; cursor: pointer; padding: calc(var(--density) * 11px) calc(var(--density) * 17px); color: var(--c-accent); font-weight: 600; font-size: 13px; }
+.custom-fold summary::-webkit-details-marker { display: none; }
+.custom-fold .types { padding: 0 calc(var(--density) * 17px) calc(var(--density) * 15px); display: grid; grid-template-columns: 1fr 1fr; gap: calc(var(--density) * 8px) calc(var(--density) * 20px); font-size: 13px; }
+.custom-fold label { display: flex; gap: 9px; align-items: center; }
+.custom-fold input { accent-color: var(--c-accent); width: 15px; height: 15px; }
+.custom-fold .hint { grid-column: 1 / -1; color: var(--c-muted); font-size: 12px; }
+
+/* expressions */
+.xbar { display: flex; gap: 9px; padding: calc(var(--density) * 13px) calc(var(--density) * 17px); border-bottom: 1px solid var(--c-border); flex-wrap: wrap; align-items: center; }
+.xbar input[type="text"] { flex: 1; min-width: 210px; }
+table.x { width: 100%; border-collapse: collapse; font-size: 13px; }
+table.x th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.07em; color: var(--c-muted); font-weight: 650; padding: calc(var(--density) * 8px) calc(var(--density) * 17px); border-bottom: 1px solid var(--c-border); }
+table.x td { padding: calc(var(--density) * 10px) calc(var(--density) * 17px); border-bottom: 1px solid var(--c-border); }
+table.x tr:last-child td { border-bottom: 0; }
+table.x .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 12.5px; }
+table.x .end { text-align: right; }
+.keep { color: var(--c-muted); font-size: 12.5px; }
+
+.design-notes { max-width: 1180px; margin: calc(var(--density) * 38px) auto 0; color: var(--c-muted); font-size: 13px; border-top: 1px dashed var(--c-border); padding-top: calc(var(--density) * 14px); }
+.design-notes summary { cursor: pointer; color: var(--c-text); font-weight: 650; }
+</style>
+</head>
+<body>
+<div class="stage">
+  <header>
+    <div class="k">ADCP mockup 05</div>
+    <h1>Shield — trust dashboard</h1>
+    <p>Leads with reassurance: a protection hero in the popup, weekly stats, and plain-language cleanup presets that read like browser privacy levels. Green/teal palettes signal safety.</p>
+  </header>
+
+  <section class="demo">
+    <div class="demo-label">Browser-action popup</div>
+    <div class="frame popup-frame">
+      <div class="pp-hero">
+        <div class="row">
+          <div class="shield"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <div>
+            <div class="t1">You're protected</div>
+            <div class="t2">Auto-clean is on · cleaning 15 s after tabs close</div>
+          </div>
+        </div>
+        <div class="stats">
+          <div class="stat"><b>1,284</b><span>cookies this week</span></div>
+          <div class="stat"><b>212</b><span>sites cleaned</span></div>
+          <div class="stat"><b>14</b><span>kept safe</span></div>
+        </div>
+      </div>
+      <div class="pp-head">
+        <span class="name">Auto-Delete Cookies for Privacy</span>
+        <span class="ver">v1.0.0</span>
+      </div>
+      <div class="pp-site">
+        <div class="r1">
+          <span class="domain">github.com</span>
+          <span class="badge ok">whitelisted</span>
+          <span class="count">cookies <b>17</b></span>
+        </div>
+        <div class="lists">
+          <div class="lrow"><span class="e">*.github.com</span><button class="btn small" type="button">Greylist</button><button class="btn small" type="button">Whitelist</button></div>
+          <div class="lrow"><span class="e">github.com</span><button class="btn small" type="button">Greylist</button><button class="btn small" type="button">Whitelist</button></div>
+        </div>
+      </div>
+      <div class="pp-controls">
+        <div class="c">
+          <div class="txt"><div class="l">Auto-clean</div><div class="d">Clean automatically after you leave sites</div></div>
+          <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+        </div>
+        <div class="c">
+          <div class="txt"><div class="l">Notifications</div><div class="d">Tell me what was removed</div></div>
+          <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+        </div>
+      </div>
+      <div class="pp-clean">
+        <button class="btn primary" type="button">
+          <svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Clean unprotected sites now
+        </button>
+        <details>
+          <summary>More options</summary>
+          <div class="opts">
+            <button type="button">Clean, include open tabs</button>
+            <button type="button">Clear cookies for github.com</button>
+            <button type="button">Clear all site data for github.com</button>
+          </div>
+        </details>
+      </div>
+      <div class="pp-foot">
+        <span>Last clean: twitter.com · −9 · 2 min ago</span>
+        <span class="spacer"></span>
+        <a href="#" style="color: var(--c-accent); text-decoration: none; font-weight: 600">View log</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo">
+    <div class="demo-label">Settings — General</div>
+    <div class="frame">
+      <div class="app">
+        <aside class="side">
+          <div class="brand"><span class="shield"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>ADCP</div>
+          <nav>
+            <a href="#">Overview</a>
+            <a class="on" href="#">Protection</a>
+            <a href="#">Saved sites</a>
+            <a href="#">Cleanup log</a>
+            <a href="#">About</a>
+          </nav>
+        </aside>
+        <div class="main">
+          <h2>Protection</h2>
+          <p class="sub">What gets cleaned, and when.</p>
+          <div class="statrow">
+            <div class="stat"><b>1,284</b><span>cookies this week</span></div>
+            <div class="stat"><b>212</b><span>sites cleaned</span></div>
+            <div class="stat"><b>2 min ago</b><span>last clean</span></div>
+          </div>
+
+          <div class="card">
+            <h3>Cleanup level</h3>
+            <div class="presets">
+              <label class="preset">
+                <input type="radio" name="lvl05" />
+                <span class="mark" aria-hidden="true"></span>
+                <span class="t">Cookies only</span>
+                <span class="d">Remove cookies, leave everything else.</span>
+              </label>
+              <label class="preset">
+                <input type="radio" name="lvl05" />
+                <span class="mark" aria-hidden="true"></span>
+                <span class="t">Cookies + storage</span>
+                <span class="d">Also clear local storage and offline databases.</span>
+              </label>
+              <label class="preset">
+                <input type="radio" name="lvl05" checked />
+                <span class="mark" aria-hidden="true"></span>
+                <span class="t">Everything <span class="badge ok">Best</span></span>
+                <span class="d">All data a site keeps on this device.</span>
+              </label>
+            </div>
+            <details class="custom-fold">
+              <summary>Custom — choose the exact data types</summary>
+              <div class="types">
+                <span class="hint">For advanced users. Picking types switches the level above to Custom.</span>
+                <label><input type="checkbox" checked />Cache — saved pages and images</label>
+                <label><input type="checkbox" checked />Local storage — site preferences</label>
+                <label><input type="checkbox" checked />IndexedDB — offline databases</label>
+                <label><input type="checkbox" checked />Service workers — background scripts</label>
+                <label><input type="checkbox" checked />Plugin data</label>
+              </div>
+            </details>
+          </div>
+
+          <div class="card">
+            <h3>Timing</h3>
+            <div class="srow">
+              <div class="txt"><div class="l">Clean automatically</div><div class="d">After a site's tabs close.</div></div>
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Grace period</div><div class="d">Wait before cleaning, in case you return.</div></div>
+              <input class="n" type="text" value="15" /><span class="unit">seconds</span>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Clean when leaving a site</div></div>
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Fresh start on browser restart</div></div>
+              <label class="tgl"><input type="checkbox" /><span class="knob"></span></label>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Notifications &amp; interface</h3>
+            <div class="srow">
+              <div class="txt"><div class="l">Notify after cleaning</div></div>
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+            </div>
+            <div class="srow">
+              <div class="txt"><div class="l">Cookie count on toolbar icon</div></div>
+              <label class="tgl"><input type="checkbox" checked /><span class="knob"></span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="demo">
+    <div class="demo-label">Settings — Saved sites (expressions)</div>
+    <div class="frame">
+      <div class="app">
+        <aside class="side">
+          <div class="brand"><span class="shield"><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>ADCP</div>
+          <nav>
+            <a href="#">Overview</a>
+            <a href="#">Protection</a>
+            <a class="on" href="#">Saved sites</a>
+            <a href="#">Cleanup log</a>
+            <a href="#">About</a>
+          </nav>
+        </aside>
+        <div class="main" style="max-width: none">
+          <h2>Saved sites</h2>
+          <p class="sub">Sites you trust. Whitelisted sites keep their data always; greylisted sites keep it until the browser restarts.</p>
+          <div class="card">
+            <div class="xbar">
+              <input type="text" placeholder="e.g. *.example.com" />
+              <button class="btn" type="button">Add to greylist</button>
+              <button class="btn primary" type="button">Add to whitelist</button>
+            </div>
+            <table class="x">
+              <thead><tr><th>Site</th><th>Protection</th><th>Keeps</th><th class="end"></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td class="mono">*.github.com</td>
+                  <td><span class="badge ok">Whitelist</span></td>
+                  <td class="keep">everything</td>
+                  <td class="end"><button class="btn small" type="button">Remove</button></td>
+                </tr>
+                <tr>
+                  <td class="mono">twitter.com</td>
+                  <td><span class="badge warn">Greylist</span></td>
+                  <td class="keep">cookies until restart · +local storage</td>
+                  <td class="end"><button class="btn small" type="button">Remove</button></td>
+                </tr>
+                <tr>
+                  <td class="mono">/^mail\.(google|proton)\.com$/ <span class="badge grey">regex</span></td>
+                  <td><span class="badge ok">Whitelist</span></td>
+                  <td class="keep">everything</td>
+                  <td class="end"><button class="btn small" type="button">Remove</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="xbar" style="border-bottom: 0; border-top: 1px solid var(--c-border)">
+              <button class="btn small" type="button">Export</button>
+              <button class="btn small" type="button">Import</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <details class="design-notes">
+    <summary>Design notes — 05 · Shield</summary>
+    <p><b>Direction:</b> a consumer-privacy dashboard that sells reassurance — "You're protected" hero, weekly counters, protection levels instead of jargon. Closest in spirit to browser security pages. <b>Typography:</b> confident system sans with heavier hero weights. <b>Palettes:</b> Guardian teal as the trust default, Forest for a more organic green, Midnight for a serious institutional blue. <b>Site data:</b> three plain-language preset cards (Cookies only / Cookies + storage / Everything) with a Custom fold for exact types — the preset pattern from the plan.</p>
+  </details>
+</div>
+
+<!-- DP:STYLE -->
+<style id="dp-style">
+  #design-panel {
+    --dp-bg: rgba(28, 30, 34, 0.92);
+    --dp-text: #e7e9ee;
+    --dp-muted: #9aa1ad;
+    --dp-line: rgba(255, 255, 255, 0.14);
+    --dp-active: #6ea8fe;
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 99999;
+    width: 240px;
+    max-height: min(70vh, 560px);
+    overflow: auto;
+    background: var(--dp-bg);
+    color: var(--dp-text);
+    font:
+      12px/1.45 system-ui,
+      -apple-system,
+      "Segoe UI",
+      sans-serif;
+    border: 1px solid var(--dp-line);
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(6px);
+  }
+  #design-panel * {
+    box-sizing: border-box;
+    font: inherit;
+    color: inherit;
+  }
+  #design-panel header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--dp-line);
+  }
+  #design-panel header strong {
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  #dp-toggle {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 6px;
+    line-height: 1;
+  }
+  #dp-toggle:hover {
+    background: var(--dp-line);
+  }
+  #design-panel[data-collapsed="true"] {
+    width: auto;
+    max-height: none;
+    overflow: hidden;
+  }
+  #design-panel[data-collapsed="true"] #dp-body {
+    display: none;
+  }
+  #design-panel[data-collapsed="true"] header {
+    border-bottom: 0;
+  }
+  #dp-body {
+    padding: 10px 12px 12px;
+    display: grid;
+    gap: 12px;
+  }
+  #design-panel fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+  }
+  #design-panel legend {
+    padding: 0 0 6px;
+    color: var(--dp-muted);
+    text-transform: uppercase;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+  #design-panel .dp-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  #design-panel .dp-options label {
+    border: 1px solid var(--dp-line);
+    border-radius: 999px;
+    padding: 3px 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+  #design-panel .dp-options input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  #design-panel .dp-options input:checked + span {
+    color: var(--dp-active);
+  }
+  #design-panel .dp-options label:has(input:checked) {
+    border-color: var(--dp-active);
+  }
+  #design-panel .dp-slider {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 8px;
+  }
+  #design-panel .dp-slider input[type="range"] {
+    width: 100%;
+    accent-color: var(--dp-active);
+  }
+  #design-panel .dp-slider output {
+    min-width: 42px;
+    text-align: right;
+    color: var(--dp-muted);
+    font-variant-numeric: tabular-nums;
+  }
+  #dp-reset {
+    width: 100%;
+    border: 1px solid var(--dp-line);
+    background: transparent;
+    border-radius: 8px;
+    padding: 6px 0;
+    cursor: pointer;
+  }
+  #dp-reset:hover {
+    border-color: var(--dp-active);
+    color: var(--dp-active);
+  }
+</style>
+<!-- /DP:STYLE -->
+
+<!-- DP:MARKUP -->
+<aside
+  id="design-panel"
+  data-collapsed="false"
+  aria-label="Design control panel"
+>
+  <header>
+    <strong>Design panel</strong>
+    <button
+      id="dp-toggle"
+      type="button"
+      aria-expanded="true"
+      title="Collapse panel"
+    >
+      −
+    </button>
+  </header>
+  <div id="dp-body">
+    <fieldset data-dp-group="mode">
+      <legend>Mode</legend>
+      <div class="dp-options"></div>
+    </fieldset>
+    <fieldset data-dp-group="palette">
+      <legend>Palette</legend>
+      <div class="dp-options"></div>
+    </fieldset>
+    <fieldset data-dp-group="font">
+      <legend>Font</legend>
+      <div class="dp-options"></div>
+    </fieldset>
+    <fieldset>
+      <legend>Radius</legend>
+      <div class="dp-slider">
+        <input type="range" data-dp-range="radius" min="0" max="24" step="1" />
+        <output data-dp-out="radius"></output>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Density</legend>
+      <div class="dp-slider">
+        <input
+          type="range"
+          data-dp-range="density"
+          min="0.8"
+          max="1.3"
+          step="0.05"
+        />
+        <output data-dp-out="density"></output>
+      </div>
+    </fieldset>
+    <button id="dp-reset" type="button">Reset to defaults</button>
+  </div>
+</aside>
+<!-- /DP:MARKUP -->
+<script>
+  window.DP_CONFIG = {
+    slug: "05-shield",
+    palettes: [
+      { id: "guardian", label: "Guardian" },
+      { id: "forest", label: "Forest" },
+      { id: "midnight", label: "Midnight" }
+    ],
+    fonts: [
+      { id: "sans", label: "Sans", body: 'system-ui, -apple-system, "Segoe UI", sans-serif', heading: 'system-ui, -apple-system, "Segoe UI", sans-serif' },
+      { id: "serif", label: "Serif headings", body: 'system-ui, -apple-system, "Segoe UI", sans-serif', heading: '"Iowan Old Style", "Palatino Linotype", Georgia, serif' }
+    ],
+    defaults: { mode: "light", palette: "guardian", font: "sans", radius: 12, density: 1 }
+  };
+</script>
+<!-- DP:SCRIPT -->
+<script id="dp-script">
+  (function () {
+    var config = window.DP_CONFIG;
+    if (
+      !config ||
+      !config.slug ||
+      !Array.isArray(config.palettes) ||
+      !Array.isArray(config.fonts)
+    ) {
+      console.error("design-panel: window.DP_CONFIG is missing or malformed");
+      return;
+    }
+    var KEY = "design-panel:" + config.slug;
+    var root = document.documentElement;
+    var panel = document.getElementById("design-panel");
+    var defaults = {
+      mode: config.defaults.mode === "dark" ? "dark" : "light",
+      palette: idOrFirst(config.palettes, config.defaults.palette),
+      font: idOrFirst(config.fonts, config.defaults.font),
+      radius: clamp(num(config.defaults.radius, 8), 0, 24),
+      density: clamp(num(config.defaults.density, 1), 0.8, 1.3),
+      collapsed: false,
+    };
+
+    function idOrFirst(list, id) {
+      for (var i = 0; i < list.length; i += 1) {
+        if (list[i].id === id) return id;
+      }
+      return list.length > 0 ? list[0].id : "";
+    }
+    function hasId(list, id) {
+      for (var i = 0; i < list.length; i += 1) {
+        if (list[i].id === id) return true;
+      }
+      return false;
+    }
+    function num(value, fallback) {
+      return typeof value === "number" && isFinite(value) ? value : fallback;
+    }
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+    function findFont(id) {
+      for (var i = 0; i < config.fonts.length; i += 1) {
+        if (config.fonts[i].id === id) return config.fonts[i];
+      }
+      return config.fonts[0];
+    }
+
+    function load() {
+      var state = {};
+      try {
+        state = JSON.parse(localStorage.getItem(KEY) || "{}") || {};
+      } catch (error) {
+        state = {};
+      }
+      return {
+        mode:
+          state.mode === "dark" || state.mode === "light"
+            ? state.mode
+            : defaults.mode,
+        palette: hasId(config.palettes, state.palette)
+          ? state.palette
+          : defaults.palette,
+        font: hasId(config.fonts, state.font) ? state.font : defaults.font,
+        radius: clamp(num(state.radius, defaults.radius), 0, 24),
+        density: clamp(num(state.density, defaults.density), 0.8, 1.3),
+        collapsed: state.collapsed === true,
+      };
+    }
+    function save() {
+      try {
+        localStorage.setItem(
+          KEY,
+          JSON.stringify(Object.assign({ v: 1 }, current))
+        );
+      } catch (error) {
+        /* storage unavailable (e.g. some file:// modes): live state still works */
+      }
+    }
+
+    var current = load();
+
+    function apply() {
+      root.setAttribute("data-theme", current.mode);
+      root.setAttribute("data-palette", current.palette);
+      root.setAttribute("data-font", current.font);
+      root.style.setProperty("--radius", current.radius + "px");
+      root.style.setProperty("--density", String(current.density));
+      var font = findFont(current.font);
+      root.style.setProperty("--font-body", font.body);
+      root.style.setProperty("--font-heading", font.heading || font.body);
+      panel.setAttribute("data-collapsed", String(current.collapsed));
+      var toggle = document.getElementById("dp-toggle");
+      toggle.textContent = current.collapsed ? "✦" : "−";
+      toggle.setAttribute("aria-expanded", String(!current.collapsed));
+      toggle.setAttribute(
+        "title",
+        current.collapsed ? "Expand panel" : "Collapse panel"
+      );
+      syncControls();
+    }
+
+    function radioGroup(group, options, getValue) {
+      var container = panel.querySelector(
+        '[data-dp-group="' + group + '"] .dp-options'
+      );
+      options.forEach(function (option) {
+        var label = document.createElement("label");
+        var input = document.createElement("input");
+        input.type = "radio";
+        input.name = "dp-" + group + "-" + config.slug;
+        input.setAttribute("value", option.id);
+        input.addEventListener("change", function () {
+          current[group] = option.id;
+          save();
+          apply();
+        });
+        var text = document.createElement("span");
+        text.textContent = option.label;
+        label.appendChild(input);
+        label.appendChild(text);
+        container.appendChild(label);
+      });
+    }
+
+    function syncControls() {
+      ["mode", "palette", "font"].forEach(function (group) {
+        var inputs = panel.querySelectorAll(
+          '[data-dp-group="' + group + '"] input'
+        );
+        inputs.forEach(function (input) {
+          input.checked = input.value === current[group];
+        });
+      });
+      var radius = panel.querySelector('[data-dp-range="radius"]');
+      var density = panel.querySelector('[data-dp-range="density"]');
+      radius.value = String(current.radius);
+      density.value = String(current.density);
+      panel.querySelector('[data-dp-out="radius"]').textContent =
+        current.radius + "px";
+      panel.querySelector('[data-dp-out="density"]').textContent =
+        "×" + current.density.toFixed(2);
+    }
+
+    radioGroup("mode", [
+      { id: "light", label: "Light" },
+      { id: "dark", label: "Dark" },
+    ]);
+    radioGroup("palette", config.palettes);
+    radioGroup("font", config.fonts);
+
+    panel
+      .querySelector('[data-dp-range="radius"]')
+      .addEventListener("input", function (event) {
+        current.radius = clamp(
+          num(Number(event.target.value), defaults.radius),
+          0,
+          24
+        );
+        save();
+        apply();
+      });
+    panel
+      .querySelector('[data-dp-range="density"]')
+      .addEventListener("input", function (event) {
+        current.density = clamp(
+          num(Number(event.target.value), defaults.density),
+          0.8,
+          1.3
+        );
+        save();
+        apply();
+      });
+    document.getElementById("dp-toggle").addEventListener("click", function () {
+      current.collapsed = !current.collapsed;
+      save();
+      apply();
+    });
+    document.getElementById("dp-reset").addEventListener("click", function () {
+      try {
+        localStorage.removeItem(KEY);
+      } catch (error) {
+        /* ignore */
+      }
+      current = load();
+      apply();
+    });
+
+    apply();
+  })();
+</script>
+<!-- /DP:SCRIPT -->
+</body>
+</html>

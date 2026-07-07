@@ -1,100 +1,63 @@
-[link-amo]: https://addons.mozilla.org/firefox/addon/cookie-autodelete/
-[link-cws]: https://chrome.google.com/webstore/detail/cookie-autodelete/fhcgjolkccmbidfldomjliifgaodjagh
-[link-edge]: https://microsoftedge.microsoft.com/addons/detail/djkjpnciiommncecmdefpdllknjdmmmo
+# Auto-Delete Cookies for Privacy
 
-| Latest Release Tests ![Latest Release](https://img.shields.io/github/v/release/Cookie-AutoDelete/Cookie-AutoDelete) | Development Tests | Localization | Coverage |
-| ------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![Tagged Release Distribution](https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/workflows/Tagged%20Release%20Distribution/badge.svg) | ![Node.js CI Tests](https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/workflows/CI/badge.svg?branch=3.X.X-Branch) | [![Crowdin](https://d322cqt584bo4o.cloudfront.net/cookie-autodelete/localized.svg)](https://crowdin.com/project/cookie-autodelete) | [![Coverage Status](https://coveralls.io/repos/github/Cookie-AutoDelete/Cookie-AutoDelete/badge.svg?branch=3.X.X-Branch)](https://coveralls.io/github/Cookie-AutoDelete/Cookie-AutoDelete?branch=3.X.X-Branch) [![codecov](https://codecov.io/gh/Cookie-AutoDelete/Cookie-AutoDelete/branch/3.X.X-Branch/graph/badge.svg)](https://codecov.io/gh/Cookie-AutoDelete/Cookie-AutoDelete) |
+A browser extension that tidies up after your tabs. Close a tab, and the cookies and site data that page left behind get wiped automatically — unless you've put the site on a keep list. Sites you trust keep working; everything else forgets you were there.
 
-# Cookie AutoDelete
+ADCP is a hard fork of an MIT-licensed cookie manager whose upstream was archived and delisted when Manifest V2 support ended (attribution in [LICENSE](LICENSE)). It has been rebuilt for Manifest V3 and targets Chrome, Brave, and other Chromium browsers.
 
-Control your cookies! This extension is inspired by [Self-Destructing Cookies](https://addons.mozilla.org/firefox/addon/self-destructing-cookies/). When a tab closes, any cookies not being used are automatically deleted. Prevent tracking by other cookies and add only the ones you trust. Easily import and export your cookie whitelist.
+> **Status:** [v1.0.0 is released](https://github.com/j127/auto_delete_cookies_for_privacy/releases/latest) as an installable zip. Chrome Web Store listing in progress.
 
-## Main features
+## What it does
 
-- Automatically deletes cookies from closed tabs
-- Whitelist/Greylist support for cookies
-- Easily export/import your configurations
-- Clear all cookies for a domain
-- Supports manual mode cleaning from the popup
-- Easily see the number of cookies for a site
-- Support for Container Tabs (Firefox 53+ only)
+- Wipes cookies from a site shortly after its last tab closes
+- Two kinds of keep rules: **Keep** (never cleaned) and **Keep until browser closes**
+- Optionally clears other leftovers too: LocalStorage, IndexedDB, cache, service workers, plugin data
+- One-click manual cleanup for the current site from the popup or right-click menu
+- Toolbar badge shows how many cookies the current site has set
+- Keep rules support wildcards and regular expressions, and can be exported/imported as files
 
-### Usage
+Firefox is deliberately out of scope: Firefox-only features (Container Tabs, First-Party Isolation) were removed rather than carried as dead weight, and Firefox users have Manifest V2 options that still work there.
 
-1. Add the sites you want to keep cookies for to the whitelist (permanently) or greylist (until browser restart)
-2. Enable "Automatic Cleaning" in settings or "Auto-Clean" in popup
-3. Watch those unused cookies disappear :)
+## Usage
+
+1. Mark the sites whose cookies you want to keep as **Keep**, or **Keep until browser closes** if they should only survive the session
+2. Turn on automatic cleaning (in the settings page, or the toggle in the popup)
+3. Browse normally — cleanup runs by itself a few seconds after you close a site's last tab
 
 ## Installation
 
-### via Official Channels
+Not yet on the Chrome Web Store (submission in progress). Until then:
 
-- [Google Chrome][link-cws]
+1. Download the Chrome zip from the [latest release](https://github.com/j127/auto_delete_cookies_for_privacy/releases/latest) and unzip it (or build from source — see Development)
+2. Open `brave://extensions` (or `chrome://extensions`), enable Developer Mode
+3. "Load unpacked" and select the unzipped folder
 
-  - [![Chrome Lastest](https://img.shields.io/chrome-web-store/v/fhcgjolkccmbidfldomjliifgaodjagh)][link-cws] [![Chrome Users](https://img.shields.io/chrome-web-store/users/fhcgjolkccmbidfldomjliifgaodjagh)][link-cws]
+Coming from a similar cookie extension? Export your settings and expression lists from it as JSON, then import them here — the extension's built-in Help page (settings → Help → "Import and export") describes the accepted format.
 
-- [Mozilla Firefox][link-amo]
-  - [![Firefox Latest](https://img.shields.io/amo/v/cookie-autodelete)][link-amo] [![Firefox Users](https://img.shields.io/amo/users/cookie-autodelete)][link-amo]
-- [Microsoft Edge Chromium][link-edge]
-  - Should have the exact same features as Google Chrome
-  - [![](https://img.shields.io/badge/dynamic/json?label=edge%20chromium%20add-on&prefix=v&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fdjkjpnciiommncecmdefpdllknjdmmmo)][link-edge]
+## Development
 
-### via Self Installation
+Requirements: [Bun](https://bun.sh) >= 1.3 and [just](https://github.com/casey/just).
 
-- [Github Releases](https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/releases)
+- `just install` - Install all dependencies
+- `just dev` - Watch mode: rebuilds bundles into `/extension` on change
+- `just build` - One-shot build
+- `just check` - Type-check
+- `just lint` - Lint
+- `just test` - Run the test suite
+- `just package_zip` - Build and zip the extension into `/builds`
+- `just ci` - Everything CI runs, in order
 
-> Please keep in mind that at this time only Mozilla Firefox and Google Chrome (as well as its development branches e.g. Developer Edition, Canary) will be supported.  
-> Microsoft Edge Chromium will be considered partially official as it is using the same code as Google Chrome for now.
-> While you may be able to install this extension on other browsers (i.e. Varations of Edge, Chrome, Firefox, Android), there will be no official support from the authors and maintainers through Github Discussions and/or Issues.
+Load `/extension` as an unpacked extension to test (see Installation above).
 
-## Contributing
+Contribution guidelines (branch rules, test expectations): [CONTRIBUTING.md](CONTRIBUTING.md).
 
-### Donations
+## Privacy
 
-[Donations are done through Liberapay/PayPal](https://liberapay.com/CAD_Developers/). If this webextension has helped you in any way, we would appreciate a small donation to assist in our efforts to make this even better. Note that although Liberapay has recurring donation model, you can opt to 'manually' donate a one time amount as well.
+The extension deletes data; it never collects or transmits any. All state lives in your browser and nothing leaves your machine. The permission-by-permission breakdown lives in [PRIVACY.md](PRIVACY.md).
 
-### Internationalization (i18n)
+## Internationalization
 
-[Translate Cookie AutoDelete in your language or help fix a translation on Crowdin!](https://crowdin.com/project/cookie-autodelete)
-Some translations were taken from Machine Translations - if you believe there is a better translation for them, please submit an updated translation and raise an issue through CrowdIn.
+The extension ships localized in 30+ languages (the non-English files predate the fork's rewritten English copy and will be regenerated from it). The extension name is intentionally untranslated.
 
-### Contributing code
+## License
 
-If there are any bugs that only a certain browser has, and you have the fix for it, feel free to submit a PR for it, as long as it does not affect the functionality to other browsers. The easiest is to wrap your bugfix with check for that browser.
-
-#### Requirements
-
-- Latest version of Node.js
-
-#### Development
-
-- `npm install` - Installs all dependencies
-- `npm run dev` - This will run the webpack watcher and automatically pack `/src/background.ts`, popup, and setting items and its dependencies to `/extension`
-- `npm run lint` - Runs the eslinter for JS files
-- `npm test` - Runs the test suite located in `/test`
-- `npm run build` - Builds the Firefox (.xpi/.zip) and Chrome (.zip) builds
-
-#### Testing
-
-1. Run `npm install` (if you haven't already)
-2. Run `npm run dev`
-3. Load the extension in the browser
-
-- Firefox
-
-  - Easiest way would be to run the tool [web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext/#Testing_out_an_extension)
-  - Another way is go into `about:debugging` and load `/extension/manifest.json`
-
-- Chrome
-  - In the extension tab, enable Developer Mode, then `load unpacked extension` and load the `/extension` folder
-
-#### Building
-
-1. Run `npm install` (if you haven't already)
-2. Run `npm run build`
-3. The build files should be in a new folder called `/builds`
-
-## Documentation
-
-Full documentation can be found in the [wiki](https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/Documentation).
+MIT. Original work copyright (c) 2017-2022 Kenny Do and CAD Team; fork modifications copyright (c) 2026 j127. See [LICENSE](LICENSE).

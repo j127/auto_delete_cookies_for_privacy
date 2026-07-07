@@ -10,115 +10,91 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
-import { clearActivities } from '../../../redux/Actions';
-import { FilterOptions } from '../../../typings/Enums';
-import { ReduxAction } from '../../../typings/ReduxConstants';
-import ActivityTable from '../../common_components/ActivityTable';
-import IconButton from '../../common_components/IconButton';
+import * as React from "react";
+import { useDispatch } from "react-redux";
+import { Dispatch } from "redux";
+import { clearActivities } from "@/redux/actions";
+import { FilterOptions } from "@/typings/enums";
+import { ReduxAction } from "@/typings/redux-constants";
+import ActivityTable from "@/ui/common-components/ActivityTable";
+import IconButton from "@/ui/common-components/IconButton";
 
 interface OwnProps {
   style?: React.CSSProperties;
 }
 
-interface DispatchProps {
-  onClearActivityLogClick: () => void;
-}
+const ActivityLog: React.FunctionComponent<OwnProps> = ({ style }) => {
+  const dispatch = useDispatch<Dispatch<ReduxAction>>();
+  // The filter radio buttons below are commented out, so only the state
+  // value is consumed. Reviving them needs the setter as well:
+  // const [decisionFilter, setNewFilter] = React.useState(FilterOptions.NONE);
+  // Their pre-#40 Bootstrap markup, kept for reference (rebuild with DaisyUI
+  // radios when reviving):
+  //   <span>{`${browser.i18n.getMessage('filterText')}: `}</span>
+  //   <div className="form-check form-check-inline">
+  //     <input
+  //       className="form-check-input"
+  //       type="radio"
+  //       name="filterRadios"
+  //       id="filterRadios1"
+  //       value="option1"
+  //       checked={decisionFilter === FilterOptions.NONE}
+  //       onClick={() => setNewFilter(FilterOptions.NONE)}
+  //     />
+  //     <label className="form-check-label" htmlFor="filterRadios1">
+  //       {browser.i18n.getMessage('noneText')}
+  //     </label>
+  //   </div>
+  //   <div className="form-check form-check-inline">
+  //     <input
+  //       className="form-check-input"
+  //       type="radio"
+  //       name="filterRadios"
+  //       id="filterRadios2"
+  //       value="option2"
+  //       checked={decisionFilter === FilterOptions.CLEAN}
+  //       onClick={() => setNewFilter(FilterOptions.CLEAN)}
+  //     />
+  //     <label className="form-check-label" htmlFor="filterRadios2">
+  //       {browser.i18n.getMessage('cleanText')}
+  //     </label>
+  //   </div>
+  //   <div className="form-check form-check-inline">
+  //     <input
+  //       className="form-check-input"
+  //       type="radio"
+  //       name="filterRadios"
+  //       id="filterRadios3"
+  //       value="option3"
+  //       checked={decisionFilter === FilterOptions.KEEP}
+  //       onClick={() => setNewFilter(FilterOptions.KEEP)}
+  //     />
+  //     <label className="form-check-label" htmlFor="filterRadios3">
+  //       {browser.i18n.getMessage('keepText')}
+  //     </label>
+  //   </div>
+  const [decisionFilter] = React.useState(FilterOptions.NONE);
 
-type ActivityLogProps = OwnProps & DispatchProps;
-
-class ActivityLog extends React.Component<ActivityLogProps> {
-  public state = {
-    decisionFilter: FilterOptions.NONE,
+  const onClearActivityLogClick = () => {
+    dispatch(clearActivities());
   };
 
-  public setNewFilter(filter: FilterOptions) {
-    this.setState({
-      decisionFilter: filter,
-    });
-  }
-
-  public render() {
-    const { style, onClearActivityLogClick } = this.props;
-    // const { decisionFilter } = this.state;
-    return (
-      <div style={style}>
-        <h1>{browser.i18n.getMessage('cleanupLogText')}</h1>
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: '10px',
-          }}
-        >
-          <div
-            style={{
-              marginTop: '5px',
-            }}
-          >
-            {/* <span>{`${browser.i18n.getMessage('filterText')}: `}</span>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="filterRadios"
-                id="filterRadios1"
-                value="option1"
-                checked={decisionFilter === FilterOptions.NONE}
-                onClick={() => this.setNewFilter(FilterOptions.NONE)}
-              />
-              <label className="form-check-label" htmlFor="filterRadios1">
-                {browser.i18n.getMessage('noneText')}
-              </label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="filterRadios"
-                id="filterRadios2"
-                value="option2"
-                checked={decisionFilter === FilterOptions.CLEAN}
-                onClick={() => this.setNewFilter(FilterOptions.CLEAN)}
-              />
-              <label className="form-check-label" htmlFor="filterRadios2">
-                {browser.i18n.getMessage('cleanText')}
-              </label>
-            </div>
-            <div className="form-check form-check-inline">
-              <input
-                className="form-check-input"
-                type="radio"
-                name="filterRadios"
-                id="filterRadios3"
-                value="option3"
-                checked={decisionFilter === FilterOptions.KEEP}
-                onClick={() => this.setNewFilter(FilterOptions.KEEP)}
-              />
-              <label className="form-check-label" htmlFor="filterRadios3">
-                {browser.i18n.getMessage('keepText')}
-              </label>
-            </div> */}
-          </div>
-          <IconButton
-            iconName="trash"
-            text={browser.i18n.getMessage('clearLogsText')}
-            onClick={() => onClearActivityLogClick()}
-            className="btn-warning"
-          />
-        </div>
-        <ActivityTable decisionFilter={this.state.decisionFilter} />
+  return (
+    <div style={style}>
+      <div className="mb-4 flex items-center justify-between gap-2">
+        <h1 className="text-2xl font-bold">
+          {browser.i18n.getMessage("cleanupLogText")}
+        </h1>
+        <IconButton
+          iconName="trash"
+          text={browser.i18n.getMessage("clearLogsText")}
+          onClick={() => onClearActivityLogClick()}
+          className="btn-sm btn-warning"
+        />
       </div>
-    );
-  }
-}
+      <ActivityTable decisionFilter={decisionFilter} />
+    </div>
+  );
+};
 
-const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
-  onClearActivityLogClick() {
-    dispatch(clearActivities());
-  },
-});
-
-export default connect(null, mapDispatchToProps)(ActivityLog);
+export default ActivityLog;

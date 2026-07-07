@@ -13,7 +13,7 @@
 
 /**
  * This setup file for jest testing essentially mimics the
- * Firefox WebExtension APIs with jest mock functions.
+ * browser WebExtension APIs with jest mock functions.
  *
  * Use global.browser for testing for calls to webextension API.
  * If you are expecting values to be returned, use jest-when
@@ -22,7 +22,7 @@
  *          .mockReturnValue('translated');
  * to have it return a value depending on the input received.
  */
-'use strict';
+"use strict";
 
 // event listeners
 const eventListeners = {
@@ -41,101 +41,112 @@ const storageArea = {
   clear: jest.fn(),
 };
 
+// storage.session gets its OWN mock instance: local/managed/sync share
+// storageArea, and reusing it for session would make session-persistence
+// assertions cross-talk with storage.local assertions.
+const sessionStorageArea = {
+  storage: {},
+  get: jest.fn(),
+  set: jest.fn(),
+  remove: jest.fn(),
+  clear: jest.fn(),
+};
+
 const apis = {
-  alarms: {
-    fn: ['clear', 'clearAll', 'create', 'get', 'getAll'],
-  },
-  browserAction: {
+  // MV3 API surface: action replaced browserAction, alarms gained onAlarm
+  // usage, and scripting replaced tabs.executeScript.
+  action: {
     fn: [
-      'getBadgeText',
-      'getTitle',
-      'setBadgeBackgroundColor',
-      'setBadgeText',
-      'setBadgeTextColor',
-      'setIcon',
-      'setTitle',
+      "getBadgeText",
+      "getTitle",
+      "setBadgeBackgroundColor",
+      "setBadgeText",
+      "setBadgeTextColor",
+      "setIcon",
+      "setTitle",
     ],
-    events: ['onClicked'],
+    events: ["onClicked"],
+  },
+  alarms: {
+    fn: ["clear", "clearAll", "create", "get", "getAll"],
+    events: ["onAlarm"],
   },
   browsingData: {
     fn: [
-      'remove',
-      'removeCache',
-      'removeCookies',
-      'removeDownloads',
-      'removeFormData',
-      'removeLocalStorage',
-      'removePluginData',
+      "remove",
+      "removeCache",
+      "removeCookies",
+      "removeDownloads",
+      "removeFormData",
+      "removeLocalStorage",
+      "removePluginData",
     ],
   },
-  contextualIdentities: {
-    fn: ['create', 'get', 'query', 'remove', 'update'],
-    events: ['onCreated', 'onRemoved', 'onUpdated'],
-  },
   cookies: {
-    fn: ['get', 'getAll', 'getAllCookieStores', 'remove', 'set'],
-    events: ['onChanged'],
+    fn: ["get", "getAll", "getAllCookieStores", "remove", "set"],
+    events: ["onChanged"],
   },
   i18n: {
-    fn: ['getMessage'],
+    fn: ["getMessage"],
   },
   contextMenus: {
-    fn: ['create', 'refresh', 'remove', 'removeAll', 'update'],
-    events: ['onClicked'],
+    fn: ["create", "refresh", "remove", "removeAll", "update"],
+    events: ["onClicked"],
   },
   notifications: {
-    fn: ['clear', 'create', 'getAll', 'update'],
-    events: ['onClicked', 'onClosed'],
+    fn: ["clear", "create", "getAll", "update"],
+    events: ["onClicked", "onClosed"],
   },
   pageAction: {
     fn: [
-      'getPopup',
-      'getTitle',
-      'hide',
-      'setIcon',
-      'setPopup',
-      'setTitle',
-      'show',
+      "getPopup",
+      "getTitle",
+      "hide",
+      "setIcon",
+      "setPopup",
+      "setTitle",
+      "show",
     ],
-    events: ['onClicked'],
+    events: ["onClicked"],
   },
   permissions: {
-    fn: ['contains', 'getAll', 'remove', 'request'],
+    fn: ["contains", "getAll", "remove", "request"],
   },
   runtime: {
     fn: [
-      'connect',
-      'getBackgroundPage',
-      'getBrowserInfo',
-      'getManifest',
-      'getPlatformInfo',
-      'getURL',
-      'openOptionsPage',
-      'reload',
-      'sendMessage',
+      "connect",
+      "getBackgroundPage",
+      "getManifest",
+      "getURL",
+      "openOptionsPage",
+      "reload",
+      "sendMessage",
     ],
-    events: ['onConnect', 'onInstalled', 'onMessage', 'onStartup'],
+    events: ["onConnect", "onInstalled", "onMessage", "onStartup"],
+  },
+  scripting: {
+    fn: ["executeScript"],
   },
   tabs: {
     fn: [
-      'connect',
-      'create',
-      'executeScript',
-      'get',
-      'getCurrent',
-      'query',
-      'reload',
-      'sendMessage',
-      'update',
+      "connect",
+      "create",
+      "executeScript",
+      "get",
+      "getCurrent",
+      "query",
+      "reload",
+      "sendMessage",
+      "update",
     ],
-    events: ['onDetached', 'onRemoved', 'onSelectionChanged', 'onUpdated'],
+    events: ["onDetached", "onRemoved", "onSelectionChanged", "onUpdated"],
   },
   webRequest: {
     events: [
-      'onCompleted',
-      'onErrorOccurred',
-      'onHeadersReceived',
-      'onResponseStarted',
+      "onCompleted",
+      "onErrorOccurred",
+      "onHeadersReceived",
+      "onResponseStarted",
     ],
   },
 };
@@ -145,15 +156,11 @@ const browser = {
     isAllowedIncognitoAccess: jest.fn(),
     lastError: undefined,
   },
-  privacy: {
-    websites: {
-      firstPartyIsolate: jest.fn(),
-    },
-  },
   storage: {
     local: storageArea,
     managed: storageArea,
     onChanged: eventListeners,
+    session: sessionStorageArea,
     sync: storageArea,
   },
 };
@@ -164,12 +171,12 @@ Object.keys(apis).forEach((api) => {
     browser[api] = {};
   }
   Object.keys(apis[api]).forEach((a) => {
-    if (a === 'events') {
+    if (a === "events") {
       apis[api][a].forEach((ev) => {
         // e.g. browser.cookies.onChanged = eventListeners;
         browser[api][ev] = eventListeners;
       });
-    } else if (a === 'fn') {
+    } else if (a === "fn") {
       apis[api][a].forEach((fn) => {
         // e.g. browser.cookies.getAll = jest.fn();
         browser[api][fn] = jest.fn();
@@ -182,16 +189,6 @@ Object.keys(apis).forEach((api) => {
 
 global.browser = browser;
 global.chrome = browser;
-
-/**
- * Simple browerDetect function for testing purposes.
- * Should only be called if cache's browserDetect was undefined
- * @returns {string} 'UnknownBrowser'
- */
-function browserDetect() {
-  return 'UnknownBrowser';
-}
-global.browserDetect = browserDetect;
 
 /**
  * This hides the test console debug logs from jest results.

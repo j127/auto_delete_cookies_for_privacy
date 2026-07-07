@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <!--
   Copyright (c) 2022 CAD Team (https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/graphs/contributors)
   Licensed under MIT (https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/blob/3.X.X-Branch/LICENSE)
@@ -15,18 +15,14 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Cookie AutoDelete Popup</title>
-    <link rel="stylesheet" href="../global_files/bootstrap.min.css" />
-    <link rel="stylesheet" href="popup.css" />
+    <title>Auto-Delete Cookies for Privacy Popup</title>
+    <link rel="stylesheet" href="../bundles/ui.css" />
   </head>
   <body>
-    <script src="../global_files/browser-polyfill.min.js"></script>
-    <script src="../global_files/browserDetect.js"></script>
-    <script src="../global_files/redux-webext.js"></script>
-    <script src="../global_files/jquery.slim.min.js"></script>
-    <script src="../global_files/bootstrap.bundle.min.js"></script>
-    <script src="../bundles/common-background-popup-setting.bundle.js"></script>
-    <script src="../bundles/common-popup-setting.bundle.js"></script>
-    <script src="../bundles/popup.bundle.js"></script>
+    <!-- browser-polyfill/browserDetect/redux-webext page scripts are gone:
+         the polyfill and browser detection are bundled (src/init-globals.ts)
+         and the store bridge is in-repo now. Bootstrap/jQuery are gone since
+         the #41 DaisyUI rebuild. -->
+    <script type="module" src="../bundles/ui/popup/index.js"></script>
   </body>
 </html>

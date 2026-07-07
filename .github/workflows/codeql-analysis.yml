@@ -11,14 +11,18 @@
 #
 name: "CodeQL"
 
+# Manual-only while the repo is private: uploading code-scanning results
+# requires GitHub Advanced Security, which personal private repos don't have.
+# Restore the push/pull_request/schedule triggers below when the repo goes
+# public for the Chrome Web Store release (Phase 5).
 on:
-  push:
-    branches: [ 3.X.X-Branch ]
-  pull_request:
-    # The branches below must be a subset of the branches above
-    branches: [ 3.X.X-Branch ]
-  schedule:
-    - cron: '0 20 * * 6'
+  workflow_dispatch:
+  # push:
+  #   branches: [main, manifest-v3-prep]
+  # pull_request:
+  #   branches: [main, manifest-v3-prep]
+  # schedule:
+  #   - cron: "0 20 * * 6"
 
 jobs:
   CodeQL-Build:
@@ -28,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['javascript']
+        language: ["javascript"]
 
     permissions:
       # required for all workflows

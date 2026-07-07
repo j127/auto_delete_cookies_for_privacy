@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main, manifest-v3-prep]
+  pull_request:
+    branches: [main, manifest-v3-prep]
+
+permissions:
+  contents: read
+
+# A newer push to the same branch/PR supersedes the running build.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.3.x"
+
+      - uses: extractions/setup-just@v4
+
+      - run: bun install --frozen-lockfile
+
+      - run: just check
+
+      - run: just lint
+
+      - run: just format_check
+
+      - run: just test
+
+      # package_zip depends on the build recipe, so this also verifies the build
+      - run: just package_zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: chrome-zip
+          path: builds/*.zip
+          if-no-files-found: error

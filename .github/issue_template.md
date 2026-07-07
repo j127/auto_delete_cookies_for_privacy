@@ -1,6 +1,5 @@
-To prevent your bug / feature request / support issue from being automatically closed,
-please use the new Issue Template Selection page linked below.
+Please use the issue template chooser so your report lands with the right details:
 
-https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/issues/new/choose
+https://github.com/j127/auto_delete_cookies_for_privacy/issues/new/choose
 
-New issues without following those specific template type and its instructions WILL be automatically closed.
+Issues that skip the templates and their instructions may be closed without action.

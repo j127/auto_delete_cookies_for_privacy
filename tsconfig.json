@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     /* Basic Options */
-    "target": "es6" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017','ES2018' or 'ESNEXT'. */,
-    "module": "commonjs" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */,
+    "target": "es2022" /* Chrome 120+ (the manifest floor) fully supports ES2022. */,
+    "module": "esnext" /* Bundled by Bun.build as ESM; jest overrides to commonjs in its transform. */,
     "lib": [
-      "es2017",
+      "es2022",
       "dom"
     ] /* Specify library files to be included in the compilation. */,
     // "allowJs": true,                       /* Allow javascript files to be compiled. */
@@ -19,7 +19,9 @@
     // "composite": true,                     /* Enable project compilation */
     // "removeComments": true,                /* Do not emit comments to output. */
     // "noEmit": true,                        /* Do not emit outputs. */
-    "importHelpers": true /* Import emit helpers from 'tslib'. */,
+    // importHelpers is intentionally OFF: tslib is no longer a (transitive)
+    // dependency, and with target es2022 ts-jest emits almost no helpers
+    // anyway. Bun.build uses its own helpers regardless.
     // "downlevelIteration": true,            /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
     // "isolatedModules": true,               /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */
     /* Strict Type-Checking Options */
@@ -35,18 +37,20 @@
     // "noUnusedParameters": true,            /* Report errors on unused parameters. */
     "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
     "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
+    "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file; keeps macOS (case-insensitive FS) from hiding import-casing mistakes that break Linux CI. */,
+    "skipLibCheck": true /* Don't type-check declaration files; the locked @types/node@14.11.2 is a known-broken DefinitelyTyped release (duplicate 'global' declaration) that otherwise fails every tsc run. */,
     /* Module Resolution Options */
-    "moduleResolution": "node" /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */,
-    // "baseUrl": "./",                       /* Base directory to resolve non-absolute module names. */
-    // "paths": {},                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
+    "moduleResolution": "bundler" /* Matches Bun.build's resolution; jest overrides in its transform. */,
+    "paths": {
+      "@/*": ["./src/*"]
+    } /* The @/ alias, tsconfig-relative (no baseUrl since TS 5 discourages it); Vitest resolves it via resolve.tsconfigPaths, Bun.build reads it natively. */,
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     "typeRoots": [
       "node_modules/@types",
-      "node_modules/web-ext-types",
       "src/typings"
     ] /* List of folders to include type definitions from. */,
     // "types": [],                           /* Type declaration files to be included in compilation. */
-    "allowSyntheticDefaultImports": true,  /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */
+    "allowSyntheticDefaultImports": true /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
     // "preserveSymlinks": true,              /* Do not resolve the real path of symlinks. */
     /* Source Map Options */

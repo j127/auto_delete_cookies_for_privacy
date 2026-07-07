@@ -10,122 +10,70 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as React from 'react';
-const styles = {
-  hamburger: {
-    color: 'white',
-  },
-};
-
-const sideBarTabs = [
-  {
-    tabId: 'tabWelcome',
-    tabText: browser.i18n.getMessage('welcomeText'),
-  },
-  {
-    tabId: 'tabSettings',
-    tabText: browser.i18n.getMessage('settingsText'),
-  },
-  {
-    tabId: 'tabExpressionList',
-    tabText: browser.i18n.getMessage('expressionListText'),
-  },
-  {
-    tabId: 'tabCleanupLog',
-    tabText: browser.i18n.getMessage('cleanupLogText'),
-  },
-  {
-    tabId: 'tabAbout',
-    tabText: browser.i18n.getMessage('aboutText'),
-  },
-];
+import * as React from "react";
 
 interface OwnProps {
   activeTab: string;
   switchTabs: (id: string) => void;
 }
 
-class SideBar extends React.Component<OwnProps> {
-  // Switches tabs
-  public toggleClass(element: HTMLElement | null, className: string): void {
-    if (!element) return;
-    const classes = element.className.split(/\s+/);
-    const length = classes.length;
+const SideBar: React.FunctionComponent<OwnProps> = ({
+  activeTab,
+  switchTabs,
+}) => {
+  // The tab list is built during render rather than at module load so that
+  // browser.i18n.getMessage is only called once the message catalog is ready.
+  // Section labels are the 05d keep-family names; the tab IDs stay stable
+  // because the popup and bookmarks deep-link to them (#tabSettings etc.).
+  const sideBarTabs = [
+    {
+      tabId: "tabWelcome",
+      tabText: browser.i18n.getMessage("overviewText"),
+    },
+    {
+      tabId: "tabSettings",
+      tabText: browser.i18n.getMessage("protectionText"),
+    },
+    {
+      tabId: "tabExpressionList",
+      tabText: browser.i18n.getMessage("savedSitesText"),
+    },
+    {
+      tabId: "tabCleanupLog",
+      tabText: browser.i18n.getMessage("cleanupLogText"),
+    },
+    {
+      tabId: "tabImportExport",
+      tabText: browser.i18n.getMessage("importExportText"),
+    },
+    {
+      tabId: "tabHelp",
+      tabText: browser.i18n.getMessage("helpText"),
+    },
+    {
+      tabId: "tabSupport",
+      tabText: browser.i18n.getMessage("supportText"),
+    },
+  ];
 
-    for (let i = 0; i < length; i += 1) {
-      if (classes[i] === className) {
-        classes.splice(i, 1);
-        break;
-      }
-    }
-    // The className is not found
-    if (length === classes.length) {
-      classes.push(className);
-    }
-
-    element.className = classes.join(' ');
-  }
-
-  // Toggles the sidebar
-  public toggleAll(): void {
-    const active = 'active';
-    const layout = document.getElementById('layout');
-    const menu = document.getElementById('menu');
-    const menuLink = document.getElementById('menuLink');
-    this.toggleClass(layout, active);
-    this.toggleClass(menu, active);
-    this.toggleClass(menuLink, active);
-  }
-  public render(): React.ReactNode {
-    const { activeTab, switchTabs } = this.props;
-    return (
-      <div>
-        <div
-          onClick={() => this.toggleAll()}
-          id="menuLink"
-          className="menu-link"
-        >
-          <FontAwesomeIcon size={'lg'} style={styles.hamburger} icon="bars" />
-          <br />
-          <div id="menuLinkText" className="menuLinkText">
-            {browser.i18n.getMessage('menuText')}
-          </div>
-        </div>
-
-        <div id="menu" className="menu">
-          <div className="pure-menu nav flex-column">
-            <div className="sidebar-version">
-              {browser.i18n.getMessage('versionNumberText', ['CAD'])}
-              <br />
-              <b>{browser.runtime.getManifest().version}</b>
-            </div>
-            {sideBarTabs.map((element) => (
-              <div
-                key={element.tabId}
-                id={`${element.tabId}`}
-                onClick={() => switchTabs(element.tabId)}
-                className={`pure-menu-item ${
-                  activeTab === element.tabId ? 'pure-menu-selected' : ''
-                }`}
-              >
-                <span>{`${element.tabText}`}</span>
-              </div>
-            ))}
-            <br />
-            <a
-              className={`pure-menu-item`}
-              href="https://liberapay.com/CAD_Developers/"
-              target="_blank"
-              rel="noreferrer"
+  return (
+    <aside className="min-h-full w-64 bg-base-200">
+      <ul className="menu w-full gap-1 p-2">
+        {sideBarTabs.map((element) => (
+          <li key={element.tabId}>
+            <button
+              type="button"
+              id={`${element.tabId}`}
+              onClick={() => switchTabs(element.tabId)}
+              className={activeTab === element.tabId ? "menu-active" : ""}
             >
-              <span>{browser.i18n.getMessage('contributeText')}</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+              {element.tabText}
+            </button>
+          </li>
+        ))}
+      </ul>
+    </aside>
+  );
+};
 
 export default SideBar;

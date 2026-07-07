@@ -1,0 +1,230 @@
+/**
+ * @jest-environment jsdom
+ */
+import * as React from "react";
+import { fireEvent, render } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+import { initialState } from "@/redux/state";
+import { ReduxConstants } from "@/typings/redux-constants";
+import { ListType } from "@/typings/enums";
+import ExpressionTable from "@/ui/common-components/ExpressionTable";
+
+const whiteExpression: Expression = {
+  expression: "example.com",
+  id: "e1",
+  listType: ListType.WHITE,
+  storeId: "default",
+};
+
+const greyExpression: Expression = {
+  expression: "example.org",
+  id: "e2",
+  listType: ListType.GREY,
+  storeId: "default",
+};
+
+describe("ExpressionTable", () => {
+  beforeEach(() => {
+    global.browser.i18n.getMessage.mockImplementation((key: string) => key);
+    // The nested ExpressionOptions fetch cookies in some configurations.
+    global.browser.cookies.getAll.mockResolvedValue([]);
+  });
+
+  const renderTable = (expressions: ReadonlyArray<Expression>) => {
+    const reducer = jest.fn<State, [State | undefined, any]>(
+      () => initialState
+    );
+    const store = createStore(reducer);
+    const view = render(
+      <Provider store={store}>
+        <ExpressionTable
+          expressions={expressions}
+          expressionColumnTitle="expressionColumnTitle"
+          storeId="default"
+          emptyElement={<span>emptyListText</span>}
+        />
+      </Provider>
+    );
+    const dispatchedActions = () =>
+      reducer.mock.calls.map(([, action]) => action);
+    const updates = () =>
+      dispatchedActions().filter(
+        (action) => action.type === ReduxConstants.UPDATE_EXPRESSION
+      );
+    return { ...view, dispatchedActions, updates };
+  };
+
+  const startEditingFirstRow = (
+    view: ReturnType<typeof renderTable>,
+    title = "editExpressionText"
+  ) => {
+    fireEvent.click(view.getAllByTitle(title)[0]);
+    return view.container.querySelector(
+      "td.editableExpression input"
+    ) as HTMLInputElement;
+  };
+
+  it("renders the empty element when there are no expressions", () => {
+    const { getByText, container } = renderTable([]);
+    getByText("emptyListText");
+    expect(container.querySelector("table")).toBeNull();
+  });
+
+  it("renders the empty element when the expressions prop is undefined", () => {
+    const { getByText, container } = renderTable(
+      undefined as unknown as ReadonlyArray<Expression>
+    );
+    getByText("emptyListText");
+    expect(container.querySelector("table")).toBeNull();
+  });
+
+  it("renders the column headers and one single-line row per expression", () => {
+    const { container, getByText, getAllByTitle, getByTitle } = renderTable([
+      whiteExpression,
+      greyExpression,
+    ]);
+    const table = container.querySelector("table") as HTMLTableElement;
+    expect(table.classList.contains("table")).toBe(true);
+    expect(table.classList.contains("table-zebra")).toBe(true);
+    const headers = Array.from(container.querySelectorAll("thead th")).map(
+      (th) => th.textContent
+    );
+    expect(headers).toEqual([
+      "",
+      "expressionColumnTitle",
+      "listTypeText",
+      "optionsText",
+      "",
+    ]);
+    expect(container.querySelectorAll("tbody tr")).toHaveLength(2);
+    // Sites render as plain mono text, not the old read-only textareas.
+    expect(container.querySelector("textarea")).toBeNull();
+    getByText("example.com");
+    getByText("example.org");
+    getByText("keptBadgeText");
+    getByText("sessionBadgeText");
+    expect(getAllByTitle("removeExpressionText")).toHaveLength(2);
+    expect(getAllByTitle("editExpressionText")).toHaveLength(2);
+    getByTitle("toggleToSessionText");
+    getByTitle("toggleToKeepText");
+  });
+
+  it("shows a plain-language options summary on each row", () => {
+    const { getAllByText, getByText } = renderTable([
+      whiteExpression,
+      {
+        ...greyExpression,
+        cleanAllCookies: false,
+        cookieNames: ["a", "b", "c"],
+      },
+    ]);
+    getAllByText("summaryKeepsEverythingText");
+    getByText("summaryNamedCookiesText");
+  });
+
+  it("hides the options editor until the row expander is clicked", () => {
+    const view = renderTable([whiteExpression, greyExpression]);
+    expect(view.container.querySelector(".expressionOptionsRow")).toBeNull();
+    const expanders = view.getAllByTitle("toggleOptionsText");
+    expect(expanders).toHaveLength(2);
+    expect(expanders[0].getAttribute("aria-expanded")).toBe("false");
+
+    fireEvent.click(expanders[0]);
+    expect(expanders[0].getAttribute("aria-expanded")).toBe("true");
+    expect(
+      view.container.querySelectorAll(".expressionOptionsRow")
+    ).toHaveLength(1);
+    // The revealed row hosts the existing ExpressionOptions editor.
+    view.getByText("keepAllCookiesText");
+
+    fireEvent.click(expanders[0]);
+    expect(view.container.querySelector(".expressionOptionsRow")).toBeNull();
+  });
+
+  it("renders expression rows without console errors", () => {
+    renderTable([whiteExpression, greyExpression]);
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
+  it("dispatches the remove action for the row's expression", () => {
+    const view = renderTable([whiteExpression, greyExpression]);
+    fireEvent.click(view.getAllByTitle("removeExpressionText")[0]);
+    expect(view.dispatchedActions()).toContainEqual({
+      payload: whiteExpression,
+      type: ReduxConstants.REMOVE_EXPRESSION,
+    });
+  });
+
+  it("dispatches an update with the flipped list type from the toggle button", () => {
+    const view = renderTable([whiteExpression, greyExpression]);
+    fireEvent.click(view.getByTitle("toggleToSessionText"));
+    expect(view.dispatchedActions()).toContainEqual({
+      payload: { ...whiteExpression, listType: ListType.GREY },
+      type: ReduxConstants.UPDATE_EXPRESSION,
+    });
+    fireEvent.click(view.getByTitle("toggleToKeepText"));
+    expect(view.dispatchedActions()).toContainEqual({
+      payload: { ...greyExpression, listType: ListType.WHITE },
+      type: ReduxConstants.UPDATE_EXPRESSION,
+    });
+  });
+
+  it("switches the row into edit mode when the pen button is clicked", () => {
+    const view = renderTable([whiteExpression, greyExpression]);
+    const input = startEditingFirstRow(view);
+    expect(input).not.toBeNull();
+    expect(input.value).toBe("example.com");
+    expect(input.type).toBe("url");
+    view.getByTitle("stopEditingText");
+    view.getByTitle("saveExpressionText");
+    // The other row keeps its plain text.
+    view.getByText("example.org");
+    // No validation message until a bad value is committed.
+    expect(view.container.querySelector(".text-error")).toBeNull();
+  });
+
+  it("commits a valid edit with Enter and dispatches the updated expression", () => {
+    const view = renderTable([whiteExpression, greyExpression]);
+    const input = startEditingFirstRow(view);
+    fireEvent.change(input, { target: { value: "new.example.com" } });
+    fireEvent.keyUp(input, { key: "Enter" });
+    expect(view.updates()).toContainEqual({
+      payload: {
+        ...whiteExpression,
+        expression: "new.example.com",
+        storeId: "default",
+      },
+      type: ReduxConstants.UPDATE_EXPRESSION,
+    });
+    // Editing ends after the commit.
+    expect(view.container.querySelector("td.editableExpression")).toBeNull();
+  });
+
+  it("rejects an invalid edit, shows the message and stays in edit mode", () => {
+    const view = renderTable([whiteExpression, greyExpression]);
+    const input = startEditingFirstRow(view);
+    fireEvent.change(input, { target: { value: "bad domain" } });
+    fireEvent.click(view.getByTitle("saveExpressionText"));
+    const feedback = view.container.querySelector(".text-error") as HTMLElement;
+    expect(feedback.textContent).toBe("inputErrorSpace");
+    // The message also lands in the native constraint-validation API (the
+    // Bootstrap was-validated class is gone with #40).
+    expect(input.validationMessage).toBe("inputErrorSpace");
+    expect(
+      view.container.querySelector("td.editableExpression")
+    ).not.toBeNull();
+    expect(view.updates()).toHaveLength(0);
+  });
+
+  it("cancels the edit with Escape without dispatching", () => {
+    const view = renderTable([whiteExpression, greyExpression]);
+    const input = startEditingFirstRow(view);
+    fireEvent.change(input, { target: { value: "changed.example.com" } });
+    fireEvent.keyUp(input, { key: "Escape" });
+    expect(view.container.querySelector("td.editableExpression")).toBeNull();
+    view.getByText("example.com");
+    view.getByText("example.org");
+    expect(view.updates()).toHaveLength(0);
+  });
+});

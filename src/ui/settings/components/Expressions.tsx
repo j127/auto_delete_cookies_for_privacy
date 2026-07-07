@@ -10,158 +10,58 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import * as React from 'react';
-import { connect } from 'react-redux';
-import { Dispatch } from 'redux';
+import { ListType, SettingID } from "@/typings/enums";
+import * as React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 import {
   addExpressionUI,
   clearExpressionsUI,
   removeListUI,
-} from '../../../redux/Actions';
+} from "@/redux/actions";
 import {
-  cadLog,
+  adcpLog,
   getMatchedExpressions,
   getSetting,
   validateExpressionDomain,
-} from '../../../services/Libs';
-import { ReduxAction } from '../../../typings/ReduxConstants';
-import ExpressionTable from '../../common_components/ExpressionTable';
-import IconButton from '../../common_components/IconButton';
-import { downloadObjectAsJSON } from '../../UILibs';
-import SettingsTooltip from './SettingsTooltip';
-const styles = {
-  buttonStyle: {
-    height: 'max-content',
-    padding: '0.75em',
-    width: 'max-content',
-  },
-  tableContainer: {
-    height: `${window.innerHeight - 210}px`,
-    overflow: 'auto',
-  },
-};
+} from "@/services/libs";
+import { ReduxAction } from "@/typings/redux-constants";
+import ExpressionTable from "@/ui/common-components/ExpressionTable";
+import Icon from "@/ui/common-components/Icon";
+import IconButton from "@/ui/common-components/IconButton";
+import { parseRawExpression } from "@/ui/settings/import-plan";
 
 interface OwnProps {
   style?: React.CSSProperties;
 }
 
-interface StateProps {
-  bName: browserName;
-  contextualIdentities: boolean;
-  debug: boolean;
-  lists: StoreIdToExpressionList;
-}
+const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
+  const debug = useSelector(
+    (state: State) => getSetting(state, SettingID.DEBUG_MODE) as boolean
+  );
+  const lists = useSelector((state: State) => state.lists);
+  const dispatch = useDispatch<Dispatch<ReduxAction>>();
 
-interface DispatchProps {
-  onClearExpressions: (lists: StoreIdToExpressionList) => void;
-  onNewExpression: (expression: Expression) => void;
-  onRemoveList: (list: keyof StoreIdToExpressionList) => void;
-}
+  const [error, setErrorMessage] = React.useState("");
+  const [expressionInput, setExpressionInput] = React.useState("");
+  const [storeId] = React.useState("default");
+  const [success, setSuccess] = React.useState("");
 
-type ExpressionProps = OwnProps & StateProps & DispatchProps;
+  const onClearExpressions = (payload: StoreIdToExpressionList) => {
+    dispatch(clearExpressionsUI(payload));
+  };
 
-class InitialState {
-  public contextualIdentitiesObjects: browser.contextualIdentities.ContextualIdentity[] =
-    [];
-  public error = '';
-  public expressionInput = '';
-  public storeId = 'default';
-  public success = '';
-}
+  const onNewExpression = (payload: Expression) => {
+    dispatch(addExpressionUI(payload));
+  };
 
-class Expressions extends React.Component<ExpressionProps> {
-  public state = new InitialState();
-
-  // Import the expressions into the list
-  public importExpressions(importFile: File) {
-    const { onNewExpression } = this.props;
-    // Do check for import first!
-    if (importFile.type !== 'application/json') {
-      this.setError(
-        new Error(
-          `${browser.i18n.getMessage('importFileTypeInvalid')}:  ${
-            importFile.name
-          } (${importFile.type})`,
-        ),
-      );
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = (file) => {
-      try {
-        if (!file.target) {
-          this.setError(
-            new Error(
-              browser.i18n.getMessage('importFileNotFound', [importFile.name]),
-            ),
-          );
-          return;
-        }
-        // FileReader.result is always string as we used readAsText()
-        const result = file.target.result as string;
-        const newExpressions: StoreIdToExpressionList = JSON.parse(result);
-        const storeIds = Object.keys(newExpressions);
-        const errExps: string[] = [];
-        let validExps = 0;
-        storeIds.forEach((storeId) => {
-          if (!Array.isArray(newExpressions[storeId])) {
-            errExps.push(
-              `- ${browser.i18n.getMessage('importListNotArray', [storeId])}`,
-            );
-            return;
-          }
-          newExpressions[storeId].forEach((expression) => {
-            const exps = this.parseRawExpression(expression);
-            exps.forEach((exp) => {
-              const e = exp.trim();
-              if (!e) return;
-              const result = validateExpressionDomain(e).trim();
-              if (result) {
-                // invalid
-                errExps.push(`- ${e} (${storeId}) -> ${result}`);
-              } else {
-                // valid
-                validExps += 1;
-                onNewExpression({
-                  ...expression,
-                  expression: e,
-                });
-              }
-            });
-          });
-        });
-        this.setState({
-          error:
-            errExps.length > 0
-              ? `${browser.i18n.getMessage(
-                  'importInvalidExpressions',
-                )}\n${errExps.join('\n')}`
-              : '',
-          success:
-            validExps > 0
-              ? `${browser.i18n.getMessage('importValidExpressions', [
-                  validExps.toString(),
-                  importFile.name,
-                ])}`
-              : '',
-        });
-      } catch (error) {
-        if (error instanceof Error) {
-          this.setState({
-            error: `${importFile.name} - ${error.toString()}.`,
-            success: '',
-          });
-        }
-      }
-    };
-
-    reader.readAsText(importFile);
-  }
+  const onRemoveList = (payload: keyof StoreIdToExpressionList) => {
+    dispatch(removeListUI(payload));
+  };
 
   // Add the expression using the + button or the Enter key
-  public addExpressionByInput(payload: Expression) {
-    const { onNewExpression } = this.props;
-    const exps = this.parseRawExpression(payload);
+  const addExpressionByInput = (payload: Expression) => {
+    const exps = parseRawExpression(payload);
     const invalidInputs: string[] = [];
     const inputReasons: string[] = [];
     const validInputs: string[] = [];
@@ -182,146 +82,89 @@ class Expressions extends React.Component<ExpressionProps> {
         });
       }
     });
-    this.setState({
-      expressionInput: invalidInputs.join(', '),
-      success:
-        validInputs.length > 0
-          ? `${browser.i18n.getMessage('inputAddSuccess', [
-              validInputs.length.toString(),
-              browser.i18n.getMessage(
-                `${payload.listType.toLowerCase()}ListWordText`,
-              ),
-            ])}\n${validInputs.join(', ')}`
-          : '',
-      error:
-        inputReasons.length > 0
-          ? `${browser.i18n.getMessage(
-              'invalidNewExpressions',
-            )}\n${inputReasons.join('\n')}`
-          : '',
-    });
-  }
+    setExpressionInput(invalidInputs.join(", "));
+    setSuccess(
+      validInputs.length > 0
+        ? `${browser.i18n.getMessage("inputAddSuccess", [
+            validInputs.length.toString(),
+            browser.i18n.getMessage(
+              `${payload.listType.toLowerCase()}ListWordText`
+            ),
+          ])}\n${validInputs.join(", ")}`
+        : ""
+    );
+    setErrorMessage(
+      inputReasons.length > 0
+        ? `${browser.i18n.getMessage(
+            "invalidNewExpressions"
+          )}\n${inputReasons.join("\n")}`
+        : ""
+    );
+  };
 
-  private parseRawExpression(exp: Expression): string[] {
-    const exps = exp.expression.split(',');
-    const expressions: string[] = [];
-    let skipTimes = 0;
-    exps.forEach((e, i, a) => {
-      // Ignore if expression was a continuation of regex but had a comma
-      if (skipTimes > 0) {
-        skipTimes--;
-        return;
-      }
-      // skipTimes should be 0 at this point
-      let ee = e.trim();
-      // Check for regex slash start
-      if (ee.startsWith('/')) {
-        // Continue to parse next set of comma-separated values until the next end slash
-        while (!ee.endsWith('/')) {
-          skipTimes++;
-          if (i + skipTimes >= a.length) {
-            // We have reached the end of the array and did not find an end slash.
-            // We will import as combined.
-            break;
-          }
-          ee += `,${a[i + skipTimes].trim()}`;
-        }
-      }
-      // At this point it should be either a complete regex with start and end
-      // slash, or a domain.
-      expressions.push(ee);
-    });
-    return expressions;
-  }
-
-  public clearListsConfirmation(lists: StoreIdToExpressionList) {
-    const { debug, onClearExpressions } = this.props;
+  const clearListsConfirmation = (lists: StoreIdToExpressionList) => {
     const listKeys = Object.keys(lists);
     let expCount = 0;
     listKeys.forEach((k) => {
       expCount += lists[k].length;
     });
     if (listKeys.length === 0 && expCount === 0) {
-      this.setState({
-        error: browser.i18n.getMessage('removeAllExpressionsNoneFound'),
-      });
+      setErrorMessage(browser.i18n.getMessage("removeAllExpressionsNoneFound"));
     } else {
       const r = window.prompt(
-        browser.i18n.getMessage('removeAllExpressionsConfirm', [
+        browser.i18n.getMessage("removeAllExpressionsConfirm", [
           expCount.toString(),
           listKeys.length.toString(),
-        ]),
+        ])
       );
-      cadLog(
+      adcpLog(
         {
           msg: `Clear Expressions Prompt returned [ ${r} ]`,
-          type: 'info',
+          type: "info",
         },
-        debug,
+        debug
       );
       if (r !== null && r === expCount.toString()) {
-        onClearExpressions(this.props.lists);
-        this.setState({
-          success: browser.i18n.getMessage('removeAllExpressions'),
-        });
+        onClearExpressions(lists);
+        setSuccess(browser.i18n.getMessage("removedAllExpressionsText"));
       }
     }
-  }
+  };
 
-  public removeListConfirmation(
+  // Currently unreferenced by the UI, kept from the class component for
+  // future per-container list removal.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const removeListConfirmation = (
     list: keyof StoreIdToExpressionList,
-    expressions: ReadonlyArray<Expression>,
-  ) {
-    const { debug, onRemoveList } = this.props;
+    expressions: ReadonlyArray<Expression>
+  ) => {
     const expCount = (expressions || []).length;
     if (expCount === 0) {
-      this.setState({
-        error: browser.i18n.getMessage('removeAllExpressionsNoneFound'),
-      });
+      setErrorMessage(browser.i18n.getMessage("removeAllExpressionsNoneFound"));
     } else {
       const r = window.prompt(
-        browser.i18n.getMessage('removeAllExpressionsConfirm', [
+        browser.i18n.getMessage("removeAllExpressionsConfirm", [
           expCount.toString(),
           list.toString(),
-        ]),
+        ])
       );
-      cadLog(
+      adcpLog(
         {
           msg: `Remove Expressions Prompt for ${list} returned [ ${r} ]`,
-          type: 'info',
+          type: "info",
         },
-        debug,
+        debug
       );
       if (r !== null && r === expCount.toString()) {
         onRemoveList(list);
-        this.setState({
-          success: `${browser.i18n.getMessage('removeListText')}: ${list}`,
-        });
+        setSuccess(`${browser.i18n.getMessage("removeListText")}: ${list}`);
       }
     }
-  }
+  };
 
-  public createDefaultOptions() {
-    const { bName, contextualIdentities, lists, onNewExpression } = this.props;
-    const { contextualIdentitiesObjects } = this.state;
+  const createDefaultOptions = () => {
     const containers = new Set<string>(Object.keys(lists));
-    if (contextualIdentities) {
-      contextualIdentitiesObjects.forEach((c) =>
-        containers.add(c.cookieStoreId),
-      );
-    }
-    containers.add(
-      ((browser) => {
-        switch (browser) {
-          case browserName.Chrome:
-          case browserName.Opera:
-            return '0';
-          case browserName.Firefox:
-          default:
-            return 'firefox-default';
-        }
-      })(bName),
-    );
+    containers.add("0");
     containers.forEach((id) => {
       [ListType.GREY, ListType.WHITE].forEach((lt) => {
         onNewExpression({
@@ -331,356 +174,196 @@ class Expressions extends React.Component<ExpressionProps> {
         });
       });
     });
-  }
+  };
 
-  public getDerivedStateFromProps(nextProps: ExpressionProps) {
-    if (!nextProps.contextualIdentities) {
-      this.changeStoreIdTab('default');
-    }
-  }
+  return (
+    <div style={style}>
+      <h1 className="mb-1 text-2xl font-bold">
+        {browser.i18n.getMessage("savedSitesText")}
+      </h1>
+      <p className="mb-4 text-sm text-base-content/70">
+        {browser.i18n.getMessage("savedSitesSubText")}
+      </p>
 
-  // Change the id of the storeId for the container tabs
-  public changeStoreIdTab(storeId: string) {
-    this.setState({
-      storeId,
-    });
-  }
-
-  public async componentDidMount() {
-    if (this.props.contextualIdentities) {
-      const contextualIdentitiesObjects =
-        await browser.contextualIdentities.query({});
-      this.setState({
-        contextualIdentitiesObjects,
-      });
-    }
-  }
-
-  public render() {
-    const { style, lists, contextualIdentities } = this.props;
-    const { error, contextualIdentitiesObjects, storeId, success } = this.state;
-    const mapIDtoName: { [k: string]: string | undefined } = {};
-    if (contextualIdentities) {
-      contextualIdentitiesObjects.forEach((c) => {
-        mapIDtoName[c.cookieStoreId] = c.name;
-      });
-      Object.keys(lists).forEach((list) => {
-        if (list === 'default') return;
-        const container = contextualIdentitiesObjects.find((c) => {
-          return c.cookieStoreId === list;
-        });
-        if (!container) {
-          mapIDtoName[list] = undefined;
-        }
-      });
-    }
-
-    return (
-      <div className="col" style={style}>
-        <h1>{browser.i18n.getMessage('expressionListText')}</h1>
-
-        <div className="row">
-          <input
-            style={{
-              display: 'inline',
-              width: '100%',
-            }}
-            value={this.state.expressionInput}
-            onChange={(e) =>
-              this.setState({
-                expressionInput: e.target.value,
-              })
-            }
-            placeholder={browser.i18n.getMessage('domainPlaceholderText')}
-            onKeyUp={(e) => {
-              if (e.key.toLowerCase() === 'enter') {
-                this.addExpressionByInput({
-                  expression: this.state.expressionInput,
-                  listType: e.shiftKey ? ListType.GREY : ListType.WHITE,
-                  storeId,
-                });
-              }
-            }}
-            type="url"
-            id="formText"
-            autoFocus={true}
-            className="form-control"
-            formNoValidate={true}
-          />
-        </div>
-        <div className="row">
-          <a
-            target="_blank"
-            rel="help noreferrer noopener"
-            href="https://github.com/Cookie-AutoDelete/Cookie-AutoDelete/wiki/Documentation#enter-expression"
-          >
-            {browser.i18n.getMessage('questionExpression')}
-            <SettingsTooltip hrefURL="#enter-expression" />
-          </a>
-        </div>
+      {error !== "" ? (
         <div
-          className="row"
-          style={{
-            columnGap: '0.5em',
-            justifyContent: 'space-between',
-            paddingBottom: '8px',
-            paddingTop: '8px',
-          }}
+          onClick={() => setErrorMessage("")}
+          className="mb-4 alert cursor-pointer whitespace-pre-wrap alert-error"
+          role="alert"
         >
-          <div className="col-sm col-md-auto">
-            <div
-              className="row justify-content-sm-center justify-content-md-start"
-              style={{
-                paddingLeft: 0,
-                paddingRight: 0,
-              }}
-            >
-              <IconButton
-                className="btn-primary"
-                iconName="download"
-                role="button"
-                onClick={() =>
-                  downloadObjectAsJSON(this.props.lists, 'Expressions')
+          {error}
+        </div>
+      ) : (
+        ""
+      )}
+      {success !== "" ? (
+        <div
+          onClick={() => setSuccess("")}
+          className="mb-4 alert cursor-pointer whitespace-pre-wrap alert-success"
+          role="alert"
+        >
+          {success}
+        </div>
+      ) : (
+        ""
+      )}
+
+      <div className="rounded-box border border-base-300 bg-base-100">
+        <div className="border-b border-base-300 p-3">
+          <div className="join w-full">
+            <input
+              className="input join-item w-full"
+              value={expressionInput}
+              onChange={(e) => setExpressionInput(e.target.value)}
+              placeholder={browser.i18n.getMessage("domainPlaceholderText")}
+              onKeyUp={(e) => {
+                if (e.key.toLowerCase() === "enter") {
+                  addExpressionByInput({
+                    expression: expressionInput,
+                    listType: e.shiftKey ? ListType.GREY : ListType.WHITE,
+                    storeId,
+                  });
                 }
-                title={browser.i18n.getMessage('exportTitleTimestamp')}
-                text={browser.i18n.getMessage('exportURLSText')}
-                styleReact={styles.buttonStyle}
-              />
-              <IconButton
-                tag="input"
-                className="btn-info"
-                iconName="upload"
-                type="file"
-                accept="application/json"
-                onChange={(e) => this.importExpressions(e.target.files[0])}
-                text={browser.i18n.getMessage('importURLSText')}
-                title={browser.i18n.getMessage('importURLSText')}
-                styleReact={styles.buttonStyle}
-              />
-            </div>
-            <div className="w-100" />
-            <div
-              className="row justify-content-sm-center justify-content-md-start"
-              style={{
-                marginTop: '5px',
-                marginBottom: '5px',
-                paddingLeft: 0,
-                paddingRight: 0,
               }}
-            >
-              <IconButton
-                tag="button"
-                className="btn-danger"
-                iconName="trash"
-                role="button"
-                onClick={() => this.clearListsConfirmation(this.props.lists)}
-                text={browser.i18n.getMessage('removeAllExpressions')}
-                title={browser.i18n.getMessage('removeAllExpressions')}
-                styleReact={styles.buttonStyle}
-              />
-              <IconButton
-                tag="button"
-                className="btn-dark"
-                iconName="list-alt"
-                role="button"
-                onClick={() => this.createDefaultOptions()}
-                text={browser.i18n.getMessage(
-                  'createDefaultExpressionOptionsText',
-                )}
-                title={browser.i18n.getMessage(
-                  'createDefaultExpressionOptionsText',
-                )}
-                styleReact={styles.buttonStyle}
-              />
-              {contextualIdentities && (
-                <IconButton
-                  tag="button"
-                  className="btn-danger"
-                  iconName="trash"
-                  role="button"
-                  onClick={() => {
-                    this.removeListConfirmation(
-                      storeId,
-                      this.props.lists[storeId],
-                    );
-                  }}
-                  text={browser.i18n.getMessage('removeListText')}
-                  title={browser.i18n.getMessage('removeListText')}
-                  styleReact={styles.buttonStyle}
-                />
-              )}
-            </div>
-          </div>
-          <div
-            className="col-sm col-md-auto"
-            style={{
-              justifyContent: 'flex-end',
-              paddingLeft: 0,
-              paddingRight: 0,
-            }}
-          >
+              type="url"
+              id="formText"
+              autoFocus={true}
+              formNoValidate={true}
+            />
             <IconButton
-              className="btn-secondary"
+              className="join-item btn-secondary"
               onClick={() => {
-                this.addExpressionByInput({
-                  expression: this.state.expressionInput,
+                addExpressionByInput({
+                  expression: expressionInput,
                   listType: ListType.GREY,
                   storeId,
                 });
               }}
-              styleReact={styles.buttonStyle}
               iconName="plus"
-              title={browser.i18n.getMessage('toGreyListText')}
-              text={browser.i18n.getMessage('greyListWordText')}
+              title={browser.i18n.getMessage("keepSessionButtonTooltipText")}
+              text={browser.i18n.getMessage("keepSessionButtonText")}
             />
-
             <IconButton
-              className="btn-primary"
+              className="join-item btn-primary"
               onClick={() => {
-                this.addExpressionByInput({
-                  expression: this.state.expressionInput,
+                addExpressionByInput({
+                  expression: expressionInput,
                   listType: ListType.WHITE,
                   storeId,
                 });
               }}
-              styleReact={styles.buttonStyle}
               iconName="plus"
-              title={browser.i18n.getMessage('toWhiteListText')}
-              text={browser.i18n.getMessage('whiteListWordText')}
+              title={browser.i18n.getMessage("keepButtonTooltipText")}
+              text={browser.i18n.getMessage("keepButtonText")}
             />
           </div>
         </div>
 
-        {error !== '' ? (
-          <div
-            onClick={() => this.setState({ error: '' })}
-            className="row alert alert-danger alertPreWrap"
-          >
-            {error}
+        <details className="group/patterns border-b border-base-300">
+          <summary className="flex cursor-pointer items-center gap-2 p-3 text-sm font-medium">
+            <Icon
+              className="group-open/patterns:rotate-90 rtl:-scale-x-100"
+              name="chevron-right"
+              size="sm"
+            />
+            {browser.i18n.getMessage("questionExpression")}
+          </summary>
+          <div className="px-3 pb-3">
+            <p className="mb-2 text-sm text-base-content/70">
+              {browser.i18n.getMessage("patternKeepLevelsText")}
+            </p>
+            <table className="table table-sm">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    {browser.i18n.getMessage("patternColumnText")}
+                  </th>
+                  <th scope="col">
+                    {browser.i18n.getMessage("patternMeaningColumnText")}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="font-mono">example.com</td>
+                  <td>{browser.i18n.getMessage("patternDomainMeaningText")}</td>
+                </tr>
+                <tr>
+                  <td className="font-mono">*.example.com</td>
+                  <td>
+                    {browser.i18n.getMessage("patternSubdomainsMeaningText")}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="font-mono">192.168.1.1</td>
+                  <td>{browser.i18n.getMessage("patternIPMeaningText")}</td>
+                </tr>
+                <tr>
+                  <td className="font-mono">192.168.1.0/24</td>
+                  <td>{browser.i18n.getMessage("patternCIDRMeaningText")}</td>
+                </tr>
+                <tr>
+                  <td className="font-mono">{"/^mail\\.example\\.com$/"}</td>
+                  <td>{browser.i18n.getMessage("patternRegexMeaningText")}</td>
+                </tr>
+                <tr>
+                  <td className="font-mono">file:///home/user/</td>
+                  <td>{browser.i18n.getMessage("patternFileMeaningText")}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        ) : (
-          ''
-        )}
-        {success !== '' ? (
-          <div
-            onClick={() => this.setState({ success: '' })}
-            className="row alert alert-success alertPreWrap"
-          >
-            {success}
-          </div>
-        ) : (
-          ''
-        )}
-        {contextualIdentities && (
-          <h5>
-            {browser.i18n.getMessage('currentContainerInfo', [
-              storeId === 'default'
-                ? browser.i18n.getMessage('defaultText')
-                : storeId,
-              mapIDtoName[storeId] ||
-                browser.i18n.getMessage(
-                  storeId === 'default'
-                    ? 'defaultContainerText'
-                    : 'missingContainerText',
-                ),
-            ])}
-          </h5>
-        )}
-        {contextualIdentities && (
-          <ul className="row nav nav-tabs flex-column flex-sm-row">
-            <li
-              onClick={() => {
-                this.changeStoreIdTab('default');
-              }}
-              className="nav-item"
-            >
-              <a
-                className={`nav-link ${storeId === 'default' ? 'active' : ''}`}
-                href="#tabExpressionList"
-              >
-                {browser.i18n.getMessage('defaultText')}
-              </a>
-            </li>
-            {Object.entries(mapIDtoName).map(([cookieStoreId, name]) => (
-              <li
-                key={`navTab-${cookieStoreId}`}
-                onClick={() => {
-                  this.changeStoreIdTab(cookieStoreId);
-                }}
-                className="nav-item"
-              >
-                <a
-                  className={`nav-link ${
-                    storeId === cookieStoreId ? 'active' : ''
-                  } ${name ? '' : 'text-danger'}`}
-                  href="#tabExpressionList"
-                >
-                  {name || browser.i18n.getMessage('missingContainerText')}
-                </a>
-              </li>
-            ))}
-          </ul>
-        )}
+        </details>
 
-        <div className="row" style={styles.tableContainer}>
+        <div className="max-h-[calc(100vh-20rem)] overflow-auto p-3">
           <ExpressionTable
             expressionColumnTitle={browser.i18n.getMessage(
-              'domainExpressionsText',
+              "domainExpressionsText"
             )}
             expressions={getMatchedExpressions(
               lists,
               storeId,
-              this.state.expressionInput,
-              true,
+              expressionInput,
+              true
             )}
             storeId={storeId}
             emptyElement={
               <span>
                 {browser.i18n.getMessage(
-                  this.state.expressionInput.trim().length === 0
-                    ? 'noExpressionsText'
-                    : 'noSearchExpressionsFound',
+                  expressionInput.trim().length === 0
+                    ? "noExpressionsText"
+                    : "noSearchExpressionsFound"
                 )}
               </span>
             }
           />
         </div>
+
+        <div className="flex flex-wrap gap-2 border-t border-base-300 p-3">
+          <IconButton
+            tag="button"
+            className="btn-neutral btn-sm"
+            iconName="list-alt"
+            role="button"
+            onClick={() => createDefaultOptions()}
+            text={browser.i18n.getMessage("createDefaultExpressionOptionsText")}
+            title={browser.i18n.getMessage(
+              "createDefaultExpressionOptionsText"
+            )}
+          />
+          <IconButton
+            tag="button"
+            className="ms-auto btn-error btn-sm"
+            iconName="trash"
+            role="button"
+            onClick={() => clearListsConfirmation(lists)}
+            text={browser.i18n.getMessage("removeAllExpressions")}
+            title={browser.i18n.getMessage("removeAllExpressions")}
+          />
+        </div>
       </div>
-    );
-  }
-
-  private setError(e: Error): void {
-    this.setState({
-      error: e.toString(),
-      success: '',
-    });
-  }
-}
-
-const mapStateToProps = (state: State) => {
-  const { cache, lists } = state;
-  return {
-    bName: cache.browserDetect || (browserDetect() as browserName),
-    cache,
-    contextualIdentities: getSetting(
-      state,
-      SettingID.CONTEXTUAL_IDENTITIES,
-    ) as boolean,
-    debug: getSetting(state, SettingID.DEBUG_MODE) as boolean,
-    lists,
-  };
+    </div>
+  );
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<ReduxAction>) => ({
-  onClearExpressions(payload: StoreIdToExpressionList) {
-    dispatch(clearExpressionsUI(payload));
-  },
-  onNewExpression(payload: Expression) {
-    dispatch(addExpressionUI(payload));
-  },
-  onRemoveList(payload: keyof StoreIdToExpressionList) {
-    dispatch(removeListUI(payload));
-  },
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Expressions);
+export default Expressions;

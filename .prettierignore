@@ -1,0 +1,49 @@
+# design mockups: the embedded design-panel blocks must stay byte-identical
+# to the design-mockups skill asset, so no reformatting
+mockups/
+
+# output directories
+_site/
+dist/
+build/
+builds/
+coverage/
+extension/bundles/
+
+# vendored globals (removed during the MV3 work) and store-managed translations
+extension/global_files/
+extension/_locales/
+
+# developer tools
+.git/
+node_modules/
+__pycache__/
+.vim/
+.idea/
+pg/
+.swc/
+pnpm-lock.yaml
+bun.lock
+.venv/
+
+*.min*
+
+# caches
+.astro/
+.cache/
+.parcel-cache/
+.mypy_cache/
+.next/
+.netlify/
+.shopify/
+.swc/
+.wrangler/
+
+# phoenix
+deps/
+_build/
+.elixir_ls
+priv/
+
+*.bak
+TANK/
