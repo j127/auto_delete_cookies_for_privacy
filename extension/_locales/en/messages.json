@@ -1579,6 +1579,14 @@
     "message": "The cleanup log answers “why did I get logged out of that site?” and “is this thing actually doing anything?”. Keep “Keep a cleanup log” on, then open the Cleanup Log page after a cleanup.\n\nEach entry lists the affected sites and the decision made for each, in plain words: kept because a rule matched, kept because the site was still open, cleaned because nothing matched, cleaned at startup (that's what empties the until-restart sites), or cleaned selectively when a rule keeps only named cookies. The decision lines use the internal list names: Whitelist means a permanent Keep rule, Greylist means Keep until browser closes.\n\nThe log never contains cookie values, never records private/incognito tabs, never leaves your browser, and old entries fall off the end on their own. The Overview page's counters (this session / total) come from the same bookkeeping.",
     "description": "Help section body: the cleanup log"
   },
+  "helpPermissionsTitle": {
+    "message": "Why it needs these permissions",
+    "description": "Help section title"
+  },
+  "helpPermissionsBody": {
+    "message": "The install-time warning “Read and change site data on all sites” is the unavoidable one: cookies can belong to any site you visit, so deleting them needs access to all sites. It is used only to read and remove cookies and site data — never to read page content, and never to talk to a server (there is none).\n\nThe rest, briefly. Cookies: list a site’s cookies for the badge count and delete them. Browsing data: delete the optional extras — cache, IndexedDB, LocalStorage, plugin data, service workers. Storage: save your settings and keep rules locally. Alarms: keep a delayed cleanup on schedule even if the browser suspends the extension during the wait. Tabs: know which sites are open (open sites are protected) and notice when a tab closes or leaves a site. Active tab and Scripting: run the per-site actions in the popup. Context menus and Notifications: two optional features you can switch off in settings.\n\nDeliberately absent: browsing history, web request interception, and any network access at all. The extension cannot see what you type or which pages you read.",
+    "description": "Help section body: permissions"
+  },
   "helpTroubleshootingTitle": {
     "message": "Troubleshooting and FAQ",
     "description": "Help section title"

@@ -12,6 +12,7 @@ const SECTION_TITLES = [
   "helpPatternsTitle",
   "helpImportExportTitle",
   "helpLogTitle",
+  "helpPermissionsTitle",
   "helpTroubleshootingTitle",
 ];
 
@@ -20,14 +21,14 @@ describe("Help", () => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
   });
 
-  it("renders the heading and all seven sections collapsed", () => {
+  it("renders the heading and all eight sections collapsed", () => {
     const { container, getByText } = render(<Help />);
     expect((container.querySelector("h1") as HTMLElement).textContent).toBe(
       "helpText"
     );
     getByText("helpSubText");
     const sections = Array.from(container.querySelectorAll("details"));
-    expect(sections).toHaveLength(7);
+    expect(sections).toHaveLength(8);
     sections.forEach((section) => expect(section.open).toBe(false));
     SECTION_TITLES.forEach((title) => getByText(title));
   });

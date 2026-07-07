@@ -1,11 +1,5 @@
 blank_issues_enabled: false
 contact_links:
   - name: Discussions - support questions and ideas
-    url: https://github.com/j127/autodelete_cookies_for_privacy/discussions/new
-    about: Support questions and feature ideas can be raised and discussed here.
-  - name: Documentation
-    url: https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/introduction.md
-    about: Please read the user guide on the available features and what they do first.
-  - name: FAQ
-    url: https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/faq.md
-    about: Please check whether your question or issue is answered there already.
+    url: https://github.com/j127/auto_delete_cookies_for_privacy/discussions/new
+    about: Support questions and feature ideas can be raised and discussed here. The user guide and FAQ live inside the extension, on the Help page of its settings.

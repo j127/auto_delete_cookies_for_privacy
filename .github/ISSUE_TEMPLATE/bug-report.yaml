@@ -1,6 +1,6 @@
 ---
 name: Bug Report
-description: Create a bug report to help us improve. Please check the Documentation and FAQ first!
+description: Create a bug report to help us improve. Please check the extension's Help page first!
 title: "[Bug]  ???"
 labels: "untested bug/issue"
 body:
@@ -10,10 +10,8 @@ body:
         Please read carefully.  Issues that do not follow the format WILL be closed and may not be answered/resolved!
         - Please check both open and closed issues to ensure that it is not previously reported!  Duplicate issues will be closed.
 
-        - PLEASE READ THE FAQ AND DOCUMENTATION BEFORE POSTING:
-          - https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/introduction.md
-          - https://github.com/j127/autodelete_cookies_for_privacy/blob/main/documentation/src/faq.md
-        - Issues that have an answer in the Documentation and/or FAQ WILL get closed and be pointed into the right direction
+        - PLEASE READ THE USER GUIDE BEFORE POSTING: open the extension's settings and check the Help page (user guide, FAQ, and troubleshooting).
+        - Issues that have an answer on the Help page WILL get closed and be pointed into the right direction
 
         - Please ensure that the bug report title starts with `[BUG] `.
 
