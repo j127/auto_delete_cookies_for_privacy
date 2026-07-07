@@ -140,14 +140,12 @@ describe("BrowserActionService", () => {
       });
     });
 
-    it("should keep the previous count when a zero count is passed (falsy fallback)", async () => {
-      // Documents current behavior: cookieLength 0 is falsy, so it cannot
-      // reset an existing non-zero count parsed from the title.
+    it("should reset a stale non-zero count when a zero count is passed (#101)", async () => {
       global.browser.action.getTitle.mockResolvedValue("ADCP 1.0.0 [GREY] (7)");
       await showNumberOfCookiesInTitle(defaultTab, { cookieLength: 0 });
       expect(global.browser.action.setTitle).toHaveBeenCalledWith({
         tabId: 1,
-        title: "ADCP 1.0.0 [GREY] (7)",
+        title: "ADCP 1.0.0 [GREY] (0)",
       });
     });
   });
@@ -363,10 +361,9 @@ describe("BrowserActionService", () => {
       ).toHaveBeenCalledWith({ color: "red", tabId: 1 });
     });
 
-    it("should match a tab without url against the first default-list expression (current behavior)", async () => {
-      // Documents current behavior: an empty hostname makes
-      // getMatchedExpressions return ALL expressions of the list, so a tab
-      // without a URL "matches" the first expression instead of none.
+    it("should treat a tab without url as unmatched even when expressions exist (#101)", async () => {
+      // An empty hostname must not inherit the first expression of the
+      // list: URL-less tabs (new tab page, chrome:// pages) match nothing.
       const state = buildState({
         active: true,
         lists: { default: [expressionFor(ListType.WHITE)] },
@@ -378,7 +375,7 @@ describe("BrowserActionService", () => {
       );
       await flushPromises();
       expect(global.browser.action.setIcon).toHaveBeenCalledWith({
-        path: { 48: "/icons/icon_48.png" },
+        path: { 48: "/icons/icon_48_red.png" },
         tabId: 1,
       });
     });

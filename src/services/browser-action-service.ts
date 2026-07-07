@@ -74,7 +74,9 @@ export const showNumberOfCookiesInTitle = async (
   }
   const curData = /\[(.*)] \((\d*)\)/.exec(curTitle);
   const newData = {
-    cookies: otherInfo.cookieLength || (curData && curData[2]) || 0,
+    // ?? not ||: a fresh count of 0 is authoritative and must replace a
+    // stale non-zero count parsed back out of the current title (#101).
+    cookies: otherInfo.cookieLength ?? ((curData && curData[2]) || 0),
     list: otherInfo.listType || (curData && curData[1]) || "NO LIST",
   };
 
