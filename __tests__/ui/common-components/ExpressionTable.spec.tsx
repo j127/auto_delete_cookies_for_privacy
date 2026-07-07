@@ -32,7 +32,7 @@ describe("ExpressionTable", () => {
   });
 
   const renderTable = (expressions: ReadonlyArray<Expression>) => {
-    const reducer = jest.fn<State, [State | undefined, any]>(
+    const reducer = jest.fn<(state: State | undefined, action: any) => State>(
       () => initialState
     );
     const store = createStore(reducer);

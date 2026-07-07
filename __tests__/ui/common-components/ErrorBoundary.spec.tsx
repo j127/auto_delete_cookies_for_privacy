@@ -21,7 +21,7 @@ describe("ErrorBoundary", () => {
   });
 
   const renderBoundary = (children: React.ReactNode) => {
-    const reducer = jest.fn<State, [State | undefined, any]>(
+    const reducer = jest.fn<(state: State | undefined, action: any) => State>(
       () => initialState
     );
     const store = createStore(reducer);

@@ -17,8 +17,28 @@
  */
 import type { Browser, Cookies, Menus, Tabs } from "webextension-polyfill";
 
+/**
+ * Every function in the tree keeps its ORIGINAL polyfill signature (an
+ * intersection, not a mock wrapper, so overloads and callback-parameter
+ * inference in src stay intact) and additionally carries vi's MockInstance
+ * methods (.mockImplementation, .mock.calls, ...), which is what
+ * __tests__/setup.js's jest.fn() tree really provides at test time.
+ * MockInstance rather than Mock on purpose: Mock adds its own loose call
+ * signature to the intersection, which degrades contextual typing.
+ */
+type MockAugmented<T> = T extends (...args: any[]) => any
+  ? T & import("vitest").MockInstance
+  : T extends object
+    ? { [K in keyof T]: MockAugmented<T[K]> }
+    : T;
+
 declare global {
-  const browser: Browser;
+  /**
+   * `var`, not `const`: only var declarations become properties of
+   * `typeof globalThis`, and the specs reach this object as `global.browser`
+   * (modern @types/node has no augmentable NodeJS.Global interface anymore).
+   */
+  var browser: MockAugmented<Browser>;
 
   namespace browser {
     namespace cookies {

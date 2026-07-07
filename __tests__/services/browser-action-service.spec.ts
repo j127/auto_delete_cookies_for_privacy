@@ -95,8 +95,8 @@ describe("BrowserActionService", () => {
     it("should do nothing when the badge APIs are unavailable", () => {
       const originalSetBadgeText = global.browser.action.setBadgeText;
       const originalSetBadgeTextColor = global.browser.action.setBadgeTextColor;
-      global.browser.action.setBadgeText = undefined;
-      global.browser.action.setBadgeTextColor = undefined;
+      global.browser.action.setBadgeText = undefined as any;
+      global.browser.action.setBadgeTextColor = undefined as any;
       try {
         expect(() => showNumberOfCookiesInIcon(defaultTab, 3)).not.toThrow();
       } finally {
@@ -196,7 +196,7 @@ describe("BrowserActionService", () => {
 
     it("should do nothing when action.setIcon is unavailable", async () => {
       const originalSetIcon = global.browser.action.setIcon;
-      global.browser.action.setIcon = undefined;
+      global.browser.action.setIcon = undefined as any;
       try {
         await setGlobalIcon(true);
         expect(global.browser.tabs.query).not.toHaveBeenCalled();

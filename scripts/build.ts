@@ -20,7 +20,7 @@
 // Bare specifiers (not node:-prefixed) and older fs APIs (rmdirSync) because
 // the locked @types/node is too old for the node: aliases and for
 // cpSync/rmSync; Bun implements all of these.
-import { existsSync, rmdirSync, watch } from "fs";
+import { existsSync, rmSync, watch } from "fs";
 import { join } from "path";
 
 const root = join(import.meta.dir, "..");
@@ -63,7 +63,7 @@ async function buildTailwind(): Promise<boolean> {
 
 async function buildOnce(): Promise<boolean> {
   const started = Date.now();
-  if (existsSync(outDir)) rmdirSync(outDir, { recursive: true });
+  if (existsSync(outDir)) rmSync(outDir, { recursive: true });
   const result = await Bun.build({
     entrypoints: [
       join(srcDir, "background.ts"),

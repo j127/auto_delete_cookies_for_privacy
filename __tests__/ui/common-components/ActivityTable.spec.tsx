@@ -71,7 +71,9 @@ describe("ActivityTable", () => {
     ownProps: { numberToShow?: number } = {}
   ) => {
     const state: State = { ...initialState, ...stateOverrides };
-    const reducer = jest.fn<State, [State | undefined, any]>(() => state);
+    const reducer = jest.fn<(state: State | undefined, action: any) => State>(
+      () => state
+    );
     const store = createStore(reducer);
     const view = render(
       <Provider store={store}>
