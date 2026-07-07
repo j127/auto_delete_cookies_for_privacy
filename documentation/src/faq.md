@@ -24,11 +24,11 @@ Don't guess: turn on the [cleanup log](./cleanup-log.md) and read the decision l
 | Delete this site's cookies         | Immediate removal for the current site only — **ignores your keep rules** |
 | Delete everything this site stored | The above plus cache, LocalStorage, databases, and workers for the site   |
 
-Everything below "Clean now" lives under **More cleaning options**, which appears when **Show advanced controls in the popup** is enabled in settings. The delete actions are the "I mean it" tools: they skip every protection, including your keep list, for the site you're looking at.
+Everything below "Clean now" lives under **More cleaning options**, which appears when **Advanced mode** is enabled in settings. The delete actions are the "I mean it" tools: they skip every protection, including your keep list, for the site you're looking at.
 
 ## How do I make ALL cookies disappear on browser restart?
 
-Add the wildcard expression `*` as a **Keep this session** rule, enable **Clean Greylist Entries When the Browser Restarts** (the setting still carries the internal list name), and mark your genuinely permanent sites **Keep** — a Keep match wins for them. Every other site keeps its cookies during the session and loses them at restart.
+Add the wildcard expression `*` as a **Keep this session** rule, enable **Session keep rules** (Advanced mode, Timing), and mark your genuinely permanent sites **Keep** — a Keep match wins for them. Every other site keeps its cookies during the session and loses them at restart.
 
 ## I enabled LocalStorage/cache cleanup — why is old data still there?
 
@@ -48,11 +48,11 @@ Only if you allow it: `brave://extensions` → ADCP → **Allow in Incognito/Pri
 
 ## Why does the popup look too big / too small?
 
-The popup and settings page have their own font-size settings (in pixels) under **Extension Options**. Default is 16; laptops with tight scaling often look better at 12–14.
+The popup and settings page have their own font-size settings (in pixels) under **Interface** with Advanced mode on. Default is 16; laptops with tight scaling often look better at 12–14. The popup's width is fixed — the sizes scale text only.
 
 ## How do I reset everything?
 
-Settings page, bottom: **Reset Settings to Defaults** (settings only, lists survive) or **Erase All Extension Data** (true factory reset — export your expressions first if in doubt, see [Import and Export](./import-export.md)).
+The **Import / Export** page has **Reset Settings to Defaults** (settings only, your saved sites survive). For a true factory reset, remove and reinstall the extension — export your saved sites first if in doubt, see [Import and Export](./import-export.md).
 
 ## Does the extension phone home? Collect anything?
 

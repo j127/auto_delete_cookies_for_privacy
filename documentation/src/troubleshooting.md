@@ -17,12 +17,12 @@ If the link says "service worker (inactive)", that's normal — the browser puts
 
 ## Debug mode
 
-For a running commentary of every decision, enable **Debug Mode (Verbose Console Logging)** in settings, then watch the service-worker console. Every message is prefixed `ADCP_<version>`; paste that prefix into the console's filter box to hide everything else. Cookie values are masked in debug output.
+For a running commentary of every decision, turn on **Advanced mode** on the Protection page, enable **Debug mode**, then watch the service-worker console. Every message is prefixed `ADCP_<version>`; paste that prefix into the console's filter box to hide everything else. Cookie values are masked in debug output.
 
 ## The icon isn't changing color / shows no number
 
-- Colors only appear when **Don't Recolor the Icon Based on List Matches** is off.
-- The number needs **Show the Site's Cookie Count on the Toolbar Icon** on.
+- Colors only appear when **Keep the plain icon** (Advanced mode, Interface) is off.
+- The number needs **Cookie count on toolbar icon** on.
 - Color legend: **blue** = kept permanently, **yellow** = kept for this session, **red** = no keep rule matches (will be cleaned). With automatic cleaning off, the badge color carries the same meaning instead.
 
 ## Cleanup didn't run when I closed a tab
@@ -41,7 +41,7 @@ The cleanup log shows which of these applied.
 
 Open an issue at <https://github.com/j127/auto_delete_cookies_for_privacy/issues> and include:
 
-- Browser and version (e.g. Brave 1.61), and the ADCP version — the **About** tab of the settings page has a copyable debug block with exactly this.
+- Browser and version (e.g. Brave 1.61), and the ADCP version — the **Support** tab of the settings page has a copyable debug block with exactly this.
 - What you expected, what happened instead, and the steps to get there.
 - Any errors from the service-worker console (see above).
 - If it's a cleanup decision you disagree with: the matching cleanup-log entry and the relevant expression from your list.

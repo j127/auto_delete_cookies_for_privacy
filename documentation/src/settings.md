@@ -1,28 +1,28 @@
 # Settings Reference
 
+> This book is the contributor/reference copy of the documentation. The extension ships its own user guide on the **Help** page of the settings, condensed from these chapters — the two are kept in step by hand.
+
 Open the settings page from the **More controls…** link in the popup's footer, the right-click menu, or `brave://extensions` → ADCP → Details → Extension options. Settings apply immediately; there is no save button.
 
-The settings live on the **Protection** page; the groups below match it top to bottom.
+The settings live on the **Protection** page. The everyday view shows a handful of rows; flipping **Advanced mode** (the tinted row in the Interface card) reveals the expert rows inside their groups — and the popup's advanced controls, it's one global switch. Every row carries its own short description on the page, so this chapter only adds what doesn't fit there.
 
-## Automatic Cleaning Options
+## Timing
 
-**Enable Automatic Cleaning** — the master switch. Off means nothing is ever deleted automatically; the popup's manual actions still work. The popup's header tells you the current state ("Auto-delete is on" / "Auto-delete is off").
+**Clean automatically** — the master switch. Off means nothing is ever deleted automatically; the popup's manual actions still work. The popup's header tells you the current state ("Auto-delete is on" / "Auto-delete is off").
 
-**Wait This Long Before Automatic Cleaning** — the delay (in seconds) between closing a site's last tab and the actual cleanup. Default 15. The delay is your undo window: reopen the site within it and nothing is removed. Minimum 1 second.
+**Grace period** — the delay (in seconds) between closing a site's last tab and the actual cleanup. Default 15. The delay is your undo window: reopen the site within it and nothing is removed. Minimum 1 second.
 
-**Also Clean When a Tab Moves to a Different Domain** — normally cleanup triggers when a tab closes. With this on, navigating a tab from `siteA.com` to `siteB.com` also counts as leaving siteA. Stricter, but noticeable if you bounce between sites in one tab.
+**Clean when leaving a site** — normally cleanup triggers when a tab closes. With this on, navigating a tab from `siteA.com` to `siteB.com` also counts as leaving siteA. Stricter, but noticeable if you bounce between sites in one tab.
 
-**Treat Discarded (Unloaded) Tabs as Closed** — browsers put background tabs to sleep to save memory. With this on, a site whose only tabs are asleep is treated as closed and becomes eligible for cleanup.
+Advanced mode adds:
 
-**Clean Greylist Entries When the Browser Restarts** — the switch that gives **Keep this session** its meaning (the label carries the internal list name). On restart, cookies belonging to session-kept sites are cleaned. See [Expressions and Lists](./expressions.md).
+**Session keep rules** — the switch that gives **Keep until browser closes** its meaning. On restart, cookies belonging to session-kept sites are cleaned. See [Expressions and Lists](./expressions.md).
 
-**On Startup, Also Clean Cookies and Site Data From Tabs That Reopen** — if your browser restores tabs on launch, those sites are normally protected (they're open, after all). Turn this on to clean them anyway, once, at startup.
+**Treat sleeping tabs as closed** — browsers put background tabs to sleep to save memory. With this on, a site whose only tabs are asleep is treated as closed and becomes eligible for cleanup.
 
-**Always Remove Expired Cookies** — cookies past their expiry date are deleted during every cleanup pass, regardless of any list.
+**Clean restored tabs on startup** — if your browser restores tabs on launch, those sites are normally protected (they're open, after all). Turn this on to clean them anyway, once, at startup.
 
-## Expression Options
-
-**Create default options** — creates a special `_Default:` expression per list. Whatever per-expression options you set on it (which site-data types to clean, whether to keep all cookies) become the starting options for every expression you add to that list afterwards. Edit it like any other expression.
+**Always remove expired cookies** — cookies past their expiry date are deleted during every cleanup pass, regardless of any list.
 
 ## What gets deleted
 
@@ -32,33 +32,38 @@ For finer control, open **Advanced — choose exactly what to delete** underneat
 
 Two things to know before flipping these:
 
-- **Enabling a type wipes it once, everywhere.** The moment you switch one on, all currently stored data of that type is cleared for every site (that's the warning shown on the page). Turn off **When a New Data Type Is Enabled, Wipe What's Already Stored** first if you don't want that initial sweep.
+- **Enabling a type wipes it once, everywhere.** The moment you switch one on, all currently stored data of that type is cleared for every site (that's the warning shown on the page). Turn off the wipe-on-enable switch first if you don't want that initial sweep.
 - **Old data can't be selectively cleaned.** The browser only lets the extension clear these types per-site going forward, for sites you visit again. Leftovers from before you enabled the option stay until the site is visited once more.
 
-## Extension Options
+## Interface
 
-**Keep a Cleanup Log and Running Counter** — records every automatic cleanup (what was removed and why) and counts removed cookies. Nothing is logged for private/incognito tabs. The log stays on your machine.
+**Notify after cleaning** — a system notification summarizing what an automatic cleanup just removed.
 
-**Show the Site's Cookie Count on the Toolbar Icon** — the badge number on the ADCP icon. Disabling this forces icon-color mode instead.
+**Cookie count on toolbar icon** — the badge number on the ADCP icon. Disabling this forces icon-color mode instead.
 
-**Don't Recolor the Icon Based on List Matches** — keeps the default icon instead of the blue/yellow/red status coloring.
+**Keep a cleanup log** — records every automatic cleanup (what was removed and why) and counts removed cookies. Nothing is logged for private/incognito tabs. The log stays on your machine.
 
-**Notify Me After Automatic Cleanups** / **Notify Me After Manual Cleanups** — system notifications summarizing what was just removed. **How Long Notifications Stay on Screen** controls their duration in seconds.
+**Advanced mode** — the tinted row and the single global gate: it reveals the expert rows on this page _and_ the popup's technical layer — exact-hostname rules (`mail.example.com` vs `*.example.com`), the matched-rule line, and the per-site delete actions under **More cleaning options**. Off by default; the simple view covers the common case.
 
-**Show advanced controls in the popup** — off by default. Reveals the popup's technical layer: exact-hostname rules (`mail.example.com` vs `*.example.com`), the matched-rule line, and the per-site delete actions under **More cleaning options**. The simple popup covers the common case; turn this on if you manage rules per hostname.
+Advanced mode adds:
 
-**Show a Popup After the Extension Updates** — opens the release notes once after each update.
+**Keep the plain icon** — keeps the default icon instead of the blue/yellow/red status coloring.
 
-**Add Entries to the Right-Click Menu** — the context menu with manual cleanup actions and add-to-list shortcuts. Turn it off if you like your right-click menu short.
+**Notify after manual cleanups** and **Notification duration** — the manual-cleanup counterpart and how long notifications stay on screen, in seconds.
 
-**Popup size / Settings page size** — font size (in pixels) for the popup and settings pages. If buttons look enormous or cramped, adjust these.
+**Show release notes after updates** — opens the release notes once after each update. On by default.
 
-**Debug Mode (Verbose Console Logging)** — makes the extension narrate its decisions to the service-worker console. Only useful when troubleshooting or filing a bug; leave it off otherwise.
+**Popup font size / Settings font size** — font size (in pixels) for the popup and settings pages. If buttons look enormous or cramped, adjust these. The popup's width is fixed; the sizes scale text only.
 
-## Maintenance buttons
+**Right-click menu actions** — the context menu with manual cleanup actions and add-to-list shortcuts. Turn it off if you like your right-click menu short.
 
-At the bottom of the settings page:
+**Debug mode** — makes the extension narrate its decisions to the service-worker console. Only useful when troubleshooting or filing a bug; leave it off otherwise.
 
-- **Export / Import settings** — your settings as a JSON file (timestamped on export). Importing validates the file and rejects unknown settings.
-- **Reset Settings to Defaults** — settings only; your saved sites are untouched.
-- **Erase All Extension Data** — factory reset: settings, lists, log, counters. There is no undo.
+## The other pages
+
+- **Overview** — the deleted-cookie counters and the release notes.
+- **Saved sites** — your keep rules; see [Expressions and Lists](./expressions.md).
+- **Cleanup Log** — see [The Cleanup Log](./cleanup-log.md).
+- **Import / Export** — all backup and restore: settings export/import, saved-sites export/import, and **Reset Settings to Defaults** (settings only; your saved sites are untouched). See [Import and Export](./import-export.md).
+- **Help** — the in-app user guide condensed from this book.
+- **Support** — the version line, the bug-reports link, and the copyable debug-information blocks.
