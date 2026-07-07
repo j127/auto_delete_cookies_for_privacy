@@ -10,9 +10,9 @@ interface OwnProps {
 }
 
 /**
- * The in-app user guide: seven collapsed sections condensed from the
- * repository's mdBook (documentation/), which stays as the contributor
- * reference. Nothing here links out of the extension.
+ * The in-app user guide: collapsed sections that together are the only
+ * user documentation the project ships. Nothing here links out of the
+ * extension.
  */
 const HELP_SECTIONS: { titleKey: string; bodyKey: string }[] = [
   { titleKey: "helpGettingStartedTitle", bodyKey: "helpGettingStartedBody" },
@@ -21,6 +21,7 @@ const HELP_SECTIONS: { titleKey: string; bodyKey: string }[] = [
   { titleKey: "helpPatternsTitle", bodyKey: "helpPatternsBody" },
   { titleKey: "helpImportExportTitle", bodyKey: "helpImportExportBody" },
   { titleKey: "helpLogTitle", bodyKey: "helpLogBody" },
+  { titleKey: "helpPermissionsTitle", bodyKey: "helpPermissionsBody" },
   { titleKey: "helpTroubleshootingTitle", bodyKey: "helpTroubleshootingBody" },
 ];
 

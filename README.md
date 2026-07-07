@@ -31,7 +31,7 @@ Not yet on the Chrome Web Store (coming with the 1.0.0 release). Until then:
 2. Open `brave://extensions` (or `chrome://extensions`), enable Developer Mode
 3. "Load unpacked" and select the `/extension` folder
 
-Coming from a similar cookie extension? Export your settings and expression lists from it as JSON, then import them here — see the [import/export chapter](documentation/src/import-export.md) for the accepted format.
+Coming from a similar cookie extension? Export your settings and expression lists from it as JSON, then import them here — the extension's built-in Help page (settings → Help → "Import and export") describes the accepted format.
 
 ## Development
 
