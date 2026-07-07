@@ -29,6 +29,7 @@ import PopupFooter from "./components/PopupFooter";
 import PopupHero from "./components/PopupHero";
 import ShareMenu from "./components/ShareMenu";
 import SiteCard from "./components/SiteCard";
+import SiteDataPanel from "./components/SiteDataPanel";
 
 /**
  * The 05d-design popup: name bar with Share, state hero, site card, keep
@@ -48,6 +49,9 @@ const App: React.FunctionComponent = () => {
   // Bumped after an external port disconnect so the port effect re-runs and
   // reconnects.
   const [reconnectAttempt, setReconnectAttempt] = React.useState(0);
+  // Bumped on every cookie-count ping; tells the site-data panel to
+  // re-collect (every clean sets the marker cookie, so cleans ping too).
+  const [dataVersion, setDataVersion] = React.useState(0);
 
   const port = React.useRef<browser.runtime.Port | null>(null);
 
@@ -72,6 +76,7 @@ const App: React.FunctionComponent = () => {
             cookies.filter((cookie) => cookie.name === ADCPCOOKIENAME).length
         : 0
     );
+    setDataVersion((version) => version + 1);
   }, [store]);
 
   // Mount: size the popup from settings, then resolve the active tab.
@@ -192,6 +197,7 @@ const App: React.FunctionComponent = () => {
         hostname={hostname}
         matchedListType={matched?.listType as ListType | undefined}
       />
+      <SiteDataPanel dataVersion={dataVersion} tab={tab} />
       {advanced && (
         <AdvancedControls
           addableHostnames={addableHostnames}

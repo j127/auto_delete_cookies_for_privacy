@@ -15,6 +15,12 @@ vi.mock("@/services/cleanup-service", () => ({
   clearSiteDataForThisDomain: vi.fn().mockResolvedValue(true),
 }));
 
+// The panel has its own spec; here it only needs to render harmlessly
+// (the real collector would hit unmocked cookies/scripting APIs).
+vi.mock("@/services/site-data-service", () => ({
+  collectSiteData: vi.fn().mockResolvedValue({ available: false }),
+}));
+
 interface FakePort {
   name: string;
   onMessage: { addListener: jest.Mock };
