@@ -1,279 +1,658 @@
 {
   "aboutText": {
-    "message": "О програму",
-    "description": "About"
+    "message": "О додатку"
   },
   "activeModeDelayText": {
-    "message": "Одложите пре аутоматског чишћења",
-    "description": "Delay Before Automatic Cleaning"
+    "message": "Период почека"
   },
   "activeModeText": {
-    "message": "Омогући аутоматско чишћење",
-    "description": "Enable Automatic Cleaning"
+    "message": "Чисти аутоматски"
+  },
+  "activityLogSiteDataDomainsText": {
+    "message": "Уклоњено $siteData$ за: $domains$",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cache (translated version)"
+      },
+      "domains": {
+        "content": "$2",
+        "example": "example.com, github.com"
+      }
+    }
+  },
+  "addNewExpressionNotification": {
+    "message": "$expression$ сачуван на листи $listType$ (складиште колачића: $cookieStore$).",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "example.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "WHITE"
+      },
+      "cookieStore": {
+        "content": "$3",
+        "example": "'default' -or- 'private'"
+      }
+    }
+  },
+  "addNewExpressionNotificationFailed": {
+    "message": "Са места десног клика није могао да се прочита домен."
+  },
+  "addNewExpressionNotificationIgnore": {
+    "message": "Дупликати се аутоматски прескачу."
   },
   "autoDeleteDisabledText": {
-    "message": "Самочишћење онемогућено",
-    "description": "Auto-clean disabled"
+    "message": "Аутоматско чишћење искључено"
   },
   "autoDeleteEnabledText": {
-    "message": "Самочишћење омогућено",
-    "description": "Auto-clean enabled"
+    "message": "Аутоматско чишћење укључено"
+  },
+  "browsingDataNoEmptyWarning": {
+    "message": "Пажња: укључивање овога не дира податке које су сајтови раније сачували. Остаци сајта постају чистиви тек кад га поново посетите — дотад остају, чак и код сајтова којих бисте да се решите."
+  },
+  "browsingDataWarning": {
+    "message": "Опрез: укључивање било ког типа чишћења испод одмах брише СВЕ тренутно сачуване податке тог типа, за сваки сајт."
+  },
+  "cacheCleanupText": {
+    "message": "Укључи чишћење кеша"
+  },
+  "cacheText": {
+    "message": "Кеш"
   },
   "chromeDebugMode": {
-    "message": "Уверите се да је „Развојни начин за програмере“ омогућен, а затим кликните на „позадинску страницу“ у делу „Преглед прегледа“.",
-    "description": "Ensure 'Developer Mode' is enabled, then click on 'background page' under Inspect View. This is shown if debug mode is enabled."
+    "message": "Укључите „Режим за програмере“, па отворите конзолу service worker-а преко везе „Провери приказе“."
+  },
+  "cleanDiscardedText": {
+    "message": "Успаване картице третирај као затворене"
+  },
+  "cleanExpiredCookiesText": {
+    "message": "Увек уклањај истекле колачиће"
   },
   "cleanIgnoringOpenTabsText": {
-    "message": "Очисти и отворене језичке",
-    "description": "Clean, include open tabs. Found in the additional cleanup options in the popup."
+    "message": "Чисти, укључујући отворене картице"
   },
   "cleanText": {
-    "message": "Очисти",
-    "description": "Clean"
+    "message": "Очисти"
   },
   "cleanupDomainChangeText": {
-    "message": "Омогући чишћење при промени домена",
-    "description": "Enable Cleanup on Domain Change"
+    "message": "Чисти при напуштању сајта"
   },
   "cleanupActionsBypass": {
-    "message": "Упозорење - Радње испод подешавања занемаривања!",
-    "description": "Warning - Actions below ignore settings! Found in the additional cleanup options in the popup."
+    "message": "Опрез — ова дугмад игноришу ваше листе задржавања и чисте одмах!"
   },
   "cleanupLogText": {
-    "message": "Записник чишћења",
-    "description": "Cleanup Log"
+    "message": "Дневник чишћења"
   },
   "clearLogsText": {
-    "message": "Очисти записнике",
-    "description": "Clear Logs"
+    "message": "Испразни дневник"
   },
   "consoleDebugMode": {
-    "message": "Кликните на картицу Конзола",
-    "description": "Click on the Console Tab. Found after enabling debug mode."
+    "message": "Пребаците се на картицу Конзола."
   },
-  "contributeText": {
-    "message": "Допринесите",
-    "description": "Contribute"
+  "contextMenusParentClean": {
+    "message": "Ручно чишћење"
+  },
+  "contextMenusParentExpression": {
+    "message": "Додај на листе задржавања"
+  },
+  "contextMenusSelectedDomainLink": {
+    "message": "Само домен ове везе"
+  },
+  "contextMenusSelectedDomainPage": {
+    "message": "Само домен ове странице"
+  },
+  "contextMenusSelectedDomainText": {
+    "message": "Само домен за: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "contextMenusSelectedSubdomainLink": {
+    "message": "Домен везе са свим поддоменима"
+  },
+  "contextMenusSelectedSubdomainPage": {
+    "message": "Домен ове странице са свим поддоменима"
+  },
+  "contextMenusSelectedSubdomainText": {
+    "message": "Сви поддомени за: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
   },
   "contributorsText": {
-    "message": "Доприносиоци",
-    "description": "Contributors"
+    "message": "Сарадници"
   },
   "cookiesText": {
-    "message": "колачиће",
-    "description": "Cookies. Primarily used in popup via alternate clean action dropdown."
+    "message": "Колачићи"
+  },
+  "cookieCleanUpOnStartText": {
+    "message": "Очисти враћене картице при покретању"
   },
   "cookieCleanupIgnoreOpenTabsText": {
-    "message": "Покрените чишћење сада, укључите домене са отворених картица",
-    "description": "Run cleanup now, include cookies from open tabs. This is shown on mouseover from the available dropdown buttons."
+    "message": "Очисти сада, укључујући сајтове отворене у картици"
   },
   "cookieCleanupText": {
-    "message": "Покрените чишћење сада, искључите домене из отворених картица",
-    "description": "Run cleanup now, exclude domains from open tabs. This is shown on mouseover on the button."
+    "message": "Очисти сада, али прескочи сајтове отворене у картици"
+  },
+  "copyDebugSettingText": {
+    "message": "Копија ваших тренутних подешавања. Налепите је у GitHub issue ако је релевантна."
+  },
+  "copyDebugSystemText": {
+    "message": "Подаци о вашем систему. Налепите их у одговарајући део GitHub issue-а."
+  },
+  "copyFailedText": {
+    "message": "Аутоматско копирање није успело — означите текст и копирајте га сами."
+  },
+  "copySuccessText": {
+    "message": "Копирано!"
+  },
+  "copyToClipboardText": {
+    "message": "Копирај у оставу"
+  },
+  "createDefaultExpressionOptionsText": {
+    "message": "Направи подразумеване опције"
   },
   "debugMode": {
-    "message": "Омогућите режим уклањања погрешака (додатни излази конзоле)",
-    "description": "Enable Debug Mode (Additional Console Outputs). Found in CAD Settings."
+    "message": "Режим отклањања грешака"
+  },
+  "debugTitle": {
+    "message": "Подаци за отклањање грешака"
   },
   "defaultSettingsText": {
-    "message": "Врати подразумевана подешавања",
-    "description": "Restore Default Settings"
+    "message": "Врати подешавања на подразумевана"
   },
   "disableAutoDeleteText": {
-    "message": "Промени за онемогућавање самочишћења (ручни режим)",
-    "description": "Toggle to disable automatic cleanup (manual mode)"
+    "message": "Искључи аутоматско чишћење (ручни режим)"
   },
   "documentationText": {
-    "message": "Документација",
-    "description": "Documentation"
+    "message": "Документација"
   },
   "domainExpressionsText": {
-    "message": "Доменски израз",
-    "description": "Domain Expression"
+    "message": "Сајт"
+  },
+  "domainPlaceholderText": {
+    "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/"
   },
   "dropdownAdditionalCleaningOptions": {
-    "message": "Укључите падајуће додатне акције чишћења",
-    "description": "(Screen-readers only) - Toggle Additional Cleaning Actions Dropdown"
+    "message": "Још радњи чишћења"
   },
   "editExpressionText": {
-    "message": "Уреди израз",
-    "description": "Edit expression"
+    "message": "Измени израз"
   },
   "enableAutoDeleteText": {
-    "message": "Промени за омогућавање самочишћења (аутоматски режим)",
-    "description": "Toggle to enable automatic cleanup (automatic mode)"
+    "message": "Укључи аутоматско чишћење"
   },
   "enableCleanupLogText": {
-    "message": "Омогући записник чишћења и бројач",
-    "description": "Enable Cleanup Log and Counter"
+    "message": "Води дневник чишћења"
+  },
+  "enableContextMenus": {
+    "message": "Радње у менију десног клика"
   },
   "enableGreyListCleanup": {
-    "message": "Омогућите чишћење греилиста приликом поновног покретања прегледача",
-    "description": "Enable Greylist Cleanup on Browser Restart"
+    "message": "Сесијска правила задржавања"
   },
   "enableNewVersionPopup": {
-    "message": "Омогући искачући прозор када се објави ново издање",
-    "description": "Enable Popup when New Version is Released"
+    "message": "Прикажи белешке о издању после ажурирања"
   },
   "errorText": {
-    "message": "Грешка!",
-    "description": "Error!"
+    "message": "Грешка!"
   },
   "exportSettingsText": {
-    "message": "Извоз основних поставки...",
-    "description": "Export Core Settings... Found in CAD Settings."
+    "message": "Извези подешавања..."
   },
   "exportURLSText": {
-    "message": "Извези изразе...",
-    "description": "Export Expressions... Found in List of Expressions."
+    "message": "Извези сачуване сајтове"
   },
   "exportTitleTimestamp": {
-    "message": "Временска ознака биће додата имену датотеке при извозу.",
-    "description": "A timestamp will be appended to the filename on export."
+    "message": "Имена извезених датотека добијају временски печат."
   },
   "extensionDescription": {
-    "message": "Управљајте вашим колачићима. Аутоматски бришите некоришћене колачиће из ваших затворених језичака а задржите оне које желите.",
-    "description": "Control your cookies! Automatically delete unwanted cookies from your closed tabs while keeping the ones you want."
+    "message": "Распрема иза ваших картица: затворите картицу и њени колачићи и подаци сајта нестају — осим за сајтове са ваших листа задржавања."
   },
   "extensionName": {
-    "message": "Auto-Delete Cookies for Privacy",
-    "description": "Name of the extension."
+    "message": "Auto-Delete Cookies for Privacy"
   },
   "faqText": {
-    "message": "Често постављана питања, чести проблеми и решења",
-    "description": "Frequently Asked Questions, Common issues and solutions"
+    "message": "Честа питања и решавање проблема"
   },
   "filterDebugMode": {
-    "message": "Да бисте видели само излаз за уклањање погрешака помоћу овог проширења, филтрирајте излаз сљедећим редом:",
-    "description": "To see only debug outputs by this extension, filter output by the following line. Found after enabling debug mode."
+    "message": "Да бисте видели само поруке овог додатка, налепите ово у поље филтера конзоле:"
   },
   "filterText": {
-    "message": "Филтер",
-    "description": "Filter"
+    "message": "Филтер"
   },
   "greyListWordText": {
-    "message": "Сиви списак",
-    "description": "Greylist"
+    "message": "Сива листа"
+  },
+  "groupExpressionDefaultNotice": {
+    "message": "Подразумеване опције нових израза сада живе на самом изразу — отворите $listExpression$ да их подесите.",
+    "placeholders": {
+      "listExpression": {
+        "content": "$1",
+        "example": "List of Expressions <- the translated version"
+      }
+    }
   },
   "importCoreSettingsFailed": {
-    "message": "Увоз основних поставки није успео - пронађено је непознато подешавање",
-    "description": "Import Core Settings Failed - Found unknown setting"
+    "message": "Увоз подешавања прекинут: датотека садржи непознато подешавање."
   },
   "importCoreSettingsText": {
-    "message": "Увоз основних поставки...",
-    "description": "Import Core Settings... Found in CAD Settings."
+    "message": "Увези подешавања..."
+  },
+  "importFileNotFound": {
+    "message": "Нема такве датотеке: $filename$",
+    "placeholders": {
+      "filename": {
+        "content": "$1",
+        "example": "filename.json"
+      }
+    }
   },
   "importFileTypeInvalid": {
-    "message": "Датотека није врста којом се бавимо",
-    "description": "File given is not a type we handle"
+    "message": "Тај тип датотеке није подржан за увоз."
   },
   "importFileValidationFailed": {
-    "message": "Фајлу је дата неуспешна провјера ваљаности",
-    "description": "File given failed validation"
+    "message": "Датотека није прошла проверу."
+  },
+  "importInvalidExpressions": {
+    "message": "Неки увезени изрази били су неисправни; сваки је наведен испод са разлогом. Исправите их у датотеци и увезите поново."
+  },
+  "importListNotArray": {
+    "message": "$identifier$ би требало да буде низ, али није.",
+    "placeholders": {
+      "identifier": {
+        "content": "$1",
+        "example": "jsonObjectKey"
+      }
+    }
   },
   "importMissingKey": {
-    "message": "Недостаје идентификатор",
-    "description": "Missing identifier"
+    "message": "Недостаје идентификатор"
   },
   "importURLSText": {
-    "message": "Увези изразе...",
-    "description": "Import Expressions... Found in List of Expressions."
+    "message": "Увези сачуване сајтове"
+  },
+  "importValidExpressions": {
+    "message": "Увезено $num$ израза из $filename$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "filename": {
+        "content": "$2",
+        "example": "filename.json"
+      }
+    }
+  },
+  "indexedDBCleanupText": {
+    "message": "Укључи чишћење IndexedDB-а"
+  },
+  "indexedDBText": {
+    "message": "IndexedDB"
+  },
+  "inputErrorComma": {
+    "message": "Зарезима је место само у регуларним изразима."
+  },
+  "inputErrorEmpty": {
+    "message": "Израз не може бити празан."
+  },
+  "inputErrorRegExp": {
+    "message": "Неисправан регуларни израз: $RegexError$",
+    "placeholders": {
+      "RegexError": {
+        "content": "$1",
+        "example": "SyntaxError:  unterminated character class."
+      }
+    }
+  },
+  "inputErrorSlashEndMissingStart": {
+    "message": "Завршава се косом цртом, а не почиње њоме. За обичан домен уклоните завршну црту; за регекс додајте почетну."
+  },
+  "inputErrorSlashStartMissingEnd": {
+    "message": "Почиње косом цртом, али је никад не затвара. Додајте завршну црту да довршите регуларни израз."
+  },
+  "inputErrorSpace": {
+    "message": "Имена хостова не могу садржати размаке."
+  },
+  "inputAddSuccess": {
+    "message": "Додато $num$ израза на активну листу као $listType$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "GreyList"
+      }
+    }
+  },
+  "invalidNewExpressions": {
+    "message": "Неки нови изрази били су неисправни; остају горе ради измене, а разлози су наведени испод."
   },
   "keepAllCookiesText": {
-    "message": "Задржи колачиће",
-    "description": "Keep All Cookies. Found in Expression Options. For Whitelist entries."
+    "message": "Задржи све колачиће"
+  },
+  "keepAllCookiesGreyText": {
+    "message": "Задржи све колачиће до поновног покретања"
+  },
+  "keepCacheText": {
+    "message": "Задржи кеш"
+  },
+  "keepCacheGreyText": {
+    "message": "Задржи кеш до поновног покретања"
   },
   "keepDefaultIcon": {
-    "message": "Задржите подразумеване иконе на свим врстама листе",
-    "description": "Keep Default Icons on all list types. Disabled: keep blue icon, grey for automatic cleaning disabled. Enabled: red/yellow/blue depending on matching expressions in list."
+    "message": "Задржи једноставну икону"
+  },
+  "keepIndexedDBText": {
+    "message": "Задржи IndexedDB"
+  },
+  "keepIndexedDBGreyText": {
+    "message": "Задржи IndexedDB до поновног покретања"
   },
   "keepLocalstorageText": {
-    "message": "Задржи локално складиште",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries."
+    "message": "Задржи LocalStorage"
+  },
+  "keepLocalstorageGreyText": {
+    "message": "Задржи LocalStorage до поновног покретања"
+  },
+  "keepPluginDataText": {
+    "message": "Задржи податке додатака"
+  },
+  "keepPluginDataGreyText": {
+    "message": "Задржи податке додатака до поновног покретања"
+  },
+  "keepServiceWorkersText": {
+    "message": "Задржи service worker-е"
+  },
+  "keepServiceWorkersGreyText": {
+    "message": "Задржи service worker-е до поновног покретања"
   },
   "keepText": {
-    "message": "Задржи",
-    "description": "Keep"
+    "message": "Задржи"
   },
   "listTypeText": {
-    "message": "Врста списка",
-    "description": "List Type"
+    "message": "Колико дуго"
+  },
+  "localStorageCleanupText": {
+    "message": "Укључи чишћење LocalStorage-а"
+  },
+  "localStorageText": {
+    "message": "LocalStorage"
+  },
+  "manualActionNotification": {
+    "message": "Ручно чишћење"
+  },
+  "manualCleanError": {
+    "message": "Није успело чишћење $siteData$ за ову картицу:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      }
+    }
+  },
+  "manualCleanNothing": {
+    "message": "Нема шта да се чисти: није пронађено $siteData$ на $url$.",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanRemoved": {
+    "message": "Уклоњено $deleted$ од $total$.",
+    "placeholders": {
+      "deleted": {
+        "content": "$1",
+        "example": "5"
+      },
+      "total": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "manualCleanSiteDataAll": {
+    "message": "Обриши све за овај сајт"
+  },
+  "manualCleanSiteDataAllDomain": {
+    "message": "Обриши све податке које је сачувао $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataCache": {
+    "message": "Обриши кеш овог сајта"
+  },
+  "manualCleanSiteDataCacheDomain": {
+    "message": "Обриши сав кеш који је сачувао $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataCookies": {
+    "message": "Обриши колачиће овог сајта"
+  },
+  "manualCleanSiteDataCookiesDomain": {
+    "message": "Обриши све колачиће које је сачувао $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataIndexedDB": {
+    "message": "Обриши IndexedDB овог сајта"
+  },
+  "manualCleanSiteDataIndexedDBDomain": {
+    "message": "Обриши све IndexedDB податке које је сачувао $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataLocalStorage": {
+    "message": "Обриши LocalStorage овог сајта"
+  },
+  "manualCleanSiteDataLocalStorageDomain": {
+    "message": "Обриши сав LocalStorage који је сачувао $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataPluginData": {
+    "message": "Обриши податке додатака овог сајта"
+  },
+  "manualCleanSiteDataPluginDataDomain": {
+    "message": "Обриши све податке додатака које је сачувао $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataServiceWorkers": {
+    "message": "Обриши service worker-е овог сајта"
+  },
+  "manualCleanSiteDataServiceWorkersDomain": {
+    "message": "Обриши све service worker-е које је регистровао $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSuccess": {
+    "message": "Резултат чишћења $siteData$ на $url$:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualNotificationsText": {
+    "message": "Обавести после ручних чишћења"
   },
   "matchedDomainExpressionText": {
-    "message": "Подударни доменски изрази",
-    "description": "Matched Domain Expression"
+    "message": "Поклопљени израз домена"
   },
   "menuText": {
-    "message": "Мени",
-    "description": "Menu. Only shown when the settings screen is small / when the hamburger icon shows / when the menu is collapsed."
+    "message": "Мени"
   },
   "minutesText": {
-    "message": "Минут(а)",
-    "description": "minute(s)"
+    "message": "минут(а)"
   },
   "noCleanupLogText": {
-    "message": "Нема записника о чишћењу",
-    "description": "No Cleanup Logs Found"
+    "message": "Дневник чишћења је празан."
   },
   "noExpressionsText": {
-    "message": "Нема наведених израза.",
-    "description": "No expressions defined."
+    "message": "Још нисте додали ниједан израз."
   },
   "noPrivateLogging": {
-    "message": "Дневници чишћења неће се генерирати за картице у приватном прегледавању / анонимно / инПривате.",
-    "description": "Cleanup Logs will not be generated for tabs in Private Browsing / Incognito / InPrivate."
+    "message": "Приватне/инкогнито картице се никад не бележе."
+  },
+  "noSearchExpressionsFound": {
+    "message": "Ништа се не поклапа са вашом претрагом."
   },
   "noRulesText": {
-    "message": "Нема нађених правила за овај домен.",
-    "description": "No rules matched this domain"
+    "message": "Ниједан израз се не поклапа са овим сајтом."
   },
   "noneText": {
-    "message": "Ништа",
-    "description": "None"
+    "message": "Ништа"
+  },
+  "notificationContent": {
+    "message": "Уклоњени подаци сајтова — $Num$ колачића са $total$ сајтова, међу којима: $Websites$",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "123"
+      },
+      "total": {
+        "content": "$2",
+        "example": "8"
+      },
+      "websites": {
+        "content": "$3",
+        "example": "google.com, facebook.com"
+      }
+    }
   },
   "notificationDisabledText": {
-    "message": "Обавештење онемогућено",
-    "description": "Notification disabled"
+    "message": "Обавештење искључено"
   },
   "notificationEnabledText": {
-    "message": "Обавештење омогућено",
-    "description": "Notification enabled"
+    "message": "Обавештење укључено"
   },
   "notificationTitle": {
-    "message": "Колачићи су обрисани!",
-    "description": "Cookies were deleted!  Used in Notification Title."
+    "message": "Колачићи очишћени"
+  },
+  "notificationTitleSiteData": {
+    "message": "Подаци сајтова очишћени"
   },
   "notifyCookieCleanupDelayText": {
-    "message": "Трајање обавештења",
-    "description": "Duration for Notifications"
+    "message": "Трајање обавештења"
+  },
+  "notifyCookieCleanUpText": {
+    "message": "Обавести после чишћења"
   },
   "oldReleasesText": {
-    "message": "Старије белешке о издању се могу видети на адреси",
-    "description": "Older release notes can be viewed online at"
+    "message": "Старија издања су наведена на"
   },
   "openDebugMode": {
-    "message": "Да бисте погледали излазне исправке, отворите нову картицу и посетите",
-    "description": "To view the debug outputs, open a new tab and visit"
+    "message": "Излаз за отклањање грешака је у конзоли додатка. Отворите нову картицу и идите на"
   },
   "optionsText": {
-    "message": "Опције",
-    "description": "Options"
+    "message": "Шта задржава"
+  },
+  "pluginDataCleanupText": {
+    "message": "Укључи чишћење података додатака"
+  },
+  "pluginDataText": {
+    "message": "Подаци додатака"
   },
   "popupCookieCountText": {
-    "message": "Колачић",
-    "description": "Cookies. Due to visual formatting, Cookie Count will always be located on the right side after the colon. Found in Popup near top-right."
+    "message": "Колачићи"
   },
   "preferencesText": {
-    "message": "Подешавања",
-    "description": "Settings"
+    "message": "Подешавања"
   },
   "questionExpression": {
-    "message": "Како изрази раде?",
-    "description": "How do Expressions work?"
+    "message": "Како раде шаблони?"
+  },
+  "reasonCADSiteDataCookie": {
+    "message": "Уклоњен интерни колачић-маркер да покрене чишћење података сајта $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCADSiteDataCookieRestart": {
+    "message": "Уклоњен интерни колачић-маркер при поновном покретању да покрене чишћење података сајта $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpired": {
+    "message": "Уклоњени само истекли колачићи са $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpiredRestart": {
+    "message": "Уклоњени само истекли колачићи са $hostname$ током чишћења при поновном покретању.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
   },
   "reasonCleanCookieName": {
-    "message": "Делимично очишћено због подударања у изразу $matchedExpression$ са списка $listType$",
-    "description": "Partial clean because of matched $matchedExpression$ in the $listType$. Used in cleanup logs.",
+    "message": "Селективно очишћено: $matchedExpression$ на листи $listType$ штити друге колачиће, али не и овај",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -286,8 +665,7 @@
     }
   },
   "reasonCleanGreyList": {
-    "message": "Очисти због чишћења при покретању и зато што домен $matchedExpression$ није на сивом списку",
-    "description": "Clean because of startup cleanup and $matchedExpression$ is in the Greylist. Used in cleanup log.",
+    "message": "Очишћено при покретању: $matchedExpression$ је на сивој листи",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -296,8 +674,7 @@
     }
   },
   "reasonCleanNoList": {
-    "message": "Очисти зато што домен $hostname$ није на сивом или белом списку",
-    "description": "Clean because $hostname$ is not in the White or Grey lists",
+    "message": "Очишћено: $hostname$ није ни на белој ни на сивој листи",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -306,8 +683,7 @@
     }
   },
   "reasonCleanStartupNoList": {
-    "message": "Очисти због чишћења при покретању и зато што домен $hostname$ није на сивом или белом списку",
-    "description": "Clean because of startup cleanup and $hostname$ is not in the White or Grey lists",
+    "message": "Очишћено при покретању: $hostname$ није ни на белој ни на сивој листи",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -316,8 +692,7 @@
     }
   },
   "reasonKeep": {
-    "message": "Задржи зато што се домен $matchedExpression$ налази на списку врсте $listType$",
-    "description": "Keep because of matched $matchedExpression$ in the $listType$",
+    "message": "Задржано: поклопио се $matchedExpression$ на листи $listType$",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -330,8 +705,7 @@
     }
   },
   "reasonKeepOpenTab": {
-    "message": "Задржи због отворених језичака домена *.$mainDomain$",
-    "description": "Keep because of open tabs of *.$mainDomain$",
+    "message": "Задржано: *.$mainDomain$ је још отворен у картици",
     "placeholders": {
       "mainDomain": {
         "content": "$1",
@@ -340,24 +714,22 @@
     }
   },
   "reasonTabsWereIgnored": {
-    "message": "и такође су отворени језичци занемарени",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] and also open tabs were ignored"
+    "message": "(отворене картице су овог пута игнорисане)"
   },
   "reasonTabsWereNotIgnored": {
-    "message": "или у било ком отвореном језичку",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] or in any open tabs"
+    "message": "(и није отворен ни у једној картици)"
   },
   "releaseNotesText": {
-    "message": "Белешке о издању",
-    "description": "Release Notes"
+    "message": "Белешке о издању"
+  },
+  "removeActivityLogEntryText": {
+    "message": "Уклони ставку дневника"
   },
   "removeAllExpressions": {
-    "message": "Уклоните све изразе",
-    "description": "Remove All Expressions"
+    "message": "Уклони све"
   },
   "removeAllExpressionsConfirm": {
-    "message": "Јесте ли сигурни да желите уклонити СВЕ ($expressionCount$) сачуване изразе (е) са (е) листе ($listCount$)? \n\nОВО СЕ НЕ МОЖЕ ПОНИШТИТИ! \n\nОткуцајте [$expressionCount$] и кликните ОК да бисте избрисали.",
-    "description": "Are you sure you want to remove ALL ($expressionCount$) saved expression(s) from ($listCount$) list(s)?\n\nTHIS CANNOT BE UNDONE!\n\nType [ $expressionCount$ ] and click OK to delete. Popup prompt if Delete All Expression is clicked.",
+    "message": "Ово трајно уклања свих $expressionCount$ израза са $listCount$ листа.\n\nНема поништавања.\n\nУкуцајте [ $expressionCount$ ] и притисните У реду за потврду.",
     "placeholders": {
       "expressionCount": {
         "content": "$1",
@@ -370,140 +742,169 @@
     }
   },
   "removeAllExpressionsNoneFound": {
-    "message": "Нема израза за уклањање!",
-    "description": "No expressions to remove!"
+    "message": "Нема израза за уклањање."
   },
   "removeExpressionText": {
-    "message": "Уклони израз",
-    "description": "Remove expression"
+    "message": "Уклони израз"
   },
-  "reportIssuesText": {
-    "message": "Пријавите проблеме и предложите могућности",
-    "description": "Report issues and suggest features"
+  "removeListText": {
+    "message": "Уклони све изразе са изабране листе"
   },
-  "resetCookieCounterText": {
-    "message": "Поново постави бројаче колачића",
-    "description": "Reset Cookie Counters. Button in Welcome Page."
-  },
-  "resetExtensionDataText": {
-    "message": "Поново постави податке о проширењу",
-    "description": "Reset Extension Data"
-  },
-  "restoreText": {
-    "message": "Обнови",
-    "description": "Restore. Restores cookies that was cleaned up by this extension. Found in Activity Log entries."
-  },
-  "reviewLinkMessage": {
-    "message": "Хвала вам што сте пробали $cadTitle$. Ако вам се свиђа, оставите рецензију.",
-    "description": "Thanks for trying out Cookie AutoDelete. If you liked it, then please give a review.",
+  "removeStorageCount": {
+    "message": "Очишћено $count$ ставки из $storageType$.",
     "placeholders": {
-      "cadTitle": {
+      "count": {
         "content": "$1",
-        "example": "Cookie AutoDelete"
+        "example": "1"
+      },
+      "storageType": {
+        "content": "$2",
+        "example": "LocalStorage"
       }
     }
   },
+  "reportIssuesText": {
+    "message": "Пријаве грешака и идеје"
+  },
+  "resetCookieCounterText": {
+    "message": "Ресетуј бројаче колачића"
+  },
+  "resetExtensionDataText": {
+    "message": "Обриши све податке додатка"
+  },
+  "restoreText": {
+    "message": "Врати"
+  },
   "saveExpressionText": {
-    "message": "Сачувај израз",
-    "description": "Save expression"
+    "message": "Сачувај израз"
   },
   "secondsText": {
-    "message": "Секунд(е)",
-    "description": "second(s)"
+    "message": "секунд(и)"
+  },
+  "serviceWorkersCleanupText": {
+    "message": "Укључи чишћење service worker-а"
+  },
+  "serviceWorkersText": {
+    "message": "Service worker-и"
+  },
+  "sessionStorageText": {
+    "message": "SessionStorage"
   },
   "settingGroupAutoClean": {
-    "message": "Опције аутоматског чишћења",
-    "description": "Automatic Cleaning Options"
+    "message": "Време"
   },
   "settingGroupExpression": {
-    "message": "Опције изражавања",
-    "description": "Expression Options"
+    "message": "Опције израза"
   },
   "settingGroupExtension": {
-    "message": "Опције проширења",
-    "description": "Extension Options"
+    "message": "Интерфејс"
   },
   "settingGroupOtherBrowsing": {
-    "message": "Остале могућности чишћења података прегледавања",
-    "description": "Other Browsing Data Cleanup Options"
+    "message": "Остале опције чишћења података прегледања"
   },
   "settingsText": {
     "message": "Подешавања $CAD$",
-    "description": "$CAD$ Settings",
     "placeholders": {
       "CAD": {
-        "content": "CAD",
-        "example": "CAD - Short form of Cookie AutoDelete"
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "showNumberOfCookiesInIconText": {
-    "message": "Покажите број колачића за тај домен преко иконе",
-    "description": "Show Number of Cookies for that Domain over the Icon"
+    "message": "Број колачића на икони траке са алаткама"
   },
-  "sizePopupText": {
-    "message": "Величина искачућег прозора (у пикселима)",
-    "description": "Size of Popup (in px). This sets the font size in the Popup."
+  "siteDataEmptyOnEnable": {
+    "message": "При укључивању новог типа података обриши већ сачувано"
   },
-  "sizeSettingText": {
-    "message": "Величина странице за подешавања (у пикселима)",
-    "description": "Size of Setting Pages (in px). This sets the font size in the Setting Pages."
+  "siteDataText": {
+    "message": "Подаци сајта"
   },
-  "stopEditingText": {
-    "message": "Престани са уређивањем",
-    "description": "Stop editing"
+  "siteDataPanelTitle": {
+    "message": "Подаци које је сачувао овај сајт"
   },
-  "successText": {
-    "message": "Успех!",
-    "description": "Success!"
+  "siteDataLoadingText": {
+    "message": "Проверавамо шта овај сајт чува…"
   },
-  "toGreyListText": {
-    "message": "Додај на сиви списак (чисти при поновном покретању прегледача)",
-    "description": "Add to Greylist (Clean on Browser Restart)"
+  "siteDataNotAvailableText": {
+    "message": "Недоступно на овој страници"
   },
-  "toWhiteListText": {
-    "message": "Додај на бели списак (никада не чисти)",
-    "description": "Add to Whitelist (Never Clean)"
+  "siteDataEmptyText": {
+    "message": "Овај сајт тренутно ништа не чува"
   },
-  "toggleNotificationText": {
-    "message": "Притисните да бисте омогућили или онемогућили обавештења",
-    "description": "Toggle to enable or disable notifications"
-  },
-  "toggleToGreyListWordText": {
-    "message": "Пребаци на сиви списак",
-    "description": "Toggle to greylist"
-  },
-  "toggleToWhiteListWordText": {
-    "message": "Пребаци на бели списак",
-    "description": "Toggle to whitelist"
-  },
-  "versionNumberText": {
-    "message": "$CAD$ верзија",
-    "description": "$CAD$ version 3.2.1. The actual number is formatted differently and will be right below this text.",
+  "siteDataUsageText": {
+    "message": "Искоришћено $used$ од $quota$",
     "placeholders": {
-      "CAD": {
+      "used": {
         "content": "$1",
-        "example": "CAD or Cookie AutoDelete"
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
       }
     }
   },
-  "versionText": {
-    "message": "Издање $browser$ прегледача",
-    "description": "Firefox version",
+  "siteDataSessionCookieText": {
+    "message": "сесијски"
+  },
+  "siteDataExpiresText": {
+    "message": "истиче $date$",
     "placeholders": {
-      "browser": {
+      "date": {
         "content": "$1",
-        "example": "Firefox"
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "непознато"
+  },
+  "siteDataRefreshTitle": {
+    "message": "Освежи"
+  },
+  "sizePopupText": {
+    "message": "Величина фонта искачућег прозора"
+  },
+  "sizeSettingText": {
+    "message": "Величина фонта подешавања"
+  },
+  "stopEditingText": {
+    "message": "Заврши измене"
+  },
+  "successText": {
+    "message": "Успех!"
+  },
+  "toGreyListText": {
+    "message": "Додај на сиву листу (задржава се до поновног покретања прегледача)"
+  },
+  "toWhiteListText": {
+    "message": "Додај на белу листу (никад се не чисти)"
+  },
+  "toggleNotificationText": {
+    "message": "Укључи или искључи обавештења"
+  },
+  "toggleToGreyListWordText": {
+    "message": "Пребаци на сиву листу"
+  },
+  "toggleToWhiteListWordText": {
+    "message": "Пребаци на белу листу"
+  },
+  "versionNumberText": {
+    "message": "Верзија $CAD$",
+    "placeholders": {
+      "CAD": {
+        "content": "$1",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "welcomeMessage": {
-    "message": "Здраво! Током ове сесије, $cadTitle$ је обрисао $sessionDeleted$ колачића, укупно $totalDeleted$ колачића.",
-    "description": "Hi there! During this session, Cookie AutoDelete has deleted 123 cookies and in total 456 cookies.",
+    "message": "$cadTitle$ је уклонио $sessionDeleted$ колачића у овој сесији прегледача и укупно $totalDeleted$ од инсталације.",
     "placeholders": {
       "cadTitle": {
         "content": "$1",
-        "example": "Cookie AutoDelete"
+        "example": "Auto-Delete Cookies for Privacy"
       },
       "sessionDeleted": {
         "content": "$2",
@@ -516,11 +917,415 @@
     }
   },
   "welcomeText": {
-    "message": "Добродошли",
-    "description": "Welcome"
+    "message": "Добро дошли"
+  },
+  "expressionListText": {
+    "message": "Листа израза"
   },
   "whiteListWordText": {
-    "message": "Бели списак",
-    "description": "Whitelist"
+    "message": "Бела листа"
+  },
+  "themeText": {
+    "message": "Тема"
+  },
+  "themeAutoText": {
+    "message": "Аутоматска"
+  },
+  "themeLightText": {
+    "message": "Светла"
+  },
+  "themeDarkText": {
+    "message": "Тамна"
+  },
+  "keepLocalStorageText": {
+    "message": "Задржи LocalStorage"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "Задржи LocalStorage до поновног покретања"
+  },
+  "popupHeroOnText": {
+    "message": "Аутоматско брисање је укључено"
+  },
+  "popupHeroForgetText": {
+    "message": "Овај сајт вас неће памтити."
+  },
+  "popupHeroOffText": {
+    "message": "Аутоматско брисање је искључено"
+  },
+  "popupHeroOffSubText": {
+    "message": "Ништа се не брише аутоматски."
+  },
+  "popupHeroKeepingText": {
+    "message": "Колачићи овог сајта се задржавају"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$ је на вашој листи задржавања",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$ се задржава до затварања прегледача",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "биће очишћен"
+  },
+  "siteKeptText": {
+    "message": "задржан"
+  },
+  "siteCleanDelayText": {
+    "message": "Колачићи се бришу $SECONDS$ с након што напустите овај сајт.",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "Колачићи овог сајта се никад не бришу."
+  },
+  "siteKeptSessionStatusText": {
+    "message": "Колачићи овог сајта остају до затварања прегледача."
+  },
+  "keepCookiesButtonText": {
+    "message": "Задржи колачиће овог сајта"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$ и његови поддомени се неће брисати",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "Задржи до затварања прегледача"
+  },
+  "stopKeepingButtonText": {
+    "message": "Престани да задржаваш овај сајт"
+  },
+  "cleanNowText": {
+    "message": "Очисти сада"
+  },
+  "cleanNowTooltipText": {
+    "message": "Брише колачиће сајтова које не задржавате — сајтови отворени у другим картицама се прескачу."
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "Очисти сада, укључујући отворене картице"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "Исто као „Очисти сада“, али се сајтови отворени у другим картицама више не прескачу. Преживљавају само задржани сајтови."
+  },
+  "deleteSiteCookiesText": {
+    "message": "Обриши колачиће овог сајта"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "Обриши колачиће сајта $DOMAIN$ одмах, иако је отворен. Правила задржавања се игноришу само за ову радњу.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "Обриши све што је овај сајт сачувао"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "Обриши све што је $DOMAIN$ сачувао на овом уређају: колачиће, кеш, локално складиште, базе података, worker-е.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "Задржи"
+  },
+  "keepButtonTooltipText": {
+    "message": "Колачићи овог сајта се никад не бришу."
+  },
+  "keepSessionButtonText": {
+    "message": "Задржи ову сесију"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "Колачићи остају док не затворите прегледач, а бришу се при следећем покретању."
+  },
+  "noRuleMatchText": {
+    "message": "Ниједно сачувано правило се не поклапа са овим сајтом"
+  },
+  "matchedRuleText": {
+    "message": "Поклопљено правило: $EXPRESSION$",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "Још опција чишћења"
+  },
+  "shareText": {
+    "message": "Подели"
+  },
+  "shareTooltipText": {
+    "message": "Испричајте некоме о овом додатку"
+  },
+  "shareCopyLinkText": {
+    "message": "Копирај везу до странице додатка"
+  },
+  "shareCopiedText": {
+    "message": "Веза копирана"
+  },
+  "shareEmailText": {
+    "message": "Подели путем е-поште"
+  },
+  "moreControlsText": {
+    "message": "Још контрола…"
+  },
+  "lastCleanSummaryText": {
+    "message": "Последње чишћење: $COUNT$ колачића · $TIME$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "Напредни режим"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "Приказује стручна подешавања на овој страници и додатне контроле у искачућем прозору: правила тачних домена, опције чишћења по сајту и поклопљено правило. Подразумевано искључено — једноставан приказ покрива уобичајен случај."
+  },
+  "overviewText": {
+    "message": "Преглед"
+  },
+  "protectionText": {
+    "message": "Заштита"
+  },
+  "savedSitesText": {
+    "message": "Сачувани сајтови"
+  },
+  "savedSitesSubText": {
+    "message": "Сајтови које задржавате. Задржани сајтови чувају податке заувек; сесијски до затварања прегледача."
+  },
+  "cookiesDeletedSessionText": {
+    "message": "обрисано у овој сесији"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "обрисано укупно"
+  },
+  "keptBadgeText": {
+    "message": "Задржан"
+  },
+  "sessionBadgeText": {
+    "message": "До поновног покретања"
+  },
+  "toggleToKeepText": {
+    "message": "Пребаци на „Задржи“"
+  },
+  "toggleToSessionText": {
+    "message": "Пребаци на „Задржи ову сесију“"
+  },
+  "settingGroupSiteData": {
+    "message": "Шта се брише"
+  },
+  "deleteAllSiteDataText": {
+    "message": "Бриши све податке сајта"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "Колачићи плус сачуване датотеке, офлајн базе и позадински worker-и — све што сајт чува на вашем уређају."
+  },
+  "customBadgeText": {
+    "message": "Прилагођено"
+  },
+  "advancedChooseTypesText": {
+    "message": "Напредно — изаберите тачно шта се брише"
+  },
+  "patternColumnText": {
+    "message": "Шаблон"
+  },
+  "patternMeaningColumnText": {
+    "message": "Шта покрива"
+  },
+  "patternDomainMeaningText": {
+    "message": "Тачно овај домен"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "Домен и сваки поддомен"
+  },
+  "patternIPMeaningText": {
+    "message": "Једна IP адреса"
+  },
+  "patternCIDRMeaningText": {
+    "message": "Свака адреса у опсегу"
+  },
+  "patternRegexMeaningText": {
+    "message": "Напредно: регуларни израз између косих црта"
+  },
+  "patternFileMeaningText": {
+    "message": "Локалне датотеке отворене у прегледачу"
+  },
+  "patternKeepLevelsText": {
+    "message": "„Задржи“ чува податке сајта трајно. „Задржи ову сесију“ само до затварања прегледача."
+  },
+  "summaryKeepsEverythingText": {
+    "message": "Задржава све"
+  },
+  "summaryAllCookiesText": {
+    "message": "Сви колачићи"
+  },
+  "toggleOptionsText": {
+    "message": "Прикажи или сакриј опције"
+  },
+  "summaryNamedCookiesText": {
+    "message": "$COUNT$ именованих колачића",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "Чисти $TYPES$",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "Сви сачувани сајтови су уклоњени."
+  },
+  "importFoldedContainersText": {
+    "message": "$COUNT$ ставки из старих контејнерских листа спојено је у подразумевану листу.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
+  },
+  "importExportText": {
+    "message": "Увоз / Извоз"
+  },
+  "importExportSubText": {
+    "message": "Направите резервну копију подешавања и сачуваних сајтова, вратите их из датотеке или се вратите на подразумевано."
+  },
+  "activeModeDescText": {
+    "message": "Након што се картице сајта затворе."
+  },
+  "gracePeriodDescText": {
+    "message": "Сачекај пре чишћења, за случај да се вратите."
+  },
+  "domainChangeDescText": {
+    "message": "Чисти стари сајт картице кад у њој одете негде другде."
+  },
+  "greylistDescText": {
+    "message": "Сајтови означени „Задржи до затварања прегледача“ чисте се при поновном покретању прегледача."
+  },
+  "cleanDiscardedDescText": {
+    "message": "Картица коју је прегледач успавао рачуна се као затворена за чишћење."
+  },
+  "startupCleanDescText": {
+    "message": "Чисте се и сајтови у картицама враћеним из прошле сесије."
+  },
+  "cleanExpiredDescText": {
+    "message": "Колачићи после датума истека бришу се у сваком пролазу чишћења."
+  },
+  "cleanupLogDescText": {
+    "message": "Напаја страницу дневника чишћења и бројаче обрисаних колачића."
+  },
+  "cookieCountIconDescText": {
+    "message": "Приказује колико је колачића сачувао тренутни сајт."
+  },
+  "keepDefaultIconDescText": {
+    "message": "Не пребојавај икону да покаже да ли се сајт задржава."
+  },
+  "notifyAutoDescText": {
+    "message": "Кратко обавештење после сваког аутоматског чишћења."
+  },
+  "notifyDurationDescText": {
+    "message": "Колико дуго обавештења остају на екрану, у секундама."
+  },
+  "debugModeDescText": {
+    "message": "Детаљно бележење у конзолу додатка, за пријаве грешака."
+  },
+  "supportText": {
+    "message": "Подршка"
+  },
+  "helpText": {
+    "message": "Помоћ"
+  },
+  "helpSubText": {
+    "message": "Све што додатак ради, објашњено. Сваки одељак се отвара засебно."
+  },
+  "helpGettingStartedTitle": {
+    "message": "Први кораци"
+  },
+  "helpGettingStartedBody": {
+    "message": "Нове инсталације почињу у ручном режиму: ништа се не брише док ви не кажете. То је намерно — прво саставите листу задржавања, да вас касније укључивање аутоматског чишћења не одјави одасвуд где вам је стало.\n\n1. Задржите важне сајтове. Посетите сваки сајт где би вас одјава нервирала (пошта, банка, све што плаћате), кликните икону на траци и притисните „Задржи колачиће овог сајта“. Правило покрива домен и све поддомене. За сајтове које треба памтити само овај пут користите „Задржи до затварања прегледача“.\n\n2. Одлучите шта „чишћење“ значи. Фабрички, чишћење уклања само колачиће. Укључите „Бриши све податке сајта“ на страници Заштита да бришете и остале остатке сајта.\n\n3. Укључите аутоматско чишћење. Пребаците „Чисти аутоматски“ на страници Заштита. Од тада: затворите последњу картицу сајта и после периода почека његови колачићи нестају — осим ако сајт задржавате или је још отворен негде другде.\n\n4. По жељи: оставите дневник чишћења укључен, да увек видите шта је очишћено и зашто."
+  },
+  "helpCleaningTitle": {
+    "message": "Како чишћење ради"
+  },
+  "helpCleaningBody": {
+    "message": "Аутоматско чишћење се покреће кад се затвори последња картица сајта. Период почека (подразумевано 15 секунди) је ваш прозор за поништавање: поново отворите сајт у том року и ништа се не уклања.\n\n„Чисти при напуштању сајта“ чини да се и прелазак картице са једног сајта на други рачуна као напуштање првог — строже, али приметно ако скачете између сајтова у једној картици.\n\nТоком чишћења, колачићи сајта преживљавају ако важи било шта од овога: сајт је још отворен у некој картици; поклапа се са правилом Задржи; поклапа се са правилом „Задржи до затварања“ и ово није чишћење при поновном покретању; или је име конкретног колачића штриклирано у листи колачића поклопљеног правила. Све остало нестаје.\n\nНапредни режим додаје: успаване (одбачене) картице се рачунају као затворене, враћене картице се једном очисте при покретању, истекли колачићи се увек уклањају и сесијска правила задржавања — сајтови „Задржи до затварања прегледача“ чисте се при поновном покретању."
+  },
+  "helpSiteDataTitle": {
+    "message": "Шта се брише"
+  },
+  "helpSiteDataBody": {
+    "message": "Подразумевано додатак брише само колачиће. Прекидач „Бриши све податке сајта“ проширује чишћење на све остало што сајт чува на вашем уређају: кеш, IndexedDB, LocalStorage, податке додатака и service worker-е. Хармоника Напредно испод омогућава избор појединачних типова.\n\nДве ствари пре него што их пребаците:\n\n• Укључивање типа брише га једном, свуда. Оног трена кад укључите тип, сви тренутно сачувани подаци тог типа бришу се за сваки сајт (то је упозорење на страници). Прво искључите прекидач брисања-при-укључивању ако не желите то прво чишћење.\n\n• Стари подаци се не могу селективно чистити. Прегледач дозвољава додатку да брише ове типове по сајту само убудуће, за сајтове које поново посетите. Остаци од пре укључивања остају док се сајт још једном не посети."
+  },
+  "helpPatternsTitle": {
+    "message": "Правила задржавања и шаблони"
+  },
+  "helpPatternsBody": {
+    "message": "Сваки сачувани сајт је шаблон на једној од две листе. Сајтови „Задржи“ се никад не чисте. Сајтови „Задржи до затварања прегледача“ преживљавају обична чишћења, али се чисте при поновном покретању. Сајт који се не поклапа ни са једним чисти се чим га напустите — подразумевана судбина; правила су изузеци.\n\nШаблони се поклапају само са именом хоста — без https://, без путања:\n\n• example.com — тачно тај домен, не mail.example.com\n• *.example.com — домен и сваки поддомен\n• 192.168.1.100 — та IP адреса\n• 10.0.0.0/8 — било која IP из CIDR опсега\n• /^(mail|news)\\.example\\.com$/ — регуларни израз између косих црта\n• file:///home/user/notes — странице отворене из те локалне фасцикле\n\nСвако правило носи и опције по сајту (раширите његов ред на страници Сачувани сајтови): задржавање само именованих колачића уместо свих и избор података по типу. Правило „Направи подразумеване опције“ одређује почетне опције сваког правила доданог касније.\n\nСавет: да СВИ колачићи нестану при поновном покретању, додајте * као правило „Задржи до затварања прегледача“, а заиста трајне сајтове означите са „Задржи“."
+  },
+  "helpImportExportTitle": {
+    "message": "Увоз и извоз"
+  },
+  "helpImportExportBody": {
+    "message": "Страница Увоз / Извоз прави резервне копије две ствари одвојено: сачуваних сајтова и подешавања. Обоје су обичне JSON датотеке са временски печатираним именима, па се поновљене копије не преписују. Увоз никад не брише оно што већ имате; тачни дупликати се прескачу, а неисправне ставке одбијају са разлогом док се остатак свеједно увезе.\n\nИзвози из оригиналног Cookie AutoDelete увозе се чисто — исти формат. Извози из ере Firefox-а могу садржати листе контејнерских картица (Firefox функција које у Chromium-у нема); те ставке се спајају у подразумевану листу уз прескакање дупликата, а порука увоза каже колико их је спојено.\n\nВраћање подешавања на подразумевана такође живи на тој страници. Не дира ваше сачуване сајтове."
+  },
+  "helpLogTitle": {
+    "message": "Дневник чишћења"
+  },
+  "helpLogBody": {
+    "message": "Дневник чишћења одговара на „зашто ме одјавило са оног сајта?“ и „ради ли ово уопште нешто?“. Оставите „Води дневник чишћења“ укључено, па после чишћења отворите страницу дневника.\n\nСвака ставка наводи погођене сајтове и одлуку за сваки, једноставним речима: задржан јер се поклопило правило, задржан јер је сајт још био отворен, очишћен јер се ништа није поклопило, очишћен при покретању (то празни сајтове до-поновног-покретања), или селективно очишћен кад правило задржава само именоване колачиће. Редови одлука користе интерна имена листа: бела листа значи трајно правило Задржи, сива листа значи задржавање до затварања прегледача.\n\nДневник никад не садржи вредности колачића, никад не бележи приватне/инкогнито картице, никад не напушта ваш прегледач, а старе ставке саме испадају с краја. Бројачи странице Преглед (ова сесија / укупно) долазе из истог књиговодства."
+  },
+  "helpPermissionsTitle": {
+    "message": "Зашто су му потребне ове дозволе"
+  },
+  "helpPermissionsBody": {
+    "message": "Упозорење при инсталацији „Читање и мењање података на свим сајтовима“ је оно неизбежно: колачићи могу припадати било ком сајту који посетите, па њихово брисање тражи приступ свим сајтовима. Користи се искључиво за читање и уклањање колачића и података сајтова — никад за читање садржаја страница и никад за разговор са сервером (не постоји).\n\nОстало укратко. Колачићи: набрајање колачића сајта за бројач и њихово брисање. Подаци прегледања: брисање опционих додатака — кеша, IndexedDB-а, LocalStorage-а, података додатака, service worker-а. Складиште: локално чување подешавања и правила задржавања. Аларми: држање одложеног чишћења на распореду чак и ако прегледач успава додатак док чека. Картице: знање који су сајтови отворени (отворени су заштићени) и примећивање кад се картица затвори или напусти сајт. Активна картица и Scripting: извршавање радњи по сајту из искачућег прозора. Контекстни менији и Обавештења: две опционе функције које се могу искључити у подешавањима.\n\nНамерно одсутно: историја прегледања, пресретање веб захтева и уопште било какав приступ мрежи. Додатак не види шта куцате нити које странице читате."
+  },
+  "helpTroubleshootingTitle": {
+    "message": "Решавање проблема и честа питања"
+  },
+  "helpTroubleshootingBody": {
+    "message": "Одјавило вас са сајта? По реду вероватноће: сајт нема правило задржавања (или га има само тачно име хоста, а пријава живи на поддомену — користите облик *.example.com); сајт је до-поновног-покретања а прегледач се поново покренуо; поклопљено правило задржава само именоване колачиће а колачић за пријаву није штриклиран; или је колачић сајта просто истекао. Не нагађајте — дневник чишћења именује тачно правило које је окинуло.\n\nКолачићи се појављују одмах после чишћења? Сајт је скоро увек још отворен у некој картици — отворени сајтови праве колачиће кад пожеле и ионако су заштићени.\n\nЧишћење није прошло? Проверите редом: аутоматско чишћење је укључено (заглавље искачућег прозора то каже); сајт није отворен у другој картици; период почека је истекао; ниједно правило задржавања се не поклапа; није била успавана картица (оне се рачунају као затворене само уз укључено то напредно подешавање).\n\nУкључили сте чишћење података сајтова а стари подаци и даље стоје? Прегледач дозвољава брисање тих типова само за сајтове које поново посетите; остаци стоје до следеће посете.\n\nИнкогнито? Само ако дозволите: страница додатака вашег прегледача → Дозволи у инкогнито режиму. Инкогнито има своје складиште колачића и своје сачуване сајтове и никад се не уписује у дневник.\n\nИ даље заглављени? Страница Подршка има верзију, блок за отклањање грешака који се може копирати и везу за пријаве грешака. Режим отклањања грешака (Напредно) тера додатак да сваку одлуку исприча у конзоли service worker-а, са маскираним вредностима колачића."
   }
 }
