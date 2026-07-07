@@ -41,10 +41,9 @@
     "skipLibCheck": true /* Don't type-check declaration files; the locked @types/node@14.11.2 is a known-broken DefinitelyTyped release (duplicate 'global' declaration) that otherwise fails every tsc run. */,
     /* Module Resolution Options */
     "moduleResolution": "bundler" /* Matches Bun.build's resolution; jest overrides in its transform. */,
-    "baseUrl": "." /* Base directory to resolve non-absolute module names. */,
     "paths": {
-      "@/*": ["src/*"]
-    } /* The @/ alias; jest mirrors it in moduleNameMapper, Bun.build reads it natively. */,
+      "@/*": ["./src/*"]
+    } /* The @/ alias, tsconfig-relative (no baseUrl since TS 5 discourages it); Vitest resolves it via resolve.tsconfigPaths, Bun.build reads it natively. */,
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
     "typeRoots": [
       "node_modules/@types",
