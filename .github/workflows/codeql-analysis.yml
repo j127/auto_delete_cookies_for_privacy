@@ -18,9 +18,9 @@ name: "CodeQL"
 on:
   workflow_dispatch:
   # push:
-  #   branches: [main, manifest-v3-prep]
+  #   branches: [main]
   # pull_request:
-  #   branches: [main, manifest-v3-prep]
+  #   branches: [main]
   # schedule:
   #   - cron: "0 20 * * 6"
 
