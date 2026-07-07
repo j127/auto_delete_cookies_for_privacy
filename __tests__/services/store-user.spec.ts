@@ -7,7 +7,6 @@ import StoreUser from "@/services/store-user";
 import { SettingID } from "@/typings/enums";
 import { ReduxAction } from "@/typings/redux-constants";
 
-
 class FirstUser extends StoreUser {
   public static getStore(): Store<State, ReduxAction> {
     return StoreUser.store;

@@ -43,7 +43,11 @@ describe("ErrorBoundary", () => {
   it("shows the fallback alert with the error and its stack when a child throws", () => {
     const { getByRole, container } = renderBoundary(<Bomb />);
     const alert = getByRole("alert");
-    expect(alert.className).toBe("alert alert-danger alertPreWrap");
+    // Class ORDER is formatter-owned (tailwind class sorting); assert
+    // membership only.
+    ["alert", "alert-danger", "alertPreWrap"].forEach((cls) =>
+      expect(alert.classList.contains(cls)).toBe(true)
+    );
     const heading = alert.querySelector("h4.alert-heading") as HTMLElement;
     expect(heading.textContent).toBe("errorText");
     expect(alert.textContent).toContain("Error: boom");
