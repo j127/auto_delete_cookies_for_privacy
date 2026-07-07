@@ -708,15 +708,21 @@ describe("Library Functions", () => {
     it("should return empty array if lists have no storeId", () => {
       expect(getMatchedExpressions(lists, "test")).toEqual([]);
     });
-    it("should return entire storeId list if no input was given.", () => {
-      expect(getMatchedExpressions(lists, "default")).toEqual([
+    it("should return entire storeId list in search mode if no input was given.", () => {
+      expect(getMatchedExpressions(lists, "default", undefined, true)).toEqual([
         ...lists["default"],
       ]);
     });
-    it("should return entire storeId list if input was only whitespaces", () => {
-      expect(getMatchedExpressions(lists, "default", "  ")).toEqual([
+    it("should return entire storeId list in search mode if input was only whitespaces", () => {
+      expect(getMatchedExpressions(lists, "default", "  ", true)).toEqual([
         ...lists["default"],
       ]);
+    });
+    it("should match nothing in match mode if no input was given (#101)", () => {
+      expect(getMatchedExpressions(lists, "default")).toEqual([]);
+    });
+    it("should match nothing in match mode if input was only whitespaces (#101)", () => {
+      expect(getMatchedExpressions(lists, "default", "  ")).toEqual([]);
     });
     it("should not match 192.168.1.1 with 0xc0.168.1.1 as not valid IPv4 Four-Part Decimal format", () => {
       // 0xc0 = 192

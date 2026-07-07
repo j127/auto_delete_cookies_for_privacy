@@ -329,7 +329,10 @@ export const getHostname = (urlToGetHostName: string | undefined): string => {
  * Returns all matched Expressions from a single list.
  * Can pass in either a single list of Expression or the entire State
  * First checks for IP, then CIDR, then falls back to Regular Expression.
- * If no input given, return all expressions from that list.
+ * A blank input lists every expression in search mode (an empty filter box
+ * shows the whole table) but matches NOTHING in match mode — otherwise
+ * URL-less tabs (new tab page, chrome:// pages) would inherit whichever
+ * expression happens to be first in the list (#101).
  * @param lists The Container List of Expressions from State.lists
  * @param search whether we're searching for a regex or matching
  * @param input The string for testing
@@ -342,8 +345,8 @@ export const getMatchedExpressions = (
   search = false
 ): ReadonlyArray<Expression> => {
   const expressions = lists[storeId] || [];
-  if (expressions.length === 0 || !input || input.trim().length == 0)
-    return expressions;
+  if (expressions.length === 0) return expressions;
+  if (!input || input.trim().length == 0) return search ? expressions : [];
   // Check if input is a valid IP Address (IPv4 or IPv6) (non-CIDR)
   // This takes care of IPv4-mapped IPv6 address (converts to IPv4 counterpart)
   let iip = ipaddr.isValid(input) ? ipaddr.process(input) : undefined;
