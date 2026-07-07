@@ -47,6 +47,9 @@ const App: React.FunctionComponent = () => {
       );
       setSettingsURL(tab.url || "");
       setTabId(tab.id ?? 0);
+      // The hash names an element ID (the sidebar button), so the browser
+      // anchor-scrolls past the navbar on load; undo that.
+      window.scrollTo(0, 0);
     };
     applyInitialTab();
     // The class component applied the font size and read the URL hash once
@@ -62,6 +65,8 @@ const App: React.FunctionComponent = () => {
     browser.tabs.update(tabId, {
       url: newUrl.href,
     });
+    // Same anchor-jump on every hash update: a new page starts at the top.
+    window.scrollTo(0, 0);
   };
 
   return (

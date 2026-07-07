@@ -62,7 +62,7 @@ export const initialState: State = {
     },
     [SettingID.ENABLE_NEW_POPUP]: {
       name: SettingID.ENABLE_NEW_POPUP,
-      value: false,
+      value: true,
     },
     [SettingID.OLD_GREY_CLEAN_LOCALSTORAGE]: {
       id: "DEPRECATED - use default expressions",
