@@ -13,14 +13,12 @@
 
 import { SettingID } from "@/typings/enums";
 import { when } from "jest-when";
-import { Store } from "redux";
 import { initialState } from "@/redux/state";
 // tslint:disable-next-line: import-name
 import createStore from "@/redux/store";
 import * as BrowserActionService from "@/services/browser-action-service";
 import SettingService from "@/services/setting-service";
 import StoreUser from "@/services/store-user";
-import { ReduxAction } from "@/typings/redux-constants";
 import { resetSettings, updateSetting } from "@/redux/actions";
 import ContextMenuEvents from "@/services/context-menu-events";
 
@@ -33,7 +31,7 @@ class TestContextMenus extends ContextMenuEvents {
   }
 }
 
-const store: Store<State, ReduxAction> = createStore(initialState);
+const store = createStore(initialState);
 StoreUser.init(store);
 
 class TestStore extends StoreUser {

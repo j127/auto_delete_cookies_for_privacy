@@ -13,8 +13,7 @@
 /* istanbul ignore file: Redux stuff.*/
 
 import { configureStore } from "@reduxjs/toolkit";
-import { Store } from "redux";
-import { ReduxAction, ReduxConstants } from "@/typings/redux-constants";
+import { ReduxConstants } from "@/typings/redux-constants";
 import {
   addExpression,
   clearActivities,
@@ -62,7 +61,7 @@ export const backgroundActions: {
   UPDATE_SETTING: updateSetting,
 };
 
-export default (state: Partial<State> = {}): Store<State, ReduxAction> => {
+const createStore = (state: Partial<State> = {}) => {
   // RTK's default middleware bundles the thunk middleware that used to come
   // from the redux-thunk dependency. An empty preloaded state is valid at
   // runtime (every slice reducer supplies its own default), hence the cast.
@@ -71,5 +70,13 @@ export default (state: Partial<State> = {}): Store<State, ReduxAction> => {
     preloadedState: state as State,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware().concat(consoleMessages),
-  }) as unknown as Store<State, ReduxAction>;
+  });
 };
+
+// Derived store/dispatch types keep RTK's thunk-aware dispatch, so callers
+// don't need the store.dispatch<any>() casts the old downcast to
+// Store<State, ReduxAction> forced everywhere.
+export type AppStore = ReturnType<typeof createStore>;
+export type AppDispatch = AppStore["dispatch"];
+
+export default createStore;

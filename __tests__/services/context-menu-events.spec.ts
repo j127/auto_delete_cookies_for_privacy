@@ -13,13 +13,12 @@
 
 import { ListType, SettingID } from "@/typings/enums";
 import { when } from "jest-when";
-import { Store } from "redux";
 
 import * as Actions from "@/redux/actions";
 import { initialState } from "@/redux/state";
 // tslint:disable-next-line: import-name
 import createStore from "@/redux/store";
-import { ReduxAction, ReduxConstants } from "@/typings/redux-constants";
+import { ReduxConstants } from "@/typings/redux-constants";
 import * as CleanupService from "@/services/cleanup-service";
 import ContextMenuEvents from "@/services/context-menu-events";
 import * as Lib from "@/services/libs";
@@ -31,7 +30,7 @@ const spyCleanupService: JestSpyObject = global.generateSpies(CleanupService);
 
 const spyLib: JestSpyObject = global.generateSpies(Lib);
 
-const store: Store<State, ReduxAction> = createStore(initialState);
+const store = createStore(initialState);
 StoreUser.init(store);
 
 class TestStore extends StoreUser {

@@ -439,7 +439,7 @@ export default class ContextMenuEvents extends StoreUser {
           },
           debug
         );
-        StoreUser.store.dispatch<any>(
+        StoreUser.store.dispatch(
           cookieCleanup({
             greyCleanup: false,
             ignoreOpenTabs: false,
@@ -453,7 +453,7 @@ export default class ContextMenuEvents extends StoreUser {
           },
           debug
         );
-        StoreUser.store.dispatch<any>(
+        StoreUser.store.dispatch(
           cookieCleanup({
             greyCleanup: false,
             ignoreOpenTabs: true,
@@ -757,7 +757,7 @@ export default class ContextMenuEvents extends StoreUser {
             debug
           );
           // Setting Updated.
-          StoreUser.store.dispatch<any>(
+          StoreUser.store.dispatch(
             updateSetting({
               name: SettingID.ACTIVE_MODE,
               value: info.checked!,
@@ -821,7 +821,7 @@ export default class ContextMenuEvents extends StoreUser {
     // takes via the store bridge — so the user's default expression options
     // apply, the store id is sanitized, and the protection state (icon and
     // title) refreshes. The plain addExpressionUI action skipped all three.
-    StoreUser.store.dispatch<any>(addExpression(payload));
+    StoreUser.store.dispatch(addExpression(payload));
     showNotification({
       duration: getSetting(
         StoreUser.store.getState(),

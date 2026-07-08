@@ -16,9 +16,8 @@
 import { ListType, SettingID, SiteDataType } from "./typings/enums";
 import "./init-globals";
 
-import { Store } from "redux";
 import { cookieCleanup, validateSettings } from "./redux/actions";
-import createStore, { backgroundActions } from "./redux/store";
+import createStore, { backgroundActions, type AppStore } from "./redux/store";
 import {
   CONNECTION_NAME,
   DISPATCH,
@@ -41,10 +40,10 @@ import {
 } from "./services/libs";
 import StoreUser from "./services/store-user";
 import TabEvents from "./services/tab-events";
-import { ReduxAction, ReduxConstants } from "./typings/redux-constants";
+import { ReduxConstants } from "./typings/redux-constants";
 import SettingService from "./services/setting-service";
 
-let store: Store<State, ReduxAction>;
+let store: AppStore;
 
 // Delay saving to disk to queue up actions
 let delaySave = false;
@@ -69,7 +68,7 @@ const saveToStorage = () => {
  * One-time-per-browser-session work (like the session counter reset and the
  * grey startup cleanup) lives in runtime.onStartup/onInstalled instead.
  */
-const init = async (): Promise<Store<State, ReduxAction>> => {
+const init = async (): Promise<AppStore> => {
   const storage = await browser.storage.local.get();
   let stateFromStorage;
   try {
@@ -90,7 +89,7 @@ const init = async (): Promise<Store<State, ReduxAction>> => {
   store.subscribe(SettingService.onSettingsChange);
   store.subscribe(saveToStorage);
 
-  store.dispatch<any>(validateSettings());
+  store.dispatch(validateSettings());
 
   // Rehydrate the per-session tab->domain cache and re-arm any pending
   // delayed cleanup that was scheduled before the worker was suspended.
@@ -136,7 +135,7 @@ const init = async (): Promise<Store<State, ReduxAction>> => {
 // awaits this before touching the store, so events delivered right after a
 // wake-up simply queue behind initialization - none are lost, because all
 // listeners are registered synchronously at the top level as MV3 requires.
-const ready: Promise<Store<State, ReduxAction>> = init();
+const ready: Promise<AppStore> = init();
 
 // Make an init failure loud in the worker console. This taps a separate
 // promise branch: handlers awaiting `ready` still observe the rejection.
@@ -200,13 +199,13 @@ const greyCleanup = () => {
       },
       getSetting(store.getState(), SettingID.DEBUG_MODE) as boolean
     );
-    store.dispatch<any>(
+    store.dispatch(
       cookieCleanup({
         greyCleanup: true,
         ignoreOpenTabs: getSetting(
           store.getState(),
           SettingID.CLEAN_OPEN_TABS_STARTUP
-        ),
+        ) as boolean,
       })
     );
   }
@@ -328,7 +327,7 @@ browser.runtime.onInstalled.addListener(async (details) => {
       break;
     case "update":
       // Validate Settings to get new settings (if any).
-      store.dispatch<any>(validateSettings());
+      store.dispatch(validateSettings());
       if (convertVersionToNumber(details.previousVersion) < 350) {
         // Migrate State Setting Name localstorageCleanup to localStorageCleanup
         if (store.getState().settings[SettingID.CLEANUP_LOCALSTORAGE_OLD]) {
