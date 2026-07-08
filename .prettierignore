@@ -1,6 +1,6 @@
-# design mockups: the embedded design-panel blocks must stay byte-identical
-# to the design-mockups skill asset, so no reformatting
-mockups/
+# kept design reference: the embedded design-panel blocks must stay
+# byte-identical to the design-mockups skill asset, so no reformatting
+mockups/05d-shield-cookie-simple.html
 
 # output directories
 _site/
