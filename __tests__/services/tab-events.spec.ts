@@ -13,13 +13,12 @@
 
 import { SettingID } from "@/typings/enums";
 import { when } from "jest-when";
-import { Store } from "redux";
 
 import { resetSettings, updateSetting } from "@/redux/actions";
 import { initialState } from "@/redux/state";
 // tslint:disable-next-line: import-name
 import createStore from "@/redux/store";
-import { ReduxAction, ReduxConstants } from "@/typings/redux-constants";
+import { ReduxConstants } from "@/typings/redux-constants";
 import AlarmEvents from "@/services/alarm-events";
 import * as BrowserActionService from "@/services/browser-action-service";
 import * as Lib from "@/services/libs";
@@ -34,7 +33,7 @@ const spyTabEvents: JestSpyObject = global.generateSpies(TabEvents);
 
 jest.useFakeTimers();
 
-const store: Store<State, ReduxAction> = createStore(initialState);
+const store = createStore(initialState);
 StoreUser.init(store);
 
 class TestStore extends StoreUser {

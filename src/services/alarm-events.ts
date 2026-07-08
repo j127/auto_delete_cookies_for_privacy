@@ -81,7 +81,7 @@ export default class AlarmEvents extends StoreUser {
       }
       await browser.alarms.clear(AlarmEvents.ACTIVE_MODE_ALARM);
       if (getSetting(StoreUser.store.getState(), SettingID.ACTIVE_MODE)) {
-        StoreUser.store.dispatch<any>(
+        StoreUser.store.dispatch(
           cookieCleanup({
             greyCleanup: false,
             ignoreOpenTabs: false,

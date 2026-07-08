@@ -344,7 +344,7 @@ describe("Actions", () => {
   describe("validateSettings()", () => {
     const runValidate = (state: State) => {
       const { dispatch, getState } = makeThunkArgs(state);
-      Actions.validateSettings()(dispatch, getState, null);
+      Actions.validateSettings()(dispatch, getState);
       return dispatch;
     };
 
@@ -442,7 +442,7 @@ describe("Actions", () => {
   describe("cookieCleanup()", () => {
     it("should run the cleanup with default options and stop on an empty result", async () => {
       const { dispatch, getState } = makeThunkArgs(initialState);
-      await Actions.cookieCleanup()(dispatch, getState, null);
+      await Actions.cookieCleanup()(dispatch, getState);
       expect(spyCleanupService.cleanCookiesOperation).toHaveBeenCalledWith(
         initialState,
         { greyCleanup: false, ignoreOpenTabs: false }
@@ -467,7 +467,7 @@ describe("Actions", () => {
       await Actions.cookieCleanup({
         greyCleanup: true,
         ignoreOpenTabs: true,
-      })(dispatch, getState, null);
+      })(dispatch, getState);
       expect(spyCleanupService.cleanCookiesOperation).toHaveBeenCalledWith(
         state,
         { greyCleanup: true, ignoreOpenTabs: true }
@@ -500,7 +500,7 @@ describe("Actions", () => {
       await Actions.cookieCleanup({
         greyCleanup: false,
         ignoreOpenTabs: false,
-      })(dispatch, getState, null);
+      })(dispatch, getState);
       expect(dispatch).toHaveBeenCalledTimes(1);
       expect(dispatch).toHaveBeenCalledWith({
         payload: cachedResults,
@@ -525,7 +525,7 @@ describe("Actions", () => {
       await Actions.cookieCleanup({
         greyCleanup: false,
         ignoreOpenTabs: false,
-      })(dispatch, getState, null);
+      })(dispatch, getState);
       expect(dispatch).not.toHaveBeenCalled();
     });
 
@@ -554,7 +554,7 @@ describe("Actions", () => {
       await Actions.cookieCleanup({
         greyCleanup: false,
         ignoreOpenTabs: false,
-      })(dispatch, getState, null);
+      })(dispatch, getState);
       expect(spyLib.showNotification).toHaveBeenCalledTimes(1);
       expect(spyLib.showNotification).toHaveBeenCalledWith({
         duration: 3,
@@ -595,7 +595,7 @@ describe("Actions", () => {
       await Actions.cookieCleanup({
         greyCleanup: false,
         ignoreOpenTabs: false,
-      })(dispatch, getState, null);
+      })(dispatch, getState);
       expect(spyLib.showNotification).toHaveBeenCalledTimes(1);
       expect(spyLib.showNotification).toHaveBeenCalledWith({
         duration: 3,
@@ -614,7 +614,7 @@ describe("Actions", () => {
       await Actions.cookieCleanup({
         greyCleanup: false,
         ignoreOpenTabs: false,
-      })(dispatch, getState, null);
+      })(dispatch, getState);
       expect(spyLib.showNotification).not.toHaveBeenCalled();
     });
   });

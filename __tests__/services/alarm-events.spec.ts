@@ -4,16 +4,14 @@
  * Licensed under MIT (see LICENSE).
  */
 import { SettingID } from "@/typings/enums";
-import { Store } from "redux";
 import * as Actions from "@/redux/actions";
 import { initialState } from "@/redux/state";
 // tslint:disable-next-line: import-name
 import createStore from "@/redux/store";
-import { ReduxAction } from "@/typings/redux-constants";
 import AlarmEvents from "@/services/alarm-events";
 import StoreUser from "@/services/store-user";
 
-const store: Store<State, ReduxAction> = createStore(initialState);
+const store = createStore(initialState);
 StoreUser.init(store);
 
 class TestStore extends StoreUser {

@@ -1,20 +1,18 @@
-import { Store } from "redux";
 import { updateSetting } from "@/redux/actions";
 import { initialState } from "@/redux/state";
 // tslint:disable-next-line: import-name
-import createStore from "@/redux/store";
+import createStore, { type AppStore } from "@/redux/store";
 import StoreUser from "@/services/store-user";
 import { SettingID } from "@/typings/enums";
-import { ReduxAction } from "@/typings/redux-constants";
 
 class FirstUser extends StoreUser {
-  public static getStore(): Store<State, ReduxAction> {
+  public static getStore(): AppStore {
     return StoreUser.store;
   }
 }
 
 class SecondUser extends StoreUser {
-  public static getStore(): Store<State, ReduxAction> {
+  public static getStore(): AppStore {
     return StoreUser.store;
   }
 }

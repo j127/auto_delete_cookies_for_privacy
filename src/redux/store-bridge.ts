@@ -4,8 +4,7 @@
  * Licensed under MIT (see LICENSE).
  */
 
-import { Store } from "redux";
-import { ReduxAction } from "@/typings/redux-constants";
+import type { AppStore } from "./store";
 
 /**
  * Background half of the store bridge that replaces the redux-webext library
@@ -39,7 +38,7 @@ export type BackgroundActionsMap = {
  * absent).
  */
 export const dispatchBridgeAction = (
-  store: Store<State, ReduxAction>,
+  store: AppStore,
   actions: BackgroundActionsMap,
   action: { type: string; payload?: unknown }
 ): void => {
@@ -53,9 +52,7 @@ export const dispatchBridgeAction = (
     return;
   }
   const { payload = {} } = actionData as { payload?: unknown };
-  store.dispatch<any>(
-    creator(Object.keys(actionData).length ? payload : undefined) as any
-  );
+  store.dispatch(creator(Object.keys(actionData).length ? payload : undefined));
 };
 
 /**
@@ -64,7 +61,7 @@ export const dispatchBridgeAction = (
  * then push a snapshot on every store change until the port disconnects.
  */
 export const handleBridgeConnection = (
-  store: Store<State, ReduxAction>,
+  store: AppStore,
   connection: browser.runtime.Port
 ): void => {
   const push = () => {
