@@ -276,8 +276,8 @@
     "description": "Exported filenames get a timestamp appended."
   },
   "extensionDescription": {
-    "message": "Tidies up after your tabs: closes a tab, wipes its cookies and site data — except for sites on your keep lists.",
-    "description": "Tidies up after your tabs: closes a tab, wipes its cookies and site data — except for sites on your keep lists."
+    "message": "Automatically deletes cookies and site data when you close tabs, except for sites that you mark as safe.",
+    "description": "Automatically deletes cookies and site data when you close tabs, except for sites that you mark as safe."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy",

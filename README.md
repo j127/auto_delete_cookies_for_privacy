@@ -1,6 +1,6 @@
 # Auto-Delete Cookies for Privacy
 
-This is a browser extension for Chrome/Brave that automatically deletes cookies and other site data when you close tabs.
+This is a browser extension for Chrome/Brave that automatically deletes cookies and other site data when you close tabs, except for sites that you want to remember you.
 
 ## What it does
 
