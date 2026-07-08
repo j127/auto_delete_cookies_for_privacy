@@ -669,7 +669,9 @@ export const sleep = (ms: number): Promise<any> => {
 export const throwErrorNotification = (e: Error, duration: number): void => {
   const nid = `ADCP-notification-failed-${uid()}`;
   browser.notifications.create(nid, {
-    iconUrl: browser.runtime.getURL("icons/icon_red_48.png"),
+    // Chrome fails the whole notification if the icon can't load, so this
+    // must name a file that actually ships (a test pins it to disk).
+    iconUrl: browser.runtime.getURL("icons/icon_48_red.png"),
     message: e.message,
     title: browser.i18n.getMessage("errorText"),
     type: "basic",
