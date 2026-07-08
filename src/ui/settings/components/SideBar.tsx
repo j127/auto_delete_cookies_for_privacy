@@ -25,6 +25,9 @@ const SideBar: React.FunctionComponent<OwnProps> = ({
   // browser.i18n.getMessage is only called once the message catalog is ready.
   // Section labels are the 05d keep-family names; the tab IDs stay stable
   // because the popup and bookmarks deep-link to them (#tabSettings etc.).
+  // The buttons must NOT carry those IDs as DOM ids: the hash would then
+  // name an anchor target and the browser would scroll it into view on
+  // load, hiding the navbar above the fold.
   const sideBarTabs = [
     {
       tabId: "tabWelcome",
@@ -63,7 +66,6 @@ const SideBar: React.FunctionComponent<OwnProps> = ({
           <li key={element.tabId}>
             <button
               type="button"
-              id={`${element.tabId}`}
               onClick={() => switchTabs(element.tabId)}
               className={activeTab === element.tabId ? "menu-active" : ""}
             >
