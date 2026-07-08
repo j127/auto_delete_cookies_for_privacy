@@ -1233,13 +1233,13 @@
     "message": "Fai il backup di impostazioni e siti salvati, ripristinali da un file o torna ai valori predefiniti."
   },
   "activeModeDescText": {
-    "message": "Dopo che le schede di un sito si chiudono."
+    "message": "Pulisce i cookie e i dati dei siti selezionati dopo che le schede di un sito si chiudono. Finché è disattivato, nulla viene pulito automaticamente — la pulizia manuale dal popup continua a funzionare."
   },
   "gracePeriodDescText": {
     "message": "Attendi prima di pulire, nel caso tu torni."
   },
   "domainChangeDescText": {
-    "message": "Pulisce il vecchio sito di una scheda quando in quella scheda navighi altrove."
+    "message": "Pulisce il vecchio sito di una scheda quando in quella scheda navighi altrove, invece che solo alla chiusura della scheda."
   },
   "greylistDescText": {
     "message": "I siti marcati «Conserva fino alla chiusura» vengono puliti quando il browser si riavvia."

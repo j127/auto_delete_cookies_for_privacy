@@ -1233,13 +1233,13 @@
     "message": "Maak een back-up van je instellingen en bewaarde sites, herstel ze uit een bestand of ga terug naar standaard."
   },
   "activeModeDescText": {
-    "message": "Nadat de tabbladen van een site zijn gesloten."
+    "message": "Schoont cookies en geselecteerde sitegegevens op nadat de tabbladen van een site zijn gesloten. Zolang dit uit staat, wordt niets automatisch opgeschoond — handmatig opschonen via de pop-up blijft werken."
   },
   "gracePeriodDescText": {
     "message": "Wachten voor het opschonen, voor het geval je terugkomt."
   },
   "domainChangeDescText": {
-    "message": "Schoont de oude site van een tabblad op wanneer je in dat tabblad ergens anders heen gaat."
+    "message": "Schoont de oude site van een tabblad op wanneer je in dat tabblad ergens anders heen gaat, in plaats van alleen bij het sluiten van het tabblad."
   },
   "greylistDescText": {
     "message": "Sites gemarkeerd als 'Bewaren tot de browser sluit' worden opgeschoond wanneer de browser herstart."

@@ -1233,13 +1233,13 @@
     "message": "Sikkerhetskopier innstillingene og lagrede nettsteder, gjenopprett fra fil, eller gå tilbake til standard."
   },
   "activeModeDescText": {
-    "message": "Etter at et nettsteds faner er lukket."
+    "message": "Rydder informasjonskapsler og valgte nettstedsdata etter at et nettsteds faner er lukket. Når dette er av, ryddes ingenting automatisk — manuell rydding fra popup-vinduet virker fortsatt."
   },
   "gracePeriodDescText": {
     "message": "Vent før rydding, i tilfelle du kommer tilbake."
   },
   "domainChangeDescText": {
-    "message": "Rydder fanens gamle nettsted når du navigerer et annet sted i den fanen."
+    "message": "Rydder fanens gamle nettsted når du navigerer et annet sted i den fanen, i stedet for bare når fanen lukkes."
   },
   "greylistDescText": {
     "message": "Nettsteder merket Behold til nettleseren lukkes ryddes når nettleseren starter på nytt."

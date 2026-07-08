@@ -1233,13 +1233,13 @@
     "message": "Haz copia de tu configuración y sitios guardados, restáuralos desde un archivo o vuelve a los valores predeterminados."
   },
   "activeModeDescText": {
-    "message": "Después de que se cierren las pestañas de un sitio."
+    "message": "Limpia las cookies y los datos de sitio seleccionados después de que se cierren las pestañas de un sitio. Mientras esté desactivado, nada se limpia automáticamente — la limpieza manual desde la ventana emergente sigue funcionando."
   },
   "gracePeriodDescText": {
     "message": "Espera antes de limpiar, por si vuelves."
   },
   "domainChangeDescText": {
-    "message": "Limpia el sitio anterior de una pestaña cuando navegas a otro lugar en esa pestaña."
+    "message": "Limpia el sitio anterior de una pestaña cuando navegas a otro lugar en esa pestaña, en vez de solo al cerrar la pestaña."
   },
   "greylistDescText": {
     "message": "Los sitios marcados «Conservar hasta cerrar el navegador» se limpian cuando el navegador se reinicia."

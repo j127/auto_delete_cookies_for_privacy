@@ -77,7 +77,13 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
         {browser.i18n.getMessage("protectionText")}
       </h1>
 
-      <SettingGroup title={browser.i18n.getMessage("settingGroupAutoClean")}>
+      {/* The switch the whole extension hinges on: hoisted out of the groups
+          and tinted so a new user can't miss that automatic cleaning starts
+          here. Manual cleaning from the popup works even while it is off. */}
+      <section
+        className="mb-4 rounded-box border-2 border-primary/40 bg-primary/5"
+        id="activeModeCallout"
+      >
         <SettingRow>
           <CheckboxSetting
             text={browser.i18n.getMessage("activeModeText")}
@@ -86,6 +92,9 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
             updateSetting={(payload) => onUpdateSetting(payload)}
           />
         </SettingRow>
+      </section>
+
+      <SettingGroup title={browser.i18n.getMessage("settingGroupAutoClean")}>
         <SettingRow>
           <label className="min-w-0 flex-1" htmlFor="delayBeforeClean">
             <span className="font-semibold">

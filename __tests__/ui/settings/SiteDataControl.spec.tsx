@@ -25,6 +25,9 @@ const settingsWith = (values: {
   return next;
 };
 
+const allOffSettings = (): State["settings"] =>
+  settingsWith(Object.fromEntries(SITE_DATA_IDS.map((id) => [id, false])));
+
 describe("SiteDataControl", () => {
   const renderControl = (settings: State["settings"]) => {
     const onUpdateSetting = jest.fn();
@@ -41,14 +44,21 @@ describe("SiteDataControl", () => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
   });
 
-  it("renders the master toggle unchecked when every type is off", () => {
+  it("renders the master toggle checked with the new-install defaults", () => {
+    // All five site-data types default on (src/redux/state.ts).
     renderControl(initialState.settings);
+    expect(master().checked).toBe(true);
+    expect(master().indeterminate).toBe(false);
+  });
+
+  it("renders the master toggle unchecked when every type is off", () => {
+    renderControl(allOffSettings());
     expect(master().checked).toBe(false);
     expect(master().indeterminate).toBe(false);
   });
 
   it("turns every type on from the master toggle", () => {
-    const { onUpdateSetting } = renderControl(initialState.settings);
+    const { onUpdateSetting } = renderControl(allOffSettings());
     fireEvent.click(master());
     SITE_DATA_IDS.forEach((name) => {
       expect(onUpdateSetting).toHaveBeenCalledWith({ name, value: true });
@@ -69,7 +79,8 @@ describe("SiteDataControl", () => {
   });
 
   it("shows an indeterminate master with a Custom badge for a mixed selection", () => {
-    const mixed = settingsWith({ [SettingID.CLEANUP_CACHE]: true });
+    // Four types on (the defaults) and one off.
+    const mixed = settingsWith({ [SettingID.CLEANUP_CACHE]: false });
     const { getByText } = renderControl(mixed);
     expect(master().checked).toBe(false);
     expect(master().indeterminate).toBe(true);

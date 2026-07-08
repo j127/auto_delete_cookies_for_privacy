@@ -1233,13 +1233,13 @@
     "message": "Sichere deine Einstellungen und gespeicherten Websites, stelle sie aus einer Datei wieder her oder setze auf Standard zurück."
   },
   "activeModeDescText": {
-    "message": "Nachdem die Tabs einer Website geschlossen wurden."
+    "message": "Bereinigt Cookies und ausgewählte Websitedaten, nachdem die Tabs einer Website geschlossen wurden. Solange dies aus ist, wird nichts automatisch bereinigt — manuelles Bereinigen über das Popup funktioniert weiterhin."
   },
   "gracePeriodDescText": {
     "message": "Wartezeit vor dem Bereinigen, falls du zurückkommst."
   },
   "domainChangeDescText": {
-    "message": "Bereinigt die alte Website eines Tabs, wenn du in diesem Tab woanders hin navigierst."
+    "message": "Bereinigt die alte Website eines Tabs, wenn du in diesem Tab woanders hin navigierst, statt nur beim Schließen des Tabs."
   },
   "greylistDescText": {
     "message": "Websites mit „Behalten, bis der Browser schließt“ werden beim Neustart des Browsers bereinigt."

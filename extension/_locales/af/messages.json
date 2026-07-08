@@ -1233,13 +1233,13 @@
     "message": "Rugsteun jou instellings en gestoorde werwe, herstel hulle uit 'n lêer, of keer terug na verstek."
   },
   "activeModeDescText": {
-    "message": "Nadat 'n werf se oortjies toegemaak is."
+    "message": "Maak koekies en gekose werfdata skoon nadat 'n werf se oortjies toegemaak is. Terwyl dit af is, word niks outomaties skoongemaak nie — handmatige skoonmaak vanuit die opspringer werk steeds."
   },
   "gracePeriodDescText": {
     "message": "Wag voor skoonmaak, ingeval jy terugkom."
   },
   "domainChangeDescText": {
-    "message": "Maak 'n oortjie se ou werf skoon wanneer jy elders in daardie oortjie blaai."
+    "message": "Maak 'n oortjie se ou werf skoon wanneer jy elders in daardie oortjie blaai, in plaas van net wanneer die oortjie toemaak."
   },
   "greylistDescText": {
     "message": "Werwe gemerk Hou tot die blaaier toemaak word skoongemaak wanneer die blaaier herbegin."

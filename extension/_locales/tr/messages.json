@@ -1233,13 +1233,13 @@
     "message": "Ayarlarınızı ve kayıtlı sitelerinizi yedekleyin, bir dosyadan geri yükleyin veya varsayılanlara dönün."
   },
   "activeModeDescText": {
-    "message": "Bir sitenin sekmeleri kapandıktan sonra."
+    "message": "Bir sitenin sekmeleri kapandıktan sonra çerezleri ve seçili site verilerini temizler. Bu kapalıyken hiçbir şey otomatik temizlenmez — açılır pencereden elle temizleme çalışmaya devam eder."
   },
   "gracePeriodDescText": {
     "message": "Geri dönerseniz diye temizlemeden önce bekle."
   },
   "domainChangeDescText": {
-    "message": "Bir sekmede başka yere gittiğinizde sekmenin eski sitesini temizler."
+    "message": "Sekmenin eski sitesini yalnızca sekme kapandığında değil, o sekmede başka yere gittiğinizde de temizler."
   },
   "greylistDescText": {
     "message": "Tarayıcı kapanana dek koru işaretli siteler tarayıcı yeniden başladığında temizlenir."

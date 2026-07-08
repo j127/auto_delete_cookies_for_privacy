@@ -150,8 +150,25 @@ const restartListCleanTestAll2: Expression = {
   cleanSiteData: [],
 };
 
+// New installs now default every site-data type ON (src/redux/state.ts).
+// The cookie-cleanup tests below predate that and assert pure cookie
+// behavior, so this fixture pins the five types off explicitly.
+const siteDataOffSettings: State["settings"] = {
+  ...initialState.settings,
+  ...Object.fromEntries(
+    [
+      SettingID.CLEANUP_CACHE,
+      SettingID.CLEANUP_INDEXEDDB,
+      SettingID.CLEANUP_LOCALSTORAGE,
+      SettingID.CLEANUP_PLUGINDATA,
+      SettingID.CLEANUP_SERVICEWORKERS,
+    ].map((name) => [name, { name, value: false }])
+  ),
+};
+
 const sampleState: State = {
   ...initialState,
+  settings: siteDataOffSettings,
   lists: {
     default: [
       wildCardGreyGit,
@@ -1786,82 +1803,26 @@ describe("CleanupService", () => {
   });
 
   describe("otherBrowsingDataCleanup()", () => {
-    const cacheState = {
+    // One type at a time on top of the all-off baseline, so each case can
+    // assert that exactly its own data type gets removed.
+    const siteDataOffState: State = {
+      ...initialState,
+      settings: siteDataOffSettings,
+    };
+    const withSiteData = (id: SettingID): State => ({
       ...initialState,
       settings: {
-        ...initialState.settings,
-        [SettingID.CLEANUP_CACHE]: {
-          name: SettingID.CLEANUP_CACHE,
-          value: true,
-        },
+        ...siteDataOffSettings,
+        [id]: { name: id, value: true },
       },
-    };
-    const indexedDBState = {
-      ...initialState,
-      settings: {
-        ...initialState.settings,
-        [SettingID.CLEANUP_INDEXEDDB]: {
-          name: SettingID.CLEANUP_INDEXEDDB,
-          value: true,
-        },
-      },
-    };
-    const localStorageState = {
-      ...initialState,
-      settings: {
-        ...initialState.settings,
-        [SettingID.CLEANUP_LOCALSTORAGE]: {
-          name: SettingID.CLEANUP_LOCALSTORAGE,
-          value: true,
-        },
-      },
-    };
-    const pluginDataState = {
-      ...initialState,
-      settings: {
-        ...initialState.settings,
-        [SettingID.CLEANUP_PLUGINDATA]: {
-          name: SettingID.CLEANUP_PLUGINDATA,
-          value: true,
-        },
-      },
-    };
-    const serviceWorkersState = {
-      ...initialState,
-      settings: {
-        ...initialState.settings,
-        [SettingID.CLEANUP_SERVICEWORKERS]: {
-          name: SettingID.CLEANUP_SERVICEWORKERS,
-          value: true,
-        },
-      },
-    };
-    const allSiteDataState = {
-      ...initialState,
-      settings: {
-        ...initialState.settings,
-        [SettingID.CLEANUP_CACHE]: {
-          name: SettingID.CLEANUP_CACHE,
-          value: true,
-        },
-        [SettingID.CLEANUP_INDEXEDDB]: {
-          name: SettingID.CLEANUP_INDEXEDDB,
-          value: true,
-        },
-        [SettingID.CLEANUP_LOCALSTORAGE]: {
-          name: SettingID.CLEANUP_LOCALSTORAGE,
-          value: true,
-        },
-        [SettingID.CLEANUP_PLUGINDATA]: {
-          name: SettingID.CLEANUP_PLUGINDATA,
-          value: true,
-        },
-        [SettingID.CLEANUP_SERVICEWORKERS]: {
-          name: SettingID.CLEANUP_SERVICEWORKERS,
-          value: true,
-        },
-      },
-    };
+    });
+    const cacheState = withSiteData(SettingID.CLEANUP_CACHE);
+    const indexedDBState = withSiteData(SettingID.CLEANUP_INDEXEDDB);
+    const localStorageState = withSiteData(SettingID.CLEANUP_LOCALSTORAGE);
+    const pluginDataState = withSiteData(SettingID.CLEANUP_PLUGINDATA);
+    const serviceWorkersState = withSiteData(SettingID.CLEANUP_SERVICEWORKERS);
+    // initialState itself: pins the new-install default of all five types on.
+    const allSiteDataState = initialState;
 
     beforeEach(() => {
       when(global.browser.browsingData.remove)
@@ -1884,7 +1845,7 @@ describe("CleanupService", () => {
     };
 
     it("should return empty object if no other browsingData cleanup setting was enabled.", async () => {
-      await otherBrowsingDataCleanup(initialState, [unprotectedObj]);
+      await otherBrowsingDataCleanup(siteDataOffState, [unprotectedObj]);
       expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
     });
 
