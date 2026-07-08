@@ -6,15 +6,15 @@
 set -euo pipefail
 
 # Common directories to delete
-rm -rf .astro
-rm -rf tmp-*
-rm -rf dist
-rm -rf builds
-rm -rf extension/bundles
-rm -rf coverage
+/bin/rm -rf .astro
+/bin/rm -rf tmp-*
+/bin/rm -rf dist
+/bin/rm -rf builds
+/bin/rm -rf extension/bundles
+/bin/rm -rf coverage
 
 # node_modules cache
-rm -rf ./node_modules/.cache/prettier/.prettier-cache
+/bin/rm -rf ./node_modules/.cache/prettier/.prettier-cache
 
 # Directories to exclude from traversal
 excluded_dirs=(
@@ -67,5 +67,5 @@ dir_expr=$(build_name_expr find_dirs)
 
 eval "find . \
   \( $excluded_expr \) -prune -o \
-  \( -type f \( $file_expr \) -print -exec rm -f {} + \) -o \
-  \( -type d \( $dir_expr \) -print -exec rm -rf {} + \)"
+  \( -type f \( $file_expr \) -print -exec /bin/rm -f {} + \) -o \
+  \( -type d \( $dir_expr \) -print -exec /bin/rm -rf {} + \)"
