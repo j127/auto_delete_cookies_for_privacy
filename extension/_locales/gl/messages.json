@@ -1,1 +1,1331 @@
-{}
+{
+  "aboutText": {
+    "message": "Acerca de"
+  },
+  "activeModeDelayText": {
+    "message": "Período de graza"
+  },
+  "activeModeText": {
+    "message": "Limpar automaticamente"
+  },
+  "activityLogSiteDataDomainsText": {
+    "message": "Eliminouse $siteData$ para: $domains$",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cache (translated version)"
+      },
+      "domains": {
+        "content": "$2",
+        "example": "example.com, github.com"
+      }
+    }
+  },
+  "addNewExpressionNotification": {
+    "message": "$expression$ gardada na lista $listType$ (almacén de cookies: $cookieStore$).",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "example.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "WHITE"
+      },
+      "cookieStore": {
+        "content": "$3",
+        "example": "'default' -or- 'private'"
+      }
+    }
+  },
+  "addNewExpressionNotificationFailed": {
+    "message": "Non se puido ler ningún dominio do lugar onde premiches co botón dereito."
+  },
+  "addNewExpressionNotificationIgnore": {
+    "message": "Os duplicados omítense automaticamente."
+  },
+  "autoDeleteDisabledText": {
+    "message": "Limpeza automática desactivada"
+  },
+  "autoDeleteEnabledText": {
+    "message": "Limpeza automática activada"
+  },
+  "browsingDataNoEmptyWarning": {
+    "message": "Atención: activar isto non toca os datos que os sitios gardaron antes. Os restos dun sitio só se poden limpar despois de visitalo de novo — ata entón quedan aí, mesmo nos sitios dos que quererías desfacerte."
+  },
+  "browsingDataWarning": {
+    "message": "Coidado: activar calquera tipo de limpeza de abaixo borra de inmediato TODOS os datos dese tipo gardados actualmente, para cada sitio."
+  },
+  "cacheCleanupText": {
+    "message": "Activar a limpeza da caché"
+  },
+  "cacheText": {
+    "message": "Caché"
+  },
+  "chromeDebugMode": {
+    "message": "Activa o 'Modo de desenvolvemento' e abre a consola do service worker desde a ligazón 'Inspeccionar vistas'."
+  },
+  "cleanDiscardedText": {
+    "message": "Tratar as lapelas durmidas como pechadas"
+  },
+  "cleanExpiredCookiesText": {
+    "message": "Eliminar sempre as cookies caducadas"
+  },
+  "cleanIgnoringOpenTabsText": {
+    "message": "Limpar, mesmo as lapelas abertas"
+  },
+  "cleanText": {
+    "message": "Limpar"
+  },
+  "cleanupDomainChangeText": {
+    "message": "Limpar ao saír dun sitio"
+  },
+  "cleanupActionsBypass": {
+    "message": "Coidado — estes botóns ignoran as túas listas de conservación e limpan de inmediato!"
+  },
+  "cleanupLogText": {
+    "message": "Rexistro de limpeza"
+  },
+  "clearLogsText": {
+    "message": "Baleirar o rexistro"
+  },
+  "consoleDebugMode": {
+    "message": "Cambia á lapela Consola."
+  },
+  "contextMenusParentClean": {
+    "message": "Limpeza manual"
+  },
+  "contextMenusParentExpression": {
+    "message": "Engadir ás listas de conservación"
+  },
+  "contextMenusSelectedDomainLink": {
+    "message": "Só o dominio desta ligazón"
+  },
+  "contextMenusSelectedDomainPage": {
+    "message": "Só o dominio desta páxina"
+  },
+  "contextMenusSelectedDomainText": {
+    "message": "Só o dominio de: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "contextMenusSelectedSubdomainLink": {
+    "message": "O dominio da ligazón e todos os subdominios"
+  },
+  "contextMenusSelectedSubdomainPage": {
+    "message": "O dominio desta páxina e todos os subdominios"
+  },
+  "contextMenusSelectedSubdomainText": {
+    "message": "Todos os subdominios de: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "contributorsText": {
+    "message": "Colaboradores"
+  },
+  "cookiesText": {
+    "message": "Cookies"
+  },
+  "cookieCleanUpOnStartText": {
+    "message": "Limpar as lapelas restauradas ao arrincar"
+  },
+  "cookieCleanupIgnoreOpenTabsText": {
+    "message": "Limpar agora, mesmo sitios abertos nunha lapela"
+  },
+  "cookieCleanupText": {
+    "message": "Limpar agora, omitindo os sitios abertos nunha lapela"
+  },
+  "copyDebugSettingText": {
+    "message": "Unha copia da túa configuración actual. Pégaa no issue de GitHub se é relevante."
+  },
+  "copyDebugSystemText": {
+    "message": "Os detalles do teu sistema. Pégaos na sección correspondente do issue de GitHub."
+  },
+  "copyFailedText": {
+    "message": "Non se puido copiar automaticamente — selecciona o texto e cópiao ti."
+  },
+  "copySuccessText": {
+    "message": "Copiado!"
+  },
+  "copyToClipboardText": {
+    "message": "Copiar ao portapapeis"
+  },
+  "createDefaultExpressionOptionsText": {
+    "message": "Crear opcións predeterminadas"
+  },
+  "debugMode": {
+    "message": "Modo de depuración"
+  },
+  "debugTitle": {
+    "message": "Información de depuración"
+  },
+  "defaultSettingsText": {
+    "message": "Restablecer a configuración predeterminada"
+  },
+  "disableAutoDeleteText": {
+    "message": "Desactivar a limpeza automática (modo manual)"
+  },
+  "documentationText": {
+    "message": "Documentación"
+  },
+  "domainExpressionsText": {
+    "message": "Sitio"
+  },
+  "domainPlaceholderText": {
+    "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/"
+  },
+  "dropdownAdditionalCleaningOptions": {
+    "message": "Máis accións de limpeza"
+  },
+  "editExpressionText": {
+    "message": "Editar a expresión"
+  },
+  "enableAutoDeleteText": {
+    "message": "Activar a limpeza automática"
+  },
+  "enableCleanupLogText": {
+    "message": "Manter un rexistro de limpeza"
+  },
+  "enableContextMenus": {
+    "message": "Accións do menú contextual"
+  },
+  "enableGreyListCleanup": {
+    "message": "Regras de conservación de sesión"
+  },
+  "enableNewVersionPopup": {
+    "message": "Mostrar as notas da versión tras as actualizacións"
+  },
+  "errorText": {
+    "message": "Erro!"
+  },
+  "exportSettingsText": {
+    "message": "Exportar a configuración..."
+  },
+  "exportURLSText": {
+    "message": "Exportar os sitios gardados"
+  },
+  "exportTitleTimestamp": {
+    "message": "Os ficheiros exportados levan unha marca de tempo no nome."
+  },
+  "extensionDescription": {
+    "message": "Ordena despois das túas lapelas: pechas unha lapela e bórranse as súas cookies e datos do sitio — agás os sitios das túas listas de conservación."
+  },
+  "extensionName": {
+    "message": "Auto-Delete Cookies for Privacy"
+  },
+  "faqText": {
+    "message": "Preguntas frecuentes e resolución de problemas"
+  },
+  "filterDebugMode": {
+    "message": "Para ver só as mensaxes desta extensión, pega isto no filtro da consola:"
+  },
+  "filterText": {
+    "message": "Filtro"
+  },
+  "greyListWordText": {
+    "message": "Lista gris"
+  },
+  "groupExpressionDefaultNotice": {
+    "message": "As opcións predeterminadas das novas expresións viven agora na propia expresión — abre $listExpression$ para definilas.",
+    "placeholders": {
+      "listExpression": {
+        "content": "$1",
+        "example": "List of Expressions <- the translated version"
+      }
+    }
+  },
+  "importCoreSettingsFailed": {
+    "message": "Importación cancelada: o ficheiro contén unha configuración descoñecida."
+  },
+  "importCoreSettingsText": {
+    "message": "Importar a configuración..."
+  },
+  "importFileNotFound": {
+    "message": "Non existe o ficheiro: $filename$",
+    "placeholders": {
+      "filename": {
+        "content": "$1",
+        "example": "filename.json"
+      }
+    }
+  },
+  "importFileTypeInvalid": {
+    "message": "Ese tipo de ficheiro non se admite para importar."
+  },
+  "importFileValidationFailed": {
+    "message": "O ficheiro non pasou a validación."
+  },
+  "importInvalidExpressions": {
+    "message": "Algunhas expresións importadas eran incorrectas; cada unha figura abaixo co motivo. Corríxeas no ficheiro e importa de novo."
+  },
+  "importListNotArray": {
+    "message": "$identifier$ debería ser unha matriz pero non o é.",
+    "placeholders": {
+      "identifier": {
+        "content": "$1",
+        "example": "jsonObjectKey"
+      }
+    }
+  },
+  "importMissingKey": {
+    "message": "Falta o identificador"
+  },
+  "importURLSText": {
+    "message": "Importar os sitios gardados"
+  },
+  "importValidExpressions": {
+    "message": "Importáronse $num$ expresións de $filename$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "filename": {
+        "content": "$2",
+        "example": "filename.json"
+      }
+    }
+  },
+  "indexedDBCleanupText": {
+    "message": "Activar a limpeza de IndexedDB"
+  },
+  "indexedDBText": {
+    "message": "IndexedDB"
+  },
+  "inputErrorComma": {
+    "message": "As comas só teñen sentido nas expresións regulares."
+  },
+  "inputErrorEmpty": {
+    "message": "A expresión non pode estar baleira."
+  },
+  "inputErrorRegExp": {
+    "message": "Expresión regular incorrecta: $RegexError$",
+    "placeholders": {
+      "RegexError": {
+        "content": "$1",
+        "example": "SyntaxError:  unterminated character class."
+      }
+    }
+  },
+  "inputErrorSlashEndMissingStart": {
+    "message": "Remata cunha barra pero non comeza con unha. Para un dominio simple, retira a barra final; para unha regex, engade a inicial."
+  },
+  "inputErrorSlashStartMissingEnd": {
+    "message": "Comeza cunha barra pero nunca a pecha. Engade a barra final para completar a expresión regular."
+  },
+  "inputErrorSpace": {
+    "message": "Os nomes de servidor non poden conter espazos."
+  },
+  "inputAddSuccess": {
+    "message": "Engadíronse $num$ expresións á lista activa como $listType$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "GreyList"
+      }
+    }
+  },
+  "invalidNewExpressions": {
+    "message": "Algunhas expresións novas eran incorrectas; quedan arriba para editalas, cos motivos listados abaixo."
+  },
+  "keepAllCookiesText": {
+    "message": "Conservar todas as cookies"
+  },
+  "keepAllCookiesGreyText": {
+    "message": "Conservar todas as cookies ata reiniciar"
+  },
+  "keepCacheText": {
+    "message": "Conservar a caché"
+  },
+  "keepCacheGreyText": {
+    "message": "Conservar a caché ata reiniciar"
+  },
+  "keepDefaultIcon": {
+    "message": "Manter a icona sinxela"
+  },
+  "keepIndexedDBText": {
+    "message": "Conservar IndexedDB"
+  },
+  "keepIndexedDBGreyText": {
+    "message": "Conservar IndexedDB ata reiniciar"
+  },
+  "keepLocalstorageText": {
+    "message": "Conservar LocalStorage"
+  },
+  "keepLocalstorageGreyText": {
+    "message": "Conservar LocalStorage ata reiniciar"
+  },
+  "keepPluginDataText": {
+    "message": "Conservar os datos de plugins"
+  },
+  "keepPluginDataGreyText": {
+    "message": "Conservar os datos de plugins ata reiniciar"
+  },
+  "keepServiceWorkersText": {
+    "message": "Conservar os service workers"
+  },
+  "keepServiceWorkersGreyText": {
+    "message": "Conservar os service workers ata reiniciar"
+  },
+  "keepText": {
+    "message": "Conservar"
+  },
+  "listTypeText": {
+    "message": "Canto tempo"
+  },
+  "localStorageCleanupText": {
+    "message": "Activar a limpeza de LocalStorage"
+  },
+  "localStorageText": {
+    "message": "LocalStorage"
+  },
+  "manualActionNotification": {
+    "message": "Limpeza manual"
+  },
+  "manualCleanError": {
+    "message": "Non se puido limpar $siteData$ para esta lapela:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      }
+    }
+  },
+  "manualCleanNothing": {
+    "message": "Nada que limpar: non se atopou $siteData$ en $url$.",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanRemoved": {
+    "message": "Elimináronse $deleted$ de $total$.",
+    "placeholders": {
+      "deleted": {
+        "content": "$1",
+        "example": "5"
+      },
+      "total": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "manualCleanSiteDataAll": {
+    "message": "Borrar todo deste sitio"
+  },
+  "manualCleanSiteDataAllDomain": {
+    "message": "Borrar todos os datos gardados por $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataCache": {
+    "message": "Borrar a caché deste sitio"
+  },
+  "manualCleanSiteDataCacheDomain": {
+    "message": "Borrar toda a caché gardada por $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataCookies": {
+    "message": "Borrar as cookies deste sitio"
+  },
+  "manualCleanSiteDataCookiesDomain": {
+    "message": "Borrar todas as cookies gardadas por $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataIndexedDB": {
+    "message": "Borrar o IndexedDB deste sitio"
+  },
+  "manualCleanSiteDataIndexedDBDomain": {
+    "message": "Borrar todos os datos IndexedDB gardados por $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataLocalStorage": {
+    "message": "Borrar o LocalStorage deste sitio"
+  },
+  "manualCleanSiteDataLocalStorageDomain": {
+    "message": "Borrar todo o LocalStorage gardado por $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataPluginData": {
+    "message": "Borrar os datos de plugins deste sitio"
+  },
+  "manualCleanSiteDataPluginDataDomain": {
+    "message": "Borrar todos os datos de plugins gardados por $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataServiceWorkers": {
+    "message": "Borrar os service workers deste sitio"
+  },
+  "manualCleanSiteDataServiceWorkersDomain": {
+    "message": "Borrar todos os service workers rexistrados por $domain$",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSuccess": {
+    "message": "Resultado da limpeza de $siteData$ en $url$:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualNotificationsText": {
+    "message": "Notificar tras limpezas manuais"
+  },
+  "matchedDomainExpressionText": {
+    "message": "Expresión de dominio coincidente"
+  },
+  "menuText": {
+    "message": "Menú"
+  },
+  "minutesText": {
+    "message": "minuto(s)"
+  },
+  "noCleanupLogText": {
+    "message": "O rexistro de limpeza está baleiro."
+  },
+  "noExpressionsText": {
+    "message": "Aínda non engadiches expresións."
+  },
+  "noPrivateLogging": {
+    "message": "As lapelas privadas/incógnito nunca se rexistran."
+  },
+  "noSearchExpressionsFound": {
+    "message": "Nada coincide coa túa busca."
+  },
+  "noRulesText": {
+    "message": "Ningunha expresión coincide con este sitio."
+  },
+  "noneText": {
+    "message": "Ningún"
+  },
+  "notificationContent": {
+    "message": "Datos de sitios eliminados — $Num$ cookies de $total$ sitio(s), entre eles: $Websites$",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "123"
+      },
+      "total": {
+        "content": "$2",
+        "example": "8"
+      },
+      "websites": {
+        "content": "$3",
+        "example": "google.com, facebook.com"
+      }
+    }
+  },
+  "notificationDisabledText": {
+    "message": "Notificación desactivada"
+  },
+  "notificationEnabledText": {
+    "message": "Notificación activada"
+  },
+  "notificationTitle": {
+    "message": "Cookies limpadas"
+  },
+  "notificationTitleSiteData": {
+    "message": "Datos de sitios limpados"
+  },
+  "notifyCookieCleanupDelayText": {
+    "message": "Duración da notificación"
+  },
+  "notifyCookieCleanUpText": {
+    "message": "Notificar tras limpar"
+  },
+  "oldReleasesText": {
+    "message": "As versións anteriores están listadas en"
+  },
+  "openDebugMode": {
+    "message": "A saída de depuración vive na consola da extensión. Abre unha lapela nova e vai a"
+  },
+  "optionsText": {
+    "message": "O que conserva"
+  },
+  "pluginDataCleanupText": {
+    "message": "Activar a limpeza dos datos de plugins"
+  },
+  "pluginDataText": {
+    "message": "Datos de plugins"
+  },
+  "popupCookieCountText": {
+    "message": "Cookies"
+  },
+  "preferencesText": {
+    "message": "Configuración"
+  },
+  "questionExpression": {
+    "message": "Como funcionan os padróns?"
+  },
+  "reasonCADSiteDataCookie": {
+    "message": "Cookie marcadora interna eliminada para disparar a limpeza de datos do sitio de $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCADSiteDataCookieRestart": {
+    "message": "Cookie marcadora interna eliminada ao reiniciar para disparar a limpeza de datos do sitio de $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpired": {
+    "message": "Elimináronse só as cookies caducadas de $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpiredRestart": {
+    "message": "Elimináronse só as cookies caducadas de $hostname$ durante a limpeza de reinicio.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieName": {
+    "message": "Limpeza selectiva: $matchedExpression$ na $listType$ protexe outras cookies, pero non esta",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.google.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      }
+    }
+  },
+  "reasonCleanGreyList": {
+    "message": "Limpado ao arrincar: $matchedExpression$ está na lista gris",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.google.com"
+      }
+    }
+  },
+  "reasonCleanNoList": {
+    "message": "Limpado: $hostname$ non figura nin na lista branca nin na gris",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "example": "sub.google.com"
+      }
+    }
+  },
+  "reasonCleanStartupNoList": {
+    "message": "Limpado ao arrincar: $hostname$ non figura nin na lista branca nin na gris",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "example": "sub.google.com"
+      }
+    }
+  },
+  "reasonKeep": {
+    "message": "Conservado: coincidiu $matchedExpression$ na $listType$",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.google.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      }
+    }
+  },
+  "reasonKeepOpenTab": {
+    "message": "Conservado: *.$mainDomain$ segue aberto nunha lapela",
+    "placeholders": {
+      "mainDomain": {
+        "content": "$1",
+        "example": "google.com"
+      }
+    }
+  },
+  "reasonTabsWereIgnored": {
+    "message": "(as lapelas abertas ignoráronse nesta rolda)"
+  },
+  "reasonTabsWereNotIgnored": {
+    "message": "(e non está aberto en ningunha lapela)"
+  },
+  "releaseNotesText": {
+    "message": "Notas da versión"
+  },
+  "removeActivityLogEntryText": {
+    "message": "Eliminar a entrada do rexistro"
+  },
+  "removeAllExpressions": {
+    "message": "Eliminar todo"
+  },
+  "removeAllExpressionsConfirm": {
+    "message": "Isto elimina permanentemente as $expressionCount$ expresións de $listCount$ lista(s).\n\nNon hai volta atrás.\n\nEscribe [ $expressionCount$ ] e preme Aceptar para confirmar.",
+    "placeholders": {
+      "expressionCount": {
+        "content": "$1",
+        "example": "75"
+      },
+      "listCount": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "removeAllExpressionsNoneFound": {
+    "message": "Non hai expresións que eliminar."
+  },
+  "removeExpressionText": {
+    "message": "Eliminar a expresión"
+  },
+  "removeListText": {
+    "message": "Eliminar todas as expresións da lista seleccionada"
+  },
+  "removeStorageCount": {
+    "message": "Elimináronse $count$ elementos de $storageType$.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      },
+      "storageType": {
+        "content": "$2",
+        "example": "LocalStorage"
+      }
+    }
+  },
+  "reportIssuesText": {
+    "message": "Informes de erros e ideas"
+  },
+  "resetCookieCounterText": {
+    "message": "Restablecer os contadores de cookies"
+  },
+  "resetExtensionDataText": {
+    "message": "Borrar todos os datos da extensión"
+  },
+  "restoreText": {
+    "message": "Restaurar"
+  },
+  "saveExpressionText": {
+    "message": "Gardar a expresión"
+  },
+  "secondsText": {
+    "message": "segundo(s)"
+  },
+  "serviceWorkersCleanupText": {
+    "message": "Activar a limpeza de service workers"
+  },
+  "serviceWorkersText": {
+    "message": "Service workers"
+  },
+  "sessionStorageText": {
+    "message": "SessionStorage"
+  },
+  "settingGroupAutoClean": {
+    "message": "Momento"
+  },
+  "settingGroupExpression": {
+    "message": "Opcións de expresión"
+  },
+  "settingGroupExtension": {
+    "message": "Interface"
+  },
+  "settingGroupOtherBrowsing": {
+    "message": "Outras opcións de limpeza de datos de navegación"
+  },
+  "settingsText": {
+    "message": "Configuración de $CAD$",
+    "placeholders": {
+      "CAD": {
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
+      }
+    }
+  },
+  "showNumberOfCookiesInIconText": {
+    "message": "Número de cookies na icona da barra"
+  },
+  "siteDataEmptyOnEnable": {
+    "message": "Ao activar un novo tipo de datos, borrar o xa almacenado"
+  },
+  "siteDataText": {
+    "message": "Datos do sitio"
+  },
+  "siteDataPanelTitle": {
+    "message": "Datos gardados por este sitio"
+  },
+  "siteDataLoadingText": {
+    "message": "Comprobando que garda este sitio…"
+  },
+  "siteDataNotAvailableText": {
+    "message": "Non dispoñible nesta páxina"
+  },
+  "siteDataEmptyText": {
+    "message": "Este sitio non garda nada agora mesmo"
+  },
+  "siteDataUsageText": {
+    "message": "Usando $used$ de $quota$",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
+      }
+    }
+  },
+  "siteDataSessionCookieText": {
+    "message": "sesión"
+  },
+  "siteDataExpiresText": {
+    "message": "caduca o $date$",
+    "placeholders": {
+      "date": {
+        "content": "$1",
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "descoñecido"
+  },
+  "siteDataRefreshTitle": {
+    "message": "Actualizar"
+  },
+  "sizePopupText": {
+    "message": "Tamaño da letra da xanela emerxente"
+  },
+  "sizeSettingText": {
+    "message": "Tamaño da letra da configuración"
+  },
+  "stopEditingText": {
+    "message": "Deixar de editar"
+  },
+  "successText": {
+    "message": "Feito!"
+  },
+  "toGreyListText": {
+    "message": "Engadir á lista gris (consérvase ata reiniciar o navegador)"
+  },
+  "toWhiteListText": {
+    "message": "Engadir á lista branca (nunca se limpa)"
+  },
+  "toggleNotificationText": {
+    "message": "Activar ou desactivar as notificacións"
+  },
+  "toggleToGreyListWordText": {
+    "message": "Cambiar á lista gris"
+  },
+  "toggleToWhiteListWordText": {
+    "message": "Cambiar á lista branca"
+  },
+  "versionNumberText": {
+    "message": "Versión de $CAD$",
+    "placeholders": {
+      "CAD": {
+        "content": "$1",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
+      }
+    }
+  },
+  "welcomeMessage": {
+    "message": "$cadTitle$ eliminou $sessionDeleted$ cookies nesta sesión do navegador e $totalDeleted$ en total desde a instalación.",
+    "placeholders": {
+      "cadTitle": {
+        "content": "$1",
+        "example": "Auto-Delete Cookies for Privacy"
+      },
+      "sessionDeleted": {
+        "content": "$2",
+        "example": "123"
+      },
+      "totalDeleted": {
+        "content": "$3",
+        "example": "456"
+      }
+    }
+  },
+  "welcomeText": {
+    "message": "Benvida/o"
+  },
+  "expressionListText": {
+    "message": "Lista de expresións"
+  },
+  "whiteListWordText": {
+    "message": "Lista branca"
+  },
+  "themeText": {
+    "message": "Tema"
+  },
+  "themeAutoText": {
+    "message": "Automático"
+  },
+  "themeLightText": {
+    "message": "Claro"
+  },
+  "themeDarkText": {
+    "message": "Escuro"
+  },
+  "keepLocalStorageText": {
+    "message": "Conservar LocalStorage"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "Conservar LocalStorage ata reiniciar"
+  },
+  "popupHeroOnText": {
+    "message": "O borrado automático está activado"
+  },
+  "popupHeroForgetText": {
+    "message": "Este sitio non te lembrará."
+  },
+  "popupHeroOffText": {
+    "message": "O borrado automático está desactivado"
+  },
+  "popupHeroOffSubText": {
+    "message": "Nada se borra automaticamente."
+  },
+  "popupHeroKeepingText": {
+    "message": "Conservando as cookies deste sitio"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$ está na túa lista de conservación",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$ consérvase ata pechar o navegador",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "limparase"
+  },
+  "siteKeptText": {
+    "message": "conservado"
+  },
+  "siteCleanDelayText": {
+    "message": "As cookies bórranse $SECONDS$ s despois de saíres deste sitio.",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "As cookies deste sitio nunca se borran."
+  },
+  "siteKeptSessionStatusText": {
+    "message": "As cookies deste sitio permanecen ata pechar o navegador."
+  },
+  "keepCookiesButtonText": {
+    "message": "Conservar as cookies deste sitio"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$ e os seus subdominios non se borrarán",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "Conservar ata pechar o navegador"
+  },
+  "stopKeepingButtonText": {
+    "message": "Deixar de conservar este sitio"
+  },
+  "cleanNowText": {
+    "message": "Limpar agora"
+  },
+  "cleanNowTooltipText": {
+    "message": "Borra as cookies dos sitios que non conservas — os sitios abertos noutras lapelas omítense."
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "Limpar agora, incluídas as lapelas abertas"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "Igual ca Limpar agora, pero os sitios abertos noutras lapelas xa non se omiten. Só sobreviven os sitios conservados."
+  },
+  "deleteSiteCookiesText": {
+    "message": "Borrar as cookies deste sitio"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "Borrar xa as cookies de $DOMAIN$, aínda que estea aberto. As regras de conservación ignóranse só para esta acción.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "Borrar todo o que gardou este sitio"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "Borrar todo o que $DOMAIN$ gardou neste dispositivo: cookies, caché, almacenamento local, bases de datos, workers.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "Conservar"
+  },
+  "keepButtonTooltipText": {
+    "message": "As cookies deste sitio nunca se borran."
+  },
+  "keepSessionButtonText": {
+    "message": "Conservar esta sesión"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "As cookies quedan ata que peches o navegador; no seguinte arranque bórranse."
+  },
+  "noRuleMatchText": {
+    "message": "Ningunha regra gardada coincide con este sitio"
+  },
+  "matchedRuleText": {
+    "message": "Regra coincidente: $EXPRESSION$",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "Máis opcións de limpeza"
+  },
+  "shareText": {
+    "message": "Compartir"
+  },
+  "shareTooltipText": {
+    "message": "Fálalle a alguén desta extensión"
+  },
+  "shareCopyLinkText": {
+    "message": "Copiar a ligazón á páxina da extensión"
+  },
+  "shareCopiedText": {
+    "message": "Ligazón copiada"
+  },
+  "shareEmailText": {
+    "message": "Compartir por correo"
+  },
+  "moreControlsText": {
+    "message": "Máis controis…"
+  },
+  "lastCleanSummaryText": {
+    "message": "Última limpeza: $COUNT$ cookies · $TIME$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "Modo avanzado"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "Mostra os axustes expertos nesta páxina e controis extra na xanela emerxente: regras de dominio exacto, opcións de limpeza por sitio e a regra coincidente. Desactivado por defecto — a vista simple cobre o caso común."
+  },
+  "overviewText": {
+    "message": "Resumo"
+  },
+  "protectionText": {
+    "message": "Protección"
+  },
+  "savedSitesText": {
+    "message": "Sitios gardados"
+  },
+  "savedSitesSubText": {
+    "message": "Os sitios que conservas. Os sitios conservados manteñen os datos sempre; os de sesión, ata pechar o navegador."
+  },
+  "cookiesDeletedSessionText": {
+    "message": "borradas nesta sesión"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "borradas en total"
+  },
+  "keptBadgeText": {
+    "message": "Conservado"
+  },
+  "sessionBadgeText": {
+    "message": "Ata reiniciar"
+  },
+  "toggleToKeepText": {
+    "message": "Cambiar a Conservar"
+  },
+  "toggleToSessionText": {
+    "message": "Cambiar a Conservar esta sesión"
+  },
+  "settingGroupSiteData": {
+    "message": "Que se borra"
+  },
+  "deleteAllSiteDataText": {
+    "message": "Borrar todos os datos do sitio"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "Cookies máis ficheiros gardados, bases de datos sen conexión e workers en segundo plano — todo o que un sitio garda no teu dispositivo."
+  },
+  "customBadgeText": {
+    "message": "Personalizado"
+  },
+  "advancedChooseTypesText": {
+    "message": "Avanzado — escolle exactamente que borrar"
+  },
+  "patternColumnText": {
+    "message": "Padrón"
+  },
+  "patternMeaningColumnText": {
+    "message": "Que abarca"
+  },
+  "patternDomainMeaningText": {
+    "message": "Exactamente este dominio"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "O dominio e cada subdominio"
+  },
+  "patternIPMeaningText": {
+    "message": "Un único enderezo IP"
+  },
+  "patternCIDRMeaningText": {
+    "message": "Cada enderezo do rango"
+  },
+  "patternRegexMeaningText": {
+    "message": "Avanzado: unha expresión regular entre barras"
+  },
+  "patternFileMeaningText": {
+    "message": "Ficheiros locais abertos no navegador"
+  },
+  "patternKeepLevelsText": {
+    "message": "Conservar garda os datos dun sitio permanentemente. Conservar esta sesión gárdaos só ata pechar o navegador."
+  },
+  "summaryKeepsEverythingText": {
+    "message": "Consérvao todo"
+  },
+  "summaryAllCookiesText": {
+    "message": "Todas as cookies"
+  },
+  "toggleOptionsText": {
+    "message": "Mostrar ou agochar as opcións"
+  },
+  "summaryNamedCookiesText": {
+    "message": "$COUNT$ cookies con nome",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "Borra $TYPES$",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "Elimináronse todos os sitios gardados."
+  },
+  "importFoldedContainersText": {
+    "message": "$COUNT$ entradas de antigas listas de contedores fusionáronse na lista predeterminada.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
+  },
+  "importExportText": {
+    "message": "Importar / Exportar"
+  },
+  "importExportSubText": {
+    "message": "Fai copia da configuración e dos sitios gardados, restáuraos desde un ficheiro ou volve aos valores predeterminados."
+  },
+  "activeModeDescText": {
+    "message": "Despois de que se pechen as lapelas dun sitio."
+  },
+  "gracePeriodDescText": {
+    "message": "Agarda antes de limpar, por se volves."
+  },
+  "domainChangeDescText": {
+    "message": "Limpa o sitio anterior dunha lapela cando navegas a outro lugar nesa lapela."
+  },
+  "greylistDescText": {
+    "message": "Os sitios marcados Conservar ata pechar o navegador límpanse cando o navegador se reinicia."
+  },
+  "cleanDiscardedDescText": {
+    "message": "Unha lapela que o navegador durmiu conta como pechada para a limpeza."
+  },
+  "startupCleanDescText": {
+    "message": "Tamén se limpan os sitios das lapelas restauradas da última sesión."
+  },
+  "cleanExpiredDescText": {
+    "message": "As cookies pasadas da súa data de caducidade bórranse en cada rolda de limpeza."
+  },
+  "cleanupLogDescText": {
+    "message": "Alimenta a páxina do rexistro de limpeza e os contadores de cookies borradas."
+  },
+  "cookieCountIconDescText": {
+    "message": "Mostra cantas cookies gardou o sitio actual."
+  },
+  "keepDefaultIconDescText": {
+    "message": "Non recolorar a icona para indicar se o sitio se conserva."
+  },
+  "notifyAutoDescText": {
+    "message": "Unha notificación breve tras cada limpeza automática."
+  },
+  "notifyDurationDescText": {
+    "message": "Canto tempo permanecen as notificacións en pantalla, en segundos."
+  },
+  "debugModeDescText": {
+    "message": "Rexistro detallado na consola da extensión, para informes de erros."
+  },
+  "supportText": {
+    "message": "Asistencia"
+  },
+  "helpText": {
+    "message": "Axuda"
+  },
+  "helpSubText": {
+    "message": "Todo o que fai a extensión, explicado. Cada sección ábrese por separado."
+  },
+  "helpGettingStartedTitle": {
+    "message": "Primeiros pasos"
+  },
+  "helpGettingStartedBody": {
+    "message": "As instalacións novas comezan en modo manual: nada se borra ata que ti o digas. É deliberado — constrúe primeiro a túa lista de conservación, para que activar despois a limpeza automática non te desconecte de todo o que che importa.\n\n1. Conserva os sitios que importan. Visita cada sitio onde desconectarte amolaría (correo, banco, todo o que pagas), preme a icona da barra e o botón Conservar as cookies deste sitio. A regra cobre o dominio e todos os subdominios. Usa Conservar ata pechar o navegador para sitios que só deben lembrarte esta vez.\n\n2. Decide que significa limpar. De fábrica, a limpeza só elimina cookies. Activa Borrar todos os datos do sitio na páxina Protección para borrar tamén os demais restos dun sitio.\n\n3. Activa a limpeza automática. Acende Limpar automaticamente na páxina Protección. Desde entón: pechas a última lapela dun sitio e, pasado o período de graza, as súas cookies desaparecen — agás que conserves o sitio ou siga aberto noutro lugar.\n\n4. Opcional: deixa o rexistro de limpeza activado, para ver sempre que se limpou e por que."
+  },
+  "helpCleaningTitle": {
+    "message": "Como funciona a limpeza"
+  },
+  "helpCleaningBody": {
+    "message": "A limpeza automática dispárase cando se pecha a última lapela dun sitio. O período de graza (15 segundos por defecto) é a túa xanela de desfacer: reabre o sitio dentro dela e nada se elimina.\n\nLimpar ao saír dun sitio fai que navegar nunha lapela dun sitio a outro conte como abandonar o primeiro — máis estrito, pero nótase se saltas entre sitios nunha soa lapela.\n\nDurante unha limpeza, as cookies dun sitio sobreviven se se cumpre algo disto: o sitio segue aberto nalgunha lapela; coincide cunha regra Conservar; coincide cunha regra Conservar ata pechar e non é unha limpeza de reinicio; ou o nome da cookie concreta está marcado na lista de cookies dunha regra coincidente. Todo o demais desaparece.\n\nO modo avanzado engade: tratar as lapelas durmidas (descartadas) como pechadas, limpar as lapelas restauradas unha vez ao arrincar, eliminar sempre as cookies caducadas, e as regras de conservación de sesión — os sitios Conservar ata pechar límpanse ao reiniciar."
+  },
+  "helpSiteDataTitle": {
+    "message": "Que se borra"
+  },
+  "helpSiteDataBody": {
+    "message": "Por defecto a extensión só borra cookies. O interruptor Borrar todos os datos do sitio estende a limpeza a todo o demais que un sitio garda no teu dispositivo: caché, IndexedDB, LocalStorage, datos de plugins e service workers. O acordeón Avanzado de debaixo permite escoller tipos individuais.\n\nDúas cousas antes de activalos:\n\n• Activar un tipo bórrao unha vez, en todas partes. No momento en que acendes un tipo, todos os datos dese tipo gardados bórranse para cada sitio (ese é o aviso da páxina). Apaga antes o interruptor de borrado ao activar se non queres esa primeira varrida.\n\n• Os datos vellos non se poden limpar selectivamente. O navegador só permite á extensión borrar estes tipos por sitio de aquí en diante, para sitios que volvas visitar. Os restos de antes de activar a opción quedan ata que o sitio se visite outra vez."
+  },
+  "helpPatternsTitle": {
+    "message": "Regras de conservación e padróns"
+  },
+  "helpPatternsBody": {
+    "message": "Cada sitio gardado é un padrón nunha de dúas listas. Os sitios Conservar nunca se limpan. Os sitios Conservar ata pechar o navegador sobreviven ás limpezas normais pero límpanse ao reiniciar. Un sitio que non coincide con ningunha límpase en canto o abandonas — o destino por defecto; as regras son as excepcións.\n\nOs padróns só miran o nome de servidor — sen https://, sen rutas:\n\n• example.com — exactamente ese dominio, non mail.example.com\n• *.example.com — o dominio e cada subdominio\n• 192.168.1.100 — ese enderezo IP\n• 10.0.0.0/8 — calquera IP do rango CIDR\n• /^(mail|news)\\.example\\.com$/ — unha expresión regular entre barras\n• file:///home/user/notes — páxinas abertas desde ese cartafol local\n\nCada regra leva ademais opcións por sitio (desprega a súa fila na páxina Sitios gardados): conservar só cookies con nome no canto de todas, e escollas de datos por tipo. Unha regra Crear opcións predeterminadas fixa as opcións iniciais de cada regra engadida despois.\n\nConsello: para que TODAS as cookies desaparezan ao reiniciar, engade * como regra Conservar ata pechar o navegador e marca Conservar nos teus sitios realmente permanentes."
+  },
+  "helpImportExportTitle": {
+    "message": "Importar e exportar"
+  },
+  "helpImportExportBody": {
+    "message": "A páxina Importar / Exportar respalda dúas cousas por separado: os sitios gardados e a configuración. Ambos son ficheiros JSON simples con nomes con marca de tempo, así que as copias repetidas non se sobrescriben. Importar nunca borra o que xa tes; os duplicados exactos omítense e as entradas incorrectas rexéitanse cun motivo mentres o resto se importa igualmente.\n\nAs exportacións do Cookie AutoDelete orixinal impórtanse sen problemas — mesmo formato. As exportacións da era Firefox poden conter listas de lapelas contedor (unha función de Firefox que non existe en Chromium); esas entradas fusiónanse na túa lista predeterminada omitindo duplicados, e a mensaxe de importación dille cantas se fusionaron.\n\nO restablecemento da configuración predeterminada tamén vive nesa páxina. Non toca os teus sitios gardados."
+  },
+  "helpLogTitle": {
+    "message": "O rexistro de limpeza"
+  },
+  "helpLogBody": {
+    "message": "O rexistro de limpeza responde a por que me desconectou daquel sitio? e isto fai algo de verdade?. Mantén Manter un rexistro de limpeza activado e abre a páxina do rexistro tras unha limpeza.\n\nCada entrada lista os sitios afectados e a decisión tomada con cada un, en palabras claras: conservado porque coincidiu unha regra, conservado porque o sitio seguía aberto, limpado porque nada coincidiu, limpado ao arrincar (iso é o que baleira os sitios ata-reiniciar), ou limpado selectivamente cando unha regra só conserva cookies con nome. As liñas de decisión usan os nomes internos das listas: lista branca significa unha regra Conservar permanente, lista gris significa Conservar ata pechar o navegador.\n\nO rexistro nunca contén valores de cookies, nunca rexistra lapelas privadas/incógnito, nunca sae do teu navegador, e as entradas vellas caen soas do final. Os contadores da páxina Resumo (esta sesión / total) saen da mesma contabilidade."
+  },
+  "helpPermissionsTitle": {
+    "message": "Por que precisa estes permisos"
+  },
+  "helpPermissionsBody": {
+    "message": "O aviso de instalación Ler e cambiar os datos dos sitios en todos os sitios é o inevitable: as cookies poden pertencer a calquera sitio que visites, así que borralas esixe acceso a todos os sitios. Úsase unicamente para ler e eliminar cookies e datos de sitios — nunca para ler o contido das páxinas, e nunca para falar cun servidor (non o hai).\n\nO resto, en breve. Cookies: listar as cookies dun sitio para o contador e borralas. Datos de navegación: borrar os extras opcionais — caché, IndexedDB, LocalStorage, datos de plugins, service workers. Almacenamento: gardar localmente a configuración e as regras de conservación. Alarmas: manter puntual unha limpeza adiada aínda que o navegador suspenda a extensión durante a espera. Lapelas: saber que sitios están abertos (os abertos están protexidos) e notar cando unha lapela se pecha ou abandona un sitio. Lapela activa e Scripting: executar as accións por sitio da xanela emerxente. Menús contextuais e Notificacións: dúas funcións opcionais que podes apagar na configuración.\n\nDeliberadamente ausentes: o historial de navegación, a interceptación de peticións web e calquera acceso á rede. A extensión non pode ver o que escribes nin que páxinas les."
+  },
+  "helpTroubleshootingTitle": {
+    "message": "Resolución de problemas e preguntas frecuentes"
+  },
+  "helpTroubleshootingBody": {
+    "message": "Desconectado dun sitio? Por orde de probabilidade: o sitio non ten regra de conservación (ou só a ten o nome de servidor exacto, mentres o inicio de sesión vive nun subdominio — usa a forma *.example.com); é un sitio ata-reiniciar e o navegador reiniciouse; unha regra coincidente só conserva cookies con nome e a cookie de sesión non está marcada; ou a cookie do sitio simplemente caducou. Non adiviñes — o rexistro de limpeza nomea a regra exacta que actuou.\n\nAs cookies reaparecen xusto despois de limpar? O sitio case sempre segue aberto nalgunha lapela — os sitios abertos recrean cookies á vontade e ademais están protexidos.\n\nNon se executou a limpeza? Comproba por orde: a limpeza automática está activada (a cabeceira da xanela emerxente dío); o sitio non está aberto noutra lapela; o período de graza pasou; ningunha regra de conservación coincide; non era unha lapela durmida (esas só contan como pechadas se ese axuste avanzado está activado).\n\nActivaches a limpeza de datos do sitio pero os datos vellos seguen aí? O navegador só permite borrar eses tipos para sitios que volvas visitar; os restos quedan ata a próxima visita.\n\nIncógnito? Só se o permites: páxina de extensións do teu navegador → Permitir en incógnito. O incógnito ten o seu propio almacén de cookies e sitios gardados, e nunca se escribe no rexistro.\n\nSegues atascado? A páxina de Asistencia ten a versión, un bloque de depuración copiable e a ligazón para informar de erros. O modo de depuración (Avanzado) fai que a extensión narre cada decisión na consola do service worker, cos valores das cookies enmascarados."
+  }
+}

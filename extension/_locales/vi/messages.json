@@ -1,275 +1,658 @@
 {
   "aboutText": {
-    "message": "Giới thiệu",
-    "description": "About"
+    "message": "Giới thiệu"
   },
   "activeModeDelayText": {
-    "message": "Trì hoãn trước khi làm sạch tự động",
-    "description": "Delay Before Automatic Cleaning"
+    "message": "Thời gian ân hạn"
   },
   "activeModeText": {
-    "message": "Cho phép tự động làm sạch",
-    "description": "Enable Automatic Cleaning"
+    "message": "Tự động dọn dẹp"
+  },
+  "activityLogSiteDataDomainsText": {
+    "message": "Đã xóa $siteData$ cho: $domains$",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cache (translated version)"
+      },
+      "domains": {
+        "content": "$2",
+        "example": "example.com, github.com"
+      }
+    }
+  },
+  "addNewExpressionNotification": {
+    "message": "Đã lưu $expression$ vào danh sách $listType$ (kho cookie: $cookieStore$).",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "example.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "WHITE"
+      },
+      "cookieStore": {
+        "content": "$3",
+        "example": "'default' -or- 'private'"
+      }
+    }
+  },
+  "addNewExpressionNotificationFailed": {
+    "message": "Không đọc được tên miền từ chỗ bạn nhấp chuột phải."
+  },
+  "addNewExpressionNotificationIgnore": {
+    "message": "Các mục trùng lặp được tự động bỏ qua."
   },
   "autoDeleteDisabledText": {
-    "message": "Tắt tự động dọn dẹp",
-    "description": "Auto-clean disabled"
+    "message": "Tự động dọn: tắt"
   },
   "autoDeleteEnabledText": {
-    "message": "Bật tự động dọn dẹp",
-    "description": "Auto-clean enabled"
+    "message": "Tự động dọn: bật"
+  },
+  "browsingDataNoEmptyWarning": {
+    "message": "Lưu ý: bật tính năng này không đụng đến dữ liệu các trang đã lưu trước đó. Dữ liệu còn sót của một trang chỉ có thể dọn được sau khi bạn ghé lại trang đó — trước đó nó vẫn nằm nguyên, kể cả với những trang bạn muốn tống khứ."
+  },
+  "browsingDataWarning": {
+    "message": "Cẩn thận: bật bất kỳ loại dọn dẹp nào bên dưới sẽ xóa ngay TOÀN BỘ dữ liệu loại đó đang được lưu, của mọi trang."
+  },
+  "cacheCleanupText": {
+    "message": "Bật dọn bộ nhớ đệm"
+  },
+  "cacheText": {
+    "message": "Bộ nhớ đệm"
   },
   "chromeDebugMode": {
-    "message": "Đảm bảo 'Chế độ nhà phát triển' được bật, sau đó nhấp vào 'trang nền' bên dưới Chế độ xem kiểm tra.",
-    "description": "Ensure 'Developer Mode' is enabled, then click on 'background page' under Inspect View. This is shown if debug mode is enabled."
+    "message": "Bật 'Chế độ nhà phát triển', rồi mở bảng điều khiển của service worker từ liên kết 'Kiểm tra các chế độ xem'."
+  },
+  "cleanDiscardedText": {
+    "message": "Coi thẻ đang ngủ như đã đóng"
+  },
+  "cleanExpiredCookiesText": {
+    "message": "Luôn xóa cookie hết hạn"
   },
   "cleanIgnoringOpenTabsText": {
-    "message": "Dọn dẹp, bao gồm các trang đang mở",
-    "description": "Clean, include open tabs. Found in the additional cleanup options in the popup."
+    "message": "Dọn, kể cả thẻ đang mở"
   },
   "cleanText": {
-    "message": "Xoá",
-    "description": "Clean"
+    "message": "Dọn dẹp"
   },
   "cleanupDomainChangeText": {
-    "message": "Bật dọn dẹp khi tên miền thay đổi",
-    "description": "Enable Cleanup on Domain Change"
+    "message": "Dọn khi rời một trang"
   },
   "cleanupActionsBypass": {
-    "message": "Cảnh báo - Thao tác bên dưới bỏ qua cài đặt!",
-    "description": "Warning - Actions below ignore settings! Found in the additional cleanup options in the popup."
+    "message": "Cẩn thận — các nút này bỏ qua danh sách giữ lại của bạn và dọn ngay lập tức!"
   },
   "cleanupLogText": {
-    "message": "Nhật ký dọn dẹp",
-    "description": "Cleanup Log"
+    "message": "Nhật ký dọn dẹp"
   },
   "clearLogsText": {
-    "message": "Xoá các nhật ký",
-    "description": "Clear Logs"
+    "message": "Xóa nhật ký"
   },
   "consoleDebugMode": {
-    "message": "Nhấp vào tab Bảng điều khiển",
-    "description": "Click on the Console Tab. Found after enabling debug mode."
+    "message": "Chuyển sang thẻ Console."
   },
-  "contributeText": {
-    "message": "Đóng góp",
-    "description": "Contribute"
+  "contextMenusParentClean": {
+    "message": "Dọn thủ công"
+  },
+  "contextMenusParentExpression": {
+    "message": "Thêm vào danh sách giữ lại"
+  },
+  "contextMenusSelectedDomainLink": {
+    "message": "Chỉ tên miền của liên kết này"
+  },
+  "contextMenusSelectedDomainPage": {
+    "message": "Chỉ tên miền của trang này"
+  },
+  "contextMenusSelectedDomainText": {
+    "message": "Chỉ tên miền của: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "contextMenusSelectedSubdomainLink": {
+    "message": "Tên miền của liên kết cùng mọi tên miền phụ"
+  },
+  "contextMenusSelectedSubdomainPage": {
+    "message": "Tên miền của trang này cùng mọi tên miền phụ"
+  },
+  "contextMenusSelectedSubdomainText": {
+    "message": "Mọi tên miền phụ của: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
   },
   "contributorsText": {
-    "message": "Những người tham gia đóng góp",
-    "description": "Contributors"
+    "message": "Người đóng góp"
+  },
+  "cookiesText": {
+    "message": "Cookie"
+  },
+  "cookieCleanUpOnStartText": {
+    "message": "Dọn các thẻ được khôi phục lúc khởi động"
   },
   "cookieCleanupIgnoreOpenTabsText": {
-    "message": "Chạy dọn dẹp ngay bây giờ, bao gồm các tên miền từ các tab đang mở",
-    "description": "Run cleanup now, include cookies from open tabs. This is shown on mouseover from the available dropdown buttons."
+    "message": "Dọn ngay, kể cả trang đang mở trong thẻ"
   },
   "cookieCleanupText": {
-    "message": "Chạy dọn dẹp ngay bây giờ, loại trừ các tên miền khỏi các tab đang mở",
-    "description": "Run cleanup now, exclude domains from open tabs. This is shown on mouseover on the button."
+    "message": "Dọn ngay, nhưng bỏ qua trang đang mở trong thẻ"
+  },
+  "copyDebugSettingText": {
+    "message": "Bản sao cài đặt hiện tại của bạn. Dán vào issue trên GitHub nếu liên quan."
+  },
+  "copyDebugSystemText": {
+    "message": "Thông tin hệ thống của bạn. Dán vào phần tương ứng của issue trên GitHub."
+  },
+  "copyFailedText": {
+    "message": "Không sao chép tự động được — hãy chọn văn bản và tự sao chép."
+  },
+  "copySuccessText": {
+    "message": "Đã sao chép!"
+  },
+  "copyToClipboardText": {
+    "message": "Sao chép vào bộ nhớ tạm"
+  },
+  "createDefaultExpressionOptionsText": {
+    "message": "Tạo tùy chọn mặc định"
   },
   "debugMode": {
-    "message": "Bật Chế độ gỡ lỗi (Đầu ra bảng điều khiển bổ sung)",
-    "description": "Enable Debug Mode (Additional Console Outputs). Found in CAD Settings."
+    "message": "Chế độ gỡ lỗi"
+  },
+  "debugTitle": {
+    "message": "Thông tin gỡ lỗi"
   },
   "defaultSettingsText": {
-    "message": "Hoàn lại cài đặt ban đầu",
-    "description": "Restore Default Settings"
+    "message": "Đặt lại cài đặt về mặc định"
   },
   "disableAutoDeleteText": {
-    "message": "Chuyển sang tắt tự động dọn dẹp (Chế độ thủ công)",
-    "description": "Toggle to disable automatic cleanup (manual mode)"
+    "message": "Tắt tự động dọn (chế độ thủ công)"
   },
   "documentationText": {
-    "message": "Tài Liệu",
-    "description": "Documentation"
+    "message": "Tài liệu"
   },
   "domainExpressionsText": {
-    "message": "Tên miền biểu thức",
-    "description": "Domain Expression"
+    "message": "Trang"
+  },
+  "domainPlaceholderText": {
+    "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/"
   },
   "dropdownAdditionalCleaningOptions": {
-    "message": "Chuyển đổi thả xuống bổ sung hành động làm sạch",
-    "description": "(Screen-readers only) - Toggle Additional Cleaning Actions Dropdown"
+    "message": "Thao tác dọn dẹp khác"
   },
   "editExpressionText": {
-    "message": "Chỉnh sửa biểu thức",
-    "description": "Edit expression"
+    "message": "Sửa biểu thức"
   },
   "enableAutoDeleteText": {
-    "message": "Chuyển sang bật tự động dọn dẹp (Chế độ tự động)",
-    "description": "Toggle to enable automatic cleanup (automatic mode)"
+    "message": "Bật tự động dọn"
   },
   "enableCleanupLogText": {
-    "message": "Bật dọn dẹp nhật ký và ngược lại",
-    "description": "Enable Cleanup Log and Counter"
+    "message": "Ghi nhật ký dọn dẹp"
+  },
+  "enableContextMenus": {
+    "message": "Thao tác trong menu chuột phải"
   },
   "enableGreyListCleanup": {
-    "message": "Kích hoạt dọn dẹp Greylist khi khởi động lại trình duyệt",
-    "description": "Enable Greylist Cleanup on Browser Restart"
+    "message": "Quy tắc giữ theo phiên"
   },
   "enableNewVersionPopup": {
-    "message": "Kích hoạt Popup khi Phiên bản mới được phát hành",
-    "description": "Enable Popup when New Version is Released"
+    "message": "Hiện ghi chú phát hành sau khi cập nhật"
   },
   "errorText": {
-    "message": "Lỗi!",
-    "description": "Error!"
+    "message": "Lỗi!"
   },
   "exportSettingsText": {
-    "message": "Xuất cài đặt lõi",
-    "description": "Export Core Settings... Found in CAD Settings."
+    "message": "Xuất cài đặt..."
   },
   "exportURLSText": {
-    "message": "Xuất biểu thức",
-    "description": "Export Expressions... Found in List of Expressions."
+    "message": "Xuất các trang đã lưu"
   },
   "exportTitleTimestamp": {
-    "message": "Dấu thời gian sẽ được thêm vào tên tệp khi xuất.",
-    "description": "A timestamp will be appended to the filename on export."
+    "message": "Tên tệp xuất ra được gắn dấu thời gian."
   },
   "extensionDescription": {
-    "message": "Kiểm soát các cookies! Tự động Xoá sạch các cookies không dùng tới từ các trang đã đóng đồng thời giữ lại các cookies bạn cần.",
-    "description": "Control your cookies! Automatically delete unwanted cookies from your closed tabs while keeping the ones you want."
+    "message": "Dọn dẹp sau các thẻ của bạn: đóng một thẻ là cookie và dữ liệu trang bị xóa sạch — trừ các trang trong danh sách giữ lại."
   },
   "extensionName": {
-    "message": "Auto-Delete Cookies for Privacy",
-    "description": "Name of the extension."
+    "message": "Auto-Delete Cookies for Privacy"
   },
   "faqText": {
-    "message": "Câu hỏi thường gặp, vấn đề thường gặp và giải pháp",
-    "description": "Frequently Asked Questions, Common issues and solutions"
+    "message": "Câu hỏi thường gặp và khắc phục sự cố"
   },
   "filterDebugMode": {
-    "message": "Để chỉ xem các đầu ra gỡ lỗi của tiện ích mở rộng này, hãy lọc đầu ra theo dòng sau:",
-    "description": "To see only debug outputs by this extension, filter output by the following line. Found after enabling debug mode."
+    "message": "Để chỉ hiện thông báo của tiện ích này, dán cái này vào ô lọc của console:"
   },
   "filterText": {
-    "message": "Bộ lọc",
-    "description": "Filter"
+    "message": "Bộ lọc"
   },
   "greyListWordText": {
-    "message": "Danh sách xám",
-    "description": "Greylist"
+    "message": "Danh sách xám"
+  },
+  "groupExpressionDefaultNotice": {
+    "message": "Tùy chọn mặc định cho biểu thức mới giờ nằm ngay trên biểu thức — mở $listExpression$ để thiết lập.",
+    "placeholders": {
+      "listExpression": {
+        "content": "$1",
+        "example": "List of Expressions <- the translated version"
+      }
+    }
   },
   "importCoreSettingsFailed": {
-    "message": "Nhập cài đặt lõi không thành công - Không tìm thấy cài đặt",
-    "description": "Import Core Settings Failed - Found unknown setting"
+    "message": "Đã hủy nhập cài đặt: tệp chứa một cài đặt không nhận diện được."
   },
   "importCoreSettingsText": {
-    "message": "Nhập cài đặt lõi",
-    "description": "Import Core Settings... Found in CAD Settings."
+    "message": "Nhập cài đặt..."
+  },
+  "importFileNotFound": {
+    "message": "Không có tệp: $filename$",
+    "placeholders": {
+      "filename": {
+        "content": "$1",
+        "example": "filename.json"
+      }
+    }
   },
   "importFileTypeInvalid": {
-    "message": "Tệp đã cho không phải là loại chúng tôi xử lý",
-    "description": "File given is not a type we handle"
+    "message": "Loại tệp đó không được hỗ trợ khi nhập."
   },
   "importFileValidationFailed": {
-    "message": "Tệp được xác nhận không thành công",
-    "description": "File given failed validation"
+    "message": "Tệp không qua được bước kiểm tra."
+  },
+  "importInvalidExpressions": {
+    "message": "Một số biểu thức nhập vào không hợp lệ; từng cái được liệt kê bên dưới kèm lý do. Sửa trong tệp rồi nhập lại."
+  },
+  "importListNotArray": {
+    "message": "$identifier$ đáng lẽ phải là một mảng nhưng không phải.",
+    "placeholders": {
+      "identifier": {
+        "content": "$1",
+        "example": "jsonObjectKey"
+      }
+    }
   },
   "importMissingKey": {
-    "message": "Thiếu định danh",
-    "description": "Missing identifier"
+    "message": "Thiếu định danh"
   },
   "importURLSText": {
-    "message": "Nhập các biểu thức",
-    "description": "Import Expressions... Found in List of Expressions."
+    "message": "Nhập các trang đã lưu"
+  },
+  "importValidExpressions": {
+    "message": "Đã nhập $num$ biểu thức từ $filename$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "filename": {
+        "content": "$2",
+        "example": "filename.json"
+      }
+    }
+  },
+  "indexedDBCleanupText": {
+    "message": "Bật dọn IndexedDB"
+  },
+  "indexedDBText": {
+    "message": "IndexedDB"
+  },
+  "inputErrorComma": {
+    "message": "Dấu phẩy chỉ được dùng trong biểu thức chính quy."
+  },
+  "inputErrorEmpty": {
+    "message": "Biểu thức không được để trống."
+  },
+  "inputErrorRegExp": {
+    "message": "Biểu thức chính quy không hợp lệ: $RegexError$",
+    "placeholders": {
+      "RegexError": {
+        "content": "$1",
+        "example": "SyntaxError:  unterminated character class."
+      }
+    }
+  },
+  "inputErrorSlashEndMissingStart": {
+    "message": "Kết thúc bằng dấu gạch chéo nhưng không bắt đầu bằng nó. Với tên miền thường, bỏ dấu gạch cuối; với regex, thêm dấu gạch đầu."
+  },
+  "inputErrorSlashStartMissingEnd": {
+    "message": "Bắt đầu bằng dấu gạch chéo nhưng không bao giờ đóng lại. Thêm dấu gạch cuối để hoàn tất biểu thức chính quy."
+  },
+  "inputErrorSpace": {
+    "message": "Tên máy chủ không được chứa dấu cách."
+  },
+  "inputAddSuccess": {
+    "message": "Đã thêm $num$ biểu thức vào danh sách hiện hành dưới dạng $listType$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "GreyList"
+      }
+    }
+  },
+  "invalidNewExpressions": {
+    "message": "Một số biểu thức mới không hợp lệ; chúng vẫn ở trên để sửa, lý do liệt kê bên dưới."
   },
   "keepAllCookiesText": {
-    "message": "Lưu trữ tất cả các cookie",
-    "description": "Keep All Cookies. Found in Expression Options. For Whitelist entries."
+    "message": "Giữ mọi cookie"
+  },
+  "keepAllCookiesGreyText": {
+    "message": "Giữ mọi cookie đến khi khởi động lại"
+  },
+  "keepCacheText": {
+    "message": "Giữ bộ nhớ đệm"
+  },
+  "keepCacheGreyText": {
+    "message": "Giữ bộ nhớ đệm đến khi khởi động lại"
   },
   "keepDefaultIcon": {
-    "message": "Giữ biểu tượng mặc định trên tất cả các loại danh sách",
-    "description": "Keep Default Icons on all list types. Disabled: keep blue icon, grey for automatic cleaning disabled. Enabled: red/yellow/blue depending on matching expressions in list."
+    "message": "Giữ biểu tượng trơn"
+  },
+  "keepIndexedDBText": {
+    "message": "Giữ IndexedDB"
+  },
+  "keepIndexedDBGreyText": {
+    "message": "Giữ IndexedDB đến khi khởi động lại"
   },
   "keepLocalstorageText": {
-    "message": "Lưu trữ cục bộ",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries."
+    "message": "Giữ LocalStorage"
+  },
+  "keepLocalstorageGreyText": {
+    "message": "Giữ LocalStorage đến khi khởi động lại"
+  },
+  "keepPluginDataText": {
+    "message": "Giữ dữ liệu plugin"
+  },
+  "keepPluginDataGreyText": {
+    "message": "Giữ dữ liệu plugin đến khi khởi động lại"
+  },
+  "keepServiceWorkersText": {
+    "message": "Giữ service worker"
+  },
+  "keepServiceWorkersGreyText": {
+    "message": "Giữ service worker đến khi khởi động lại"
   },
   "keepText": {
-    "message": "Giữ",
-    "description": "Keep"
+    "message": "Giữ lại"
   },
   "listTypeText": {
-    "message": "Kiểu danh sách",
-    "description": "List Type"
+    "message": "Trong bao lâu"
+  },
+  "localStorageCleanupText": {
+    "message": "Bật dọn LocalStorage"
+  },
+  "localStorageText": {
+    "message": "LocalStorage"
+  },
+  "manualActionNotification": {
+    "message": "Dọn thủ công"
+  },
+  "manualCleanError": {
+    "message": "Không dọn được $siteData$ cho thẻ này:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      }
+    }
+  },
+  "manualCleanNothing": {
+    "message": "Không có gì để dọn: không tìm thấy $siteData$ trên $url$.",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanRemoved": {
+    "message": "Đã xóa $deleted$ trong số $total$.",
+    "placeholders": {
+      "deleted": {
+        "content": "$1",
+        "example": "5"
+      },
+      "total": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "manualCleanSiteDataAll": {
+    "message": "Xóa sạch mọi thứ của trang này"
+  },
+  "manualCleanSiteDataAllDomain": {
+    "message": "Xóa toàn bộ dữ liệu trang do $domain$ lưu",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataCache": {
+    "message": "Xóa bộ nhớ đệm của trang này"
+  },
+  "manualCleanSiteDataCacheDomain": {
+    "message": "Xóa toàn bộ bộ nhớ đệm do $domain$ lưu",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataCookies": {
+    "message": "Xóa cookie của trang này"
+  },
+  "manualCleanSiteDataCookiesDomain": {
+    "message": "Xóa toàn bộ cookie do $domain$ lưu",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataIndexedDB": {
+    "message": "Xóa IndexedDB của trang này"
+  },
+  "manualCleanSiteDataIndexedDBDomain": {
+    "message": "Xóa toàn bộ dữ liệu IndexedDB do $domain$ lưu",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataLocalStorage": {
+    "message": "Xóa LocalStorage của trang này"
+  },
+  "manualCleanSiteDataLocalStorageDomain": {
+    "message": "Xóa toàn bộ LocalStorage do $domain$ lưu",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataPluginData": {
+    "message": "Xóa dữ liệu plugin của trang này"
+  },
+  "manualCleanSiteDataPluginDataDomain": {
+    "message": "Xóa toàn bộ dữ liệu plugin do $domain$ lưu",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataServiceWorkers": {
+    "message": "Xóa service worker của trang này"
+  },
+  "manualCleanSiteDataServiceWorkersDomain": {
+    "message": "Xóa toàn bộ service worker do $domain$ đăng ký",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSuccess": {
+    "message": "Kết quả dọn $siteData$ trên $url$:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualNotificationsText": {
+    "message": "Thông báo sau khi dọn thủ công"
   },
   "matchedDomainExpressionText": {
-    "message": "Trùng tên miền biểu thức",
-    "description": "Matched Domain Expression"
+    "message": "Biểu thức tên miền khớp"
   },
   "menuText": {
-    "message": "Menu",
-    "description": "Menu. Only shown when the settings screen is small / when the hamburger icon shows / when the menu is collapsed."
+    "message": "Menu"
   },
   "minutesText": {
-    "message": "Phút(s)",
-    "description": "minute(s)"
+    "message": "phút"
   },
   "noCleanupLogText": {
-    "message": "Không tìm thấy các nhật ký dọn dẹp",
-    "description": "No Cleanup Logs Found"
+    "message": "Nhật ký dọn dẹp đang trống."
   },
   "noExpressionsText": {
-    "message": "Không có biểu thức được xác định.",
-    "description": "No expressions defined."
+    "message": "Bạn chưa thêm biểu thức nào."
   },
   "noPrivateLogging": {
-    "message": "Nhật ký dọn dẹp sẽ không được tạo cho các tab trong Duyệt web riêng tư / Ẩn danh / InPrivate.",
-    "description": "Cleanup Logs will not be generated for tabs in Private Browsing / Incognito / InPrivate."
+    "message": "Thẻ riêng tư/ẩn danh không bao giờ được ghi lại."
+  },
+  "noSearchExpressionsFound": {
+    "message": "Không có gì khớp với tìm kiếm của bạn."
   },
   "noRulesText": {
-    "message": "Không có quy tắc phù hợp với tên miền này.",
-    "description": "No rules matched this domain"
+    "message": "Không biểu thức nào khớp với trang này."
   },
   "noneText": {
-    "message": "Trống",
-    "description": "None"
+    "message": "Không có"
+  },
+  "notificationContent": {
+    "message": "Đã xóa dữ liệu trang — $Num$ cookie từ $total$ trang, gồm: $Websites$",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "123"
+      },
+      "total": {
+        "content": "$2",
+        "example": "8"
+      },
+      "websites": {
+        "content": "$3",
+        "example": "google.com, facebook.com"
+      }
+    }
   },
   "notificationDisabledText": {
-    "message": "Tắt thông báo",
-    "description": "Notification disabled"
+    "message": "Thông báo: tắt"
   },
   "notificationEnabledText": {
-    "message": "Bật thông báo",
-    "description": "Notification enabled"
+    "message": "Thông báo: bật"
   },
   "notificationTitle": {
-    "message": "Các Cookie đã bị xoá!",
-    "description": "Cookies were deleted!  Used in Notification Title."
+    "message": "Đã dọn cookie"
+  },
+  "notificationTitleSiteData": {
+    "message": "Đã dọn dữ liệu trang"
   },
   "notifyCookieCleanupDelayText": {
-    "message": "Thời lượng thông báo",
-    "description": "Duration for Notifications"
+    "message": "Thời lượng thông báo"
+  },
+  "notifyCookieCleanUpText": {
+    "message": "Thông báo sau khi dọn"
   },
   "oldReleasesText": {
-    "message": "Ghi chú phát hành cũ hơn có thể được xem trực tuyến tại",
-    "description": "Older release notes can be viewed online at"
+    "message": "Các bản phát hành cũ được liệt kê tại"
   },
   "openDebugMode": {
-    "message": "Để xem các đầu ra gỡ lỗi, hãy mở một tab mới và truy cập",
-    "description": "To view the debug outputs, open a new tab and visit"
+    "message": "Kết quả gỡ lỗi nằm trong console của tiện ích. Mở thẻ mới và truy cập"
   },
   "optionsText": {
-    "message": "Tùy chọn",
-    "description": "Options"
+    "message": "Những gì được giữ"
+  },
+  "pluginDataCleanupText": {
+    "message": "Bật dọn dữ liệu plugin"
+  },
+  "pluginDataText": {
+    "message": "Dữ liệu plugin"
   },
   "popupCookieCountText": {
-    "message": "Bánh",
-    "description": "Cookies. Due to visual formatting, Cookie Count will always be located on the right side after the colon. Found in Popup near top-right."
+    "message": "Cookie"
   },
   "preferencesText": {
-    "message": "Cài đặt",
-    "description": "Settings"
+    "message": "Cài đặt"
   },
   "questionExpression": {
-    "message": "Các biểu thức hoạt động như thế nào?",
-    "description": "How do Expressions work?"
+    "message": "Mẫu hoạt động thế nào?"
+  },
+  "reasonCADSiteDataCookie": {
+    "message": "Đã xóa cookie đánh dấu nội bộ để kích hoạt việc dọn dữ liệu trang của $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCADSiteDataCookieRestart": {
+    "message": "Đã xóa cookie đánh dấu nội bộ lúc khởi động lại để kích hoạt việc dọn dữ liệu trang của $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpired": {
+    "message": "Chỉ xóa các cookie hết hạn của $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpiredRestart": {
+    "message": "Chỉ xóa các cookie hết hạn của $hostname$ trong đợt dọn khi khởi động lại.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
   },
   "reasonCleanCookieName": {
-    "message": "Dọn sạch một phần vì trùng với $matchedExpression$ trong $listType$",
-    "description": "Partial clean because of matched $matchedExpression$ in the $listType$. Used in cleanup logs.",
+    "message": "Dọn có chọn lọc: $matchedExpression$ trong $listType$ bảo vệ các cookie khác, nhưng không bảo vệ cái này",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -282,8 +665,7 @@
     }
   },
   "reasonCleanGreyList": {
-    "message": "Dọn lúc khởi động dọn dẹp và $matchedExpression$ có trong danh sách Xám",
-    "description": "Clean because of startup cleanup and $matchedExpression$ is in the Greylist. Used in cleanup log.",
+    "message": "Dọn lúc khởi động: $matchedExpression$ nằm trong danh sách xám",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -292,8 +674,7 @@
     }
   },
   "reasonCleanNoList": {
-    "message": "Làm sạch vì $hostname$ không có trong danh sách Trắng hoặc Xám",
-    "description": "Clean because $hostname$ is not in the White or Grey lists",
+    "message": "Đã dọn: $hostname$ không nằm trong danh sách trắng lẫn danh sách xám",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -302,8 +683,7 @@
     }
   },
   "reasonCleanStartupNoList": {
-    "message": "Dọn dẹp vì dọn dẹp khởi động và $hostname$ không có trong danh sách Trắng hoặc Xám",
-    "description": "Clean because of startup cleanup and $hostname$ is not in the White or Grey lists",
+    "message": "Dọn lúc khởi động: $hostname$ không nằm trong danh sách trắng lẫn danh sách xám",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -312,8 +692,7 @@
     }
   },
   "reasonKeep": {
-    "message": "Giữ lại vì trùng với $matchedExpression$ trong $listType$",
-    "description": "Keep because of matched $matchedExpression$ in the $listType$",
+    "message": "Giữ lại: khớp $matchedExpression$ trong $listType$",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -326,8 +705,7 @@
     }
   },
   "reasonKeepOpenTab": {
-    "message": "Giữ lại bởi các trang đang mở của *.$mainDomain$",
-    "description": "Keep because of open tabs of *.$mainDomain$",
+    "message": "Giữ lại: *.$mainDomain$ vẫn đang mở trong một thẻ",
     "placeholders": {
       "mainDomain": {
         "content": "$1",
@@ -336,24 +714,22 @@
     }
   },
   "reasonTabsWereIgnored": {
-    "message": "và cả các trang bị bỏ qua",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] and also open tabs were ignored"
+    "message": "(lượt này bỏ qua các thẻ đang mở)"
   },
   "reasonTabsWereNotIgnored": {
-    "message": "hoặc trong bất kỳ các trang đang mở",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] or in any open tabs"
+    "message": "(và không mở trong thẻ nào)"
   },
   "releaseNotesText": {
-    "message": "Ghi chú Phát hành",
-    "description": "Release Notes"
+    "message": "Ghi chú phát hành"
+  },
+  "removeActivityLogEntryText": {
+    "message": "Xóa mục nhật ký"
   },
   "removeAllExpressions": {
-    "message": "Xóa tất cả các biểu thức",
-    "description": "Remove All Expressions"
+    "message": "Xóa tất cả"
   },
   "removeAllExpressionsConfirm": {
-    "message": "Bạn có chắc chắn muốn xóa TẤT CẢ ($expressionCount$) biểu thức đã lưu khỏi danh sách ($listCount$) không? \n\nĐIỀU NÀY KHÔNG THỂ ĐƯỢC HOÀN TÁC! \n\nNhập [$expressionCount$] và nhấp OK để xóa.",
-    "description": "Are you sure you want to remove ALL ($expressionCount$) saved expression(s) from ($listCount$) list(s)?\n\nTHIS CANNOT BE UNDONE!\n\nType [ $expressionCount$ ] and click OK to delete. Popup prompt if Delete All Expression is clicked.",
+    "message": "Thao tác này xóa vĩnh viễn toàn bộ $expressionCount$ biểu thức khỏi $listCount$ danh sách.\n\nKhông thể hoàn tác.\n\nGõ [ $expressionCount$ ] rồi nhấn OK để xác nhận.",
     "placeholders": {
       "expressionCount": {
         "content": "$1",
@@ -366,136 +742,169 @@
     }
   },
   "removeAllExpressionsNoneFound": {
-    "message": "Không có biểu thức để loại bỏ!",
-    "description": "No expressions to remove!"
+    "message": "Không có biểu thức nào để xóa."
   },
   "removeExpressionText": {
-    "message": "Loại bỏ biểu thức",
-    "description": "Remove expression"
+    "message": "Xóa biểu thức"
   },
-  "reportIssuesText": {
-    "message": "Báo cáo các sự cố và đề xuất các tính năng",
-    "description": "Report issues and suggest features"
+  "removeListText": {
+    "message": "Xóa mọi biểu thức khỏi danh sách đã chọn"
   },
-  "resetExtensionDataText": {
-    "message": "Thiết lập lại dữ liệu mở rộng",
-    "description": "Reset Extension Data"
-  },
-  "restoreText": {
-    "message": "Phục hồi",
-    "description": "Restore. Restores cookies that was cleaned up by this extension. Found in Activity Log entries."
-  },
-  "reviewLinkMessage": {
-    "message": "Cảm ơn đã thử dùng $cadTitle$. Nếu bạn cảm thấy thích, xin vui lòng cho nhận xét.",
-    "description": "Thanks for trying out Cookie AutoDelete. If you liked it, then please give a review.",
+  "removeStorageCount": {
+    "message": "Đã xóa $count$ mục khỏi $storageType$.",
     "placeholders": {
-      "cadTitle": {
+      "count": {
         "content": "$1",
-        "example": "Cookie AutoDelete"
+        "example": "1"
+      },
+      "storageType": {
+        "content": "$2",
+        "example": "LocalStorage"
       }
     }
   },
+  "reportIssuesText": {
+    "message": "Báo lỗi và góp ý tính năng"
+  },
+  "resetCookieCounterText": {
+    "message": "Đặt lại bộ đếm cookie"
+  },
+  "resetExtensionDataText": {
+    "message": "Xóa toàn bộ dữ liệu tiện ích"
+  },
+  "restoreText": {
+    "message": "Khôi phục"
+  },
   "saveExpressionText": {
-    "message": "Lưu biểu thức",
-    "description": "Save expression"
+    "message": "Lưu biểu thức"
   },
   "secondsText": {
-    "message": "Giây(s)",
-    "description": "second(s)"
+    "message": "giây"
+  },
+  "serviceWorkersCleanupText": {
+    "message": "Bật dọn service worker"
+  },
+  "serviceWorkersText": {
+    "message": "Service worker"
+  },
+  "sessionStorageText": {
+    "message": "SessionStorage"
   },
   "settingGroupAutoClean": {
-    "message": "Tùy chọn làm sạch tự động",
-    "description": "Automatic Cleaning Options"
+    "message": "Thời điểm"
   },
   "settingGroupExpression": {
-    "message": "Tùy chọn biểu thức",
-    "description": "Expression Options"
+    "message": "Tùy chọn biểu thức"
   },
   "settingGroupExtension": {
-    "message": "Tùy chọn mở rộng",
-    "description": "Extension Options"
+    "message": "Giao diện"
   },
   "settingGroupOtherBrowsing": {
-    "message": "Tùy chọn dọn dẹp dữ liệu duyệt web khác",
-    "description": "Other Browsing Data Cleanup Options"
+    "message": "Tùy chọn dọn dữ liệu duyệt web khác"
   },
   "settingsText": {
-    "message": "Cài đặt các Cookie",
-    "description": "$CAD$ Settings",
+    "message": "Cài đặt $CAD$",
     "placeholders": {
       "CAD": {
-        "content": "CAD",
-        "example": "CAD - Short form of Cookie AutoDelete"
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "showNumberOfCookiesInIconText": {
-    "message": "Hiển thị số lượng cookie cho tên miền đó qua biểu tượng",
-    "description": "Show Number of Cookies for that Domain over the Icon"
+    "message": "Số cookie trên biểu tượng thanh công cụ"
   },
-  "sizePopupText": {
-    "message": "Kích thước của Popup (tính bằng px)",
-    "description": "Size of Popup (in px). This sets the font size in the Popup."
+  "siteDataEmptyOnEnable": {
+    "message": "Khi bật một loại dữ liệu mới, xóa những gì đã lưu sẵn"
   },
-  "sizeSettingText": {
-    "message": "Kích thước của trang cài đặt (tính bằng px)",
-    "description": "Size of Setting Pages (in px). This sets the font size in the Setting Pages."
+  "siteDataText": {
+    "message": "Dữ liệu trang"
   },
-  "stopEditingText": {
-    "message": "Ngưng chỉnh sửa",
-    "description": "Stop editing"
+  "siteDataPanelTitle": {
+    "message": "Dữ liệu trang này đã lưu"
   },
-  "successText": {
-    "message": "Thành công!",
-    "description": "Success!"
+  "siteDataLoadingText": {
+    "message": "Đang kiểm tra trang này lưu những gì…"
   },
-  "toGreyListText": {
-    "message": "Thêm vào danh sách xám (Dọn khi khởi động lại trình duyệt)",
-    "description": "Add to Greylist (Clean on Browser Restart)"
+  "siteDataNotAvailableText": {
+    "message": "Không khả dụng trên trang này"
   },
-  "toWhiteListText": {
-    "message": "Thêm vào danh sách trắng (Không bao giờ dọn)",
-    "description": "Add to Whitelist (Never Clean)"
+  "siteDataEmptyText": {
+    "message": "Trang này hiện không lưu gì cả"
   },
-  "toggleNotificationText": {
-    "message": "Chuyển đổi giữa bật hoặc tắt các thông báo",
-    "description": "Toggle to enable or disable notifications"
-  },
-  "toggleToGreyListWordText": {
-    "message": "Chuyển sang danh sách xám",
-    "description": "Toggle to greylist"
-  },
-  "toggleToWhiteListWordText": {
-    "message": "Chuyển sang danh sách trắng",
-    "description": "Toggle to whitelist"
-  },
-  "versionNumberText": {
-    "message": "Phiên bản $CAD$",
-    "description": "$CAD$ version 3.2.1. The actual number is formatted differently and will be right below this text.",
+  "siteDataUsageText": {
+    "message": "Đang dùng $used$ trên $quota$",
     "placeholders": {
-      "CAD": {
+      "used": {
         "content": "$1",
-        "example": "CAD or Cookie AutoDelete"
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
       }
     }
   },
-  "versionText": {
-    "message": "Phiên bản $browser$",
-    "description": "Firefox version",
+  "siteDataSessionCookieText": {
+    "message": "phiên"
+  },
+  "siteDataExpiresText": {
+    "message": "hết hạn $date$",
     "placeholders": {
-      "browser": {
+      "date": {
         "content": "$1",
-        "example": "Firefox"
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "không rõ"
+  },
+  "siteDataRefreshTitle": {
+    "message": "Làm mới"
+  },
+  "sizePopupText": {
+    "message": "Cỡ chữ cửa sổ bật lên"
+  },
+  "sizeSettingText": {
+    "message": "Cỡ chữ trang cài đặt"
+  },
+  "stopEditingText": {
+    "message": "Dừng chỉnh sửa"
+  },
+  "successText": {
+    "message": "Thành công!"
+  },
+  "toGreyListText": {
+    "message": "Thêm vào danh sách xám (giữ đến khi trình duyệt khởi động lại)"
+  },
+  "toWhiteListText": {
+    "message": "Thêm vào danh sách trắng (không bao giờ dọn)"
+  },
+  "toggleNotificationText": {
+    "message": "Bật hoặc tắt thông báo"
+  },
+  "toggleToGreyListWordText": {
+    "message": "Chuyển sang danh sách xám"
+  },
+  "toggleToWhiteListWordText": {
+    "message": "Chuyển sang danh sách trắng"
+  },
+  "versionNumberText": {
+    "message": "Phiên bản $CAD$",
+    "placeholders": {
+      "CAD": {
+        "content": "$1",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "welcomeMessage": {
-    "message": "Chào bạn! Trong phiên này, $cadTitle$ đã xoá $sessionDeleted$ cookie và tổng cộng $totalDeleted$ cookie.",
-    "description": "Hi there! During this session, Cookie AutoDelete has deleted 123 cookies and in total 456 cookies.",
+    "message": "$cadTitle$ đã xóa $sessionDeleted$ cookie trong phiên duyệt web này và tổng cộng $totalDeleted$ kể từ khi cài đặt.",
     "placeholders": {
       "cadTitle": {
         "content": "$1",
-        "example": "Cookie AutoDelete"
+        "example": "Auto-Delete Cookies for Privacy"
       },
       "sessionDeleted": {
         "content": "$2",
@@ -508,11 +917,415 @@
     }
   },
   "welcomeText": {
-    "message": "Chào mừng",
-    "description": "Welcome"
+    "message": "Chào mừng"
+  },
+  "expressionListText": {
+    "message": "Danh sách biểu thức"
   },
   "whiteListWordText": {
-    "message": "Danh sách trắng",
-    "description": "Whitelist"
+    "message": "Danh sách trắng"
+  },
+  "themeText": {
+    "message": "Giao diện"
+  },
+  "themeAutoText": {
+    "message": "Tự động"
+  },
+  "themeLightText": {
+    "message": "Sáng"
+  },
+  "themeDarkText": {
+    "message": "Tối"
+  },
+  "keepLocalStorageText": {
+    "message": "Giữ LocalStorage"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "Giữ LocalStorage đến khi khởi động lại"
+  },
+  "popupHeroOnText": {
+    "message": "Tự động xóa đang bật"
+  },
+  "popupHeroForgetText": {
+    "message": "Trang này sẽ không nhớ bạn."
+  },
+  "popupHeroOffText": {
+    "message": "Tự động xóa đang tắt"
+  },
+  "popupHeroOffSubText": {
+    "message": "Không có gì bị xóa tự động."
+  },
+  "popupHeroKeepingText": {
+    "message": "Đang giữ cookie của trang này"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$ nằm trong danh sách giữ lại của bạn",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$ được giữ đến khi đóng trình duyệt",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "sẽ được dọn"
+  },
+  "siteKeptText": {
+    "message": "được giữ"
+  },
+  "siteCleanDelayText": {
+    "message": "Cookie bị xóa $SECONDS$ giây sau khi bạn rời trang này.",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "Cookie của trang này không bao giờ bị xóa."
+  },
+  "siteKeptSessionStatusText": {
+    "message": "Cookie của trang này tồn tại đến khi đóng trình duyệt."
+  },
+  "keepCookiesButtonText": {
+    "message": "Giữ cookie của trang này"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$ và các tên miền phụ sẽ không bị xóa",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "Giữ đến khi đóng trình duyệt"
+  },
+  "stopKeepingButtonText": {
+    "message": "Ngừng giữ trang này"
+  },
+  "cleanNowText": {
+    "message": "Dọn ngay"
+  },
+  "cleanNowTooltipText": {
+    "message": "Xóa cookie của các trang bạn không giữ — trang đang mở ở thẻ khác được bỏ qua."
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "Dọn ngay, kể cả thẻ đang mở"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "Giống Dọn ngay, nhưng trang đang mở ở thẻ khác không được bỏ qua nữa. Chỉ các trang được giữ mới sống sót."
+  },
+  "deleteSiteCookiesText": {
+    "message": "Xóa cookie của trang này"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "Xóa cookie của $DOMAIN$ ngay bây giờ, dù nó đang mở. Quy tắc giữ chỉ bị bỏ qua cho riêng thao tác này.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "Xóa mọi thứ trang này đã lưu"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "Xóa mọi thứ $DOMAIN$ đã lưu trên thiết bị này: cookie, bộ nhớ đệm, lưu trữ cục bộ, cơ sở dữ liệu, worker.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "Giữ lại"
+  },
+  "keepButtonTooltipText": {
+    "message": "Cookie của trang này không bao giờ bị xóa."
+  },
+  "keepSessionButtonText": {
+    "message": "Giữ phiên này"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "Cookie tồn tại đến khi bạn đóng trình duyệt, rồi bị xóa ở lần khởi động sau."
+  },
+  "noRuleMatchText": {
+    "message": "Không quy tắc nào đã lưu khớp với trang này"
+  },
+  "matchedRuleText": {
+    "message": "Quy tắc khớp: $EXPRESSION$",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "Tùy chọn dọn dẹp khác"
+  },
+  "shareText": {
+    "message": "Chia sẻ"
+  },
+  "shareTooltipText": {
+    "message": "Kể cho ai đó về tiện ích này"
+  },
+  "shareCopyLinkText": {
+    "message": "Sao chép liên kết đến trang tiện ích"
+  },
+  "shareCopiedText": {
+    "message": "Đã sao chép liên kết"
+  },
+  "shareEmailText": {
+    "message": "Chia sẻ qua email"
+  },
+  "moreControlsText": {
+    "message": "Điều khiển khác…"
+  },
+  "lastCleanSummaryText": {
+    "message": "Lần dọn gần nhất: $COUNT$ cookie · $TIME$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "Chế độ nâng cao"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "Hiện các cài đặt chuyên sâu trên trang này và điều khiển bổ sung trong cửa sổ bật lên: quy tắc tên miền chính xác, tùy chọn dọn theo trang, và quy tắc khớp. Mặc định tắt — giao diện đơn giản đủ cho trường hợp thông thường."
+  },
+  "overviewText": {
+    "message": "Tổng quan"
+  },
+  "protectionText": {
+    "message": "Bảo vệ"
+  },
+  "savedSitesText": {
+    "message": "Trang đã lưu"
+  },
+  "savedSitesSubText": {
+    "message": "Các trang bạn giữ lại. Trang được giữ giữ dữ liệu mãi mãi; trang theo phiên giữ đến khi đóng trình duyệt."
+  },
+  "cookiesDeletedSessionText": {
+    "message": "đã xóa phiên này"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "đã xóa tổng cộng"
+  },
+  "keptBadgeText": {
+    "message": "Giữ lại"
+  },
+  "sessionBadgeText": {
+    "message": "Đến khi khởi động lại"
+  },
+  "toggleToKeepText": {
+    "message": "Chuyển sang Giữ lại"
+  },
+  "toggleToSessionText": {
+    "message": "Chuyển sang Giữ phiên này"
+  },
+  "settingGroupSiteData": {
+    "message": "Những gì bị xóa"
+  },
+  "deleteAllSiteDataText": {
+    "message": "Xóa toàn bộ dữ liệu trang"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "Cookie cộng thêm tệp đã lưu, cơ sở dữ liệu ngoại tuyến và worker chạy nền — mọi thứ một trang lưu trên thiết bị của bạn."
+  },
+  "customBadgeText": {
+    "message": "Tùy chỉnh"
+  },
+  "advancedChooseTypesText": {
+    "message": "Nâng cao — chọn chính xác những gì cần xóa"
+  },
+  "patternColumnText": {
+    "message": "Mẫu"
+  },
+  "patternMeaningColumnText": {
+    "message": "Phạm vi khớp"
+  },
+  "patternDomainMeaningText": {
+    "message": "Chính xác tên miền này"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "Tên miền và mọi tên miền phụ"
+  },
+  "patternIPMeaningText": {
+    "message": "Một địa chỉ IP duy nhất"
+  },
+  "patternCIDRMeaningText": {
+    "message": "Mọi địa chỉ trong dải"
+  },
+  "patternRegexMeaningText": {
+    "message": "Nâng cao: biểu thức chính quy giữa hai dấu gạch chéo"
+  },
+  "patternFileMeaningText": {
+    "message": "Tệp cục bộ mở trong trình duyệt"
+  },
+  "patternKeepLevelsText": {
+    "message": "Giữ lại lưu dữ liệu của trang vĩnh viễn. Giữ phiên này chỉ lưu đến khi đóng trình duyệt."
+  },
+  "summaryKeepsEverythingText": {
+    "message": "Giữ mọi thứ"
+  },
+  "summaryAllCookiesText": {
+    "message": "Mọi cookie"
+  },
+  "toggleOptionsText": {
+    "message": "Hiện hoặc ẩn tùy chọn"
+  },
+  "summaryNamedCookiesText": {
+    "message": "$COUNT$ cookie chỉ định tên",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "Xóa $TYPES$",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "Đã xóa mọi trang đã lưu."
+  },
+  "importFoldedContainersText": {
+    "message": "$COUNT$ mục từ các danh sách container cũ đã được gộp vào danh sách mặc định.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
+  },
+  "importExportText": {
+    "message": "Nhập / Xuất"
+  },
+  "importExportSubText": {
+    "message": "Sao lưu cài đặt và các trang đã lưu, khôi phục từ tệp, hoặc quay về mặc định."
+  },
+  "activeModeDescText": {
+    "message": "Sau khi các thẻ của một trang đóng lại."
+  },
+  "gracePeriodDescText": {
+    "message": "Chờ trước khi dọn, phòng khi bạn quay lại."
+  },
+  "domainChangeDescText": {
+    "message": "Dọn trang cũ của một thẻ khi bạn chuyển sang nơi khác trong thẻ đó."
+  },
+  "greylistDescText": {
+    "message": "Trang đánh dấu Giữ đến khi đóng trình duyệt sẽ được dọn khi trình duyệt khởi động lại."
+  },
+  "cleanDiscardedDescText": {
+    "message": "Thẻ bị trình duyệt cho ngủ được tính là đã đóng khi dọn."
+  },
+  "startupCleanDescText": {
+    "message": "Trang trong các thẻ khôi phục từ phiên trước cũng được dọn."
+  },
+  "cleanExpiredDescText": {
+    "message": "Cookie quá hạn bị xóa trong mọi lượt dọn."
+  },
+  "cleanupLogDescText": {
+    "message": "Cung cấp dữ liệu cho trang nhật ký dọn dẹp và bộ đếm cookie đã xóa."
+  },
+  "cookieCountIconDescText": {
+    "message": "Hiện trang hiện tại đã lưu bao nhiêu cookie."
+  },
+  "keepDefaultIconDescText": {
+    "message": "Không đổi màu biểu tượng để báo trang có được giữ hay không."
+  },
+  "notifyAutoDescText": {
+    "message": "Một thông báo ngắn sau mỗi lần dọn tự động."
+  },
+  "notifyDurationDescText": {
+    "message": "Thông báo hiện trên màn hình bao lâu, tính bằng giây."
+  },
+  "debugModeDescText": {
+    "message": "Ghi log chi tiết vào console của tiện ích, phục vụ báo lỗi."
+  },
+  "supportText": {
+    "message": "Hỗ trợ"
+  },
+  "helpText": {
+    "message": "Trợ giúp"
+  },
+  "helpSubText": {
+    "message": "Mọi thứ tiện ích này làm, được giải thích. Mỗi mục mở riêng."
+  },
+  "helpGettingStartedTitle": {
+    "message": "Bắt đầu"
+  },
+  "helpGettingStartedBody": {
+    "message": "Bản cài mới khởi động ở chế độ thủ công: không gì bị xóa cho đến khi bạn ra lệnh. Đây là chủ ý — hãy xây danh sách giữ lại trước, để sau này bật tự động dọn không làm bạn văng khỏi mọi tài khoản quan trọng.\n\n1. Giữ các trang quan trọng. Ghé từng trang mà bị đăng xuất sẽ phiền (email, ngân hàng, mọi thứ trả phí), nhấp biểu tượng trên thanh công cụ rồi nhấn Giữ cookie của trang này. Quy tắc bao trùm tên miền và mọi tên miền phụ. Dùng Giữ đến khi đóng trình duyệt cho trang chỉ cần nhớ bạn lần này.\n\n2. Quyết định dọn nghĩa là gì. Mặc định, dọn chỉ xóa cookie. Bật Xóa toàn bộ dữ liệu trang ở trang Bảo vệ để xóa cả những phần còn sót khác.\n\n3. Bật tự động dọn. Gạt Tự động dọn dẹp ở trang Bảo vệ. Từ đó: đóng thẻ cuối cùng của một trang, hết thời gian ân hạn là cookie của nó biến mất — trừ khi bạn giữ trang đó hoặc nó vẫn mở ở nơi khác.\n\n4. Tùy chọn: để nhật ký dọn dẹp bật, để luôn xem được cái gì bị dọn và vì sao."
+  },
+  "helpCleaningTitle": {
+    "message": "Cách dọn dẹp hoạt động"
+  },
+  "helpCleaningBody": {
+    "message": "Tự động dọn kích hoạt khi thẻ cuối cùng của một trang đóng lại. Thời gian ân hạn (mặc định 15 giây) là cửa sổ hoàn tác của bạn: mở lại trang trong khoảng đó thì không gì bị xóa.\n\nDọn khi rời một trang khiến việc chuyển thẻ từ trang này sang trang khác cũng tính là rời trang đầu — nghiêm hơn, nhưng thấy rõ nếu bạn nhảy qua lại giữa các trang trong một thẻ.\n\nTrong lúc dọn, cookie của một trang sống sót nếu thỏa bất kỳ điều nào sau: trang vẫn mở ở thẻ nào đó; khớp quy tắc Giữ lại; khớp quy tắc Giữ đến khi đóng và đây không phải đợt dọn khởi động lại; hoặc tên cookie cụ thể được đánh dấu trong danh sách cookie của quy tắc khớp. Mọi thứ khác biến mất.\n\nChế độ nâng cao thêm: coi thẻ ngủ (bị loại) như đã đóng, dọn thẻ khôi phục một lần lúc khởi động, luôn xóa cookie hết hạn, và quy tắc giữ theo phiên — trang Giữ đến khi đóng trình duyệt được dọn khi khởi động lại."
+  },
+  "helpSiteDataTitle": {
+    "message": "Những gì bị xóa"
+  },
+  "helpSiteDataBody": {
+    "message": "Mặc định tiện ích chỉ xóa cookie. Công tắc Xóa toàn bộ dữ liệu trang mở rộng việc dọn sang mọi thứ khác một trang lưu trên thiết bị: bộ nhớ đệm, IndexedDB, LocalStorage, dữ liệu plugin và service worker. Phần Nâng cao bên dưới cho chọn từng loại.\n\nHai điều cần biết trước khi gạt:\n\n• Bật một loại sẽ xóa nó một lần, ở mọi nơi. Ngay lúc bạn bật một loại, toàn bộ dữ liệu loại đó đang lưu bị xóa cho mọi trang (cảnh báo trên trang nói về điều này). Tắt công tắc xóa-khi-bật trước nếu không muốn đợt quét đầu đó.\n\n• Dữ liệu cũ không thể dọn chọn lọc. Trình duyệt chỉ cho tiện ích xóa các loại này theo từng trang kể từ nay, với trang bạn ghé lại. Phần sót từ trước khi bật vẫn nằm đó đến khi trang được ghé thêm lần nữa."
+  },
+  "helpPatternsTitle": {
+    "message": "Quy tắc giữ và mẫu"
+  },
+  "helpPatternsBody": {
+    "message": "Mỗi trang đã lưu là một mẫu trên một trong hai danh sách. Trang Giữ lại không bao giờ bị dọn. Trang Giữ đến khi đóng trình duyệt sống sót qua các đợt dọn thường nhưng bị dọn khi khởi động lại. Trang không khớp cái nào sẽ bị dọn ngay khi bạn rời đi — số phận mặc định; quy tắc là ngoại lệ.\n\nMẫu chỉ khớp tên máy chủ — không https://, không đường dẫn:\n\n• example.com — đúng tên miền đó, không phải mail.example.com\n• *.example.com — tên miền và mọi tên miền phụ\n• 192.168.1.100 — địa chỉ IP đó\n• 10.0.0.0/8 — bất kỳ IP nào trong dải CIDR\n• /^(mail|news)\\.example\\.com$/ — biểu thức chính quy giữa hai dấu gạch chéo\n• file:///home/user/notes — trang mở từ thư mục cục bộ đó\n\nMỗi quy tắc còn mang tùy chọn theo trang (mở rộng hàng của nó ở trang Trang đã lưu): chỉ giữ cookie chỉ định tên thay vì tất cả, và lựa chọn dữ liệu theo loại. Quy tắc Tạo tùy chọn mặc định đặt tùy chọn khởi đầu cho mọi quy tắc thêm sau.\n\nMẹo: để MỌI cookie biến mất khi khởi động lại, thêm * làm quy tắc Giữ đến khi đóng trình duyệt và đánh dấu Giữ lại cho các trang thực sự lâu dài."
+  },
+  "helpImportExportTitle": {
+    "message": "Nhập và xuất"
+  },
+  "helpImportExportBody": {
+    "message": "Trang Nhập / Xuất sao lưu hai thứ riêng biệt: các trang đã lưu và cài đặt của bạn. Cả hai đều là tệp JSON thường với tên gắn dấu thời gian, nên các bản sao lưu lặp lại không đè lên nhau. Nhập không bao giờ xóa những gì bạn đã có; mục trùng hoàn toàn bị bỏ qua, mục không hợp lệ bị từ chối kèm lý do trong khi phần còn lại vẫn được nhập.\n\nBản xuất từ Cookie AutoDelete gốc nhập vào mượt mà — cùng định dạng. Bản xuất thời Firefox có thể chứa danh sách thẻ container (tính năng Firefox không có trên Chromium); các mục đó được gộp vào danh sách mặc định, bỏ qua trùng lặp, và thông báo nhập cho biết đã gộp bao nhiêu.\n\nViệc đặt lại cài đặt về mặc định cũng nằm ở trang đó. Nó không đụng đến các trang đã lưu."
+  },
+  "helpLogTitle": {
+    "message": "Nhật ký dọn dẹp"
+  },
+  "helpLogBody": {
+    "message": "Nhật ký dọn dẹp trả lời sao mình bị đăng xuất khỏi trang đó? và cái này có thật sự làm gì không?. Giữ Ghi nhật ký dọn dẹp bật, rồi mở trang nhật ký sau một đợt dọn.\n\nMỗi mục liệt kê các trang bị ảnh hưởng và quyết định cho từng trang, bằng lời dễ hiểu: giữ vì khớp quy tắc, giữ vì trang vẫn đang mở, dọn vì không khớp gì, dọn lúc khởi động (chính nó làm trống các trang đến-khi-khởi-động-lại), hoặc dọn chọn lọc khi quy tắc chỉ giữ cookie chỉ định tên. Các dòng quyết định dùng tên danh sách nội bộ: danh sách trắng nghĩa là quy tắc Giữ lại vĩnh viễn, danh sách xám nghĩa là giữ đến khi đóng trình duyệt.\n\nNhật ký không bao giờ chứa giá trị cookie, không ghi thẻ riêng tư/ẩn danh, không rời khỏi trình duyệt của bạn, và mục cũ tự rơi khỏi cuối danh sách. Bộ đếm ở trang Tổng quan (phiên này / tổng) lấy từ cùng một sổ sách."
+  },
+  "helpPermissionsTitle": {
+    "message": "Vì sao cần các quyền này"
+  },
+  "helpPermissionsBody": {
+    "message": "Cảnh báo lúc cài Đọc và thay đổi dữ liệu trang web trên mọi trang web là điều không tránh được: cookie có thể thuộc bất kỳ trang nào bạn ghé, nên xóa chúng cần quyền truy cập mọi trang. Quyền này chỉ dùng để đọc và xóa cookie cùng dữ liệu trang — không bao giờ đọc nội dung trang, không bao giờ liên lạc với máy chủ nào (vốn không tồn tại).\n\nPhần còn lại, ngắn gọn. Cookie: liệt kê cookie của trang cho bộ đếm và xóa chúng. Dữ liệu duyệt web: xóa phần phụ tùy chọn — bộ nhớ đệm, IndexedDB, LocalStorage, dữ liệu plugin, service worker. Lưu trữ: lưu cài đặt và quy tắc giữ tại máy. Báo thức: giữ đúng lịch một đợt dọn trì hoãn dù trình duyệt cho tiện ích ngủ trong lúc chờ. Thẻ: biết trang nào đang mở (trang mở được bảo vệ) và nhận ra khi thẻ đóng hoặc rời một trang. Thẻ hiện hành và Scripting: chạy các thao tác theo trang trong cửa sổ bật lên. Menu chuột phải và Thông báo: hai tính năng tùy chọn, tắt được trong cài đặt.\n\nCố tình không có: lịch sử duyệt web, chặn bắt yêu cầu mạng, và mọi truy cập mạng nói chung. Tiện ích không thể thấy bạn gõ gì hay đọc trang nào."
+  },
+  "helpTroubleshootingTitle": {
+    "message": "Khắc phục sự cố và câu hỏi thường gặp"
+  },
+  "helpTroubleshootingBody": {
+    "message": "Bị đăng xuất khỏi một trang? Theo thứ tự khả năng: trang không có quy tắc giữ (hoặc chỉ đúng tên máy chủ có, trong khi đăng nhập nằm ở tên miền phụ — dùng dạng *.example.com); nó là trang đến-khi-khởi-động-lại và trình duyệt vừa khởi động lại; quy tắc khớp chỉ giữ cookie chỉ định tên mà cookie đăng nhập chưa được đánh dấu; hoặc cookie của trang đơn giản là hết hạn. Đừng đoán — nhật ký dọn dẹp nêu đích danh quy tắc đã kích hoạt.\n\nCookie xuất hiện lại ngay sau khi dọn? Trang gần như chắc chắn vẫn mở ở thẻ nào đó — trang đang mở tha hồ tạo lại cookie và đằng nào cũng được bảo vệ.\n\nDọn không chạy? Kiểm tra theo thứ tự: tự động dọn đang bật (đầu cửa sổ bật lên có ghi); trang không mở ở thẻ khác; thời gian ân hạn đã qua; không quy tắc giữ nào khớp; đó không phải thẻ ngủ (thẻ ngủ chỉ tính là đóng khi cài đặt nâng cao đó bật).\n\nĐã bật dọn dữ liệu trang mà dữ liệu cũ vẫn còn? Trình duyệt chỉ cho xóa các loại đó với trang bạn ghé lại; phần sót nằm đó đến lần ghé sau.\n\nẨn danh? Chỉ khi bạn cho phép: trang tiện ích của trình duyệt → Cho phép ở chế độ ẩn danh. Chế độ ẩn danh có kho cookie và trang đã lưu riêng, và không bao giờ được ghi vào nhật ký.\n\nVẫn bí? Trang Hỗ trợ có số phiên bản, khối gỡ lỗi sao chép được và liên kết báo lỗi. Chế độ gỡ lỗi (Nâng cao) khiến tiện ích thuật lại từng quyết định vào console của service worker, với giá trị cookie được che."
   }
 }

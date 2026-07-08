@@ -2,9 +2,11 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    # launch-prep is the pre-publication working branch; per-issue PRs
+    # target it and the final launch-prep -> main merge is manual.
+    branches: [main, launch-prep]
   pull_request:
-    branches: [main]
+    branches: [main, launch-prep]
 
 permissions:
   contents: read
@@ -33,6 +35,8 @@ jobs:
       - run: just lint
 
       - run: just format_check
+
+      - run: just check_locales
 
       - run: just test
 

@@ -1,32 +1,1331 @@
 {
-  "extensionName": {
-    "message": "Auto-Delete Cookies for Privacy",
-    "description": "Name of the extension."
+  "aboutText": {
+    "message": "Névjegy"
   },
-  "notificationTitle": {
-    "message": "Cookies were deleted!",
-    "description": "Cookies were deleted!  Used in Notification Title."
+  "activeModeDelayText": {
+    "message": "Türelmi idő"
   },
-  "preferencesText": {
-    "message": "Beállítások",
-    "description": "Settings"
+  "activeModeText": {
+    "message": "Automatikus takarítás"
   },
-  "versionText": {
-    "message": "$browser$ verzió",
-    "description": "Firefox version",
+  "activityLogSiteDataDomainsText": {
+    "message": "$siteData$ eltávolítva: $domains$",
     "placeholders": {
-      "browser": {
+      "siteData": {
         "content": "$1",
-        "example": "Firefox"
+        "example": "Cache (translated version)"
+      },
+      "domains": {
+        "content": "$2",
+        "example": "example.com, github.com"
       }
     }
   },
-  "contributeText": {
-    "message": "Hozzájárulás",
-    "description": "Contribute"
+  "addNewExpressionNotification": {
+    "message": "$expression$ elmentve a(z) $listType$ listára (sütitároló: $cookieStore$).",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "example.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "WHITE"
+      },
+      "cookieStore": {
+        "content": "$3",
+        "example": "'default' -or- 'private'"
+      }
+    }
+  },
+  "addNewExpressionNotificationFailed": {
+    "message": "A jobb kattintás helyéről nem sikerült domaint kiolvasni."
+  },
+  "addNewExpressionNotificationIgnore": {
+    "message": "A duplikátumok automatikusan kimaradnak."
+  },
+  "autoDeleteDisabledText": {
+    "message": "Automatikus takarítás kikapcsolva"
+  },
+  "autoDeleteEnabledText": {
+    "message": "Automatikus takarítás bekapcsolva"
+  },
+  "browsingDataNoEmptyWarning": {
+    "message": "Figyelem: ennek bekapcsolása nem nyúl a webhelyek korábban tárolt adataihoz. Egy webhely maradványai csak akkor válnak takaríthatóvá, ha újra meglátogatod — addig a helyükön maradnak, még azoknál a webhelyeknél is, amelyektől szabadulnál."
+  },
+  "browsingDataWarning": {
+    "message": "Vigyázat: az alábbi takarítási típusok bármelyikének bekapcsolása azonnal törli az adott típus ÖSSZES jelenleg tárolt adatát, minden webhelynél."
+  },
+  "cacheCleanupText": {
+    "message": "Gyorsítótár-takarítás engedélyezése"
+  },
+  "cacheText": {
+    "message": "Gyorsítótár"
+  },
+  "chromeDebugMode": {
+    "message": "Kapcsold be a Fejlesztői módot, majd nyisd meg a service worker konzolját a Nézetek vizsgálata hivatkozásból."
+  },
+  "cleanDiscardedText": {
+    "message": "Alvó lapok kezelése bezártként"
+  },
+  "cleanExpiredCookiesText": {
+    "message": "Lejárt sütik törlése mindig"
+  },
+  "cleanIgnoringOpenTabsText": {
+    "message": "Takarítás, nyitott lapokkal együtt"
+  },
+  "cleanText": {
+    "message": "Takarítás"
+  },
+  "cleanupDomainChangeText": {
+    "message": "Takarítás a webhely elhagyásakor"
+  },
+  "cleanupActionsBypass": {
+    "message": "Vigyázat — ezek a gombok figyelmen kívül hagyják a megtartási listáidat és azonnal takarítanak!"
+  },
+  "cleanupLogText": {
+    "message": "Takarítási napló"
+  },
+  "clearLogsText": {
+    "message": "Napló törlése"
+  },
+  "consoleDebugMode": {
+    "message": "Válts a Konzol lapra."
+  },
+  "contextMenusParentClean": {
+    "message": "Kézi takarítás"
+  },
+  "contextMenusParentExpression": {
+    "message": "Hozzáadás a megtartási listákhoz"
+  },
+  "contextMenusSelectedDomainLink": {
+    "message": "Csak a hivatkozás domainje"
+  },
+  "contextMenusSelectedDomainPage": {
+    "message": "Csak az oldal domainje"
+  },
+  "contextMenusSelectedDomainText": {
+    "message": "Csak a domain: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "contextMenusSelectedSubdomainLink": {
+    "message": "A hivatkozás domainje az összes aldomainnel"
+  },
+  "contextMenusSelectedSubdomainPage": {
+    "message": "Az oldal domainje az összes aldomainnel"
+  },
+  "contextMenusSelectedSubdomainText": {
+    "message": "Minden aldomain: $selected$",
+    "placeholders": {
+      "selected": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "contributorsText": {
+    "message": "Közreműködők"
+  },
+  "cookiesText": {
+    "message": "Sütik"
+  },
+  "cookieCleanUpOnStartText": {
+    "message": "Visszaállított lapok takarítása induláskor"
+  },
+  "cookieCleanupIgnoreOpenTabsText": {
+    "message": "Takarítás most, a lapon nyitott webhelyekkel együtt"
+  },
+  "cookieCleanupText": {
+    "message": "Takarítás most, de a lapon nyitott webhelyek kihagyásával"
+  },
+  "copyDebugSettingText": {
+    "message": "A jelenlegi beállításaid másolata. Illeszd be a GitHub-issue-ba, ha releváns."
+  },
+  "copyDebugSystemText": {
+    "message": "A rendszeradataid. Illeszd be a GitHub-issue megfelelő részébe."
+  },
+  "copyFailedText": {
+    "message": "Nem sikerült automatikusan másolni — jelöld ki a szöveget és másold ki magad."
+  },
+  "copySuccessText": {
+    "message": "Kimásolva!"
+  },
+  "copyToClipboardText": {
+    "message": "Másolás a vágólapra"
+  },
+  "createDefaultExpressionOptionsText": {
+    "message": "Alapértelmezett beállítások létrehozása"
+  },
+  "debugMode": {
+    "message": "Hibakeresési mód"
+  },
+  "debugTitle": {
+    "message": "Hibakeresési adatok"
+  },
+  "defaultSettingsText": {
+    "message": "Beállítások visszaállítása alapértelmezettre"
+  },
+  "disableAutoDeleteText": {
+    "message": "Automatikus takarítás kikapcsolása (kézi mód)"
+  },
+  "documentationText": {
+    "message": "Dokumentáció"
+  },
+  "domainExpressionsText": {
+    "message": "Webhely"
   },
   "domainPlaceholderText": {
-    "message": "example.com, aldomain.example.com, *. example.com",
-    "description": "Domain Expression"
+    "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/"
+  },
+  "dropdownAdditionalCleaningOptions": {
+    "message": "További takarítási műveletek"
+  },
+  "editExpressionText": {
+    "message": "Kifejezés szerkesztése"
+  },
+  "enableAutoDeleteText": {
+    "message": "Automatikus takarítás bekapcsolása"
+  },
+  "enableCleanupLogText": {
+    "message": "Takarítási napló vezetése"
+  },
+  "enableContextMenus": {
+    "message": "Jobbklikk-menü műveletei"
+  },
+  "enableGreyListCleanup": {
+    "message": "Munkameneti megtartási szabályok"
+  },
+  "enableNewVersionPopup": {
+    "message": "Kiadási jegyzetek megjelenítése frissítések után"
+  },
+  "errorText": {
+    "message": "Hiba!"
+  },
+  "exportSettingsText": {
+    "message": "Beállítások exportálása..."
+  },
+  "exportURLSText": {
+    "message": "Mentett webhelyek exportálása"
+  },
+  "exportTitleTimestamp": {
+    "message": "Az exportált fájlnevek időbélyeget kapnak."
+  },
+  "extensionDescription": {
+    "message": "Rendet rak a lapjaid után: lap bezárva, sütijei és webhelyadatai törölve — kivéve a megtartási listáid webhelyeit."
+  },
+  "extensionName": {
+    "message": "Auto-Delete Cookies for Privacy"
+  },
+  "faqText": {
+    "message": "GYIK és hibaelhárítás"
+  },
+  "filterDebugMode": {
+    "message": "Ha csak ennek a bővítménynek az üzeneteit akarod látni, illeszd ezt a konzol szűrőmezőjébe:"
+  },
+  "filterText": {
+    "message": "Szűrő"
+  },
+  "greyListWordText": {
+    "message": "Szürkelista"
+  },
+  "groupExpressionDefaultNotice": {
+    "message": "Az új kifejezések alapértelmezett beállításai mostantól magán a kifejezésen élnek — nyisd meg: $listExpression$.",
+    "placeholders": {
+      "listExpression": {
+        "content": "$1",
+        "example": "List of Expressions <- the translated version"
+      }
+    }
+  },
+  "importCoreSettingsFailed": {
+    "message": "Beállításimport megszakítva: a fájl ismeretlen beállítást tartalmaz."
+  },
+  "importCoreSettingsText": {
+    "message": "Beállítások importálása..."
+  },
+  "importFileNotFound": {
+    "message": "Nincs ilyen fájl: $filename$",
+    "placeholders": {
+      "filename": {
+        "content": "$1",
+        "example": "filename.json"
+      }
+    }
+  },
+  "importFileTypeInvalid": {
+    "message": "Ez a fájltípus nem támogatott importáláshoz."
+  },
+  "importFileValidationFailed": {
+    "message": "A fájl nem ment át az ellenőrzésen."
+  },
+  "importInvalidExpressions": {
+    "message": "Néhány importált kifejezés érvénytelen volt; mindegyik alább szerepel az okával. Javítsd őket a fájlban, és importáld újra."
+  },
+  "importListNotArray": {
+    "message": "$identifier$ tömbnek kellene lennie, de nem az.",
+    "placeholders": {
+      "identifier": {
+        "content": "$1",
+        "example": "jsonObjectKey"
+      }
+    }
+  },
+  "importMissingKey": {
+    "message": "Hiányzó azonosító"
+  },
+  "importURLSText": {
+    "message": "Mentett webhelyek importálása"
+  },
+  "importValidExpressions": {
+    "message": "$num$ kifejezés importálva innen: $filename$.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "filename": {
+        "content": "$2",
+        "example": "filename.json"
+      }
+    }
+  },
+  "indexedDBCleanupText": {
+    "message": "IndexedDB-takarítás engedélyezése"
+  },
+  "indexedDBText": {
+    "message": "IndexedDB"
+  },
+  "inputErrorComma": {
+    "message": "Vessző csak reguláris kifejezésben szerepelhet."
+  },
+  "inputErrorEmpty": {
+    "message": "A kifejezés nem lehet üres."
+  },
+  "inputErrorRegExp": {
+    "message": "Érvénytelen reguláris kifejezés: $RegexError$",
+    "placeholders": {
+      "RegexError": {
+        "content": "$1",
+        "example": "SyntaxError:  unterminated character class."
+      }
+    }
+  },
+  "inputErrorSlashEndMissingStart": {
+    "message": "Perjellel végződik, de nem azzal kezdődik. Sima domainnél töröld a záró perjelet; regexnél tedd ki a nyitót."
+  },
+  "inputErrorSlashStartMissingEnd": {
+    "message": "Perjellel kezdődik, de sosem zárja le. Tedd ki a záró perjelet a reguláris kifejezés befejezéséhez."
+  },
+  "inputErrorSpace": {
+    "message": "A gépnevekben nem lehet szóköz."
+  },
+  "inputAddSuccess": {
+    "message": "$num$ kifejezés hozzáadva az aktív listához $listType$ típusként.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "GreyList"
+      }
+    }
+  },
+  "invalidNewExpressions": {
+    "message": "Néhány új kifejezés érvénytelen volt; fent maradnak szerkesztésre, az okok alább."
+  },
+  "keepAllCookiesText": {
+    "message": "Minden süti megtartása"
+  },
+  "keepAllCookiesGreyText": {
+    "message": "Minden süti megtartása újraindításig"
+  },
+  "keepCacheText": {
+    "message": "Gyorsítótár megtartása"
+  },
+  "keepCacheGreyText": {
+    "message": "Gyorsítótár megtartása újraindításig"
+  },
+  "keepDefaultIcon": {
+    "message": "Egyszerű ikon megtartása"
+  },
+  "keepIndexedDBText": {
+    "message": "IndexedDB megtartása"
+  },
+  "keepIndexedDBGreyText": {
+    "message": "IndexedDB megtartása újraindításig"
+  },
+  "keepLocalstorageText": {
+    "message": "LocalStorage megtartása"
+  },
+  "keepLocalstorageGreyText": {
+    "message": "LocalStorage megtartása újraindításig"
+  },
+  "keepPluginDataText": {
+    "message": "Bővítményadatok megtartása"
+  },
+  "keepPluginDataGreyText": {
+    "message": "Bővítményadatok megtartása újraindításig"
+  },
+  "keepServiceWorkersText": {
+    "message": "Service workerek megtartása"
+  },
+  "keepServiceWorkersGreyText": {
+    "message": "Service workerek megtartása újraindításig"
+  },
+  "keepText": {
+    "message": "Megtartás"
+  },
+  "listTypeText": {
+    "message": "Meddig"
+  },
+  "localStorageCleanupText": {
+    "message": "LocalStorage-takarítás engedélyezése"
+  },
+  "localStorageText": {
+    "message": "LocalStorage"
+  },
+  "manualActionNotification": {
+    "message": "Kézi takarítás"
+  },
+  "manualCleanError": {
+    "message": "Nem sikerült kitakarítani a lap $siteData$ adatát:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      }
+    }
+  },
+  "manualCleanNothing": {
+    "message": "Nincs mit takarítani: nem található $siteData$ itt: $url$.",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanRemoved": {
+    "message": "$deleted$/$total$ törölve.",
+    "placeholders": {
+      "deleted": {
+        "content": "$1",
+        "example": "5"
+      },
+      "total": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "manualCleanSiteDataAll": {
+    "message": "Minden törlése ennél a webhelynél"
+  },
+  "manualCleanSiteDataAllDomain": {
+    "message": "A(z) $domain$ által tárolt összes webhelyadat törlése",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataCache": {
+    "message": "A webhely gyorsítótárának törlése"
+  },
+  "manualCleanSiteDataCacheDomain": {
+    "message": "A(z) $domain$ által tárolt összes gyorsítótár törlése",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataCookies": {
+    "message": "A webhely sütijeinek törlése"
+  },
+  "manualCleanSiteDataCookiesDomain": {
+    "message": "A(z) $domain$ által tárolt összes süti törlése",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataIndexedDB": {
+    "message": "A webhely IndexedDB-jének törlése"
+  },
+  "manualCleanSiteDataIndexedDBDomain": {
+    "message": "A(z) $domain$ által tárolt összes IndexedDB-adat törlése",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataLocalStorage": {
+    "message": "A webhely LocalStorage-ának törlése"
+  },
+  "manualCleanSiteDataLocalStorageDomain": {
+    "message": "A(z) $domain$ által tárolt összes LocalStorage törlése",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataPluginData": {
+    "message": "A webhely bővítményadatainak törlése"
+  },
+  "manualCleanSiteDataPluginDataDomain": {
+    "message": "A(z) $domain$ által tárolt összes bővítményadat törlése",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSiteDataServiceWorkers": {
+    "message": "A webhely service workereinek törlése"
+  },
+  "manualCleanSiteDataServiceWorkersDomain": {
+    "message": "A(z) $domain$ által regisztrált összes service worker törlése",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualCleanSuccess": {
+    "message": "$siteData$ takarításának eredménye itt: $url$:",
+    "placeholders": {
+      "siteData": {
+        "content": "$1",
+        "example": "Cookies"
+      },
+      "url": {
+        "content": "$2",
+        "example": "example.com"
+      }
+    }
+  },
+  "manualNotificationsText": {
+    "message": "Értesítés kézi takarítások után"
+  },
+  "matchedDomainExpressionText": {
+    "message": "Egyező domainkifejezés"
+  },
+  "menuText": {
+    "message": "Menü"
+  },
+  "minutesText": {
+    "message": "perc"
+  },
+  "noCleanupLogText": {
+    "message": "A takarítási napló üres."
+  },
+  "noExpressionsText": {
+    "message": "Még nem adtál hozzá kifejezéseket."
+  },
+  "noPrivateLogging": {
+    "message": "Privát/inkognitó lapok sosem kerülnek naplóba."
+  },
+  "noSearchExpressionsFound": {
+    "message": "Semmi sem felel meg a keresésednek."
+  },
+  "noRulesText": {
+    "message": "Egy kifejezés sem illik erre a webhelyre."
+  },
+  "noneText": {
+    "message": "Nincs"
+  },
+  "notificationContent": {
+    "message": "Webhelyadatok eltávolítva — $Num$ süti $total$ webhelyről, köztük: $Websites$",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "123"
+      },
+      "total": {
+        "content": "$2",
+        "example": "8"
+      },
+      "websites": {
+        "content": "$3",
+        "example": "google.com, facebook.com"
+      }
+    }
+  },
+  "notificationDisabledText": {
+    "message": "Értesítés kikapcsolva"
+  },
+  "notificationEnabledText": {
+    "message": "Értesítés bekapcsolva"
+  },
+  "notificationTitle": {
+    "message": "Sütik kitakarítva"
+  },
+  "notificationTitleSiteData": {
+    "message": "Webhelyadatok kitakarítva"
+  },
+  "notifyCookieCleanupDelayText": {
+    "message": "Értesítés időtartama"
+  },
+  "notifyCookieCleanUpText": {
+    "message": "Értesítés takarítás után"
+  },
+  "oldReleasesText": {
+    "message": "A korábbi kiadások itt találhatók:"
+  },
+  "openDebugMode": {
+    "message": "A hibakeresési kimenet a bővítmény konzoljában van. Nyiss új lapot, és menj ide:"
+  },
+  "optionsText": {
+    "message": "Mit tart meg"
+  },
+  "pluginDataCleanupText": {
+    "message": "Bővítményadat-takarítás engedélyezése"
+  },
+  "pluginDataText": {
+    "message": "Bővítményadatok"
+  },
+  "popupCookieCountText": {
+    "message": "Sütik"
+  },
+  "preferencesText": {
+    "message": "Beállítások"
+  },
+  "questionExpression": {
+    "message": "Hogyan működnek a minták?"
+  },
+  "reasonCADSiteDataCookie": {
+    "message": "Belső jelölősüti eltávolítva, hogy elinduljon a(z) $hostname$ webhelyadat-takarítása.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCADSiteDataCookieRestart": {
+    "message": "Belső jelölősüti eltávolítva újraindításkor, hogy elinduljon a(z) $hostname$ webhelyadat-takarítása.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpired": {
+    "message": "Csak a lejárt sütik lettek törölve innen: $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieExpiredRestart": {
+    "message": "Az újraindítási takarítás során csak a lejárt sütik lettek törölve innen: $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "sub.domain.com"
+      }
+    }
+  },
+  "reasonCleanCookieName": {
+    "message": "Szelektív takarítás: a(z) $listType$ listán lévő $matchedExpression$ védi a többi sütit, ezt viszont nem",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.google.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      }
+    }
+  },
+  "reasonCleanGreyList": {
+    "message": "Induláskor takarítva: $matchedExpression$ a szürkelistán van",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.google.com"
+      }
+    }
+  },
+  "reasonCleanNoList": {
+    "message": "Takarítva: $hostname$ nincs sem a fehérlistán, sem a szürkelistán",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "example": "sub.google.com"
+      }
+    }
+  },
+  "reasonCleanStartupNoList": {
+    "message": "Induláskor takarítva: $hostname$ nincs sem a fehérlistán, sem a szürkelistán",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "example": "sub.google.com"
+      }
+    }
+  },
+  "reasonKeep": {
+    "message": "Megtartva: egyezett a(z) $listType$ listán lévő $matchedExpression$",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.google.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      }
+    }
+  },
+  "reasonKeepOpenTab": {
+    "message": "Megtartva: *.$mainDomain$ még nyitva van egy lapon",
+    "placeholders": {
+      "mainDomain": {
+        "content": "$1",
+        "example": "google.com"
+      }
+    }
+  },
+  "reasonTabsWereIgnored": {
+    "message": "(a nyitott lapok ezúttal figyelmen kívül maradtak)"
+  },
+  "reasonTabsWereNotIgnored": {
+    "message": "(és egyetlen lapon sincs nyitva)"
+  },
+  "releaseNotesText": {
+    "message": "Kiadási jegyzetek"
+  },
+  "removeActivityLogEntryText": {
+    "message": "Naplóbejegyzés törlése"
+  },
+  "removeAllExpressions": {
+    "message": "Összes törlése"
+  },
+  "removeAllExpressionsConfirm": {
+    "message": "Ez véglegesen töröl mind a(z) $expressionCount$ kifejezést $listCount$ listáról.\n\nNincs visszavonás.\n\nÍrd be: [ $expressionCount$ ], majd nyomj OK-t a megerősítéshez.",
+    "placeholders": {
+      "expressionCount": {
+        "content": "$1",
+        "example": "75"
+      },
+      "listCount": {
+        "content": "$2",
+        "example": "5"
+      }
+    }
+  },
+  "removeAllExpressionsNoneFound": {
+    "message": "Nincs törölhető kifejezés."
+  },
+  "removeExpressionText": {
+    "message": "Kifejezés törlése"
+  },
+  "removeListText": {
+    "message": "A kiválasztott lista összes kifejezésének törlése"
+  },
+  "removeStorageCount": {
+    "message": "$count$ elem törölve innen: $storageType$.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "1"
+      },
+      "storageType": {
+        "content": "$2",
+        "example": "LocalStorage"
+      }
+    }
+  },
+  "reportIssuesText": {
+    "message": "Hibajelentések és ötletek"
+  },
+  "resetCookieCounterText": {
+    "message": "Sütiszámlálók nullázása"
+  },
+  "resetExtensionDataText": {
+    "message": "A bővítmény összes adatának törlése"
+  },
+  "restoreText": {
+    "message": "Visszaállítás"
+  },
+  "saveExpressionText": {
+    "message": "Kifejezés mentése"
+  },
+  "secondsText": {
+    "message": "másodperc"
+  },
+  "serviceWorkersCleanupText": {
+    "message": "Service worker-takarítás engedélyezése"
+  },
+  "serviceWorkersText": {
+    "message": "Service workerek"
+  },
+  "sessionStorageText": {
+    "message": "SessionStorage"
+  },
+  "settingGroupAutoClean": {
+    "message": "Időzítés"
+  },
+  "settingGroupExpression": {
+    "message": "Kifejezés-beállítások"
+  },
+  "settingGroupExtension": {
+    "message": "Felület"
+  },
+  "settingGroupOtherBrowsing": {
+    "message": "Egyéb böngészésiadat-takarítási beállítások"
+  },
+  "settingsText": {
+    "message": "$CAD$ beállításai",
+    "placeholders": {
+      "CAD": {
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
+      }
+    }
+  },
+  "showNumberOfCookiesInIconText": {
+    "message": "Sütiszám az eszköztárikonon"
+  },
+  "siteDataEmptyOnEnable": {
+    "message": "Új adattípus bekapcsolásakor a már tárolt törlése"
+  },
+  "siteDataText": {
+    "message": "Webhelyadatok"
+  },
+  "siteDataPanelTitle": {
+    "message": "A webhely által tárolt adatok"
+  },
+  "siteDataLoadingText": {
+    "message": "Nézzük, mit tárol ez a webhely…"
+  },
+  "siteDataNotAvailableText": {
+    "message": "Ezen az oldalon nem érhető el"
+  },
+  "siteDataEmptyText": {
+    "message": "Ez a webhely most semmit sem tárol"
+  },
+  "siteDataUsageText": {
+    "message": "$used$ használatban ennyiből: $quota$",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
+      }
+    }
+  },
+  "siteDataSessionCookieText": {
+    "message": "munkamenet"
+  },
+  "siteDataExpiresText": {
+    "message": "lejár: $date$",
+    "placeholders": {
+      "date": {
+        "content": "$1",
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "ismeretlen"
+  },
+  "siteDataRefreshTitle": {
+    "message": "Frissítés"
+  },
+  "sizePopupText": {
+    "message": "Felugró ablak betűmérete"
+  },
+  "sizeSettingText": {
+    "message": "Beállítások betűmérete"
+  },
+  "stopEditingText": {
+    "message": "Szerkesztés befejezése"
+  },
+  "successText": {
+    "message": "Siker!"
+  },
+  "toGreyListText": {
+    "message": "Hozzáadás a szürkelistához (megtartva a böngésző újraindításáig)"
+  },
+  "toWhiteListText": {
+    "message": "Hozzáadás a fehérlistához (sosem takarítjuk)"
+  },
+  "toggleNotificationText": {
+    "message": "Értesítések be- vagy kikapcsolása"
+  },
+  "toggleToGreyListWordText": {
+    "message": "Váltás szürkelistára"
+  },
+  "toggleToWhiteListWordText": {
+    "message": "Váltás fehérlistára"
+  },
+  "versionNumberText": {
+    "message": "$CAD$ verziója",
+    "placeholders": {
+      "CAD": {
+        "content": "$1",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
+      }
+    }
+  },
+  "welcomeMessage": {
+    "message": "A $cadTitle$ ebben a böngésző-munkamenetben $sessionDeleted$ sütit törölt, a telepítés óta összesen $totalDeleted$ darabot.",
+    "placeholders": {
+      "cadTitle": {
+        "content": "$1",
+        "example": "Auto-Delete Cookies for Privacy"
+      },
+      "sessionDeleted": {
+        "content": "$2",
+        "example": "123"
+      },
+      "totalDeleted": {
+        "content": "$3",
+        "example": "456"
+      }
+    }
+  },
+  "welcomeText": {
+    "message": "Üdvözlünk"
+  },
+  "expressionListText": {
+    "message": "Kifejezések listája"
+  },
+  "whiteListWordText": {
+    "message": "Fehérlista"
+  },
+  "themeText": {
+    "message": "Téma"
+  },
+  "themeAutoText": {
+    "message": "Automatikus"
+  },
+  "themeLightText": {
+    "message": "Világos"
+  },
+  "themeDarkText": {
+    "message": "Sötét"
+  },
+  "keepLocalStorageText": {
+    "message": "LocalStorage megtartása"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "LocalStorage megtartása újraindításig"
+  },
+  "popupHeroOnText": {
+    "message": "Az automatikus törlés be van kapcsolva"
+  },
+  "popupHeroForgetText": {
+    "message": "Ez a webhely nem fog emlékezni rád."
+  },
+  "popupHeroOffText": {
+    "message": "Az automatikus törlés ki van kapcsolva"
+  },
+  "popupHeroOffSubText": {
+    "message": "Semmi sem törlődik automatikusan."
+  },
+  "popupHeroKeepingText": {
+    "message": "A webhely sütijeit megtartjuk"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$ a megtartási listádon van",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$ a böngésző bezárásáig marad meg",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "takarítva lesz"
+  },
+  "siteKeptText": {
+    "message": "megtartva"
+  },
+  "siteCleanDelayText": {
+    "message": "A sütik $SECONDS$ mp-cel azután törlődnek, hogy elhagyod a webhelyet.",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "Ennek a webhelynek a sütijei sosem törlődnek."
+  },
+  "siteKeptSessionStatusText": {
+    "message": "Ennek a webhelynek a sütijei a böngésző bezárásáig maradnak."
+  },
+  "keepCookiesButtonText": {
+    "message": "A webhely sütijeinek megtartása"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$ és aldomainjei nem törlődnek",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "Megtartás a böngésző bezárásáig"
+  },
+  "stopKeepingButtonText": {
+    "message": "A webhely megtartásának leállítása"
+  },
+  "cleanNowText": {
+    "message": "Takarítás most"
+  },
+  "cleanNowTooltipText": {
+    "message": "Törli azon webhelyek sütijeit, amelyeket nem tartasz meg — a más lapokon nyitott webhelyek kimaradnak."
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "Takarítás most, a nyitott lapokkal együtt"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "Ugyanaz, mint a Takarítás most, de a más lapokon nyitott webhelyek már nem maradnak ki. Csak a megtartott webhelyek élik túl."
+  },
+  "deleteSiteCookiesText": {
+    "message": "A webhely sütijeinek törlése"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "$DOMAIN$ sütijeinek azonnali törlése, pedig nyitva van. A megtartási szabályok csak ennél az egy műveletnél maradnak figyelmen kívül.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "Minden törlése, amit a webhely tárolt"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "Minden törlése, amit $DOMAIN$ ezen az eszközön tárolt: sütik, gyorsítótár, helyi tároló, adatbázisok, workerek.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "Megtartás"
+  },
+  "keepButtonTooltipText": {
+    "message": "Ennek a webhelynek a sütijei sosem törlődnek."
+  },
+  "keepSessionButtonText": {
+    "message": "E munkamenet megtartása"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "A sütik a böngésző bezárásáig maradnak, a következő indításkor törlődnek."
+  },
+  "noRuleMatchText": {
+    "message": "Egyetlen mentett szabály sem illik erre a webhelyre"
+  },
+  "matchedRuleText": {
+    "message": "Egyező szabály: $EXPRESSION$",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "További takarítási lehetőségek"
+  },
+  "shareText": {
+    "message": "Megosztás"
+  },
+  "shareTooltipText": {
+    "message": "Mesélj valakinek erről a bővítményről"
+  },
+  "shareCopyLinkText": {
+    "message": "Hivatkozás másolása a bővítmény oldalára"
+  },
+  "shareCopiedText": {
+    "message": "Hivatkozás kimásolva"
+  },
+  "shareEmailText": {
+    "message": "Megosztás e-mailben"
+  },
+  "moreControlsText": {
+    "message": "További vezérlők…"
+  },
+  "lastCleanSummaryText": {
+    "message": "Utolsó takarítás: $COUNT$ süti · $TIME$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "Haladó mód"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "Megjeleníti a szakértői beállításokat ezen az oldalon és extra vezérlőket a felugróban: pontos domainszabályok, webhelyenkénti takarítási lehetőségek és az egyező szabály. Alapból ki — az egyszerű nézet lefedi a szokásos esetet."
+  },
+  "overviewText": {
+    "message": "Áttekintés"
+  },
+  "protectionText": {
+    "message": "Védelem"
+  },
+  "savedSitesText": {
+    "message": "Mentett webhelyek"
+  },
+  "savedSitesSubText": {
+    "message": "A megtartott webhelyeid. A megtartott webhelyek adatai örökre megmaradnak; a munkameneti webhelyeké a böngésző bezárásáig."
+  },
+  "cookiesDeletedSessionText": {
+    "message": "törölve ebben a munkamenetben"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "törölve összesen"
+  },
+  "keptBadgeText": {
+    "message": "Megtartva"
+  },
+  "sessionBadgeText": {
+    "message": "Újraindításig"
+  },
+  "toggleToKeepText": {
+    "message": "Váltás Megtartásra"
+  },
+  "toggleToSessionText": {
+    "message": "Váltás E munkamenet megtartására"
+  },
+  "settingGroupSiteData": {
+    "message": "Mi törlődik"
+  },
+  "deleteAllSiteDataText": {
+    "message": "Minden webhelyadat törlése"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "Sütik, plusz mentett fájlok, offline adatbázisok és háttérworkerek — minden, amit egy webhely az eszközödön tárol."
+  },
+  "customBadgeText": {
+    "message": "Egyéni"
+  },
+  "advancedChooseTypesText": {
+    "message": "Haladó — pontosan válaszd meg, mi törlődjön"
+  },
+  "patternColumnText": {
+    "message": "Minta"
+  },
+  "patternMeaningColumnText": {
+    "message": "Mit fed le"
+  },
+  "patternDomainMeaningText": {
+    "message": "Pontosan ez a domain"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "A domain és minden aldomain"
+  },
+  "patternIPMeaningText": {
+    "message": "Egyetlen IP-cím"
+  },
+  "patternCIDRMeaningText": {
+    "message": "A tartomány minden címe"
+  },
+  "patternRegexMeaningText": {
+    "message": "Haladó: reguláris kifejezés perjelek között"
+  },
+  "patternFileMeaningText": {
+    "message": "A böngészőben megnyitott helyi fájlok"
+  },
+  "patternKeepLevelsText": {
+    "message": "A Megtartás örökre megőrzi a webhely adatait. Az E munkamenet megtartása csak a böngésző bezárásáig."
+  },
+  "summaryKeepsEverythingText": {
+    "message": "Mindent megtart"
+  },
+  "summaryAllCookiesText": {
+    "message": "Minden süti"
+  },
+  "toggleOptionsText": {
+    "message": "Beállítások megjelenítése vagy elrejtése"
+  },
+  "summaryNamedCookiesText": {
+    "message": "$COUNT$ megnevezett süti",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "Törli: $TYPES$",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "Minden mentett webhely törölve lett."
+  },
+  "importFoldedContainersText": {
+    "message": "$COUNT$ bejegyzés a régi konténerlistákból beolvadt az alapértelmezett listába.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
+  },
+  "importExportText": {
+    "message": "Importálás / Exportálás"
+  },
+  "importExportSubText": {
+    "message": "Mentsd a beállításaidat és mentett webhelyeidet, állítsd vissza fájlból, vagy térj vissza az alapértelmezettekhez."
+  },
+  "activeModeDescText": {
+    "message": "Miután a webhely lapjai bezárultak."
+  },
+  "gracePeriodDescText": {
+    "message": "Várakozás takarítás előtt, hátha visszatérsz."
+  },
+  "domainChangeDescText": {
+    "message": "Kitakarítja a lap régi webhelyét, amikor a lapon máshová navigálsz."
+  },
+  "greylistDescText": {
+    "message": "A böngésző bezárásáig megtartott webhelyek a böngésző újraindulásakor takarítódnak."
+  },
+  "cleanDiscardedDescText": {
+    "message": "A böngésző által elaltatott lap a takarítás szempontjából bezártnak számít."
+  },
+  "startupCleanDescText": {
+    "message": "Az előző munkamenetből visszaállított lapok webhelyei is takarítódnak."
+  },
+  "cleanExpiredDescText": {
+    "message": "A lejárati dátumukon túli sütik minden takarítási menetben törlődnek."
+  },
+  "cleanupLogDescText": {
+    "message": "Ez táplálja a takarítási napló oldalt és a törölt sütik számlálóit."
+  },
+  "cookieCountIconDescText": {
+    "message": "Mutatja, hány sütit tárolt az aktuális webhely."
+  },
+  "keepDefaultIconDescText": {
+    "message": "Ne színezze át az ikont aszerint, hogy a webhely megtartott-e."
+  },
+  "notifyAutoDescText": {
+    "message": "Rövid értesítés minden automatikus takarítás után."
+  },
+  "notifyDurationDescText": {
+    "message": "Meddig maradnak az értesítések a képernyőn, másodpercben."
+  },
+  "debugModeDescText": {
+    "message": "Részletes naplózás a bővítmény konzoljába, hibajelentésekhez."
+  },
+  "supportText": {
+    "message": "Támogatás"
+  },
+  "helpText": {
+    "message": "Súgó"
+  },
+  "helpSubText": {
+    "message": "Minden, amit a bővítmény csinál, elmagyarázva. Minden szakasz külön nyílik."
+  },
+  "helpGettingStartedTitle": {
+    "message": "Első lépések"
+  },
+  "helpGettingStartedBody": {
+    "message": "A friss telepítések kézi módban indulnak: semmi sem törlődik, amíg nem szólsz. Ez szándékos — előbb építsd fel a megtartási listádat, hogy az automatikus takarítás későbbi bekapcsolása ne jelentkeztessen ki mindenhonnan, ami számít.\n\n1. Tartsd meg a fontos webhelyeket. Látogass el minden webhelyre, ahol a kijelentkezés bosszantana (e-mail, bank, minden fizetős), kattints az eszköztárikonra, és nyomd meg A webhely sütijeinek megtartása gombot. A szabály lefedi a domaint és az összes aldomainjét. A csak most megjegyzendő webhelyekhez használd a Megtartás a böngésző bezárásáig lehetőséget.\n\n2. Döntsd el, mit jelentsen a takarítás. Gyárilag a takarítás csak sütiket töröl. Kapcsold be a Minden webhelyadat törlése kapcsolót a Védelem oldalon, hogy a webhely többi maradványa is törlődjön.\n\n3. Kapcsold be az automatikus takarítást. Kapcsold be az Automatikus takarítást a Védelem oldalon. Ezután: zárd be a webhely utolsó lapját, és a türelmi idő után a sütijei eltűnnek — hacsak nem tartod meg a webhelyet, vagy nincs nyitva máshol.\n\n4. Nem kötelező: hagyd bekapcsolva a takarítási naplót, hogy mindig lásd, mi és miért lett takarítva."
+  },
+  "helpCleaningTitle": {
+    "message": "Így működik a takarítás"
+  },
+  "helpCleaningBody": {
+    "message": "Az automatikus takarítás akkor indul, amikor a webhely utolsó lapja bezárul. A türelmi idő (alapból 15 másodperc) a visszavonási ablakod: nyisd meg újra a webhelyet ezen belül, és semmi sem törlődik.\n\nA Takarítás a webhely elhagyásakor beállítással a lap egyik webhelyről a másikra navigálása is az első elhagyásának számít — szigorúbb, de észrevehető, ha egy lapon ugrálsz webhelyek között.\n\nTakarítás közben a webhely sütijei akkor élnek túl, ha ezek bármelyike igaz: a webhely még nyitva van valamelyik lapon; illik rá egy Megtartás szabály; illik rá egy Bezárásig megtartás szabály, és ez nem újraindítási takarítás; vagy az adott süti neve be van pipálva egy egyező szabály sütilistájában. Minden más eltűnik.\n\nA haladó mód hozzáteszi: az alvó (eldobott) lapok bezártnak számítanak, a visszaállított lapok induláskor egyszer takarítódnak, a lejárt sütik mindig törlődnek, és a munkameneti megtartási szabályok — a Bezárásig megtartott webhelyek újraindításkor takarítódnak."
+  },
+  "helpSiteDataTitle": {
+    "message": "Mi törlődik"
+  },
+  "helpSiteDataBody": {
+    "message": "Alapból a bővítmény csak sütiket töröl. A Minden webhelyadat törlése kapcsoló kiterjeszti a takarítást minden másra, amit egy webhely az eszközödön tárol: gyorsítótárra, IndexedDB-re, LocalStorage-ra, bővítményadatokra és service workerekre. Az alatta lévő Haladó lenyíló egyes típusok kiválasztását engedi.\n\nKét dolog, amit érdemes tudni, mielőtt átkapcsolod:\n\n• Egy típus bekapcsolása egyszer, mindenhol törli azt. Abban a pillanatban, amikor bekapcsolsz egy típust, annak minden jelenleg tárolt adata törlődik minden webhelynél (erre figyelmeztet az oldal). Előbb kapcsold ki a bekapcsoláskori törlés kapcsolóját, ha nem kéred ezt az első söprést.\n\n• A régi adatok nem takaríthatók szelektíven. A böngésző csak a jövőre nézve engedi a bővítménynek e típusok webhelyenkénti törlését, az újra meglátogatott webhelyeknél. A bekapcsolás előtti maradványok addig maradnak, amíg a webhelyet még egyszer meg nem látogatod."
+  },
+  "helpPatternsTitle": {
+    "message": "Megtartási szabályok és minták"
+  },
+  "helpPatternsBody": {
+    "message": "Minden mentett webhely egy minta a két lista egyikén. A Megtartás webhelyek sosem takarítódnak. A Bezárásig megtartott webhelyek túlélik a rendes takarításokat, de a böngésző újraindulásakor takarítódnak. Az egyikre sem illő webhely rögtön takarítódik, ahogy elhagyod — ez az alapértelmezett sors; a szabályok a kivételek.\n\nA minták csak a gépnévre illeszkednek — se https://, se útvonalak:\n\n• example.com — pontosan ez a domain, a mail.example.com nem\n• *.example.com — a domain és minden aldomain\n• 192.168.1.100 — ez az IP-cím\n• 10.0.0.0/8 — bármely IP a CIDR-tartományban\n• /^(mail|news)\\.example\\.com$/ — reguláris kifejezés perjelek között\n• file:///home/user/notes — az ebből a helyi mappából megnyitott oldalak\n\nMinden szabály webhelyenkénti beállításokat is hordoz (nyisd le a sorát a Mentett webhelyek oldalon): csak megnevezett sütik megtartása az összes helyett, és típusonkénti webhelyadat-választás. Az Alapértelmezett beállítások létrehozása szabály adja a később hozzáadott szabályok kiinduló beállításait.\n\nTipp: hogy MINDEN süti eltűnjön újraindításkor, add hozzá a * mintát Bezárásig megtartás szabályként, és a tényleg állandó webhelyeidet jelöld Megtartásra."
+  },
+  "helpImportExportTitle": {
+    "message": "Importálás és exportálás"
+  },
+  "helpImportExportBody": {
+    "message": "Az Importálás / Exportálás oldal két dolgot ment külön: a mentett webhelyeidet és a beállításaidat. Mindkettő sima JSON-fájl időbélyeges névvel, így az ismételt mentések nem írják felül egymást. Az importálás sosem törli, amid már van; a pontos duplikátumok kimaradnak, az érvénytelen bejegyzések indoklással elutasítódnak, a többi ettől még importálódik.\n\nAz eredeti Cookie AutoDelete exportjai gond nélkül importálhatók — azonos formátum. A Firefox-korszak exportjai tartalmazhatnak konténerlap-listákat (Chromiumban nem létező Firefox-funkció); ezek a bejegyzések az alapértelmezett listádba olvadnak a duplikátumok kihagyásával, és az importüzenet megmondja, hány olvadt be.\n\nA beállítások alapértelmezettre állítása is ezen az oldalon lakik. A mentett webhelyeidhez nem nyúl."
+  },
+  "helpLogTitle": {
+    "message": "A takarítási napló"
+  },
+  "helpLogBody": {
+    "message": "A takarítási napló válaszol arra, hogy miért jelentkeztetett ki arról a webhelyről? és csinál ez egyáltalán valamit?. Hagyd bekapcsolva a Takarítási napló vezetését, majd takarítás után nyisd meg a naplóoldalt.\n\nMinden bejegyzés felsorolja az érintett webhelyeket és a mindegyiknél hozott döntést, egyszerű szavakkal: megtartva, mert egyezett egy szabály; megtartva, mert a webhely még nyitva volt; takarítva, mert semmi sem egyezett; induláskor takarítva (ez üríti az újraindításig-webhelyeket); vagy szelektíven takarítva, amikor egy szabály csak megnevezett sütiket tart meg. A döntéssorok a belső listaneveket használják: a fehérlista állandó Megtartás szabályt jelent, a szürkelista a böngésző bezárásáig tartó megtartást.\n\nA napló sosem tartalmaz sütiértékeket, sosem rögzít privát/inkognitó lapokat, sosem hagyja el a böngésződet, és a régi bejegyzések maguktól kihullanak a végéről. Az Áttekintés oldal számlálói (e munkamenet / összesen) ugyanabból a könyvelésből származnak."
+  },
+  "helpPermissionsTitle": {
+    "message": "Miért kellenek ezek az engedélyek"
+  },
+  "helpPermissionsBody": {
+    "message": "A telepítéskori Adatok olvasása és módosítása az összes webhelyen figyelmeztetés az elkerülhetetlen: a sütik bármelyik meglátogatott webhelyhez tartozhatnak, így a törlésükhöz minden webhelyhez hozzáférés kell. Kizárólag sütik és webhelyadatok olvasására és törlésére szolgál — sosem oldaltartalom olvasására, és sosem szerverrel való beszélgetésre (nincs is szerver).\n\nA többi röviden. Sütik: a webhely sütijeinek listázása a számlálóhoz és törlésük. Böngészési adatok: az opcionális extrák törlése — gyorsítótár, IndexedDB, LocalStorage, bővítményadatok, service workerek. Tároló: a beállításaid és megtartási szabályaid helyi mentése. Riasztások: a késleltetett takarítás menetrendben tartása akkor is, ha a böngésző a várakozás alatt elaltatja a bővítményt. Lapok: annak ismerete, mely webhelyek vannak nyitva (a nyitottak védettek), és annak észrevétele, ha egy lap bezárul vagy elhagy egy webhelyet. Aktív lap és Scripting: a felugró webhelyenkénti műveleteinek futtatása. Helyi menük és Értesítések: két opcionális funkció, a beállításokban kikapcsolhatók.\n\nSzándékosan hiányzik: böngészési előzmények, webkérések elfogása és bármiféle hálózati hozzáférés. A bővítmény nem látja, mit gépelsz, sem azt, milyen oldalakat olvasol."
+  },
+  "helpTroubleshootingTitle": {
+    "message": "Hibaelhárítás és GYIK"
+  },
+  "helpTroubleshootingBody": {
+    "message": "Kijelentkeztetett egy webhelyről? Valószínűségi sorrendben: a webhelynek nincs megtartási szabálya (vagy csak a pontos gépnevének van, míg a bejelentkezés egy aldomainen él — használd a *.example.com formát); újraindításig-webhely, és a böngésző újraindult; egy egyező szabály csak megnevezett sütiket tart meg, és a bejelentkezési süti nincs bepipálva; vagy a webhely sütije egyszerűen lejárt. Ne találgass — a takarítási napló megnevezi a pontosan kiváltó szabályt.\n\nA sütik rögtön a takarítás után visszatérnek? A webhely szinte mindig nyitva van még valamelyik lapon — a nyitott webhelyek kedvükre újragyártják a sütiket, és amúgy is védettek.\n\nNem futott le a takarítás? Ellenőrizd sorban: az automatikus takarítás be van kapcsolva (a felugró fejléce mutatja); a webhely nincs nyitva másik lapon; a türelmi idő letelt; egyetlen megtartási szabály sem egyezik; nem alvó lap volt (azok csak akkor számítanak bezártnak, ha az a haladó beállítás be van kapcsolva).\n\nBekapcsoltad a webhelyadat-takarítást, de a régi adatok még ott vannak? A böngésző csak az újra meglátogatott webhelyeknél engedi e típusok törlését; a maradványok a következő látogatásig maradnak.\n\nInkognitó? Csak ha engedélyezed: a böngésző bővítményoldala → Engedélyezés inkognitóban. Az inkognitónak saját sütitárolója és saját mentett webhelyei vannak, és sosem kerül naplóba.\n\nMég mindig elakadtál? A Támogatás oldalon ott a verzió, egy másolható hibakeresési blokk és a hibajelentések hivatkozása. A hibakeresési mód (Haladó) rábírja a bővítményt, hogy minden döntését elmesélje a service worker konzoljában, maszkolt sütiértékekkel."
   }
 }

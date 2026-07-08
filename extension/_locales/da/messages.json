@@ -1,19 +1,15 @@
 {
   "aboutText": {
-    "message": "Om",
-    "description": "About"
+    "message": "Om"
   },
   "activeModeDelayText": {
-    "message": "Forsinkelse før automatisk sletning",
-    "description": "Delay Before Automatic Cleaning"
+    "message": "Frist"
   },
   "activeModeText": {
-    "message": "Aktivér automatisk sletning",
-    "description": "Enable Automatic Cleaning"
+    "message": "Ryd automatisk"
   },
   "activityLogSiteDataDomainsText": {
-    "message": "Startede sletning af $siteData$ for: $domains$",
-    "description": "Invoked cleanup of $siteData$ for: $domains$. Found in Activity Log Detailed Entries.",
+    "message": "Fjernede $siteData$ for: $domains$",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -26,8 +22,7 @@
     }
   },
   "addNewExpressionNotification": {
-    "message": "Tilføjer $expression$ til listetype $listType$ under cookie-lager $cookieStore$.",
-    "description": "Adding $expression$ to list type $listType$ under cookie store $cookieStore$. Used in notification when right-click action was performed.",
+    "message": "$expression$ gemt på listen $listType$ (cookielager: $cookieStore$).",
     "placeholders": {
       "expression": {
         "content": "$1",
@@ -39,105 +34,78 @@
       },
       "cookieStore": {
         "content": "$3",
-        "example": "'default' -or- 'firefox-container-1 (Personal)'"
+        "example": "'default' -or- 'private'"
       }
     }
   },
   "addNewExpressionNotificationFailed": {
-    "message": "Kunne ikke hente domæne at tilføje fra der hvor der blev højreklikket.",
-    "description": "Could not fetch domain to add from where right-click was issued."
+    "message": "Der kunne ikke læses et domæne fra stedet, du højreklikkede på."
   },
   "addNewExpressionNotificationIgnore": {
-    "message": "Hvis udtryk allerede findes bliver dette ignoreret.",
-    "description": "If expression already exists, this will be ignored. Used in notification when right-click action was performed."
+    "message": "Dubletter springes over automatisk."
   },
   "autoDeleteDisabledText": {
-    "message": "Automatisk sletning deaktiveret",
-    "description": "Auto-clean disabled"
+    "message": "Automatisk rydning slået fra"
   },
   "autoDeleteEnabledText": {
-    "message": "Automatisk sletning aktiveret",
-    "description": "Auto-clean enabled"
+    "message": "Automatisk rydning slået til"
   },
   "browsingDataNoEmptyWarning": {
-    "message": "ADVARSEL: Eksisterende webstedsdatatyper vil IKKE blive renset når nyaktiveret. Vi vil IKKE være i stand til at rense nogle af de eksisterende data før deres domæne er blevet besøgt mindst en gang, inklusiv fra uønskede domæner.",
-    "description": "WARNING:  Existing site data types will NOT be cleaned when newly enabled. We will NOT be able to clean any of the existing data until its domain has been visited at least once, including from unwanted domains. Found in CAD Settings"
+    "message": "Bemærk: at slå dette til rører ikke data, som websteder har gemt tidligere. Et websteds efterladte data kan først ryddes, når du besøger det igen — indtil da bliver de liggende, selv for websteder du helst vil af med."
   },
   "browsingDataWarning": {
-    "message": "ADVARSEL: Ved aktivering af enhver af følgende sletningsindstillinger for netstedsdata, vil ALLE eksisterende data for den type blive slettet.",
-    "description": "WARNING: Upon enabling any of the following site data cleanup options, ALL existing data for that type will be cleared. Found in CAD Settings"
+    "message": "Forsigtig: at slå en af rydningstyperne nedenfor til sletter øjeblikkeligt AL aktuelt gemt data af den type, for hvert websted."
   },
   "cacheCleanupText": {
-    "message": "Aktiver mellemlagersletning (Firefox 78+, Chrome 74+)",
-    "description": "Enable Cache Cleanup (Firefox 78+, Chrome 74+). Found in CAD Settings."
+    "message": "Aktivér cacherydning"
   },
   "cacheText": {
-    "message": "Mellemlager",
-    "description": "Cache. Primarily used in notifications."
+    "message": "Cache"
   },
   "chromeDebugMode": {
-    "message": "Ujistěte se, že je \"Vývojářský režim\" povolen, poté klikněte na 'stránku pozadí' pod kontrolou zobrazení.",
-    "description": "Ensure 'Developer Mode' is enabled, then click on 'background page' under Inspect View. This is shown if debug mode is enabled."
+    "message": "Slå udviklertilstand til, og åbn derefter service worker-konsollen via linket Undersøg visninger."
   },
   "cleanDiscardedText": {
-    "message": "Aktiver cookie-sletning for kasserede faner",
-    "description": "Enable Cleanup for Discarded/Unloaded Tabs. Found in Settings."
+    "message": "Behandl sovende faner som lukkede"
   },
   "cleanExpiredCookiesText": {
-    "message": "Slet alle udløbne cookies",
-    "description": "Clean All Expired Cookies. Found in Settings."
+    "message": "Fjern altid udløbne cookies"
   },
   "cleanIgnoringOpenTabsText": {
-    "message": "Slet, inkluder åbne faner",
-    "description": "Clean, include open tabs. Found in the additional cleanup options in the popup."
+    "message": "Ryd, også åbne faner"
   },
   "cleanText": {
-    "message": "Slet",
-    "description": "Clean"
+    "message": "Ryd"
   },
   "cleanupDomainChangeText": {
-    "message": "Aktiver sletning ved domæneændring",
-    "description": "Enable Cleanup on Domain Change"
+    "message": "Ryd, når du forlader et websted"
   },
   "cleanupActionsBypass": {
-    "message": "Advarsel - Handlinger herunder ignorerer indstillinger!",
-    "description": "Warning - Actions below ignore settings! Found in the additional cleanup options in the popup."
+    "message": "Pas på — disse knapper ignorerer dine behold-lister og rydder med det samme!"
   },
   "cleanupLogText": {
-    "message": "Sletningslog",
-    "description": "Cleanup Log"
+    "message": "Rydningslog"
   },
   "clearLogsText": {
-    "message": "Slet logger",
-    "description": "Clear Logs"
+    "message": "Tøm loggen"
   },
   "consoleDebugMode": {
-    "message": "Klik på Konsol-fanen",
-    "description": "Click on the Console Tab. Found after enabling debug mode."
-  },
-  "containerSiteDataWarning": {
-    "message": "ADVARSEL: Aktivering af containerfaner med enhver af ovenstående ekstra browsingdatasletning, kan føre til uønskede sideeffekter pga. begrænsninger i browser-API. Netstedsdatatyper, bortset fra cookies, vil blive slettet ud fra værtsnavn for ALLE containere.",
-    "description": "WARNING: Enabling Container Tabs with any of the additional browsing data cleanups above may cause unwanted side effects due to browser API limitations. Site data types, with the exception of cookies, will be cleared by hostname for ALL containers. Found in CAD Settings."
+    "message": "Skift til fanen Konsol."
   },
   "contextMenusParentClean": {
-    "message": "Manuel sletningsmenu",
-    "description": "Manual Cleaning Menu. Shown on right-clicks of Page/Browser Action."
+    "message": "Manuel rydning"
   },
   "contextMenusParentExpression": {
-    "message": "Tilføj domæne/udtryks-menu",
-    "description": "Add Domain/Expression Menu. Shown on right-clicks of Page/Link/Selection."
+    "message": "Føj til behold-listerne"
   },
   "contextMenusSelectedDomainLink": {
-    "message": "Kun for domæne af valgte link",
-    "description": "For domain only of selected link. Shown in right-click menu."
+    "message": "Kun linkets domæne"
   },
   "contextMenusSelectedDomainPage": {
-    "message": "Kun for domæne af valgte side",
-    "description": "For domain only of selected page. Shown in right-click menu."
+    "message": "Kun sidens domæne"
   },
   "contextMenusSelectedDomainText": {
-    "message": "Kun for domæne af valgte tekst: $selected$",
-    "description": "For domain only of selected text: $selected$. Shown in right-click menu.",
+    "message": "Kun domænet for: $selected$",
     "placeholders": {
       "selected": {
         "content": "$1",
@@ -146,16 +114,13 @@
     }
   },
   "contextMenusSelectedSubdomainLink": {
-    "message": "For alle underdomæner med domæne af valgte link",
-    "description": "For all subdomains with domain of selected link. Shown in right-click menu."
+    "message": "Linkets domæne plus alle underdomæner"
   },
   "contextMenusSelectedSubdomainPage": {
-    "message": "For alle underdomæner med domæne af valgte side",
-    "description": "For all subdomains with domain of selected page. Shown in right-click menu."
+    "message": "Sidens domæne plus alle underdomæner"
   },
   "contextMenusSelectedSubdomainText": {
-    "message": "For alle underdomæner med domæne af valgte tekst: $selected$",
-    "description": "For all subdomains with domain of selected text: $selected$. Shown in right-click menu.",
+    "message": "Alle underdomæner af: $selected$",
     "placeholders": {
       "selected": {
         "content": "$1",
@@ -163,179 +128,113 @@
       }
     }
   },
-  "contextualIdentitiesAutoRemoveText": {
-    "message": "Aktiver automatisk sletning af udtrykliste når dens container bliver fjernet.",
-    "description": "Enable Automatic Removal of Expression List when its Container is Removed. Only in Firefox."
-  },
-  "contextualIdentitiesEnabledText": {
-    "message": "Aktiver understøttelse af Container faneblade",
-    "description": "Enable Support for Container Tabs. Currently only in Firefox."
-  },
-  "contributeText": {
-    "message": "Bidrag",
-    "description": "Contribute"
-  },
   "contributorsText": {
-    "message": "Bidragydere",
-    "description": "Contributors"
+    "message": "Bidragydere"
   },
   "cookiesText": {
-    "message": "Cookies",
-    "description": "Cookies. Primarily used in popup via alternate clean action dropdown."
+    "message": "Cookies"
   },
   "cookieCleanUpOnStartText": {
-    "message": "Rens cookies og andre webstedsdata fra åbne faner ved opstart",
-    "description": "Clean Cookies and other Site Data from Open Tabs on Startup"
+    "message": "Ryd gendannede faner ved opstart"
   },
   "cookieCleanupIgnoreOpenTabsText": {
-    "message": "Slet nu, inkluder domæner fra åbne faner",
-    "description": "Run cleanup now, include cookies from open tabs. This is shown on mouseover from the available dropdown buttons."
+    "message": "Ryd nu, også websteder åbne i en fane"
   },
   "cookieCleanupText": {
-    "message": "Slet nu, ekskluder domæner fra åbne faner",
-    "description": "Run cleanup now, exclude domains from open tabs. This is shown on mouseover on the button."
+    "message": "Ryd nu, men spring websteder åbne i en fane over"
   },
   "copyDebugSettingText": {
-    "message": "Dine nuværende indstillinger. Hvis nødigt, kopier og indsæt i GitHub-sagen.",
-    "description": "Your current settings.  If necessary, copy and paste this into the GitHub Issue."
+    "message": "En kopi af dine nuværende indstillinger. Indsæt den i GitHub-issuet, hvis det er relevant."
   },
   "copyDebugSystemText": {
-    "message": "Dine systeminformationer. Kopier og indsæt i den relevante sektion af GitHub-sagen.",
-    "description": "Your System Info.  Copy and paste into the relevant section of the GitHub Issue."
+    "message": "Dine systemoplysninger. Indsæt dem i det tilsvarende afsnit af GitHub-issuet."
   },
   "copyFailedText": {
-    "message": "Kopi mislykkedes. Prøv manuelt at vælge og kopiere teksten.",
-    "description": "Copy failed.  Try manually selecting and copying the text.  Shown after a failed attempt to write text to clipboard."
+    "message": "Kunne ikke kopiere automatisk — markér teksten og kopiér selv."
   },
   "copySuccessText": {
-    "message": "Kopierede successfuldt!",
-    "description": "Copied successfully!  Shows after a successful text copy to clipboard."
+    "message": "Kopieret!"
   },
   "copyToClipboardText": {
-    "message": "Kopier til klippebord",
-    "description": "Copy to Clipboard.  Shown in a button to take action upon click."
+    "message": "Kopiér til udklipsholderen"
   },
   "createDefaultExpressionOptionsText": {
-    "message": "Opret standard udtryksindstillinger",
-    "description": "Create Default Expression Options. Used in 'List of Expressions'"
-  },
-  "currentContainerInfo": {
-    "message": "Nuværende container valgt: $ID$ ( $Name$ )",
-    "description": "Current Container Selected: $ID$ ( $Name ). Found in List of Expressions only if Firefox containers enabled.",
-    "placeholders": {
-      "ID": {
-        "content": "$1",
-        "example": "firefox-container-1"
-      },
-      "Name": {
-        "content": "$2",
-        "example": "Personal (whatever the user has named the container) - or - translated version of 'Invalid Container'"
-      }
-    }
+    "message": "Opret standardindstillinger"
   },
   "debugMode": {
-    "message": "Aktiver aflusningstilstand (Yderligere konsoluddata)",
-    "description": "Enable Debug Mode (Additional Console Outputs). Found in CAD Settings."
+    "message": "Fejlfindingstilstand"
   },
   "debugTitle": {
-    "message": "Fejlsøgningsinformation",
-    "description": "Debug Information.  Header shown on About page."
-  },
-  "defaultText": {
-    "message": "Standard",
-    "description": "Default. Used in List of Expression in Firefox for Default / No Container."
-  },
-  "defaultContainerText": {
-    "message": "Ingen container",
-    "description": "No Container. This will be in brackets. Used in List of Expression in Firefox for Default / No Container"
+    "message": "Fejlfindingsoplysninger"
   },
   "defaultSettingsText": {
-    "message": "Gendan standard opsætning",
-    "description": "Restore Default Settings"
+    "message": "Nulstil indstillingerne til standard"
   },
   "disableAutoDeleteText": {
-    "message": "Skift for at deaktivere automatisk sletning (manuel tilstand)",
-    "description": "Toggle to disable automatic cleanup (manual mode)"
+    "message": "Slå automatisk rydning fra (manuel tilstand)"
   },
   "documentationText": {
-    "message": "Dokumentation",
-    "description": "Documentation"
+    "message": "Dokumentation"
   },
   "domainExpressionsText": {
-    "message": "Domæneudtryk",
-    "description": "Domain Expression"
+    "message": "Websted"
+  },
+  "domainPlaceholderText": {
+    "message": "example.com, subdomain.example.com, *.example.com, /(^|.)example\\.com/"
   },
   "dropdownAdditionalCleaningOptions": {
-    "message": "Skift dropdown for yderligere sletningshandlinger",
-    "description": "(Screen-readers only) - Toggle Additional Cleaning Actions Dropdown"
+    "message": "Flere rydningshandlinger"
   },
   "editExpressionText": {
-    "message": "Rediger udtryk",
-    "description": "Edit expression"
+    "message": "Redigér udtryk"
   },
   "enableAutoDeleteText": {
-    "message": "Skift for at aktivere automatisk sletning (automatisk tilstand)",
-    "description": "Toggle to enable automatic cleanup (automatic mode)"
+    "message": "Slå automatisk rydning til"
   },
   "enableCleanupLogText": {
-    "message": "Aktiver sletningslog og tæller",
-    "description": "Enable Cleanup Log and Counter"
+    "message": "Før en rydningslog"
   },
   "enableContextMenus": {
-    "message": "Aktiver kontekstmenuer (højrekliksmenu)",
-    "description": "Enable Context Menus (Right-Click Menu). Shown in CAD Settings"
+    "message": "Handlinger i højrekliksmenuen"
   },
   "enableGreyListCleanup": {
-    "message": "Aktiver oprydning af gråliste ved start af browser",
-    "description": "Enable Greylist Cleanup on Browser Restart"
+    "message": "Sessionsregler for beholdning"
   },
   "enableNewVersionPopup": {
-    "message": "Aktivér pop-up, når den nye version frigives",
-    "description": "Enable Popup when New Version is Released"
+    "message": "Vis udgivelsesnoter efter opdateringer"
   },
   "errorText": {
-    "message": "Fejl!",
-    "description": "Error!"
+    "message": "Fejl!"
   },
   "exportSettingsText": {
-    "message": "Eksporter kerneindstillinger...",
-    "description": "Export Core Settings... Found in CAD Settings."
+    "message": "Eksportér indstillinger..."
   },
   "exportURLSText": {
-    "message": "Eksporter udtryk...",
-    "description": "Export Expressions... Found in List of Expressions."
+    "message": "Eksportér gemte websteder"
   },
   "exportTitleTimestamp": {
-    "message": "Et tidsstempel vil blive tilføjet til filnavnet ved eksport.",
-    "description": "A timestamp will be appended to the filename on export."
+    "message": "Eksporterede filnavne får et tidsstempel."
   },
   "extensionDescription": {
-    "message": "Styr dine cookies! Slet ubrugte cookies automatisk når du lukker dine faner, og behold dem du vil beholde.",
-    "description": "Control your cookies! Automatically delete unwanted cookies from your closed tabs while keeping the ones you want."
+    "message": "Rydder op efter dine faner: luk en fane, og dens cookies og webstedsdata slettes — undtagen websteder på dine behold-lister."
   },
   "extensionName": {
-    "message": "Auto-Delete Cookies for Privacy",
-    "description": "Name of the extension."
+    "message": "Auto-Delete Cookies for Privacy"
   },
   "faqText": {
-    "message": "Ofte stillede spørgsmål, problemer og løsninger",
-    "description": "Frequently Asked Questions, Common issues and solutions"
+    "message": "FAQ og fejlfinding"
   },
   "filterDebugMode": {
-    "message": "For kun at se aflusningsuddata ved denne udvidelse, filtrer uddata ved følgende linje:",
-    "description": "To see only debug outputs by this extension, filter output by the following line. Found after enabling debug mode."
+    "message": "For kun at se denne udvidelses beskeder, indsæt dette i konsollens filterfelt:"
   },
   "filterText": {
-    "message": "Filter",
-    "description": "Filter"
+    "message": "Filter"
   },
   "greyListWordText": {
-    "message": "Gråliste",
-    "description": "Greylist"
+    "message": "Gråliste"
   },
   "groupExpressionDefaultNotice": {
-    "message": "Vil du sætte standard udtryksindstillinger for nye udtryk? Det er blevet forbedret til selv at være en udstryksindstilling! Besøg $listExpression$ for at komme i gang!",
-    "description": "Looking to set default expression options for new expressions?  It has been enhanced to be an expression option itself!  Visit $listExpression$ to get started!  Shown in Settings",
+    "message": "Standardindstillinger for nye udtryk ligger nu på selve udtrykket — åbn $listExpression$ for at sætte dem.",
     "placeholders": {
       "listExpression": {
         "content": "$1",
@@ -344,16 +243,13 @@
     }
   },
   "importCoreSettingsFailed": {
-    "message": "Import af kerneindstillinger fejlede - Fandt ukendt indstilling",
-    "description": "Import Core Settings Failed - Found unknown setting"
+    "message": "Import af indstillinger afbrudt: filen indeholder en ukendt indstilling."
   },
   "importCoreSettingsText": {
-    "message": "Importer kerneindstillinger...",
-    "description": "Import Core Settings... Found in CAD Settings."
+    "message": "Importér indstillinger..."
   },
   "importFileNotFound": {
-    "message": "Fil ikke fundet: $filename$",
-    "description": "File not found: $filename$.  Found in List of Expressions and CAD Settings.",
+    "message": "Filen findes ikke: $filename$",
     "placeholders": {
       "filename": {
         "content": "$1",
@@ -362,20 +258,16 @@
     }
   },
   "importFileTypeInvalid": {
-    "message": "Angiven fil er ikke en type vi håndterer",
-    "description": "File given is not a type we handle"
+    "message": "Den filtype understøttes ikke til import."
   },
   "importFileValidationFailed": {
-    "message": "Angiven fil fejlede gyldighedstjek",
-    "description": "File given failed validation"
+    "message": "Filen bestod ikke valideringen."
   },
   "importInvalidExpressions": {
-    "message": "Detekterede ugyldige udtryk fra filimport. De er noteret herunder med deres årsager. Check og ret fejl i filen og prøv at importere igen.",
-    "description": "Detected invalid expression(s) from file import. They are noted below with its reason. Check and fix any errors in that file and try importing again. Found in List of Expressions when imported file as expressions that aren't valid."
+    "message": "Nogle importerede udtryk var ugyldige; hvert er anført nedenfor med årsag. Ret dem i filen og importér igen."
   },
   "importListNotArray": {
-    "message": "$identifier$ er ikke formatteret som en tabelliste.",
-    "description": "$identifier$ is not formatted as an array list.  Found in List of Expressions during import validation.",
+    "message": "$identifier$ burde være et array, men er det ikke.",
     "placeholders": {
       "identifier": {
         "content": "$1",
@@ -384,16 +276,13 @@
     }
   },
   "importMissingKey": {
-    "message": "Manglende id",
-    "description": "Missing identifier"
+    "message": "Manglende identifikator"
   },
   "importURLSText": {
-    "message": "Importer udtryk...",
-    "description": "Import Expressions... Found in List of Expressions."
+    "message": "Importér gemte websteder"
   },
   "importValidExpressions": {
-    "message": "Lykkedes at tilføje $num$ udtryk fra importeret fil: $filename$.",
-    "description": "Successfully added $num$ expression(s) from imported file: $filename$.  Found in List of Expressions after successful valid expressions from import.",
+    "message": "Importerede $num$ udtryk fra $filename$.",
     "placeholders": {
       "num": {
         "content": "$1",
@@ -406,24 +295,19 @@
     }
   },
   "indexedDBCleanupText": {
-    "message": "Aktiver sletning af IndexedDB (Firefox 77+, Chrome 74+)",
-    "description": "Enable IndexedDB Cleanup (Firefox 77+, Chrome 74+). Found in CAD Settings."
+    "message": "Aktivér IndexedDB-rydning"
   },
   "indexedDBText": {
-    "message": "IndexedDB",
-    "description": "IndexedDB. Primarily used in notifications."
+    "message": "IndexedDB"
   },
   "inputErrorComma": {
-    "message": "Kommaer er kun tilladt i regulære udtryk.",
-    "description": "Commas are only allowed in Regular Expressions. Found in editing expression errors."
+    "message": "Kommaer hører kun hjemme i regulære udtryk."
   },
   "inputErrorEmpty": {
-    "message": "Revideret udtryk kan ikke være tomt!",
-    "description": "Revised expression cannot be empty!  Found in editing expression errors."
+    "message": "Udtrykket kan ikke være tomt."
   },
   "inputErrorRegExp": {
-    "message": "Ugyldigt regulært udtryk. $RegexError$",
-    "description": "Regular Expression is not valid. <Error from new RegExp()>. Found in editing expression errors.",
+    "message": "Ugyldigt regulært udtryk: $RegexError$",
     "placeholders": {
       "RegexError": {
         "content": "$1",
@@ -432,20 +316,16 @@
     }
   },
   "inputErrorSlashEndMissingStart": {
-    "message": "Slutskråstreg mangler startskråstreg i regulært udtryk. Fjern slutskråstreg i domæner.",
-    "description": "End slash detected, but missing start slash for Regular Expression. Remove end slash for domains. Found in editing expression errors."
+    "message": "Slutter med en skråstreg, men starter ikke med en. For et almindeligt domæne: fjern den afsluttende streg; for regex: tilføj den indledende."
   },
   "inputErrorSlashStartMissingEnd": {
-    "message": "Startskråstreg mangler slutskråstreg i regulært udtryk.",
-    "description": "Start slash detected, but missing end slash for Regular Expression. Found in editing expression errors."
+    "message": "Starter med en skråstreg, men lukker den aldrig. Tilføj den afsluttende streg for at færdiggøre det regulære udtryk."
   },
   "inputErrorSpace": {
-    "message": "Mellemrum ikke tilladt i værtsnavne.",
-    "description": "Spaces are not allowed in hostnames. Found in editing expression errors."
+    "message": "Værtsnavne kan ikke indeholde mellemrum."
   },
   "inputAddSuccess": {
-    "message": "Lykkedes at tilføje $num$ udtryk med type $listType$ i den nuværende aktive liste.",
-    "description": "Successfully added $num$ expression(s) to $listType$ Type in the currently active list.  Found in List of Expressions after successful inputs.",
+    "message": "Tilføjede $num$ udtryk til den aktive liste som $listType$.",
     "placeholders": {
       "num": {
         "content": "$1",
@@ -458,84 +338,64 @@
     }
   },
   "invalidNewExpressions": {
-    "message": "Detekterede ugyldige nye udtryk. De er noteret herunder med deres årsager, og er blevet holdt foroven for redigering.",
-    "description": "Detected invalid new expression(s). They are noted below with its reason and have been kept above for editing. Found in List of Expressions Settings Page."
+    "message": "Nogle nye udtryk var ugyldige; de bliver stående ovenfor til redigering, med årsagerne nedenfor."
   },
   "keepAllCookiesText": {
-    "message": "Behold alle cookies",
-    "description": "Keep All Cookies. Found in Expression Options. For Whitelist entries."
+    "message": "Behold alle cookies"
   },
   "keepAllCookiesGreyText": {
-    "message": "Behold alle cookies indtil genstart",
-    "description": "Keep All Cookies until restart. Found in Expression Options. For Greylist entries."
+    "message": "Behold alle cookies indtil genstart"
   },
   "keepCacheText": {
-    "message": "Behold mellemlager",
-    "description": "Keep Cache. Found in Expression Options. For Whitelist entries."
+    "message": "Behold cache"
   },
   "keepCacheGreyText": {
-    "message": "Behold mellemlager indtil genstart",
-    "description": "Keep Cache until restart. Found in Expression Options. For Greylist entries."
+    "message": "Behold cache indtil genstart"
   },
   "keepDefaultIcon": {
-    "message": "Behold standardikoner på alle listetyper",
-    "description": "Keep Default Icons on all list types. Disabled: keep blue icon, grey for automatic cleaning disabled. Enabled: red/yellow/blue depending on matching expressions in list."
+    "message": "Behold det enkle ikon"
   },
   "keepIndexedDBText": {
-    "message": "Behold IndexedDB",
-    "description": "Keep IndexedDB. Found in Expression Options. For Whitelist entries."
+    "message": "Behold IndexedDB"
   },
   "keepIndexedDBGreyText": {
-    "message": "Behold IndexedDB indtil genstart",
-    "description": "Keep IndexedDB until restart. Found in Expression Options. For Greylist entries."
+    "message": "Behold IndexedDB indtil genstart"
   },
   "keepLocalstorageText": {
-    "message": "Behold lokallager",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries."
+    "message": "Behold LocalStorage"
   },
   "keepLocalstorageGreyText": {
-    "message": "Behold localstorage indtil genstart",
-    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries."
+    "message": "Behold LocalStorage indtil genstart"
   },
   "keepPluginDataText": {
-    "message": "Behold plugin-data",
-    "description": "Keep Plugin Data. Found in Expression Options. For Whitelist entries."
+    "message": "Behold plugin-data"
   },
   "keepPluginDataGreyText": {
-    "message": "Behold plugin-data indtil genstart",
-    "description": "Keep Plugin Data until restart. Found in Expression Options. For Greylist entries."
+    "message": "Behold plugin-data indtil genstart"
   },
   "keepServiceWorkersText": {
-    "message": "Behold tjenestearbejdere",
-    "description": "Keep Service Workers. Found in Expression Options. For Whitelist entries."
+    "message": "Behold service workers"
   },
   "keepServiceWorkersGreyText": {
-    "message": "Behold tjenestearbejdere indtil genstart",
-    "description": "Keep Service Workers until restart. Found in Expression Options. For Greylist entries."
+    "message": "Behold service workers indtil genstart"
   },
   "keepText": {
-    "message": "Behold",
-    "description": "Keep"
+    "message": "Behold"
   },
   "listTypeText": {
-    "message": "Listetype",
-    "description": "List Type"
+    "message": "Hvor længe"
   },
   "localStorageCleanupText": {
-    "message": "Aktiver sletning af localstorage (Firefox 58+, Chrome 74+)",
-    "description": "Enable LocalStorage Cleanup (Firefox 58+, Chrome 74+). Found in CAD Settings."
+    "message": "Aktivér LocalStorage-rydning"
   },
   "localStorageText": {
-    "message": "Lokallager",
-    "description": "LocalStorage. Primarily used in notifications."
+    "message": "LocalStorage"
   },
   "manualActionNotification": {
-    "message": "Manuel handlingsunderretning",
-    "description": "Manual Action Notification - used as Notification Title."
+    "message": "Manuel rydning"
   },
   "manualCleanError": {
-    "message": "$siteData$ kan ikke slettes for fane:",
-    "description": "$siteData$ cannot be cleaned for tab:. Shown as notification if manual clean cookies cannot be done.",
+    "message": "Kunne ikke rydde $siteData$ for denne fane:",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -544,8 +404,7 @@
     }
   },
   "manualCleanNothing": {
-    "message": "Ingen $siteData$ blev fundet til sletning på $url$.",
-    "description": "No $siteData$ were found for cleaning on $url$. Used in notification after manual clean.",
+    "message": "Intet at rydde: ingen $siteData$ fundet på $url$.",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -558,8 +417,7 @@
     }
   },
   "manualCleanRemoved": {
-    "message": "Slettede $deleted$ af $total$.",
-    "description": "Removed $deleted$ of $total$. Used as part of success notification on manual clean.",
+    "message": "Fjernede $deleted$ ud af $total$.",
     "placeholders": {
       "deleted": {
         "content": "$1",
@@ -572,12 +430,10 @@
     }
   },
   "manualCleanSiteDataAll": {
-    "message": "Slet alle for dette domæne",
-    "description": "Clean All for this domain. Found in Popup clean dropdown menu."
+    "message": "Slet alt for dette websted"
   },
   "manualCleanSiteDataAllDomain": {
-    "message": "Slet alle netstedsdata for $domain$",
-    "description": "Clear all site data for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Slet al webstedsdata gemt af $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -586,12 +442,10 @@
     }
   },
   "manualCleanSiteDataCache": {
-    "message": "Slet mellemlager for dette domæne",
-    "description": "Clean Cache for this domain. Found in Popup clean dropdown menu."
+    "message": "Slet webstedets cache"
   },
   "manualCleanSiteDataCacheDomain": {
-    "message": "Slet al mellemlager for $domain$",
-    "description": "Clear all Cache for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Slet al cache gemt af $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -600,12 +454,10 @@
     }
   },
   "manualCleanSiteDataCookies": {
-    "message": "Slet cookies for dette domæne",
-    "description": "Clean Cookies for this domain. Found in Popup clean dropdown menu."
+    "message": "Slet webstedets cookies"
   },
   "manualCleanSiteDataCookiesDomain": {
-    "message": "Slet alle cookies for $domain$",
-    "description": "Clear all Cookies for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Slet alle cookies gemt af $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -614,12 +466,10 @@
     }
   },
   "manualCleanSiteDataIndexedDB": {
-    "message": "Slet IndexedDB for dette domæne",
-    "description": "Clean IndexedDB for this domain. Found in Popup clean dropdown menu."
+    "message": "Slet webstedets IndexedDB"
   },
   "manualCleanSiteDataIndexedDBDomain": {
-    "message": "Slet al IndexedDB for $domain$",
-    "description": "Clear all IndexedDB for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Slet al IndexedDB-data gemt af $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -628,12 +478,10 @@
     }
   },
   "manualCleanSiteDataLocalStorage": {
-    "message": "Slet localstorage for dette domæne",
-    "description": "Clean LocalStorage for this domain. Found in Popup clean dropdown menu."
+    "message": "Slet webstedets LocalStorage"
   },
   "manualCleanSiteDataLocalStorageDomain": {
-    "message": "Slet al localstorage for $domain$",
-    "description": "Clear all LocalStorage for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Slet al LocalStorage gemt af $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -642,12 +490,10 @@
     }
   },
   "manualCleanSiteDataPluginData": {
-    "message": "Slet plugin-data for dette domæne",
-    "description": "Clean Plugin Data for this domain. Found in Popup clean dropdown menu."
+    "message": "Slet webstedets plugin-data"
   },
   "manualCleanSiteDataPluginDataDomain": {
-    "message": "Slet alle plugin-data for $domain$",
-    "description": "Clear all Plugin Data for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Slet al plugin-data gemt af $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -656,12 +502,10 @@
     }
   },
   "manualCleanSiteDataServiceWorkers": {
-    "message": "Slet tjenestearbejdere for dette domæne",
-    "description": "Clean Service Workers for this domain. Found in Popup clean dropdown menu."
+    "message": "Slet webstedets service workers"
   },
   "manualCleanSiteDataServiceWorkersDomain": {
-    "message": "Slet alle tjenestearbejdere for $domain$",
-    "description": "Clear all Service Workers for $domain$. Found in Popup clean dropdown menu as mouseover.",
+    "message": "Slet alle service workers registreret af $domain$",
     "placeholders": {
       "domain": {
         "content": "$1",
@@ -670,8 +514,7 @@
     }
   },
   "manualCleanSuccess": {
-    "message": "Resultat for sletning for $siteData$ på $url$:",
-    "description": "Cleanup for $siteData$ on $url$ result:  Shown as notification after successful manual cleaning.",
+    "message": "Resultat af rydning af $siteData$ på $url$:",
     "placeholders": {
       "siteData": {
         "content": "$1",
@@ -684,52 +527,37 @@
     }
   },
   "manualNotificationsText": {
-    "message": "Vis notifikationer fra manuelle sletninger af netstedsdata",
-    "description": "Show Notification from Manual Site Data Cleanups. Found in settings"
+    "message": "Giv besked efter manuelle rydninger"
   },
   "matchedDomainExpressionText": {
-    "message": "Matchet domæneudtryk",
-    "description": "Matched Domain Expression"
+    "message": "Matchet domæneudtryk"
   },
   "menuText": {
-    "message": "Menu",
-    "description": "Menu. Only shown when the settings screen is small / when the hamburger icon shows / when the menu is collapsed."
+    "message": "Menu"
   },
   "minutesText": {
-    "message": "Minut(ter)",
-    "description": "minute(s)"
-  },
-  "missingContainerText": {
-    "message": "UGYLDIG CONTAINER",
-    "description": "INVALID CONTAINER. Shown when a CAD list exists but cannot link id to available containers (Firefox)."
+    "message": "minut(ter)"
   },
   "noCleanupLogText": {
-    "message": "Ingen sletningslogger fundet",
-    "description": "No Cleanup Logs Found"
+    "message": "Rydningsloggen er tom."
   },
   "noExpressionsText": {
-    "message": "Ingen udtryk defineret.",
-    "description": "No expressions defined."
+    "message": "Du har ikke tilføjet nogen udtryk endnu."
   },
   "noPrivateLogging": {
-    "message": "Oprydningslogfiler genereres ikke til faner i privat browsing / inkognito / InPrivate.",
-    "description": "Cleanup Logs will not be generated for tabs in Private Browsing / Incognito / InPrivate."
+    "message": "Private/inkognitofaner logges aldrig."
   },
   "noSearchExpressionsFound": {
-    "message": "Ingen udtryk fundet fra søgning herover.",
-    "description": "No expressions found from search above.  Found in List of Expressions."
+    "message": "Intet matcher din søgning."
   },
   "noRulesText": {
-    "message": "Ingen regler matchede dette domæne.",
-    "description": "No rules matched this domain"
+    "message": "Ingen udtryk matcher dette websted."
   },
   "noneText": {
-    "message": "Intet",
-    "description": "None"
+    "message": "Ingen"
   },
   "notificationContent": {
-    "message": "Nogle webstedsdata, herunder $Num$ Cookie(r), fjernet fra $total$ domæner, herunder: $Websites$",
-    "description": "Some site data, including 123 Cookie(s), removed from 8 domain(s), including: google.com, facebook.com",
+    "message": "Webstedsdata fjernet — $Num$ cookies fra $total$ websted(er), heriblandt: $Websites$",
     "placeholders": {
       "num": {
         "content": "$1",
@@ -746,64 +574,58 @@
     }
   },
   "notificationDisabledText": {
-    "message": "Meddelelser deaktiveret",
-    "description": "Notification disabled"
+    "message": "Notifikation slået fra"
   },
   "notificationEnabledText": {
-    "message": "Meddelelser aktiveret",
-    "description": "Notification enabled"
+    "message": "Notifikation slået til"
   },
   "notificationTitle": {
-    "message": "Cookies blev slettet!",
-    "description": "Cookies were deleted!  Used in Notification Title."
+    "message": "Cookies ryddet"
   },
   "notificationTitleSiteData": {
-    "message": "Fjernelse af netstedsdata udløst!",
-    "description": "Site Data Removal Triggered!  Used in Notification Title."
+    "message": "Webstedsdata ryddet"
   },
   "notifyCookieCleanupDelayText": {
-    "message": "Varighed for underretninger",
-    "description": "Duration for Notifications"
+    "message": "Notifikationens varighed"
   },
   "notifyCookieCleanUpText": {
-    "message": "Vis Notifikation Efter Automatisk Oprydning",
-    "description": "Show Notification After Automatic Cleanup. Found in settings."
+    "message": "Giv besked efter rydning"
   },
   "oldReleasesText": {
-    "message": "Gamle udgivelsesnoter kan ses online på",
-    "description": "Older release notes can be viewed online at"
+    "message": "Tidligere udgivelser er anført på"
   },
   "openDebugMode": {
-    "message": "For at se aflusningsuddata, åbn en ny fane og besøg",
-    "description": "To view the debug outputs, open a new tab and visit"
+    "message": "Fejlfindingsudskrifter ligger i udvidelsens konsol. Åbn en ny fane og gå til"
   },
   "optionsText": {
-    "message": "Indstillinger",
-    "description": "Options"
+    "message": "Hvad den beholder"
   },
   "pluginDataCleanupText": {
-    "message": "Aktiver sletning af plugin-data (Firefox 78+, Chrome 74+)",
-    "description": "Enable Plugin Data Cleanup (Firefox 78+, Chrome 74+). Found in CAD Settings."
+    "message": "Aktivér rydning af plugin-data"
   },
   "pluginDataText": {
-    "message": "Plugin-data",
-    "description": "Plugin Data. Primarily used in notifications."
+    "message": "Plugin-data"
   },
   "popupCookieCountText": {
-    "message": "Cookies",
-    "description": "Cookies. Due to visual formatting, Cookie Count will always be located on the right side after the colon. Found in Popup near top-right."
+    "message": "Cookies"
   },
   "preferencesText": {
-    "message": "Indstillinger",
-    "description": "Settings"
+    "message": "Indstillinger"
   },
   "questionExpression": {
-    "message": "Hvordan virker udtryk?",
-    "description": "How do Expressions work?"
+    "message": "Hvordan virker mønstre?"
   },
   "reasonCADSiteDataCookie": {
-    "message": "Slet for at udløse sletning af netstedsdata for $hostname$.",
-    "description": "Clean to trigger Site Data cleaning for $hostname$. Found in Activity Log Detailed Entries.",
+    "message": "Intern markørcookie fjernet for at udløse webstedsdatarydningen for $hostname$.",
+    "placeholders": {
+      "hostname": {
+        "content": "$1",
+        "placeholder": "example.com"
+      }
+    }
+  },
+  "reasonCADSiteDataCookieRestart": {
+    "message": "Intern markørcookie fjernet ved genstart for at udløse webstedsdatarydningen for $hostname$.",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -812,8 +634,7 @@
     }
   },
   "reasonCleanCookieExpired": {
-    "message": "Delvis slet pga. udløbne cookies fra $hostname$.",
-    "description": "Partial clean because of expired cookies from $hostname$. Found in Activity Log Detailed Entries.",
+    "message": "Fjernede kun udløbne cookies fra $hostname$.",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -822,8 +643,7 @@
     }
   },
   "reasonCleanCookieExpiredRestart": {
-    "message": "Delvis rensning pga. udløbne cookies fra $hostname$ ved genstart.",
-    "description": "Partial clean because of expired cookies from $hostname$ on restart. Found in Activity Log Detailed Entries.",
+    "message": "Fjernede kun udløbne cookies fra $hostname$ under genstartsrydningen.",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -832,8 +652,7 @@
     }
   },
   "reasonCleanCookieName": {
-    "message": "Delvis sletning pga. matchet $matchedExpression$ i $listType$",
-    "description": "Partial clean because of matched $matchedExpression$ in the $listType$. Used in cleanup logs.",
+    "message": "Ryddet selektivt: $matchedExpression$ på $listType$ beskytter andre cookies, men ikke denne",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -846,8 +665,7 @@
     }
   },
   "reasonCleanGreyList": {
-    "message": "Slet pga. opstartssletning og $matchedExpression$ er i grålisten",
-    "description": "Clean because of startup cleanup and $matchedExpression$ is in the Greylist. Used in cleanup log.",
+    "message": "Ryddet ved opstart: $matchedExpression$ står på grålisten",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -856,8 +674,7 @@
     }
   },
   "reasonCleanNoList": {
-    "message": "Slet pga. $hostname$ ikke er i hvid/grå-listerne",
-    "description": "Clean because $hostname$ is not in the White or Grey lists",
+    "message": "Ryddet: $hostname$ står hverken på hvidlisten eller grålisten",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -866,8 +683,7 @@
     }
   },
   "reasonCleanStartupNoList": {
-    "message": "Slet pga. opstartssletning og $hostname$ ikke er i hvid/grå-listerne",
-    "description": "Clean because of startup cleanup and $hostname$ is not in the White or Grey lists",
+    "message": "Ryddet ved opstart: $hostname$ står hverken på hvidlisten eller grålisten",
     "placeholders": {
       "hostname": {
         "content": "$1",
@@ -876,8 +692,7 @@
     }
   },
   "reasonKeep": {
-    "message": "Behold pga. matchet $matchedExpression$ i $listType$",
-    "description": "Keep because of matched $matchedExpression$ in the $listType$",
+    "message": "Beholdt: matchede $matchedExpression$ på $listType$",
     "placeholders": {
       "matchedExpression": {
         "content": "$1",
@@ -890,8 +705,7 @@
     }
   },
   "reasonKeepOpenTab": {
-    "message": "Behold pga. åbne faner for *.$mainDomain$",
-    "description": "Keep because of open tabs of *.$mainDomain$",
+    "message": "Beholdt: *.$mainDomain$ er stadig åben i en fane",
     "placeholders": {
       "mainDomain": {
         "content": "$1",
@@ -900,28 +714,22 @@
     }
   },
   "reasonTabsWereIgnored": {
-    "message": "og åbne faner blev ignoreret",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] and also open tabs were ignored"
+    "message": "(åbne faner blev ignoreret i denne omgang)"
   },
   "reasonTabsWereNotIgnored": {
-    "message": "eller i nogle åbne faner",
-    "description": "[Clean because of sub.google.com is not in the White or Grey lists] or in any open tabs"
+    "message": "(og ikke åben i nogen fane)"
   },
   "releaseNotesText": {
-    "message": "Udgivelsesnoter",
-    "description": "Release Notes"
+    "message": "Udgivelsesnoter"
   },
   "removeActivityLogEntryText": {
-    "message": "Fjern logindgang",
-    "description": "Remove Log Entry. Shown in summary activity log for individual log removal."
+    "message": "Fjern logpost"
   },
   "removeAllExpressions": {
-    "message": "Fjern alle udtryk",
-    "description": "Remove All Expressions"
+    "message": "Fjern alle"
   },
   "removeAllExpressionsConfirm": {
-    "message": "Er du sikker på at du vil fjerne ALLE ($expressionCount$) gemte udtryk fra ($listCount$) liste(r)?\n\nDETTE KAN IKKE FORTRYDES!\n\nTast [ $expressionCount$ ] og klik O.k. for at slette.",
-    "description": "Are you sure you want to remove ALL ($expressionCount$) saved expression(s) from ($listCount$) list(s)?\n\nTHIS CANNOT BE UNDONE!\n\nType [ $expressionCount$ ] and click OK to delete. Popup prompt if Delete All Expression is clicked.",
+    "message": "Dette fjerner permanent alle $expressionCount$ udtryk fra $listCount$ liste(r).\n\nDet kan ikke fortrydes.\n\nSkriv [ $expressionCount$ ] og tryk OK for at bekræfte.",
     "placeholders": {
       "expressionCount": {
         "content": "$1",
@@ -934,20 +742,16 @@
     }
   },
   "removeAllExpressionsNoneFound": {
-    "message": "Ingen udtryk at fjerne!",
-    "description": "No expressions to remove!"
+    "message": "Der er ingen udtryk at fjerne."
   },
   "removeExpressionText": {
-    "message": "Fjern udtryk",
-    "description": "Remove expression"
+    "message": "Fjern udtryk"
   },
   "removeListText": {
-    "message": "Fjern alle udtryk fra valgt liste",
-    "description": "Remove All Expressions from Selected List. Shown in List of Expressions, only on Firefox and if containers/contextual identities is enabled."
+    "message": "Fjern alle udtryk fra den valgte liste"
   },
   "removeStorageCount": {
-    "message": "Slettede $count$ element(er) fra $storageType$.",
-    "description": "Removed $count$ item(s) from $storageType$. Used in manual localstorage clean notification.",
+    "message": "Ryddede $count$ element(er) fra $storageType$.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -960,152 +764,147 @@
     }
   },
   "reportIssuesText": {
-    "message": "Rapporter fejl og mangler, og foreslå funktionalitet",
-    "description": "Report issues and suggest features"
+    "message": "Fejlrapporter og idéer"
   },
   "resetCookieCounterText": {
-    "message": "Nulstil cookie-tællere",
-    "description": "Reset Cookie Counters. Button in Welcome Page."
+    "message": "Nulstil cookietællerne"
   },
   "resetExtensionDataText": {
-    "message": "Nulstil udvidelsesdata",
-    "description": "Reset Extension Data"
+    "message": "Slet al udvidelsesdata"
   },
   "restoreText": {
-    "message": "Gendan",
-    "description": "Restore. Restores cookies that was cleaned up by this extension. Found in Activity Log entries."
-  },
-  "reviewLinkMessage": {
-    "message": "Tak for at prøve $cadTitle$. Hvis du kan lide den, så giv en anmeldelse.",
-    "description": "Thanks for trying out Cookie AutoDelete. If you liked it, then please give a review.",
-    "placeholders": {
-      "cadTitle": {
-        "content": "$1",
-        "example": "Cookie AutoDelete"
-      }
-    }
+    "message": "Gendan"
   },
   "saveExpressionText": {
-    "message": "Gem udtryk",
-    "description": "Save expression"
+    "message": "Gem udtryk"
   },
   "secondsText": {
-    "message": "Sekund(er)",
-    "description": "second(s)"
+    "message": "sekund(er)"
   },
   "serviceWorkersCleanupText": {
-    "message": "Aktiver sletning af tjenestearbejdere (Firefox 77+, Chrome 74+)",
-    "description": "Enable Service Workers Cleanup (Firefox 77+, Chrome 74+). Found in CAD Settings."
+    "message": "Aktivér rydning af service workers"
   },
   "serviceWorkersText": {
-    "message": "Tjenestearbejdere",
-    "description": "Service Workers. Primarily used in notifications."
+    "message": "Service workers"
   },
   "sessionStorageText": {
-    "message": "Sessionslager",
-    "description": "SessionStorage. Used in manual localstorage clean notification"
+    "message": "SessionStorage"
   },
   "settingGroupAutoClean": {
-    "message": "Automatiske sletningstilvalg",
-    "description": "Automatic Cleaning Options"
+    "message": "Tidspunkt"
   },
   "settingGroupExpression": {
-    "message": "Udtrykstilvalg",
-    "description": "Expression Options"
+    "message": "Udtryksindstillinger"
   },
   "settingGroupExtension": {
-    "message": "Udvidelsestilvalg",
-    "description": "Extension Options"
+    "message": "Grænseflade"
   },
   "settingGroupOtherBrowsing": {
-    "message": "Andre sletningstilvalg for browsingdata",
-    "description": "Other Browsing Data Cleanup Options"
+    "message": "Andre indstillinger for rydning af browserdata"
   },
   "settingsText": {
-    "message": "$CAD$ Indstillinger",
-    "description": "$CAD$ Settings",
+    "message": "Indstillinger for $CAD$",
     "placeholders": {
       "CAD": {
-        "content": "CAD",
-        "example": "CAD - Short form of Cookie AutoDelete"
+        "content": "ADCP",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "showNumberOfCookiesInIconText": {
-    "message": "Vis antal cookies for det domæne over ikonet",
-    "description": "Show Number of Cookies for that Domain over the Icon"
+    "message": "Cookieantal på værktøjslinjeikonet"
   },
   "siteDataEmptyOnEnable": {
-    "message": "Rens eksisterende data for nyaktiverede browsningsdatatyper",
-    "description": "Clean Existing Data for Newly Enabled Browsing Data Types"
+    "message": "Når en ny datatype slås til, slet det allerede gemte"
   },
   "siteDataText": {
-    "message": "Netstedsdata",
-    "description": "Site Data. Found in Activity Log Summary and Notifications."
+    "message": "Webstedsdata"
   },
-  "sizePopupText": {
-    "message": "Størrelse af pop-up (i px)",
-    "description": "Size of Popup (in px). This sets the font size in the Popup."
+  "siteDataPanelTitle": {
+    "message": "Data gemt af dette websted"
   },
-  "sizeSettingText": {
-    "message": "Størrelse på indstillingssider (i px)",
-    "description": "Size of Setting Pages (in px). This sets the font size in the Setting Pages."
+  "siteDataLoadingText": {
+    "message": "Undersøger, hvad webstedet gemmer…"
   },
-  "stopEditingText": {
-    "message": "Stop redigering",
-    "description": "Stop editing"
+  "siteDataNotAvailableText": {
+    "message": "Ikke tilgængelig på denne side"
   },
-  "successText": {
-    "message": "Success!",
-    "description": "Success!"
+  "siteDataEmptyText": {
+    "message": "Dette websted gemmer intet lige nu"
   },
-  "toGreyListText": {
-    "message": "Føj til gråliste (slet når netlæseren genstarter)",
-    "description": "Add to Greylist (Clean on Browser Restart)"
-  },
-  "toWhiteListText": {
-    "message": "Føj til hvidliste (slet aldrig)",
-    "description": "Add to Whitelist (Never Clean)"
-  },
-  "toggleNotificationText": {
-    "message": "Skift for at aktivere eller deaktivere meddelelser",
-    "description": "Toggle to enable or disable notifications"
-  },
-  "toggleToGreyListWordText": {
-    "message": "Skift til gråliste",
-    "description": "Toggle to greylist"
-  },
-  "toggleToWhiteListWordText": {
-    "message": "Skift til hvidliste",
-    "description": "Toggle to whitelist"
-  },
-  "versionNumberText": {
-    "message": "$CAD$-version",
-    "description": "$CAD$ version 3.2.1. The actual number is formatted differently and will be right below this text.",
+  "siteDataUsageText": {
+    "message": "Bruger $used$ af $quota$",
     "placeholders": {
-      "CAD": {
+      "used": {
         "content": "$1",
-        "example": "CAD or Cookie AutoDelete"
+        "example": "1.2 MB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "120 GB"
       }
     }
   },
-  "versionText": {
-    "message": "$browser$ version",
-    "description": "Firefox version",
+  "siteDataSessionCookieText": {
+    "message": "session"
+  },
+  "siteDataExpiresText": {
+    "message": "udløber $date$",
     "placeholders": {
-      "browser": {
+      "date": {
         "content": "$1",
-        "example": "Firefox"
+        "example": "2026-08-01"
+      }
+    }
+  },
+  "siteDataUnknownText": {
+    "message": "ukendt"
+  },
+  "siteDataRefreshTitle": {
+    "message": "Opdatér"
+  },
+  "sizePopupText": {
+    "message": "Popup-skriftstørrelse"
+  },
+  "sizeSettingText": {
+    "message": "Indstillingernes skriftstørrelse"
+  },
+  "stopEditingText": {
+    "message": "Stop redigering"
+  },
+  "successText": {
+    "message": "Færdig!"
+  },
+  "toGreyListText": {
+    "message": "Føj til grålisten (beholdes til browseren genstartes)"
+  },
+  "toWhiteListText": {
+    "message": "Føj til hvidlisten (ryddes aldrig)"
+  },
+  "toggleNotificationText": {
+    "message": "Slå notifikationer til eller fra"
+  },
+  "toggleToGreyListWordText": {
+    "message": "Skift til grålisten"
+  },
+  "toggleToWhiteListWordText": {
+    "message": "Skift til hvidlisten"
+  },
+  "versionNumberText": {
+    "message": "$CAD$-version",
+    "placeholders": {
+      "CAD": {
+        "content": "$1",
+        "example": "ADCP - short for Auto-Delete Cookies for Privacy"
       }
     }
   },
   "welcomeMessage": {
-    "message": "Hej der! I løbet af denne session har $cadTitle$ slettet $sessionDeleted$ cookies, og i alt $totalDeleted$ cookies.",
-    "description": "Hi there! During this session, Cookie AutoDelete has deleted 123 cookies and in total 456 cookies.",
+    "message": "$cadTitle$ har fjernet $sessionDeleted$ cookies i denne browsersession og $totalDeleted$ i alt siden installationen.",
     "placeholders": {
       "cadTitle": {
         "content": "$1",
-        "example": "Cookie AutoDelete"
+        "example": "Auto-Delete Cookies for Privacy"
       },
       "sessionDeleted": {
         "content": "$2",
@@ -1118,15 +917,415 @@
     }
   },
   "welcomeText": {
-    "message": "Velkommen",
-    "description": "Welcome"
+    "message": "Velkommen"
   },
   "expressionListText": {
-    "message": "Liste af udtryk",
-    "description": "List of Expressions"
+    "message": "Liste over udtryk"
   },
   "whiteListWordText": {
-    "message": "Hvidliste",
-    "description": "Whitelist"
+    "message": "Hvidliste"
+  },
+  "themeText": {
+    "message": "Tema"
+  },
+  "themeAutoText": {
+    "message": "Auto"
+  },
+  "themeLightText": {
+    "message": "Lys"
+  },
+  "themeDarkText": {
+    "message": "Mørk"
+  },
+  "keepLocalStorageText": {
+    "message": "Behold LocalStorage"
+  },
+  "keepLocalStorageGreyText": {
+    "message": "Behold LocalStorage indtil genstart"
+  },
+  "popupHeroOnText": {
+    "message": "Autosletning er slået til"
+  },
+  "popupHeroForgetText": {
+    "message": "Dette websted vil ikke huske dig."
+  },
+  "popupHeroOffText": {
+    "message": "Autosletning er slået fra"
+  },
+  "popupHeroOffSubText": {
+    "message": "Intet slettes automatisk."
+  },
+  "popupHeroKeepingText": {
+    "message": "Beholder webstedets cookies"
+  },
+  "popupHeroKeepListText": {
+    "message": "$DOMAIN$ står på din behold-liste",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "popupHeroKeepSessionListText": {
+    "message": "$DOMAIN$ beholdes, indtil browseren lukkes",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "siteWillBeCleanedText": {
+    "message": "vil blive ryddet"
+  },
+  "siteKeptText": {
+    "message": "beholdt"
+  },
+  "siteCleanDelayText": {
+    "message": "Cookies slettes $SECONDS$ s efter, du forlader webstedet.",
+    "placeholders": {
+      "seconds": {
+        "content": "$1",
+        "example": "15"
+      }
+    }
+  },
+  "siteKeptStatusText": {
+    "message": "Webstedets cookies slettes aldrig."
+  },
+  "siteKeptSessionStatusText": {
+    "message": "Webstedets cookies bliver, indtil browseren lukkes."
+  },
+  "keepCookiesButtonText": {
+    "message": "Behold webstedets cookies"
+  },
+  "keepCookiesCaptionText": {
+    "message": "$DOMAIN$ og dets underdomæner slettes ikke",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepUntilCloseButtonText": {
+    "message": "Behold, indtil browseren lukkes"
+  },
+  "stopKeepingButtonText": {
+    "message": "Stop med at beholde webstedet"
+  },
+  "cleanNowText": {
+    "message": "Ryd nu"
+  },
+  "cleanNowTooltipText": {
+    "message": "Sletter cookies fra websteder, du ikke beholder — websteder åbne i andre faner springes over."
+  },
+  "cleanIncludeOpenTabsText": {
+    "message": "Ryd nu, inklusive åbne faner"
+  },
+  "cleanIncludeOpenTabsTooltipText": {
+    "message": "Som Ryd nu, men websteder åbne i andre faner springes ikke længere over. Kun beholdte websteder overlever."
+  },
+  "deleteSiteCookiesText": {
+    "message": "Slet webstedets cookies"
+  },
+  "deleteSiteCookiesTooltipText": {
+    "message": "Slet $DOMAIN$s cookies med det samme, selvom det er åbent. Behold-reglerne ignoreres kun for denne ene handling.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "deleteSiteDataText": {
+    "message": "Slet alt, webstedet har gemt"
+  },
+  "deleteSiteDataTooltipText": {
+    "message": "Slet alt, $DOMAIN$ har gemt på denne enhed: cookies, cache, lokalt lager, databaser, workers.",
+    "placeholders": {
+      "domain": {
+        "content": "$1",
+        "example": "github.com"
+      }
+    }
+  },
+  "keepButtonText": {
+    "message": "Behold"
+  },
+  "keepButtonTooltipText": {
+    "message": "Webstedets cookies slettes aldrig."
+  },
+  "keepSessionButtonText": {
+    "message": "Behold denne session"
+  },
+  "keepSessionButtonTooltipText": {
+    "message": "Cookies bliver, indtil du lukker browseren, og slettes ved næste opstart."
+  },
+  "noRuleMatchText": {
+    "message": "Ingen gemt regel matcher dette websted"
+  },
+  "matchedRuleText": {
+    "message": "Matchet regel: $EXPRESSION$",
+    "placeholders": {
+      "expression": {
+        "content": "$1",
+        "example": "*.github.com"
+      }
+    }
+  },
+  "moreCleaningOptionsText": {
+    "message": "Flere rydningsmuligheder"
+  },
+  "shareText": {
+    "message": "Del"
+  },
+  "shareTooltipText": {
+    "message": "Fortæl nogen om denne udvidelse"
+  },
+  "shareCopyLinkText": {
+    "message": "Kopiér link til udvidelsens side"
+  },
+  "shareCopiedText": {
+    "message": "Link kopieret"
+  },
+  "shareEmailText": {
+    "message": "Del via e-mail"
+  },
+  "moreControlsText": {
+    "message": "Flere kontroller…"
+  },
+  "lastCleanSummaryText": {
+    "message": "Seneste rydning: $COUNT$ cookies · $TIME$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "9"
+      },
+      "time": {
+        "content": "$2",
+        "example": "14:32"
+      }
+    }
+  },
+  "showAdvancedPopupText": {
+    "message": "Avanceret tilstand"
+  },
+  "showAdvancedPopupDescText": {
+    "message": "Viser ekspertindstillingerne på denne side og ekstra kontroller i popuppen: regler for præcise domæner, rydning pr. websted og den matchede regel. Slået fra som standard — den enkle visning dækker det almindelige tilfælde."
+  },
+  "overviewText": {
+    "message": "Overblik"
+  },
+  "protectionText": {
+    "message": "Beskyttelse"
+  },
+  "savedSitesText": {
+    "message": "Gemte websteder"
+  },
+  "savedSitesSubText": {
+    "message": "Websteder, du beholder. Beholdte websteder beholder deres data altid; sessionswebsteder indtil browseren lukkes."
+  },
+  "cookiesDeletedSessionText": {
+    "message": "slettet denne session"
+  },
+  "cookiesDeletedTotalText": {
+    "message": "slettet i alt"
+  },
+  "keptBadgeText": {
+    "message": "Beholdt"
+  },
+  "sessionBadgeText": {
+    "message": "Indtil genstart"
+  },
+  "toggleToKeepText": {
+    "message": "Skift til Behold"
+  },
+  "toggleToSessionText": {
+    "message": "Skift til Behold denne session"
+  },
+  "settingGroupSiteData": {
+    "message": "Hvad der slettes"
+  },
+  "deleteAllSiteDataText": {
+    "message": "Slet al webstedsdata"
+  },
+  "deleteAllSiteDataDescText": {
+    "message": "Cookies plus gemte filer, offline-databaser og baggrundsworkers — alt, et websted gemmer på din enhed."
+  },
+  "customBadgeText": {
+    "message": "Tilpasset"
+  },
+  "advancedChooseTypesText": {
+    "message": "Avanceret — vælg præcis, hvad der slettes"
+  },
+  "patternColumnText": {
+    "message": "Mønster"
+  },
+  "patternMeaningColumnText": {
+    "message": "Hvad det dækker"
+  },
+  "patternDomainMeaningText": {
+    "message": "Præcis dette domæne"
+  },
+  "patternSubdomainsMeaningText": {
+    "message": "Domænet og hvert underdomæne"
+  },
+  "patternIPMeaningText": {
+    "message": "En enkelt IP-adresse"
+  },
+  "patternCIDRMeaningText": {
+    "message": "Hver adresse i intervallet"
+  },
+  "patternRegexMeaningText": {
+    "message": "Avanceret: et regulært udtryk mellem skråstreger"
+  },
+  "patternFileMeaningText": {
+    "message": "Lokale filer åbnet i browseren"
+  },
+  "patternKeepLevelsText": {
+    "message": "Behold gemmer et websteds data permanent. Behold denne session gemmer den kun, indtil browseren lukkes."
+  },
+  "summaryKeepsEverythingText": {
+    "message": "Beholder alt"
+  },
+  "summaryAllCookiesText": {
+    "message": "Alle cookies"
+  },
+  "toggleOptionsText": {
+    "message": "Vis eller skjul indstillinger"
+  },
+  "summaryNamedCookiesText": {
+    "message": "$COUNT$ navngivne cookies",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "3"
+      }
+    }
+  },
+  "summaryClearsTypesText": {
+    "message": "Rydder $TYPES$",
+    "placeholders": {
+      "types": {
+        "content": "$1",
+        "placeholder": "Cache, IndexedDB"
+      }
+    }
+  },
+  "removedAllExpressionsText": {
+    "message": "Alle gemte websteder blev fjernet."
+  },
+  "importFoldedContainersText": {
+    "message": "$COUNT$ poster fra gamle containerlister blev flettet ind i standardlisten.",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "placeholder": "4"
+      }
+    }
+  },
+  "importExportText": {
+    "message": "Import / Eksport"
+  },
+  "importExportSubText": {
+    "message": "Sikkerhedskopiér dine indstillinger og gemte websteder, gendan dem fra en fil, eller vend tilbage til standard."
+  },
+  "activeModeDescText": {
+    "message": "Efter et websteds faner er lukket."
+  },
+  "gracePeriodDescText": {
+    "message": "Vent før rydning, i tilfælde af at du vender tilbage."
+  },
+  "domainChangeDescText": {
+    "message": "Rydder fanens gamle websted, når du navigerer et andet sted hen i den fane."
+  },
+  "greylistDescText": {
+    "message": "Websteder markeret Behold, indtil browseren lukkes ryddes, når browseren genstarter."
+  },
+  "cleanDiscardedDescText": {
+    "message": "En fane, browseren har lagt i dvale, tæller som lukket ved rydning."
+  },
+  "startupCleanDescText": {
+    "message": "Websteder i faner gendannet fra sidste session ryddes også."
+  },
+  "cleanExpiredDescText": {
+    "message": "Cookies forbi deres udløbsdato slettes i hver rydningsomgang."
+  },
+  "cleanupLogDescText": {
+    "message": "Driver rydningslogsiden og tællerne for slettede cookies."
+  },
+  "cookieCountIconDescText": {
+    "message": "Viser, hvor mange cookies det aktuelle websted har gemt."
+  },
+  "keepDefaultIconDescText": {
+    "message": "Farv ikke ikonet om for at vise, om webstedet beholdes."
+  },
+  "notifyAutoDescText": {
+    "message": "En kort notifikation efter hver automatisk rydning."
+  },
+  "notifyDurationDescText": {
+    "message": "Hvor længe notifikationer bliver på skærmen, i sekunder."
+  },
+  "debugModeDescText": {
+    "message": "Udførlig logning til udvidelsens konsol, til fejlrapporter."
+  },
+  "supportText": {
+    "message": "Support"
+  },
+  "helpText": {
+    "message": "Hjælp"
+  },
+  "helpSubText": {
+    "message": "Alt, hvad udvidelsen gør, forklaret. Hvert afsnit åbner for sig."
+  },
+  "helpGettingStartedTitle": {
+    "message": "Kom godt i gang"
+  },
+  "helpGettingStartedBody": {
+    "message": "Nye installationer starter i manuel tilstand: intet slettes, før du siger til. Det er med vilje — byg din behold-liste først, så det ikke logger dig ud overalt, når du senere slår automatisk rydning til.\n\n1. Behold de websteder, der betyder noget. Besøg hvert websted, hvor en udlogning ville irritere (e-mail, bank, alt du betaler for), klik på værktøjslinjeikonet og tryk Behold webstedets cookies. Reglen dækker domænet og alle dets underdomæner. Brug Behold, indtil browseren lukkes til websteder, der kun skal huskes denne gang.\n\n2. Beslut, hvad rydning betyder. Fra fabrikken fjerner rydningen kun cookies. Slå Slet al webstedsdata til på siden Beskyttelse for også at rydde et websteds øvrige efterladenskaber.\n\n3. Slå automatisk rydning til. Aktivér Ryd automatisk på siden Beskyttelse. Fra da af: luk et websteds sidste fane, og efter fristen er dets cookies væk — medmindre du beholder webstedet, eller det stadig er åbent et andet sted.\n\n4. Valgfrit: lad rydningsloggen være slået til, så du altid kan se, hvad der blev ryddet og hvorfor."
+  },
+  "helpCleaningTitle": {
+    "message": "Sådan fungerer rydningen"
+  },
+  "helpCleaningBody": {
+    "message": "Automatisk rydning udløses, når et websteds sidste fane lukkes. Fristen (15 sekunder som standard) er dit fortryd-vindue: åbn webstedet igen inden for den, og intet fjernes.\n\nRyd, når du forlader et websted får også navigation i en fane fra ét websted til et andet til at tælle som at forlade det første — strengere, men mærkbart, hvis du hopper mellem websteder i én fane.\n\nUnder en rydning overlever et websteds cookies, hvis noget af dette gælder: webstedet er stadig åbent i en fane; det matcher en Behold-regel; det matcher en Behold indtil lukning-regel, og dette ikke er en genstartsrydning; eller den konkrete cookies navn er afkrydset i en matchende regels cookieliste. Alt andet forsvinder.\n\nDen avancerede tilstand tilføjer: sovende (kasserede) faner tæller som lukkede, gendannede faner ryddes én gang ved opstart, udløbne cookies fjernes altid, og sessionsregler — websteder med Behold, indtil browseren lukkes ryddes ved genstart."
+  },
+  "helpSiteDataTitle": {
+    "message": "Hvad der slettes"
+  },
+  "helpSiteDataBody": {
+    "message": "Som standard sletter udvidelsen kun cookies. Kontakten Slet al webstedsdata udvider rydningen til alt andet, et websted gemmer på din enhed: cache, IndexedDB, LocalStorage, plugin-data og service workers. Harmonikaen Avanceret nedenunder lader dig vælge de enkelte typer.\n\nTo ting at vide, før du slår dem til:\n\n• At aktivere en type sletter den én gang, overalt. I det øjeblik du slår en type til, ryddes al aktuelt gemt data af den type for hvert websted (det er advarslen på siden). Slå slet-ved-aktivering-kontakten fra først, hvis du ikke vil have den første fejning.\n\n• Gammel data kan ikke ryddes selektivt. Browseren lader kun udvidelsen rydde disse typer pr. websted fremadrettet, for websteder du besøger igen. Efterladenskaber fra før du slog muligheden til, bliver liggende, indtil webstedet besøges en gang til."
+  },
+  "helpPatternsTitle": {
+    "message": "Behold-regler og mønstre"
+  },
+  "helpPatternsBody": {
+    "message": "Hvert gemt websted er et mønster på en af to lister. Behold-websteder ryddes aldrig. Behold, indtil browseren lukkes-websteder overlever almindelige rydninger, men ryddes når browseren genstarter. Et websted, der ikke matcher nogen af dem, ryddes, så snart du forlader det — standardskæbnen; reglerne er undtagelserne.\n\nMønstre matcher kun værtsnavnet — intet https://, ingen stier:\n\n• example.com — præcis det domæne, ikke mail.example.com\n• *.example.com — domænet og hvert underdomæne\n• 192.168.1.100 — den IP-adresse\n• 10.0.0.0/8 — enhver IP i CIDR-intervallet\n• /^(mail|news)\\.example\\.com$/ — et regulært udtryk mellem skråstreger\n• file:///home/user/notes — sider åbnet fra den lokale mappe\n\nHver regel bærer også indstillinger pr. websted (fold dens række ud på siden Gemte websteder): behold kun navngivne cookies i stedet for alle, og datavalg pr. type. En Opret standardindstillinger-regel sætter startindstillingerne for hver regel, der tilføjes senere.\n\nTip: for at få ALLE cookies til at forsvinde ved genstart, tilføj * som en Behold, indtil browseren lukkes-regel og markér dine virkelig permanente websteder Behold."
+  },
+  "helpImportExportTitle": {
+    "message": "Import og eksport"
+  },
+  "helpImportExportBody": {
+    "message": "Siden Import / Eksport sikkerhedskopierer to ting hver for sig: dine gemte websteder og dine indstillinger. Begge er almindelige JSON-filer med tidsstemplede navne, så gentagne kopier ikke overskriver hinanden. Import sletter aldrig det, du allerede har; præcise dubletter springes over, og ugyldige poster afvises med en årsag, mens resten alligevel importeres.\n\nEksporter fra det oprindelige Cookie AutoDelete importeres fejlfrit — samme format. Eksporter fra Firefox-æraen kan indeholde containerfane-lister (en Firefox-funktion, der ikke findes i Chromium); de poster flettes ind i din standardliste, dubletter springes over, og importbeskeden fortæller, hvor mange der blev flettet.\n\nNulstillingen af indstillingerne til standard bor også på den side. Den rører ikke dine gemte websteder."
+  },
+  "helpLogTitle": {
+    "message": "Rydningsloggen"
+  },
+  "helpLogBody": {
+    "message": "Rydningsloggen besvarer hvorfor blev jeg logget ud af det websted? og gør den her ting overhovedet noget?. Lad Før en rydningslog være slået til, og åbn logsiden efter en rydning.\n\nHver post oplister de berørte websteder og beslutningen for hvert af dem, i klart sprog: beholdt fordi en regel matchede, beholdt fordi webstedet stadig var åbent, ryddet fordi intet matchede, ryddet ved opstart (det er dét, der tømmer indtil-genstart-webstederne), eller ryddet selektivt når en regel kun beholder navngivne cookies. Beslutningslinjerne bruger de interne listenavne: hvidliste betyder en permanent Behold-regel, gråliste betyder Behold, indtil browseren lukkes.\n\nLoggen indeholder aldrig cookieværdier, registrerer aldrig private/inkognitofaner, forlader aldrig din browser, og gamle poster falder af enden af sig selv. Tællerne på siden Overblik (denne session / i alt) kommer fra samme bogholderi."
+  },
+  "helpPermissionsTitle": {
+    "message": "Hvorfor den skal bruge disse tilladelser"
+  },
+  "helpPermissionsBody": {
+    "message": "Installationsadvarslen Læse og ændre webstedsdata på alle websteder er den uundgåelige: cookies kan tilhøre ethvert websted, du besøger, så at slette dem kræver adgang til alle websteder. Den bruges udelukkende til at læse og fjerne cookies og webstedsdata — aldrig til at læse sideindhold, og aldrig til at tale med en server (der findes ingen).\n\nResten i korthed. Cookies: oplist et websteds cookies til tælleren og slet dem. Browserdata: slet de valgfri ekstra — cache, IndexedDB, LocalStorage, plugin-data, service workers. Lager: gem dine indstillinger og behold-regler lokalt. Alarmer: hold en udskudt rydning på skinner, selv hvis browseren lægger udvidelsen i dvale under ventetiden. Faner: vid, hvilke websteder der er åbne (åbne websteder er beskyttede), og opdag, når en fane lukkes eller forlader et websted. Aktiv fane og Scripting: kør popuppens handlinger pr. websted. Genvejsmenuer og Notifikationer: to valgfri funktioner, du kan slå fra i indstillingerne.\n\nBevidst fraværende: browserhistorik, aflytning af webforespørgsler og al netværksadgang overhovedet. Udvidelsen kan ikke se, hvad du skriver, eller hvilke sider du læser."
+  },
+  "helpTroubleshootingTitle": {
+    "message": "Fejlfinding og FAQ"
+  },
+  "helpTroubleshootingBody": {
+    "message": "Logget ud af et websted? I sandsynlighedsrækkefølge: webstedet har ingen behold-regel (eller kun dets præcise værtsnavn har en, mens logindet bor på et underdomæne — brug formen *.example.com); det er et indtil-genstart-websted, og browseren genstartede; en matchende regel beholder kun navngivne cookies, og login-cookien er ikke afkrydset; eller webstedets egen cookie udløb. Gæt ikke — rydningsloggen nævner præcis den regel, der slog til.\n\nCookies dukker op igen lige efter rydningen? Webstedet er næsten altid stadig åbent i en fane — åbne websteder genskaber cookies, som de vil, og er beskyttede uanset.\n\nRydningen kørte ikke? Tjek i rækkefølge: automatisk rydning er slået til (popuppens overskrift siger det); webstedet er ikke åbent i en anden fane; fristen er udløbet; ingen behold-regel matcher; det var ikke en sovende fane (de tæller kun som lukkede, hvis den avancerede indstilling er slået til).\n\nSlog webstedsdatarydning til, men gammel data ligger der stadig? Browseren lader kun udvidelsen rydde de typer for websteder, du besøger igen; efterladenskaber bliver til næste besøg.\n\nInkognito? Kun hvis du tillader det: browserens udvidelsesside → Tillad i inkognito. Inkognito har sit eget cookielager og egne gemte websteder og skrives aldrig i loggen.\n\nStadig i knibe? Supportsiden har versionen, en kopierbar fejlfindingsblok og linket til fejlrapporter. Fejlfindingstilstanden (Avanceret) får udvidelsen til at fortælle hver beslutning i service worker-konsollen, med cookieværdier maskeret."
   }
 }
