@@ -31,6 +31,7 @@ import {
   getContainerExpressionDefault,
   getHostname,
   getMatchedExpressions,
+  getPort,
   getSearchResults,
   getSetting,
   getStoreId,
@@ -1018,34 +1019,28 @@ describe("Library Functions", () => {
       expect(prepareCleanupDomains("www.example.com")).toEqual([
         "http://www.example.com",
         "https://www.example.com",
-        "http://.www.example.com",
-        "https://.www.example.com",
       ]);
     });
 
     it("should return cleanup origins from .example.com", () => {
+      // No dot-prefixed variants: those are cookie-domain syntax, not valid
+      // origins, and Chrome's browsingData API silently ignores them.
       expect(prepareCleanupDomains(".example.com")).toEqual([
         "http://example.com",
         "https://example.com",
-        "http://.example.com",
-        "https://.example.com",
         "http://www.example.com",
         "https://www.example.com",
-        "http://.www.example.com",
-        "https://.www.example.com",
       ]);
     });
 
     it("should return cleanup origins from example.com", () => {
+      // No dot-prefixed variants: those are cookie-domain syntax, not valid
+      // origins, and Chrome's browsingData API silently ignores them.
       expect(prepareCleanupDomains("example.com")).toEqual([
         "http://example.com",
         "https://example.com",
-        "http://.example.com",
-        "https://.example.com",
         "http://www.example.com",
         "https://www.example.com",
-        "http://.www.example.com",
-        "https://.www.example.com",
       ]);
     });
 
@@ -1061,6 +1056,46 @@ describe("Library Functions", () => {
         "http://[::1]",
         "https://[::1]",
       ]);
+    });
+
+    it("should include port-carrying origins when a port is given", () => {
+      // browsingData removals are origin-scoped, and a non-default port is
+      // part of the origin (e.g. http://localhost:3000).
+      expect(prepareCleanupDomains("example.com", "3000")).toEqual([
+        "http://example.com",
+        "https://example.com",
+        "http://example.com:3000",
+        "https://example.com:3000",
+        "http://www.example.com",
+        "https://www.example.com",
+        "http://www.example.com:3000",
+        "https://www.example.com:3000",
+      ]);
+    });
+
+    it("should include port-carrying origins for IP addresses", () => {
+      expect(prepareCleanupDomains("::1", "8443")).toEqual([
+        "http://[::1]",
+        "https://[::1]",
+        "http://[::1]:8443",
+        "https://[::1]:8443",
+      ]);
+    });
+  });
+
+  describe("getPort()", () => {
+    it("should return the explicit port", () => {
+      expect(getPort("http://localhost:3000/app")).toBe("3000");
+    });
+    it("should return empty string for default ports", () => {
+      expect(getPort("https://example.com/path")).toBe("");
+    });
+    it("should return empty string for file urls", () => {
+      expect(getPort("file:///home/user/index.html")).toBe("");
+    });
+    it("should return empty string for undefined and garbage", () => {
+      expect(getPort(undefined)).toBe("");
+      expect(getPort("not a url")).toBe("");
     });
   });
 

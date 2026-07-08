@@ -260,6 +260,7 @@ describe("ContextMenuEvents", () => {
       expect(spyCleanupService.clearSiteDataForThisDomain).toHaveBeenCalledWith(
         expect.any(Object),
         "All",
+        expect.any(String),
         expect.any(String)
       );
     });
@@ -286,6 +287,7 @@ describe("ContextMenuEvents", () => {
       expect(spyCleanupService.clearSiteDataForThisDomain).toHaveBeenCalledWith(
         expect.any(Object),
         "Cache",
+        expect.any(String),
         expect.any(String)
       );
     });
@@ -310,6 +312,7 @@ describe("ContextMenuEvents", () => {
       expect(spyCleanupService.clearSiteDataForThisDomain).toHaveBeenCalledWith(
         expect.any(Object),
         "IndexedDB",
+        expect.any(String),
         expect.any(String)
       );
     });
@@ -336,6 +339,7 @@ describe("ContextMenuEvents", () => {
       expect(spyCleanupService.clearSiteDataForThisDomain).toHaveBeenCalledWith(
         expect.any(Object),
         "PluginData",
+        expect.any(String),
         expect.any(String)
       );
     });
@@ -350,7 +354,25 @@ describe("ContextMenuEvents", () => {
       expect(spyCleanupService.clearSiteDataForThisDomain).toHaveBeenCalledWith(
         expect.any(Object),
         "ServiceWorkers",
+        expect.any(String),
         expect.any(String)
+      );
+    });
+    it("Clear Site Data passes the tab URL's explicit port along", () => {
+      ContextMenuEvents.onContextMenuClicked(
+        {
+          ...defaultOnClickData,
+          menuItemId: `${ContextMenuEvents.MenuID.MANUAL_CLEAN_SITEDATA}All`,
+        },
+        { ...sampleTab, url: "https://www.example.com:8443/app" }
+      );
+      // browsingData removals are origin-scoped; a non-default port must
+      // reach prepareCleanupDomains or that origin's storage survives.
+      expect(spyCleanupService.clearSiteDataForThisDomain).toHaveBeenCalledWith(
+        expect.any(Object),
+        "All",
+        expect.any(String),
+        "8443"
       );
     });
     it("Unknown Site Data Type was pass in.  Extreme case.", () => {

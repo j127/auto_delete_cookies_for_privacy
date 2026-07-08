@@ -948,6 +948,28 @@ describe("CleanupService", () => {
         )
       ).toBe(true);
     });
+    it("should scope the removal to port-carrying origins when a port is given", async () => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockResolvedValue(undefined as never);
+      global.browser.browsingData.remove.mockClear();
+      expect(
+        await clearSiteDataForThisDomain(
+          initialState,
+          SiteDataType.CACHE,
+          "domain.com",
+          "8443"
+        )
+      ).toBe(true);
+      const removalOptions =
+        global.browser.browsingData.remove.mock.calls[0][0];
+      expect(removalOptions.origins).toEqual(
+        expect.arrayContaining([
+          "https://domain.com:8443",
+          "https://domain.com",
+        ])
+      );
+    });
     it("should return false when the removal fails, instead of claiming success", async () => {
       when(global.browser.browsingData.remove)
         .calledWith(expect.any(Object), expect.any(Object))
