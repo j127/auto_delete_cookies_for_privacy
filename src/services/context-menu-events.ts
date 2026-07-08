@@ -21,6 +21,7 @@ import {
 import {
   adcpLog,
   getHostname,
+  getPort,
   getSetting,
   localFileToRegex,
   parseCookieStoreId,
@@ -407,7 +408,10 @@ export default class ContextMenuEvents extends StoreUser {
           await clearSiteDataForThisDomain(
             StoreUser.store.getState(),
             siteData,
-            hostname
+            hostname,
+            // browsingData removals are origin-scoped; carry the tab's
+            // explicit port so non-default-port storage is covered.
+            getPort(tab.url)
           );
           break;
         case SiteDataType.LOCALSTORAGE:

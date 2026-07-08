@@ -479,7 +479,10 @@ export const clearLocalStorageForThisDomain = async (
 export const clearSiteDataForThisDomain = async (
   state: State,
   siteData: SiteDataType | "All",
-  hostname: string
+  hostname: string,
+  // The tab URL's explicit port when the caller has one — a non-default
+  // port is part of the origin that browsingData removals are scoped to.
+  port = ""
 ): Promise<boolean> => {
   if (hostname.trim() === "") return false;
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
@@ -489,7 +492,7 @@ export const clearSiteDataForThisDomain = async (
     },
     debug
   );
-  const domains = prepareCleanupDomains(hostname);
+  const domains = prepareCleanupDomains(hostname, port);
   if (siteData === "All") {
     // The consolidated notification and the returned success flag must
     // reflect what actually got removed — removeSiteData returns false on
@@ -651,6 +654,9 @@ export const cleanSiteData = async (
 
   const cleanList: string[] = [];
   for (const domain of domains) {
+    // No port available here: these domains come from cookies, and cookies
+    // are host-scoped. Storage on non-default-port origins is only covered
+    // by the manual per-site actions, which read the port from the tab URL.
     cleanList.push(...prepareCleanupDomains(domain));
   }
 
