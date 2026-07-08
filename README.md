@@ -17,7 +17,7 @@ For a similar extension that works in Firefox see [Cookie AutoDelete](https://ad
 
 1. Mark the sites whose cookies you want to keep as **Keep**, or **Keep until browser closes** if they should only survive the session
 2. Turn on automatic cleaning (in the settings page, or the toggle in the popup)
-3. Browse normally — cleanup runs by itself a few seconds after you close a site's last tab
+3. Browse normally -- cleanup runs by itself a few seconds after you close a site's last tab
 
 ## Development
 
@@ -48,4 +48,4 @@ The extension ships localized in 30+ languages.
 
 MIT. Original work copyright (c) 2017-2022 Kenny Do and CAD Team; fork modifications copyright (c) 2026 j127. See [LICENSE](LICENSE).
 
-Auto-Delete Cookies for Privacy is a fork of Cookie AutoDelete (CAD) whose upstream was archived and delisted when Manifest V2 support ended (attribution in [LICENSE](LICENSE)). It has been rebuilt for Manifest V3 (along with other changes), and it targets Chrome, Brave, and other Chromium browsers. Firefox still supports Manifest V2 extensions, and you can download the original extension for Firefox here: [Cookie AutoDelete](https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/).
+**Auto-Delete Cookies for Privacy** is a fork of [Cookie AutoDelete (CAD)](https://github.com/Cookie-AutoDelete/Cookie-AutoDelete) which was removed from the Chrome Extension Store when Manifest V2 support ended (attribution in [LICENSE](LICENSE)). It has been rebuilt for Manifest V3 (along with other changes), and it targets Chrome, Brave, and other Chromium browsers. Firefox still supports Manifest V2 extensions, and you can download the original extension for Firefox [here](https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/).
