@@ -30,43 +30,34 @@ const App: React.FunctionComponent = () => {
     (state: State) =>
       (state.settings[SettingID.SIZE_SETTING].value as number) || 16
   );
-  const [activeTab, setActiveTab] = React.useState("tabWelcome");
-  const [settingsURL, setSettingsURL] = React.useState("");
-  const [tabId, setTabId] = React.useState(0);
+  // The URL hash names the sidebar tab, so deep links from the popup and
+  // the context menu (settings.html#tabSettings) open on the right page.
+  const [activeTab, setActiveTab] = React.useState(
+    () => window.location.hash.slice(1) || "tabWelcome"
+  );
   // DaisyUI's drawer is checkbox-driven; controlling the checkbox lets tab
   // clicks close the drawer on small screens (lg+ keeps it statically open).
   const [drawerOpen, setDrawerOpen] = React.useState(false);
 
-  // Gets the url hash and switches to that sidebar tab
   React.useEffect(() => {
     document.documentElement.style.fontSize = `${sizeSetting || 16}px`;
-    const applyInitialTab = async () => {
-      const tab = await browser.tabs.getCurrent();
-      const tabURL = new URL(tab.url || "");
-      setActiveTab(
-        tabURL.hash !== "" || undefined ? tabURL.hash.slice(1) : "tabWelcome"
-      );
-      setSettingsURL(tab.url || "");
-      setTabId(tab.id ?? 0);
-      // The hash names an element ID (the sidebar button), so the browser
-      // anchor-scrolls past the navbar on load; undo that.
-      window.scrollTo(0, 0);
-    };
-    applyInitialTab();
-    // The class component applied the font size and read the URL hash once
-    // in componentDidMount, so this effect intentionally runs on mount only.
+    // Belt and suspenders: the hash has no anchor target (the sidebar
+    // buttons deliberately carry no DOM ids), but start at the top anyway.
+    window.scrollTo(0, 0);
+    // The class component applied the font size once in componentDidMount,
+    // so this effect intentionally runs on mount only.
   }, []);
 
-  // Switch tabs and appends the hash of the tab name in the url
+  // Switch tabs and record the tab name as the hash in the url
   const switchTabs = (newActiveTab: string) => {
     setActiveTab(newActiveTab);
     setDrawerOpen(false);
-    const newUrl = new URL(settingsURL);
-    newUrl.hash = newActiveTab;
-    browser.tabs.update(tabId, {
-      url: newUrl.href,
-    });
-    // Same anchor-jump on every hash update: a new page starts at the top.
+    // replaceState changes the hash without navigating. The old
+    // browser.tabs.update() call was a real hash navigation whose native
+    // anchor scroll targeted the sidebar button that carried the tab's id —
+    // it landed after this handler's scroll-to-top and left every page
+    // scrolled down past the navbar.
+    window.history.replaceState(null, "", `#${newActiveTab}`);
     window.scrollTo(0, 0);
   };
 
