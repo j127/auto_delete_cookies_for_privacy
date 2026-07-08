@@ -17,6 +17,8 @@ import {
   SettingID,
   SiteDataType,
 } from "@/typings/enums";
+import { existsSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { when } from "jest-when";
 import { initialState } from "@/redux/state";
 import {
@@ -1341,6 +1343,22 @@ describe("Library Functions", () => {
       expect(setTimeout).toHaveBeenCalledWith(expect.any(Function), 1000);
       jest.runAllTimers();
       expect(browser.notifications.clear).toHaveBeenCalledTimes(1);
+    });
+
+    it("references an icon file that actually ships", () => {
+      // Chrome fails the whole notification when the icon can't load
+      // ("Unable to download all specified images"), which would silently
+      // suppress every error notification — pin the path to disk.
+      throwErrorNotification({ name: "Test Error", message: "An ERROR!" }, 1);
+      const iconPath = global.browser.runtime.getURL.mock.calls.at(
+        -1
+      )?.[0] as string;
+      expect(iconPath).toBe("icons/icon_48_red.png");
+      expect(
+        existsSync(
+          fileURLToPath(new URL(`../../extension/${iconPath}`, import.meta.url))
+        )
+      ).toBe(true);
     });
   });
 
