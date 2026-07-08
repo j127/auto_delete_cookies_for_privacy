@@ -1233,13 +1233,13 @@
     "message": "Säkerhetskopiera inställningar och sparade webbplatser, återställ från fil eller gå tillbaka till standard."
   },
   "activeModeDescText": {
-    "message": "Efter att en webbplats flikar stängts."
+    "message": "Städar cookies och valda webbplatsdata efter att en webbplats flikar stängts. När detta är av städas inget automatiskt — manuell städning från popup-fönstret fungerar fortfarande."
   },
   "gracePeriodDescText": {
     "message": "Vänta innan städning, ifall du kommer tillbaka."
   },
   "domainChangeDescText": {
-    "message": "Städar flikens gamla webbplats när du surfar någon annanstans i den fliken."
+    "message": "Städar flikens gamla webbplats när du surfar någon annanstans i den fliken, i stället för bara när fliken stängs."
   },
   "greylistDescText": {
     "message": "Webbplatser märkta Behåll tills webbläsaren stängs städas när webbläsaren startas om."

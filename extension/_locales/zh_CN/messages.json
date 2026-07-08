@@ -1233,13 +1233,13 @@
     "message": "备份你的设置和已保存的站点，从文件恢复，或恢复默认。"
   },
   "activeModeDescText": {
-    "message": "在站点的标签页关闭之后。"
+    "message": "在站点的标签页关闭之后，清理 Cookie 和所选的站点数据。此项关闭时，不会自动清理任何内容——从弹出窗口手动清理仍然可用。"
   },
   "gracePeriodDescText": {
     "message": "清理前先等待，以防你返回。"
   },
   "domainChangeDescText": {
-    "message": "当你在标签页里前往别处时，清理它原来的站点。"
+    "message": "当你在标签页里前往别处时，清理它原来的站点，而不只是在标签页关闭时。"
   },
   "greylistDescText": {
     "message": "标为“保留到浏览器关闭”的站点会在浏览器重启时被清理。"

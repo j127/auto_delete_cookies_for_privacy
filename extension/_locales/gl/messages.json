@@ -1233,13 +1233,13 @@
     "message": "Fai copia da configuración e dos sitios gardados, restáuraos desde un ficheiro ou volve aos valores predeterminados."
   },
   "activeModeDescText": {
-    "message": "Despois de que se pechen as lapelas dun sitio."
+    "message": "Limpa as cookies e os datos de sitio seleccionados despois de que se pechen as lapelas dun sitio. Mentres estea desactivado, nada se limpa automaticamente — a limpeza manual desde a xanela emerxente segue funcionando."
   },
   "gracePeriodDescText": {
     "message": "Agarda antes de limpar, por se volves."
   },
   "domainChangeDescText": {
-    "message": "Limpa o sitio anterior dunha lapela cando navegas a outro lugar nesa lapela."
+    "message": "Limpa o sitio anterior dunha lapela cando navegas a outro lugar nesa lapela, en vez de só ao pechar a lapela."
   },
   "greylistDescText": {
     "message": "Os sitios marcados Conservar ata pechar o navegador límpanse cando o navegador se reinicia."

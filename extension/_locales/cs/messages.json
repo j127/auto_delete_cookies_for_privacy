@@ -1233,13 +1233,13 @@
     "message": "Zálohujte nastavení a uložené weby, obnovte je ze souboru nebo se vraťte k výchozím hodnotám."
   },
   "activeModeDescText": {
-    "message": "Po zavření karet daného webu."
+    "message": "Po zavření karet daného webu uklidí cookies a vybraná data webu. Dokud je to vypnuté, nic se neuklízí automaticky — ruční úklid z vyskakovacího okna funguje dál."
   },
   "gracePeriodDescText": {
     "message": "Před úklidem počkat, kdybyste se vrátili."
   },
   "domainChangeDescText": {
-    "message": "Uklidí předchozí web karty, když v ní přejdete jinam."
+    "message": "Uklidí předchozí web karty, když v ní přejdete jinam, nejen při zavření karty."
   },
   "greylistDescText": {
     "message": "Weby označené „Ponechat do zavření prohlížeče“ se uklízejí při jeho restartu."

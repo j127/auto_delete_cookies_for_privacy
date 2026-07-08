@@ -1233,13 +1233,13 @@
     "message": "Faça cópia das definições e sites guardados, restaure-os de um ficheiro ou volte às predefinições."
   },
   "activeModeDescText": {
-    "message": "Depois de os separadores de um site fecharem."
+    "message": "Limpa cookies e dados de site selecionados depois de os separadores de um site fecharem. Enquanto estiver desativado, nada é limpo automaticamente — a limpeza manual a partir do popup continua a funcionar."
   },
   "gracePeriodDescText": {
     "message": "Esperar antes de limpar, caso volte."
   },
   "domainChangeDescText": {
-    "message": "Limpa o site antigo de um separador quando navega para outro lugar nesse separador."
+    "message": "Limpa o site antigo de um separador quando navega para outro lugar nesse separador, em vez de apenas quando o separador fecha."
   },
   "greylistDescText": {
     "message": "Sites marcados «Manter até o navegador fechar» são limpos quando o navegador reinicia."
