@@ -291,30 +291,63 @@ export const isSafeToClean = (
 export const cleanCookies = async (
   state: State,
   markedForDeletion: CleanReasonObject[]
-): Promise<void> => {
-  // cookies.remove resolves with the removed cookie's details (or null).
-  const promiseArr: Promise<unknown>[] = [];
-  markedForDeletion.forEach((obj) => {
-    const cookieProperties = obj.cookie;
-    const cookieRemove = {
-      storeId: cookieProperties.storeId,
-      name: cookieProperties.name,
-      url: cookieProperties.preparedCookieDomain,
-    };
-    // url: "http://domain.com" + cookies[i].path
+): Promise<{
+  /** The subset whose cookies.remove actually removed something. */
+  removed: CleanReasonObject[];
+  failedCount: number;
+  firstError?: unknown;
+}> => {
+  const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
+  // cookies.remove resolves with the removed cookie's details, resolves
+  // null when it could not remove (e.g. the cookie is already gone), and
+  // rejects on invalid arguments — only a non-null result is a removal.
+  const results = await Promise.allSettled(
+    markedForDeletion.map((obj) => {
+      const cookieProperties = obj.cookie;
+      const cookieRemove = {
+        storeId: cookieProperties.storeId,
+        name: cookieProperties.name,
+        url: cookieProperties.preparedCookieDomain,
+      };
+      // url: "http://domain.com" + cookies[i].path
+      adcpLog(
+        {
+          msg: "CleanupService.cleanCookies: Cookie being removed through browser.cookies.remove via Promises:",
+          x: cookieRemove,
+        },
+        debug
+      );
+      return browser.cookies.remove(cookieRemove);
+    })
+  );
+  const removed: CleanReasonObject[] = [];
+  let failedCount = 0;
+  let firstError: unknown;
+  results.forEach((result, i) => {
+    if (result.status === "fulfilled" && result.value) {
+      removed.push(markedForDeletion[i]);
+      return;
+    }
+    failedCount += 1;
+    if (result.status === "rejected" && firstError === undefined) {
+      firstError = result.reason;
+    }
     adcpLog(
       {
-        msg: "CleanupService.cleanCookies: Cookie being removed through browser.cookies.remove via Promises:",
-        x: cookieRemove,
+        msg: `CleanupService.cleanCookies: cookie was NOT removed (${
+          result.status === "rejected" ? "rejected" : "null result"
+        }):`,
+        type: "warn",
+        x: {
+          cookie: markedForDeletion[i].cookie.name,
+          hostname: markedForDeletion[i].cookie.hostname,
+          reason: result.status === "rejected" ? `${result.reason}` : null,
+        },
       },
-      getSetting(state, SettingID.DEBUG_MODE) as boolean
+      debug
     );
-    const promise = browser.cookies.remove(cookieRemove);
-    promiseArr.push(promise);
   });
-  await Promise.all(promiseArr).catch((e) => {
-    throw e;
-  });
+  return { removed, failedCount, firstError };
 };
 
 // Cleanup of all cookies for domain.
@@ -859,26 +892,29 @@ export const cleanCookiesOperation = async (
       );
     }
 
-    try {
-      await cleanCookies(state, markedForDeletion);
-    } catch (e: unknown) {
+    const cleanResult = await cleanCookies(state, markedForDeletion);
+    if (cleanResult.firstError !== undefined) {
+      // The old call here had no msg, which adcpLog silently drops.
       adcpLog(
         {
+          msg: "CleanupService.cleanCookiesOperation: cookies.remove rejected:",
           type: "error",
-          x: e,
+          x: cleanResult.firstError,
         },
         true
       );
-      if (e instanceof Error) {
+      if (cleanResult.firstError instanceof Error) {
         throwErrorNotification(
-          e,
+          cleanResult.firstError,
           getSetting(state, SettingID.NOTIFY_DURATION) as number
         );
       }
     }
 
-    // Extract away the ADCP internal Cookie from Clean Entries.
-    const removedCookies = markedForDeletion.filter((c) => {
+    // Only cookies that were really removed count toward the log, the
+    // counters, and the notification — a failed cookies.remove used to be
+    // reported as cleaned. Extract away the ADCP internal Cookie too.
+    const removedCookies = cleanResult.removed.filter((c) => {
       return c.cookie.name !== ADCPCOOKIENAME;
     });
 
