@@ -936,6 +936,73 @@ describe("CleanupService", () => {
         await clearSiteDataForThisDomain(initialState, SiteDataType.CACHE, "  ")
       ).toBe(false);
     });
+    it("should return true when the removal succeeds", async () => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockResolvedValue(undefined as never);
+      expect(
+        await clearSiteDataForThisDomain(
+          initialState,
+          SiteDataType.CACHE,
+          "domain.com"
+        )
+      ).toBe(true);
+    });
+    it("should return false when the removal fails, instead of claiming success", async () => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockRejectedValue(new Error("nope") as never);
+      expect(
+        await clearSiteDataForThisDomain(
+          initialState,
+          SiteDataType.CACHE,
+          "domain.com"
+        )
+      ).toBe(false);
+    });
+    it("should return false and skip the consolidated notification when every type fails for All", async () => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockRejectedValue(new Error("nope") as never);
+      global.browser.notifications.create.mockClear();
+      expect(
+        await clearSiteDataForThisDomain(initialState, "All", "domain.com")
+      ).toBe(false);
+      // removeSiteData's own error notifications go through
+      // throwErrorNotification; the consolidated success one must not fire.
+      expect(spyLib.showNotification).not.toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: expect.stringContaining("notificationTitleSiteData"),
+        }),
+        expect.anything()
+      );
+    });
+    it("should return true and list only the succeeded types when some fail for All", async () => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockRejectedValueOnce(new Error("nope") as never)
+        .mockResolvedValue(undefined as never);
+      when(global.browser.i18n.getMessage)
+        .calledWith(expect.any(String))
+        .mockImplementation(((key: string) => key) as never);
+      when(global.browser.i18n.getMessage)
+        .calledWith(expect.any(String), expect.any(Array))
+        .mockImplementation(
+          ((key: string, subs: string[]) =>
+            `${key}[${subs.join("|")}]`) as never
+        );
+      expect(
+        await clearSiteDataForThisDomain(initialState, "All", "domain.com")
+      ).toBe(true);
+      const consolidated = spyLib.showNotification.mock.calls.find(([opts]) =>
+        `${opts.msg}`.startsWith("activityLogSiteDataDomainsText")
+      );
+      expect(consolidated).toBeDefined();
+      // The first type (Cache, alphabetically via SITEDATATYPES order)
+      // failed; the consolidated message must list the other four only.
+      expect(`${consolidated?.[0].msg}`).not.toContain("cacheText");
+      expect(`${consolidated?.[0].msg}`).toContain("indexedDBText");
+    });
   });
 
   describe("filterSiteData()", () => {
