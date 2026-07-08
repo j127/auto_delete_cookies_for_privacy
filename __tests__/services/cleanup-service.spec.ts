@@ -283,29 +283,41 @@ describe("CleanupService", () => {
         .calledWith(expect.any(String), expect.any(Array))
         .mockReturnValue("");
     });
+    beforeEach(() => {
+      // cookies.remove resolves the removed cookie's details on success;
+      // an unset mock resolves undefined, which now (correctly) counts as
+      // a failed removal.
+      when(global.browser.cookies.remove)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue({} as never);
+    });
 
-    it("should be called 5 times for cookies.remove", async () => {
-      await cleanCookies(initialState, removeCookies);
+    it("should be called 5 times for cookies.remove and report all as removed", async () => {
+      const result = await cleanCookies(initialState, removeCookies);
       expect(global.browser.cookies.remove).toBeCalledTimes(5);
       expect(global.browser.cookies.remove).toHaveBeenCalledWith({
         storeId: "0",
         name: "NID",
         url: "https://test.com/",
       });
+      expect(result.removed).toHaveLength(5);
+      expect(result.failedCount).toBe(0);
+      expect(result.firstError).toBeUndefined();
     });
 
-    it("should throw an error for cookies.remove", async () => {
+    it("excludes rejected and null removals from the removed set without throwing", async () => {
       when(global.browser.cookies.remove)
         .calledWith(expect.any(Object))
         .mockResolvedValueOnce(true as never)
-        .mockRejectedValueOnce(new Error("test") as never);
-      await expect(cleanCookies(initialState, removeCookies)).rejects.toThrow();
-      expect(global.browser.cookies.remove.mock.results[2].value).toEqual(
-        undefined
-      );
-      expect(global.browser.cookies.remove.mock.results[3].value).toEqual(
-        undefined
-      );
+        .mockRejectedValueOnce(new Error("test") as never)
+        // cookies.remove resolves null when it could not remove — no
+        // rejection at all — so this must not count as removed either.
+        .mockResolvedValueOnce(null as never);
+      const result = await cleanCookies(initialState, removeCookies);
+      expect(global.browser.cookies.remove).toBeCalledTimes(5);
+      expect(result.removed).toHaveLength(3);
+      expect(result.failedCount).toBe(2);
+      expect(result.firstError).toBeInstanceOf(Error);
     });
   });
 
@@ -376,6 +388,13 @@ describe("CleanupService", () => {
         },
       };
       beforeEach(() => {
+        // Reset drops any leftover ...Once mock from the error-path tests
+        // above; a leaked rejection would silently shrink the counts now
+        // that failed removals are no longer reported as cleaned.
+        global.browser.cookies.remove.mockReset();
+        when(global.browser.cookies.remove)
+          .calledWith(expect.any(Object))
+          .mockResolvedValue({} as never);
         when(global.browser.cookies.getAllCookieStores)
           .calledWith()
           .mockResolvedValue([{ id: "0" }] as never);
@@ -413,6 +432,36 @@ describe("CleanupService", () => {
           "test.com",
           "yahoo.com",
         ]);
+      });
+
+      it("Regular clean counts only real removals when one cookies.remove rejects.", async () => {
+        when(global.browser.cookies.remove)
+          .calledWith(expect.any(Object))
+          .mockRejectedValueOnce(new Error("removal failed") as never);
+        const result = await cleanCookiesOperation(
+          sampleState,
+          cleanupProperties
+        );
+        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(2);
+        // Two cookies were marked, one removal rejected: the counter, the
+        // log, and the notification set must reflect only the real removal.
+        expect(result.cachedResults.recentlyCleaned).toBe(1);
+        expect(result.setOfDeletedDomainCookies).toEqual(["yahoo.com"]);
+        expect(spyLib.throwErrorNotification).toHaveBeenCalledTimes(1);
+      });
+
+      it("Regular clean counts only real removals when cookies.remove resolves null.", async () => {
+        when(global.browser.cookies.remove)
+          .calledWith(expect.any(Object))
+          .mockResolvedValueOnce(null as never);
+        const result = await cleanCookiesOperation(
+          sampleState,
+          cleanupProperties
+        );
+        expect(result.cachedResults.recentlyCleaned).toBe(1);
+        expect(result.setOfDeletedDomainCookies).toEqual(["yahoo.com"]);
+        // A null result is a quiet failure, not an exception: no notification.
+        expect(spyLib.throwErrorNotification).not.toHaveBeenCalled();
       });
 
       it("If cleanupProperties is missing, presume Regular clean, exclude open tabs.", async () => {
@@ -886,6 +935,95 @@ describe("CleanupService", () => {
       expect(
         await clearSiteDataForThisDomain(initialState, SiteDataType.CACHE, "  ")
       ).toBe(false);
+    });
+    it("should return true when the removal succeeds", async () => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockResolvedValue(undefined as never);
+      expect(
+        await clearSiteDataForThisDomain(
+          initialState,
+          SiteDataType.CACHE,
+          "domain.com"
+        )
+      ).toBe(true);
+    });
+    it("should scope the removal to port-carrying origins when a port is given", async () => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockResolvedValue(undefined as never);
+      global.browser.browsingData.remove.mockClear();
+      expect(
+        await clearSiteDataForThisDomain(
+          initialState,
+          SiteDataType.CACHE,
+          "domain.com",
+          "8443"
+        )
+      ).toBe(true);
+      const removalOptions =
+        global.browser.browsingData.remove.mock.calls[0][0];
+      expect(removalOptions.origins).toEqual(
+        expect.arrayContaining([
+          "https://domain.com:8443",
+          "https://domain.com",
+        ])
+      );
+    });
+    it("should return false when the removal fails, instead of claiming success", async () => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockRejectedValue(new Error("nope") as never);
+      expect(
+        await clearSiteDataForThisDomain(
+          initialState,
+          SiteDataType.CACHE,
+          "domain.com"
+        )
+      ).toBe(false);
+    });
+    it("should return false and skip the consolidated notification when every type fails for All", async () => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockRejectedValue(new Error("nope") as never);
+      global.browser.notifications.create.mockClear();
+      expect(
+        await clearSiteDataForThisDomain(initialState, "All", "domain.com")
+      ).toBe(false);
+      // removeSiteData's own error notifications go through
+      // throwErrorNotification; the consolidated success one must not fire.
+      expect(spyLib.showNotification).not.toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: expect.stringContaining("notificationTitleSiteData"),
+        }),
+        expect.anything()
+      );
+    });
+    it("should return true and list only the succeeded types when some fail for All", async () => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockRejectedValueOnce(new Error("nope") as never)
+        .mockResolvedValue(undefined as never);
+      when(global.browser.i18n.getMessage)
+        .calledWith(expect.any(String))
+        .mockImplementation(((key: string) => key) as never);
+      when(global.browser.i18n.getMessage)
+        .calledWith(expect.any(String), expect.any(Array))
+        .mockImplementation(
+          ((key: string, subs: string[]) =>
+            `${key}[${subs.join("|")}]`) as never
+        );
+      expect(
+        await clearSiteDataForThisDomain(initialState, "All", "domain.com")
+      ).toBe(true);
+      const consolidated = spyLib.showNotification.mock.calls.find(([opts]) =>
+        `${opts.msg}`.startsWith("activityLogSiteDataDomainsText")
+      );
+      expect(consolidated).toBeDefined();
+      // The first type (Cache, alphabetically via SITEDATATYPES order)
+      // failed; the consolidated message must list the other four only.
+      expect(`${consolidated?.[0].msg}`).not.toContain("cacheText");
+      expect(`${consolidated?.[0].msg}`).toContain("indexedDBText");
     });
   });
 

@@ -31,12 +31,12 @@ const tabFixture = {
 } as browser.tabs.Tab;
 
 describe("MoreCleaningOptions", () => {
-  const renderOptions = () => {
+  const renderOptions = (tab: browser.tabs.Tab = tabFixture) => {
     const store = createStore(() => initialState);
     const dispatchSpy = jest.spyOn(store, "dispatch");
     const utils = render(
       <Provider store={store}>
-        <MoreCleaningOptions hostname="example.com" tab={tabFixture} />
+        <MoreCleaningOptions hostname="example.com" tab={tab} />
       </Provider>
     );
     return { ...utils, dispatchSpy };
@@ -84,11 +84,31 @@ describe("MoreCleaningOptions", () => {
       expect(clearSiteDataForThisDomain).toHaveBeenCalledWith(
         expect.anything(),
         "All",
-        "example.com"
+        "example.com",
+        // The tab fixture's URL carries no explicit port.
+        ""
       )
     );
     expect(clearCookiesForThisDomain).toHaveBeenCalled();
     expect(clearLocalStorageForThisDomain).toHaveBeenCalled();
+  });
+
+  it("passes the tab URL's explicit port to the site-data cleanup", async () => {
+    const { getByText } = renderOptions({
+      ...tabFixture,
+      url: "https://example.com:8443/",
+    });
+    fireEvent.click(getByText("deleteSiteDataText"));
+    // browsingData removals are origin-scoped; without the port the
+    // https://example.com:8443 storage would survive the wipe.
+    await waitFor(() =>
+      expect(clearSiteDataForThisDomain).toHaveBeenCalledWith(
+        expect.anything(),
+        "All",
+        "example.com",
+        "8443"
+      )
+    );
   });
 
   it("names the current site in the scoped tooltips", () => {

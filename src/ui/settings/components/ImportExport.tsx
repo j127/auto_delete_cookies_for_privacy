@@ -307,7 +307,11 @@ const ImportExport: React.FunctionComponent<OwnProps> = ({ style }) => {
             iconName="upload"
             type="file"
             accept="application/json, .json"
-            onChange={(e) => importCoreSettings(e.target.files[0])}
+            onChange={(e) => {
+              // Cancelling the picker fires change with an empty FileList.
+              const file = e.target.files?.[0];
+              if (file) importCoreSettings(file);
+            }}
             title={browser.i18n.getMessage("importCoreSettingsText")}
             text={browser.i18n.getMessage("importCoreSettingsText")}
           />
@@ -342,7 +346,11 @@ const ImportExport: React.FunctionComponent<OwnProps> = ({ style }) => {
             iconName="upload"
             type="file"
             accept="application/json"
-            onChange={(e) => importExpressions(e.target.files[0])}
+            onChange={(e) => {
+              // Cancelling the picker fires change with an empty FileList.
+              const file = e.target.files?.[0];
+              if (file) importExpressions(file);
+            }}
             text={browser.i18n.getMessage("importURLSText")}
             title={browser.i18n.getMessage("importURLSText")}
           />

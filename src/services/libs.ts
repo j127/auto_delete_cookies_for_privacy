@@ -326,6 +326,21 @@ export const getHostname = (urlToGetHostName: string | undefined): string => {
 };
 
 /**
+ * Returns the explicit port of the url ("3000" for http://localhost:3000),
+ * or "" for default-port urls, file: urls, and anything unparseable.
+ * getHostname strips ports, but Chrome's browsingData API scopes removals
+ * by origin, and a non-default port is part of the origin.
+ */
+export const getPort = (urlToGetPort: string | undefined): string => {
+  if (!urlToGetPort) return "";
+  try {
+    return new URL(urlToGetPort).port;
+  } catch {
+    return "";
+  }
+};
+
+/**
  * Returns all matched Expressions from a single list.
  * Can pass in either a single list of Expression or the entire State
  * First checks for IP, then CIDR, then falls back to Regular Expression.
@@ -538,8 +553,10 @@ export const parseCookieStoreId = (cookieStoreId: string | undefined): string =>
 
 /**
  * Prepare Domains for all cleanups.
+ * @param port The tab URL's explicit port when the caller knows one — a
+ * non-default port is part of the origin browsingData removals scope to.
  */
-export const prepareCleanupDomains = (domain: string): string[] => {
+export const prepareCleanupDomains = (domain: string, port = ""): string[] => {
   if (domain.trim() === "") return [];
   let d: string = domain.trim();
   const domains = new Set<string>();
@@ -556,20 +573,25 @@ export const prepareCleanupDomains = (domain: string): string[] => {
       d = d.slice(1);
     }
     // at this point it should be all unison - sub.doma.in(.)
+    // Origins carry no leading dot: the cookie-style .sub.doma.in variants
+    // this used to emit are not valid origins — Chrome ignored them, and
+    // they polluted the cleanup notification's domain list.
     domains.add(d); // sub.doma.in
-    domains.add(`.${d}`); // .sub.doma.in
 
     if (!www.test(d)) {
       domains.add(`www.${d}`); // www.sub.doma.in
-      domains.add(`.www.${d}`); // .www.sub.doma.in
     }
   }
 
   // Chrome's browsingData API takes full origins.
   const origins: string[] = [];
-  for (const d of domains) {
-    origins.push(`http://${d}`);
-    origins.push(`https://${d}`);
+  for (const host of domains) {
+    origins.push(`http://${host}`);
+    origins.push(`https://${host}`);
+    if (port !== "") {
+      origins.push(`http://${host}:${port}`);
+      origins.push(`https://${host}:${port}`);
+    }
   }
   return origins;
 };
@@ -669,7 +691,9 @@ export const sleep = (ms: number): Promise<any> => {
 export const throwErrorNotification = (e: Error, duration: number): void => {
   const nid = `ADCP-notification-failed-${uid()}`;
   browser.notifications.create(nid, {
-    iconUrl: browser.runtime.getURL("icons/icon_red_48.png"),
+    // Chrome fails the whole notification if the icon can't load, so this
+    // must name a file that actually ships (a test pins it to disk).
+    iconUrl: browser.runtime.getURL("icons/icon_48_red.png"),
     message: e.message,
     title: browser.i18n.getMessage("errorText"),
     type: "basic",
