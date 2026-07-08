@@ -216,7 +216,7 @@
     "message": "Tên tệp xuất ra được gắn dấu thời gian."
   },
   "extensionDescription": {
-    "message": "Dọn dẹp sau các thẻ của bạn: đóng một thẻ là cookie và dữ liệu trang bị xóa sạch — trừ các trang trong danh sách giữ lại."
+    "message": "Tự động xóa cookie và dữ liệu trang khi bạn đóng thẻ, ngoại trừ những trang bạn đánh dấu là an toàn."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
@@ -1233,13 +1233,13 @@
     "message": "Sao lưu cài đặt và các trang đã lưu, khôi phục từ tệp, hoặc quay về mặc định."
   },
   "activeModeDescText": {
-    "message": "Sau khi các thẻ của một trang đóng lại."
+    "message": "Dọn cookie và dữ liệu trang đã chọn sau khi các thẻ của một trang đóng lại. Khi tính năng này tắt, không có gì được dọn tự động — dọn thủ công từ cửa sổ bật lên vẫn hoạt động."
   },
   "gracePeriodDescText": {
     "message": "Chờ trước khi dọn, phòng khi bạn quay lại."
   },
   "domainChangeDescText": {
-    "message": "Dọn trang cũ của một thẻ khi bạn chuyển sang nơi khác trong thẻ đó."
+    "message": "Dọn trang cũ của một thẻ khi bạn chuyển sang nơi khác trong thẻ đó, thay vì chỉ khi đóng thẻ."
   },
   "greylistDescText": {
     "message": "Trang đánh dấu Giữ đến khi đóng trình duyệt sẽ được dọn khi trình duyệt khởi động lại."

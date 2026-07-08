@@ -216,7 +216,7 @@
     "message": "Vietyihin tiedostonimiin lisätään aikaleima."
   },
   "extensionDescription": {
-    "message": "Siivoaa välilehtiesi jäljet: sulje välilehti, ja sen evästeet ja sivustotiedot pyyhkiytyvät — paitsi säilytyslistojesi sivustoilta."
+    "message": "Poistaa evästeet ja sivustotiedot automaattisesti, kun suljet välilehtiä, paitsi sivustoilta, jotka merkitset turvallisiksi."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
@@ -1233,13 +1233,13 @@
     "message": "Varmuuskopioi asetuksesi ja tallennetut sivustot, palauta ne tiedostosta tai palaa oletuksiin."
   },
   "activeModeDescText": {
-    "message": "Kun sivuston välilehdet on suljettu."
+    "message": "Siivoaa evästeet ja valitut sivustotiedot, kun sivuston välilehdet on suljettu. Kun tämä on pois päältä, mitään ei siivota automaattisesti — manuaalinen siivous ponnahdusikkunasta toimii silti."
   },
   "gracePeriodDescText": {
     "message": "Odota ennen siivousta siltä varalta, että palaat."
   },
   "domainChangeDescText": {
-    "message": "Siivoaa välilehden edellisen sivuston, kun siirryt siinä muualle."
+    "message": "Siivoaa välilehden edellisen sivuston, kun siirryt siinä muualle, eikä vain välilehteä suljettaessa."
   },
   "greylistDescText": {
     "message": "Säilytä selaimen sulkemiseen asti -merkityt sivustot siivotaan, kun selain käynnistyy uudelleen."

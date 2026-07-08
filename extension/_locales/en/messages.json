@@ -1520,7 +1520,7 @@
     "description": "Subtitle of the Import / Export page"
   },
   "activeModeDescText": {
-    "message": "After a site's tabs close.",
+    "message": "Cleans cookies and selected site data after a site's tabs close. While this is off, nothing is cleaned automatically — manual cleaning from the popup still works.",
     "description": "Description: Clean automatically"
   },
   "gracePeriodDescText": {
@@ -1528,7 +1528,7 @@
     "description": "Description: Grace period"
   },
   "domainChangeDescText": {
-    "message": "Cleans a tab's old site when you browse somewhere new in that tab.",
+    "message": "Cleans a tab's old site when you browse somewhere new in that tab, instead of only when the tab closes.",
     "description": "Description: Clean when leaving a site"
   },
   "greylistDescText": {

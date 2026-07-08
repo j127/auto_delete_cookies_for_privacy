@@ -216,7 +216,7 @@
     "message": "Numele fișierelor exportate primesc un marcaj temporal."
   },
   "extensionDescription": {
-    "message": "Face curat în urma filelor tale: închizi o filă, iar cookie-urile și datele site-ului dispar — cu excepția site-urilor de pe listele tale de păstrare."
+    "message": "Șterge automat cookie-urile și datele site-urilor când închizi file, cu excepția site-urilor pe care le marchezi ca sigure."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
@@ -1233,13 +1233,13 @@
     "message": "Fă backup setărilor și site-urilor salvate, restaurează-le dintr-un fișier sau revino la valorile implicite."
   },
   "activeModeDescText": {
-    "message": "După ce filele unui site se închid."
+    "message": "Curăță cookie-urile și datele de site selectate după ce filele unui site se închid. Cât timp este dezactivat, nimic nu se curăță automat — curățarea manuală din fereastra popup funcționează în continuare."
   },
   "gracePeriodDescText": {
     "message": "Așteaptă înainte de curățare, în caz că te întorci."
   },
   "domainChangeDescText": {
-    "message": "Curăță vechiul site al unei file când navighezi în altă parte în acea filă."
+    "message": "Curăță vechiul site al unei file când navighezi în altă parte în acea filă, nu doar la închiderea filei."
   },
   "greylistDescText": {
     "message": "Site-urile marcate „Păstrează până la închiderea browserului” se curăță la repornirea browserului."

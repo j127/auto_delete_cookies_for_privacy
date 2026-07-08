@@ -26,7 +26,7 @@ export const initialState: State = {
     },
     [SettingID.CLEANUP_CACHE]: {
       name: SettingID.CLEANUP_CACHE,
-      value: false,
+      value: true,
     },
     [SettingID.CLEAN_OPEN_TABS_STARTUP]: {
       name: SettingID.CLEAN_OPEN_TABS_STARTUP,
@@ -71,7 +71,7 @@ export const initialState: State = {
     },
     [SettingID.CLEANUP_INDEXEDDB]: {
       name: SettingID.CLEANUP_INDEXEDDB,
-      value: false,
+      value: true,
     },
     [SettingID.KEEP_DEFAULT_ICON]: {
       name: SettingID.KEEP_DEFAULT_ICON,
@@ -84,7 +84,7 @@ export const initialState: State = {
     },
     [SettingID.CLEANUP_LOCALSTORAGE]: {
       name: SettingID.CLEANUP_LOCALSTORAGE,
-      value: false,
+      value: true,
     },
     [SettingID.NOTIFY_MANUAL]: {
       name: SettingID.NOTIFY_MANUAL,
@@ -96,11 +96,11 @@ export const initialState: State = {
     },
     [SettingID.CLEANUP_PLUGINDATA]: {
       name: SettingID.CLEANUP_PLUGINDATA,
-      value: false,
+      value: true,
     },
     [SettingID.CLEANUP_SERVICEWORKERS]: {
       name: SettingID.CLEANUP_SERVICEWORKERS,
-      value: false,
+      value: true,
     },
     [SettingID.NOTIFY_AUTO]: {
       name: SettingID.NOTIFY_AUTO,

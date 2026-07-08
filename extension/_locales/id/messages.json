@@ -216,7 +216,7 @@
     "message": "Nama berkas hasil ekspor diberi cap waktu."
   },
   "extensionDescription": {
-    "message": "Membereskan bekas tab Anda: tutup sebuah tab, cookie dan data situsnya terhapus — kecuali situs di daftar simpan Anda."
+    "message": "Menghapus cookie dan data situs secara otomatis saat Anda menutup tab, kecuali situs yang Anda tandai aman."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
@@ -1233,13 +1233,13 @@
     "message": "Cadangkan pengaturan dan situs tersimpan, pulihkan dari berkas, atau kembali ke bawaan."
   },
   "activeModeDescText": {
-    "message": "Setelah tab sebuah situs ditutup."
+    "message": "Membersihkan cookie dan data situs terpilih setelah tab sebuah situs ditutup. Selama ini nonaktif, tidak ada yang dibersihkan secara otomatis — pembersihan manual dari popup tetap berfungsi."
   },
   "gracePeriodDescText": {
     "message": "Tunggu sebelum membersihkan, siapa tahu Anda kembali."
   },
   "domainChangeDescText": {
-    "message": "Membersihkan situs lama sebuah tab saat Anda berpindah ke tempat lain di tab itu."
+    "message": "Membersihkan situs lama sebuah tab saat Anda berpindah ke tempat lain di tab itu, bukan hanya saat tab ditutup."
   },
   "greylistDescText": {
     "message": "Situs bertanda Simpan sampai peramban ditutup dibersihkan saat peramban dimulai ulang."

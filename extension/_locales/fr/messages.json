@@ -216,7 +216,7 @@
     "message": "Les fichiers exportés reçoivent un horodatage dans leur nom."
   },
   "extensionDescription": {
-    "message": "Fait le ménage derrière vos onglets : un onglet se ferme, ses cookies et données de site disparaissent — sauf pour les sites de vos listes à conserver."
+    "message": "Supprime automatiquement les cookies et données de site quand vous fermez des onglets, sauf les sites que vous marquez comme sûrs."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
@@ -1233,13 +1233,13 @@
     "message": "Sauvegardez vos réglages et sites enregistrés, restaurez-les depuis un fichier, ou revenez aux valeurs par défaut."
   },
   "activeModeDescText": {
-    "message": "Après la fermeture des onglets d'un site."
+    "message": "Nettoie les cookies et les données de site sélectionnées après la fermeture des onglets d'un site. Tant que c'est désactivé, rien n'est nettoyé automatiquement — le nettoyage manuel depuis la fenêtre contextuelle fonctionne toujours."
   },
   "gracePeriodDescText": {
     "message": "Attendre avant de nettoyer, au cas où vous reviendriez."
   },
   "domainChangeDescText": {
-    "message": "Nettoie l'ancien site d'un onglet quand vous naviguez ailleurs dans cet onglet."
+    "message": "Nettoie l'ancien site d'un onglet quand vous naviguez ailleurs dans cet onglet, au lieu de seulement à la fermeture de l'onglet."
   },
   "greylistDescText": {
     "message": "Les sites marqués « Conserver jusqu'à la fermeture » sont nettoyés au redémarrage du navigateur."

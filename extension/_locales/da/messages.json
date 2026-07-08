@@ -216,7 +216,7 @@
     "message": "Eksporterede filnavne får et tidsstempel."
   },
   "extensionDescription": {
-    "message": "Rydder op efter dine faner: luk en fane, og dens cookies og webstedsdata slettes — undtagen websteder på dine behold-lister."
+    "message": "Sletter automatisk cookies og webstedsdata, når du lukker faner, undtagen for websteder, du markerer som sikre."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
@@ -1233,13 +1233,13 @@
     "message": "Sikkerhedskopiér dine indstillinger og gemte websteder, gendan dem fra en fil, eller vend tilbage til standard."
   },
   "activeModeDescText": {
-    "message": "Efter et websteds faner er lukket."
+    "message": "Rydder cookies og valgte webstedsdata, efter et websteds faner er lukket. Når dette er slået fra, ryddes intet automatisk — manuel rydning fra pop op-vinduet virker stadig."
   },
   "gracePeriodDescText": {
     "message": "Vent før rydning, i tilfælde af at du vender tilbage."
   },
   "domainChangeDescText": {
-    "message": "Rydder fanens gamle websted, når du navigerer et andet sted hen i den fane."
+    "message": "Rydder fanens gamle websted, når du navigerer et andet sted hen i den fane, i stedet for kun når fanen lukkes."
   },
   "greylistDescText": {
     "message": "Websteder markeret Behold, indtil browseren lukkes ryddes, når browseren genstarter."

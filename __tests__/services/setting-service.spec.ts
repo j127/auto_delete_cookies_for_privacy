@@ -92,6 +92,11 @@ describe("SettingService", () => {
 
   afterEach(() => {
     TestStore.resetSetting();
+    // Re-snapshot so the reset doesn't read as a settings transition in the
+    // next test. Without this, a test that left a cleanup type off makes the
+    // reset-to-defaults (all types on now) look like a fresh enable, and the
+    // localStorage old/new mirror dispatches fire a phantom wipe.
+    SettingService.init();
   });
 
   describe("init()", () => {
@@ -116,7 +121,12 @@ describe("SettingService", () => {
       await SettingService.onSettingsChange();
       expect(TestSettingService.getIsInitialized()).toEqual(true);
     });
+    // Site-data types now default ON, so each transition test must first
+    // switch its type off (and let onSettingsChange observe that) before the
+    // enable it wants to exercise.
     it("should not clean localstorage if migrating from old setting", async () => {
+      TestStore.changeSetting(SettingID.CLEANUP_LOCALSTORAGE, false);
+      await SettingService.onSettingsChange();
       TestStore.changeSetting(SettingID.CLEANUP_LOCALSTORAGE_OLD, true);
       await SettingService.onSettingsChange();
       TestStore.changeSetting(SettingID.CLEANUP_LOCALSTORAGE, true);
@@ -124,11 +134,15 @@ describe("SettingService", () => {
       expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
     });
     it("should clean that site data if it was recently enabled", async () => {
+      TestStore.changeSetting(SettingID.CLEANUP_CACHE, false);
+      await SettingService.onSettingsChange();
       TestStore.changeSetting(SettingID.CLEANUP_CACHE, true);
       await SettingService.onSettingsChange();
       expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
     });
     it("should NOT clean that site data if it was recently enabled and clean site data on enable is false", async () => {
+      TestStore.changeSetting(SettingID.CLEANUP_CACHE, false);
+      await SettingService.onSettingsChange();
       TestStore.changeSetting(SettingID.SITEDATA_EMPTY_ON_ENABLE, false);
       await SettingService.onSettingsChange();
       TestStore.changeSetting(SettingID.CLEANUP_CACHE, true);
@@ -141,6 +155,8 @@ describe("SettingService", () => {
       expect(spyBrowserActions.setGlobalIcon).toHaveBeenCalledWith(true);
     });
     it("should make global icon greyscale and clear alarms if active mode was recently disabled", async () => {
+      TestStore.changeSetting(SettingID.ACTIVE_MODE, true);
+      await SettingService.onSettingsChange();
       TestStore.changeSetting(SettingID.ACTIVE_MODE, false);
       await SettingService.onSettingsChange();
       expect(global.browser.alarms.clear).toHaveBeenCalledTimes(1);
@@ -152,6 +168,8 @@ describe("SettingService", () => {
       expect(TestContextMenus.isInit()).toEqual(false);
     });
     it("should init contextMenu items if recently enabled", async () => {
+      TestStore.changeSetting(SettingID.CONTEXT_MENUS, false);
+      await SettingService.onSettingsChange();
       TestStore.changeSetting(SettingID.CONTEXT_MENUS, true);
       await SettingService.onSettingsChange();
       expect(TestContextMenus.isInit()).toEqual(true);

@@ -216,7 +216,7 @@
     "message": "Os arquivos exportados recebem um carimbo de data/hora no nome."
   },
   "extensionDescription": {
-    "message": "Arruma a bagunça das suas abas: fecha uma aba, apaga seus cookies e dados do site — exceto os sites das suas listas de manter."
+    "message": "Exclui automaticamente cookies e dados de sites quando você fecha abas, exceto os sites que você marca como seguros."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
@@ -1233,13 +1233,13 @@
     "message": "Faça backup das suas configurações e sites salvos, restaure de um arquivo ou volte ao padrão."
   },
   "activeModeDescText": {
-    "message": "Depois que as abas de um site fecham."
+    "message": "Limpa cookies e dados de site selecionados depois que as abas de um site fecham. Enquanto isso estiver desligado, nada é limpo automaticamente — a limpeza manual pelo popup continua funcionando."
   },
   "gracePeriodDescText": {
     "message": "Espera antes de limpar, caso você volte."
   },
   "domainChangeDescText": {
-    "message": "Limpa o site antigo de uma aba quando você navega para outro lugar nela."
+    "message": "Limpa o site antigo de uma aba quando você navega para outro lugar nela, em vez de só quando a aba fecha."
   },
   "greylistDescText": {
     "message": "Sites marcados como «Manter até o navegador fechar» são limpos quando o navegador reinicia."

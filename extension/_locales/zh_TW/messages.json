@@ -216,7 +216,7 @@
     "message": "匯出的檔名會附加時間戳記。"
   },
   "extensionDescription": {
-    "message": "替你的分頁善後：關掉分頁，抹除它的 Cookie 和網站資料——保留清單中的網站除外。"
+    "message": "關閉分頁時自動刪除 Cookie 與網站資料，你標記為安全的網站除外。"
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
@@ -1233,13 +1233,13 @@
     "message": "備份你的設定和已儲存的網站，從檔案還原，或回復預設。"
   },
   "activeModeDescText": {
-    "message": "在網站的分頁關閉之後。"
+    "message": "在網站的分頁關閉之後，清理 Cookie 與所選的網站資料。此項關閉時，不會自動清理任何內容——從彈出視窗手動清理仍然可用。"
   },
   "gracePeriodDescText": {
     "message": "清理前先等待，以防你回來。"
   },
   "domainChangeDescText": {
-    "message": "當你在分頁裡前往別處時，清理它原本的網站。"
+    "message": "當你在分頁裡前往別處時，清理它原本的網站，而不只是在分頁關閉時。"
   },
   "greylistDescText": {
     "message": "標為「保留到瀏覽器關閉」的網站會在瀏覽器重新啟動時被清理。"

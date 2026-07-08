@@ -216,7 +216,7 @@
     "message": "내보낸 파일 이름에는 타임스탬프가 붙습니다."
   },
   "extensionDescription": {
-    "message": "탭 뒤처리를 해 줍니다. 탭을 닫으면 그 쿠키와 사이트 데이터를 지웁니다. 유지 목록의 사이트는 예외입니다."
+    "message": "탭을 닫으면 쿠키와 사이트 데이터를 자동으로 삭제합니다. 안전하다고 표시한 사이트는 제외됩니다."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
@@ -1233,13 +1233,13 @@
     "message": "설정과 저장한 사이트를 백업하고, 파일에서 복원하거나 기본값으로 되돌립니다."
   },
   "activeModeDescText": {
-    "message": "사이트의 탭이 닫힌 뒤에."
+    "message": "사이트의 탭이 닫힌 뒤에 쿠키와 선택한 사이트 데이터를 정리합니다. 꺼져 있는 동안에는 아무것도 자동으로 정리되지 않으며, 팝업에서의 수동 정리는 계속 사용할 수 있습니다."
   },
   "gracePeriodDescText": {
     "message": "다시 돌아올 경우를 대비해 정리 전에 기다립니다."
   },
   "domainChangeDescText": {
-    "message": "탭에서 다른 곳으로 이동하면 그 탭의 이전 사이트를 정리합니다."
+    "message": "탭을 닫을 때뿐 아니라 탭에서 다른 곳으로 이동할 때도 그 탭의 이전 사이트를 정리합니다."
   },
   "greylistDescText": {
     "message": "'브라우저를 닫을 때까지 유지'로 표시한 사이트는 브라우저 재시작 시 정리됩니다."

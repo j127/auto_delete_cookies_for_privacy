@@ -216,7 +216,7 @@
     "message": "Az exportált fájlnevek időbélyeget kapnak."
   },
   "extensionDescription": {
-    "message": "Rendet rak a lapjaid után: lap bezárva, sütijei és webhelyadatai törölve — kivéve a megtartási listáid webhelyeit."
+    "message": "Automatikusan törli a sütiket és a webhelyadatokat a lapok bezárásakor, kivéve a biztonságosként megjelölt webhelyeket."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
@@ -1233,13 +1233,13 @@
     "message": "Mentsd a beállításaidat és mentett webhelyeidet, állítsd vissza fájlból, vagy térj vissza az alapértelmezettekhez."
   },
   "activeModeDescText": {
-    "message": "Miután a webhely lapjai bezárultak."
+    "message": "A webhely lapjainak bezárása után kitakarítja a sütiket és a kiválasztott webhelyadatokat. Amíg ez ki van kapcsolva, semmi sem takarítódik automatikusan — a felugró ablakból végzett kézi takarítás továbbra is működik."
   },
   "gracePeriodDescText": {
     "message": "Várakozás takarítás előtt, hátha visszatérsz."
   },
   "domainChangeDescText": {
-    "message": "Kitakarítja a lap régi webhelyét, amikor a lapon máshová navigálsz."
+    "message": "Kitakarítja a lap régi webhelyét, amikor a lapon máshová navigálsz, nem csak a lap bezárásakor."
   },
   "greylistDescText": {
     "message": "A böngésző bezárásáig megtartott webhelyek a böngésző újraindulásakor takarítódnak."

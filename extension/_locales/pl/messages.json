@@ -216,7 +216,7 @@
     "message": "Nazwy eksportowanych plików dostają znacznik czasu."
   },
   "extensionDescription": {
-    "message": "Sprząta po twoich kartach: zamykasz kartę, a jej ciasteczka i dane strony znikają — poza stronami z twoich list zachowywania."
+    "message": "Automatycznie usuwa ciasteczka i dane witryn po zamknięciu kart, z wyjątkiem witryn oznaczonych jako bezpieczne."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
@@ -1233,13 +1233,13 @@
     "message": "Zrób kopię ustawień i zapisanych stron, przywróć je z pliku albo wróć do domyślnych."
   },
   "activeModeDescText": {
-    "message": "Po zamknięciu kart danej strony."
+    "message": "Czyści ciasteczka i wybrane dane witryn po zamknięciu kart danej strony. Dopóki to jest wyłączone, nic nie jest czyszczone automatycznie — ręczne czyszczenie z okienka nadal działa."
   },
   "gracePeriodDescText": {
     "message": "Poczekaj przed czyszczeniem, na wypadek gdybyś wrócił."
   },
   "domainChangeDescText": {
-    "message": "Czyści starą stronę karty, gdy przechodzisz w niej gdzie indziej."
+    "message": "Czyści starą stronę karty, gdy przechodzisz w niej gdzie indziej, a nie tylko przy zamknięciu karty."
   },
   "greylistDescText": {
     "message": "Strony oznaczone „Zachowaj do zamknięcia przeglądarki” są czyszczone przy jej restarcie."
