@@ -12,12 +12,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Store } from "redux";
-import { ReduxAction } from "@/typings/redux-constants";
+import type { AppStore } from "@/redux/store";
 
 export default class StoreUser {
-  public static init(store: Store<State, ReduxAction>): void {
+  public static init(store: AppStore): void {
     StoreUser.store = store;
   }
-  protected static store: Store<State, ReduxAction>;
+  protected static store: AppStore;
 }
