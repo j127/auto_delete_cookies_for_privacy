@@ -12,7 +12,7 @@
  */
 
 import { ListType, SettingID, SiteDataType } from "@/typings/enums";
-import { addExpressionUI, cookieCleanup, updateSetting } from "@/redux/actions";
+import { addExpression, cookieCleanup, updateSetting } from "@/redux/actions";
 import {
   clearCookiesForThisDomain,
   clearLocalStorageForThisDomain,
@@ -813,6 +813,11 @@ export default class ContextMenuEvents extends StoreUser {
       },
       getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean
     );
+    // Route through the addExpression thunk — the same path the settings UI
+    // takes via the store bridge — so the user's default expression options
+    // apply, the store id is sanitized, and the protection state (icon and
+    // title) refreshes. The plain addExpressionUI action skipped all three.
+    StoreUser.store.dispatch<any>(addExpression(payload));
     showNotification({
       duration: getSetting(
         StoreUser.store.getState(),
@@ -824,7 +829,6 @@ export default class ContextMenuEvents extends StoreUser {
         payload.storeId,
       ])}\n${browser.i18n.getMessage("addNewExpressionNotificationIgnore")}`,
     });
-    StoreUser.store.dispatch<any>(addExpressionUI(payload));
   }
 
   protected static isInitialized = false;

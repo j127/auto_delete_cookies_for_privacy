@@ -114,6 +114,12 @@ describe("ContextMenuEvents", () => {
     when(global.browser.runtime.getManifest)
       .calledWith()
       .mockReturnValue({ version: "0.12.34" } as never);
+    // The addExpression thunk ends in checkIfProtected, which queries the
+    // active tabs and iterates the result; an unmocked query resolves
+    // undefined and every dispatch leaks an unhandled rejection.
+    when(global.browser.tabs.query)
+      .calledWith(expect.any(Object))
+      .mockResolvedValue([] as never);
   });
   afterEach(() => {
     TestStore.resetSetting();
@@ -554,7 +560,47 @@ describe("ContextMenuEvents", () => {
       expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
         "addNewExpressionNotificationFailed"
       );
+      expect(spyActions.addExpression).not.toHaveBeenCalled();
+    });
+    it("routes right-click adds through the addExpression thunk so defaults apply", () => {
+      // A selection no other test uses: the reducer dedupes by expression
+      // string alone, so a reused one would be skipped as a duplicate.
+      ContextMenuEvents.onContextMenuClicked(
+        {
+          ...defaultOnClickData,
+          selectionText: "thunkTest",
+          menuItemId: ContextMenuEvents.MenuID.SELECT_ADD_WHITE_SUBS,
+        },
+        sampleTab
+      );
+      // The thunk (not the plain UI action) sanitizes the store id, applies
+      // the default expression options, and refreshes protection state.
+      expect(spyActions.addExpression).toHaveBeenCalledWith(
+        expect.objectContaining({
+          expression: "*.thunkTest",
+          listType: ListType.WHITE,
+        })
+      );
       expect(spyActions.addExpressionUI).not.toHaveBeenCalled();
+      const landed = Object.values(store.getState().lists)
+        .flat()
+        .filter((e) => e.expression === "*.thunkTest");
+      expect(landed).toEqual([
+        expect.objectContaining({
+          listType: ListType.WHITE,
+          // The thunk sanitized the raw tab cookieStoreId ("0") and applied
+          // the default expression options; the raw right-click payload
+          // carries neither.
+          storeId: "default",
+          cleanSiteData: expect.any(Array),
+        }),
+      ]);
+      // The success notification must not fire before the dispatch.
+      expect(spyActions.addExpression.mock.invocationCallOrder[0]).toBeLessThan(
+        global.browser.notifications.create.mock.invocationCallOrder.at(
+          -1
+        ) as number
+      );
     });
     it("Trigger SELECT_ADD_WHITE_SUBS with undefined cookieStoreId (Chrome)", () => {
       ContextMenuEvents.onContextMenuClicked(
