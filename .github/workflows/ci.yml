@@ -2,11 +2,12 @@ name: CI
 
 on:
   push:
-    # launch-prep is the pre-publication working branch; per-issue PRs
-    # target it and the final launch-prep -> main merge is manual.
-    branches: [main, launch-prep]
+    # launch-fixes is the pre-publication working branch (successor to the
+    # merged launch-prep); per-issue PRs target it and the final
+    # launch-fixes -> main merge is manual.
+    branches: [main, launch-fixes]
   pull_request:
-    branches: [main, launch-prep]
+    branches: [main, launch-fixes]
 
 permissions:
   contents: read
