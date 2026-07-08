@@ -12,6 +12,10 @@ import tseslint from "typescript-eslint";
 export default tseslint.config(
   {
     ignores: [
+      // Claude Code worktrees live under .claude/worktrees/ and carry their
+      // own built extension/bundles/; the root-anchored ignores below do not
+      // match those nested copies, so ignore the whole directory.
+      ".claude/",
       "extension/bundles/",
       "extension/global_files/",
       "builds/",
