@@ -458,33 +458,27 @@ export const clearSiteDataForThisDomain = async (
   );
   const domains = prepareCleanupDomains(hostname);
   if (siteData === "All") {
-    // The consolidated notification and the returned success flag must
-    // reflect what actually got removed — removeSiteData returns false on
-    // failure (and shows its own error notification).
-    const siteDataCleaned: string[] = [];
+    const siteDataAll: string[] = [];
     for (const sd of SITEDATATYPES) {
-      if (await removeSiteData(state, sd, domains, debug, false)) {
-        siteDataCleaned.push(
-          browser.i18n.getMessage(`${siteDataToBrowser(sd)}Text`)
-        );
-      }
+      await removeSiteData(state, sd, domains, debug, false);
+      siteDataAll.push(browser.i18n.getMessage(`${siteDataToBrowser(sd)}Text`));
     }
-    if (siteDataCleaned.length === 0) return false;
     // To consolidate the notification shown, we do it out here.
     showNotification(
       {
         duration: getSetting(state, SettingID.NOTIFY_DURATION) as number,
         msg: browser.i18n.getMessage("activityLogSiteDataDomainsText", [
-          siteDataCleaned.join(", "),
+          siteDataAll.join(", "),
           domains.join(", "),
         ]),
         title: browser.i18n.getMessage("notificationTitleSiteData"),
       },
       getSetting(state, SettingID.NOTIFY_MANUAL) as boolean
     );
-    return true;
+  } else {
+    await removeSiteData(state, siteData, domains, debug, true);
   }
-  return removeSiteData(state, siteData, domains, debug, true);
+  return true;
 };
 
 export const removeSiteData = async (
