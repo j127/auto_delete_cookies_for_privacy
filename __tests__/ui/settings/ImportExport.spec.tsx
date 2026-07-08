@@ -109,6 +109,17 @@ describe("ImportExport", () => {
     expect(dispatchSpy).not.toHaveBeenCalled();
   });
 
+  it("treats a cancelled file selection as a no-op for both inputs", () => {
+    const { dispatchSpy, fileInputs, container } = renderPage();
+    // Cancelling the picker fires change with an empty FileList; the old
+    // handlers dereferenced files[0].name / files[0].type and threw.
+    fireEvent.change(fileInputs()[0], { target: { files: [] } });
+    fireEvent.change(fileInputs()[1], { target: { files: [] } });
+    expect(dispatchSpy).not.toHaveBeenCalled();
+    expect(container.querySelector(".alert-error")).toBeNull();
+    expect(console.error).not.toHaveBeenCalled();
+  });
+
   it("rejects a non-JSON file for either card without reading it", () => {
     const { dispatchSpy, fileInputs, container } = renderPage();
     const bad = new File(["nope"], "backup.txt", { type: "text/plain" });
