@@ -576,7 +576,7 @@ describe("ContextMenuEvents", () => {
         })
       );
       expect(spyActions.addExpressionUI).not.toHaveBeenCalled();
-      const landed = Object.values((StoreUser.store.getState() as State).lists)
+      const landed = Object.values(store.getState().lists)
         .flat()
         .filter((e) => e.expression === "*.thunkTest");
       expect(landed).toEqual([
