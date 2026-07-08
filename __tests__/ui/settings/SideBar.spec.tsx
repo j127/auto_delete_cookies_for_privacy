@@ -37,12 +37,14 @@ describe("SideBar", () => {
   });
 
   it("renders a menu item for every settings tab", () => {
-    const { container } = renderSideBar();
-    TABS.forEach(([tabId, tabText]) => {
-      const item = container.querySelector(`#${tabId}`) as HTMLElement;
-      expect(item).not.toBeNull();
-      expect(item.textContent).toBe(tabText);
+    const { getByText } = renderSideBar();
+    TABS.forEach(([, tabText]) => {
+      const item = getByText(tabText);
       expect(item.tagName).toBe("BUTTON");
+      // The tab id must never be a DOM id: the URL hash carries the same
+      // string, and an anchor target would make the browser scroll the
+      // button into view, hiding the navbar.
+      expect(item.id).toBe("");
     });
   });
 
@@ -53,9 +55,9 @@ describe("SideBar", () => {
   });
 
   it("marks only the active tab as selected", () => {
-    const { container } = renderSideBar("tabSettings");
-    TABS.forEach(([tabId]) => {
-      const item = container.querySelector(`#${tabId}`) as HTMLElement;
+    const { getByText } = renderSideBar("tabSettings");
+    TABS.forEach(([tabId, tabText]) => {
+      const item = getByText(tabText);
       expect(item.classList.contains("menu-active")).toBe(
         tabId === "tabSettings"
       );
@@ -63,8 +65,8 @@ describe("SideBar", () => {
   });
 
   it("calls switchTabs with the tab id when a tab is clicked", () => {
-    const { container } = renderSideBar();
-    fireEvent.click(container.querySelector("#tabCleanupLog") as HTMLElement);
+    const { getByText } = renderSideBar();
+    fireEvent.click(getByText("cleanupLogText"));
     expect(switchTabs).toHaveBeenCalledTimes(1);
     expect(switchTabs).toHaveBeenCalledWith("tabCleanupLog");
   });

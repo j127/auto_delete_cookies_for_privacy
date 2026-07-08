@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import * as React from "react";
-import { act, fireEvent, render, waitFor } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
@@ -17,9 +17,6 @@ beforeAll(async () => {
   global.browser.i18n.getMessage.mockImplementation((key: string) => key);
   App = (await import("@/ui/settings/App")).default;
 });
-
-const SETTINGS_URL = "chrome-extension://ext-id/settings/settings.html";
-const TAB_ID = 7;
 
 const withSizeSetting = (value: number): State => ({
   ...initialState,
@@ -43,111 +40,87 @@ describe("settings App", () => {
   const drawerToggle = (container: HTMLElement) =>
     container.querySelector("#settings-drawer") as HTMLInputElement;
 
+  // The sidebar buttons deliberately carry no DOM ids (an id would be an
+  // anchor target for the URL hash), so tests find them by their label.
+  const sideBarButton = (
+    getByRole: ReturnType<typeof renderApp>["getByRole"],
+    label: string
+  ) => getByRole("button", { name: label });
+
   beforeEach(() => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
     global.browser.runtime.getManifest.mockReturnValue({ version: "1.0.0" });
-    global.browser.tabs.getCurrent.mockResolvedValue({
-      id: TAB_ID,
-      url: SETTINGS_URL,
-    });
     // ThemeSwitcher reads the persisted theme choice on mount.
     global.browser.storage.local.get.mockResolvedValue({});
+    // The active tab is read from the URL hash; start each test hash-less.
+    window.history.replaceState(null, "", "/");
   });
 
-  it("renders the drawer layout with the sidebar and the welcome tab by default", async () => {
-    const { container } = renderApp();
-    await waitFor(() =>
-      expect(global.browser.tabs.getCurrent).toHaveBeenCalled()
-    );
+  it("renders the drawer layout with the sidebar and the welcome tab by default", () => {
+    const { container, getByRole } = renderApp();
     expect(drawerToggle(container)).not.toBeNull();
     expect(container.querySelector("aside")).not.toBeNull();
     expect(container.querySelector("#themeSwitcher")).not.toBeNull();
     expect(contentHeading(container)).toBe("overviewText");
-    expect(
-      (container.querySelector("#tabWelcome") as HTMLElement).className
-    ).toContain("menu-active");
+    expect(sideBarButton(getByRole, "overviewText").className).toContain(
+      "menu-active"
+    );
     expect(console.error).not.toHaveBeenCalled();
   });
 
-  it("applies the sizeSetting value as the document font size", async () => {
+  it("applies the sizeSetting value as the document font size", () => {
     renderApp(withSizeSetting(20));
-    await waitFor(() =>
-      expect(global.browser.tabs.getCurrent).toHaveBeenCalled()
-    );
     expect(document.documentElement.style.fontSize).toBe("20px");
   });
 
-  it("opens the tab named in the URL hash after mounting", async () => {
-    global.browser.tabs.getCurrent.mockResolvedValue({
-      id: TAB_ID,
-      url: `${SETTINGS_URL}#tabCleanupLog`,
-    });
-    const { container } = renderApp();
-    await waitFor(() =>
-      expect(contentHeading(container)).toBe("cleanupLogText")
+  it("opens the tab named in the URL hash on mount", () => {
+    window.history.replaceState(null, "", "#tabCleanupLog");
+    const { container, getByRole } = renderApp();
+    expect(contentHeading(container)).toBe("cleanupLogText");
+    expect(sideBarButton(getByRole, "cleanupLogText").className).toContain(
+      "menu-active"
     );
-    expect(
-      (container.querySelector("#tabCleanupLog") as HTMLElement).className
-    ).toContain("menu-active");
   });
 
-  it("switches tabs on sidebar clicks and records the hash in the tab URL", async () => {
-    const { container } = renderApp();
-    await waitFor(() =>
-      expect(global.browser.tabs.getCurrent).toHaveBeenCalled()
-    );
-    // The click depends on the mount effect's state (settings URL / tab id)
-    // having landed, not just on getCurrent having been called; React 19's
-    // stricter act timing exposed that gap.
-    await act(async () => {});
+  it("switches tabs on sidebar clicks and records the hash without navigating", () => {
+    const { container, getByRole } = renderApp();
 
-    fireEvent.click(container.querySelector("#tabSettings") as HTMLElement);
+    fireEvent.click(sideBarButton(getByRole, "protectionText"));
 
     expect(contentHeading(container)).toBe("protectionText");
-    expect(
-      (container.querySelector("#tabSettings") as HTMLElement).className
-    ).toContain("menu-active");
-    expect(global.browser.tabs.update).toHaveBeenCalledWith(TAB_ID, {
-      url: `${SETTINGS_URL}#tabSettings`,
-    });
+    expect(sideBarButton(getByRole, "protectionText").className).toContain(
+      "menu-active"
+    );
+    expect(window.location.hash).toBe("#tabSettings");
+    // A tabs.update() call here would be a hash navigation, and its native
+    // anchor scroll left the page scrolled down past the navbar.
+    expect(global.browser.tabs.update).not.toHaveBeenCalled();
     expect(console.error).not.toHaveBeenCalled();
   });
 
-  it("keeps the page scrolled to the top on load and on every tab switch", async () => {
-    // The URL hash names the sidebar button's element ID, so the browser
-    // anchor-scrolls to it; the app must undo that jump.
+  it("keeps the page scrolled to the top on load and on every tab switch", () => {
     const scrollSpy = jest
       .spyOn(window, "scrollTo")
       .mockImplementation(() => undefined);
-    global.browser.tabs.getCurrent.mockResolvedValue({
-      id: TAB_ID,
-      url: `${SETTINGS_URL}#tabCleanupLog`,
-    });
-    const { container } = renderApp();
-    await waitFor(() =>
-      expect(contentHeading(container)).toBe("cleanupLogText")
-    );
+    window.history.replaceState(null, "", "#tabCleanupLog");
+    const { container, getByRole } = renderApp();
+    expect(contentHeading(container)).toBe("cleanupLogText");
     expect(scrollSpy).toHaveBeenCalledWith(0, 0);
 
     scrollSpy.mockClear();
-    await act(async () => {});
-    fireEvent.click(container.querySelector("#tabSettings") as HTMLElement);
+    fireEvent.click(sideBarButton(getByRole, "protectionText"));
     expect(scrollSpy).toHaveBeenCalledWith(0, 0);
     scrollSpy.mockRestore();
   });
 
-  it("closes the mobile drawer when a sidebar tab is clicked", async () => {
-    const { container } = renderApp();
-    await waitFor(() =>
-      expect(global.browser.tabs.getCurrent).toHaveBeenCalled()
-    );
-    await act(async () => {});
+  it("closes the mobile drawer when a sidebar tab is clicked", () => {
+    const { container, getByRole } = renderApp();
 
     // Open the drawer (checkbox drives DaisyUI's drawer state).
     fireEvent.click(drawerToggle(container));
     expect(drawerToggle(container).checked).toBe(true);
 
-    fireEvent.click(container.querySelector("#tabSupport") as HTMLElement);
+    fireEvent.click(sideBarButton(getByRole, "supportText"));
     expect(drawerToggle(container).checked).toBe(false);
   });
 });
