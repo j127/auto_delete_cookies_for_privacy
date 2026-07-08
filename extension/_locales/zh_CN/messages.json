@@ -216,7 +216,7 @@
     "message": "导出的文件名会附加时间戳。"
   },
   "extensionDescription": {
-    "message": "替你的标签页善后：关掉标签页，抹掉它的 Cookie 和站点数据——保留列表中的网站除外。"
+    "message": "关闭标签页时自动删除 Cookie 和站点数据，你标记为安全的站点除外。"
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

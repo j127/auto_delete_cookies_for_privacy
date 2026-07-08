@@ -216,7 +216,7 @@
     "message": "Os ficheiros exportados recebem um carimbo temporal no nome."
   },
   "extensionDescription": {
-    "message": "Arruma atrás dos seus separadores: fecha um separador, apaga os cookies e dados do site — exceto os sites das suas listas de manter."
+    "message": "Elimina automaticamente cookies e dados de sites quando fecha separadores, exceto os sites que marca como seguros."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

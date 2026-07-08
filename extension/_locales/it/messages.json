@@ -216,7 +216,7 @@
     "message": "I nomi dei file esportati ricevono una marca temporale."
   },
   "extensionDescription": {
-    "message": "Fa ordine dietro le tue schede: chiudi una scheda e ne cancella cookie e dati del sito — tranne per i siti nelle tue liste da conservare."
+    "message": "Elimina automaticamente i cookie e i dati dei siti quando chiudi le schede, tranne per i siti che contrassegni come sicuri."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
