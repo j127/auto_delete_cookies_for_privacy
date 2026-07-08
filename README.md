@@ -19,6 +19,10 @@ For a similar extension that works in Firefox see [Cookie AutoDelete](https://ad
 2. Turn on automatic cleaning (in the settings page, or the toggle in the popup)
 3. Browse normally -- cleanup runs by itself a few seconds after you close a site's last tab
 
+## Support
+
+If anything doesn't work or you have feature requests, please [create an issue](https://github.com/j127/auto_delete_cookies_for_privacy/issues), and I'll try to get it fixed within 48 hours.
+
 ## Development
 
 Requirements: [Bun](https://bun.sh/) >= 1.3 and [just](https://github.com/casey/just).
