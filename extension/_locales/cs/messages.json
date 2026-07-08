@@ -216,7 +216,7 @@
     "message": "Názvy exportovaných souborů dostanou časové razítko."
   },
   "extensionDescription": {
-    "message": "Uklízí po vašich kartách: zavřete kartu a její cookies i data webu zmizí — kromě webů na vašich seznamech ponechání."
+    "message": "Automaticky maže cookies a data webů při zavření karet, s výjimkou webů, které označíte jako bezpečné."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

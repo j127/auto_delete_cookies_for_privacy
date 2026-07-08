@@ -216,7 +216,7 @@
     "message": "Geëxporteerde bestandsnamen krijgen een tijdstempel."
   },
   "extensionDescription": {
-    "message": "Ruimt op na je tabbladen: tabblad dicht, cookies en sitegegevens weg — behalve voor sites op je bewaarlijsten."
+    "message": "Verwijdert automatisch cookies en sitegegevens wanneer je tabbladen sluit, behalve voor sites die je als veilig markeert."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

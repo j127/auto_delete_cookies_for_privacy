@@ -216,7 +216,7 @@
     "message": "Tên tệp xuất ra được gắn dấu thời gian."
   },
   "extensionDescription": {
-    "message": "Dọn dẹp sau các thẻ của bạn: đóng một thẻ là cookie và dữ liệu trang bị xóa sạch — trừ các trang trong danh sách giữ lại."
+    "message": "Tự động xóa cookie và dữ liệu trang khi bạn đóng thẻ, ngoại trừ những trang bạn đánh dấu là an toàn."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

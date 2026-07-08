@@ -216,7 +216,7 @@
     "message": "Vietyihin tiedostonimiin lisätään aikaleima."
   },
   "extensionDescription": {
-    "message": "Siivoaa välilehtiesi jäljet: sulje välilehti, ja sen evästeet ja sivustotiedot pyyhkiytyvät — paitsi säilytyslistojesi sivustoilta."
+    "message": "Poistaa evästeet ja sivustotiedot automaattisesti, kun suljet välilehtiä, paitsi sivustoilta, jotka merkitset turvallisiksi."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

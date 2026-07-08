@@ -216,7 +216,7 @@
     "message": "匯出的檔名會附加時間戳記。"
   },
   "extensionDescription": {
-    "message": "替你的分頁善後：關掉分頁，抹除它的 Cookie 和網站資料——保留清單中的網站除外。"
+    "message": "關閉分頁時自動刪除 Cookie 與網站資料，你標記為安全的網站除外。"
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

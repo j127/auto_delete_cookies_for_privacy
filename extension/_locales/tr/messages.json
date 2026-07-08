@@ -216,7 +216,7 @@
     "message": "Dışa aktarılan dosya adlarına zaman damgası eklenir."
   },
   "extensionDescription": {
-    "message": "Sekmelerinizin arkasını toplar: sekmeyi kapatın, çerezleri ve site verileri silinsin — koruma listelerinizdeki siteler hariç."
+    "message": "Sekmeleri kapattığınızda çerezleri ve site verilerini otomatik olarak siler; güvenli olarak işaretlediğiniz siteler hariç."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

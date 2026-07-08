@@ -216,7 +216,7 @@
     "message": "Os arquivos exportados recebem um carimbo de data/hora no nome."
   },
   "extensionDescription": {
-    "message": "Arruma a bagunça das suas abas: fecha uma aba, apaga seus cookies e dados do site — exceto os sites das suas listas de manter."
+    "message": "Exclui automaticamente cookies e dados de sites quando você fecha abas, exceto os sites que você marca como seguros."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

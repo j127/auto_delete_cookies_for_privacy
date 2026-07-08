@@ -216,7 +216,7 @@
     "message": "Os ficheiros exportados levan unha marca de tempo no nome."
   },
   "extensionDescription": {
-    "message": "Ordena despois das túas lapelas: pechas unha lapela e bórranse as súas cookies e datos do sitio — agás os sitios das túas listas de conservación."
+    "message": "Elimina automaticamente as cookies e os datos dos sitios cando pechas lapelas, agás os sitios que marcas como seguros."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

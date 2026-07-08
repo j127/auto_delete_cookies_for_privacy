@@ -216,7 +216,7 @@
     "message": "내보낸 파일 이름에는 타임스탬프가 붙습니다."
   },
   "extensionDescription": {
-    "message": "탭 뒤처리를 해 줍니다. 탭을 닫으면 그 쿠키와 사이트 데이터를 지웁니다. 유지 목록의 사이트는 예외입니다."
+    "message": "탭을 닫으면 쿠키와 사이트 데이터를 자동으로 삭제합니다. 안전하다고 표시한 사이트는 제외됩니다."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

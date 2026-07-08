@@ -216,7 +216,7 @@
     "message": "Les fichiers exportés reçoivent un horodatage dans leur nom."
   },
   "extensionDescription": {
-    "message": "Fait le ménage derrière vos onglets : un onglet se ferme, ses cookies et données de site disparaissent — sauf pour les sites de vos listes à conserver."
+    "message": "Supprime automatiquement les cookies et données de site quand vous fermez des onglets, sauf les sites que vous marquez comme sûrs."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

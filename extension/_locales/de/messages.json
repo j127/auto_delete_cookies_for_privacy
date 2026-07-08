@@ -216,7 +216,7 @@
     "message": "Exportierte Dateinamen erhalten einen Zeitstempel."
   },
   "extensionDescription": {
-    "message": "Räumt hinter deinen Tabs auf: Tab zu, Cookies und Websitedaten weg — außer bei Websites auf deinen Behalten-Listen."
+    "message": "Löscht automatisch Cookies und Websitedaten, wenn du Tabs schließt, außer bei Websites, die du als sicher markierst."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

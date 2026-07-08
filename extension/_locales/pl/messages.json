@@ -216,7 +216,7 @@
     "message": "Nazwy eksportowanych plików dostają znacznik czasu."
   },
   "extensionDescription": {
-    "message": "Sprząta po twoich kartach: zamykasz kartę, a jej ciasteczka i dane strony znikają — poza stronami z twoich list zachowywania."
+    "message": "Automatycznie usuwa ciasteczka i dane witryn po zamknięciu kart, z wyjątkiem witryn oznaczonych jako bezpieczne."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

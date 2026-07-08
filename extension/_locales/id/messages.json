@@ -216,7 +216,7 @@
     "message": "Nama berkas hasil ekspor diberi cap waktu."
   },
   "extensionDescription": {
-    "message": "Membereskan bekas tab Anda: tutup sebuah tab, cookie dan data situsnya terhapus — kecuali situs di daftar simpan Anda."
+    "message": "Menghapus cookie dan data situs secara otomatis saat Anda menutup tab, kecuali situs yang Anda tandai aman."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

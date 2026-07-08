@@ -216,7 +216,7 @@
     "message": "エクスポートするファイル名にはタイムスタンプが付きます。"
   },
   "extensionDescription": {
-    "message": "タブの後片付けをします。タブを閉じるとその Cookie とサイトデータを消去 — 保持リストのサイトは除きます。"
+    "message": "タブを閉じると、Cookie とサイトデータを自動的に削除します。安全として登録したサイトは除きます。"
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

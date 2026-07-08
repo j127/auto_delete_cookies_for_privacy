@@ -216,7 +216,7 @@
     "message": "Los archivos exportados llevan una marca de tiempo en el nombre."
   },
   "extensionDescription": {
-    "message": "Ordena después de tus pestañas: cierras una pestaña y borra sus cookies y datos del sitio — salvo los sitios de tus listas de conservación."
+    "message": "Elimina automáticamente las cookies y los datos de los sitios cuando cierras pestañas, excepto los sitios que marcas como seguros."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

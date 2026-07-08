@@ -216,7 +216,7 @@
     "message": "Az exportált fájlnevek időbélyeget kapnak."
   },
   "extensionDescription": {
-    "message": "Rendet rak a lapjaid után: lap bezárva, sütijei és webhelyadatai törölve — kivéve a megtartási listáid webhelyeit."
+    "message": "Automatikusan törli a sütiket és a webhelyadatokat a lapok bezárásakor, kivéve a biztonságosként megjelölt webhelyeket."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

@@ -216,7 +216,7 @@
     "message": "Exporterade filnamn får en tidsstämpel."
   },
   "extensionDescription": {
-    "message": "Städar efter dina flikar: stäng en flik så rensas dess kakor och webbplatsdata — utom för webbplatser på dina behåll-listor."
+    "message": "Raderar automatiskt cookies och webbplatsdata när du stänger flikar, utom för webbplatser du markerar som säkra."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"

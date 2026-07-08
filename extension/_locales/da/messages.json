@@ -216,7 +216,7 @@
     "message": "Eksporterede filnavne får et tidsstempel."
   },
   "extensionDescription": {
-    "message": "Rydder op efter dine faner: luk en fane, og dens cookies og webstedsdata slettes — undtagen websteder på dine behold-lister."
+    "message": "Sletter automatisk cookies og webstedsdata, når du lukker faner, undtagen for websteder, du markerer som sikre."
   },
   "extensionName": {
     "message": "Auto-Delete Cookies for Privacy"
