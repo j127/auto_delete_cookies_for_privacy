@@ -14,11 +14,7 @@ import { ListType, SettingID } from "@/typings/enums";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
-import {
-  addExpressionUI,
-  clearExpressionsUI,
-  removeListUI,
-} from "@/redux/actions";
+import { addExpressionUI, clearExpressionsUI } from "@/redux/actions";
 import {
   adcpLog,
   getMatchedExpressions,
@@ -53,10 +49,6 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
 
   const onNewExpression = (payload: Expression) => {
     dispatch(addExpressionUI(payload));
-  };
-
-  const onRemoveList = (payload: keyof StoreIdToExpressionList) => {
-    dispatch(removeListUI(payload));
   };
 
   // Add the expression using the + button or the Enter key
@@ -127,37 +119,6 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
       if (r !== null && r === expCount.toString()) {
         onClearExpressions(lists);
         setSuccess(browser.i18n.getMessage("removedAllExpressionsText"));
-      }
-    }
-  };
-
-  // Currently unreferenced by the UI, kept from the class component for
-  // future per-container list removal.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const removeListConfirmation = (
-    list: keyof StoreIdToExpressionList,
-    expressions: ReadonlyArray<Expression>
-  ) => {
-    const expCount = (expressions || []).length;
-    if (expCount === 0) {
-      setErrorMessage(browser.i18n.getMessage("removeAllExpressionsNoneFound"));
-    } else {
-      const r = window.prompt(
-        browser.i18n.getMessage("removeAllExpressionsConfirm", [
-          expCount.toString(),
-          list.toString(),
-        ])
-      );
-      adcpLog(
-        {
-          msg: `Remove Expressions Prompt for ${list} returned [ ${r} ]`,
-          type: "info",
-        },
-        debug
-      );
-      if (r !== null && r === expCount.toString()) {
-        onRemoveList(list);
-        setSuccess(`${browser.i18n.getMessage("removeListText")}: ${list}`);
       }
     }
   };
