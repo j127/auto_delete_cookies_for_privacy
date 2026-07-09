@@ -46,12 +46,16 @@ DETAILS
 
 | Asset                      | File                                 | Dashboard field                  |
 | -------------------------- | ------------------------------------ | -------------------------------- |
-| Screenshot 1 (1280x800)    | `screenshots/01-popup.png`           | Store listing → Screenshots      |
-| Screenshot 2 (1280x800)    | `screenshots/02-settings.png`        | Store listing → Screenshots      |
+| Screenshot (1280x800)      | `screenshots/01-popup.png`           | Store listing → Screenshots      |
+| Screenshot (1280x800)      | `screenshots/02-settings.png`        | Store listing → Screenshots      |
+| Screenshot (1280x800)      | `screenshots/03-overview.png`        | Store listing → Screenshots      |
+| Screenshot (1280x800)      | `screenshots/04-popup-dark.png`      | Store listing → Screenshots      |
+| Screenshot (1280x800)      | `screenshots/05-settings-dark.png`   | Store listing → Screenshots      |
+| Screenshot (1280x800)      | `screenshots/06-overview-dark.png`   | Store listing → Screenshots      |
 | Small promo tile (440x280) | `screenshots/promo-tile-440.png`     | Store listing → Small promo tile |
 | Store icon (128x128)       | `../../extension/icons/icon_128.png` | Uploaded with the package        |
 
-Screenshots were captured from the real UI (light theme, 1280x800) with the extension state mocked to show a populated popup inspector and the Protection settings page.
+Screenshots were captured from the real UI at 1280x800 with the extension state mocked to show a populated popup inspector and the Protection settings page — 01–03 in the light theme, 04–06 the same views in the dark theme. The CWS accepts at most five screenshots, so pick (a good default: 01, 02, 04, 05, 03).
 
 ## Icon legibility
 
