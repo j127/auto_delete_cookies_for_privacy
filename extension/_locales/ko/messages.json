@@ -246,6 +246,14 @@
       }
     }
   },
+  "hostPermissionsGrantButtonText": {
+    "message": "Restore access",
+    "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
+  },
+  "hostPermissionsMissingText": {
+    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
+  },
   "importCoreSettingsFailed": {
     "message": "설정 가져오기 중단: 파일에 인식할 수 없는 설정이 있습니다."
   },

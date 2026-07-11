@@ -117,6 +117,7 @@ const apis = {
   },
   permissions: {
     fn: ["contains", "getAll", "remove", "request"],
+    events: ["onAdded", "onRemoved"],
   },
   runtime: {
     fn: [

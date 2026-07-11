@@ -39,6 +39,7 @@ import {
   getSetting,
 } from "./services/libs";
 import ContextualIdentityEvents from "./services/contextual-identity-events";
+import PermissionService from "./services/permission-service";
 import StoreUser from "./services/store-user";
 import TabEvents from "./services/tab-events";
 import { ReduxConstants } from "./typings/redux-constants";
@@ -100,6 +101,9 @@ const init = async (): Promise<AppStore> => {
   // Container name/color cache (Firefox only; inert on Chrome). Runs on
   // every start: session-hydrate first, then live refresh.
   await ContextualIdentityEvents.init();
+
+  // Host-permission revocation guard (event-driven; one check per start).
+  await PermissionService.checkHostPermissions();
 
   // Cosmetic/optional initialization must never take the whole worker down:
   // if `ready` rejects, every event handler and the UI store bridge die with
@@ -304,6 +308,17 @@ if (browser.contextualIdentities) {
     await ContextualIdentityEvents.onRemoved(changeInfo);
   });
 }
+
+// Host permissions can be revoked/re-granted live from about:addons
+// (Firefox 127+); both events re-evaluate the warning state. No polling.
+browser.permissions.onAdded.addListener(async () => {
+  await ready;
+  await PermissionService.checkHostPermissions();
+});
+browser.permissions.onRemoved.addListener(async () => {
+  await ready;
+  await PermissionService.checkHostPermissions();
+});
 
 browser.alarms.onAlarm.addListener(async (alarm) => {
   await ready;

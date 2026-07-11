@@ -28,6 +28,7 @@ import { ListType, SettingID } from "@/typings/enums";
 import AdvancedControls from "./components/AdvancedControls";
 import KeepActions from "./components/KeepActions";
 import MoreCleaningOptions from "./components/MoreCleaningOptions";
+import HostPermissionsBanner from "@/ui/common-components/HostPermissionsBanner";
 import PopupFooter from "./components/PopupFooter";
 import PopupHero from "./components/PopupHero";
 import ShareMenu from "./components/ShareMenu";
@@ -217,6 +218,7 @@ const App: React.FunctionComponent = () => {
         </span>
         <ShareMenu />
       </header>
+      <HostPermissionsBanner />
       <PopupHero
         activeMode={activeMode}
         domain={domain}
