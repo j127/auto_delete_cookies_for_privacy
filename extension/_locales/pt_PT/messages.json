@@ -808,6 +808,10 @@
   "showNumberOfCookiesInIconText": {
     "message": "Contagem de cookies no ícone da barra"
   },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+  },
   "siteDataEmptyOnEnable": {
     "message": "Ao ativar um novo tipo de dados, apagar o que já está armazenado"
   },

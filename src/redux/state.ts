@@ -112,7 +112,12 @@ export const initialState: State = {
     },
     [SettingID.SITEDATA_EMPTY_ON_ENABLE]: {
       name: SettingID.SITEDATA_EMPTY_ON_ENABLE,
-      value: true,
+      // Off by default: the enable-time since-zero wipe is a global,
+      // whitelist-ignoring erase of a whole data type (upstream shipped
+      // it silently on — audit bug 14). It is opt-in now, and the
+      // settings UI additionally confirms each enable while it is on.
+      // Existing installs keep whatever value their stored state carries.
+      value: false,
     },
     [SettingID.POPUP_ADVANCED]: {
       name: SettingID.POPUP_ADVANCED,

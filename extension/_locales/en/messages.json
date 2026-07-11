@@ -989,6 +989,10 @@
     "message": "Cookie count on toolbar icon",
     "description": "Interface: show the site's cookie count on the icon"
   },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+  },
   "siteDataEmptyOnEnable": {
     "message": "When a New Data Type Is Enabled, Wipe What's Already Stored",
     "description": "When a New Data Type Is Enabled, Wipe What's Already Stored"

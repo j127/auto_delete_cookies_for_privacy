@@ -101,14 +101,91 @@ describe("SiteDataControl", () => {
   });
 
   it("keeps the empty-on-enable warning wired to its setting", () => {
-    const { getByLabelText, getByRole, onUpdateSetting } = renderControl(
-      initialState.settings
+    // The wipe is opt-in since the Firefox port: the default-off state
+    // shows the no-empty explainer, and switching it on flips the alert.
+    const first = renderControl(initialState.settings);
+    expect(first.getByRole("alert").textContent).toBe(
+      "browsingDataNoEmptyWarning"
     );
-    expect(getByRole("alert").textContent).toBe("browsingDataWarning");
-    fireEvent.click(getByLabelText("siteDataEmptyOnEnable"));
-    expect(onUpdateSetting).toHaveBeenCalledWith({
+    fireEvent.click(first.getByLabelText("siteDataEmptyOnEnable"));
+    expect(first.onUpdateSetting).toHaveBeenCalledWith({
       name: SettingID.SITEDATA_EMPTY_ON_ENABLE,
-      value: false,
+      value: true,
+    });
+    // Unmount before the second render: duplicate role=alert nodes across
+    // containers otherwise trip the scoped query via the shared document.
+    first.unmount();
+    const second = renderControl(
+      settingsWith({ [SettingID.SITEDATA_EMPTY_ON_ENABLE]: true })
+    );
+    expect(second.getByRole("alert").textContent).toBe("browsingDataWarning");
+  });
+
+  describe("enable-time wipe confirmation", () => {
+    const flagOnAllOff = (): State["settings"] =>
+      settingsWith({
+        ...Object.fromEntries(SITE_DATA_IDS.map((id) => [id, false])),
+        [SettingID.SITEDATA_EMPTY_ON_ENABLE]: true,
+      });
+
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    it("asks for confirmation naming the affected types before a master enable", () => {
+      const confirmSpy = vi
+        .spyOn(window, "confirm")
+        .mockImplementation(() => true);
+      const { onUpdateSetting } = renderControl(flagOnAllOff());
+      fireEvent.click(master());
+      expect(confirmSpy).toHaveBeenCalledTimes(1);
+      // The prompt carries the warning plus every type being enabled.
+      const prompt = confirmSpy.mock.calls[0][0] as string;
+      expect(prompt).toContain("browsingDataWarning");
+      expect(prompt).toContain("indexedDBCleanupText");
+      expect(prompt).toContain("serviceWorkersCleanupText");
+      expect(onUpdateSetting).toHaveBeenCalledTimes(SITE_DATA_IDS.length);
+    });
+
+    it("dispatches nothing when the confirmation is declined", () => {
+      vi.spyOn(window, "confirm").mockImplementation(() => false);
+      const { onUpdateSetting } = renderControl(flagOnAllOff());
+      fireEvent.click(master());
+      expect(onUpdateSetting).not.toHaveBeenCalled();
+    });
+
+    it("confirms a single per-type enable with that type's name", () => {
+      const confirmSpy = vi
+        .spyOn(window, "confirm")
+        .mockImplementation(() => true);
+      const { getByLabelText, onUpdateSetting } = renderControl(flagOnAllOff());
+      fireEvent.click(getByLabelText("indexedDBCleanupText"));
+      expect(confirmSpy).toHaveBeenCalledTimes(1);
+      expect(confirmSpy.mock.calls[0][0]).toContain("indexedDBCleanupText");
+      expect(onUpdateSetting).toHaveBeenCalledWith({
+        name: SettingID.CLEANUP_INDEXEDDB,
+        value: true,
+      });
+    });
+
+    it("never prompts while the wipe setting is off", () => {
+      const confirmSpy = vi.spyOn(window, "confirm");
+      const { onUpdateSetting } = renderControl(allOffSettings());
+      fireEvent.click(master());
+      expect(confirmSpy).not.toHaveBeenCalled();
+      expect(onUpdateSetting).toHaveBeenCalledTimes(SITE_DATA_IDS.length);
+    });
+
+    it("never prompts when disabling", () => {
+      const confirmSpy = vi.spyOn(window, "confirm");
+      const allOnFlagOn = settingsWith({
+        ...Object.fromEntries(SITE_DATA_IDS.map((id) => [id, true])),
+        [SettingID.SITEDATA_EMPTY_ON_ENABLE]: true,
+      });
+      const { onUpdateSetting } = renderControl(allOnFlagOn);
+      fireEvent.click(master());
+      expect(confirmSpy).not.toHaveBeenCalled();
+      expect(onUpdateSetting).toHaveBeenCalledTimes(SITE_DATA_IDS.length);
     });
   });
 });
