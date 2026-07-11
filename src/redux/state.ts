@@ -36,6 +36,18 @@ export const initialState: State = {
       name: SettingID.CLEAN_EXPIRED,
       value: false,
     },
+    // Firefox containers: per-container expression lists (off = containers
+    // are still cleaned but governed by the default list) and cleanup of a
+    // removed container's list + cookies. Both are Firefox-only features;
+    // the settings exist on Chrome too but stay inert and hidden there.
+    [SettingID.CONTEXTUAL_IDENTITIES]: {
+      name: SettingID.CONTEXTUAL_IDENTITIES,
+      value: false,
+    },
+    [SettingID.CONTEXTUAL_IDENTITIES_AUTOREMOVE]: {
+      name: SettingID.CONTEXTUAL_IDENTITIES_AUTOREMOVE,
+      value: false,
+    },
     [SettingID.CONTEXT_MENUS]: {
       name: SettingID.CONTEXT_MENUS,
       value: true,

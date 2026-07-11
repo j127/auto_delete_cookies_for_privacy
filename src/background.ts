@@ -38,6 +38,7 @@ import {
   extractMainDomain,
   getSetting,
 } from "./services/libs";
+import ContextualIdentityEvents from "./services/contextual-identity-events";
 import StoreUser from "./services/store-user";
 import TabEvents from "./services/tab-events";
 import { ReduxConstants } from "./typings/redux-constants";
@@ -95,6 +96,10 @@ const init = async (): Promise<AppStore> => {
   // delayed cleanup that was scheduled before the worker was suspended.
   await TabEvents.hydrateFromSession();
   await AlarmEvents.recoverPendingCleanup();
+
+  // Container name/color cache (Firefox only; inert on Chrome). Runs on
+  // every start: session-hydrate first, then live refresh.
+  await ContextualIdentityEvents.init();
 
   // Cosmetic/optional initialization must never take the whole worker down:
   // if `ready` rejects, every event handler and the UI store bridge die with
@@ -279,6 +284,24 @@ if (browser.contextMenus) {
   browser.contextMenus.onClicked.addListener(async (info, tab) => {
     await ready;
     await ContextMenuEvents.onContextMenuClicked(info, tab as browser.tabs.Tab);
+  });
+}
+
+// Firefox containers. The API object does not exist on Chrome, so the
+// guard keeps the Chrome build listener-free here; registration itself is
+// synchronous at the top level as the event page requires.
+if (browser.contextualIdentities) {
+  browser.contextualIdentities.onCreated.addListener(async (changeInfo) => {
+    await ready;
+    await ContextualIdentityEvents.onCreated(changeInfo);
+  });
+  browser.contextualIdentities.onUpdated.addListener(async (changeInfo) => {
+    await ready;
+    await ContextualIdentityEvents.onUpdated(changeInfo);
+  });
+  browser.contextualIdentities.onRemoved.addListener(async (changeInfo) => {
+    await ready;
+    await ContextualIdentityEvents.onRemoved(changeInfo);
   });
 }
 
