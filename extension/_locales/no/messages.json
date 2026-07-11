@@ -1147,6 +1147,21 @@
   "protectionText": {
     "message": "Beskyttelse"
   },
+  "setupStepsTitle": {
+    "message": "Kom i gang med automatisk rydding"
+  },
+  "setupStepProtectionText": {
+    "message": "Gå til siden Beskyttelse."
+  },
+  "setupStepActiveModeText": {
+    "message": "Slå på Rydd automatisk — den uthevede bryteren øverst. Merk først nettstedene du vil forbli innlogget på, som Behold."
+  },
+  "setupStepPinText": {
+    "message": "Fest utvidelsen så den alltid er synlig: klikk på puslespillikonet i verktøylinjen i Chrome, og deretter på nålen ved siden av Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Åpne siden Beskyttelse"
+  },
   "savedSitesText": {
     "message": "Lagrede nettsteder"
   },
@@ -1310,7 +1325,7 @@
     "message": "Kom i gang"
   },
   "helpGettingStartedBody": {
-    "message": "Nyinstallasjoner starter i manuell modus: ingenting slettes før du sier fra. Det er med vilje — bygg behold-listen først, så logger ikke automatisk rydding deg ut overalt når du slår den på senere.\n\n1. Behold nettstedene som betyr noe. Besøk hvert nettsted der utlogging ville irritert (e-post, bank, alt du betaler for), klikk verktøylinjeikonet og trykk Behold nettstedets informasjonskapsler. Regelen dekker domenet og alle underdomener. Bruk Behold til nettleseren lukkes for nettsteder som bare skal huskes denne gangen.\n\n2. Bestem hva rydding betyr. Fra start fjerner ryddingen bare informasjonskapsler. Slå på Slett all nettstedsdata på siden Beskyttelse for også å rydde et nettsteds øvrige rester.\n\n3. Slå på automatisk rydding. Aktiver Rydd automatisk på siden Beskyttelse. Fra da av: lukk et nettsteds siste fane, og etter fristen er informasjonskapslene borte — med mindre du beholder nettstedet eller det fortsatt er åpent et annet sted.\n\n4. Valgfritt: la ryddeloggen stå på, så du alltid kan se hva som ble ryddet og hvorfor."
+    "message": "Nyinstallasjoner starter i manuell modus: ingenting slettes før du sier fra. Det er med vilje — bygg behold-listen først, så logger ikke automatisk rydding deg ut overalt når du slår den på senere.\n\n1. Behold nettstedene som betyr noe. Besøk hvert nettsted der utlogging ville irritert (e-post, bank, alt du betaler for), klikk verktøylinjeikonet og trykk Behold nettstedets informasjonskapsler. Regelen dekker domenet og alle underdomener. Bruk Behold til nettleseren lukkes for nettsteder som bare skal huskes denne gangen.\n\n2. Bestem hva rydding betyr. Fra start fjerner ryddingen bare informasjonskapsler. Slå på Slett all nettstedsdata på siden Beskyttelse for også å rydde et nettsteds øvrige rester.\n\n3. Slå på automatisk rydding. Aktiver Rydd automatisk på siden Beskyttelse. Fra da av: lukk et nettsteds siste fane, og etter fristen er informasjonskapslene borte — med mindre du beholder nettstedet eller det fortsatt er åpent et annet sted.\n\n4. Fest ikonet i verktøylinjen. Klikk på puslespillikonet i verktøylinjen i Chrome, og deretter på nålen ved siden av Auto-Delete Cookies for Privacy, slik at ikonet og merket med antall informasjonskapsler alltid er synlige.\n\n5. Valgfritt: la ryddeloggen stå på, så du alltid kan se hva som ble ryddet og hvorfor."
   },
   "helpCleaningTitle": {
     "message": "Slik fungerer ryddingen"

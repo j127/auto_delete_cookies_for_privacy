@@ -7,11 +7,11 @@ import Icon from "@/ui/common-components/Icon";
 
 /**
  * The page the Share menu points at. A single constant on purpose: until
- * the extension is published this is the GitHub repository, afterwards it
- * becomes the Chrome Web Store listing (tracked by issue #143).
+ * the extension was published this was the GitHub repository; since
+ * publication it is the Chrome Web Store listing (swap tracked by issue #143).
  */
 export const EXTENSION_PAGE_URL =
-  "https://github.com/j127/auto_delete_cookies_for_privacy";
+  "https://chromewebstore.google.com/detail/auto-delete-cookies-for-p/ghnodpmkiilfdelcloblidoeecblgbfp";
 
 /**
  * Quiet share dropdown in the popup's name bar (05d design). Two actions:

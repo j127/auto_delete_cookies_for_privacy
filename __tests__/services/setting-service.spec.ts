@@ -110,7 +110,7 @@ describe("SettingService", () => {
   });
   describe("onSettingsChange()", () => {
     when(global.browser.tabs.query)
-      .calledWith({ active: true, windowType: "normal" })
+      .calledWith({ windowType: "normal" })
       .mockResolvedValue([
         defaultTab,
         { ...defaultTab, url: "https://example.com" },

@@ -1147,6 +1147,21 @@
   "protectionText": {
     "message": "Beskyttelse"
   },
+  "setupStepsTitle": {
+    "message": "Kom i gang med automatisk rydning"
+  },
+  "setupStepProtectionText": {
+    "message": "Gå til siden Beskyttelse."
+  },
+  "setupStepActiveModeText": {
+    "message": "Slå Ryd automatisk til — den fremhævede kontakt øverst. Markér først de websteder, du vil forblive logget ind på, som Behold."
+  },
+  "setupStepPinText": {
+    "message": "Fastgør udvidelsen, så den altid er synlig: klik på puslespilsikonet i Chromes værktøjslinje og derefter på nålen ud for Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Åbn siden Beskyttelse"
+  },
   "savedSitesText": {
     "message": "Gemte websteder"
   },
@@ -1310,7 +1325,7 @@
     "message": "Kom godt i gang"
   },
   "helpGettingStartedBody": {
-    "message": "Nye installationer starter i manuel tilstand: intet slettes, før du siger til. Det er med vilje — byg din behold-liste først, så det ikke logger dig ud overalt, når du senere slår automatisk rydning til.\n\n1. Behold de websteder, der betyder noget. Besøg hvert websted, hvor en udlogning ville irritere (e-mail, bank, alt du betaler for), klik på værktøjslinjeikonet og tryk Behold webstedets cookies. Reglen dækker domænet og alle dets underdomæner. Brug Behold, indtil browseren lukkes til websteder, der kun skal huskes denne gang.\n\n2. Beslut, hvad rydning betyder. Fra fabrikken fjerner rydningen kun cookies. Slå Slet al webstedsdata til på siden Beskyttelse for også at rydde et websteds øvrige efterladenskaber.\n\n3. Slå automatisk rydning til. Aktivér Ryd automatisk på siden Beskyttelse. Fra da af: luk et websteds sidste fane, og efter fristen er dets cookies væk — medmindre du beholder webstedet, eller det stadig er åbent et andet sted.\n\n4. Valgfrit: lad rydningsloggen være slået til, så du altid kan se, hvad der blev ryddet og hvorfor."
+    "message": "Nye installationer starter i manuel tilstand: intet slettes, før du siger til. Det er med vilje — byg din behold-liste først, så det ikke logger dig ud overalt, når du senere slår automatisk rydning til.\n\n1. Behold de websteder, der betyder noget. Besøg hvert websted, hvor en udlogning ville irritere (e-mail, bank, alt du betaler for), klik på værktøjslinjeikonet og tryk Behold webstedets cookies. Reglen dækker domænet og alle dets underdomæner. Brug Behold, indtil browseren lukkes til websteder, der kun skal huskes denne gang.\n\n2. Beslut, hvad rydning betyder. Fra fabrikken fjerner rydningen kun cookies. Slå Slet al webstedsdata til på siden Beskyttelse for også at rydde et websteds øvrige efterladenskaber.\n\n3. Slå automatisk rydning til. Aktivér Ryd automatisk på siden Beskyttelse. Fra da af: luk et websteds sidste fane, og efter fristen er dets cookies væk — medmindre du beholder webstedet, eller det stadig er åbent et andet sted.\n\n4. Fastgør ikonet i værktøjslinjen. Klik på puslespilsikonet i Chromes værktøjslinje og derefter på nålen ud for Auto-Delete Cookies for Privacy, så ikonet og dets cookie-tæller altid er synlige.\n\n5. Valgfrit: lad rydningsloggen være slået til, så du altid kan se, hvad der blev ryddet og hvorfor."
   },
   "helpCleaningTitle": {
     "message": "Sådan fungerer rydningen"

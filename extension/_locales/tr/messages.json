@@ -1147,6 +1147,21 @@
   "protectionText": {
     "message": "Koruma"
   },
+  "setupStepsTitle": {
+    "message": "Otomatik temizliğe başlayın"
+  },
+  "setupStepProtectionText": {
+    "message": "Koruma sayfasına gidin."
+  },
+  "setupStepActiveModeText": {
+    "message": "Otomatik temizle anahtarını açın — sayfanın üstündeki vurgulanan anahtar. Önce oturumunuzun açık kalmasını istediğiniz siteleri Koru olarak işaretleyin."
+  },
+  "setupStepPinText": {
+    "message": "Uzantıyı sabitleyin ki hep görünür kalsın: Chrome araç çubuğundaki yapboz simgesine, ardından Auto-Delete Cookies for Privacy yanındaki raptiyeye tıklayın."
+  },
+  "setupOpenProtectionText": {
+    "message": "Koruma sayfasını aç"
+  },
   "savedSitesText": {
     "message": "Kayıtlı siteler"
   },
@@ -1310,7 +1325,7 @@
     "message": "Başlarken"
   },
   "helpGettingStartedBody": {
-    "message": "Yeni kurulumlar elle modda başlar: siz söyleyene dek hiçbir şey silinmez. Bu bilinçli bir tercih — önce koruma listenizi kurun ki sonradan otomatik temizliği açmak sizi önem verdiğiniz her yerden çıkışa zorlamasın.\n\n1. Önemli siteleri koruyun. Çıkış yapmanın can sıkacağı her siteyi (e-posta, banka, ücretli her şey) ziyaret edin, araç çubuğu simgesine tıklayın ve Bu sitenin çerezlerini koru düğmesine basın. Kural, alan adını ve tüm alt alan adlarını kapsar. Yalnızca bu seferlik hatırlanması gereken siteler için Tarayıcı kapanana dek koru kullanın.\n\n2. Temizlemenin ne demek olduğuna karar verin. Kutudan çıktığı hâliyle temizlik yalnızca çerezleri siler. Bir sitenin diğer kalıntılarını da silmek için Koruma sayfasındaki Tüm site verilerini sil anahtarını açın.\n\n3. Otomatik temizliği açın. Koruma sayfasında Otomatik temizle anahtarını açın. Artık: bir sitenin son sekmesini kapatın, bekleme süresi geçince çerezleri gider — siteyi korumuyorsanız veya başka yerde açık değilse.\n\n4. İsteğe bağlı: temizlik günlüğünü açık tutun; neyin neden temizlendiğini her zaman görebilirsiniz."
+    "message": "Yeni kurulumlar elle modda başlar: siz söyleyene dek hiçbir şey silinmez. Bu bilinçli bir tercih — önce koruma listenizi kurun ki sonradan otomatik temizliği açmak sizi önem verdiğiniz her yerden çıkışa zorlamasın.\n\n1. Önemli siteleri koruyun. Çıkış yapmanın can sıkacağı her siteyi (e-posta, banka, ücretli her şey) ziyaret edin, araç çubuğu simgesine tıklayın ve Bu sitenin çerezlerini koru düğmesine basın. Kural, alan adını ve tüm alt alan adlarını kapsar. Yalnızca bu seferlik hatırlanması gereken siteler için Tarayıcı kapanana dek koru kullanın.\n\n2. Temizlemenin ne demek olduğuna karar verin. Kutudan çıktığı hâliyle temizlik yalnızca çerezleri siler. Bir sitenin diğer kalıntılarını da silmek için Koruma sayfasındaki Tüm site verilerini sil anahtarını açın.\n\n3. Otomatik temizliği açın. Koruma sayfasında Otomatik temizle anahtarını açın. Artık: bir sitenin son sekmesini kapatın, bekleme süresi geçince çerezleri gider — siteyi korumuyorsanız veya başka yerde açık değilse.\n\n4. Araç çubuğu simgesini sabitleyin. Chrome araç çubuğundaki yapboz simgesine, ardından Auto-Delete Cookies for Privacy yanındaki raptiyeye tıklayın; böylece simge ve çerez sayısı rozeti hep görünür kalır.\n\n5. İsteğe bağlı: temizlik günlüğünü açık tutun; neyin neden temizlendiğini her zaman görebilirsiniz."
   },
   "helpCleaningTitle": {
     "message": "Temizlik nasıl işler"

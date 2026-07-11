@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
   "name": "Auto-Delete Cookies for Privacy",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "__MSG_extensionDescription__",
   "default_locale": "en",
   "author": "j127 (fork of Cookie AutoDelete by Kenny Do and CAD Team)",
-  "homepage_url": "https://github.com/j127/auto_delete_cookies_for_privacy",
+  "homepage_url": "https://chromewebstore.google.com/detail/auto-delete-cookies-for-p/ghnodpmkiilfdelcloblidoeecblgbfp",
   "minimum_chrome_version": "120",
   "icons": {
     "48": "icons/icon_48.png",

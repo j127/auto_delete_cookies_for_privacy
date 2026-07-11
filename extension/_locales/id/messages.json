@@ -1147,6 +1147,21 @@
   "protectionText": {
     "message": "Perlindungan"
   },
+  "setupStepsTitle": {
+    "message": "Mulai pembersihan otomatis"
+  },
+  "setupStepProtectionText": {
+    "message": "Buka halaman Perlindungan."
+  },
+  "setupStepActiveModeText": {
+    "message": "Aktifkan Bersihkan otomatis — sakelar yang disorot di bagian atas. Tandai dulu situs tempat Anda ingin tetap masuk sebagai Simpan."
+  },
+  "setupStepPinText": {
+    "message": "Sematkan ekstensi agar tetap terlihat: klik ikon puzzle di bilah alat Chrome, lalu pin di samping Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Buka halaman Perlindungan"
+  },
   "savedSitesText": {
     "message": "Situs tersimpan"
   },
@@ -1310,7 +1325,7 @@
     "message": "Mulai"
   },
   "helpGettingStartedBody": {
-    "message": "Pemasangan baru dimulai dalam mode manual: tidak ada yang dihapus sampai Anda perintahkan. Ini disengaja — bangun dulu daftar simpan Anda, agar menyalakan pembersihan otomatis nanti tidak membuat Anda keluar dari semua akun penting.\n\n1. Simpan situs yang penting. Kunjungi tiap situs yang bikin kesal kalau sampai keluar akun (email, bank, semua yang berbayar), klik ikon bilah alat, dan tekan Simpan cookie situs ini. Aturannya mencakup domain dan semua subdomainnya. Pakai Simpan sampai peramban ditutup untuk situs yang cukup diingat kali ini saja.\n\n2. Tentukan arti pembersihan. Bawaannya, pembersihan hanya menghapus cookie. Nyalakan Hapus semua data situs di halaman Perlindungan agar sisa-sisa lain sebuah situs ikut terhapus.\n\n3. Nyalakan pembersihan otomatis. Aktifkan Bersihkan otomatis di halaman Perlindungan. Sejak itu: tutup tab terakhir sebuah situs, dan setelah masa tenggang cookie-nya lenyap — kecuali Anda menyimpan situs itu atau ia masih terbuka di tempat lain.\n\n4. Opsional: biarkan log pembersihan menyala, agar selalu bisa melihat apa yang dibersihkan dan kenapa."
+    "message": "Pemasangan baru dimulai dalam mode manual: tidak ada yang dihapus sampai Anda perintahkan. Ini disengaja — bangun dulu daftar simpan Anda, agar menyalakan pembersihan otomatis nanti tidak membuat Anda keluar dari semua akun penting.\n\n1. Simpan situs yang penting. Kunjungi tiap situs yang bikin kesal kalau sampai keluar akun (email, bank, semua yang berbayar), klik ikon bilah alat, dan tekan Simpan cookie situs ini. Aturannya mencakup domain dan semua subdomainnya. Pakai Simpan sampai peramban ditutup untuk situs yang cukup diingat kali ini saja.\n\n2. Tentukan arti pembersihan. Bawaannya, pembersihan hanya menghapus cookie. Nyalakan Hapus semua data situs di halaman Perlindungan agar sisa-sisa lain sebuah situs ikut terhapus.\n\n3. Nyalakan pembersihan otomatis. Aktifkan Bersihkan otomatis di halaman Perlindungan. Sejak itu: tutup tab terakhir sebuah situs, dan setelah masa tenggang cookie-nya lenyap — kecuali Anda menyimpan situs itu atau ia masih terbuka di tempat lain.\n\n4. Sematkan ikon bilah alat. Klik ikon puzzle di bilah alat Chrome, lalu pin di samping Auto-Delete Cookies for Privacy, agar ikon dan lencana jumlah cookie tetap terlihat.\n\n5. Opsional: biarkan log pembersihan menyala, agar selalu bisa melihat apa yang dibersihkan dan kenapa."
   },
   "helpCleaningTitle": {
     "message": "Cara kerja pembersihan"
