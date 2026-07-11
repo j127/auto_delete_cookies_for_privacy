@@ -42,6 +42,7 @@ New recipes go in the `justfile` with `snake_case` names.
 
 - **Tests.** All code changes come with tests. `just test` must pass, including the coverage thresholds — if your change meaningfully raises coverage, feel free to bump the floors in `vitest.config.ts` to the new baseline (the long-term target is 90%).
 - **Green `just ci`** locally before you open the PR; the GitHub Actions workflow runs the same recipes.
+- **Firefox changes**: run the relevant rows of the [manual Firefox test matrix](docs/testing-firefox.md) when touching cleanup, containers, or permissions behavior; the full matrix gates the Firefox branch's merge to `main`.
 - **Scope discipline.** One issue per PR. Don't reformat or refactor code your change doesn't touch.
 - **Comments stay.** Don't delete existing code comments unless the code they describe is going away — several carry load-bearing context (MV3 service-worker constraints, bundler quirks).
 - **i18n**: user-facing strings go through `browser.i18n.getMessage` with a key in `extension/_locales/en/messages.json`. Key names are frozen once merged (30+ locale files reference them); only English values may change.
