@@ -10,7 +10,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { validateExpressionDomain } from "@/services/libs";
+import { browserCapabilities } from "@/services/browser-capabilities";
+import { getStoreId, validateExpressionDomain } from "@/services/libs";
 
 export const parseRawExpression = (exp: Expression): string[] => {
   const exps = exp.expression.split(",");
@@ -45,7 +46,7 @@ export const parseRawExpression = (exp: Expression): string[] => {
 };
 
 export interface ImportPlan {
-  /** Expressions to dispatch, with container entries retargeted to default. */
+  /** Expressions to dispatch; container entries are retargeted per build. */
   additions: Expression[];
   /** Per-entry rejection lines for the error alert. */
   errors: string[];
@@ -53,15 +54,36 @@ export interface ImportPlan {
   foldedCount: number;
 }
 
-/** The two store IDs this Chromium-only extension actually uses. */
+/**
+ * Store keys that import unchanged on this build. Both builds keep
+ * default/private; the Firefox build additionally keeps container lists
+ * as their own keys (full per-container parity).
+ */
 const isNativeStoreId = (storeId: string) =>
-  storeId === "default" || storeId === "private";
+  storeId === "default" ||
+  storeId === "private" ||
+  (browserCapabilities.supportsContextualIdentities &&
+    storeId.startsWith("firefox-container-"));
+
+/**
+ * The key an imported list lands under. On Firefox, old Cookie AutoDelete
+ * exports normalize first (firefox-default → default, firefox-private →
+ * private) so private entries land in the list cleanup actually reads;
+ * containers pass through. On Chrome the raw key is kept so the fold
+ * below behaves exactly as before (aliases fold into default and count).
+ */
+const importTargetStoreId = (storeId: string): string =>
+  browserCapabilities.supportsContextualIdentities
+    ? getStoreId(storeId)
+    : storeId;
 
 /**
  * Turns a parsed expressions-export file into a list of additions.
  *
- * Native lists (default/private) import unchanged. Any other store key —
- * Firefox container lists like `firefox-container-1` from original Cookie
+ * Native lists import unchanged (on the Firefox build that includes
+ * container lists, with firefox-default/-private normalized to their
+ * unified keys first). On the Chrome build any other store key — Firefox
+ * container lists like `firefox-container-1` from original Cookie
  * AutoDelete exports — would never match a Chromium cookie store and sit
  * inert, so those entries fold into `default` instead. Folded entries are
  * deduped against everything already headed for the default list; the key is
@@ -83,9 +105,11 @@ export const planExpressionImport = (
   const storeIds = Object.keys(imported);
   // Native lists first so container entries dedupe against every expression
   // headed for default, wherever it appears in the file.
+  const isNativeSource = (storeId: string) =>
+    isNativeStoreId(importTargetStoreId(storeId));
   const orderedStoreIds = [
-    ...storeIds.filter(isNativeStoreId),
-    ...storeIds.filter((storeId) => !isNativeStoreId(storeId)),
+    ...storeIds.filter(isNativeSource),
+    ...storeIds.filter((storeId) => !isNativeSource(storeId)),
   ];
 
   orderedStoreIds.forEach((storeId) => {
@@ -95,6 +119,7 @@ export const planExpressionImport = (
       );
       return;
     }
+    const targetStoreId = importTargetStoreId(storeId);
     imported[storeId].forEach((expression) => {
       parseRawExpression(expression).forEach((exp) => {
         const e = exp.trim();
@@ -105,11 +130,15 @@ export const planExpressionImport = (
           errors.push(`- ${e} (${storeId}) -> ${result}`);
           return;
         }
-        if (isNativeStoreId(storeId)) {
-          if (storeId === "default") {
+        if (isNativeStoreId(targetStoreId)) {
+          if (targetStoreId === "default") {
             inDefault.add(e);
           }
-          additions.push({ ...expression, expression: e });
+          additions.push({
+            ...expression,
+            expression: e,
+            storeId: targetStoreId,
+          });
           return;
         }
         if (inDefault.has(e)) return;
