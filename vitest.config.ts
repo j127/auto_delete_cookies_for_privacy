@@ -13,20 +13,19 @@ export default defineConfig({
       include: ["src/**"],
       provider: "v8",
       reporter: ["text", "lcov"],
-      // Minimum coverage enforcement. Values are the v8-provider baseline
-      // measured at the #37 runner switch (statements 82.29, branches 82.95,
-      // functions 77.18, lines 82.48 — v8 counts slightly differently than
-      // ts-jest's istanbul did, hence the small re-base from the old
-      // 83/85/77/82 floors) floored to whole numbers, so any regression
-      // fails `just test` while normal churn doesn't flake. Ratchet plan:
-      // whenever a change meaningfully raises coverage, bump these floors to
-      // the new measured baseline; the long-term target is 90 percent across
-      // the board.
+      // Minimum coverage enforcement, floored to whole numbers so any
+      // regression fails `just test` while normal churn doesn't flake.
+      // Ratcheted at the Firefox-port hardening pass (#289) to the then
+      // measured baseline (statements 88.18, branches 85.79, functions
+      // 84.93, lines 88.59) — up from the 82/82/77/82 floors set at the
+      // #37 runner switch. Ratchet plan: whenever a change meaningfully
+      // raises coverage, bump these floors to the new measured baseline;
+      // the long-term target is 90 percent across the board.
       thresholds: {
-        branches: 82,
-        functions: 77,
-        lines: 82,
-        statements: 82,
+        branches: 85,
+        functions: 84,
+        lines: 88,
+        statements: 88,
       },
     },
     environment: "node",
