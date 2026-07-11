@@ -13,6 +13,12 @@ This is a browser extension for Chrome/Brave that automatically deletes cookies 
 
 For a similar extension that works in Firefox see [Cookie AutoDelete](https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/). This extension is a fork of that one, because that one was no longer supported in Chromium browsers.
 
+## Install
+
+Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/auto-delete-cookies-for-p/ghnodpmkiilfdelcloblidoeecblgbfp).
+
+Manual fallback: download the zip from the [latest release](https://github.com/j127/auto_delete_cookies_for_privacy/releases/latest), unzip it, and load the folder from `chrome://extensions` with Developer mode enabled ("Load unpacked").
+
 ## Usage
 
 1. Mark the sites whose cookies you want to keep as **Keep**, or **Keep until browser closes** if they should only survive the session

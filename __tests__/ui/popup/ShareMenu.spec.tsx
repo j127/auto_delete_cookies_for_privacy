@@ -11,9 +11,9 @@ describe("ShareMenu", () => {
   });
 
   it("points at the extension page through a single constant", () => {
-    // Issue #143: swap this to the Chrome Web Store listing after release.
+    // Issue #143: swapped to the Chrome Web Store listing at publication.
     expect(EXTENSION_PAGE_URL).toBe(
-      "https://github.com/j127/auto_delete_cookies_for_privacy"
+      "https://chromewebstore.google.com/detail/auto-delete-cookies-for-p/ghnodpmkiilfdelcloblidoeecblgbfp"
     );
   });
 
