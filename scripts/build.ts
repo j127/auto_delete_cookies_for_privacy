@@ -157,6 +157,13 @@ async function buildOnce(): Promise<boolean> {
     format: "esm",
     splitting: true,
     sourcemap: "linked",
+    define: {
+      // Compile-time browser identity; consumed by
+      // src/services/browser-capabilities.ts (declared in
+      // src/typings/build-defines.d.ts, mirrored for tests in
+      // vitest-setup.ts).
+      __BROWSER__: JSON.stringify(target),
+    },
     // Unminified on purpose: trivial sizes, and reviewable bundles make
     // Chrome Web Store review less painful.
     minify: false,

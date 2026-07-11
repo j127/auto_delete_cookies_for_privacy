@@ -15,7 +15,14 @@
  * in TYPE positions (browser.tabs.Tab, browser.cookies.Cookie, ...), plus
  * the few things the Firefox-schema-generated types don't know about.
  */
-import type { Browser, Cookies, Menus, Tabs } from "webextension-polyfill";
+import type {
+  Browser,
+  BrowsingData,
+  ContextualIdentities,
+  Cookies,
+  Menus,
+  Tabs,
+} from "webextension-polyfill";
 
 /**
  * Every function in the tree keeps its ORIGINAL polyfill signature (an
@@ -41,16 +48,38 @@ declare global {
   var browser: MockAugmented<Browser>;
 
   namespace browser {
+    namespace browsingData {
+      /**
+       * The polyfill's Firefox-schema RemovalOptions carries the
+       * Firefox-only `hostnames` and `cookieStoreId` keys but not Chrome's
+       * `origins` (absent from the Firefox schema — Firefox rejects it at
+       * runtime, too). Cross-browser code needs to express both scoping
+       * shapes, so the Chrome key is intersected in here.
+       */
+      type RemovalOptions = BrowsingData.RemovalOptions & {
+        origins?: string[];
+      };
+    }
+
+    namespace contextualIdentities {
+      type ContextualIdentity = ContextualIdentities.ContextualIdentity;
+    }
+
     namespace cookies {
       /**
        * The polyfill types are generated from Firefox schemas, where the
        * firstPartyDomain property is REQUIRED on every cookie. Chrome
-       * cookies never carry it (the fork stripped all First-Party-Isolation
-       * handling), so it is omitted from the type this codebase uses.
+       * cookies never carry it while Firefox always does, so cross-browser
+       * code treats it as optional. (The fork originally Omit-ed it away
+       * entirely; the Firefox port restored it as optional.)
        */
-      type Cookie = Omit<Cookies.Cookie, "firstPartyDomain">;
+      type Cookie = Omit<Cookies.Cookie, "firstPartyDomain"> & {
+        firstPartyDomain?: string;
+      };
       type OnChangedCause = Cookies.OnChangedCause;
       type OptionalCookieProperties = Partial<Cookie>;
+      /** Partition attribute for TCP/dFPI (Firefox) and CHIPS (Chrome). */
+      type PartitionKey = Cookies.PartitionKey;
     }
 
     namespace contextMenus {
