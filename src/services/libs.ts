@@ -634,17 +634,26 @@ export const prepareCookieDomain = (cookie: browser.cookies.Cookie): string => {
 /**
  * Returns the first available matched expression.
  * wrapper for getMatchedExpressions
+ *
+ * Container stores get their own expression lists only while the
+ * contextualIdentities setting is on. With it off (or not yet present —
+ * it only exists once the container service restores it), container
+ * cookies are governed by the default list: they are still enumerated and
+ * cleaned (upstream skipped them entirely, audit bug 6a), and the user
+ * manages one list for all of them.
  */
 export const returnMatchedExpressionObject = (
   state: State,
   cookieStoreId: string,
   hostname: string
 ): Expression | undefined => {
-  return getMatchedExpressions(
-    state.lists,
-    getStoreId(cookieStoreId),
-    hostname
-  )[0];
+  const storeKey = getStoreId(cookieStoreId);
+  const effectiveKey =
+    storeKey.startsWith("firefox-container-") &&
+    state.settings[SettingID.CONTEXTUAL_IDENTITIES]?.value !== true
+      ? "default"
+      : storeKey;
+  return getMatchedExpressions(state.lists, effectiveKey, hostname)[0];
 };
 
 /**

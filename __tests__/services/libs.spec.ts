@@ -1088,6 +1088,14 @@ describe("Library Functions", () => {
       };
       const containerState: State = {
         ...initialState,
+        // Per-container lists apply while the container setting is on.
+        settings: {
+          ...initialState.settings,
+          [SettingID.CONTEXTUAL_IDENTITIES]: {
+            name: SettingID.CONTEXTUAL_IDENTITIES,
+            value: true,
+          },
+        },
         lists: { [containerExpression.storeId]: [containerExpression] },
       };
       expect(
@@ -1103,6 +1111,103 @@ describe("Library Functions", () => {
           "firefox-default",
           "example.com"
         )
+      ).toBeUndefined();
+    });
+  });
+
+  // Audit bug 6a companion: container stores are ALWAYS enumerated and
+  // cleaned; the contextualIdentities setting only decides which list
+  // governs them. Off (or absent, pre-restore): the default list. On:
+  // each container's own list, with no silent fallback to default.
+  describe("container expression matching vs contextualIdentities setting", () => {
+    const defaultExpression: Expression = {
+      expression: "example.com",
+      listType: ListType.WHITE,
+      storeId: "default",
+    };
+    const containerExpression: Expression = {
+      ...defaultExpression,
+      storeId: "firefox-container-5",
+    };
+
+    it("matches container cookies against the default list when the setting is absent", () => {
+      const state: State = {
+        ...initialState,
+        lists: { default: [defaultExpression] },
+      };
+      expect(
+        returnMatchedExpressionObject(
+          state,
+          "firefox-container-5",
+          "example.com"
+        )
+      ).toEqual(defaultExpression);
+    });
+
+    it("matches container cookies against the default list when the setting is off", () => {
+      const state: State = {
+        ...initialState,
+        settings: {
+          ...initialState.settings,
+          [SettingID.CONTEXTUAL_IDENTITIES]: {
+            name: SettingID.CONTEXTUAL_IDENTITIES,
+            value: false,
+          },
+        },
+        lists: { default: [defaultExpression] },
+      };
+      expect(
+        returnMatchedExpressionObject(
+          state,
+          "firefox-container-5",
+          "example.com"
+        )
+      ).toEqual(defaultExpression);
+    });
+
+    it("uses the container's own list, not default, when the setting is on", () => {
+      const state: State = {
+        ...initialState,
+        settings: {
+          ...initialState.settings,
+          [SettingID.CONTEXTUAL_IDENTITIES]: {
+            name: SettingID.CONTEXTUAL_IDENTITIES,
+            value: true,
+          },
+        },
+        lists: {
+          default: [defaultExpression],
+          "firefox-container-5": [containerExpression],
+        },
+      };
+      expect(
+        returnMatchedExpressionObject(
+          state,
+          "firefox-container-5",
+          "example.com"
+        )
+      ).toEqual(containerExpression);
+      // A container without its own matching entry gets NO default-list
+      // fallback while per-container lists are active.
+      expect(
+        returnMatchedExpressionObject(
+          state,
+          "firefox-container-6",
+          "example.com"
+        )
+      ).toBeUndefined();
+    });
+
+    it("never folds Chrome or non-container ids", () => {
+      const state: State = {
+        ...initialState,
+        lists: { default: [defaultExpression] },
+      };
+      expect(returnMatchedExpressionObject(state, "0", "example.com")).toEqual(
+        defaultExpression
+      );
+      expect(
+        returnMatchedExpressionObject(state, "1", "example.com")
       ).toBeUndefined();
     });
   });
