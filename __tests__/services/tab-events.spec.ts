@@ -94,9 +94,10 @@ describe("TabEvents", () => {
     when(global.browser.runtime.getManifest)
       .calledWith()
       .mockReturnValue({ version: "0.12.34" } as never);
-    when(global.browser.cookies.getAll)
-      .calledWith(expect.any(Object))
-      .mockResolvedValue([] as never);
+    // Default implementation (not a jest-when training): specific
+    // calledWith trainings below still win for their args, and every
+    // untrained call — e.g. the partition-bucket queries — resolves [].
+    global.browser.cookies.getAll.mockResolvedValue([] as never);
     // Required so the actual cleaning functions being awaited won't run.
     when(spyAlarmEvents.createActiveModeAlarm)
       .calledWith()
@@ -115,7 +116,7 @@ describe("TabEvents", () => {
         .calledWith({ domain: "" })
         .mockResolvedValue([] as never);
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "domain.com", storeId: "0" })
+        .calledWith({ domain: "domain.com", storeId: "0", partitionKey: {} })
         .mockResolvedValue([testCookie] as never);
     });
 
@@ -166,7 +167,7 @@ describe("TabEvents", () => {
 
     it("should create a cookie if clean cache was enabled and no ADCP marker cookie was found", async () => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "0" })
+        .calledWith({ domain: "cookie.net", storeId: "0", partitionKey: {} })
         .mockResolvedValue([] as never);
       TestStore.changeSetting(SettingID.CLEANUP_CACHE, true);
       await TabEvents.getAllCookieActions({
@@ -178,7 +179,7 @@ describe("TabEvents", () => {
 
     it("should create a cookie if clean indexedDB was enabled and no ADCP marker cookie was found", async () => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "0" })
+        .calledWith({ domain: "cookie.net", storeId: "0", partitionKey: {} })
         .mockResolvedValue([] as never);
       TestStore.changeSetting(SettingID.CLEANUP_INDEXEDDB, true);
       await TabEvents.getAllCookieActions({
@@ -190,7 +191,7 @@ describe("TabEvents", () => {
 
     it("should create a cookie if clean localStorage was enabled and no ADCP marker cookie was found", async () => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "0" })
+        .calledWith({ domain: "cookie.net", storeId: "0", partitionKey: {} })
         .mockResolvedValue([] as never);
       TestStore.changeSetting(SettingID.CLEANUP_LOCALSTORAGE, true);
       await TabEvents.getAllCookieActions({
@@ -202,7 +203,7 @@ describe("TabEvents", () => {
 
     it("should create a cookie if clean plugin data was enabled and no ADCP marker cookie was found", async () => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "0" })
+        .calledWith({ domain: "cookie.net", storeId: "0", partitionKey: {} })
         .mockResolvedValue([] as never);
       TestStore.changeSetting(SettingID.CLEANUP_PLUGINDATA, true);
       await TabEvents.getAllCookieActions({
@@ -214,7 +215,7 @@ describe("TabEvents", () => {
 
     it("should create a cookie if clean service workers was enabled and no ADCP marker cookie was found", async () => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "0" })
+        .calledWith({ domain: "cookie.net", storeId: "0", partitionKey: {} })
         .mockResolvedValue([] as never);
       TestStore.changeSetting(SettingID.CLEANUP_SERVICEWORKERS, true);
       await TabEvents.getAllCookieActions({
@@ -226,7 +227,7 @@ describe("TabEvents", () => {
 
     it("should filter out CAD browsingDataCleanup cookie from total cookie count", async () => {
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "cookie.net", storeId: "0" })
+        .calledWith({ domain: "cookie.net", storeId: "0", partitionKey: {} })
         .mockResolvedValue([
           { ...testCookie, name: Lib.ADCPCOOKIENAME },
         ] as never);

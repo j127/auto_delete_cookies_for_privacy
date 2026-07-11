@@ -36,7 +36,10 @@ import {
   sleep,
   throwErrorNotification,
   trimDot,
+  dedupeCookies,
+  topLevelSiteCandidates,
   undefinedIsTrue,
+  withAllPartitions,
   withAnyFirstPartyDomain,
 } from "./libs";
 
@@ -54,6 +57,14 @@ export const prepareCookie = (
   if (cookieProperties.preparedCookieDomain.startsWith("file:")) {
     cookieProperties.hostname = cookieProperties.preparedCookieDomain;
     cookieProperties.mainDomain = cookieProperties.preparedCookieDomain;
+  } else if (cookie.partitionKey?.topLevelSite) {
+    // Partitioned cookie (TCP/CHIPS): keep/clean decisions key on the
+    // PARTITION's top-level site — that is the site the user actually
+    // visits, so its expression-list entries and its open tabs are what
+    // protect the partition's third-party cookies. The removal URL
+    // (preparedCookieDomain) still targets the cookie's own domain.
+    cookieProperties.hostname = getHostname(cookie.partitionKey.topLevelSite);
+    cookieProperties.mainDomain = extractMainDomain(cookieProperties.hostname);
   } else {
     cookieProperties.hostname = getHostname(
       cookieProperties.preparedCookieDomain
@@ -66,6 +77,7 @@ export const prepareCookie = (
       x: {
         domain: cookie.domain,
         path: cookie.path,
+        partitionKey: cookie.partitionKey,
         preparedCookieDomain: cookieProperties.preparedCookieDomain,
         mainDomain: cookieProperties.mainDomain,
         hostname: cookieProperties.hostname,
@@ -316,6 +328,12 @@ export const cleanCookies = async (
         ...(cookieProperties.firstPartyDomain !== undefined && {
           firstPartyDomain: cookieProperties.firstPartyDomain,
         }),
+        // Partitioned cookies must be removed with their EXACT enumerated
+        // partitionKey, passed verbatim (future Chrome fields like
+        // hasCrossSiteAncestor ride along untouched).
+        ...(cookieProperties.partitionKey !== undefined && {
+          partitionKey: cookieProperties.partitionKey,
+        }),
       };
       // url: "http://domain.com" + cookies[i].path
       adcpLog(
@@ -364,14 +382,32 @@ export const clearCookiesForThisDomain = async (
   tab: browser.tabs.Tab
 ): Promise<boolean> => {
   const hostname = getHostname(tab.url);
-  const getCookies = await browser.cookies.getAll(
-    withAnyFirstPartyDomain({
-      domain: hostname,
-      storeId: tab.cookieStoreId,
-    })
+  const domainCookies = await browser.cookies.getAll(
+    withAllPartitions(
+      withAnyFirstPartyDomain({
+        domain: hostname,
+        storeId: tab.cookieStoreId,
+      })
+    )
   );
+  // Manual per-site clean also empties this site's partition bucket:
+  // third-party cookies partitioned UNDER this top-level site (TCP/CHIPS).
+  const partitionedCookies: browser.cookies.Cookie[] = [];
+  for (const topLevelSite of topLevelSiteCandidates(hostname)) {
+    partitionedCookies.push(
+      ...(await browser.cookies.getAll(
+        withAnyFirstPartyDomain({
+          partitionKey: { topLevelSite },
+          storeId: tab.cookieStoreId,
+        })
+      ))
+    );
+  }
   // Filter out our own ADCP marker cookie that cleans up other Browsing Data
-  const cookies = getCookies.filter((c) => c.name !== ADCPCOOKIENAME);
+  const cookies = dedupeCookies([
+    ...domainCookies,
+    ...partitionedCookies,
+  ]).filter((c) => c.name !== ADCPCOOKIENAME);
 
   if (cookies.length > 0) {
     let cookieDeletedCount = 0;
@@ -382,6 +418,9 @@ export const clearCookiesForThisDomain = async (
         url: prepareCookieDomain(cookie),
         ...(cookie.firstPartyDomain !== undefined && {
           firstPartyDomain: cookie.firstPartyDomain,
+        }),
+        ...(cookie.partitionKey !== undefined && {
+          partitionKey: cookie.partitionKey,
         }),
       });
       if (r) cookieDeletedCount += 1;
@@ -879,9 +918,11 @@ export const cleanCookiesOperation = async (
     let cookies: browser.cookies.Cookie[] = [];
     try {
       cookies = await browser.cookies.getAll(
-        withAnyFirstPartyDomain({
-          storeId: id,
-        })
+        withAllPartitions(
+          withAnyFirstPartyDomain({
+            storeId: id,
+          })
+        )
       );
     } catch (e: unknown) {
       if (e instanceof Error) {

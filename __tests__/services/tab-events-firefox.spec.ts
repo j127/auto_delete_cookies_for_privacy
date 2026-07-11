@@ -68,12 +68,17 @@ describe("TabEvents.getAllCookieActions marker cookie on Firefox", () => {
     store.dispatch(
       updateSetting({ name: SettingID.CLEANUP_CACHE, value: true })
     );
-    // The site has no cookies (enumeration carries firstPartyDomain: null).
+    // Default implementation: partition-bucket queries (and anything
+    // untrained) resolve empty; specific trainings below still win.
+    global.browser.cookies.getAll.mockResolvedValue([] as never);
+    // The site has no cookies (enumeration carries firstPartyDomain: null
+    // and partitionKey: {}).
     when(global.browser.cookies.getAll)
       .calledWith({
         domain: "sub.cookie.net",
         storeId: "firefox-default",
         firstPartyDomain: null,
+        partitionKey: {},
       })
       .mockResolvedValue([] as never);
     when(global.browser.cookies.set)
@@ -127,6 +132,7 @@ describe("TabEvents.getAllCookieActions marker cookie on Firefox", () => {
         domain: "sub.cookie.net",
         storeId: "firefox-default",
         firstPartyDomain: null,
+        partitionKey: {},
       })
       .mockResolvedValue([markerCookie] as never);
     await TabEvents.getAllCookieActions(firefoxTab);

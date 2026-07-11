@@ -49,7 +49,10 @@ import {
   throwErrorNotification,
   trimDot,
   undefinedIsTrue,
+  dedupeCookies,
+  topLevelSiteCandidates,
   validateExpressionDomain,
+  withAllPartitions,
   withAnyFirstPartyDomain,
 } from "@/services/libs";
 
@@ -453,17 +456,21 @@ describe("Library Functions", () => {
 
   describe("getAllCookiesForDomain()", () => {
     beforeAll(() => {
+      // Default implementation: untrained calls (e.g. the partition-bucket
+      // queries) resolve empty; the trainings below win for their args.
+      global.browser.cookies.getAll.mockResolvedValue([] as never);
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: expect.any(String), storeId: "default" })
-        .mockResolvedValue([] as never);
-      when(global.browser.cookies.getAll)
-        .calledWith({ storeId: "default" })
+        .calledWith({ storeId: "default", partitionKey: {} })
         .mockResolvedValue([
           testCookie,
           { ...testCookie, domain: "", path: "/test/" },
         ] as never);
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "domain.com", storeId: "default" })
+        .calledWith({
+          domain: "domain.com",
+          storeId: "default",
+          partitionKey: {},
+        })
         .mockResolvedValue([testCookie] as never);
     });
 
@@ -543,6 +550,7 @@ describe("Library Functions", () => {
       );
       expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
         storeId: "default",
+        partitionKey: {},
       });
     });
 
@@ -555,7 +563,42 @@ describe("Library Functions", () => {
       expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
         domain: "domain.com",
         storeId: "default",
+        partitionKey: {},
       });
+      // The site's partition bucket is queried too (third-party cookies
+      // partitioned under this top-level site).
+      expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
+        partitionKey: { topLevelSite: "https://domain.com" },
+        storeId: "default",
+      });
+    });
+
+    it("includes the site's partition bucket in the count and dedupes overlaps", async () => {
+      const bucketCookie: browser.cookies.Cookie = {
+        ...testCookie,
+        domain: "tracker.example",
+        name: "ptrack",
+        partitionKey: { topLevelSite: "https://domain.com" },
+      };
+      when(global.browser.cookies.getAll)
+        .calledWith({
+          partitionKey: { topLevelSite: "https://domain.com" },
+          storeId: "default",
+        })
+        .mockResolvedValue([bucketCookie] as never);
+      when(global.browser.cookies.getAll)
+        .calledWith({
+          partitionKey: { topLevelSite: "http://domain.com" },
+          storeId: "default",
+        })
+        .mockResolvedValue([bucketCookie] as never);
+      const result = await getAllCookiesForDomain(initialState, {
+        ...sampleTab,
+        url: "https://domain.com",
+      });
+      // testCookie from the domain query, bucketCookie found via BOTH
+      // scheme candidates but counted once.
+      expect(result).toStrictEqual([testCookie, bucketCookie]);
     });
   });
 
@@ -1019,6 +1062,60 @@ describe("Library Functions", () => {
       const wrapped = withAnyFirstPartyDomain(details);
       expect(wrapped).toEqual(details);
       expect(wrapped).not.toHaveProperty("firstPartyDomain");
+    });
+  });
+
+  describe("withAllPartitions()", () => {
+    it("adds partitionKey {} on every build (TCP and CHIPS)", () => {
+      expect(withAllPartitions({ storeId: "0" })).toEqual({
+        storeId: "0",
+        partitionKey: {},
+      });
+    });
+  });
+
+  describe("topLevelSiteCandidates()", () => {
+    it("returns https and http sites for the registrable domain", () => {
+      expect(topLevelSiteCandidates("sub.domain.com")).toEqual([
+        "https://domain.com",
+        "http://domain.com",
+      ]);
+    });
+
+    it("returns nothing for an empty hostname", () => {
+      expect(topLevelSiteCandidates("")).toEqual([]);
+    });
+  });
+
+  describe("dedupeCookies()", () => {
+    const base: browser.cookies.Cookie = {
+      domain: "domain.com",
+      hostOnly: true,
+      httpOnly: true,
+      name: "a",
+      path: "/",
+      sameSite: "no_restriction",
+      secure: true,
+      session: true,
+      storeId: "default",
+      value: "v",
+    };
+
+    it("collapses identical cookies from overlapping queries", () => {
+      expect(dedupeCookies([base, { ...base }])).toHaveLength(1);
+    });
+
+    it("keeps cookies that differ only by partition", () => {
+      const partitioned = {
+        ...base,
+        partitionKey: { topLevelSite: "https://shop.example" },
+      };
+      expect(dedupeCookies([base, partitioned])).toHaveLength(2);
+    });
+
+    it("keeps cookies that differ only by firstPartyDomain", () => {
+      const isolated = { ...base, firstPartyDomain: "domain.com" };
+      expect(dedupeCookies([base, isolated])).toHaveLength(2);
     });
   });
 
