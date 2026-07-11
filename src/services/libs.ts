@@ -425,14 +425,25 @@ export const getSetting = (
 ): string | number | boolean => state.settings[settingName].value;
 
 /**
- * Gets a sanitized cookieStoreId (Chrome semantics: "0" is the default
- * store, "1" is the incognito store).
+ * Gets a sanitized cookieStoreId — THE normalizer from raw browser store
+ * ids to expression-list keys. Every write path (redux actions) and read
+ * path (cleanup expression matching) must go through this so both agree
+ * on one key space.
+ *
+ * Chrome semantics: "0" is the default store, "1" is the incognito store.
+ * Firefox semantics: "firefox-default" and "firefox-private" map onto the
+ * SAME unified "default"/"private" keys Chrome uses — upstream Cookie
+ * AutoDelete kept "firefox-private" as its own key on the read path while
+ * the UI wrote private-window expressions elsewhere, so private-window
+ * whitelists never protected anything (audit bug 4). Container stores
+ * ("firefox-container-N") pass through unchanged: each container keeps
+ * its own expression list.
  */
 export const getStoreId = (storeId: string): string => {
-  if (storeId === "0") {
+  if (storeId === "0" || storeId === "firefox-default") {
     return "default";
   }
-  if (storeId === "1") {
+  if (storeId === "1" || storeId === "firefox-private") {
     return "private";
   }
 
@@ -546,10 +557,13 @@ export const matchIPInExpression = (
 /**
  * Parse cookieStoreId for use in addExpressionUI. Chrome tabs don't expose a
  * cookieStoreId, so expressions added from a tab context land in the
- * "default" store.
+ * "default" store. Firefox tabs do expose one, so it is routed through
+ * getStoreId to land in the unified key space ("firefox-private" →
+ * "private", containers pass through) — keeping the UI write path and the
+ * cleanup read path on the same list keys.
  */
 export const parseCookieStoreId = (cookieStoreId: string | undefined): string =>
-  cookieStoreId || "default";
+  getStoreId(cookieStoreId || "default");
 
 /**
  * Prepare Domains for all cleanups.
