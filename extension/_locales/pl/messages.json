@@ -1121,6 +1121,21 @@
   "protectionText": {
     "message": "Ochrona"
   },
+  "setupStepsTitle": {
+    "message": "Zacznij czyścić automatycznie"
+  },
+  "setupStepProtectionText": {
+    "message": "Przejdź na stronę Ochrona."
+  },
+  "setupStepActiveModeText": {
+    "message": "Włącz „Czyść automatycznie” — wyróżniony przełącznik u góry. Najpierw oznacz jako „Zachowaj” strony, na których chcesz pozostać zalogowany."
+  },
+  "setupStepPinText": {
+    "message": "Przypnij rozszerzenie, aby było zawsze widoczne: kliknij ikonę puzzla na pasku narzędzi Chrome, a potem pinezkę obok Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Otwórz stronę Ochrona"
+  },
   "savedSitesText": {
     "message": "Zapisane strony"
   },
@@ -1284,7 +1299,7 @@
     "message": "Pierwsze kroki"
   },
   "helpGettingStartedBody": {
-    "message": "Świeże instalacje zaczynają w trybie ręcznym: nic nie jest usuwane, dopóki nie każesz. To celowe — najpierw zbuduj listę zachowywania, żeby późniejsze włączenie automatycznego czyszczenia nie wylogowało cię ze wszystkiego, na czym ci zależy.\n\n1. Zachowaj strony, które się liczą. Odwiedź każdą stronę, gdzie wylogowanie byłoby uciążliwe (poczta, bank, wszystko, za co płacisz), kliknij ikonę na pasku i naciśnij „Zachowaj ciasteczka tej strony”. Reguła obejmuje domenę i wszystkie subdomeny. Użyj „Zachowaj do zamknięcia przeglądarki” dla stron, które mają być pamiętane tylko tym razem.\n\n2. Zdecyduj, co znaczy „czyścić”. Fabrycznie czyszczenie usuwa tylko ciasteczka. Włącz „Usuwaj wszystkie dane strony” na stronie Ochrona, aby czyścić też pozostałe ślady strony.\n\n3. Włącz automatyczne czyszczenie. Przełącz „Czyść automatycznie” na stronie Ochrona. Od tej pory: zamykasz ostatnią kartę strony i po okresie karencji jej ciasteczka znikają — chyba że stronę zachowujesz albo jest wciąż otwarta gdzie indziej.\n\n4. Opcjonalnie: zostaw włączony dziennik czyszczenia, żeby zawsze widzieć, co i dlaczego wyczyszczono."
+    "message": "Świeże instalacje zaczynają w trybie ręcznym: nic nie jest usuwane, dopóki nie każesz. To celowe — najpierw zbuduj listę zachowywania, żeby późniejsze włączenie automatycznego czyszczenia nie wylogowało cię ze wszystkiego, na czym ci zależy.\n\n1. Zachowaj strony, które się liczą. Odwiedź każdą stronę, gdzie wylogowanie byłoby uciążliwe (poczta, bank, wszystko, za co płacisz), kliknij ikonę na pasku i naciśnij „Zachowaj ciasteczka tej strony”. Reguła obejmuje domenę i wszystkie subdomeny. Użyj „Zachowaj do zamknięcia przeglądarki” dla stron, które mają być pamiętane tylko tym razem.\n\n2. Zdecyduj, co znaczy „czyścić”. Fabrycznie czyszczenie usuwa tylko ciasteczka. Włącz „Usuwaj wszystkie dane strony” na stronie Ochrona, aby czyścić też pozostałe ślady strony.\n\n3. Włącz automatyczne czyszczenie. Przełącz „Czyść automatycznie” na stronie Ochrona. Od tej pory: zamykasz ostatnią kartę strony i po okresie karencji jej ciasteczka znikają — chyba że stronę zachowujesz albo jest wciąż otwarta gdzie indziej.\n\n4. Przypnij ikonę na pasku narzędzi. Kliknij ikonę puzzla na pasku Chrome, a potem pinezkę obok Auto-Delete Cookies for Privacy, aby ikona i plakietka z liczbą ciasteczek były zawsze widoczne.\n\n5. Opcjonalnie: zostaw włączony dziennik czyszczenia, żeby zawsze widzieć, co i dlaczego wyczyszczono."
   },
   "helpCleaningTitle": {
     "message": "Jak działa czyszczenie"

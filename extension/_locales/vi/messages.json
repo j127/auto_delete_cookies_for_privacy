@@ -1121,6 +1121,21 @@
   "protectionText": {
     "message": "Bảo vệ"
   },
+  "setupStepsTitle": {
+    "message": "Bắt đầu tự động dọn dẹp"
+  },
+  "setupStepProtectionText": {
+    "message": "Mở trang Bảo vệ."
+  },
+  "setupStepActiveModeText": {
+    "message": "Bật Tự động dọn dẹp — công tắc được làm nổi bật ở đầu trang. Trước tiên hãy đánh dấu Giữ lại cho những trang bạn muốn duy trì đăng nhập."
+  },
+  "setupStepPinText": {
+    "message": "Ghim tiện ích để nó luôn hiển thị: nhấp biểu tượng mảnh ghép trên thanh công cụ của Chrome, rồi nhấp ghim cạnh Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Mở trang Bảo vệ"
+  },
   "savedSitesText": {
     "message": "Trang đã lưu"
   },
@@ -1284,7 +1299,7 @@
     "message": "Bắt đầu"
   },
   "helpGettingStartedBody": {
-    "message": "Bản cài mới khởi động ở chế độ thủ công: không gì bị xóa cho đến khi bạn ra lệnh. Đây là chủ ý — hãy xây danh sách giữ lại trước, để sau này bật tự động dọn không làm bạn văng khỏi mọi tài khoản quan trọng.\n\n1. Giữ các trang quan trọng. Ghé từng trang mà bị đăng xuất sẽ phiền (email, ngân hàng, mọi thứ trả phí), nhấp biểu tượng trên thanh công cụ rồi nhấn Giữ cookie của trang này. Quy tắc bao trùm tên miền và mọi tên miền phụ. Dùng Giữ đến khi đóng trình duyệt cho trang chỉ cần nhớ bạn lần này.\n\n2. Quyết định dọn nghĩa là gì. Mặc định, dọn chỉ xóa cookie. Bật Xóa toàn bộ dữ liệu trang ở trang Bảo vệ để xóa cả những phần còn sót khác.\n\n3. Bật tự động dọn. Gạt Tự động dọn dẹp ở trang Bảo vệ. Từ đó: đóng thẻ cuối cùng của một trang, hết thời gian ân hạn là cookie của nó biến mất — trừ khi bạn giữ trang đó hoặc nó vẫn mở ở nơi khác.\n\n4. Tùy chọn: để nhật ký dọn dẹp bật, để luôn xem được cái gì bị dọn và vì sao."
+    "message": "Bản cài mới khởi động ở chế độ thủ công: không gì bị xóa cho đến khi bạn ra lệnh. Đây là chủ ý — hãy xây danh sách giữ lại trước, để sau này bật tự động dọn không làm bạn văng khỏi mọi tài khoản quan trọng.\n\n1. Giữ các trang quan trọng. Ghé từng trang mà bị đăng xuất sẽ phiền (email, ngân hàng, mọi thứ trả phí), nhấp biểu tượng trên thanh công cụ rồi nhấn Giữ cookie của trang này. Quy tắc bao trùm tên miền và mọi tên miền phụ. Dùng Giữ đến khi đóng trình duyệt cho trang chỉ cần nhớ bạn lần này.\n\n2. Quyết định dọn nghĩa là gì. Mặc định, dọn chỉ xóa cookie. Bật Xóa toàn bộ dữ liệu trang ở trang Bảo vệ để xóa cả những phần còn sót khác.\n\n3. Bật tự động dọn. Gạt Tự động dọn dẹp ở trang Bảo vệ. Từ đó: đóng thẻ cuối cùng của một trang, hết thời gian ân hạn là cookie của nó biến mất — trừ khi bạn giữ trang đó hoặc nó vẫn mở ở nơi khác.\n\n4. Ghim biểu tượng trên thanh công cụ. Nhấp biểu tượng mảnh ghép trên thanh công cụ của Chrome, rồi nhấp ghim cạnh Auto-Delete Cookies for Privacy, để biểu tượng và huy hiệu đếm cookie luôn hiển thị.\n\n5. Tùy chọn: để nhật ký dọn dẹp bật, để luôn xem được cái gì bị dọn và vì sao."
   },
   "helpCleaningTitle": {
     "message": "Cách dọn dẹp hoạt động"

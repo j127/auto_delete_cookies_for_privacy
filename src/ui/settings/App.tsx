@@ -94,7 +94,11 @@ const App: React.FunctionComponent = () => {
         <div className="drawer-content">
           <ErrorBoundary>
             <main className="mx-auto w-full max-w-3xl p-4 pb-16 lg:p-8">
-              {activeTab === "tabWelcome" ? <Welcome /> : ""}
+              {activeTab === "tabWelcome" ? (
+                <Welcome switchTabs={(tab) => switchTabs(tab)} />
+              ) : (
+                ""
+              )}
               {activeTab === "tabSettings" ? <Settings /> : ""}
               {activeTab === "tabExpressionList" ? <Expressions /> : ""}
               {activeTab === "tabCleanupLog" ? <ActivityLog /> : ""}

@@ -1121,6 +1121,21 @@
   "protectionText": {
     "message": "Protección"
   },
+  "setupStepsTitle": {
+    "message": "Empieza a limpiar automáticamente"
+  },
+  "setupStepProtectionText": {
+    "message": "Ve a la página Protección."
+  },
+  "setupStepActiveModeText": {
+    "message": "Enciende «Limpiar automáticamente» — el interruptor resaltado arriba. Antes marca como «Conservar» los sitios donde quieras seguir con la sesión iniciada."
+  },
+  "setupStepPinText": {
+    "message": "Fija la extensión para que siga visible: haz clic en el icono del puzle en la barra de herramientas de Chrome y luego en la chincheta junto a Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Abrir la página Protección"
+  },
   "savedSitesText": {
     "message": "Sitios guardados"
   },
@@ -1284,7 +1299,7 @@
     "message": "Primeros pasos"
   },
   "helpGettingStartedBody": {
-    "message": "Las instalaciones nuevas empiezan en modo manual: no se borra nada hasta que tú lo digas. Es deliberado — construye primero tu lista de conservación, para que activar después la limpieza automática no te cierre la sesión en todo lo que te importa.\n\n1. Conserva los sitios que importan. Visita cada sitio donde te molestaría perder la sesión (correo, banco, todo lo que pagas), haz clic en el icono de la barra y pulsa «Conservar las cookies de este sitio». La regla cubre el dominio y todos sus subdominios. Usa «Conservar hasta cerrar el navegador» para sitios que solo deban recordarse esta vez.\n\n2. Decide qué significa «limpiar». De fábrica, la limpieza elimina solo cookies. Activa «Borrar todos los datos del sitio» en la página Protección para borrar también los demás restos de un sitio.\n\n3. Activa la limpieza automática. Enciende «Limpiar automáticamente» en la página Protección. Desde entonces: cierras la última pestaña de un sitio y, pasado el periodo de gracia, sus cookies desaparecen — salvo que conserves el sitio o siga abierto en otro lugar.\n\n4. Opcional: deja activado el registro de limpieza, para ver siempre qué se limpió y por qué."
+    "message": "Las instalaciones nuevas empiezan en modo manual: no se borra nada hasta que tú lo digas. Es deliberado — construye primero tu lista de conservación, para que activar después la limpieza automática no te cierre la sesión en todo lo que te importa.\n\n1. Conserva los sitios que importan. Visita cada sitio donde te molestaría perder la sesión (correo, banco, todo lo que pagas), haz clic en el icono de la barra y pulsa «Conservar las cookies de este sitio». La regla cubre el dominio y todos sus subdominios. Usa «Conservar hasta cerrar el navegador» para sitios que solo deban recordarse esta vez.\n\n2. Decide qué significa «limpiar». De fábrica, la limpieza elimina solo cookies. Activa «Borrar todos los datos del sitio» en la página Protección para borrar también los demás restos de un sitio.\n\n3. Activa la limpieza automática. Enciende «Limpiar automáticamente» en la página Protección. Desde entonces: cierras la última pestaña de un sitio y, pasado el periodo de gracia, sus cookies desaparecen — salvo que conserves el sitio o siga abierto en otro lugar.\n\n4. Fija el icono en la barra de herramientas. Haz clic en el icono del puzle en la barra de Chrome y luego en la chincheta junto a Auto-Delete Cookies for Privacy, para que el icono y su contador de cookies sigan visibles.\n\n5. Opcional: deja activado el registro de limpieza, para ver siempre qué se limpió y por qué."
   },
   "helpCleaningTitle": {
     "message": "Cómo funciona la limpieza"

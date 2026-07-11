@@ -1121,6 +1121,21 @@
   "protectionText": {
     "message": "Védelem"
   },
+  "setupStepsTitle": {
+    "message": "Indítsd el az automatikus takarítást"
+  },
+  "setupStepProtectionText": {
+    "message": "Menj a Védelem oldalra."
+  },
+  "setupStepActiveModeText": {
+    "message": "Kapcsold be az Automatikus takarítást — a kiemelt kapcsoló fent. Előbb jelöld Megtartás-ként azokat a webhelyeket, ahol bejelentkezve akarsz maradni."
+  },
+  "setupStepPinText": {
+    "message": "Rögzítsd a bővítményt, hogy látható maradjon: kattints a puzzle ikonra a Chrome eszköztárán, majd a gombostűre az Auto-Delete Cookies for Privacy mellett."
+  },
+  "setupOpenProtectionText": {
+    "message": "A Védelem oldal megnyitása"
+  },
   "savedSitesText": {
     "message": "Mentett webhelyek"
   },
@@ -1284,7 +1299,7 @@
     "message": "Első lépések"
   },
   "helpGettingStartedBody": {
-    "message": "A friss telepítések kézi módban indulnak: semmi sem törlődik, amíg nem szólsz. Ez szándékos — előbb építsd fel a megtartási listádat, hogy az automatikus takarítás későbbi bekapcsolása ne jelentkeztessen ki mindenhonnan, ami számít.\n\n1. Tartsd meg a fontos webhelyeket. Látogass el minden webhelyre, ahol a kijelentkezés bosszantana (e-mail, bank, minden fizetős), kattints az eszköztárikonra, és nyomd meg A webhely sütijeinek megtartása gombot. A szabály lefedi a domaint és az összes aldomainjét. A csak most megjegyzendő webhelyekhez használd a Megtartás a böngésző bezárásáig lehetőséget.\n\n2. Döntsd el, mit jelentsen a takarítás. Gyárilag a takarítás csak sütiket töröl. Kapcsold be a Minden webhelyadat törlése kapcsolót a Védelem oldalon, hogy a webhely többi maradványa is törlődjön.\n\n3. Kapcsold be az automatikus takarítást. Kapcsold be az Automatikus takarítást a Védelem oldalon. Ezután: zárd be a webhely utolsó lapját, és a türelmi idő után a sütijei eltűnnek — hacsak nem tartod meg a webhelyet, vagy nincs nyitva máshol.\n\n4. Nem kötelező: hagyd bekapcsolva a takarítási naplót, hogy mindig lásd, mi és miért lett takarítva."
+    "message": "A friss telepítések kézi módban indulnak: semmi sem törlődik, amíg nem szólsz. Ez szándékos — előbb építsd fel a megtartási listádat, hogy az automatikus takarítás későbbi bekapcsolása ne jelentkeztessen ki mindenhonnan, ami számít.\n\n1. Tartsd meg a fontos webhelyeket. Látogass el minden webhelyre, ahol a kijelentkezés bosszantana (e-mail, bank, minden fizetős), kattints az eszköztárikonra, és nyomd meg A webhely sütijeinek megtartása gombot. A szabály lefedi a domaint és az összes aldomainjét. A csak most megjegyzendő webhelyekhez használd a Megtartás a böngésző bezárásáig lehetőséget.\n\n2. Döntsd el, mit jelentsen a takarítás. Gyárilag a takarítás csak sütiket töröl. Kapcsold be a Minden webhelyadat törlése kapcsolót a Védelem oldalon, hogy a webhely többi maradványa is törlődjön.\n\n3. Kapcsold be az automatikus takarítást. Kapcsold be az Automatikus takarítást a Védelem oldalon. Ezután: zárd be a webhely utolsó lapját, és a türelmi idő után a sütijei eltűnnek — hacsak nem tartod meg a webhelyet, vagy nincs nyitva máshol.\n\n4. Rögzítsd az eszköztár ikonját. Kattints a puzzle ikonra a Chrome eszköztárán, majd a gombostűre az Auto-Delete Cookies for Privacy mellett, hogy az ikon és a sütiszámláló jelvény látható maradjon.\n\n5. Nem kötelező: hagyd bekapcsolva a takarítási naplót, hogy mindig lásd, mi és miért lett takarítva."
   },
   "helpCleaningTitle": {
     "message": "Így működik a takarítás"

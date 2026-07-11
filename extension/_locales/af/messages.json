@@ -1121,6 +1121,21 @@
   "protectionText": {
     "message": "Beskerming"
   },
+  "setupStepsTitle": {
+    "message": "Begin outomaties skoonmaak"
+  },
+  "setupStepProtectionText": {
+    "message": "Gaan na die Beskerming-bladsy."
+  },
+  "setupStepActiveModeText": {
+    "message": "Skakel Maak outomaties skoon aan — die uitgeligte skakelaar heel bo. Merk eers die werwe waar jy aangemeld wil bly as Hou."
+  },
+  "setupStepPinText": {
+    "message": "Speld die uitbreiding vas sodat dit sigbaar bly: klik die legkaart-ikoon in Chrome se nutsbalk, dan die speld langs Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Maak die Beskerming-bladsy oop"
+  },
   "savedSitesText": {
     "message": "Gestoorde werwe"
   },
@@ -1284,7 +1299,7 @@
     "message": "Om te begin"
   },
   "helpGettingStartedBody": {
-    "message": "Nuwe installasies begin in handmatige modus: niks word geskrap totdat jy sê nie. Dis doelbewus — bou eers jou hou-lys, sodat die latere aanskakel van outomatiese skoonmaak jou nie oral uitteken nie.\n\n1. Hou die werwe wat saak maak. Besoek elke werf waar uitteken jou sal irriteer (e-pos, bank, alles waarvoor jy betaal), klik die nutsbalkikoon en druk Hou hierdie werf se koekies. Die reël dek die domein en al sy subdomeine. Gebruik Hou tot die blaaier toemaak vir werwe wat jou net dié keer moet onthou.\n\n2. Besluit wat skoonmaak beteken. Uit die boks verwyder skoonmaak net koekies. Skakel Skrap alle werfdata op die Beskerming-bladsy aan om ook 'n werf se ander oorblyfsels uit te vee.\n\n3. Skakel outomatiese skoonmaak aan. Skakel Maak outomaties skoon op die Beskerming-bladsy aan. Van dan af: maak 'n werf se laaste oortjie toe, en ná die grasietydperk is sy koekies weg — tensy jy die werf hou of dit êrens anders nog oop is.\n\n4. Opsioneel: hou die skoonmaaklogboek aan, sodat jy altyd kan sien wat skoongemaak is en hoekom."
+    "message": "Nuwe installasies begin in handmatige modus: niks word geskrap totdat jy sê nie. Dis doelbewus — bou eers jou hou-lys, sodat die latere aanskakel van outomatiese skoonmaak jou nie oral uitteken nie.\n\n1. Hou die werwe wat saak maak. Besoek elke werf waar uitteken jou sal irriteer (e-pos, bank, alles waarvoor jy betaal), klik die nutsbalkikoon en druk Hou hierdie werf se koekies. Die reël dek die domein en al sy subdomeine. Gebruik Hou tot die blaaier toemaak vir werwe wat jou net dié keer moet onthou.\n\n2. Besluit wat skoonmaak beteken. Uit die boks verwyder skoonmaak net koekies. Skakel Skrap alle werfdata op die Beskerming-bladsy aan om ook 'n werf se ander oorblyfsels uit te vee.\n\n3. Skakel outomatiese skoonmaak aan. Skakel Maak outomaties skoon op die Beskerming-bladsy aan. Van dan af: maak 'n werf se laaste oortjie toe, en ná die grasietydperk is sy koekies weg — tensy jy die werf hou of dit êrens anders nog oop is.\n\n4. Speld die nutsbalk-ikoon vas. Klik die legkaart-ikoon in Chrome se nutsbalk, dan die speld langs Auto-Delete Cookies for Privacy, sodat die ikoon en sy koekietelling-kenteken sigbaar bly.\n\n5. Opsioneel: hou die skoonmaaklogboek aan, sodat jy altyd kan sien wat skoongemaak is en hoekom."
   },
   "helpCleaningTitle": {
     "message": "Hoe skoonmaak werk"

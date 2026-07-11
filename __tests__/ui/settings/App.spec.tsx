@@ -98,6 +98,16 @@ describe("settings App", () => {
     expect(console.error).not.toHaveBeenCalled();
   });
 
+  it("jumps to the Protection tab from the overview activation card", () => {
+    const { container, getByRole } = renderApp();
+    expect(contentHeading(container)).toBe("overviewText");
+
+    fireEvent.click(getByRole("button", { name: "setupOpenProtectionText" }));
+
+    expect(contentHeading(container)).toBe("protectionText");
+    expect(window.location.hash).toBe("#tabSettings");
+  });
+
   it("keeps the page scrolled to the top on load and on every tab switch", () => {
     const scrollSpy = jest
       .spyOn(window, "scrollTo")

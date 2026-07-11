@@ -1121,6 +1121,21 @@
   "protectionText": {
     "message": "Bescherming"
   },
+  "setupStepsTitle": {
+    "message": "Begin met automatisch opschonen"
+  },
+  "setupStepProtectionText": {
+    "message": "Ga naar de pagina Bescherming."
+  },
+  "setupStepActiveModeText": {
+    "message": "Zet 'Automatisch opschonen' aan — de gemarkeerde schakelaar bovenaan. Markeer eerst de sites waar je ingelogd wilt blijven als 'Bewaren'."
+  },
+  "setupStepPinText": {
+    "message": "Zet de extensie vast zodat hij zichtbaar blijft: klik op het puzzelpictogram in de werkbalk van Chrome en dan op de punaise naast Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "De pagina Bescherming openen"
+  },
   "savedSitesText": {
     "message": "Bewaarde sites"
   },
@@ -1284,7 +1299,7 @@
     "message": "Aan de slag"
   },
   "helpGettingStartedBody": {
-    "message": "Nieuwe installaties beginnen in handmatige modus: er wordt niets verwijderd tot jij het zegt. Dat is bewust — bouw eerst je bewaarlijst op, zodat het later inschakelen van automatisch opschonen je niet overal uitlogt.\n\n1. Bewaar de sites die ertoe doen. Bezoek elke site waar uitgelogd worden vervelend zou zijn (e-mail, bank, alles waarvoor je betaalt), klik op het werkbalkpictogram en druk op 'Cookies van deze site bewaren'. De regel dekt het domein en alle subdomeinen. Gebruik 'Bewaren tot de browser sluit' voor sites die alleen deze keer onthouden moeten worden.\n\n2. Bepaal wat 'opschonen' betekent. Standaard verwijdert het opschonen alleen cookies. Zet 'Alle sitegegevens verwijderen' aan op de pagina Bescherming om ook de andere restanten van een site te wissen.\n\n3. Zet automatisch opschonen aan. Schakel 'Automatisch opschonen' in op de pagina Bescherming. Vanaf dan: sluit het laatste tabblad van een site en na de wachttijd zijn de cookies weg — tenzij je de site bewaart of hij elders nog open staat.\n\n4. Optioneel: houd het opschoonlogboek aan, zodat je altijd kunt zien wat er is opgeschoond en waarom."
+    "message": "Nieuwe installaties beginnen in handmatige modus: er wordt niets verwijderd tot jij het zegt. Dat is bewust — bouw eerst je bewaarlijst op, zodat het later inschakelen van automatisch opschonen je niet overal uitlogt.\n\n1. Bewaar de sites die ertoe doen. Bezoek elke site waar uitgelogd worden vervelend zou zijn (e-mail, bank, alles waarvoor je betaalt), klik op het werkbalkpictogram en druk op 'Cookies van deze site bewaren'. De regel dekt het domein en alle subdomeinen. Gebruik 'Bewaren tot de browser sluit' voor sites die alleen deze keer onthouden moeten worden.\n\n2. Bepaal wat 'opschonen' betekent. Standaard verwijdert het opschonen alleen cookies. Zet 'Alle sitegegevens verwijderen' aan op de pagina Bescherming om ook de andere restanten van een site te wissen.\n\n3. Zet automatisch opschonen aan. Schakel 'Automatisch opschonen' in op de pagina Bescherming. Vanaf dan: sluit het laatste tabblad van een site en na de wachttijd zijn de cookies weg — tenzij je de site bewaart of hij elders nog open staat.\n\n4. Zet het werkbalkpictogram vast. Klik op het puzzelpictogram in de werkbalk van Chrome en dan op de punaise naast Auto-Delete Cookies for Privacy, zodat het pictogram en de cookieteller zichtbaar blijven.\n\n5. Optioneel: houd het opschoonlogboek aan, zodat je altijd kunt zien wat er is opgeschoond en waarom."
   },
   "helpCleaningTitle": {
     "message": "Hoe het opschonen werkt"

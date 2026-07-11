@@ -1121,6 +1121,21 @@
   "protectionText": {
     "message": "Protection"
   },
+  "setupStepsTitle": {
+    "message": "Lancer le nettoyage automatique"
+  },
+  "setupStepProtectionText": {
+    "message": "Allez sur la page Protection."
+  },
+  "setupStepActiveModeText": {
+    "message": "Activez « Nettoyer automatiquement » — l'interrupteur mis en évidence en haut. Marquez d'abord comme « Conserver » les sites où vous voulez rester connecté."
+  },
+  "setupStepPinText": {
+    "message": "Épinglez l'extension pour qu'elle reste visible : cliquez sur l'icône puzzle dans la barre d'outils de Chrome, puis sur l'épingle à côté d'Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Ouvrir la page Protection"
+  },
   "savedSitesText": {
     "message": "Sites enregistrés"
   },
@@ -1284,7 +1299,7 @@
     "message": "Premiers pas"
   },
   "helpGettingStartedBody": {
-    "message": "Les nouvelles installations démarrent en mode manuel : rien n'est supprimé tant que vous ne le demandez pas. C'est voulu — constituez d'abord votre liste à conserver, pour que l'activation ultérieure du nettoyage automatique ne vous déconnecte pas de tout ce qui compte.\n\n1. Conservez les sites importants. Visitez chaque site où une déconnexion vous agacerait (e-mail, banque, tout ce que vous payez), cliquez sur l'icône de la barre d'outils et appuyez sur « Conserver les cookies de ce site ». La règle couvre le domaine et tous ses sous-domaines. Utilisez « Conserver jusqu'à la fermeture du navigateur » pour les sites à mémoriser seulement cette fois.\n\n2. Décidez ce que « nettoyer » signifie. Par défaut, le nettoyage ne supprime que les cookies. Activez « Supprimer toutes les données de site » sur la page Protection pour effacer aussi les autres restes d'un site.\n\n3. Activez le nettoyage automatique. Basculez « Nettoyer automatiquement » sur la page Protection. Dès lors : fermez le dernier onglet d'un site, et après le délai de grâce ses cookies disparaissent — sauf si vous conservez le site ou s'il est encore ouvert ailleurs.\n\n4. Optionnel : laissez le journal de nettoyage activé, pour toujours voir ce qui a été nettoyé et pourquoi."
+    "message": "Les nouvelles installations démarrent en mode manuel : rien n'est supprimé tant que vous ne le demandez pas. C'est voulu — constituez d'abord votre liste à conserver, pour que l'activation ultérieure du nettoyage automatique ne vous déconnecte pas de tout ce qui compte.\n\n1. Conservez les sites importants. Visitez chaque site où une déconnexion vous agacerait (e-mail, banque, tout ce que vous payez), cliquez sur l'icône de la barre d'outils et appuyez sur « Conserver les cookies de ce site ». La règle couvre le domaine et tous ses sous-domaines. Utilisez « Conserver jusqu'à la fermeture du navigateur » pour les sites à mémoriser seulement cette fois.\n\n2. Décidez ce que « nettoyer » signifie. Par défaut, le nettoyage ne supprime que les cookies. Activez « Supprimer toutes les données de site » sur la page Protection pour effacer aussi les autres restes d'un site.\n\n3. Activez le nettoyage automatique. Basculez « Nettoyer automatiquement » sur la page Protection. Dès lors : fermez le dernier onglet d'un site, et après le délai de grâce ses cookies disparaissent — sauf si vous conservez le site ou s'il est encore ouvert ailleurs.\n\n4. Épinglez l'icône de la barre d'outils. Cliquez sur l'icône puzzle dans la barre d'outils de Chrome, puis sur l'épingle à côté d'Auto-Delete Cookies for Privacy, pour que l'icône et son compteur de cookies restent visibles.\n\n5. Optionnel : laissez le journal de nettoyage activé, pour toujours voir ce qui a été nettoyé et pourquoi."
   },
   "helpCleaningTitle": {
     "message": "Comment fonctionne le nettoyage"

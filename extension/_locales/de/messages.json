@@ -1121,6 +1121,21 @@
   "protectionText": {
     "message": "Schutz"
   },
+  "setupStepsTitle": {
+    "message": "Automatische Bereinigung starten"
+  },
+  "setupStepProtectionText": {
+    "message": "Geh zur Schutz-Seite."
+  },
+  "setupStepActiveModeText": {
+    "message": "Schalte „Automatisch bereinigen“ ein — den hervorgehobenen Schalter ganz oben. Markiere vorher die Websites, auf denen du angemeldet bleiben willst, als „Behalten“."
+  },
+  "setupStepPinText": {
+    "message": "Hefte die Erweiterung an, damit sie sichtbar bleibt: Klick auf das Puzzle-Symbol in der Chrome-Symbolleiste, dann auf die Stecknadel neben Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Schutz-Seite öffnen"
+  },
   "savedSitesText": {
     "message": "Gespeicherte Websites"
   },
@@ -1284,7 +1299,7 @@
     "message": "Erste Schritte"
   },
   "helpGettingStartedBody": {
-    "message": "Neue Installationen starten im manuellen Modus: Nichts wird gelöscht, bis du es sagst. Das ist Absicht — lege zuerst deine Behalten-Liste an, damit dich das spätere Einschalten der automatischen Bereinigung nicht überall abmeldet.\n\n1. Behalte die Websites, die zählen. Besuche jede Website, bei der eine Abmeldung nerven würde (E-Mail, Bank, alles Bezahlte), klicke auf das Symbolleisten-Symbol und drücke „Cookies dieser Website behalten“. Die Regel umfasst die Domain und alle Subdomains. Nutze „Behalten, bis der Browser schließt“ für Websites, die nur diese Sitzung im Gedächtnis bleiben sollen.\n\n2. Entscheide, was „bereinigen“ bedeutet. Ab Werk entfernt die Bereinigung nur Cookies. Schalte „Alle Websitedaten löschen“ auf der Schutz-Seite ein, um auch die übrigen Reste einer Website zu entfernen.\n\n3. Schalte die automatische Bereinigung ein. Aktiviere „Automatisch bereinigen“ auf der Schutz-Seite. Ab dann gilt: letzter Tab einer Website zu, und nach der Karenzzeit sind ihre Cookies weg — außer du behältst die Website oder sie ist woanders noch offen.\n\n4. Optional: Lass das Bereinigungsprotokoll an, damit du immer nachsehen kannst, was bereinigt wurde und warum."
+    "message": "Neue Installationen starten im manuellen Modus: Nichts wird gelöscht, bis du es sagst. Das ist Absicht — lege zuerst deine Behalten-Liste an, damit dich das spätere Einschalten der automatischen Bereinigung nicht überall abmeldet.\n\n1. Behalte die Websites, die zählen. Besuche jede Website, bei der eine Abmeldung nerven würde (E-Mail, Bank, alles Bezahlte), klicke auf das Symbolleisten-Symbol und drücke „Cookies dieser Website behalten“. Die Regel umfasst die Domain und alle Subdomains. Nutze „Behalten, bis der Browser schließt“ für Websites, die nur diese Sitzung im Gedächtnis bleiben sollen.\n\n2. Entscheide, was „bereinigen“ bedeutet. Ab Werk entfernt die Bereinigung nur Cookies. Schalte „Alle Websitedaten löschen“ auf der Schutz-Seite ein, um auch die übrigen Reste einer Website zu entfernen.\n\n3. Schalte die automatische Bereinigung ein. Aktiviere „Automatisch bereinigen“ auf der Schutz-Seite. Ab dann gilt: letzter Tab einer Website zu, und nach der Karenzzeit sind ihre Cookies weg — außer du behältst die Website oder sie ist woanders noch offen.\n\n4. Hefte das Symbol an die Symbolleiste. Klick auf das Puzzle-Symbol in der Chrome-Symbolleiste und dann auf die Stecknadel neben Auto-Delete Cookies for Privacy, damit das Symbol samt Cookie-Zähler sichtbar bleibt.\n\n5. Optional: Lass das Bereinigungsprotokoll an, damit du immer nachsehen kannst, was bereinigt wurde und warum."
   },
   "helpCleaningTitle": {
     "message": "So funktioniert die Bereinigung"
