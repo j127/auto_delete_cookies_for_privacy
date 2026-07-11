@@ -18,6 +18,7 @@ import {
   SiteDataType,
 } from "@/typings/enums";
 import ipaddr from "ipaddr.js";
+import { getDomain } from "tldts";
 import { browserCapabilities } from "./browser-capabilities";
 
 /* --- CONSTANTS --- */
@@ -153,37 +154,20 @@ export const extractMainDomain = (domain: string): string => {
   // return itself if it is a local html file or IP Address.
   if (domain.startsWith("file://") || ipaddr.isValid(domain)) return domain;
 
-  // https://en.wikipedia.org/wiki/Second-level_domain
-  const secondLvlDomains = [
-    "biz",
-    "com",
-    "edu",
-    "gov",
-    "ltd",
-    "mod",
-    "net",
-    "org",
-    "police",
-    "school",
-  ];
-
   // Delete a '.' if domain contains it at the end
   const eDot = domain.endsWith(".");
   const editedDomain = trimDot(domain);
-  const partsOfDomain = editedDomain.split(".");
-  const length = partsOfDomain.length;
-  const secondLevel = partsOfDomain[length - 2];
 
-  // Check for country top level domain
-  if (
-    length > 2 &&
-    (secondLevel.length === 2 ||
-      (secondLvlDomains.includes(secondLevel) &&
-        partsOfDomain[length - 1].length === 2))
-  ) {
-    return `${partsOfDomain.slice(length - 3).join(".")}${eDot ? "." : ""}`;
-  }
-  return `${partsOfDomain.slice(length - 2).join(".")}${eDot ? "." : ""}`;
+  // Registrable domain (eTLD+1) via the real Public Suffix List. The old
+  // hand-rolled second-level-domain heuristic mistook platform suffixes —
+  // user.github.io collapsed to github.io, granting open-tab protection
+  // (and partition/FPD grouping) to the whole false neighborhood (audit
+  // bug 9). allowPrivateDomains keeps those platform suffixes (github.io,
+  // netlify.app, ...) separate per user site. Unlisted TLDs fall back to
+  // "last two labels" inside tldts; single-label hosts (intranet names)
+  // return null and pass through unchanged.
+  const registrable = getDomain(editedDomain, { allowPrivateDomains: true });
+  return `${registrable ?? editedDomain}${eDot ? "." : ""}`;
 };
 
 /**
