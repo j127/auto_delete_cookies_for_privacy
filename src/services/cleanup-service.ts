@@ -19,6 +19,7 @@ import {
   SettingID,
   SiteDataType,
 } from "@/typings/enums";
+import { browserCapabilities } from "./browser-capabilities";
 import {
   ADCPCOOKIENAME,
   adcpLog,
@@ -804,8 +805,9 @@ export const cleanCookiesOperation = async (
     browsingDataCleanup: {},
     siteDataCleaned: false,
   };
-  // Scrub private cookieStores
-  const storesIdsToScrub = ["private", "1"];
+  // Scrub private cookieStores (raw ids per browser plus the legacy
+  // normalized key) so private-browsing domains never persist in results
+  const storesIdsToScrub = ["private", "1", "firefox-private"];
   const openTabDomains = await returnContainersOfOpenTabDomains(
     cleanupProperties.ignoreOpenTabs,
     getSetting(state, SettingID.CLEAN_DISCARDED) as boolean
@@ -817,10 +819,41 @@ export const cleanCookiesOperation = async (
 
   const cookieStoreIds = new Set<string>();
 
-  // Manually add Chrome's default stores.
-  cookieStoreIds.add("0");
-  if (await browser.extension.isAllowedIncognitoAccess()) {
-    cookieStoreIds.add("1");
+  // Manually add the browser's always-present stores;
+  // getAllCookieStores only reports stores that have open tabs.
+  if (browserCapabilities.supportsContextualIdentities) {
+    // Firefox store ids.
+    cookieStoreIds.add("firefox-default");
+    if (await browser.extension.isAllowedIncognitoAccess()) {
+      cookieStoreIds.add("firefox-private");
+    }
+    // Container stores with no open tabs are missing from
+    // getAllCookieStores, so union in contextualIdentities.query. Upstream
+    // skipped container stores wholesale when its container setting was
+    // off, leaking their cookies forever (audit bug 6a) — here every
+    // container is always enumerated; only the expression-list mapping
+    // depends on the setting. The query rejects when the user disables
+    // privacy.userContext.enabled: degrade to the other sources.
+    try {
+      const identities = await browser.contextualIdentities.query({});
+      for (const identity of identities) {
+        cookieStoreIds.add(identity.cookieStoreId);
+      }
+    } catch (e: unknown) {
+      adcpLog(
+        {
+          msg: "CleanupService.cleanCookiesOperation:  contextualIdentities.query rejected (containers disabled?). Continuing with the remaining stores.",
+          x: e instanceof Error ? e.message : e,
+        },
+        debug
+      );
+    }
+  } else {
+    // Chrome's default stores.
+    cookieStoreIds.add("0");
+    if (await browser.extension.isAllowedIncognitoAccess()) {
+      cookieStoreIds.add("1");
+    }
   }
 
   // Store cookieStoreIds from the cookies API
