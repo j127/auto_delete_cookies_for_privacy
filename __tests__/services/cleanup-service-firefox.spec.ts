@@ -58,7 +58,11 @@ describe("cleanCookiesOperation() on Firefox", () => {
         },
       ] as never);
     when(global.browser.cookies.getAll)
-      .calledWith({ storeId: "firefox-container-9", firstPartyDomain: null })
+      .calledWith({
+        storeId: "firefox-container-9",
+        firstPartyDomain: null,
+        partitionKey: {},
+      })
       .mockResolvedValue([containerCookie] as never);
     when(global.browser.cookies.remove)
       .calledWith(expect.any(Object))
@@ -148,7 +152,11 @@ describe("cleanCookiesOperation() on Firefox", () => {
       storeId: "firefox-private",
     };
     when(global.browser.cookies.getAll)
-      .calledWith({ storeId: "firefox-private", firstPartyDomain: null })
+      .calledWith({
+        storeId: "firefox-private",
+        firstPartyDomain: null,
+        partitionKey: {},
+      })
       .mockResolvedValue([privateCookie] as never);
     const result = await cleanCookiesOperation(initialState, {
       greyCleanup: false,
@@ -159,5 +167,65 @@ describe("cleanCookiesOperation() on Firefox", () => {
     expect(result.cachedResults.storeIds["firefox-container-9"]).toHaveLength(
       1
     );
+  });
+
+  it("cleans a TCP-partitioned tracker after its top-level site closes, keeps it while open (audit bug 2)", async () => {
+    const tcpCookie: browser.cookies.Cookie = {
+      domain: "tracker.example",
+      firstPartyDomain: "",
+      hostOnly: true,
+      httpOnly: false,
+      name: "tcp",
+      partitionKey: { topLevelSite: "https://shop.example" },
+      path: "/",
+      sameSite: "no_restriction",
+      secure: true,
+      session: false,
+      storeId: "firefox-default",
+      value: "x",
+    };
+    when(global.browser.cookies.getAll)
+      .calledWith({
+        storeId: "firefox-default",
+        firstPartyDomain: null,
+        partitionKey: {},
+      })
+      .mockResolvedValue([tcpCookie] as never);
+
+    // Top-level site closed (no open tabs): the partition is cleaned, and
+    // the removal echoes the exact enumerated partitionKey.
+    await cleanCookiesOperation(initialState, {
+      greyCleanup: false,
+      ignoreOpenTabs: false,
+    });
+    expect(global.browser.cookies.remove).toHaveBeenCalledWith(
+      expect.objectContaining({
+        name: "tcp",
+        storeId: "firefox-default",
+        url: "https://tracker.example/",
+        partitionKey: { topLevelSite: "https://shop.example" },
+        firstPartyDomain: "",
+      })
+    );
+
+    // Top-level site open: the partition is protected by that tab.
+    global.browser.cookies.remove.mockClear();
+    when(global.browser.tabs.query)
+      .calledWith(expect.any(Object))
+      .mockResolvedValue([
+        {
+          cookieStoreId: "firefox-default",
+          incognito: false,
+          url: "https://shop.example/cart",
+        },
+      ] as never);
+    await cleanCookiesOperation(initialState, {
+      greyCleanup: false,
+      ignoreOpenTabs: false,
+    });
+    const removedNames = global.browser.cookies.remove.mock.calls.map(
+      (call: { name: string }[]) => call[0].name
+    );
+    expect(removedNames).not.toContain("tcp");
   });
 });

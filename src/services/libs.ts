@@ -210,6 +210,29 @@ export const withAnyFirstPartyDomain = <T extends object>(details: T): T =>
     ? ({ ...details, firstPartyDomain: null } as unknown as T)
     : details;
 
+/**
+ * Wraps details for ENUMERATING cookies.getAll calls. `partitionKey: {}`
+ * makes getAll return partitioned AND unpartitioned cookies in one call
+ * (Firefox 94+/Chrome 119+; both under this extension's floors). Without
+ * it, cookies partitioned by Total Cookie Protection (Firefox default
+ * since 103) or CHIPS (Chrome) are invisible — the tracker cookies a
+ * cleaner exists to remove could never be seen or deleted (audit bug 2).
+ * Applies to BOTH builds.
+ */
+export const withAllPartitions = <T extends object>(details: T): T =>
+  ({ ...details, partitionKey: {} }) as unknown as T;
+
+/**
+ * The partitionKey.topLevelSite candidates for a hostname — used to pull
+ * the partition bucket OF a site (third-party cookies stored under it).
+ * topLevelSite is a scheme+registrable-domain "site", hence mainDomain.
+ */
+export const topLevelSiteCandidates = (hostname: string): string[] => {
+  const mainDomain = extractMainDomain(hostname);
+  if (mainDomain === "") return [];
+  return [`https://${mainDomain}`, `http://${mainDomain}`];
+};
+
 export const getAllCookiesForDomain = async (
   state: State,
   tab: browser.tabs.Tab
@@ -234,9 +257,11 @@ export const getAllCookiesForDomain = async (
 
   if (hostname.startsWith("file:")) {
     const allCookies = await browser.cookies.getAll(
-      withAnyFirstPartyDomain({
-        storeId: cookieStoreId,
-      })
+      withAllPartitions(
+        withAnyFirstPartyDomain({
+          storeId: cookieStoreId,
+        })
+      )
     );
     const regExp = new RegExp(hostname.slice(7)); // take out 'file://'
     adcpLog(
@@ -260,14 +285,31 @@ export const getAllCookiesForDomain = async (
       },
       debug
     );
+    // The site's own cookies, across every partition they may sit in.
     const cookiesDomain = await browser.cookies.getAll(
-      withAnyFirstPartyDomain({
-        domain: hostname,
-        storeId: cookieStoreId,
-      })
+      withAllPartitions(
+        withAnyFirstPartyDomain({
+          domain: hostname,
+          storeId: cookieStoreId,
+        })
+      )
     );
     cookiesDomain.forEach((c) => cookies.push(c));
+    // Plus this site's partition bucket: third-party cookies partitioned
+    // UNDER this top-level site (TCP/CHIPS). They belong to the site's
+    // browsing footprint, so counts and per-tab actions include them.
+    for (const topLevelSite of topLevelSiteCandidates(hostname)) {
+      const partitioned = await browser.cookies.getAll(
+        withAnyFirstPartyDomain({
+          partitionKey: { topLevelSite },
+          storeId: cookieStoreId,
+        })
+      );
+      partitioned.forEach((c) => cookies.push(c));
+    }
   }
+
+  const deduped = dedupeCookies(cookies);
 
   adcpLog(
     {
@@ -276,13 +318,36 @@ export const getAllCookiesForDomain = async (
         partialTabInfo,
         tabURL: tab.url,
         hostname,
-        cookieCount: cookies.length,
+        cookieCount: deduped.length,
       },
     },
     debug
   );
 
-  return cookies;
+  return deduped;
+};
+
+/**
+ * Dedupes cookies by their full identity — a cookie's uniqueness includes
+ * which partition it lives in, so partition-bucket queries merged with
+ * domain queries cannot double-count.
+ */
+export const dedupeCookies = (
+  cookies: browser.cookies.Cookie[]
+): browser.cookies.Cookie[] => {
+  const seen = new Map<string, browser.cookies.Cookie>();
+  for (const cookie of cookies) {
+    const key = [
+      cookie.storeId,
+      cookie.name,
+      cookie.domain,
+      cookie.path,
+      cookie.partitionKey?.topLevelSite ?? "",
+      cookie.firstPartyDomain ?? "",
+    ].join("|");
+    if (!seen.has(key)) seen.set(key, cookie);
+  }
+  return [...seen.values()];
 };
 
 /**

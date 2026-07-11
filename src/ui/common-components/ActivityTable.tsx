@@ -164,6 +164,7 @@ const restoreCookies = async (
         hostOnly,
         httpOnly,
         name,
+        partitionKey,
         sameSite,
         secure,
         storeId,
@@ -188,6 +189,9 @@ const restoreCookies = async (
         // Restoring a Firefox FPI cookie must echo its firstPartyDomain
         // or the set rejects under FPI; absent on Chrome cookies.
         ...(firstPartyDomain !== undefined && { firstPartyDomain }),
+        // Same for partitioned (TCP/CHIPS) cookies: restore into the
+        // exact partition they were removed from.
+        ...(partitionKey !== undefined && { partitionKey }),
       };
       promiseArr.push(browser.cookies.set(cookieProperties));
     }
