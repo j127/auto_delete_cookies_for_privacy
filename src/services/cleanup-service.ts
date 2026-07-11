@@ -749,7 +749,13 @@ export const filterSiteData = (
 /**
  * Store all tabs' host domains to prevent cookie deletion from those domains
  * returns empty object if we ignore all open Tabs
- * Tabs now grouped by cookie store e.g. '0' (normal), '1' (incognito)
+ * Tabs are grouped by RAW cookie store id — the same key space as
+ * cookie.storeId, because isSafeToClean looks straight up
+ * openTabDomains[cookie.storeId]: '0'/'1' on Chrome,
+ * firefox-default/firefox-private/firefox-container-N on Firefox. A
+ * mismatch here silently disables open-tab protection (cookies of open
+ * sites get cleaned), which is exactly what happened upstream when tabs
+ * were keyed by incognito flag while Firefox cookies carried firefox-*.
  */
 export const returnContainersOfOpenTabDomains = async (
   ignoreOpenTabs: boolean,
@@ -764,8 +770,9 @@ export const returnContainersOfOpenTabDomains = async (
   const openTabs: { [k: string]: Set<string> } = {};
   for (const tab of tabs) {
     if (isAWebpage(tab.url) && (!cleanDiscardedTabs || !tab.discarded)) {
+      // Firefox exposes the tab's real store (containers included);
       // Chrome doesn't have tab.cookieStoreId, so rely on tab.incognito
-      const cookieStoreId = tab.incognito ? "1" : "0";
+      const cookieStoreId = tab.cookieStoreId ?? (tab.incognito ? "1" : "0");
       if (!openTabs[cookieStoreId]) {
         openTabs[cookieStoreId] = new Set<string>();
       }
