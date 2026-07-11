@@ -25,6 +25,7 @@ import {
   adcpLog,
   extractMainDomain,
   getHostname,
+  getMatchedExpressions,
   getSetting,
   isAWebpage,
   prepareCleanupScope,
@@ -649,7 +650,8 @@ export const removeSiteData = async (
 /** This will use the browsingData's hostname/origin attribute to delete any extra browsing data */
 export const otherBrowsingDataCleanup = async (
   state: State,
-  isSafeToCleanObjects: CleanReasonObject[]
+  isSafeToCleanObjects: CleanReasonObject[],
+  openTabDomains: Record<string, string[]> = {}
 ): Promise<ActivityLog["browsingDataCleanup"]> => {
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
   const browsingDataResult: ActivityLog["browsingDataCleanup"] = {};
@@ -663,7 +665,8 @@ export const otherBrowsingDataCleanup = async (
       state,
       SiteDataType.CACHE,
       isSafeToCleanObjects,
-      debug
+      debug,
+      openTabDomains
     );
   }
   if (getSetting(state, SettingID.CLEANUP_INDEXEDDB)) {
@@ -671,7 +674,8 @@ export const otherBrowsingDataCleanup = async (
       state,
       SiteDataType.INDEXEDDB,
       isSafeToCleanObjects,
-      debug
+      debug,
+      openTabDomains
     );
   }
   if (getSetting(state, SettingID.CLEANUP_LOCALSTORAGE)) {
@@ -679,7 +683,8 @@ export const otherBrowsingDataCleanup = async (
       state,
       SiteDataType.LOCALSTORAGE,
       isSafeToCleanObjects,
-      debug
+      debug,
+      openTabDomains
     );
   }
   if (getSetting(state, SettingID.CLEANUP_PLUGINDATA)) {
@@ -687,7 +692,8 @@ export const otherBrowsingDataCleanup = async (
       state,
       SiteDataType.PLUGINDATA,
       isSafeToCleanObjects,
-      debug
+      debug,
+      openTabDomains
     );
   }
   if (getSetting(state, SettingID.CLEANUP_SERVICEWORKERS)) {
@@ -695,7 +701,8 @@ export const otherBrowsingDataCleanup = async (
       state,
       SiteDataType.SERVICEWORKERS,
       isSafeToCleanObjects,
-      debug
+      debug,
+      openTabDomains
     );
   }
 
@@ -709,16 +716,57 @@ export const otherBrowsingDataCleanup = async (
  * @param cleanReasonObjects Objects returned from isSafeToClean()
  * @param debug True if debug mode.
  */
+/**
+ * Cross-store guard for storage wipes. browsingData is container-blind:
+ * its RemovalOptions.cookieStoreId accepts only the default and private
+ * stores (and, for our five site-data types, no store scoping at all — on
+ * Firefox the key is honored for the cookies data type only, and Chrome
+ * has no per-store scoping either). Wiping a domain's storage because its
+ * cookies qualified in ONE store therefore destroys that domain's storage
+ * in EVERY container. So: if any other store's expression list still
+ * protects the domain for this site-data type, or the domain is open in
+ * any store's tab, its hostname must stay out of the removal scope.
+ * (The manual per-site actions stay unguarded on purpose — an explicit
+ * "clean this site now" click wins.)
+ */
+export const isDomainProtectedInAnyStore = (
+  state: State,
+  openTabDomains: Record<string, string[]>,
+  domain: string,
+  siteData: SiteDataType
+): boolean => {
+  const hostname = trimDot(domain.trim());
+  if (hostname === "") return false;
+  for (const storeKey of Object.keys(state.lists)) {
+    const matched = getMatchedExpressions(state.lists, storeKey, hostname)[0];
+    if (!matched) continue;
+    // An expression whose cleanSiteData explicitly marks this type wants
+    // it cleaned even where cookies are kept ("keep cookies, clear
+    // storage"); any other match protects the domain's storage.
+    const markedForCleaning = (matched.cleanSiteData ?? []).includes(siteData);
+    if (!markedForCleaning) return true;
+  }
+  const mainDomain = extractMainDomain(hostname);
+  return Object.values(openTabDomains).some((tabDomains) =>
+    tabDomains.includes(mainDomain)
+  );
+};
+
 export const cleanSiteData = async (
   state: State,
   siteData: SiteDataType,
   cleanReasonObjects: CleanReasonObject[],
-  debug: boolean
+  debug: boolean,
+  openTabDomains: Record<string, string[]> = {}
 ): Promise<string[]> => {
   const domains = cleanReasonObjects
     .filter((obj) => filterSiteData(obj, siteData, debug))
     .map((o) => o.cookie.domain)
-    .filter((domain) => domain.trim() !== "");
+    .filter((domain) => domain.trim() !== "")
+    .filter(
+      (domain) =>
+        !isDomainProtectedInAnyStore(state, openTabDomains, domain, siteData)
+    );
 
   const cleanList: string[] = [];
   for (const domain of domains) {
@@ -1052,7 +1100,8 @@ export const cleanCookiesOperation = async (
     // Handle all other browsingData cleanups.
     const storeResults = await otherBrowsingDataCleanup(
       state,
-      isSafeToCleanObjects
+      isSafeToCleanObjects,
+      openTabDomains
     );
     // Don't store domains for private browsing data
     if (storesIdsToScrub.includes(id) || !storeResults) continue;
