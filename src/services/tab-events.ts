@@ -17,6 +17,7 @@ import {
   checkIfProtected,
   showNumberOfCookiesInIcon,
 } from "./browser-action-service";
+import { isFirstPartyIsolationOn } from "./first-party-isolation";
 import {
   ADCPCOOKIENAME,
   adcpLog,
@@ -301,13 +302,29 @@ export default class TabEvents extends StoreUser {
       isAWebpage(tab.url) &&
       !tab.url.startsWith("file:")
     ) {
-      const cookiesAttributes = {
+      const cookiesAttributes: {
+        expirationDate: number;
+        name: string;
+        path: string;
+        storeId: string | undefined;
+        value: string;
+        firstPartyDomain?: string;
+      } = {
         expirationDate: Math.floor(Date.now() / 1000 + 31557600),
         name: ADCPCOOKIENAME,
         path: `/${uid()}`,
         storeId: tab.cookieStoreId,
         value: ADCPCOOKIENAME,
       };
+      // Under FPI, cookies.set without firstPartyDomain rejects; with FPI
+      // off, a non-empty firstPartyDomain rejects — hence the probe. The
+      // marker still surfaces to cleanup either way, because enumeration
+      // passes firstPartyDomain: null (match any).
+      if (await isFirstPartyIsolationOn()) {
+        cookiesAttributes.firstPartyDomain = extractMainDomain(
+          getHostname(tab.url)
+        );
+      }
       await browser.cookies.set({ ...cookiesAttributes, url: tab.url });
       adcpLog(
         {

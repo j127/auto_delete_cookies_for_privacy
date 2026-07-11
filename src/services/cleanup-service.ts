@@ -37,6 +37,7 @@ import {
   throwErrorNotification,
   trimDot,
   undefinedIsTrue,
+  withAnyFirstPartyDomain,
 } from "./libs";
 
 /** Prepare a cookie for deletion */
@@ -309,6 +310,12 @@ export const cleanCookies = async (
         storeId: cookieProperties.storeId,
         name: cookieProperties.name,
         url: cookieProperties.preparedCookieDomain,
+        // Firefox cookies carry their firstPartyDomain; remove must echo
+        // it back or the removal misses under FPI. Chrome cookies never
+        // have the property, so the key stays absent there.
+        ...(cookieProperties.firstPartyDomain !== undefined && {
+          firstPartyDomain: cookieProperties.firstPartyDomain,
+        }),
       };
       // url: "http://domain.com" + cookies[i].path
       adcpLog(
@@ -357,10 +364,12 @@ export const clearCookiesForThisDomain = async (
   tab: browser.tabs.Tab
 ): Promise<boolean> => {
   const hostname = getHostname(tab.url);
-  const getCookies = await browser.cookies.getAll({
-    domain: hostname,
-    storeId: tab.cookieStoreId,
-  });
+  const getCookies = await browser.cookies.getAll(
+    withAnyFirstPartyDomain({
+      domain: hostname,
+      storeId: tab.cookieStoreId,
+    })
+  );
   // Filter out our own ADCP marker cookie that cleans up other Browsing Data
   const cookies = getCookies.filter((c) => c.name !== ADCPCOOKIENAME);
 
@@ -371,6 +380,9 @@ export const clearCookiesForThisDomain = async (
         name: cookie.name,
         storeId: cookie.storeId,
         url: prepareCookieDomain(cookie),
+        ...(cookie.firstPartyDomain !== undefined && {
+          firstPartyDomain: cookie.firstPartyDomain,
+        }),
       });
       if (r) cookieDeletedCount += 1;
     }
@@ -866,9 +878,11 @@ export const cleanCookiesOperation = async (
   for (const id of cookieStoreIds) {
     let cookies: browser.cookies.Cookie[] = [];
     try {
-      cookies = await browser.cookies.getAll({
-        storeId: id,
-      });
+      cookies = await browser.cookies.getAll(
+        withAnyFirstPartyDomain({
+          storeId: id,
+        })
+      );
     } catch (e: unknown) {
       if (e instanceof Error) {
         adcpLog(

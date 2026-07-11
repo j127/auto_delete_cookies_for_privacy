@@ -50,6 +50,7 @@ import {
   trimDot,
   undefinedIsTrue,
   validateExpressionDomain,
+  withAnyFirstPartyDomain,
 } from "@/services/libs";
 
 import ipaddr from "ipaddr.js";
@@ -1009,6 +1010,15 @@ describe("Library Functions", () => {
     });
     it("should return undefined if CIDR notation format is not as expected", () => {
       expect(matchIPInExpression("1.1/1/1", ipv4Test)).toBeUndefined();
+    });
+  });
+
+  describe("withAnyFirstPartyDomain() on Chrome (default flavor)", () => {
+    it("adds no firstPartyDomain key — Chrome rejects unknown getAll keys", () => {
+      const details = { domain: "example.com", storeId: "0" };
+      const wrapped = withAnyFirstPartyDomain(details);
+      expect(wrapped).toEqual(details);
+      expect(wrapped).not.toHaveProperty("firstPartyDomain");
     });
   });
 

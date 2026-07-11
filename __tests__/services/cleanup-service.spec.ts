@@ -451,6 +451,20 @@ describe("CleanupService", () => {
         ]);
       });
 
+      // Chrome rejects unknown cookies.* keys, so no call may ever carry
+      // firstPartyDomain on the chrome flavor (it is Firefox-only).
+      it("never sends firstPartyDomain on any cookies.* call (Chrome flavor)", async () => {
+        await cleanCookiesOperation(sampleState, cleanupProperties);
+        const allCookieCalls = [
+          ...global.browser.cookies.getAll.mock.calls,
+          ...global.browser.cookies.remove.mock.calls,
+        ];
+        expect(allCookieCalls.length).toBeGreaterThan(0);
+        for (const call of allCookieCalls) {
+          expect(call[0]).not.toHaveProperty("firstPartyDomain");
+        }
+      });
+
       it("Regular clean counts only real removals when one cookies.remove rejects.", async () => {
         when(global.browser.cookies.remove)
           .calledWith(expect.any(Object))
