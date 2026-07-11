@@ -684,6 +684,34 @@ export const prepareCleanupDomains = (domain: string, port = ""): string[] => {
 };
 
 /**
+ * Firefox's browsingData scope list for one cookie/tab domain: bare
+ * hostnames, exact match only — Firefox rejects Chrome's `origins` key
+ * outright and does no subdomain expansion on `hostnames`. The list
+ * carries the observed host itself plus the registrable domain and its
+ * www variant, the practical mitigation for the exact-host subdomain gap
+ * (audit bug 5: upstream sent only the bare main domain, so storage on
+ * real subdomains was never cleared).
+ */
+export const prepareCleanupHostnames = (domain: string): string[] => {
+  const d = trimDot(domain.trim());
+  if (d === "") return [];
+  if (ipaddr.IPv4.isValidFourPartDecimal(d) || ipaddr.IPv6.isValid(d)) {
+    return [d];
+  }
+  const mainDomain = extractMainDomain(d);
+  return [...new Set([d, mainDomain, `www.${mainDomain}`])];
+};
+
+/**
+ * Per-target browsingData scope list: origins on Chrome, hostnames on
+ * Firefox. The port only matters for origins — hostnames carry none.
+ */
+export const prepareCleanupScope = (domain: string, port = ""): string[] =>
+  browserCapabilities.browsingDataScoping === "origins"
+    ? prepareCleanupDomains(domain, port)
+    : prepareCleanupHostnames(domain);
+
+/**
  * Puts the domain in the right format for browser.cookies.remove()
  */
 export const prepareCookieDomain = (cookie: browser.cookies.Cookie): string => {
