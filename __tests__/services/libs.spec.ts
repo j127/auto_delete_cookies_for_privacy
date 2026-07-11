@@ -452,6 +452,26 @@ describe("Library Functions", () => {
     it("should return nothing on empty string", () => {
       expect(extractMainDomain("")).toEqual("");
     });
+
+    // Real Public Suffix List behavior (audit bug 9): the old heuristic
+    // handled neither multi-label public suffixes it didn't know...
+    it("should return bbc.co.uk from foo.bbc.co.uk", () => {
+      expect(extractMainDomain("foo.bbc.co.uk")).toEqual("bbc.co.uk");
+    });
+
+    // ...nor private platform suffixes: every *.github.io site is its own
+    // registrable domain, not one shared github.io neighborhood.
+    it("should return user.github.io from user.github.io", () => {
+      expect(extractMainDomain("user.github.io")).toEqual("user.github.io");
+    });
+
+    it("should return user.github.io from sub.user.github.io", () => {
+      expect(extractMainDomain("sub.user.github.io")).toEqual("user.github.io");
+    });
+
+    it("should keep IPv6 addresses untouched", () => {
+      expect(extractMainDomain("2001:db8::1")).toEqual("2001:db8::1");
+    });
   });
 
   describe("getAllCookiesForDomain()", () => {
