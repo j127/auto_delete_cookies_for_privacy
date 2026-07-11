@@ -2054,6 +2054,45 @@ describe("CleanupService", () => {
       });
     });
 
+    // Firefox tabs expose their real store id; grouping must use it so
+    // containers protect their own tabs only.
+    it("should group Firefox tabs by their real cookieStoreId", () => {
+      when(global.browser.tabs.query)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([
+          {
+            cookieStoreId: "firefox-default",
+            incognito: false,
+            url: "https://google.com/search",
+          },
+          {
+            cookieStoreId: "firefox-private",
+            incognito: true,
+            url: "https://secret.example/inbox",
+          },
+          {
+            cookieStoreId: "firefox-container-1",
+            incognito: false,
+            url: "https://work.example/dashboard",
+          },
+          {
+            cookieStoreId: "firefox-container-2",
+            incognito: false,
+            url: "https://work.example/personal",
+          },
+        ] as never);
+      return returnContainersOfOpenTabDomains(false, false).then((results) => {
+        expect(results["firefox-default"]).toEqual(["google.com"]);
+        expect(results["firefox-private"]).toEqual(["secret.example"]);
+        expect(results["firefox-container-1"]).toEqual(["work.example"]);
+        expect(results["firefox-container-2"]).toEqual(["work.example"]);
+        // No incognito-flag pseudo keys when the real store id exists.
+        expect(results["0"]).toBeUndefined();
+        expect(results["1"]).toBeUndefined();
+        return Promise.resolve();
+      });
+    });
+
     it("should not have discarded.net in the incognito store when cleanDiscardedTabs is true", () => {
       return returnContainersOfOpenTabDomains(false, true).then((results) => {
         expect(results["1"] && results["1"].includes("discarded.net")).toBe(
@@ -2061,6 +2100,98 @@ describe("CleanupService", () => {
         );
         return Promise.resolve();
       });
+    });
+  });
+
+  // Regression: the keys returnContainersOfOpenTabDomains emits must be the
+  // SAME key space as cookie.storeId, because isSafeToClean indexes
+  // openTabDomains[cookie.storeId] directly. Upstream keyed tabs by the
+  // incognito flag while Firefox cookies carried firefox-* ids, which
+  // silently disabled open-tab protection there.
+  describe("open-tab protection key space (tab grouping ↔ cookie storeId)", () => {
+    const baseCleanupProperties = {
+      greyCleanup: false,
+      ignoreOpenTabs: false,
+    };
+
+    it("protects a Firefox container tab's domain only within that container", async () => {
+      when(global.browser.tabs.query)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([
+          {
+            cookieStoreId: "firefox-container-1",
+            incognito: false,
+            url: "https://work.example/dashboard",
+          },
+        ] as never);
+      const openTabDomains = await returnContainersOfOpenTabDomains(
+        false,
+        false
+      );
+      const containerCookie: CookiePropertiesCleanup = {
+        ...mockCookie,
+        hostname: "work.example",
+        mainDomain: "work.example",
+        storeId: "firefox-container-1",
+      };
+
+      const sameContainer = isSafeToClean(sampleState, containerCookie, {
+        ...baseCleanupProperties,
+        openTabDomains,
+      });
+      expect(sameContainer.reason).toBe(ReasonKeep.OpenTabs);
+      expect(sameContainer.cleanCookie).toBe(false);
+
+      // Same domain open, but the cookie lives in a different container:
+      // no open-tab protection across stores.
+      const otherContainer = isSafeToClean(
+        sampleState,
+        { ...containerCookie, storeId: "firefox-container-2" },
+        { ...baseCleanupProperties, openTabDomains }
+      );
+      expect(otherContainer.reason).toBe(ReasonClean.NoMatchedExpression);
+      expect(otherContainer.cleanCookie).toBe(true);
+    });
+
+    it("keeps Chrome normal/incognito grouping working end to end", async () => {
+      when(global.browser.tabs.query)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([
+          { incognito: false, url: "https://open.example/page" },
+          { incognito: true, url: "https://hidden.example/page" },
+        ] as never);
+      const openTabDomains = await returnContainersOfOpenTabDomains(
+        false,
+        false
+      );
+      expect(openTabDomains).toEqual({
+        "0": ["open.example"],
+        "1": ["hidden.example"],
+      });
+
+      const normalCookie: CookiePropertiesCleanup = {
+        ...mockCookie,
+        hostname: "open.example",
+        mainDomain: "open.example",
+        storeId: "0",
+      };
+      const protectedNormal = isSafeToClean(sampleState, normalCookie, {
+        ...baseCleanupProperties,
+        openTabDomains,
+      });
+      expect(protectedNormal.reason).toBe(ReasonKeep.OpenTabs);
+
+      const incognitoCookie: CookiePropertiesCleanup = {
+        ...normalCookie,
+        hostname: "hidden.example",
+        mainDomain: "hidden.example",
+        storeId: "1",
+      };
+      const protectedIncognito = isSafeToClean(sampleState, incognitoCookie, {
+        ...baseCleanupProperties,
+        openTabDomains,
+      });
+      expect(protectedIncognito.reason).toBe(ReasonKeep.OpenTabs);
     });
   });
 });
