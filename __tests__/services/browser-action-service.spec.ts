@@ -394,19 +394,55 @@ describe("BrowserActionService", () => {
       });
     });
 
-    it("should query all active tabs when no tab is given", async () => {
+    it("should query every normal tab when no tab is given", async () => {
       global.browser.tabs.query.mockResolvedValue([defaultTab]);
       const state = buildState({ active: false });
       await checkIfProtected(state);
       await flushPromises();
       expect(global.browser.tabs.query).toHaveBeenCalledWith({
-        active: true,
         windowType: "normal",
       });
       // Unmatched with an undefined cookie count falls into the red branch.
       expect(
         global.browser.action.setBadgeBackgroundColor
       ).toHaveBeenCalledWith({ color: "red", tabId: 1 });
+    });
+
+    it("should repaint every open tab of a kept site, not only the active one", async () => {
+      // Regression for #263: keeping a site from the popup only recolored
+      // the active tab; background tabs of the same site kept the red icon.
+      const backgroundTab = { ...defaultTab, id: 2, active: false };
+      global.browser.tabs.query.mockResolvedValue([defaultTab, backgroundTab]);
+      const state = buildState({
+        active: true,
+        lists: { default: [expressionFor(ListType.WHITE)] },
+      });
+      await checkIfProtected(state);
+      await flushPromises();
+      expect(global.browser.action.setIcon).toHaveBeenCalledWith({
+        path: { 48: "/icons/icon_48.png" },
+        tabId: 1,
+      });
+      expect(global.browser.action.setIcon).toHaveBeenCalledWith({
+        path: { 48: "/icons/icon_48.png" },
+        tabId: 2,
+      });
+    });
+
+    it("should repaint every open tab red when no rule matches anymore", async () => {
+      const backgroundTab = { ...defaultTab, id: 2, active: false };
+      global.browser.tabs.query.mockResolvedValue([defaultTab, backgroundTab]);
+      const state = buildState({ active: true });
+      await checkIfProtected(state);
+      await flushPromises();
+      expect(global.browser.action.setIcon).toHaveBeenCalledWith({
+        path: { 48: "/icons/icon_48_red.png" },
+        tabId: 1,
+      });
+      expect(global.browser.action.setIcon).toHaveBeenCalledWith({
+        path: { 48: "/icons/icon_48_red.png" },
+        tabId: 2,
+      });
     });
 
     it("should set the title with the matched list type and cookie count", async () => {

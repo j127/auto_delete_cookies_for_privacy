@@ -171,9 +171,10 @@ export const checkIfProtected = async (
   if (tab) {
     activeTabs.push(tab);
   } else {
-    // No tab provided - query all active tabs instead.
+    // No tab provided - re-evaluate every normal tab, not just the active
+    // ones. Expression and settings changes (popup keeps, context-menu adds,
+    // removals) must also repaint background tabs of the same site (#263).
     activeTabs = await browser.tabs.query({
-      active: true,
       windowType: "normal",
     });
   }
