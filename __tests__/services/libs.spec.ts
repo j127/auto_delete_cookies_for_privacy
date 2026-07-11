@@ -796,6 +796,26 @@ describe("Library Functions", () => {
       expect(getStoreId("1")).toEqual("private");
     });
 
+    it("should return private from storeId private", () => {
+      expect(getStoreId("private")).toEqual("private");
+    });
+
+    // Firefox storeIds unify onto the same keys Chrome uses (audit bug 4:
+    // upstream kept firefox-private separate from what the UI wrote, so
+    // private-window whitelists never matched).
+    it("should return default from storeId firefox-default", () => {
+      expect(getStoreId("firefox-default")).toEqual("default");
+    });
+
+    it("should return private from storeId firefox-private", () => {
+      expect(getStoreId("firefox-private")).toEqual("private");
+    });
+
+    // Firefox containers keep their own per-container lists.
+    it("should pass firefox-container-3 through unchanged", () => {
+      expect(getStoreId("firefox-container-3")).toEqual("firefox-container-3");
+    });
+
     // Any other storeId passes through untouched.
     it("should return some-id from storeId some-id", () => {
       expect(getStoreId("some-id")).toEqual("some-id");
@@ -1003,6 +1023,87 @@ describe("Library Functions", () => {
 
     it("should return the specified cookieStoreId if given", () => {
       expect(parseCookieStoreId("test-container")).toEqual("test-container");
+    });
+
+    // Firefox tab store ids land in the unified key space so the UI write
+    // path uses the same keys the cleanup read path matches against.
+    it("should return default for firefox-default", () => {
+      expect(parseCookieStoreId("firefox-default")).toEqual("default");
+    });
+
+    it("should return private for firefox-private", () => {
+      expect(parseCookieStoreId("firefox-private")).toEqual("private");
+    });
+
+    it("should pass firefox-container-3 through unchanged", () => {
+      expect(parseCookieStoreId("firefox-container-3")).toEqual(
+        "firefox-container-3"
+      );
+    });
+  });
+
+  // Audit bug 4 regression: an expression added from a Firefox private
+  // window must land in the SAME list the cleanup decision path reads for
+  // private-window cookies. Upstream wrote to one key and read another, so
+  // private-window whitelists silently protected nothing.
+  describe("firefox private-window list unification (regression)", () => {
+    const privateExpression: Expression = {
+      expression: "example.com",
+      listType: ListType.WHITE,
+      // What the popup write path computes from tab.cookieStoreId in a
+      // Firefox private window:
+      storeId: parseCookieStoreId("firefox-private"),
+    };
+    const state: State = {
+      ...initialState,
+      lists: { [privateExpression.storeId]: [privateExpression] },
+    };
+
+    it("writes the expression under the unified private key", () => {
+      expect(privateExpression.storeId).toEqual("private");
+    });
+
+    it("matches a firefox-private cookie against that list", () => {
+      expect(
+        returnMatchedExpressionObject(state, "firefox-private", "example.com")
+      ).toEqual(privateExpression);
+    });
+
+    it("matches a Chrome incognito cookie against the same list", () => {
+      expect(returnMatchedExpressionObject(state, "1", "example.com")).toEqual(
+        privateExpression
+      );
+    });
+
+    it("does not leak private-list protection into the default store", () => {
+      expect(
+        returnMatchedExpressionObject(state, "firefox-default", "example.com")
+      ).toBeUndefined();
+    });
+
+    it("keeps container lists separate from private and default", () => {
+      const containerExpression: Expression = {
+        ...privateExpression,
+        storeId: parseCookieStoreId("firefox-container-3"),
+      };
+      const containerState: State = {
+        ...initialState,
+        lists: { [containerExpression.storeId]: [containerExpression] },
+      };
+      expect(
+        returnMatchedExpressionObject(
+          containerState,
+          "firefox-container-3",
+          "example.com"
+        )
+      ).toEqual(containerExpression);
+      expect(
+        returnMatchedExpressionObject(
+          containerState,
+          "firefox-default",
+          "example.com"
+        )
+      ).toBeUndefined();
     });
   });
 

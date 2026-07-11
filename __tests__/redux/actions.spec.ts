@@ -202,6 +202,32 @@ describe("Actions", () => {
         type: ReduxConstants.ADD_EXPRESSION,
       });
     });
+
+    // Audit bug 4 regression (write path): a Firefox private-window
+    // expression must be stored under the unified "private" key, and a
+    // container expression under its own container key.
+    it("should sanitize firefox store ids into the unified key space", () => {
+      const { dispatch, getState } = makeThunkArgs(initialState);
+      Actions.addExpression({
+        expression: "domain.com",
+        listType: ListType.WHITE,
+        storeId: "firefox-private",
+      })(dispatch, getState);
+      expect(dispatch).toHaveBeenCalledWith({
+        payload: expect.objectContaining({ storeId: "private" }),
+        type: ReduxConstants.ADD_EXPRESSION,
+      });
+
+      Actions.addExpression({
+        expression: "domain.com",
+        listType: ListType.WHITE,
+        storeId: "firefox-container-3",
+      })(dispatch, getState);
+      expect(dispatch).toHaveBeenCalledWith({
+        payload: expect.objectContaining({ storeId: "firefox-container-3" }),
+        type: ReduxConstants.ADD_EXPRESSION,
+      });
+    });
   });
 
   describe("clearExpressions()", () => {
