@@ -1121,6 +1121,21 @@
   "protectionText": {
     "message": "Protecție"
   },
+  "setupStepsTitle": {
+    "message": "Începe curățarea automată"
+  },
+  "setupStepProtectionText": {
+    "message": "Mergi la pagina Protecție."
+  },
+  "setupStepActiveModeText": {
+    "message": "Pornește „Curăță automat” — comutatorul evidențiat din partea de sus. Mai întâi marchează cu „Păstrează” site-urile pe care vrei să rămâi autentificat."
+  },
+  "setupStepPinText": {
+    "message": "Fixează extensia ca să rămână vizibilă: apasă pictograma puzzle din bara de instrumente Chrome, apoi piuneza de lângă Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Deschide pagina Protecție"
+  },
   "savedSitesText": {
     "message": "Site-uri salvate"
   },
@@ -1284,7 +1299,7 @@
     "message": "Primii pași"
   },
   "helpGettingStartedBody": {
-    "message": "Instalările noi pornesc în mod manual: nimic nu se șterge până nu spui tu. E intenționat — construiește-ți mai întâi lista de păstrare, ca activarea ulterioară a curățării automate să nu te delogheze de peste tot unde contează.\n\n1. Păstrează site-urile care contează. Vizitează fiecare site unde delogarea te-ar deranja (e-mail, bancă, tot ce plătești), apasă pictograma din bară și butonul „Păstrează cookie-urile acestui site”. Regula acoperă domeniul și toate subdomeniile. Folosește „Păstrează până la închiderea browserului” pentru site-urile care trebuie ținute minte doar de data asta.\n\n2. Decide ce înseamnă „curățare”. Din fabrică, curățarea elimină doar cookie-uri. Activează „Șterge toate datele de site” pe pagina Protecție ca să cureți și celelalte resturi ale unui site.\n\n3. Pornește curățarea automată. Comută „Curăță automat” pe pagina Protecție. De atunci: închizi ultima filă a unui site și, după perioada de grație, cookie-urile lui dispar — doar dacă nu păstrezi site-ul sau e încă deschis altundeva.\n\n4. Opțional: lasă jurnalul de curățare pornit, ca să vezi mereu ce s-a curățat și de ce."
+    "message": "Instalările noi pornesc în mod manual: nimic nu se șterge până nu spui tu. E intenționat — construiește-ți mai întâi lista de păstrare, ca activarea ulterioară a curățării automate să nu te delogheze de peste tot unde contează.\n\n1. Păstrează site-urile care contează. Vizitează fiecare site unde delogarea te-ar deranja (e-mail, bancă, tot ce plătești), apasă pictograma din bară și butonul „Păstrează cookie-urile acestui site”. Regula acoperă domeniul și toate subdomeniile. Folosește „Păstrează până la închiderea browserului” pentru site-urile care trebuie ținute minte doar de data asta.\n\n2. Decide ce înseamnă „curățare”. Din fabrică, curățarea elimină doar cookie-uri. Activează „Șterge toate datele de site” pe pagina Protecție ca să cureți și celelalte resturi ale unui site.\n\n3. Pornește curățarea automată. Comută „Curăță automat” pe pagina Protecție. De atunci: închizi ultima filă a unui site și, după perioada de grație, cookie-urile lui dispar — doar dacă nu păstrezi site-ul sau e încă deschis altundeva.\n\n4. Fixează pictograma în bara de instrumente. Apasă pictograma puzzle din bara Chrome, apoi piuneza de lângă Auto-Delete Cookies for Privacy, ca pictograma și insigna cu numărul de cookie-uri să rămână vizibile.\n\n5. Opțional: lasă jurnalul de curățare pornit, ca să vezi mereu ce s-a curățat și de ce."
   },
   "helpCleaningTitle": {
     "message": "Cum funcționează curățarea"

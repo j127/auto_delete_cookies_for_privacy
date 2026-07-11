@@ -1121,6 +1121,21 @@
   "protectionText": {
     "message": "Proteção"
   },
+  "setupStepsTitle": {
+    "message": "Comece a limpar automaticamente"
+  },
+  "setupStepProtectionText": {
+    "message": "Vá à página Proteção."
+  },
+  "setupStepActiveModeText": {
+    "message": "Ative «Limpar automaticamente» — o interruptor destacado no topo. Antes, marque como «Manter» os sites onde quer manter a sessão iniciada."
+  },
+  "setupStepPinText": {
+    "message": "Afixe a extensão para que fique sempre visível: clique no ícone do puzzle na barra de ferramentas do Chrome e depois no pin junto a Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Abrir a página Proteção"
+  },
   "savedSitesText": {
     "message": "Sites guardados"
   },
@@ -1284,7 +1299,7 @@
     "message": "Primeiros passos"
   },
   "helpGettingStartedBody": {
-    "message": "As instalações novas começam em modo manual: nada é eliminado até que o diga. É de propósito — construa primeiro a sua lista de manter, para que ligar a limpeza automática depois não o desligue de tudo o que lhe importa.\n\n1. Mantenha os sites que importam. Visite cada site onde ficar desligado seria irritante (e-mail, banco, tudo o que paga), clique no ícone da barra e prima «Manter os cookies deste site». A regra cobre o domínio e todos os subdomínios. Use «Manter até o navegador fechar» para sites que só devem ser lembrados desta vez.\n\n2. Decida o que «limpar» significa. De origem, a limpeza remove só cookies. Ligue «Eliminar todos os dados do site» na página Proteção para apagar também os outros restos de um site.\n\n3. Ligue a limpeza automática. Ative «Limpar automaticamente» na página Proteção. A partir daí: feche o último separador de um site e, passado o período de tolerância, os cookies desaparecem — a menos que mantenha o site ou ele ainda esteja aberto noutro lugar.\n\n4. Opcional: deixe o registo de limpeza ligado, para ver sempre o que foi limpo e porquê."
+    "message": "As instalações novas começam em modo manual: nada é eliminado até que o diga. É de propósito — construa primeiro a sua lista de manter, para que ligar a limpeza automática depois não o desligue de tudo o que lhe importa.\n\n1. Mantenha os sites que importam. Visite cada site onde ficar desligado seria irritante (e-mail, banco, tudo o que paga), clique no ícone da barra e prima «Manter os cookies deste site». A regra cobre o domínio e todos os subdomínios. Use «Manter até o navegador fechar» para sites que só devem ser lembrados desta vez.\n\n2. Decida o que «limpar» significa. De origem, a limpeza remove só cookies. Ligue «Eliminar todos os dados do site» na página Proteção para apagar também os outros restos de um site.\n\n3. Ligue a limpeza automática. Ative «Limpar automaticamente» na página Proteção. A partir daí: feche o último separador de um site e, passado o período de tolerância, os cookies desaparecem — a menos que mantenha o site ou ele ainda esteja aberto noutro lugar.\n\n4. Afixe o ícone na barra de ferramentas. Clique no ícone do puzzle na barra do Chrome e depois no pin junto a Auto-Delete Cookies for Privacy, para que o ícone e o distintivo com a contagem de cookies fiquem sempre visíveis.\n\n5. Opcional: deixe o registo de limpeza ligado, para ver sempre o que foi limpo e porquê."
   },
   "helpCleaningTitle": {
     "message": "Como funciona a limpeza"

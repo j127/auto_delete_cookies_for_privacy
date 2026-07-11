@@ -7,21 +7,31 @@ import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
 import { ReduxConstants } from "@/typings/redux-constants";
+import { SettingID } from "@/typings/enums";
 import Welcome from "@/ui/settings/components/Welcome";
 
 describe("Welcome", () => {
   const renderWelcome = (stateOverrides: Partial<State> = {}) => {
     const store = createStore(() => ({ ...initialState, ...stateOverrides }));
     const dispatchSpy = jest.spyOn(store, "dispatch");
+    const switchTabs = jest.fn();
     return {
       dispatchSpy,
+      switchTabs,
       ...render(
         <Provider store={store}>
-          <Welcome />
+          <Welcome switchTabs={switchTabs} />
         </Provider>
       ),
     };
   };
+
+  const withActiveMode = (value: boolean): Partial<State> => ({
+    settings: {
+      ...initialState.settings,
+      [SettingID.ACTIVE_MODE]: { name: SettingID.ACTIVE_MODE, value },
+    },
+  });
 
   beforeEach(() => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
@@ -52,10 +62,8 @@ describe("Welcome", () => {
   });
 
   it("renders the release notes section with the initial release note", () => {
-    const { container, getByText } = renderWelcome();
-    expect((container.querySelector("h2") as HTMLElement).textContent).toBe(
-      "releaseNotesText"
-    );
+    const { getByText } = renderWelcome();
+    expect(getByText("releaseNotesText")).not.toBeNull();
     expect(getByText("1.0.0")).not.toBeNull();
     expect(
       getByText("Initial release of Auto-Delete Cookies for Privacy.")
@@ -64,10 +72,30 @@ describe("Welcome", () => {
 
   it("dispatches the reset counter action when the reset button is clicked", () => {
     const { dispatchSpy, getByRole } = renderWelcome();
-    fireEvent.click(getByRole("button"));
+    fireEvent.click(getByRole("button", { name: "resetCookieCounterText" }));
     expect(dispatchSpy).toHaveBeenCalledWith({
       type: ReduxConstants.RESET_COOKIE_DELETED_COUNTER,
     });
+  });
+
+  it("shows the activation steps while automatic cleaning is off", () => {
+    const { getByText } = renderWelcome();
+    expect(getByText("setupStepsTitle")).not.toBeNull();
+    expect(getByText("setupStepProtectionText")).not.toBeNull();
+    expect(getByText("setupStepActiveModeText")).not.toBeNull();
+    expect(getByText("setupStepPinText")).not.toBeNull();
+  });
+
+  it("jumps to the Protection tab from the activation card button", () => {
+    const { getByRole, switchTabs } = renderWelcome();
+    fireEvent.click(getByRole("button", { name: "setupOpenProtectionText" }));
+    expect(switchTabs).toHaveBeenCalledWith("tabSettings");
+  });
+
+  it("hides the activation steps once automatic cleaning is on", () => {
+    const { queryByText } = renderWelcome(withActiveMode(true));
+    expect(queryByText("setupStepsTitle")).toBeNull();
+    expect(document.getElementById("setupSteps")).toBeNull();
   });
 
   it("renders without console errors", () => {

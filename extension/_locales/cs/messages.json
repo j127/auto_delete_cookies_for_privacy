@@ -1121,6 +1121,21 @@
   "protectionText": {
     "message": "Ochrana"
   },
+  "setupStepsTitle": {
+    "message": "Začněte uklízet automaticky"
+  },
+  "setupStepProtectionText": {
+    "message": "Přejděte na stránku Ochrana."
+  },
+  "setupStepActiveModeText": {
+    "message": "Zapněte „Uklízet automaticky“ — zvýrazněný přepínač nahoře. Nejdřív označte weby, kde chcete zůstat přihlášeni, jako „Ponechat“."
+  },
+  "setupStepPinText": {
+    "message": "Připněte rozšíření, ať zůstane viditelné: klikněte na ikonu puzzle na liště Chromu a pak na špendlík vedle Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Otevřít stránku Ochrana"
+  },
   "savedSitesText": {
     "message": "Uložené weby"
   },
@@ -1284,7 +1299,7 @@
     "message": "Začínáme"
   },
   "helpGettingStartedBody": {
-    "message": "Čerstvé instalace startují v ručním režimu: nic se nemaže, dokud neřeknete. Je to záměr — nejdřív si sestavte seznam ponechání, aby vás pozdější zapnutí automatického úklidu neodhlásilo všude, kde vám na tom záleží.\n\n1. Ponechte si důležité weby. Navštivte každý web, kde by vás odhlášení štvalo (e-mail, banka, cokoli placeného), klikněte na ikonu v liště a stiskněte „Ponechat cookies tohoto webu“. Pravidlo pokrývá doménu a všechny subdomény. Pro weby, které si vás mají pamatovat jen tentokrát, použijte „Ponechat do zavření prohlížeče“.\n\n2. Rozhodněte, co znamená „uklidit“. Z výroby úklid maže jen cookies. Zapněte „Mazat všechna data webu“ na stránce Ochrana, aby se mazaly i ostatní pozůstatky webu.\n\n3. Zapněte automatický úklid. Přepněte „Uklízet automaticky“ na stránce Ochrana. Od té chvíle: zavřete poslední kartu webu a po ochranné lhůtě jsou jeho cookies pryč — pokud web neponecháváte nebo není otevřen jinde.\n\n4. Volitelně: nechte protokol úklidu zapnutý, ať vždy vidíte, co a proč se uklidilo."
+    "message": "Čerstvé instalace startují v ručním režimu: nic se nemaže, dokud neřeknete. Je to záměr — nejdřív si sestavte seznam ponechání, aby vás pozdější zapnutí automatického úklidu neodhlásilo všude, kde vám na tom záleží.\n\n1. Ponechte si důležité weby. Navštivte každý web, kde by vás odhlášení štvalo (e-mail, banka, cokoli placeného), klikněte na ikonu v liště a stiskněte „Ponechat cookies tohoto webu“. Pravidlo pokrývá doménu a všechny subdomény. Pro weby, které si vás mají pamatovat jen tentokrát, použijte „Ponechat do zavření prohlížeče“.\n\n2. Rozhodněte, co znamená „uklidit“. Z výroby úklid maže jen cookies. Zapněte „Mazat všechna data webu“ na stránce Ochrana, aby se mazaly i ostatní pozůstatky webu.\n\n3. Zapněte automatický úklid. Přepněte „Uklízet automaticky“ na stránce Ochrana. Od té chvíle: zavřete poslední kartu webu a po ochranné lhůtě jsou jeho cookies pryč — pokud web neponecháváte nebo není otevřen jinde.\n\n4. Připněte ikonu na liště. Klikněte na ikonu puzzle na liště Chromu a pak na špendlík vedle Auto-Delete Cookies for Privacy, aby ikona i odznak s počtem cookies zůstaly viditelné.\n\n5. Volitelně: nechte protokol úklidu zapnutý, ať vždy vidíte, co a proč se uklidilo."
   },
   "helpCleaningTitle": {
     "message": "Jak úklid funguje"

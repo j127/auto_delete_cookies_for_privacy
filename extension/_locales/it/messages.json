@@ -1121,6 +1121,21 @@
   "protectionText": {
     "message": "Protezione"
   },
+  "setupStepsTitle": {
+    "message": "Inizia a pulire automaticamente"
+  },
+  "setupStepProtectionText": {
+    "message": "Vai alla pagina Protezione."
+  },
+  "setupStepActiveModeText": {
+    "message": "Accendi «Pulisci automaticamente» — l'interruttore evidenziato in alto. Prima segna come «Conserva» i siti in cui vuoi restare collegato."
+  },
+  "setupStepPinText": {
+    "message": "Fissa l'estensione perché resti visibile: fai clic sull'icona del puzzle nella barra degli strumenti di Chrome, poi sulla puntina accanto ad Auto-Delete Cookies for Privacy."
+  },
+  "setupOpenProtectionText": {
+    "message": "Apri la pagina Protezione"
+  },
   "savedSitesText": {
     "message": "Siti salvati"
   },
@@ -1284,7 +1299,7 @@
     "message": "Per iniziare"
   },
   "helpGettingStartedBody": {
-    "message": "Le nuove installazioni partono in modalità manuale: nulla viene cancellato finché non lo dici tu. È voluto — costruisci prima la tua lista da conservare, così attivare la pulizia automatica in seguito non ti disconnette da tutto ciò che ti interessa.\n\n1. Conserva i siti che contano. Visita ogni sito dove essere disconnesso ti darebbe fastidio (email, banca, tutto ciò che paghi), fai clic sull'icona nella barra e premi «Conserva i cookie di questo sito». La regola copre il dominio e tutti i suoi sottodomini. Usa «Conserva fino alla chiusura del browser» per i siti da ricordare solo per questa volta.\n\n2. Decidi cosa significa «pulire». Di fabbrica la pulizia rimuove solo i cookie. Attiva «Cancella tutti i dati del sito» nella pagina Protezione per eliminare anche gli altri residui di un sito.\n\n3. Attiva la pulizia automatica. Accendi «Pulisci automaticamente» nella pagina Protezione. Da quel momento: chiudi l'ultima scheda di un sito e, passato il periodo di tolleranza, i suoi cookie spariscono — a meno che tu non conservi il sito o sia ancora aperto altrove.\n\n4. Facoltativo: lascia attivo il registro delle pulizie, così puoi sempre vedere cosa è stato pulito e perché."
+    "message": "Le nuove installazioni partono in modalità manuale: nulla viene cancellato finché non lo dici tu. È voluto — costruisci prima la tua lista da conservare, così attivare la pulizia automatica in seguito non ti disconnette da tutto ciò che ti interessa.\n\n1. Conserva i siti che contano. Visita ogni sito dove essere disconnesso ti darebbe fastidio (email, banca, tutto ciò che paghi), fai clic sull'icona nella barra e premi «Conserva i cookie di questo sito». La regola copre il dominio e tutti i suoi sottodomini. Usa «Conserva fino alla chiusura del browser» per i siti da ricordare solo per questa volta.\n\n2. Decidi cosa significa «pulire». Di fabbrica la pulizia rimuove solo i cookie. Attiva «Cancella tutti i dati del sito» nella pagina Protezione per eliminare anche gli altri residui di un sito.\n\n3. Attiva la pulizia automatica. Accendi «Pulisci automaticamente» nella pagina Protezione. Da quel momento: chiudi l'ultima scheda di un sito e, passato il periodo di tolleranza, i suoi cookie spariscono — a meno che tu non conservi il sito o sia ancora aperto altrove.\n\n4. Fissa l'icona nella barra degli strumenti. Fai clic sull'icona del puzzle nella barra di Chrome, poi sulla puntina accanto ad Auto-Delete Cookies for Privacy, così l'icona e il contatore dei cookie restano visibili.\n\n5. Facoltativo: lascia attivo il registro delle pulizie, così puoi sempre vedere cosa è stato pulito e perché."
   },
   "helpCleaningTitle": {
     "message": "Come funziona la pulizia"

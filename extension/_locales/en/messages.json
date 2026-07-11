@@ -1377,6 +1377,26 @@
     "message": "Protection",
     "description": "Settings sidebar: the main settings section"
   },
+  "setupStepsTitle": {
+    "message": "Start cleaning automatically",
+    "description": "Overview page: title of the activation-steps card shown while automatic cleaning is off"
+  },
+  "setupStepProtectionText": {
+    "message": "Go to the Protection page.",
+    "description": "Overview activation card, step 1"
+  },
+  "setupStepActiveModeText": {
+    "message": "Turn on “Clean automatically” — the highlighted switch at the top. Mark sites you want to stay signed in to as Keep first.",
+    "description": "Overview activation card, step 2. “Clean automatically” must match activeModeText; “Keep” must match keepText."
+  },
+  "setupStepPinText": {
+    "message": "Pin the extension so it stays visible: click the puzzle icon in Chrome's toolbar, then the pin next to Auto-Delete Cookies for Privacy.",
+    "description": "Overview activation card, step 3. The extension name stays untranslated."
+  },
+  "setupOpenProtectionText": {
+    "message": "Open the Protection page",
+    "description": "Overview activation card: button that jumps to the Protection section"
+  },
   "savedSitesText": {
     "message": "Saved sites",
     "description": "Settings sidebar: the keep-list (expressions) section"
@@ -1588,7 +1608,7 @@
     "description": "Help section title"
   },
   "helpGettingStartedBody": {
-    "message": "Fresh installs start in manual mode: nothing is deleted until you say so. That's deliberate — build your keep list first, so turning on automatic cleaning later doesn't log you out of everything you care about.\n\n1. Keep the sites that matter. Visit each site where being logged out would annoy you (email, bank, anything you pay for), click the toolbar icon, and press “Keep cookies for this site”. The rule covers the domain and all its subdomains. Use “Keep until browser closes” for sites that should only be remembered this sitting.\n\n2. Decide what “clean” means. Out of the box, cleaning removes cookies only. Flip “Delete all site data” on the Protection page to also clear a site's other leftovers.\n\n3. Turn on automatic cleaning. Flip “Clean automatically” on the Protection page. From then on: close a site's last tab, and after the grace period its cookies are gone — unless you keep the site or it's still open elsewhere.\n\n4. Optional: keep the cleanup log on, so you can always see what was cleaned and why.",
+    "message": "Fresh installs start in manual mode: nothing is deleted until you say so. That's deliberate — build your keep list first, so turning on automatic cleaning later doesn't log you out of everything you care about.\n\n1. Keep the sites that matter. Visit each site where being logged out would annoy you (email, bank, anything you pay for), click the toolbar icon, and press “Keep cookies for this site”. The rule covers the domain and all its subdomains. Use “Keep until browser closes” for sites that should only be remembered this sitting.\n\n2. Decide what “clean” means. Out of the box, cleaning removes cookies only. Flip “Delete all site data” on the Protection page to also clear a site's other leftovers.\n\n3. Turn on automatic cleaning. Flip “Clean automatically” on the Protection page. From then on: close a site's last tab, and after the grace period its cookies are gone — unless you keep the site or it's still open elsewhere.\n\n4. Pin the toolbar icon. Click the puzzle icon in Chrome's toolbar, then the pin next to Auto-Delete Cookies for Privacy, so the icon and its cookie-count badge stay visible.\n\n5. Optional: keep the cleanup log on, so you can always see what was cleaned and why.",
     "description": "Help section body: getting started"
   },
   "helpCleaningTitle": {
