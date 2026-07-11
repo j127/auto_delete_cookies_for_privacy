@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Palauta asetukset oletuksiin"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Kytke automaattisiivous pois (manuaalitila)"
   },
@@ -375,6 +379,10 @@
   },
   "keepText": {
     "message": "Säilytä"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Kuinka kauan"
@@ -594,6 +602,10 @@
   "optionsText": {
     "message": "Mitä se säilyttää"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Ota lisäosatietojen siivous käyttöön"
   },
@@ -605,6 +617,10 @@
   },
   "preferencesText": {
     "message": "Asetukset"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Miten kuviot toimivat?"
@@ -743,6 +759,10 @@
   },
   "removeListText": {
     "message": "Poista kaikki lausekkeet valitulta listalta"
+  },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
   },
   "removeStorageCount": {
     "message": "Pyyhittiin $count$ kohdetta säilöstä $storageType$.",

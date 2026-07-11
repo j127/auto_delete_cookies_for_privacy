@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Скинути налаштування до типових"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Вимкнути автоматичне очищення (ручний режим)"
   },
@@ -375,6 +379,10 @@
   },
   "keepText": {
     "message": "Зберігати"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Як довго"
@@ -594,6 +602,10 @@
   "optionsText": {
     "message": "Що зберігається"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Увімкнути очищення даних плагінів"
   },
@@ -605,6 +617,10 @@
   },
   "preferencesText": {
     "message": "Налаштування"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Як працюють шаблони?"
@@ -743,6 +759,10 @@
   },
   "removeListText": {
     "message": "Видалити всі вирази з вибраного списку"
+  },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
   },
   "removeStorageCount": {
     "message": "Видалено записів: $count$ із $storageType$.",

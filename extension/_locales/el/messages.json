@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Επαναφορά ρυθμίσεων στις προεπιλογές"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Απενεργοποίηση αυτόματου καθαρισμού (χειροκίνητη λειτουργία)"
   },
@@ -375,6 +379,10 @@
   },
   "keepText": {
     "message": "Διατήρηση"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Για πόσο"
@@ -594,6 +602,10 @@
   "optionsText": {
     "message": "Τι διατηρεί"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Ενεργοποίηση καθαρισμού δεδομένων προσθέτων"
   },
@@ -605,6 +617,10 @@
   },
   "preferencesText": {
     "message": "Ρυθμίσεις"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Πώς λειτουργούν τα μοτίβα;"
@@ -743,6 +759,10 @@
   },
   "removeListText": {
     "message": "Αφαίρεση όλων των εκφράσεων από την επιλεγμένη λίστα"
+  },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
   },
   "removeStorageCount": {
     "message": "Καθαρίστηκαν $count$ στοιχεία από το $storageType$.",

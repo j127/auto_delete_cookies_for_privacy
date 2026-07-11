@@ -14,7 +14,12 @@ import { ListType, SettingID } from "@/typings/enums";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
-import { addExpressionUI, clearExpressionsUI } from "@/redux/actions";
+import {
+  addExpressionUI,
+  clearExpressionsUI,
+  removeListUI,
+} from "@/redux/actions";
+import { browserCapabilities } from "@/services/browser-capabilities";
 import {
   adcpLog,
   getMatchedExpressions,
@@ -40,8 +45,37 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
 
   const [error, setErrorMessage] = React.useState("");
   const [expressionInput, setExpressionInput] = React.useState("");
-  const [storeId] = React.useState("default");
+  const [storeId, setStoreId] = React.useState("default");
   const [success, setSuccess] = React.useState("");
+  const [containers, setContainers] = React.useState<
+    browser.contextualIdentities.ContextualIdentity[]
+  >([]);
+
+  // Live container names for the store selector (Firefox only; the query
+  // rejects when the user disabled privacy.userContext.enabled — then the
+  // selector simply lists no containers, orphaned lists still show).
+  React.useEffect(() => {
+    if (!browserCapabilities.supportsContextualIdentities) return;
+    let live = true;
+    browser.contextualIdentities
+      .query({})
+      .then((identities) => {
+        if (live) setContainers(identities);
+      })
+      .catch(() => undefined);
+    return () => {
+      live = false;
+    };
+  }, []);
+
+  // Expression-list keys that belong to no known store: leftovers from
+  // removed containers (or imports). They stay viewable and deletable.
+  const orphanedListIds = Object.keys(lists).filter(
+    (id) =>
+      id !== "default" &&
+      id !== "private" &&
+      !containers.some((c) => c.cookieStoreId === id)
+  );
 
   const onClearExpressions = (payload: StoreIdToExpressionList) => {
     dispatch(clearExpressionsUI(payload));
@@ -170,6 +204,48 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
       )}
 
       <div className="rounded-box border border-base-300 bg-base-100">
+        <div className="flex items-center gap-2 border-b border-base-300 p-3">
+          <label className="text-sm font-medium" htmlFor="storeIdSelector">
+            {browser.i18n.getMessage("listStoreSelectorText")}
+          </label>
+          <select
+            className="select select-sm"
+            id="storeIdSelector"
+            onChange={(e) => setStoreId(e.target.value)}
+            value={storeId}
+          >
+            <option value="default">
+              {browser.i18n.getMessage("defaultStoreText")}
+            </option>
+            <option value="private">
+              {browser.i18n.getMessage("privateStoreText")}
+            </option>
+            {containers.map((c) => (
+              <option key={c.cookieStoreId} value={c.cookieStoreId}>
+                {c.name}
+              </option>
+            ))}
+            {orphanedListIds.map((id) => (
+              <option key={id} value={id}>
+                {`${id} (${browser.i18n.getMessage("orphanedStoreText")})`}
+              </option>
+            ))}
+          </select>
+          {orphanedListIds.includes(storeId) && (
+            <IconButton
+              tag="button"
+              className="btn-error btn-sm"
+              iconName="trash"
+              role="button"
+              onClick={() => {
+                dispatch(removeListUI(storeId));
+                setStoreId("default");
+              }}
+              text={browser.i18n.getMessage("removeOrphanedListText")}
+              title={browser.i18n.getMessage("removeOrphanedListText")}
+            />
+          )}
+        </div>
         <div className="border-b border-base-300 p-3">
           <div className="join w-full">
             <input

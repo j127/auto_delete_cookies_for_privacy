@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Tilbakestill innstillingene til standard"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Slå av automatisk rydding (manuell modus)"
   },
@@ -375,6 +379,10 @@
   },
   "keepText": {
     "message": "Behold"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Hvor lenge"
@@ -594,6 +602,10 @@
   "optionsText": {
     "message": "Hva den beholder"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Aktiver rydding av programtilleggsdata"
   },
@@ -605,6 +617,10 @@
   },
   "preferencesText": {
     "message": "Innstillinger"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Hvordan fungerer mønstre?"
@@ -743,6 +759,10 @@
   },
   "removeListText": {
     "message": "Fjern alle uttrykk fra valgt liste"
+  },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
   },
   "removeStorageCount": {
     "message": "Ryddet $count$ element(er) fra $storageType$.",

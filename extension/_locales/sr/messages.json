@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Врати подешавања на подразумевана"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Искључи аутоматско чишћење (ручни режим)"
   },
@@ -375,6 +379,10 @@
   },
   "keepText": {
     "message": "Задржи"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Колико дуго"
@@ -594,6 +602,10 @@
   "optionsText": {
     "message": "Шта задржава"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Укључи чишћење података додатака"
   },
@@ -605,6 +617,10 @@
   },
   "preferencesText": {
     "message": "Подешавања"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Како раде шаблони?"
@@ -743,6 +759,10 @@
   },
   "removeListText": {
     "message": "Уклони све изразе са изабране листе"
+  },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
   },
   "removeStorageCount": {
     "message": "Очишћено $count$ ставки из $storageType$.",
