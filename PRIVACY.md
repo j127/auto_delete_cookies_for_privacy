@@ -16,6 +16,8 @@ Nothing. Specifically:
 - There are no user accounts and no third-party services involved.
 - Your data is never sold, shared, or transferred to anyone.
 
+The Firefox build declares this in the manifest itself: `data_collection_permissions` is set to `{ "required": ["none"] }`, Mozilla's machine-readable form of "no data is collected or transmitted".
+
 ## What the extension stores, locally only
 
 The extension keeps its own working data in your browser's local extension storage on your device:
