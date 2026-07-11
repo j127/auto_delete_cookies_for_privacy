@@ -36,9 +36,20 @@ jobs:
 
       - run: just package_zip
 
-      # Draft release with the Chrome zip attached; publishing stays manual.
-      # Store uploads are intentionally absent: this fork has no relation to
-      # the original project's Chrome Web Store / AMO listings or secrets.
+      - run: just package_zip_firefox
+
+      # AMO requires source submission for bundled extensions. git archive
+      # of the tag is exactly the reviewable tree (gitignored outputs are
+      # excluded by construction) and includes README-BUILD.md with the
+      # pinned-Bun rebuild instructions; CI's reproducible-firefox job
+      # proves the rebuild is content-identical.
+      - name: Package the source zip
+        run: git archive --format=zip -o "builds/Auto-Delete-Cookies-for-Privacy_${GITHUB_REF_NAME}_Source.zip" HEAD
+
+      # Draft release with the Chrome, Firefox, and source zips attached;
+      # publishing stays manual. Store uploads are intentionally absent:
+      # this fork has no relation to the original project's Chrome Web
+      # Store / AMO listings or secrets.
       - name: Create draft GitHub release
         env:
           GH_TOKEN: ${{ github.token }}
