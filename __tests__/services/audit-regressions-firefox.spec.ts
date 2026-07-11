@@ -24,7 +24,7 @@
  *   protected the whole platform suffix.
  */
 import { when } from "jest-when";
-import { ListType, SettingID, SiteDataType } from "@/typings/enums";
+import { ListType, SiteDataType } from "@/typings/enums";
 import { installGeckoCookieMock } from "../gecko-flavor";
 
 vi.stubGlobal("__BROWSER__", "firefox");
