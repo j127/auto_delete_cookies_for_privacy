@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Kembalikan pengaturan ke bawaan"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Matikan pembersihan otomatis (mode manual)"
   },
@@ -375,6 +379,10 @@
   },
   "keepText": {
     "message": "Simpan"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Berapa lama"
@@ -594,6 +602,10 @@
   "optionsText": {
     "message": "Apa yang disimpan"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Aktifkan pembersihan data plugin"
   },
@@ -605,6 +617,10 @@
   },
   "preferencesText": {
     "message": "Pengaturan"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Bagaimana pola bekerja?"
@@ -743,6 +759,10 @@
   },
   "removeListText": {
     "message": "Hapus semua ekspresi dari daftar terpilih"
+  },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
   },
   "removeStorageCount": {
     "message": "Membersihkan $count$ item dari $storageType$.",

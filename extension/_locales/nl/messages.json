@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Instellingen terugzetten naar standaard"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Automatisch opschonen uitzetten (handmatige modus)"
   },
@@ -375,6 +379,10 @@
   },
   "keepText": {
     "message": "Bewaren"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Hoe lang"
@@ -594,6 +602,10 @@
   "optionsText": {
     "message": "Wat het bewaart"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Plugin-gegevens-opschoning inschakelen"
   },
@@ -605,6 +617,10 @@
   },
   "preferencesText": {
     "message": "Instellingen"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Hoe werken patronen?"
@@ -743,6 +759,10 @@
   },
   "removeListText": {
     "message": "Alle expressies uit de geselecteerde lijst verwijderen"
+  },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
   },
   "removeStorageCount": {
     "message": "$count$ item(s) uit $storageType$ verwijderd.",

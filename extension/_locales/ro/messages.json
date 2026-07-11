@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Resetează setările la valorile implicite"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Dezactivează curățarea automată (mod manual)"
   },
@@ -375,6 +379,10 @@
   },
   "keepText": {
     "message": "Păstrează"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Cât timp"
@@ -594,6 +602,10 @@
   "optionsText": {
     "message": "Ce păstrează"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Activează curățarea datelor pluginurilor"
   },
@@ -605,6 +617,10 @@
   },
   "preferencesText": {
     "message": "Setări"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Cum funcționează tiparele?"
@@ -743,6 +759,10 @@
   },
   "removeListText": {
     "message": "Elimină toate expresiile din lista selectată"
+  },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
   },
   "removeStorageCount": {
     "message": "S-au șters $count$ elemente din $storageType$.",

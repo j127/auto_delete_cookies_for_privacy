@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "إعادة الإعدادات إلى الوضع الافتراضي"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "إيقاف التنظيف التلقائي (وضع يدوي)"
   },
@@ -375,6 +379,10 @@
   },
   "keepText": {
     "message": "إبقاء"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "المدة"
@@ -594,6 +602,10 @@
   "optionsText": {
     "message": "ما الذي يُبقيه"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "تفعيل تنظيف بيانات الملحقات"
   },
@@ -605,6 +617,10 @@
   },
   "preferencesText": {
     "message": "الإعدادات"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "كيف تعمل الأنماط؟"
@@ -743,6 +759,10 @@
   },
   "removeListText": {
     "message": "إزالة كل التعبيرات من القائمة المحددة"
+  },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
   },
   "removeStorageCount": {
     "message": "مُسح $count$ عنصرًا من $storageType$.",

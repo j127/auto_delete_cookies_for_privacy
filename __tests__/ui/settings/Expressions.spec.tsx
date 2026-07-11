@@ -75,14 +75,15 @@ describe("Expressions", () => {
     expect(container.querySelectorAll(".tooltip")).toHaveLength(0);
   });
 
-  it("arranges the card as add bar, accordion, table area, footer actions", () => {
+  it("arranges the card as store selector, add bar, accordion, table area, footer actions", () => {
     const { container, getByText, queryByText } = renderExpressions();
     const card = container.querySelector(".rounded-box") as HTMLElement;
     const children = Array.from(card.children);
-    expect(children[0].querySelector("#formText")).not.toBeNull();
-    expect(children[1].tagName).toBe("DETAILS");
-    expect(children[2].textContent).toContain("noExpressionsText");
-    const footer = children[3] as HTMLElement;
+    expect(children[0].querySelector("#storeIdSelector")).not.toBeNull();
+    expect(children[1].querySelector("#formText")).not.toBeNull();
+    expect(children[2].tagName).toBe("DETAILS");
+    expect(children[3].textContent).toContain("noExpressionsText");
+    const footer = children[4] as HTMLElement;
     ["createDefaultExpressionOptionsText", "removeAllExpressions"].forEach(
       (key) => expect(footer.textContent).toContain(key)
     );
@@ -187,5 +188,69 @@ describe("Expressions", () => {
   it("renders without console errors when expression rows are shown", () => {
     renderExpressions({ lists: sampleLists });
     expect(console.error).not.toHaveBeenCalled();
+  });
+
+  describe("store selector (#284)", () => {
+    const selector = (container: HTMLElement) =>
+      container.querySelector("#storeIdSelector") as HTMLSelectElement;
+
+    it("shows only Default and Private on the Chrome flavor", () => {
+      const { container } = renderExpressions();
+      const options = Array.from(selector(container).options).map(
+        (o) => o.value
+      );
+      expect(options).toEqual(["default", "private"]);
+      expect(global.browser.contextualIdentities.query).not.toHaveBeenCalled();
+    });
+
+    it("adds expressions into the selected list", () => {
+      const { container, dispatchSpy, input } = renderExpressions();
+      fireEvent.change(selector(container), {
+        target: { value: "private" },
+      });
+      fireEvent.change(input, { target: { value: "secret.example" } });
+      fireEvent.keyUp(input, { key: "Enter" });
+      expect(dispatchSpy).toHaveBeenCalledWith({
+        payload: expect.objectContaining({
+          expression: "secret.example",
+          storeId: "private",
+        }),
+        type: ReduxConstants.ADD_EXPRESSION,
+      });
+    });
+
+    it("lists an orphaned container list and removes it on request", () => {
+      const orphanLists: StoreIdToExpressionList = {
+        "firefox-container-9": [
+          {
+            expression: "old.example",
+            id: "9",
+            listType: ListType.WHITE,
+            storeId: "firefox-container-9",
+          },
+        ],
+      };
+      const { container, dispatchSpy, getByText } = renderExpressions({
+        lists: orphanLists,
+      });
+      const orphanOption = Array.from(selector(container).options).find(
+        (o) => o.value === "firefox-container-9"
+      );
+      expect(orphanOption).toBeDefined();
+      expect(orphanOption?.textContent).toContain("orphanedStoreText");
+
+      fireEvent.change(selector(container), {
+        target: { value: "firefox-container-9" },
+      });
+      // The orphaned list's expressions are viewable...
+      expect(getByText("old.example")).not.toBeNull();
+      // ...and the whole list is deletable.
+      fireEvent.click(getByText("removeOrphanedListText"));
+      expect(dispatchSpy).toHaveBeenCalledWith({
+        payload: "firefox-container-9",
+        type: ReduxConstants.REMOVE_LIST,
+      });
+      expect(selector(container).value).toBe("default");
+    });
   });
 });

@@ -215,6 +215,10 @@
     "message": "Reset Settings to Defaults",
     "description": "Reset Settings to Defaults"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Switch automatic cleaning off (manual mode)",
     "description": "Switch automatic cleaning off (manual mode)"
@@ -474,6 +478,10 @@
   "keepText": {
     "message": "Keep",
     "description": "Keep"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "How long",
@@ -735,6 +743,10 @@
     "message": "What it keeps",
     "description": "Saved-sites table column header for the plain-language options summary"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Enable Plugin Data Cleanup",
     "description": "Enable Plugin Data Cleanup. Found in ADCP Settings."
@@ -750,6 +762,10 @@
   "preferencesText": {
     "message": "Settings",
     "description": "Settings"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "How do patterns work?",
@@ -908,6 +924,10 @@
   "removeListText": {
     "message": "Remove All Expressions from Selected List",
     "description": "Remove All Expressions from Selected List. Shown in List of Expressions, only on Firefox and if containers/contextual identities is enabled."
+  },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
   },
   "removeStorageCount": {
     "message": "Cleared $count$ item(s) out of $storageType$.",

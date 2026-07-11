@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Restaurar configurações padrão"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Desligar a limpeza automática (modo manual)"
   },
@@ -375,6 +379,10 @@
   },
   "keepText": {
     "message": "Manter"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Por quanto tempo"
@@ -594,6 +602,10 @@
   "optionsText": {
     "message": "O que ele mantém"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Ativar limpeza de dados de plugins"
   },
@@ -605,6 +617,10 @@
   },
   "preferencesText": {
     "message": "Configurações"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Como funcionam os padrões?"
@@ -743,6 +759,10 @@
   },
   "removeListText": {
     "message": "Remover todas as expressões da lista selecionada"
+  },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
   },
   "removeStorageCount": {
     "message": "Removido(s) $count$ item(ns) de $storageType$.",
