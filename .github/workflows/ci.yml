@@ -4,10 +4,11 @@ on:
   push:
     # launch-fixes is the pre-publication working branch (successor to the
     # merged launch-prep); per-issue PRs target it and the final
-    # launch-fixes -> main merge is manual.
-    branches: [main, launch-fixes]
+    # launch-fixes -> main merge is manual. add-firefox-support is the
+    # Firefox-port feature branch with the same working agreement (#269).
+    branches: [main, launch-fixes, add-firefox-support]
   pull_request:
-    branches: [main, launch-fixes]
+    branches: [main, launch-fixes, add-firefox-support]
 
 permissions:
   contents: read
@@ -44,8 +45,22 @@ jobs:
       # package_zip depends on the build recipe, so this also verifies the build
       - run: just package_zip
 
+      # lint_firefox depends on build_firefox, so this also verifies the
+      # Firefox-target build; web-ext lint (AMO's linter) failing fails CI.
+      - run: just lint_firefox
+
+      - run: just package_zip_firefox
+
+      # Explicit per-browser globs: both zips live in builds/, so each
+      # artifact must name its own suffix.
       - uses: actions/upload-artifact@v4
         with:
           name: chrome-zip
-          path: builds/*.zip
+          path: builds/*_Chrome.zip
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: firefox-zip
+          path: builds/*_Firefox.zip
           if-no-files-found: error
