@@ -1,6 +1,14 @@
 {
   "releases": [
     {
+      "version": "1.0.1",
+      "notes": [
+        "The Share menu and homepage link now point to the Chrome Web Store listing.",
+        "The Overview page now shows how to turn on automatic cleaning and pin the toolbar icon.",
+        "Keeping or unkeeping a site now updates the toolbar icon in every open tab, not just the active one."
+      ]
+    },
+    {
       "version": "1.0.0",
       "notes": ["Initial release of Auto-Delete Cookies for Privacy."]
     }

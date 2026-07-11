@@ -74,4 +74,14 @@ describe("Welcome", () => {
     renderWelcome();
     expect(console.error).not.toHaveBeenCalled();
   });
+
+  it("lists the 1.0.1 release notes", () => {
+    const { getByText } = renderWelcome();
+    expect(getByText("1.0.1")).not.toBeNull();
+    expect(
+      getByText(
+        "The Share menu and homepage link now point to the Chrome Web Store listing."
+      )
+    ).not.toBeNull();
+  });
 });
