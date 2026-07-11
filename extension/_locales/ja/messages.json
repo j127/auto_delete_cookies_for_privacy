@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "IndexedDB を再起動まで保持"
   },
-  "keepLocalstorageText": {
-    "message": "LocalStorage を保持"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "LocalStorage を再起動まで保持"
-  },
   "keepPluginDataText": {
     "message": "プラグインデータを保持"
   },

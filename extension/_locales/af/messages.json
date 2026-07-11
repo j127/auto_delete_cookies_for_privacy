@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Hou IndexedDB tot herbegin"
   },
-  "keepLocalstorageText": {
-    "message": "Hou LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Hou LocalStorage tot herbegin"
-  },
   "keepPluginDataText": {
     "message": "Hou inpropdata"
   },

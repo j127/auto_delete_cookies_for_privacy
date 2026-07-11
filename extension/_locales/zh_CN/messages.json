@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "保留 IndexedDB 直到重启"
   },
-  "keepLocalstorageText": {
-    "message": "保留 LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "保留 LocalStorage 直到重启"
-  },
   "keepPluginDataText": {
     "message": "保留插件数据"
   },

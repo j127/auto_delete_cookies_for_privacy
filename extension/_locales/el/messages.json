@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Διατήρηση IndexedDB έως την επανεκκίνηση"
   },
-  "keepLocalstorageText": {
-    "message": "Διατήρηση LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Διατήρηση LocalStorage έως την επανεκκίνηση"
-  },
   "keepPluginDataText": {
     "message": "Διατήρηση δεδομένων προσθέτων"
   },

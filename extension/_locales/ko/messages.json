@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "IndexedDB를 재시작까지 유지"
   },
-  "keepLocalstorageText": {
-    "message": "LocalStorage 유지"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "LocalStorage를 재시작까지 유지"
-  },
   "keepPluginDataText": {
     "message": "플러그인 데이터 유지"
   },

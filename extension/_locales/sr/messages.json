@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Задржи IndexedDB до поновног покретања"
   },
-  "keepLocalstorageText": {
-    "message": "Задржи LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Задржи LocalStorage до поновног покретања"
-  },
   "keepPluginDataText": {
     "message": "Задржи податке додатака"
   },

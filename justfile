@@ -52,6 +52,26 @@ package_zip: build
   cd extension && zip -q -r -9 "../builds/Auto-Delete-Cookies-for-Privacy_${version}_Chrome.zip" . -x "*.map"
   echo "builds/Auto-Delete-Cookies-for-Privacy_${version}_Chrome.zip"
 
+# Build the Firefox artifact into builds/firefox
+build_firefox:
+  bun run scripts/build.ts --target firefox
+
+# Launch Firefox with the freshly built extension temporarily installed
+run_firefox: build_firefox
+  bunx web-ext run --source-dir builds/firefox
+
+# Lint the Firefox artifact with Mozilla's addons-linter (AMO's gate)
+lint_firefox: build_firefox
+  bunx web-ext lint --source-dir builds/firefox
+
+# Zip the Firefox artifact into builds/ for AMO
+package_zip_firefox: build_firefox
+  #!/usr/bin/env bash
+  set -euo pipefail
+  version=$(git describe --tags --always)
+  cd builds/firefox && zip -q -r -9 "../Auto-Delete-Cookies-for-Privacy_${version}_Firefox.zip" . -x "*.map"
+  echo "builds/Auto-Delete-Cookies-for-Privacy_${version}_Firefox.zip"
+
 # Preflight for tagging a release: version parity + clean tree
 release_check:
   ./scripts/release_check.sh

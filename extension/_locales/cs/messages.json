@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Ponechat IndexedDB do restartu"
   },
-  "keepLocalstorageText": {
-    "message": "Ponechat LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Ponechat LocalStorage do restartu"
-  },
   "keepPluginDataText": {
     "message": "Ponechat data zásuvných modulů"
   },

@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Păstrează IndexedDB până la repornire"
   },
-  "keepLocalstorageText": {
-    "message": "Păstrează LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Păstrează LocalStorage până la repornire"
-  },
   "keepPluginDataText": {
     "message": "Păstrează datele pluginurilor"
   },

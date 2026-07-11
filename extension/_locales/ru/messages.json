@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Хранить IndexedDB до перезапуска"
   },
-  "keepLocalstorageText": {
-    "message": "Хранить LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Хранить LocalStorage до перезапуска"
-  },
   "keepPluginDataText": {
     "message": "Хранить данные плагинов"
   },

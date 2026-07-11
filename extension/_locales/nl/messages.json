@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "IndexedDB bewaren tot herstart"
   },
-  "keepLocalstorageText": {
-    "message": "LocalStorage bewaren"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "LocalStorage bewaren tot herstart"
-  },
   "keepPluginDataText": {
     "message": "Plugin-gegevens bewaren"
   },

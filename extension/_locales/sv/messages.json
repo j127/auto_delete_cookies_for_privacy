@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Behåll IndexedDB till omstart"
   },
-  "keepLocalstorageText": {
-    "message": "Behåll LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Behåll LocalStorage till omstart"
-  },
   "keepPluginDataText": {
     "message": "Behåll insticksdata"
   },

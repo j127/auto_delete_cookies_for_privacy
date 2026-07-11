@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "إبقاء IndexedDB حتى إعادة التشغيل"
   },
-  "keepLocalstorageText": {
-    "message": "إبقاء LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "إبقاء LocalStorage حتى إعادة التشغيل"
-  },
   "keepPluginDataText": {
     "message": "إبقاء بيانات الملحقات"
   },

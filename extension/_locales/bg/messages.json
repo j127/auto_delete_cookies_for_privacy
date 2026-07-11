@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Запази IndexedDB до рестарт"
   },
-  "keepLocalstorageText": {
-    "message": "Запази LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Запази LocalStorage до рестарт"
-  },
   "keepPluginDataText": {
     "message": "Запази данните на плъгините"
   },
