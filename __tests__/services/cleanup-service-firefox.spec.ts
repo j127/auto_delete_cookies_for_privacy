@@ -301,7 +301,8 @@ describe("browsingData scoping on Firefox", () => {
       cleanReason("sub1.x.example", "sub1.x.example"),
     ]);
     // initialState has cacheCleanup true, yet no cache removal happens.
-    expect(result[SiteDataType.CACHE]).toBeUndefined();
+    expect(result).toBeDefined();
+    expect(result?.[SiteDataType.CACHE]).toBeUndefined();
     for (const call of global.browser.browsingData.remove.mock.calls) {
       expect(call[1]).not.toHaveProperty("cache");
       expect(call[0]).not.toHaveProperty("origins");
