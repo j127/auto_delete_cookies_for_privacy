@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Conservar IndexedDB hasta reiniciar"
   },
-  "keepLocalstorageText": {
-    "message": "Conservar LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Conservar LocalStorage hasta reiniciar"
-  },
   "keepPluginDataText": {
     "message": "Conservar datos de plugins"
   },

@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Зберігати IndexedDB до перезапуску"
   },
-  "keepLocalstorageText": {
-    "message": "Зберігати LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Зберігати LocalStorage до перезапуску"
-  },
   "keepPluginDataText": {
     "message": "Зберігати дані плагінів"
   },

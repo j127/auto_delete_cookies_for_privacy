@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "שמירת IndexedDB עד להפעלה מחדש"
   },
-  "keepLocalstorageText": {
-    "message": "שמירת LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "שמירת LocalStorage עד להפעלה מחדש"
-  },
   "keepPluginDataText": {
     "message": "שמירת נתוני תוספים"
   },

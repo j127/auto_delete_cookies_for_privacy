@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Säilytä IndexedDB uudelleenkäynnistykseen asti"
   },
-  "keepLocalstorageText": {
-    "message": "Säilytä LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Säilytä LocalStorage uudelleenkäynnistykseen asti"
-  },
   "keepPluginDataText": {
     "message": "Säilytä lisäosatiedot"
   },

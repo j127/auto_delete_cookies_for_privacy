@@ -455,14 +455,6 @@
     "message": "Keep IndexedDB until restart",
     "description": "Keep IndexedDB until restart. Found in Expression Options. For Greylist entries."
   },
-  "keepLocalstorageText": {
-    "message": "Keep LocalStorage",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries."
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Keep LocalStorage until restart",
-    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries."
-  },
   "keepPluginDataText": {
     "message": "Keep Plugin Data",
     "description": "Keep Plugin Data. Found in Expression Options. For Whitelist entries."
@@ -1151,11 +1143,11 @@
   },
   "keepLocalStorageText": {
     "message": "Keep LocalStorage",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries. (correctly-cased duplicate: SiteDataType.LOCALSTORAGE is \"LocalStorage\", so the expression options build keepLocalStorage*Text; the lowercase originals stay for compatibility)"
+    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries. (SiteDataType.LOCALSTORAGE is \"LocalStorage\", so the expression options build keepLocalStorage*Text; the lowercase keepLocalstorage*Text originals were removed in the Firefox port -- AMO rejects case-insensitive duplicate message names)"
   },
   "keepLocalStorageGreyText": {
     "message": "Keep LocalStorage until restart",
-    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries. (correctly-cased duplicate: SiteDataType.LOCALSTORAGE is \"LocalStorage\", so the expression options build keepLocalStorage*Text; the lowercase originals stay for compatibility)"
+    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries. (SiteDataType.LOCALSTORAGE is \"LocalStorage\", so the expression options build keepLocalStorage*Text; the lowercase keepLocalstorage*Text originals were removed in the Firefox port -- AMO rejects case-insensitive duplicate message names)"
   },
   "popupHeroOnText": {
     "message": "Auto-delete is on",

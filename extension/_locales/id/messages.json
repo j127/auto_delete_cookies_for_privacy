@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Simpan IndexedDB sampai mulai ulang"
   },
-  "keepLocalstorageText": {
-    "message": "Simpan LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Simpan LocalStorage sampai mulai ulang"
-  },
   "keepPluginDataText": {
     "message": "Simpan data plugin"
   },

@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Behold IndexedDB til omstart"
   },
-  "keepLocalstorageText": {
-    "message": "Behold LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Behold LocalStorage til omstart"
-  },
   "keepPluginDataText": {
     "message": "Behold programtilleggsdata"
   },

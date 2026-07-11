@@ -42,7 +42,8 @@
     "tailwindcss": "4.3.2",
     "typescript": "6.0.3",
     "typescript-eslint": "^8.62.1",
-    "vitest": "4.1.9"
+    "vitest": "4.1.9",
+    "web-ext": "10.4.0"
   },
   "repository": {
     "type": "git",

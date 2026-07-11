@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "IndexedDB'yi yeniden başlatmaya dek koru"
   },
-  "keepLocalstorageText": {
-    "message": "LocalStorage'ı koru"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "LocalStorage'ı yeniden başlatmaya dek koru"
-  },
   "keepPluginDataText": {
     "message": "Eklenti verilerini koru"
   },

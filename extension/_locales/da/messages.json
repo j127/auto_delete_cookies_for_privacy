@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "Behold IndexedDB indtil genstart"
   },
-  "keepLocalstorageText": {
-    "message": "Behold LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Behold LocalStorage indtil genstart"
-  },
   "keepPluginDataText": {
     "message": "Behold plugin-data"
   },

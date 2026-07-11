@@ -361,12 +361,6 @@
   "keepIndexedDBGreyText": {
     "message": "IndexedDB megtartása újraindításig"
   },
-  "keepLocalstorageText": {
-    "message": "LocalStorage megtartása"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "LocalStorage megtartása újraindításig"
-  },
   "keepPluginDataText": {
     "message": "Bővítményadatok megtartása"
   },
