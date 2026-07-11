@@ -18,9 +18,8 @@ vi.resetModules();
 const { cleanCookiesOperation, cleanSiteData, otherBrowsingDataCleanup } =
   await import("@/services/cleanup-service");
 const { initialState } = await import("@/redux/state");
-const { OpenTabStatus, ReasonClean, SiteDataType } = await import(
-  "@/typings/enums"
-);
+const { OpenTabStatus, ReasonClean, SiteDataType } =
+  await import("@/typings/enums");
 
 const containerCookie: browser.cookies.Cookie = {
   domain: "work.example",
@@ -237,7 +236,10 @@ describe("cleanCookiesOperation() on Firefox", () => {
 // Site data on Firefox (audit bug 5 / issue #280): Firefox rejects the
 // origins key wholesale and scopes by bare hostnames.
 describe("browsingData scoping on Firefox", () => {
-  const cleanReason = (domain: string, hostname: string): CleanReasonObject => ({
+  const cleanReason = (
+    domain: string,
+    hostname: string
+  ): CleanReasonObject => ({
     cached: false,
     cleanCookie: true,
     cookie: {
@@ -276,8 +278,7 @@ describe("browsingData scoping on Firefox", () => {
       false
     );
     expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
-    const [scope, dataTypes] =
-      global.browser.browsingData.remove.mock.calls[0];
+    const [scope, dataTypes] = global.browser.browsingData.remove.mock.calls[0];
     expect(dataTypes).toEqual({ localStorage: true });
     expect(scope).not.toHaveProperty("origins");
     // Both observed subdomains plus the registrable domain and www.
