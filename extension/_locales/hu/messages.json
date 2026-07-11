@@ -808,6 +808,10 @@
   "showNumberOfCookiesInIconText": {
     "message": "Sütiszám az eszköztárikonon"
   },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+  },
   "siteDataEmptyOnEnable": {
     "message": "Új adattípus bekapcsolásakor a már tárolt törlése"
   },

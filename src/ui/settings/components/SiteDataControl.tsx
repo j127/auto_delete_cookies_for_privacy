@@ -52,11 +52,47 @@ const SiteDataControl: React.FunctionComponent<OwnProps> = ({
     }
   }, [mixed]);
 
+  /**
+   * While the empty-on-enable setting is on, switching a site-data type
+   * on triggers SettingService's since-zero wipe — a global, whitelist-
+   * ignoring erase of that whole data type. So every enable that would
+   * wipe must be confirmed, naming the affected types (audit bug 14:
+   * upstream ran this silently). Disables never wipe and never prompt.
+   */
+  const confirmEnableWipe = (ids: SettingID[]): boolean => {
+    if (settings[SettingID.SITEDATA_EMPTY_ON_ENABLE].value !== true) {
+      return true;
+    }
+    const enabling = SITE_DATA_SETTINGS.filter(
+      ({ id }) => ids.includes(id) && !settings[id].value
+    );
+    if (enabling.length === 0) return true;
+    const typeNames = enabling
+      .map(({ textKey }) => browser.i18n.getMessage(textKey))
+      .join(", ");
+    return window.confirm(
+      `${browser.i18n.getMessage("browsingDataWarning")}\n\n${typeNames}`
+    );
+  };
+
   const onMasterToggle = () => {
     const target = !allOn;
+    if (target && !confirmEnableWipe(SITE_DATA_SETTINGS.map(({ id }) => id))) {
+      return;
+    }
     SITE_DATA_SETTINGS.forEach(({ id }) => {
       onUpdateSetting({ name: id, value: target });
     });
+  };
+
+  const onTypeToggle = (payload: Setting) => {
+    if (
+      payload.value === true &&
+      !confirmEnableWipe([payload.name as SettingID])
+    ) {
+      return;
+    }
+    onUpdateSetting(payload);
   };
 
   return (
@@ -76,6 +112,12 @@ const SiteDataControl: React.FunctionComponent<OwnProps> = ({
           )}
           <span className="block text-sm text-base-content/70">
             {browser.i18n.getMessage("deleteAllSiteDataDescText")}
+            {/* Behavior genuinely differs on Firefox: cache cannot be
+                cleared per site there, so the type is excluded and the
+                help text says so. */}
+            {!browserCapabilities.cacheHostScopable && (
+              <> {browser.i18n.getMessage("siteDataCacheFirefoxNoteText")}</>
+            )}
           </span>
         </span>
         <input
@@ -121,7 +163,7 @@ const SiteDataControl: React.FunctionComponent<OwnProps> = ({
               key={id}
               text={browser.i18n.getMessage(textKey)}
               settingObject={settings[id]}
-              updateSetting={(payload) => onUpdateSetting(payload)}
+              updateSetting={(payload) => onTypeToggle(payload)}
             />
           ))}
         </div>

@@ -808,6 +808,10 @@
   "showNumberOfCookiesInIconText": {
     "message": "툴바 아이콘에 쿠키 개수 표시"
   },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+  },
   "siteDataEmptyOnEnable": {
     "message": "새 데이터 유형을 켤 때 이미 저장된 것 지우기"
   },

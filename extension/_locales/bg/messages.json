@@ -808,6 +808,10 @@
   "showNumberOfCookiesInIconText": {
     "message": "Брой бисквитки върху иконата в лентата"
   },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+  },
   "siteDataEmptyOnEnable": {
     "message": "При включване на нов тип данни изтрий вече съхраненото"
   },

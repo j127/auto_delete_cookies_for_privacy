@@ -808,6 +808,10 @@
   "showNumberOfCookiesInIconText": {
     "message": "在工具栏图标上显示 Cookie 数量"
   },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+  },
   "siteDataEmptyOnEnable": {
     "message": "启用新数据类型时，抹掉已存储的内容"
   },
