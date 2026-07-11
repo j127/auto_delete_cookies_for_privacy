@@ -4,6 +4,7 @@
  */
 import { SettingID } from "@/typings/enums";
 import * as React from "react";
+import { browserCapabilities } from "@/services/browser-capabilities";
 import CheckboxSetting from "@/ui/common-components/CheckboxSetting";
 
 interface OwnProps {
@@ -18,7 +19,13 @@ interface OwnProps {
  * with a Custom badge. The per-type toggles live in an Advanced accordion.
  */
 const SITE_DATA_SETTINGS: { id: SettingID; textKey: string }[] = [
-  { id: SettingID.CLEANUP_CACHE, textKey: "cacheCleanupText" },
+  // Firefox cannot scope cache removal to hosts, so per-domain cache
+  // cleanup does not exist there: the toggle is hidden on that build and
+  // the cleanup pipeline skips the type (browser-capabilities
+  // cacheHostScopable).
+  ...(browserCapabilities.cacheHostScopable
+    ? [{ id: SettingID.CLEANUP_CACHE, textKey: "cacheCleanupText" }]
+    : []),
   { id: SettingID.CLEANUP_INDEXEDDB, textKey: "indexedDBCleanupText" },
   { id: SettingID.CLEANUP_LOCALSTORAGE, textKey: "localStorageCleanupText" },
   { id: SettingID.CLEANUP_PLUGINDATA, textKey: "pluginDataCleanupText" },

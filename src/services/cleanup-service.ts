@@ -27,7 +27,7 @@ import {
   getHostname,
   getSetting,
   isAWebpage,
-  prepareCleanupDomains,
+  prepareCleanupScope,
   prepareCookieDomain,
   returnMatchedExpressionObject,
   showNotification,
@@ -544,13 +544,16 @@ export const clearSiteDataForThisDomain = async (
     },
     debug
   );
-  const domains = prepareCleanupDomains(hostname, port);
+  const domains = prepareCleanupScope(hostname, port);
   if (siteData === "All") {
     // The consolidated notification and the returned success flag must
     // reflect what actually got removed — removeSiteData returns false on
     // failure (and shows its own error notification).
     const siteDataCleaned: string[] = [];
     for (const sd of SITEDATATYPES) {
+      // Firefox cannot scope cache removal to hosts; skip the type there.
+      if (sd === SiteDataType.CACHE && !browserCapabilities.cacheHostScopable)
+        continue;
       if (await removeSiteData(state, sd, domains, debug, false)) {
         siteDataCleaned.push(
           browser.i18n.getMessage(`${siteDataToBrowser(sd)}Text`)
@@ -572,6 +575,12 @@ export const clearSiteDataForThisDomain = async (
     );
     return true;
   }
+  if (
+    siteData === SiteDataType.CACHE &&
+    !browserCapabilities.cacheHostScopable
+  ) {
+    return false;
+  }
   return removeSiteData(state, siteData, domains, debug, true);
 };
 
@@ -582,8 +591,9 @@ export const removeSiteData = async (
   debug: boolean,
   manual = false
 ): Promise<boolean> => {
-  // Chrome's browsingData API scopes removals by origin.
-  const listName = "origins";
+  // Chrome's browsingData API scopes removals by origin; Firefox rejects
+  // the origins key entirely and scopes by bare hostnames instead.
+  const listName = browserCapabilities.browsingDataScoping;
   const sd = siteDataToBrowser(siteData);
   adcpLog(
     {
@@ -593,12 +603,13 @@ export const removeSiteData = async (
     debug
   );
   try {
-    // Chrome's browsingData API scopes removals by `origins`, a key the
-    // Firefox-schema-generated polyfill types don't know about.
+    // The scope key is per-target (`origins` is a key the
+    // Firefox-schema-generated polyfill types don't even know about;
+    // webext.d.ts intersects it back in for cross-browser call sites).
     await browser.browsingData.remove(
       {
-        origins: domains,
-      } as import("webextension-polyfill").BrowsingData.RemovalOptions,
+        [listName]: domains,
+      } as browser.browsingData.RemovalOptions,
       {
         [sd]: true,
       }
@@ -642,7 +653,12 @@ export const otherBrowsingDataCleanup = async (
 ): Promise<ActivityLog["browsingDataCleanup"]> => {
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
   const browsingDataResult: ActivityLog["browsingDataCleanup"] = {};
-  if (getSetting(state, SettingID.CLEANUP_CACHE)) {
+  // Cache is not host-scopable on Firefox; the setting is hidden there
+  // and the type is skipped regardless of any imported settings value.
+  if (
+    getSetting(state, SettingID.CLEANUP_CACHE) &&
+    browserCapabilities.cacheHostScopable
+  ) {
     browsingDataResult[SiteDataType.CACHE] = await cleanSiteData(
       state,
       SiteDataType.CACHE,
@@ -709,7 +725,7 @@ export const cleanSiteData = async (
     // No port available here: these domains come from cookies, and cookies
     // are host-scoped. Storage on non-default-port origins is only covered
     // by the manual per-site actions, which read the port from the tab URL.
-    cleanList.push(...prepareCleanupDomains(domain));
+    cleanList.push(...prepareCleanupScope(domain));
   }
 
   if (cleanList.length > 0) {

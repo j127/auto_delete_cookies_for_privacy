@@ -50,6 +50,8 @@ import {
   trimDot,
   undefinedIsTrue,
   dedupeCookies,
+  prepareCleanupHostnames,
+  prepareCleanupScope,
   topLevelSiteCandidates,
   validateExpressionDomain,
   withAllPartitions,
@@ -1082,6 +1084,40 @@ describe("Library Functions", () => {
       const wrapped = withAnyFirstPartyDomain(details);
       expect(wrapped).toEqual(details);
       expect(wrapped).not.toHaveProperty("firstPartyDomain");
+    });
+  });
+
+  describe("prepareCleanupHostnames()", () => {
+    it("carries the observed host, registrable domain, and www variant", () => {
+      expect(prepareCleanupHostnames("sub.domain.com")).toEqual([
+        "sub.domain.com",
+        "domain.com",
+        "www.domain.com",
+      ]);
+    });
+
+    it("dedupes when the host IS the registrable domain", () => {
+      expect(prepareCleanupHostnames("domain.com")).toEqual([
+        "domain.com",
+        "www.domain.com",
+      ]);
+    });
+
+    it("returns bare IPs untouched", () => {
+      expect(prepareCleanupHostnames("127.0.0.1")).toEqual(["127.0.0.1"]);
+    });
+
+    it("returns nothing for a blank domain", () => {
+      expect(prepareCleanupHostnames("  ")).toEqual([]);
+    });
+  });
+
+  describe("prepareCleanupScope() on Chrome (default flavor)", () => {
+    it("produces origins, exactly like prepareCleanupDomains", () => {
+      expect(prepareCleanupScope("sub.domain.com", "8080")).toEqual(
+        prepareCleanupDomains("sub.domain.com", "8080")
+      );
+      expect(prepareCleanupScope("domain.com")[0]).toMatch(/^http:\/\//);
     });
   });
 

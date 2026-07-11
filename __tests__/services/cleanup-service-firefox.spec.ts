@@ -15,8 +15,12 @@ import { when } from "jest-when";
 
 vi.stubGlobal("__BROWSER__", "firefox");
 vi.resetModules();
-const { cleanCookiesOperation } = await import("@/services/cleanup-service");
+const { cleanCookiesOperation, cleanSiteData, otherBrowsingDataCleanup } =
+  await import("@/services/cleanup-service");
 const { initialState } = await import("@/redux/state");
+const { OpenTabStatus, ReasonClean, SiteDataType } = await import(
+  "@/typings/enums"
+);
 
 const containerCookie: browser.cookies.Cookie = {
   domain: "work.example",
@@ -227,5 +231,93 @@ describe("cleanCookiesOperation() on Firefox", () => {
       (call: { name: string }[]) => call[0].name
     );
     expect(removedNames).not.toContain("tcp");
+  });
+});
+
+// Site data on Firefox (audit bug 5 / issue #280): Firefox rejects the
+// origins key wholesale and scopes by bare hostnames.
+describe("browsingData scoping on Firefox", () => {
+  const cleanReason = (domain: string, hostname: string): CleanReasonObject => ({
+    cached: false,
+    cleanCookie: true,
+    cookie: {
+      domain,
+      hostname,
+      hostOnly: true,
+      httpOnly: false,
+      mainDomain: "x.example",
+      name: "n",
+      path: "/",
+      preparedCookieDomain: `https://${hostname}/`,
+      sameSite: "no_restriction",
+      secure: true,
+      session: false,
+      storeId: "firefox-default",
+      value: "v",
+    },
+    openTabStatus: OpenTabStatus.TabsWasNotIgnored,
+    reason: ReasonClean.NoMatchedExpression,
+  });
+
+  beforeEach(() => {
+    when(global.browser.browsingData.remove)
+      .calledWith(expect.any(Object), expect.any(Object))
+      .mockResolvedValue(undefined as never);
+  });
+
+  it("sends hostnames covering every observed subdomain, never origins", async () => {
+    await cleanSiteData(
+      initialState,
+      SiteDataType.LOCALSTORAGE,
+      [
+        cleanReason("sub1.x.example", "sub1.x.example"),
+        cleanReason("sub2.x.example", "sub2.x.example"),
+      ],
+      false
+    );
+    expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+    const [scope, dataTypes] =
+      global.browser.browsingData.remove.mock.calls[0];
+    expect(dataTypes).toEqual({ localStorage: true });
+    expect(scope).not.toHaveProperty("origins");
+    // Both observed subdomains plus the registrable domain and www.
+    expect(scope.hostnames).toEqual(
+      expect.arrayContaining([
+        "sub1.x.example",
+        "sub2.x.example",
+        "x.example",
+        "www.x.example",
+      ])
+    );
+    // Bare hosts only — no scheme anywhere.
+    for (const host of scope.hostnames) {
+      expect(host).not.toMatch(/^https?:/);
+    }
+  });
+
+  it("skips cache cleanup entirely (not host-scopable on Firefox)", async () => {
+    const result = await otherBrowsingDataCleanup(initialState, [
+      cleanReason("sub1.x.example", "sub1.x.example"),
+    ]);
+    // initialState has cacheCleanup true, yet no cache removal happens.
+    expect(result[SiteDataType.CACHE]).toBeUndefined();
+    for (const call of global.browser.browsingData.remove.mock.calls) {
+      expect(call[1]).not.toHaveProperty("cache");
+      expect(call[0]).not.toHaveProperty("origins");
+    }
+  });
+
+  it("surfaces a failing dataType removal as a notification", async () => {
+    when(global.browser.browsingData.remove)
+      .calledWith(expect.any(Object), expect.any(Object))
+      .mockRejectedValue(new Error("browsingData exploded") as never);
+    const cleaned = await cleanSiteData(
+      initialState,
+      SiteDataType.INDEXEDDB,
+      [cleanReason("sub1.x.example", "sub1.x.example")],
+      false
+    );
+    expect(cleaned).toEqual([]);
+    expect(global.browser.notifications.create).toHaveBeenCalled();
   });
 });
