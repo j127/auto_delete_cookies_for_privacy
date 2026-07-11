@@ -12,8 +12,11 @@
  */
 import * as React from "react";
 import { useSelector, useStore } from "react-redux";
+import ContextualIdentityEvents from "@/services/contextual-identity-events";
+import { browserCapabilities } from "@/services/browser-capabilities";
 import {
   ADCPCOOKIENAME,
+  effectiveListKey,
   extractMainDomain,
   getAllCookiesForDomain,
   getHostname,
@@ -46,6 +49,9 @@ const App: React.FunctionComponent = () => {
   const [cookieCount, setCookieCount] = React.useState(0);
   const [tab, setTab] = React.useState<browser.tabs.Tab | undefined>(undefined);
   const [storeId, setStoreId] = React.useState("default");
+  const [containerName, setContainerName] = React.useState<string | undefined>(
+    undefined
+  );
   // Bumped after an external port disconnect so the port effect re-runs and
   // reconnects.
   const [reconnectAttempt, setReconnectAttempt] = React.useState(0);
@@ -96,6 +102,23 @@ const App: React.FunctionComponent = () => {
       .then((tabs) => {
         setStoreId(parseCookieStoreId(tabs[0].cookieStoreId));
         setTab(tabs[0]);
+        // Container name for the site card, from the background's
+        // session-persisted cache (no live query needed in the popup).
+        const rawStoreId = tabs[0].cookieStoreId;
+        if (
+          browserCapabilities.supportsContextualIdentities &&
+          rawStoreId?.startsWith("firefox-container-") &&
+          browser.storage.session
+        ) {
+          const key = ContextualIdentityEvents.SESSION_KEY;
+          browser.storage.session
+            .get({ [key]: {} })
+            .then((data) => {
+              const cache = data[key] as Record<string, { name?: string }>;
+              setContainerName(cache?.[rawStoreId]?.name);
+            })
+            .catch(() => undefined);
+        }
       });
     // The class component read these settings once in componentDidMount, so
     // this effect intentionally runs on mount only.
@@ -165,8 +188,16 @@ const App: React.FunctionComponent = () => {
   const keepExpression =
     addableHostnames.find((h) => h === `*.${domain}`) ?? hostname;
 
+  // Keep/Clean and the hero/badge all work against the list that GOVERNS
+  // this tab's store: container tabs use their own list only while the
+  // contextualIdentities setting is on, otherwise the default list.
+  const governingStoreId = effectiveListKey(store.getState() as State, storeId);
   // Prefer a permanent keep rule for the hero/badge when several match.
-  const matchedExpressions = getMatchedExpressions(lists, storeId, hostname);
+  const matchedExpressions = getMatchedExpressions(
+    lists,
+    governingStoreId,
+    hostname
+  );
   const matched =
     matchedExpressions.find((e) => e.listType === ListType.WHITE) ??
     matchedExpressions[0];
@@ -193,6 +224,7 @@ const App: React.FunctionComponent = () => {
       />
       <SiteCard
         cleanDelay={cleanDelay}
+        containerName={containerName}
         cookieCount={cookieCount}
         hostname={hostname}
         matchedListType={matched?.listType as ListType | undefined}
@@ -202,14 +234,14 @@ const App: React.FunctionComponent = () => {
         <AdvancedControls
           addableHostnames={addableHostnames}
           matched={matched}
-          storeId={storeId}
+          storeId={governingStoreId}
         />
       )}
       <KeepActions
         domain={domain}
         keepExpression={keepExpression}
         matched={matched}
-        storeId={storeId}
+        storeId={governingStoreId}
       />
       {advanced && <MoreCleaningOptions hostname={hostname} tab={tab} />}
       <PopupFooter tabIndex={tab.index} />

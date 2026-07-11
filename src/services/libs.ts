@@ -748,13 +748,29 @@ export const returnMatchedExpressionObject = (
   cookieStoreId: string,
   hostname: string
 ): Expression | undefined => {
+  return getMatchedExpressions(
+    state.lists,
+    effectiveListKey(state, cookieStoreId),
+    hostname
+  )[0];
+};
+
+/**
+ * The expression-list key that GOVERNS a store right now: container keys
+ * fold to "default" while the contextualIdentities setting is off. Both
+ * the cleanup read path and the popup's read AND write paths use this, so
+ * a rule added from a container tab always lands in the list that
+ * actually governs that tab.
+ */
+export const effectiveListKey = (
+  state: State,
+  cookieStoreId: string
+): string => {
   const storeKey = getStoreId(cookieStoreId);
-  const effectiveKey =
-    storeKey.startsWith("firefox-container-") &&
+  return storeKey.startsWith("firefox-container-") &&
     state.settings[SettingID.CONTEXTUAL_IDENTITIES]?.value !== true
-      ? "default"
-      : storeKey;
-  return getMatchedExpressions(state.lists, effectiveKey, hostname)[0];
+    ? "default"
+    : storeKey;
 };
 
 /**
