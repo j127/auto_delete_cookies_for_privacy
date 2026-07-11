@@ -14,6 +14,7 @@ import { SettingID } from "@/typings/enums";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import ErrorBoundary from "@/ui/common-components/ErrorBoundary";
+import HostPermissionsBanner from "@/ui/common-components/HostPermissionsBanner";
 import Icon from "@/ui/common-components/Icon";
 import ActivityLog from "./components/ActivityLog";
 import Expressions from "./components/Expressions";
@@ -83,6 +84,7 @@ const App: React.FunctionComponent = () => {
           <ThemeSwitcher />
         </div>
       </header>
+      <HostPermissionsBanner />
       <div className="drawer flex-1 lg:drawer-open">
         <input
           id="settings-drawer"

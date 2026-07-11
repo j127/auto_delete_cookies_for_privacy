@@ -313,6 +313,14 @@
       }
     }
   },
+  "hostPermissionsGrantButtonText": {
+    "message": "Restore access",
+    "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
+  },
+  "hostPermissionsMissingText": {
+    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
+  },
   "importCoreSettingsFailed": {
     "message": "Settings import aborted: the file contains an unrecognized setting.",
     "description": "Settings import aborted: the file contains an unrecognized setting."
