@@ -160,6 +160,7 @@ const restoreCookies = async (
       const {
         domain,
         expirationDate,
+        firstPartyDomain,
         hostOnly,
         httpOnly,
         name,
@@ -184,6 +185,9 @@ const restoreCookies = async (
         storeId,
         url: obj.cookie.preparedCookieDomain,
         value,
+        // Restoring a Firefox FPI cookie must echo its firstPartyDomain
+        // or the set rejects under FPI; absent on Chrome cookies.
+        ...(firstPartyDomain !== undefined && { firstPartyDomain }),
       };
       promiseArr.push(browser.cookies.set(cookieProperties));
     }

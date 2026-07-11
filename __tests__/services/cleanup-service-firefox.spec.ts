@@ -20,6 +20,7 @@ const { initialState } = await import("@/redux/state");
 
 const containerCookie: browser.cookies.Cookie = {
   domain: "work.example",
+  firstPartyDomain: "work.example",
   hostOnly: true,
   httpOnly: false,
   name: "sessionid",
@@ -57,7 +58,7 @@ describe("cleanCookiesOperation() on Firefox", () => {
         },
       ] as never);
     when(global.browser.cookies.getAll)
-      .calledWith({ storeId: "firefox-container-9" })
+      .calledWith({ storeId: "firefox-container-9", firstPartyDomain: null })
       .mockResolvedValue([containerCookie] as never);
     when(global.browser.cookies.remove)
       .calledWith(expect.any(Object))
@@ -92,6 +93,9 @@ describe("cleanCookiesOperation() on Firefox", () => {
       expect.objectContaining({
         name: "sessionid",
         storeId: "firefox-container-9",
+        // The enumerated cookie's firstPartyDomain must be echoed back or
+        // the removal misses under FPI.
+        firstPartyDomain: "work.example",
       })
     );
     expect(result.cachedResults.recentlyCleaned).toBe(1);
@@ -144,7 +148,7 @@ describe("cleanCookiesOperation() on Firefox", () => {
       storeId: "firefox-private",
     };
     when(global.browser.cookies.getAll)
-      .calledWith({ storeId: "firefox-private" })
+      .calledWith({ storeId: "firefox-private", firstPartyDomain: null })
       .mockResolvedValue([privateCookie] as never);
     const result = await cleanCookiesOperation(initialState, {
       greyCleanup: false,

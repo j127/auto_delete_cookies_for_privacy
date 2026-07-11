@@ -18,6 +18,7 @@ import {
   SiteDataType,
 } from "@/typings/enums";
 import ipaddr from "ipaddr.js";
+import { browserCapabilities } from "./browser-capabilities";
 
 /* --- CONSTANTS --- */
 export const ADCPCOOKIENAME = "ADCPBrowsingDataCleanup";
@@ -190,6 +191,25 @@ export const extractMainDomain = (domain: string): string => {
  * @param state The webextension state
  * @param tab The tab to fetch all (first party) cookies for.
  */
+/**
+ * Wraps details for ENUMERATING cookies.getAll calls. On Firefox,
+ * `firstPartyDomain: null` means "match cookies from every first-party
+ * domain": required under First-Party Isolation (a getAll without the key
+ * rejects outright) and the only way to see leftover FPI cookies after FPI
+ * is switched off. Upstream Cookie AutoDelete regressed this to an
+ * explicitly-undefined value in 2020 — Gecko treats that as omitted, the
+ * rejection was swallowed per store, and cleanup silently did nothing
+ * under FPI for years (audit bugs 1 and 3). Chrome rejects unknown getAll
+ * keys, so the Chrome build must not carry the key at all.
+ *
+ * The cast hides the key from the polyfill's Firefox-generated type, which
+ * declares firstPartyDomain as string-only even though Gecko accepts null.
+ */
+export const withAnyFirstPartyDomain = <T extends object>(details: T): T =>
+  browserCapabilities.supportsFirstPartyDomain
+    ? ({ ...details, firstPartyDomain: null } as unknown as T)
+    : details;
+
 export const getAllCookiesForDomain = async (
   state: State,
   tab: browser.tabs.Tab
@@ -213,9 +233,11 @@ export const getAllCookiesForDomain = async (
   const cookies: browser.cookies.Cookie[] = [];
 
   if (hostname.startsWith("file:")) {
-    const allCookies = await browser.cookies.getAll({
-      storeId: cookieStoreId,
-    });
+    const allCookies = await browser.cookies.getAll(
+      withAnyFirstPartyDomain({
+        storeId: cookieStoreId,
+      })
+    );
     const regExp = new RegExp(hostname.slice(7)); // take out 'file://'
     adcpLog(
       {
@@ -238,10 +260,12 @@ export const getAllCookiesForDomain = async (
       },
       debug
     );
-    const cookiesDomain = await browser.cookies.getAll({
-      domain: hostname,
-      storeId: cookieStoreId,
-    });
+    const cookiesDomain = await browser.cookies.getAll(
+      withAnyFirstPartyDomain({
+        domain: hostname,
+        storeId: cookieStoreId,
+      })
+    );
     cookiesDomain.forEach((c) => cookies.push(c));
   }
 
