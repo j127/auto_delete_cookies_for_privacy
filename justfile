@@ -72,6 +72,11 @@ package_zip_firefox: build_firefox
   cd builds/firefox && zip -q -r -9 "../Auto-Delete-Cookies-for-Privacy_${version}_Firefox.zip" . -x "*.map"
   echo "builds/Auto-Delete-Cookies-for-Privacy_${version}_Firefox.zip"
 
+# Real-Firefox end-to-end suite (headless; E2E_HEADED=1 to watch,
+# FIREFOX_BIN=/path to pin a channel such as ESR)
+e2e_firefox: package_zip_firefox
+  bunx vitest run --config vitest.e2e.config.ts
+
 # Preflight for tagging a release: version parity + clean tree
 release_check:
   ./scripts/release_check.sh
