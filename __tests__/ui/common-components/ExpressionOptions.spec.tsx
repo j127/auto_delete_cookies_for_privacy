@@ -116,10 +116,28 @@ describe("ExpressionOptions", () => {
       type: ReduxConstants.UPDATE_EXPRESSION,
     });
     await waitFor(() => {
-      // "default" is translated to the public store id "0".
+      // "default" is translated to the raw Chrome store id "0";
+      // partitionKey: {} keeps TCP/CHIPS partitioned cookies visible in
+      // the name list (#317).
       expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
         domain: "example.com",
+        partitionKey: {},
         storeId: "0",
+      });
+    });
+  });
+
+  it("maps a private-list expression to the raw incognito store id", async () => {
+    const { getByText } = renderOptions({
+      ...baseExpression,
+      storeId: "private",
+    });
+    fireEvent.click(getByText("keepAllCookiesText"));
+    await waitFor(() => {
+      expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
+        domain: "example.com",
+        partitionKey: {},
+        storeId: "1",
       });
     });
   });
@@ -148,6 +166,7 @@ describe("ExpressionOptions", () => {
     getByText("keepme");
     expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
       domain: "example.com",
+      partitionKey: {},
       storeId: "0",
     });
     expect(isChecked(container, "true-exp1-keepme")).toBe(true);
