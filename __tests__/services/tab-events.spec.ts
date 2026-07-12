@@ -60,8 +60,8 @@ class TestTabEvents extends TabEvents {
   public static getTabToDomain() {
     return TabEvents.tabToDomain;
   }
-  public static getOnTabUpdateDelay() {
-    return TabEvents.onTabUpdateDelay;
+  public static getPendingTabUpdates() {
+    return TabEvents.pendingTabUpdates;
   }
 }
 
@@ -311,20 +311,51 @@ describe("TabEvents", () => {
       );
     });
 
-    it("should not queue getAllCookieActions if one is pending already", () => {
+    it("should coalesce same-tab bursts into one getAllCookieActions call", () => {
       TestStore.changeSetting(SettingID.DEBUG_MODE, true);
-      expect(TestTabEvents.getOnTabUpdateDelay()).toBe(false);
+      expect(TestTabEvents.getPendingTabUpdates().size).toBe(0);
       TabEvents.onTabUpdate(0, sampleChangeInfo, {
         ...sampleTab,
         status: "complete",
       });
-      expect(TestTabEvents.getOnTabUpdateDelay()).toBe(true);
+      expect(TestTabEvents.getPendingTabUpdates().has(0)).toBe(true);
       TabEvents.onTabUpdate(0, sampleChangeInfo, {
         ...sampleTab,
         status: "complete",
+        title: "latest snapshot",
       });
       jest.runAllTimers();
       expect(spyTabEvents.getAllCookieActions).toHaveBeenCalledTimes(1);
+      // The flush must use the NEWEST tab snapshot from the burst.
+      expect(spyTabEvents.getAllCookieActions).toHaveBeenCalledWith(
+        expect.objectContaining({ title: "latest snapshot" })
+      );
+      expect(TestTabEvents.getPendingTabUpdates().size).toBe(0);
+    });
+
+    // #321 regression: one global debounce flag made the first completing
+    // tab swallow every other tab that completed inside its 750ms window
+    // (marker cookies never set, badges stale for the swallowed tabs).
+    it("should process each tab completing within another tab's window", () => {
+      TabEvents.onTabUpdate(0, sampleChangeInfo, {
+        ...sampleTab,
+        status: "complete",
+        url: "https://first.example",
+      });
+      TabEvents.onTabUpdate(7, sampleChangeInfo, {
+        ...sampleTab,
+        id: 7,
+        status: "complete",
+        url: "https://second.example",
+      });
+      jest.runAllTimers();
+      expect(spyTabEvents.getAllCookieActions).toHaveBeenCalledTimes(2);
+      expect(spyTabEvents.getAllCookieActions).toHaveBeenCalledWith(
+        expect.objectContaining({ url: "https://first.example" })
+      );
+      expect(spyTabEvents.getAllCookieActions).toHaveBeenCalledWith(
+        expect.objectContaining({ url: "https://second.example" })
+      );
     });
   });
 

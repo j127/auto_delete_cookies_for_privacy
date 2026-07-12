@@ -82,8 +82,8 @@ export default class TabEvents extends StoreUser {
       if (changeInfo.favIconUrl && debug) {
         changeInfo.favIconUrl = "***";
       }
-      if (!TabEvents.onTabUpdateDelay) {
-        TabEvents.onTabUpdateDelay = true;
+      if (!TabEvents.pendingTabUpdates.has(tabId)) {
+        TabEvents.pendingTabUpdates.set(tabId, tab);
         adcpLog(
           {
             msg: "TabEvents.onTabUpdate: action delay has been set for ~750 ms.",
@@ -99,8 +99,9 @@ export default class TabEvents extends StoreUser {
             },
             debug
           );
-          TabEvents.getAllCookieActions(tab);
-          TabEvents.onTabUpdateDelay = false;
+          const latestTab = TabEvents.pendingTabUpdates.get(tabId);
+          TabEvents.pendingTabUpdates.delete(tabId);
+          if (latestTab) TabEvents.getAllCookieActions(latestTab);
           adcpLog(
             {
               msg: "TabEvents.onTabUpdate: actions have been processed and flag cleared.",
@@ -109,9 +110,11 @@ export default class TabEvents extends StoreUser {
           );
         }, 750);
       } else {
+        // Refresh the stored tab so the flush uses the newest snapshot.
+        TabEvents.pendingTabUpdates.set(tabId, tab);
         adcpLog(
           {
-            msg: "TabEvents.onTabUpdate: actions delay is pending already.",
+            msg: "TabEvents.onTabUpdate: actions delay is pending already for this tab.",
             x: { tabId, changeInfo, partialTabInfo },
           },
           debug
@@ -388,8 +391,12 @@ export default class TabEvents extends StoreUser {
 
   // Add a delay to prevent multiple spawns of the browsingDataCleanup cookie
   // In-memory is fine in MV3: it guards a 750ms window armed right after an
-  // event, and resetting to false on a worker restart is the safe default.
-  protected static onTabUpdateDelay = false;
+  // event, and resetting to empty on a worker restart is the safe default.
+  // PER TAB (tabId -> latest tab snapshot): the old single boolean made the
+  // first completing tab swallow every OTHER tab that completed inside its
+  // 750ms window — their marker cookie and badge actions simply never ran
+  // (caught by the E2E FPI marker test, #321).
+  protected static pendingTabUpdates: Map<number, browser.tabs.Tab> = new Map();
 
   protected static tabToDomain: { [key: number]: string } = {};
 }
