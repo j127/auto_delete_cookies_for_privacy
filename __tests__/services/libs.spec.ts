@@ -47,6 +47,7 @@ import {
   showNotification,
   sleep,
   throwErrorNotification,
+  toRawStoreId,
   trimDot,
   undefinedIsTrue,
   dedupeCookies,
@@ -885,6 +886,34 @@ describe("Library Functions", () => {
     // Any other storeId passes through untouched.
     it("should return some-id from storeId some-id", () => {
       expect(getStoreId("some-id")).toEqual("some-id");
+    });
+  });
+
+  // The inverse mapping (list key -> raw store id) for UI code that hands
+  // cookies.getAll a real store id. Firefox flavor is covered in
+  // ExpressionOptions-firefox.spec.tsx alongside its consumer.
+  describe("toRawStoreId()", () => {
+    it("maps default to the raw Chrome default store id", () => {
+      expect(toRawStoreId("default")).toEqual("0");
+    });
+
+    it("maps private to the raw Chrome incognito store id", () => {
+      expect(toRawStoreId("private")).toEqual("1");
+    });
+
+    it("passes container keys through (already raw ids)", () => {
+      expect(toRawStoreId("firefox-container-3")).toEqual(
+        "firefox-container-3"
+      );
+    });
+
+    it("passes unknown keys through untouched", () => {
+      expect(toRawStoreId("some-id")).toEqual("some-id");
+    });
+
+    it("round-trips with getStoreId on both unified keys", () => {
+      expect(getStoreId(toRawStoreId("default"))).toEqual("default");
+      expect(getStoreId(toRawStoreId("private"))).toEqual("private");
     });
   });
 

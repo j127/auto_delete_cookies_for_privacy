@@ -524,6 +524,27 @@ export const getStoreId = (storeId: string): string => {
 };
 
 /**
+ * The target-aware INVERSE of getStoreId: expression-list key in, raw
+ * browser store id out, for UI code that must hand cookies.getAll a real
+ * store id. Passing the unified "default"/"private" keys (or Chrome's ids
+ * to Firefox) makes Gecko reject the call outright — which is exactly how
+ * the settings cookie-name list broke on the Firefox build when this
+ * mapping was still hardcoded to Chrome's "0". Container keys ARE raw ids
+ * already and pass through, as does anything unrecognized.
+ */
+export const toRawStoreId = (listKey: string): string => {
+  const firefox = browserCapabilities.storeIdScheme === "firefox";
+  if (listKey === "default") {
+    return firefox ? "firefox-default" : "0";
+  }
+  if (listKey === "private") {
+    return firefox ? "firefox-private" : "1";
+  }
+
+  return listKey;
+};
+
+/**
  * Converts a expression to its regular expression equivalent
  */
 export const globExpressionToRegExp = (glob: string): string => {
