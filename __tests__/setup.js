@@ -93,6 +93,12 @@ const apis = {
     fn: ["create", "refresh", "remove", "removeAll", "update"],
     events: ["onClicked"],
   },
+  // Firefox-only container API; Chrome-flavored suites never call it (the
+  // Gecko-flavored mock layer will build on this).
+  contextualIdentities: {
+    fn: ["create", "get", "move", "query", "remove", "update"],
+    events: ["onCreated", "onRemoved", "onUpdated"],
+  },
   notifications: {
     fn: ["clear", "create", "getAll", "update"],
     events: ["onClicked", "onClosed"],
@@ -111,6 +117,7 @@ const apis = {
   },
   permissions: {
     fn: ["contains", "getAll", "remove", "request"],
+    events: ["onAdded", "onRemoved"],
   },
   runtime: {
     fn: [

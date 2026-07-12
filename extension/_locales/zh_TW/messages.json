@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "還原預設設定"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "關閉自動清理（手動模式）"
   },
@@ -241,6 +245,14 @@
         "example": "List of Expressions <- the translated version"
       }
     }
+  },
+  "hostPermissionsGrantButtonText": {
+    "message": "Restore access",
+    "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
+  },
+  "hostPermissionsMissingText": {
+    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
     "message": "設定匯入已中止：檔案含有無法辨識的設定。"
@@ -361,12 +373,6 @@
   "keepIndexedDBGreyText": {
     "message": "保留 IndexedDB 直到重新啟動"
   },
-  "keepLocalstorageText": {
-    "message": "保留 LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "保留 LocalStorage 直到重新啟動"
-  },
   "keepPluginDataText": {
     "message": "保留外掛資料"
   },
@@ -381,6 +387,10 @@
   },
   "keepText": {
     "message": "保留"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "保留多久"
@@ -600,6 +610,10 @@
   "optionsText": {
     "message": "保留的內容"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "啟用外掛資料清理"
   },
@@ -611,6 +625,10 @@
   },
   "preferencesText": {
     "message": "設定"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "比對模式如何運作？"
@@ -750,6 +768,10 @@
   "removeListText": {
     "message": "刪除所選清單的全部運算式"
   },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
+  },
   "removeStorageCount": {
     "message": "已從 $storageType$ 清除 $count$ 項。",
     "placeholders": {
@@ -813,6 +835,10 @@
   },
   "showNumberOfCookiesInIconText": {
     "message": "在工具列圖示上顯示 Cookie 數量"
+  },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
     "message": "啟用新資料類型時，抹除已儲存的內容"

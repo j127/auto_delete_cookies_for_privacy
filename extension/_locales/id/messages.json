@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Kembalikan pengaturan ke bawaan"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Matikan pembersihan otomatis (mode manual)"
   },
@@ -241,6 +245,14 @@
         "example": "List of Expressions <- the translated version"
       }
     }
+  },
+  "hostPermissionsGrantButtonText": {
+    "message": "Restore access",
+    "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
+  },
+  "hostPermissionsMissingText": {
+    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
     "message": "Impor pengaturan dibatalkan: berkas berisi pengaturan yang tak dikenal."
@@ -361,12 +373,6 @@
   "keepIndexedDBGreyText": {
     "message": "Simpan IndexedDB sampai mulai ulang"
   },
-  "keepLocalstorageText": {
-    "message": "Simpan LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Simpan LocalStorage sampai mulai ulang"
-  },
   "keepPluginDataText": {
     "message": "Simpan data plugin"
   },
@@ -381,6 +387,10 @@
   },
   "keepText": {
     "message": "Simpan"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Berapa lama"
@@ -600,6 +610,10 @@
   "optionsText": {
     "message": "Apa yang disimpan"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Aktifkan pembersihan data plugin"
   },
@@ -611,6 +625,10 @@
   },
   "preferencesText": {
     "message": "Pengaturan"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Bagaimana pola bekerja?"
@@ -750,6 +768,10 @@
   "removeListText": {
     "message": "Hapus semua ekspresi dari daftar terpilih"
   },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
+  },
   "removeStorageCount": {
     "message": "Membersihkan $count$ item dari $storageType$.",
     "placeholders": {
@@ -813,6 +835,10 @@
   },
   "showNumberOfCookiesInIconText": {
     "message": "Jumlah cookie di ikon bilah alat"
+  },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
     "message": "Saat jenis data baru diaktifkan, hapus yang sudah tersimpan"

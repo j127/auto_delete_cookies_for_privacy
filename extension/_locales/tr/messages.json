@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Ayarları varsayılanlara döndür"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Otomatik temizliği kapat (elle mod)"
   },
@@ -241,6 +245,14 @@
         "example": "List of Expressions <- the translated version"
       }
     }
+  },
+  "hostPermissionsGrantButtonText": {
+    "message": "Restore access",
+    "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
+  },
+  "hostPermissionsMissingText": {
+    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
     "message": "Ayar içe aktarımı durduruldu: dosyada tanınmayan bir ayar var."
@@ -361,12 +373,6 @@
   "keepIndexedDBGreyText": {
     "message": "IndexedDB'yi yeniden başlatmaya dek koru"
   },
-  "keepLocalstorageText": {
-    "message": "LocalStorage'ı koru"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "LocalStorage'ı yeniden başlatmaya dek koru"
-  },
   "keepPluginDataText": {
     "message": "Eklenti verilerini koru"
   },
@@ -381,6 +387,10 @@
   },
   "keepText": {
     "message": "Koru"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Ne kadar süre"
@@ -600,6 +610,10 @@
   "optionsText": {
     "message": "Neleri korur"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Eklenti verisi temizliğini etkinleştir"
   },
@@ -611,6 +625,10 @@
   },
   "preferencesText": {
     "message": "Ayarlar"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Desenler nasıl çalışır?"
@@ -750,6 +768,10 @@
   "removeListText": {
     "message": "Seçili listedeki tüm ifadeleri sil"
   },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
+  },
   "removeStorageCount": {
     "message": "$storageType$ içinden $count$ öge silindi.",
     "placeholders": {
@@ -813,6 +835,10 @@
   },
   "showNumberOfCookiesInIconText": {
     "message": "Araç çubuğu simgesinde çerez sayısı"
+  },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
     "message": "Yeni bir veri türü açıldığında hâlihazırda depolananı sil"

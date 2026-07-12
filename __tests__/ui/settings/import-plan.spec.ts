@@ -150,4 +150,26 @@ describe("planExpressionImport", () => {
     expect(plan.additions).toEqual([]);
     expect(plan.errors).toEqual(["- importListNotArray default"]);
   });
+
+  it("round-trips its own folded export losslessly (Chrome)", () => {
+    const oldCadExport: StoreIdToExpressionList = {
+      default: [exp("plain.example.com", "default")],
+      "firefox-container-1": [exp("work.example.com", "firefox-container-1")],
+    };
+    const firstPlan = planExpressionImport(oldCadExport, {});
+    expect(firstPlan.foldedCount).toBe(1);
+    const rebuilt: { [storeId: string]: Expression[] } = {};
+    firstPlan.additions.forEach((addition) => {
+      const key = addition.storeId;
+      rebuilt[key] = [...(rebuilt[key] ?? []), addition];
+    });
+    const rebuiltLists = rebuilt as StoreIdToExpressionList;
+    // The folded export re-imports with no further folding or reshaping.
+    const secondPlan = planExpressionImport(rebuiltLists, rebuiltLists);
+    expect(secondPlan.foldedCount).toBe(0);
+    expect(secondPlan.additions.map((a) => a.storeId)).toEqual([
+      "default",
+      "default",
+    ]);
+  });
 });

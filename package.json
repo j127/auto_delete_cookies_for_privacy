@@ -17,6 +17,7 @@
     "react-dom": "^19.2.7",
     "react-redux": "^9.3.0",
     "redux": "^5.0.1",
+    "tldts": "7.4.6",
     "webextension-polyfill": "^0.12"
   },
   "devDependencies": {
@@ -42,7 +43,8 @@
     "tailwindcss": "4.3.2",
     "typescript": "6.0.3",
     "typescript-eslint": "^8.62.1",
-    "vitest": "4.1.9"
+    "vitest": "4.1.9",
+    "web-ext": "10.4.0"
   },
   "repository": {
     "type": "git",

@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Restablecer la configuración predeterminada"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Desactivar la limpieza automática (modo manual)"
   },
@@ -241,6 +245,14 @@
         "example": "List of Expressions <- the translated version"
       }
     }
+  },
+  "hostPermissionsGrantButtonText": {
+    "message": "Restore access",
+    "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
+  },
+  "hostPermissionsMissingText": {
+    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
     "message": "Importación cancelada: el archivo contiene una configuración desconocida."
@@ -361,12 +373,6 @@
   "keepIndexedDBGreyText": {
     "message": "Conservar IndexedDB hasta reiniciar"
   },
-  "keepLocalstorageText": {
-    "message": "Conservar LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Conservar LocalStorage hasta reiniciar"
-  },
   "keepPluginDataText": {
     "message": "Conservar datos de plugins"
   },
@@ -381,6 +387,10 @@
   },
   "keepText": {
     "message": "Conservar"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Cuánto tiempo"
@@ -600,6 +610,10 @@
   "optionsText": {
     "message": "Qué conserva"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Activar limpieza de datos de plugins"
   },
@@ -611,6 +625,10 @@
   },
   "preferencesText": {
     "message": "Configuración"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "¿Cómo funcionan los patrones?"
@@ -750,6 +768,10 @@
   "removeListText": {
     "message": "Eliminar todas las expresiones de la lista seleccionada"
   },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
+  },
   "removeStorageCount": {
     "message": "Eliminado(s) $count$ elemento(s) de $storageType$.",
     "placeholders": {
@@ -813,6 +835,10 @@
   },
   "showNumberOfCookiesInIconText": {
     "message": "Número de cookies en el icono de la barra"
+  },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
     "message": "Al activar un nuevo tipo de datos, borrar lo ya almacenado"

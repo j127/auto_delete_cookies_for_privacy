@@ -133,12 +133,24 @@ describe("SettingService", () => {
       await SettingService.onSettingsChange();
       expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
     });
-    it("should clean that site data if it was recently enabled", async () => {
+    it("should clean that site data if it was recently enabled AND the user opted into the wipe", async () => {
+      // The wipe is opt-in since the Firefox port (defaults off).
+      TestStore.changeSetting(SettingID.SITEDATA_EMPTY_ON_ENABLE, true);
+      await SettingService.onSettingsChange();
       TestStore.changeSetting(SettingID.CLEANUP_CACHE, false);
       await SettingService.onSettingsChange();
       TestStore.changeSetting(SettingID.CLEANUP_CACHE, true);
       await SettingService.onSettingsChange();
       expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+    });
+    it("should NOT clean that site data on enable with the default settings (wipe is opt-in)", async () => {
+      // No implicit wipe on first run, upgrade, or plain enables: the
+      // empty-on-enable setting defaults off (audit bug 14).
+      TestStore.changeSetting(SettingID.CLEANUP_CACHE, false);
+      await SettingService.onSettingsChange();
+      TestStore.changeSetting(SettingID.CLEANUP_CACHE, true);
+      await SettingService.onSettingsChange();
+      expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
     });
     it("should NOT clean that site data if it was recently enabled and clean site data on enable is false", async () => {
       TestStore.changeSetting(SettingID.CLEANUP_CACHE, false);

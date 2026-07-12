@@ -15,6 +15,11 @@ import ipaddr from "ipaddr.js";
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import { updateExpressionUI } from "@/redux/actions";
+import {
+  toRawStoreId,
+  withAllPartitions,
+  withAnyFirstPartyDomain,
+} from "@/services/libs";
 
 interface OwnProps {
   expression: Expression;
@@ -37,14 +42,6 @@ const trimDotAndStar = (str: string) => {
 const coerceBoolean = (bool: boolean | undefined) => {
   if (bool === undefined) return false;
   return !bool;
-};
-
-/** Converts an expression default storeId to the defaults of the browser */
-const toPublicStoreId = (storeId: string) => {
-  if (storeId === "default") {
-    return "0";
-  }
-  return storeId;
 };
 
 /**
@@ -80,9 +77,13 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
     let foundCookies: browser.cookies.Cookie[] = [];
     if (exp.startsWith("/") && exp.endsWith("/")) {
       // Treat expression as regular expression.  Get all cookies then regex domain.
-      const allCookies = await browser.cookies.getAll({
-        storeId: toPublicStoreId(expression.storeId),
-      });
+      const allCookies = await browser.cookies.getAll(
+        withAllPartitions(
+          withAnyFirstPartyDomain({
+            storeId: toRawStoreId(expression.storeId),
+          })
+        )
+      );
       if (exp.slice(1).startsWith("file:")) {
         // Regex with Local Directories
         const regExp = new RegExp(exp.slice(8, -1)); // take out file://
@@ -96,9 +97,13 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
         );
       }
     } else if (exp.startsWith("file:")) {
-      const allCookies = await browser.cookies.getAll({
-        storeId: toPublicStoreId(expression.storeId),
-      });
+      const allCookies = await browser.cookies.getAll(
+        withAllPartitions(
+          withAnyFirstPartyDomain({
+            storeId: toRawStoreId(expression.storeId),
+          })
+        )
+      );
       const regExp = new RegExp(exp.slice(7)); // take out file://
       foundCookies = allCookies.filter(
         (cookie) => cookie.domain === "" && regExp.test(cookie.path)
@@ -109,15 +114,23 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
       try {
         // Check if expression was a CIDR Notation
         cidrEXP = ipaddr.parseCIDR(exp);
-        allCookies = await browser.cookies.getAll({
-          storeId: toPublicStoreId(expression.storeId),
-        });
+        allCookies = await browser.cookies.getAll(
+          withAllPartitions(
+            withAnyFirstPartyDomain({
+              storeId: toRawStoreId(expression.storeId),
+            })
+          )
+        );
       } catch {
         // Not valid CIDR.  Proceed with default fetch.  Also applies to IP Addresses with no CIDR.
-        foundCookies = await browser.cookies.getAll({
-          domain: `${trimDotAndStar(exp)}${exp.endsWith(".") ? "." : ""}`,
-          storeId: toPublicStoreId(expression.storeId),
-        });
+        foundCookies = await browser.cookies.getAll(
+          withAllPartitions(
+            withAnyFirstPartyDomain({
+              domain: `${trimDotAndStar(exp)}${exp.endsWith(".") ? "." : ""}`,
+              storeId: toRawStoreId(expression.storeId),
+            })
+          )
+        );
       }
       if (allCookies) {
         foundCookies = allCookies.filter((cookie) => {

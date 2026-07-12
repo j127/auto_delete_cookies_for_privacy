@@ -18,6 +18,8 @@ import {
   SiteDataType,
 } from "@/typings/enums";
 import ipaddr from "ipaddr.js";
+import { getDomain } from "tldts";
+import { browserCapabilities } from "./browser-capabilities";
 
 /* --- CONSTANTS --- */
 export const ADCPCOOKIENAME = "ADCPBrowsingDataCleanup";
@@ -152,37 +154,20 @@ export const extractMainDomain = (domain: string): string => {
   // return itself if it is a local html file or IP Address.
   if (domain.startsWith("file://") || ipaddr.isValid(domain)) return domain;
 
-  // https://en.wikipedia.org/wiki/Second-level_domain
-  const secondLvlDomains = [
-    "biz",
-    "com",
-    "edu",
-    "gov",
-    "ltd",
-    "mod",
-    "net",
-    "org",
-    "police",
-    "school",
-  ];
-
   // Delete a '.' if domain contains it at the end
   const eDot = domain.endsWith(".");
   const editedDomain = trimDot(domain);
-  const partsOfDomain = editedDomain.split(".");
-  const length = partsOfDomain.length;
-  const secondLevel = partsOfDomain[length - 2];
 
-  // Check for country top level domain
-  if (
-    length > 2 &&
-    (secondLevel.length === 2 ||
-      (secondLvlDomains.includes(secondLevel) &&
-        partsOfDomain[length - 1].length === 2))
-  ) {
-    return `${partsOfDomain.slice(length - 3).join(".")}${eDot ? "." : ""}`;
-  }
-  return `${partsOfDomain.slice(length - 2).join(".")}${eDot ? "." : ""}`;
+  // Registrable domain (eTLD+1) via the real Public Suffix List. The old
+  // hand-rolled second-level-domain heuristic mistook platform suffixes —
+  // user.github.io collapsed to github.io, granting open-tab protection
+  // (and partition/FPD grouping) to the whole false neighborhood (audit
+  // bug 9). allowPrivateDomains keeps those platform suffixes (github.io,
+  // netlify.app, ...) separate per user site. Unlisted TLDs fall back to
+  // "last two labels" inside tldts; single-label hosts (intranet names)
+  // return null and pass through unchanged.
+  const registrable = getDomain(editedDomain, { allowPrivateDomains: true });
+  return `${registrable ?? editedDomain}${eDot ? "." : ""}`;
 };
 
 /**
@@ -190,6 +175,48 @@ export const extractMainDomain = (domain: string): string => {
  * @param state The webextension state
  * @param tab The tab to fetch all (first party) cookies for.
  */
+/**
+ * Wraps details for ENUMERATING cookies.getAll calls. On Firefox,
+ * `firstPartyDomain: null` means "match cookies from every first-party
+ * domain": required under First-Party Isolation (a getAll without the key
+ * rejects outright) and the only way to see leftover FPI cookies after FPI
+ * is switched off. Upstream Cookie AutoDelete regressed this to an
+ * explicitly-undefined value in 2020 — Gecko treats that as omitted, the
+ * rejection was swallowed per store, and cleanup silently did nothing
+ * under FPI for years (audit bugs 1 and 3). Chrome rejects unknown getAll
+ * keys, so the Chrome build must not carry the key at all.
+ *
+ * The cast hides the key from the polyfill's Firefox-generated type, which
+ * declares firstPartyDomain as string-only even though Gecko accepts null.
+ */
+export const withAnyFirstPartyDomain = <T extends object>(details: T): T =>
+  browserCapabilities.supportsFirstPartyDomain
+    ? ({ ...details, firstPartyDomain: null } as unknown as T)
+    : details;
+
+/**
+ * Wraps details for ENUMERATING cookies.getAll calls. `partitionKey: {}`
+ * makes getAll return partitioned AND unpartitioned cookies in one call
+ * (Firefox 94+/Chrome 119+; both under this extension's floors). Without
+ * it, cookies partitioned by Total Cookie Protection (Firefox default
+ * since 103) or CHIPS (Chrome) are invisible — the tracker cookies a
+ * cleaner exists to remove could never be seen or deleted (audit bug 2).
+ * Applies to BOTH builds.
+ */
+export const withAllPartitions = <T extends object>(details: T): T =>
+  ({ ...details, partitionKey: {} }) as unknown as T;
+
+/**
+ * The partitionKey.topLevelSite candidates for a hostname — used to pull
+ * the partition bucket OF a site (third-party cookies stored under it).
+ * topLevelSite is a scheme+registrable-domain "site", hence mainDomain.
+ */
+export const topLevelSiteCandidates = (hostname: string): string[] => {
+  const mainDomain = extractMainDomain(hostname);
+  if (mainDomain === "") return [];
+  return [`https://${mainDomain}`, `http://${mainDomain}`];
+};
+
 export const getAllCookiesForDomain = async (
   state: State,
   tab: browser.tabs.Tab
@@ -213,9 +240,13 @@ export const getAllCookiesForDomain = async (
   const cookies: browser.cookies.Cookie[] = [];
 
   if (hostname.startsWith("file:")) {
-    const allCookies = await browser.cookies.getAll({
-      storeId: cookieStoreId,
-    });
+    const allCookies = await browser.cookies.getAll(
+      withAllPartitions(
+        withAnyFirstPartyDomain({
+          storeId: cookieStoreId,
+        })
+      )
+    );
     const regExp = new RegExp(hostname.slice(7)); // take out 'file://'
     adcpLog(
       {
@@ -238,12 +269,31 @@ export const getAllCookiesForDomain = async (
       },
       debug
     );
-    const cookiesDomain = await browser.cookies.getAll({
-      domain: hostname,
-      storeId: cookieStoreId,
-    });
+    // The site's own cookies, across every partition they may sit in.
+    const cookiesDomain = await browser.cookies.getAll(
+      withAllPartitions(
+        withAnyFirstPartyDomain({
+          domain: hostname,
+          storeId: cookieStoreId,
+        })
+      )
+    );
     cookiesDomain.forEach((c) => cookies.push(c));
+    // Plus this site's partition bucket: third-party cookies partitioned
+    // UNDER this top-level site (TCP/CHIPS). They belong to the site's
+    // browsing footprint, so counts and per-tab actions include them.
+    for (const topLevelSite of topLevelSiteCandidates(hostname)) {
+      const partitioned = await browser.cookies.getAll(
+        withAnyFirstPartyDomain({
+          partitionKey: { topLevelSite },
+          storeId: cookieStoreId,
+        })
+      );
+      partitioned.forEach((c) => cookies.push(c));
+    }
   }
+
+  const deduped = dedupeCookies(cookies);
 
   adcpLog(
     {
@@ -252,13 +302,36 @@ export const getAllCookiesForDomain = async (
         partialTabInfo,
         tabURL: tab.url,
         hostname,
-        cookieCount: cookies.length,
+        cookieCount: deduped.length,
       },
     },
     debug
   );
 
-  return cookies;
+  return deduped;
+};
+
+/**
+ * Dedupes cookies by their full identity — a cookie's uniqueness includes
+ * which partition it lives in, so partition-bucket queries merged with
+ * domain queries cannot double-count.
+ */
+export const dedupeCookies = (
+  cookies: browser.cookies.Cookie[]
+): browser.cookies.Cookie[] => {
+  const seen = new Map<string, browser.cookies.Cookie>();
+  for (const cookie of cookies) {
+    const key = [
+      cookie.storeId,
+      cookie.name,
+      cookie.domain,
+      cookie.path,
+      cookie.partitionKey?.topLevelSite ?? "",
+      cookie.firstPartyDomain ?? "",
+    ].join("|");
+    if (!seen.has(key)) seen.set(key, cookie);
+  }
+  return [...seen.values()];
 };
 
 /**
@@ -425,18 +498,50 @@ export const getSetting = (
 ): string | number | boolean => state.settings[settingName].value;
 
 /**
- * Gets a sanitized cookieStoreId (Chrome semantics: "0" is the default
- * store, "1" is the incognito store).
+ * Gets a sanitized cookieStoreId — THE normalizer from raw browser store
+ * ids to expression-list keys. Every write path (redux actions) and read
+ * path (cleanup expression matching) must go through this so both agree
+ * on one key space.
+ *
+ * Chrome semantics: "0" is the default store, "1" is the incognito store.
+ * Firefox semantics: "firefox-default" and "firefox-private" map onto the
+ * SAME unified "default"/"private" keys Chrome uses — upstream Cookie
+ * AutoDelete kept "firefox-private" as its own key on the read path while
+ * the UI wrote private-window expressions elsewhere, so private-window
+ * whitelists never protected anything (audit bug 4). Container stores
+ * ("firefox-container-N") pass through unchanged: each container keeps
+ * its own expression list.
  */
 export const getStoreId = (storeId: string): string => {
-  if (storeId === "0") {
+  if (storeId === "0" || storeId === "firefox-default") {
     return "default";
   }
-  if (storeId === "1") {
+  if (storeId === "1" || storeId === "firefox-private") {
     return "private";
   }
 
   return storeId;
+};
+
+/**
+ * The target-aware INVERSE of getStoreId: expression-list key in, raw
+ * browser store id out, for UI code that must hand cookies.getAll a real
+ * store id. Passing the unified "default"/"private" keys (or Chrome's ids
+ * to Firefox) makes Gecko reject the call outright — which is exactly how
+ * the settings cookie-name list broke on the Firefox build when this
+ * mapping was still hardcoded to Chrome's "0". Container keys ARE raw ids
+ * already and pass through, as does anything unrecognized.
+ */
+export const toRawStoreId = (listKey: string): string => {
+  const firefox = browserCapabilities.storeIdScheme === "firefox";
+  if (listKey === "default") {
+    return firefox ? "firefox-default" : "0";
+  }
+  if (listKey === "private") {
+    return firefox ? "firefox-private" : "1";
+  }
+
+  return listKey;
 };
 
 /**
@@ -546,10 +651,13 @@ export const matchIPInExpression = (
 /**
  * Parse cookieStoreId for use in addExpressionUI. Chrome tabs don't expose a
  * cookieStoreId, so expressions added from a tab context land in the
- * "default" store.
+ * "default" store. Firefox tabs do expose one, so it is routed through
+ * getStoreId to land in the unified key space ("firefox-private" →
+ * "private", containers pass through) — keeping the UI write path and the
+ * cleanup read path on the same list keys.
  */
 export const parseCookieStoreId = (cookieStoreId: string | undefined): string =>
-  cookieStoreId || "default";
+  getStoreId(cookieStoreId || "default");
 
 /**
  * Prepare Domains for all cleanups.
@@ -597,6 +705,34 @@ export const prepareCleanupDomains = (domain: string, port = ""): string[] => {
 };
 
 /**
+ * Firefox's browsingData scope list for one cookie/tab domain: bare
+ * hostnames, exact match only — Firefox rejects Chrome's `origins` key
+ * outright and does no subdomain expansion on `hostnames`. The list
+ * carries the observed host itself plus the registrable domain and its
+ * www variant, the practical mitigation for the exact-host subdomain gap
+ * (audit bug 5: upstream sent only the bare main domain, so storage on
+ * real subdomains was never cleared).
+ */
+export const prepareCleanupHostnames = (domain: string): string[] => {
+  const d = trimDot(domain.trim());
+  if (d === "") return [];
+  if (ipaddr.IPv4.isValidFourPartDecimal(d) || ipaddr.IPv6.isValid(d)) {
+    return [d];
+  }
+  const mainDomain = extractMainDomain(d);
+  return [...new Set([d, mainDomain, `www.${mainDomain}`])];
+};
+
+/**
+ * Per-target browsingData scope list: origins on Chrome, hostnames on
+ * Firefox. The port only matters for origins — hostnames carry none.
+ */
+export const prepareCleanupScope = (domain: string, port = ""): string[] =>
+  browserCapabilities.browsingDataScoping === "origins"
+    ? prepareCleanupDomains(domain, port)
+    : prepareCleanupHostnames(domain);
+
+/**
  * Puts the domain in the right format for browser.cookies.remove()
  */
 export const prepareCookieDomain = (cookie: browser.cookies.Cookie): string => {
@@ -620,6 +756,13 @@ export const prepareCookieDomain = (cookie: browser.cookies.Cookie): string => {
 /**
  * Returns the first available matched expression.
  * wrapper for getMatchedExpressions
+ *
+ * Container stores get their own expression lists only while the
+ * contextualIdentities setting is on. With it off (or not yet present —
+ * it only exists once the container service restores it), container
+ * cookies are governed by the default list: they are still enumerated and
+ * cleaned (upstream skipped them entirely, audit bug 6a), and the user
+ * manages one list for all of them.
  */
 export const returnMatchedExpressionObject = (
   state: State,
@@ -628,9 +771,27 @@ export const returnMatchedExpressionObject = (
 ): Expression | undefined => {
   return getMatchedExpressions(
     state.lists,
-    getStoreId(cookieStoreId),
+    effectiveListKey(state, cookieStoreId),
     hostname
   )[0];
+};
+
+/**
+ * The expression-list key that GOVERNS a store right now: container keys
+ * fold to "default" while the contextualIdentities setting is off. Both
+ * the cleanup read path and the popup's read AND write paths use this, so
+ * a rule added from a container tab always lands in the list that
+ * actually governs that tab.
+ */
+export const effectiveListKey = (
+  state: State,
+  cookieStoreId: string
+): string => {
+  const storeKey = getStoreId(cookieStoreId);
+  return storeKey.startsWith("firefox-container-") &&
+    state.settings[SettingID.CONTEXTUAL_IDENTITIES]?.value !== true
+    ? "default"
+    : storeKey;
 };
 
 /**

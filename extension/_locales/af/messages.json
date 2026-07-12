@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Stel instellings terug na verstek"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Skakel outomatiese skoonmaak af (handmatige modus)"
   },
@@ -241,6 +245,14 @@
         "example": "List of Expressions <- the translated version"
       }
     }
+  },
+  "hostPermissionsGrantButtonText": {
+    "message": "Restore access",
+    "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
+  },
+  "hostPermissionsMissingText": {
+    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
     "message": "Instellingsinvoer gestaak: die lêer bevat 'n onbekende instelling."
@@ -361,12 +373,6 @@
   "keepIndexedDBGreyText": {
     "message": "Hou IndexedDB tot herbegin"
   },
-  "keepLocalstorageText": {
-    "message": "Hou LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Hou LocalStorage tot herbegin"
-  },
   "keepPluginDataText": {
     "message": "Hou inpropdata"
   },
@@ -381,6 +387,10 @@
   },
   "keepText": {
     "message": "Hou"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Hoe lank"
@@ -600,6 +610,10 @@
   "optionsText": {
     "message": "Wat dit hou"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Aktiveer inpropdata-skoonmaak"
   },
@@ -611,6 +625,10 @@
   },
   "preferencesText": {
     "message": "Instellings"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Hoe werk patrone?"
@@ -750,6 +768,10 @@
   "removeListText": {
     "message": "Verwyder alle uitdrukkings uit die gekose lys"
   },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
+  },
   "removeStorageCount": {
     "message": "$count$ item(s) uit $storageType$ verwyder.",
     "placeholders": {
@@ -813,6 +835,10 @@
   },
   "showNumberOfCookiesInIconText": {
     "message": "Koekietelling op die nutsbalkikoon"
+  },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
     "message": "Wanneer 'n nuwe datatipe aangeskakel word, vee uit wat reeds gestoor is"

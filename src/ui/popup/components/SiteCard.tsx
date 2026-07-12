@@ -7,6 +7,8 @@ import * as React from "react";
 
 interface OwnProps {
   cleanDelay: number;
+  /** Firefox container name for the active tab, when it lives in one. */
+  containerName?: string;
   cookieCount: number;
   hostname: string;
   matchedListType?: ListType;
@@ -18,6 +20,7 @@ interface OwnProps {
  */
 const SiteCard: React.FunctionComponent<OwnProps> = ({
   cleanDelay,
+  containerName,
   cookieCount,
   hostname,
   matchedListType,
@@ -38,6 +41,11 @@ const SiteCard: React.FunctionComponent<OwnProps> = ({
         <span className="min-w-0 flex-1 truncate text-lg font-bold">
           {hostname}
         </span>
+        {containerName && (
+          <span className="badge badge-outline badge-sm" id="containerBadge">
+            {containerName}
+          </span>
+        )}
         <span
           className={`badge badge-sm ${kept ? "badge-success" : "badge-warning"}`}
         >

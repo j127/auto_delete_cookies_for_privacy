@@ -215,6 +215,10 @@
     "message": "Reset Settings to Defaults",
     "description": "Reset Settings to Defaults"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Switch automatic cleaning off (manual mode)",
     "description": "Switch automatic cleaning off (manual mode)"
@@ -308,6 +312,14 @@
         "example": "List of Expressions <- the translated version"
       }
     }
+  },
+  "hostPermissionsGrantButtonText": {
+    "message": "Restore access",
+    "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
+  },
+  "hostPermissionsMissingText": {
+    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
     "message": "Settings import aborted: the file contains an unrecognized setting.",
@@ -455,14 +467,6 @@
     "message": "Keep IndexedDB until restart",
     "description": "Keep IndexedDB until restart. Found in Expression Options. For Greylist entries."
   },
-  "keepLocalstorageText": {
-    "message": "Keep LocalStorage",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries."
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Keep LocalStorage until restart",
-    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries."
-  },
   "keepPluginDataText": {
     "message": "Keep Plugin Data",
     "description": "Keep Plugin Data. Found in Expression Options. For Whitelist entries."
@@ -482,6 +486,10 @@
   "keepText": {
     "message": "Keep",
     "description": "Keep"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "How long",
@@ -743,6 +751,10 @@
     "message": "What it keeps",
     "description": "Saved-sites table column header for the plain-language options summary"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Enable Plugin Data Cleanup",
     "description": "Enable Plugin Data Cleanup. Found in ADCP Settings."
@@ -758,6 +770,10 @@
   "preferencesText": {
     "message": "Settings",
     "description": "Settings"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "How do patterns work?",
@@ -917,6 +933,10 @@
     "message": "Remove All Expressions from Selected List",
     "description": "Remove All Expressions from Selected List. Shown in List of Expressions, only on Firefox and if containers/contextual identities is enabled."
   },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
+  },
   "removeStorageCount": {
     "message": "Cleared $count$ item(s) out of $storageType$.",
     "description": "Cleared $count$ item(s) out of $storageType$. Used in manual localstorage clean notification.",
@@ -996,6 +1016,10 @@
   "showNumberOfCookiesInIconText": {
     "message": "Cookie count on toolbar icon",
     "description": "Interface: show the site's cookie count on the icon"
+  },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
     "message": "When a New Data Type Is Enabled, Wipe What's Already Stored",
@@ -1151,11 +1175,11 @@
   },
   "keepLocalStorageText": {
     "message": "Keep LocalStorage",
-    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries. (correctly-cased duplicate: SiteDataType.LOCALSTORAGE is \"LocalStorage\", so the expression options build keepLocalStorage*Text; the lowercase originals stay for compatibility)"
+    "description": "Keep LocalStorage. Found in Expression Options. For Whitelist entries. (SiteDataType.LOCALSTORAGE is \"LocalStorage\", so the expression options build keepLocalStorage*Text; the lowercase keepLocalstorage*Text originals were removed in the Firefox port -- AMO rejects case-insensitive duplicate message names)"
   },
   "keepLocalStorageGreyText": {
     "message": "Keep LocalStorage until restart",
-    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries. (correctly-cased duplicate: SiteDataType.LOCALSTORAGE is \"LocalStorage\", so the expression options build keepLocalStorage*Text; the lowercase originals stay for compatibility)"
+    "description": "Keep LocalStorage until restart. Found in Expression Options. For Greylist entries. (SiteDataType.LOCALSTORAGE is \"LocalStorage\", so the expression options build keepLocalStorage*Text; the lowercase keepLocalstorage*Text originals were removed in the Firefox port -- AMO rejects case-insensitive duplicate message names)"
   },
   "popupHeroOnText": {
     "message": "Auto-delete is on",

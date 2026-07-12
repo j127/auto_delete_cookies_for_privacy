@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Återställ inställningarna till standard"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Stäng av automatisk städning (manuellt läge)"
   },
@@ -241,6 +245,14 @@
         "example": "List of Expressions <- the translated version"
       }
     }
+  },
+  "hostPermissionsGrantButtonText": {
+    "message": "Restore access",
+    "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
+  },
+  "hostPermissionsMissingText": {
+    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
     "message": "Importen avbröts: filen innehåller en okänd inställning."
@@ -361,12 +373,6 @@
   "keepIndexedDBGreyText": {
     "message": "Behåll IndexedDB till omstart"
   },
-  "keepLocalstorageText": {
-    "message": "Behåll LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Behåll LocalStorage till omstart"
-  },
   "keepPluginDataText": {
     "message": "Behåll insticksdata"
   },
@@ -381,6 +387,10 @@
   },
   "keepText": {
     "message": "Behåll"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Hur länge"
@@ -600,6 +610,10 @@
   "optionsText": {
     "message": "Vad som behålls"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Aktivera städning av insticksdata"
   },
@@ -611,6 +625,10 @@
   },
   "preferencesText": {
     "message": "Inställningar"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Hur fungerar mönster?"
@@ -750,6 +768,10 @@
   "removeListText": {
     "message": "Ta bort alla uttryck ur den valda listan"
   },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
+  },
   "removeStorageCount": {
     "message": "Rensade $count$ post(er) ur $storageType$.",
     "placeholders": {
@@ -813,6 +835,10 @@
   },
   "showNumberOfCookiesInIconText": {
     "message": "Kakantal på verktygsfältsikonen"
+  },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
     "message": "När en ny datatyp slås på, radera det som redan lagrats"

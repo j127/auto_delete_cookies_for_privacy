@@ -19,18 +19,22 @@ just install
 
 ## Everyday commands
 
-| Command            | What it does                                                                                   |
-| ------------------ | ---------------------------------------------------------------------------------------------- |
-| `just dev`         | Watch mode: rebuilds bundles into `extension/` on every change                                 |
-| `just build`       | One-shot build                                                                                 |
-| `just check`       | TypeScript type-check (no emit)                                                                |
-| `just lint`        | ESLint over the whole repo (flat config, `eslint.config.mjs`)                                  |
-| `just test`        | Vitest suite with coverage; fails if coverage drops below the thresholds in `vitest.config.ts` |
-| `just format`      | Prettier over the repo                                                                         |
-| `just ci`          | Exactly what CI runs: install, check, lint, test, build                                        |
-| `just package_zip` | Build and zip `extension/` into `builds/`                                                      |
+| Command                    | What it does                                                                                                |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `just dev`                 | Watch mode: rebuilds bundles into `extension/` on every change                                              |
+| `just build`               | One-shot build                                                                                              |
+| `just check`               | TypeScript type-check (no emit)                                                                             |
+| `just lint`                | ESLint over the whole repo (flat config, `eslint.config.mjs`)                                               |
+| `just test`                | Vitest suite with coverage; fails if coverage drops below the thresholds in `vitest.config.ts`              |
+| `just format`              | Prettier over the repo                                                                                      |
+| `just ci`                  | Exactly what CI runs: install, check, lint, test, build                                                     |
+| `just package_zip`         | Build and zip `extension/` into `builds/`                                                                   |
+| `just build_firefox`       | Build the Firefox artifact into `builds/firefox/` (generated manifest, event-page background)               |
+| `just run_firefox`         | Build, then launch Firefox via `web-ext` with the extension temporarily installed                           |
+| `just lint_firefox`        | Build, then run Mozilla's `web-ext lint` over the Firefox artifact (the same linter AMO runs on submission) |
+| `just package_zip_firefox` | Build and zip the Firefox artifact into `builds/`                                                           |
 
-To try your build: `just build`, open `brave://extensions` (or `chrome://extensions`), enable Developer Mode, "Load unpacked", select the `extension/` folder.
+To try your build: `just build`, open `brave://extensions` (or `chrome://extensions`), enable Developer Mode, "Load unpacked", select the `extension/` folder. For Firefox, `just run_firefox` launches a throwaway profile with the extension loaded; to install manually instead, `just build_firefox`, open `about:debugging#/runtime/this-firefox`, "Load Temporary Add-on", and pick any file inside `builds/firefox/`.
 
 New recipes go in the `justfile` with `snake_case` names.
 
@@ -38,13 +42,14 @@ New recipes go in the `justfile` with `snake_case` names.
 
 - **Tests.** All code changes come with tests. `just test` must pass, including the coverage thresholds — if your change meaningfully raises coverage, feel free to bump the floors in `vitest.config.ts` to the new baseline (the long-term target is 90%).
 - **Green `just ci`** locally before you open the PR; the GitHub Actions workflow runs the same recipes.
+- **Firefox changes**: run the relevant rows of the [manual Firefox test matrix](docs/testing-firefox.md) when touching cleanup, containers, or permissions behavior; the full matrix gates the Firefox branch's merge to `main`.
 - **Scope discipline.** One issue per PR. Don't reformat or refactor code your change doesn't touch.
 - **Comments stay.** Don't delete existing code comments unless the code they describe is going away — several carry load-bearing context (MV3 service-worker constraints, bundler quirks).
 - **i18n**: user-facing strings go through `browser.i18n.getMessage` with a key in `extension/_locales/en/messages.json`. Key names are frozen once merged (30+ locale files reference them); only English values may change.
 
 ## Project constraints worth knowing
 
-- The extension is Manifest V3, Chromium-only (Chrome, Brave, Chromium). Firefox support was deliberately removed, because the original extension still works in Firefox.
+- The extension is Manifest V3. The committed `extension/` directory is the Chromium artifact (Chrome, Brave, Chromium); desktop Firefox support is being added on the `add-firefox-support` branch, where `just build_firefox` assembles a separate artifact with a generated manifest.
 - The background script is a service worker: it can be killed at any idle moment and restarted on the next event. Never rely on module-level state surviving between events; use `chrome.storage.session` for state that must survive a restart within a browser session. Event listeners must be registered synchronously at the top level of `src/background.ts`.
 - Runtime enums live as plain `export enum` in `src/typings/enums.ts`. Never declare ambient `const enum`s in `.d.ts` files — Bun.build transpiles per-file and cannot inline them, which crashes at runtime while tests still pass.
 

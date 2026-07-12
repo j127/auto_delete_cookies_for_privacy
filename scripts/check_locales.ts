@@ -9,6 +9,10 @@
  *
  * - the file parses as JSON;
  * - the key set matches en exactly (no missing keys, no stale extras);
+ * - no two keys collide case-insensitively (message names are
+ *   case-insensitive in browser.i18n, and AMO's addons-linter hard-rejects
+ *   such duplicates — this bit the Firefox port when keepLocalstorage*Text
+ *   coexisted with keepLocalStorage*Text);
  * - the $placeholder$ tokens used in each message match en's per key
  *   (a broken placeholder crashes browser.i18n substitution at runtime);
  * - every "placeholders" definition block matches en's for that key;
@@ -47,6 +51,25 @@ const locales = readdirSync(localesRoot, { withFileTypes: true })
 
 const problems: string[] = [];
 
+// JSON.parse collapses same-case duplicates (last wins), so what survives
+// to be caught here is the case-variant kind — exactly the class AMO's
+// linter rejects. en is checked too (the loop below skips it).
+const caseCollisions = (data: MessagesFile, label: string): void => {
+  const byLower = new Map<string, string[]>();
+  for (const key of Object.keys(data)) {
+    const lower = key.toLowerCase();
+    byLower.set(lower, [...(byLower.get(lower) ?? []), key]);
+  }
+  for (const [, variants] of byLower) {
+    if (variants.length > 1) {
+      problems.push(
+        `${label}: case-insensitive duplicate message names: ${variants.join(" / ")}`
+      );
+    }
+  }
+};
+caseCollisions(en, "en");
+
 for (const locale of locales) {
   const path = join(localesRoot, locale, "messages.json");
   let data: MessagesFile;
@@ -56,6 +79,8 @@ for (const locale of locales) {
     problems.push(`${locale}: does not parse (${e})`);
     continue;
   }
+
+  caseCollisions(data, locale);
 
   const keys = Object.keys(data).sort();
   const missing = enKeys.filter((k) => !(k in data));

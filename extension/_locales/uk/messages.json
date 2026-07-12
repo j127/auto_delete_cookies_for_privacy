@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Скинути налаштування до типових"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Вимкнути автоматичне очищення (ручний режим)"
   },
@@ -241,6 +245,14 @@
         "example": "List of Expressions <- the translated version"
       }
     }
+  },
+  "hostPermissionsGrantButtonText": {
+    "message": "Restore access",
+    "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
+  },
+  "hostPermissionsMissingText": {
+    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
     "message": "Імпорт налаштувань перервано: файл містить невідоме налаштування."
@@ -361,12 +373,6 @@
   "keepIndexedDBGreyText": {
     "message": "Зберігати IndexedDB до перезапуску"
   },
-  "keepLocalstorageText": {
-    "message": "Зберігати LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Зберігати LocalStorage до перезапуску"
-  },
   "keepPluginDataText": {
     "message": "Зберігати дані плагінів"
   },
@@ -381,6 +387,10 @@
   },
   "keepText": {
     "message": "Зберігати"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Як довго"
@@ -600,6 +610,10 @@
   "optionsText": {
     "message": "Що зберігається"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Увімкнути очищення даних плагінів"
   },
@@ -611,6 +625,10 @@
   },
   "preferencesText": {
     "message": "Налаштування"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Як працюють шаблони?"
@@ -750,6 +768,10 @@
   "removeListText": {
     "message": "Видалити всі вирази з вибраного списку"
   },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
+  },
   "removeStorageCount": {
     "message": "Видалено записів: $count$ із $storageType$.",
     "placeholders": {
@@ -813,6 +835,10 @@
   },
   "showNumberOfCookiesInIconText": {
     "message": "Кількість кук на значку панелі інструментів"
+  },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
     "message": "Під час увімкнення нового типу даних стирати вже збережене"

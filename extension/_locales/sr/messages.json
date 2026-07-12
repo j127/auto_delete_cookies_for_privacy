@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "Врати подешавања на подразумевана"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "Искључи аутоматско чишћење (ручни режим)"
   },
@@ -241,6 +245,14 @@
         "example": "List of Expressions <- the translated version"
       }
     }
+  },
+  "hostPermissionsGrantButtonText": {
+    "message": "Restore access",
+    "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
+  },
+  "hostPermissionsMissingText": {
+    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
     "message": "Увоз подешавања прекинут: датотека садржи непознато подешавање."
@@ -361,12 +373,6 @@
   "keepIndexedDBGreyText": {
     "message": "Задржи IndexedDB до поновног покретања"
   },
-  "keepLocalstorageText": {
-    "message": "Задржи LocalStorage"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "Задржи LocalStorage до поновног покретања"
-  },
   "keepPluginDataText": {
     "message": "Задржи податке додатака"
   },
@@ -381,6 +387,10 @@
   },
   "keepText": {
     "message": "Задржи"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "Колико дуго"
@@ -600,6 +610,10 @@
   "optionsText": {
     "message": "Шта задржава"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "Укључи чишћење података додатака"
   },
@@ -611,6 +625,10 @@
   },
   "preferencesText": {
     "message": "Подешавања"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "Како раде шаблони?"
@@ -750,6 +768,10 @@
   "removeListText": {
     "message": "Уклони све изразе са изабране листе"
   },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
+  },
   "removeStorageCount": {
     "message": "Очишћено $count$ ставки из $storageType$.",
     "placeholders": {
@@ -813,6 +835,10 @@
   },
   "showNumberOfCookiesInIconText": {
     "message": "Број колачића на икони траке са алаткама"
+  },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
     "message": "При укључивању новог типа података обриши већ сачувано"

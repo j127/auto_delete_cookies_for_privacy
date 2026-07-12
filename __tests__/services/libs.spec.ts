@@ -47,9 +47,16 @@ import {
   showNotification,
   sleep,
   throwErrorNotification,
+  toRawStoreId,
   trimDot,
   undefinedIsTrue,
+  dedupeCookies,
+  prepareCleanupHostnames,
+  prepareCleanupScope,
+  topLevelSiteCandidates,
   validateExpressionDomain,
+  withAllPartitions,
+  withAnyFirstPartyDomain,
 } from "@/services/libs";
 
 import ipaddr from "ipaddr.js";
@@ -448,21 +455,45 @@ describe("Library Functions", () => {
     it("should return nothing on empty string", () => {
       expect(extractMainDomain("")).toEqual("");
     });
+
+    // Real Public Suffix List behavior (audit bug 9): the old heuristic
+    // handled neither multi-label public suffixes it didn't know...
+    it("should return bbc.co.uk from foo.bbc.co.uk", () => {
+      expect(extractMainDomain("foo.bbc.co.uk")).toEqual("bbc.co.uk");
+    });
+
+    // ...nor private platform suffixes: every *.github.io site is its own
+    // registrable domain, not one shared github.io neighborhood.
+    it("should return user.github.io from user.github.io", () => {
+      expect(extractMainDomain("user.github.io")).toEqual("user.github.io");
+    });
+
+    it("should return user.github.io from sub.user.github.io", () => {
+      expect(extractMainDomain("sub.user.github.io")).toEqual("user.github.io");
+    });
+
+    it("should keep IPv6 addresses untouched", () => {
+      expect(extractMainDomain("2001:db8::1")).toEqual("2001:db8::1");
+    });
   });
 
   describe("getAllCookiesForDomain()", () => {
     beforeAll(() => {
+      // Default implementation: untrained calls (e.g. the partition-bucket
+      // queries) resolve empty; the trainings below win for their args.
+      global.browser.cookies.getAll.mockResolvedValue([] as never);
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: expect.any(String), storeId: "default" })
-        .mockResolvedValue([] as never);
-      when(global.browser.cookies.getAll)
-        .calledWith({ storeId: "default" })
+        .calledWith({ storeId: "default", partitionKey: {} })
         .mockResolvedValue([
           testCookie,
           { ...testCookie, domain: "", path: "/test/" },
         ] as never);
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "domain.com", storeId: "default" })
+        .calledWith({
+          domain: "domain.com",
+          storeId: "default",
+          partitionKey: {},
+        })
         .mockResolvedValue([testCookie] as never);
     });
 
@@ -542,6 +573,7 @@ describe("Library Functions", () => {
       );
       expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
         storeId: "default",
+        partitionKey: {},
       });
     });
 
@@ -554,7 +586,42 @@ describe("Library Functions", () => {
       expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
         domain: "domain.com",
         storeId: "default",
+        partitionKey: {},
       });
+      // The site's partition bucket is queried too (third-party cookies
+      // partitioned under this top-level site).
+      expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
+        partitionKey: { topLevelSite: "https://domain.com" },
+        storeId: "default",
+      });
+    });
+
+    it("includes the site's partition bucket in the count and dedupes overlaps", async () => {
+      const bucketCookie: browser.cookies.Cookie = {
+        ...testCookie,
+        domain: "tracker.example",
+        name: "ptrack",
+        partitionKey: { topLevelSite: "https://domain.com" },
+      };
+      when(global.browser.cookies.getAll)
+        .calledWith({
+          partitionKey: { topLevelSite: "https://domain.com" },
+          storeId: "default",
+        })
+        .mockResolvedValue([bucketCookie] as never);
+      when(global.browser.cookies.getAll)
+        .calledWith({
+          partitionKey: { topLevelSite: "http://domain.com" },
+          storeId: "default",
+        })
+        .mockResolvedValue([bucketCookie] as never);
+      const result = await getAllCookiesForDomain(initialState, {
+        ...sampleTab,
+        url: "https://domain.com",
+      });
+      // testCookie from the domain query, bucketCookie found via BOTH
+      // scheme candidates but counted once.
+      expect(result).toStrictEqual([testCookie, bucketCookie]);
     });
   });
 
@@ -796,9 +863,57 @@ describe("Library Functions", () => {
       expect(getStoreId("1")).toEqual("private");
     });
 
+    it("should return private from storeId private", () => {
+      expect(getStoreId("private")).toEqual("private");
+    });
+
+    // Firefox storeIds unify onto the same keys Chrome uses (audit bug 4:
+    // upstream kept firefox-private separate from what the UI wrote, so
+    // private-window whitelists never matched).
+    it("should return default from storeId firefox-default", () => {
+      expect(getStoreId("firefox-default")).toEqual("default");
+    });
+
+    it("should return private from storeId firefox-private", () => {
+      expect(getStoreId("firefox-private")).toEqual("private");
+    });
+
+    // Firefox containers keep their own per-container lists.
+    it("should pass firefox-container-3 through unchanged", () => {
+      expect(getStoreId("firefox-container-3")).toEqual("firefox-container-3");
+    });
+
     // Any other storeId passes through untouched.
     it("should return some-id from storeId some-id", () => {
       expect(getStoreId("some-id")).toEqual("some-id");
+    });
+  });
+
+  // The inverse mapping (list key -> raw store id) for UI code that hands
+  // cookies.getAll a real store id. Firefox flavor is covered in
+  // ExpressionOptions-firefox.spec.tsx alongside its consumer.
+  describe("toRawStoreId()", () => {
+    it("maps default to the raw Chrome default store id", () => {
+      expect(toRawStoreId("default")).toEqual("0");
+    });
+
+    it("maps private to the raw Chrome incognito store id", () => {
+      expect(toRawStoreId("private")).toEqual("1");
+    });
+
+    it("passes container keys through (already raw ids)", () => {
+      expect(toRawStoreId("firefox-container-3")).toEqual(
+        "firefox-container-3"
+      );
+    });
+
+    it("passes unknown keys through untouched", () => {
+      expect(toRawStoreId("some-id")).toEqual("some-id");
+    });
+
+    it("round-trips with getStoreId on both unified keys", () => {
+      expect(getStoreId(toRawStoreId("default"))).toEqual("default");
+      expect(getStoreId(toRawStoreId("private"))).toEqual("private");
     });
   });
 
@@ -992,6 +1107,103 @@ describe("Library Functions", () => {
     });
   });
 
+  describe("withAnyFirstPartyDomain() on Chrome (default flavor)", () => {
+    it("adds no firstPartyDomain key — Chrome rejects unknown getAll keys", () => {
+      const details = { domain: "example.com", storeId: "0" };
+      const wrapped = withAnyFirstPartyDomain(details);
+      expect(wrapped).toEqual(details);
+      expect(wrapped).not.toHaveProperty("firstPartyDomain");
+    });
+  });
+
+  describe("prepareCleanupHostnames()", () => {
+    it("carries the observed host, registrable domain, and www variant", () => {
+      expect(prepareCleanupHostnames("sub.domain.com")).toEqual([
+        "sub.domain.com",
+        "domain.com",
+        "www.domain.com",
+      ]);
+    });
+
+    it("dedupes when the host IS the registrable domain", () => {
+      expect(prepareCleanupHostnames("domain.com")).toEqual([
+        "domain.com",
+        "www.domain.com",
+      ]);
+    });
+
+    it("returns bare IPs untouched", () => {
+      expect(prepareCleanupHostnames("127.0.0.1")).toEqual(["127.0.0.1"]);
+    });
+
+    it("returns nothing for a blank domain", () => {
+      expect(prepareCleanupHostnames("  ")).toEqual([]);
+    });
+  });
+
+  describe("prepareCleanupScope() on Chrome (default flavor)", () => {
+    it("produces origins, exactly like prepareCleanupDomains", () => {
+      expect(prepareCleanupScope("sub.domain.com", "8080")).toEqual(
+        prepareCleanupDomains("sub.domain.com", "8080")
+      );
+      expect(prepareCleanupScope("domain.com")[0]).toMatch(/^http:\/\//);
+    });
+  });
+
+  describe("withAllPartitions()", () => {
+    it("adds partitionKey {} on every build (TCP and CHIPS)", () => {
+      expect(withAllPartitions({ storeId: "0" })).toEqual({
+        storeId: "0",
+        partitionKey: {},
+      });
+    });
+  });
+
+  describe("topLevelSiteCandidates()", () => {
+    it("returns https and http sites for the registrable domain", () => {
+      expect(topLevelSiteCandidates("sub.domain.com")).toEqual([
+        "https://domain.com",
+        "http://domain.com",
+      ]);
+    });
+
+    it("returns nothing for an empty hostname", () => {
+      expect(topLevelSiteCandidates("")).toEqual([]);
+    });
+  });
+
+  describe("dedupeCookies()", () => {
+    const base: browser.cookies.Cookie = {
+      domain: "domain.com",
+      hostOnly: true,
+      httpOnly: true,
+      name: "a",
+      path: "/",
+      sameSite: "no_restriction",
+      secure: true,
+      session: true,
+      storeId: "default",
+      value: "v",
+    };
+
+    it("collapses identical cookies from overlapping queries", () => {
+      expect(dedupeCookies([base, { ...base }])).toHaveLength(1);
+    });
+
+    it("keeps cookies that differ only by partition", () => {
+      const partitioned = {
+        ...base,
+        partitionKey: { topLevelSite: "https://shop.example" },
+      };
+      expect(dedupeCookies([base, partitioned])).toHaveLength(2);
+    });
+
+    it("keeps cookies that differ only by firstPartyDomain", () => {
+      const isolated = { ...base, firstPartyDomain: "domain.com" };
+      expect(dedupeCookies([base, isolated])).toHaveLength(2);
+    });
+  });
+
   describe("parseCookieStoreId()", () => {
     it("should return default if cookieStoreId was undefined", () => {
       expect(parseCookieStoreId(undefined)).toEqual("default");
@@ -1003,6 +1215,192 @@ describe("Library Functions", () => {
 
     it("should return the specified cookieStoreId if given", () => {
       expect(parseCookieStoreId("test-container")).toEqual("test-container");
+    });
+
+    // Firefox tab store ids land in the unified key space so the UI write
+    // path uses the same keys the cleanup read path matches against.
+    it("should return default for firefox-default", () => {
+      expect(parseCookieStoreId("firefox-default")).toEqual("default");
+    });
+
+    it("should return private for firefox-private", () => {
+      expect(parseCookieStoreId("firefox-private")).toEqual("private");
+    });
+
+    it("should pass firefox-container-3 through unchanged", () => {
+      expect(parseCookieStoreId("firefox-container-3")).toEqual(
+        "firefox-container-3"
+      );
+    });
+  });
+
+  // Audit bug 4 regression: an expression added from a Firefox private
+  // window must land in the SAME list the cleanup decision path reads for
+  // private-window cookies. Upstream wrote to one key and read another, so
+  // private-window whitelists silently protected nothing.
+  describe("firefox private-window list unification (regression)", () => {
+    const privateExpression: Expression = {
+      expression: "example.com",
+      listType: ListType.WHITE,
+      // What the popup write path computes from tab.cookieStoreId in a
+      // Firefox private window:
+      storeId: parseCookieStoreId("firefox-private"),
+    };
+    const state: State = {
+      ...initialState,
+      lists: { [privateExpression.storeId]: [privateExpression] },
+    };
+
+    it("writes the expression under the unified private key", () => {
+      expect(privateExpression.storeId).toEqual("private");
+    });
+
+    it("matches a firefox-private cookie against that list", () => {
+      expect(
+        returnMatchedExpressionObject(state, "firefox-private", "example.com")
+      ).toEqual(privateExpression);
+    });
+
+    it("matches a Chrome incognito cookie against the same list", () => {
+      expect(returnMatchedExpressionObject(state, "1", "example.com")).toEqual(
+        privateExpression
+      );
+    });
+
+    it("does not leak private-list protection into the default store", () => {
+      expect(
+        returnMatchedExpressionObject(state, "firefox-default", "example.com")
+      ).toBeUndefined();
+    });
+
+    it("keeps container lists separate from private and default", () => {
+      const containerExpression: Expression = {
+        ...privateExpression,
+        storeId: parseCookieStoreId("firefox-container-3"),
+      };
+      const containerState: State = {
+        ...initialState,
+        // Per-container lists apply while the container setting is on.
+        settings: {
+          ...initialState.settings,
+          [SettingID.CONTEXTUAL_IDENTITIES]: {
+            name: SettingID.CONTEXTUAL_IDENTITIES,
+            value: true,
+          },
+        },
+        lists: { [containerExpression.storeId]: [containerExpression] },
+      };
+      expect(
+        returnMatchedExpressionObject(
+          containerState,
+          "firefox-container-3",
+          "example.com"
+        )
+      ).toEqual(containerExpression);
+      expect(
+        returnMatchedExpressionObject(
+          containerState,
+          "firefox-default",
+          "example.com"
+        )
+      ).toBeUndefined();
+    });
+  });
+
+  // Audit bug 6a companion: container stores are ALWAYS enumerated and
+  // cleaned; the contextualIdentities setting only decides which list
+  // governs them. Off (or absent, pre-restore): the default list. On:
+  // each container's own list, with no silent fallback to default.
+  describe("container expression matching vs contextualIdentities setting", () => {
+    const defaultExpression: Expression = {
+      expression: "example.com",
+      listType: ListType.WHITE,
+      storeId: "default",
+    };
+    const containerExpression: Expression = {
+      ...defaultExpression,
+      storeId: "firefox-container-5",
+    };
+
+    it("matches container cookies against the default list when the setting is absent", () => {
+      const state: State = {
+        ...initialState,
+        lists: { default: [defaultExpression] },
+      };
+      expect(
+        returnMatchedExpressionObject(
+          state,
+          "firefox-container-5",
+          "example.com"
+        )
+      ).toEqual(defaultExpression);
+    });
+
+    it("matches container cookies against the default list when the setting is off", () => {
+      const state: State = {
+        ...initialState,
+        settings: {
+          ...initialState.settings,
+          [SettingID.CONTEXTUAL_IDENTITIES]: {
+            name: SettingID.CONTEXTUAL_IDENTITIES,
+            value: false,
+          },
+        },
+        lists: { default: [defaultExpression] },
+      };
+      expect(
+        returnMatchedExpressionObject(
+          state,
+          "firefox-container-5",
+          "example.com"
+        )
+      ).toEqual(defaultExpression);
+    });
+
+    it("uses the container's own list, not default, when the setting is on", () => {
+      const state: State = {
+        ...initialState,
+        settings: {
+          ...initialState.settings,
+          [SettingID.CONTEXTUAL_IDENTITIES]: {
+            name: SettingID.CONTEXTUAL_IDENTITIES,
+            value: true,
+          },
+        },
+        lists: {
+          default: [defaultExpression],
+          "firefox-container-5": [containerExpression],
+        },
+      };
+      expect(
+        returnMatchedExpressionObject(
+          state,
+          "firefox-container-5",
+          "example.com"
+        )
+      ).toEqual(containerExpression);
+      // A container without its own matching entry gets NO default-list
+      // fallback while per-container lists are active.
+      expect(
+        returnMatchedExpressionObject(
+          state,
+          "firefox-container-6",
+          "example.com"
+        )
+      ).toBeUndefined();
+    });
+
+    it("never folds Chrome or non-container ids", () => {
+      const state: State = {
+        ...initialState,
+        lists: { default: [defaultExpression] },
+      };
+      expect(returnMatchedExpressionObject(state, "0", "example.com")).toEqual(
+        defaultExpression
+      );
+      expect(
+        returnMatchedExpressionObject(state, "1", "example.com")
+      ).toBeUndefined();
     });
   });
 

@@ -170,6 +170,10 @@
   "defaultSettingsText": {
     "message": "設定を既定値に戻す"
   },
+  "defaultStoreText": {
+    "message": "Default",
+    "description": "Store selector entry for the default cookie store list."
+  },
   "disableAutoDeleteText": {
     "message": "自動クリーンアップをオフにする（手動モード）"
   },
@@ -241,6 +245,14 @@
         "example": "List of Expressions <- the translated version"
       }
     }
+  },
+  "hostPermissionsGrantButtonText": {
+    "message": "Restore access",
+    "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
+  },
+  "hostPermissionsMissingText": {
+    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
     "message": "設定のインポートを中止しました: ファイルに認識できない設定が含まれています。"
@@ -361,12 +373,6 @@
   "keepIndexedDBGreyText": {
     "message": "IndexedDB を再起動まで保持"
   },
-  "keepLocalstorageText": {
-    "message": "LocalStorage を保持"
-  },
-  "keepLocalstorageGreyText": {
-    "message": "LocalStorage を再起動まで保持"
-  },
   "keepPluginDataText": {
     "message": "プラグインデータを保持"
   },
@@ -381,6 +387,10 @@
   },
   "keepText": {
     "message": "保持"
+  },
+  "listStoreSelectorText": {
+    "message": "Which list",
+    "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
     "message": "期間"
@@ -600,6 +610,10 @@
   "optionsText": {
     "message": "保持する内容"
   },
+  "orphanedStoreText": {
+    "message": "removed container",
+    "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
+  },
   "pluginDataCleanupText": {
     "message": "プラグインデータのクリーンアップを有効化"
   },
@@ -611,6 +625,10 @@
   },
   "preferencesText": {
     "message": "設定"
+  },
+  "privateStoreText": {
+    "message": "Private / Incognito",
+    "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
     "message": "パターンの仕組みは？"
@@ -750,6 +768,10 @@
   "removeListText": {
     "message": "選択したリストの式をすべて削除"
   },
+  "removeOrphanedListText": {
+    "message": "Delete this orphaned list",
+    "description": "Button that deletes an expression list left behind by a removed container."
+  },
   "removeStorageCount": {
     "message": "$storageType$ から $count$ 件を消去しました。",
     "placeholders": {
@@ -813,6 +835,10 @@
   },
   "showNumberOfCookiesInIconText": {
     "message": "ツールバーアイコンに Cookie 数を表示"
+  },
+  "siteDataCacheFirefoxNoteText": {
+    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
     "message": "新しいデータ種別を有効にしたとき、既存の保存分を消去する"

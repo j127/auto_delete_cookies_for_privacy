@@ -416,7 +416,7 @@ describe("CleanupService", () => {
           .calledWith()
           .mockResolvedValue([{ id: "0" }] as never);
         when(global.browser.cookies.getAll)
-          .calledWith({ storeId: "0" })
+          .calledWith({ storeId: "0", partitionKey: {} })
           .mockResolvedValue([
             mockCookie, // no list
             googleCookie, // greylist, opentab
@@ -440,6 +440,7 @@ describe("CleanupService", () => {
         );
         expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
           storeId: "0",
+          partitionKey: {},
         });
         expect(global.browser.cookies.remove).toHaveBeenCalledTimes(2);
         expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
@@ -449,6 +450,20 @@ describe("CleanupService", () => {
           "test.com",
           "yahoo.com",
         ]);
+      });
+
+      // Chrome rejects unknown cookies.* keys, so no call may ever carry
+      // firstPartyDomain on the chrome flavor (it is Firefox-only).
+      it("never sends firstPartyDomain on any cookies.* call (Chrome flavor)", async () => {
+        await cleanCookiesOperation(sampleState, cleanupProperties);
+        const allCookieCalls = [
+          ...global.browser.cookies.getAll.mock.calls,
+          ...global.browser.cookies.remove.mock.calls,
+        ];
+        expect(allCookieCalls.length).toBeGreaterThan(0);
+        for (const call of allCookieCalls) {
+          expect(call[0]).not.toHaveProperty("firstPartyDomain");
+        }
       });
 
       it("Regular clean counts only real removals when one cookies.remove rejects.", async () => {
@@ -532,7 +547,7 @@ describe("CleanupService", () => {
 
       it("Regular clean, exclude open tabs, with only cookies in open tabs/whitelist.", async () => {
         when(global.browser.cookies.getAll)
-          .calledWith({ storeId: "0" })
+          .calledWith({ storeId: "0", partitionKey: {} })
           .mockResolvedValue([googleCookie, youtubeCookie] as never);
         const result = await cleanCookiesOperation(
           sampleState,
@@ -708,7 +723,7 @@ describe("CleanupService", () => {
           .calledWith()
           .mockResolvedValue([{ id: "0" }] as never);
         when(global.browser.cookies.getAll)
-          .calledWith({ storeId: "0" })
+          .calledWith({ storeId: "0", partitionKey: {} })
           .mockResolvedValue(chromeCookies as never);
       });
 
@@ -719,6 +734,7 @@ describe("CleanupService", () => {
         ).toHaveBeenCalledTimes(1);
         expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
           storeId: "0",
+          partitionKey: {},
         });
       });
 
@@ -729,6 +745,7 @@ describe("CleanupService", () => {
         await cleanCookiesOperation(sampleState, cleanupProperties);
         expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
           storeId: "1",
+          partitionKey: {},
         });
       });
     });
@@ -831,8 +848,23 @@ describe("CleanupService", () => {
     });
 
     it("should clean all cookies for active tab domain and show notification.", async () => {
+      // The partition-bucket queries are trained explicitly: an earlier
+      // generic jest-when training on this fn means a default
+      // implementation would not act as fallback here.
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "google.com", storeId: "0" })
+        .calledWith({
+          partitionKey: { topLevelSite: "https://google.com" },
+          storeId: "0",
+        })
+        .mockResolvedValue([] as never);
+      when(global.browser.cookies.getAll)
+        .calledWith({
+          partitionKey: { topLevelSite: "http://google.com" },
+          storeId: "0",
+        })
+        .mockResolvedValue([] as never);
+      when(global.browser.cookies.getAll)
+        .calledWith({ domain: "google.com", storeId: "0", partitionKey: {} })
         .mockResolvedValue([googleCookie, googleCookie2] as never);
       when(global.browser.cookies.remove)
         .calledWith(expect.anything())
@@ -876,8 +908,9 @@ describe("CleanupService", () => {
     });
 
     it("should just show notification if active tab domain has only one cookie that for some reason cannot be cleared.", async () => {
+      global.browser.cookies.getAll.mockResolvedValue([] as never);
       when(global.browser.cookies.getAll)
-        .calledWith({ domain: "google.com", storeId: "0" })
+        .calledWith({ domain: "google.com", storeId: "0", partitionKey: {} })
         .mockResolvedValue([googleCookie] as never);
       when(global.browser.cookies.remove)
         .calledWith(expect.any(Object))
@@ -2054,6 +2087,45 @@ describe("CleanupService", () => {
       });
     });
 
+    // Firefox tabs expose their real store id; grouping must use it so
+    // containers protect their own tabs only.
+    it("should group Firefox tabs by their real cookieStoreId", () => {
+      when(global.browser.tabs.query)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([
+          {
+            cookieStoreId: "firefox-default",
+            incognito: false,
+            url: "https://google.com/search",
+          },
+          {
+            cookieStoreId: "firefox-private",
+            incognito: true,
+            url: "https://secret.example/inbox",
+          },
+          {
+            cookieStoreId: "firefox-container-1",
+            incognito: false,
+            url: "https://work.example/dashboard",
+          },
+          {
+            cookieStoreId: "firefox-container-2",
+            incognito: false,
+            url: "https://work.example/personal",
+          },
+        ] as never);
+      return returnContainersOfOpenTabDomains(false, false).then((results) => {
+        expect(results["firefox-default"]).toEqual(["google.com"]);
+        expect(results["firefox-private"]).toEqual(["secret.example"]);
+        expect(results["firefox-container-1"]).toEqual(["work.example"]);
+        expect(results["firefox-container-2"]).toEqual(["work.example"]);
+        // No incognito-flag pseudo keys when the real store id exists.
+        expect(results["0"]).toBeUndefined();
+        expect(results["1"]).toBeUndefined();
+        return Promise.resolve();
+      });
+    });
+
     it("should not have discarded.net in the incognito store when cleanDiscardedTabs is true", () => {
       return returnContainersOfOpenTabDomains(false, true).then((results) => {
         expect(results["1"] && results["1"].includes("discarded.net")).toBe(
@@ -2061,6 +2133,230 @@ describe("CleanupService", () => {
         );
         return Promise.resolve();
       });
+    });
+  });
+
+  // Regression: the keys returnContainersOfOpenTabDomains emits must be the
+  // SAME key space as cookie.storeId, because isSafeToClean indexes
+  // openTabDomains[cookie.storeId] directly. Upstream keyed tabs by the
+  // incognito flag while Firefox cookies carried firefox-* ids, which
+  // silently disabled open-tab protection there.
+  describe("open-tab protection key space (tab grouping ↔ cookie storeId)", () => {
+    const baseCleanupProperties = {
+      greyCleanup: false,
+      ignoreOpenTabs: false,
+    };
+
+    it("protects a Firefox container tab's domain only within that container", async () => {
+      when(global.browser.tabs.query)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([
+          {
+            cookieStoreId: "firefox-container-1",
+            incognito: false,
+            url: "https://work.example/dashboard",
+          },
+        ] as never);
+      const openTabDomains = await returnContainersOfOpenTabDomains(
+        false,
+        false
+      );
+      const containerCookie: CookiePropertiesCleanup = {
+        ...mockCookie,
+        hostname: "work.example",
+        mainDomain: "work.example",
+        storeId: "firefox-container-1",
+      };
+
+      const sameContainer = isSafeToClean(sampleState, containerCookie, {
+        ...baseCleanupProperties,
+        openTabDomains,
+      });
+      expect(sameContainer.reason).toBe(ReasonKeep.OpenTabs);
+      expect(sameContainer.cleanCookie).toBe(false);
+
+      // Same domain open, but the cookie lives in a different container:
+      // no open-tab protection across stores.
+      const otherContainer = isSafeToClean(
+        sampleState,
+        { ...containerCookie, storeId: "firefox-container-2" },
+        { ...baseCleanupProperties, openTabDomains }
+      );
+      expect(otherContainer.reason).toBe(ReasonClean.NoMatchedExpression);
+      expect(otherContainer.cleanCookie).toBe(true);
+    });
+
+    it("keeps Chrome normal/incognito grouping working end to end", async () => {
+      when(global.browser.tabs.query)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([
+          { incognito: false, url: "https://open.example/page" },
+          { incognito: true, url: "https://hidden.example/page" },
+        ] as never);
+      const openTabDomains = await returnContainersOfOpenTabDomains(
+        false,
+        false
+      );
+      expect(openTabDomains).toEqual({
+        "0": ["open.example"],
+        "1": ["hidden.example"],
+      });
+
+      const normalCookie: CookiePropertiesCleanup = {
+        ...mockCookie,
+        hostname: "open.example",
+        mainDomain: "open.example",
+        storeId: "0",
+      };
+      const protectedNormal = isSafeToClean(sampleState, normalCookie, {
+        ...baseCleanupProperties,
+        openTabDomains,
+      });
+      expect(protectedNormal.reason).toBe(ReasonKeep.OpenTabs);
+
+      const incognitoCookie: CookiePropertiesCleanup = {
+        ...normalCookie,
+        hostname: "hidden.example",
+        mainDomain: "hidden.example",
+        storeId: "1",
+      };
+      const protectedIncognito = isSafeToClean(sampleState, incognitoCookie, {
+        ...baseCleanupProperties,
+        openTabDomains,
+      });
+      expect(protectedIncognito.reason).toBe(ReasonKeep.OpenTabs);
+    });
+  });
+
+  // Audit bug 2: partitioned third-party cookies (CHIPS on Chrome, TCP on
+  // Firefox). Decisions key on the PARTITION's top-level site — the site
+  // the user actually visits — while removal still targets the cookie's
+  // own domain with the exact enumerated partitionKey echoed back.
+  describe("partitioned cookies (CHIPS/TCP)", () => {
+    const partitionedCookie: browser.cookies.Cookie = {
+      domain: "tracker.example",
+      hostOnly: true,
+      httpOnly: false,
+      name: "ptrack",
+      partitionKey: { topLevelSite: "https://shop.example" },
+      path: "/",
+      sameSite: "no_restriction",
+      secure: true,
+      session: false,
+      storeId: "0",
+      value: "x",
+    };
+    const baseCleanupProperties = {
+      greyCleanup: false,
+      ignoreOpenTabs: false,
+    };
+
+    it("keys decisions on the partition's top-level site, removal on the cookie domain", () => {
+      const prepared = prepareCookie(partitionedCookie);
+      expect(prepared.hostname).toBe("shop.example");
+      expect(prepared.mainDomain).toBe("shop.example");
+      expect(prepared.preparedCookieDomain).toBe("https://tracker.example/");
+    });
+
+    it("keeps unpartitioned cookie keying unchanged", () => {
+      const prepared = prepareCookie({
+        ...partitionedCookie,
+        partitionKey: undefined,
+      });
+      expect(prepared.hostname).toBe("tracker.example");
+      expect(prepared.mainDomain).toBe("tracker.example");
+    });
+
+    it("keeps the partition while its top-level site is open, cleans it after", () => {
+      const prepared = prepareCookie(partitionedCookie);
+      const whileOpen = isSafeToClean(sampleState, prepared, {
+        ...baseCleanupProperties,
+        openTabDomains: { "0": ["shop.example"] },
+      });
+      expect(whileOpen.reason).toBe(ReasonKeep.OpenTabs);
+      expect(whileOpen.cleanCookie).toBe(false);
+
+      const afterClose = isSafeToClean(sampleState, prepared, {
+        ...baseCleanupProperties,
+        openTabDomains: {},
+      });
+      expect(afterClose.cleanCookie).toBe(true);
+      expect(afterClose.reason).toBe(ReasonClean.NoMatchedExpression);
+    });
+
+    it("keeps the partition when its top-level site is whitelisted", () => {
+      const whitelistedState: State = {
+        ...initialState,
+        lists: {
+          default: [
+            {
+              expression: "shop.example",
+              listType: ListType.WHITE,
+              storeId: "default",
+            },
+          ],
+        },
+      };
+      const prepared = prepareCookie(partitionedCookie);
+      const result = isSafeToClean(whitelistedState, prepared, {
+        ...baseCleanupProperties,
+        openTabDomains: {},
+      });
+      expect(result.cleanCookie).toBe(false);
+      expect(result.reason).toBe(ReasonKeep.MatchedExpression);
+    });
+
+    it("removes with the exact enumerated partitionKey passed verbatim", async () => {
+      when(global.browser.cookies.remove)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue({} as never);
+      // Extra future fields (Chrome 130's hasCrossSiteAncestor) must ride
+      // along untouched.
+      const enumerated = {
+        ...partitionedCookie,
+        partitionKey: {
+          topLevelSite: "https://shop.example",
+          hasCrossSiteAncestor: true,
+        },
+      } as unknown as browser.cookies.Cookie;
+      const reasonObj: CleanReasonObject = {
+        cached: false,
+        cleanCookie: true,
+        cookie: prepareCookie(enumerated),
+        openTabStatus: OpenTabStatus.TabsWasNotIgnored,
+        reason: ReasonClean.NoMatchedExpression,
+      };
+      await cleanCookies(initialState, [reasonObj]);
+      expect(global.browser.cookies.remove).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: "ptrack",
+          storeId: "0",
+          url: "https://tracker.example/",
+          partitionKey: {
+            topLevelSite: "https://shop.example",
+            hasCrossSiteAncestor: true,
+          },
+        })
+      );
+    });
+
+    it("does not add a partitionKey to unpartitioned removals", async () => {
+      when(global.browser.cookies.remove)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue({} as never);
+      const reasonObj: CleanReasonObject = {
+        cached: false,
+        cleanCookie: true,
+        cookie: prepareCookie({
+          ...partitionedCookie,
+          partitionKey: undefined,
+        }),
+        openTabStatus: OpenTabStatus.TabsWasNotIgnored,
+        reason: ReasonClean.NoMatchedExpression,
+      };
+      await cleanCookies(initialState, [reasonObj]);
+      const removeArg = global.browser.cookies.remove.mock.calls[0][0];
+      expect(removeArg).not.toHaveProperty("partitionKey");
     });
   });
 });

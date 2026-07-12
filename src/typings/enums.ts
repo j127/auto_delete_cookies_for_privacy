@@ -47,6 +47,10 @@ export enum SettingID {
   CLEANUP_PLUGINDATA = "pluginDataCleanup",
   CLEANUP_SERVICEWORKERS = "serviceWorkersCleanup",
   CONTEXT_MENUS = "contextMenus",
+  // Firefox containers. Values match upstream Cookie AutoDelete's setting
+  // names so exported settings stay interchangeable.
+  CONTEXTUAL_IDENTITIES = "contextualIdentities",
+  CONTEXTUAL_IDENTITIES_AUTOREMOVE = "contextualIdentitiesAutoRemove",
   DEBUG_MODE = "debugMode",
   ENABLE_GREYLIST = "enableGreyListCleanup",
   ENABLE_NEW_POPUP = "enableNewVersionPopup",

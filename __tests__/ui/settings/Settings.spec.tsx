@@ -179,24 +179,26 @@ describe("Settings", () => {
     // Two renders in one test duplicate element IDs across containers, and
     // jsdom's #id selector fast path resolves against the document — so the
     // assertions use the render-scoped RTL queries instead of querySelector.
+    // The empty-on-enable wipe defaults OFF since the Firefox port, so the
+    // default render shows the no-empty explainer.
     const first = renderSettings();
-    const warning = first
-      .getByText("browsingDataWarning")
+    const danger = first
+      .getByText("browsingDataNoEmptyWarning")
       .closest(".alert") as HTMLElement;
-    expect(warning.className).toContain("alert-warning");
+    expect(danger.className).toContain("alert-error");
 
     const second = renderSettings(
       withSettings({
         [SettingID.SITEDATA_EMPTY_ON_ENABLE]: {
           name: SettingID.SITEDATA_EMPTY_ON_ENABLE,
-          value: false,
+          value: true,
         },
       })
     );
-    const danger = second
-      .getByText("browsingDataNoEmptyWarning")
+    const warning = second
+      .getByText("browsingDataWarning")
       .closest(".alert") as HTMLElement;
-    expect(danger.className).toContain("alert-error");
+    expect(warning.className).toContain("alert-warning");
   });
 
   it("only shows the keep default icon option while the icon count is enabled", () => {

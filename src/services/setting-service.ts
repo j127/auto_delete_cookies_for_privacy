@@ -12,6 +12,7 @@
  */
 
 import { SettingID, SiteDataType } from "@/typings/enums";
+import { browserCapabilities } from "./browser-capabilities";
 import StoreUser from "./store-user";
 import { validateSettings } from "@/redux/actions";
 import { adcpLog, siteDataToBrowser, SITEDATATYPES } from "./libs";
@@ -48,19 +49,33 @@ export default class SettingService extends StoreUser {
         ) {
           continue;
         }
+        // The since-zero wipe is OPT-IN (the setting defaults off since
+        // the Firefox port) and the settings UI confirms each enable
+        // while it is on — never an implicit global erase (audit bug 14).
         if (
-          SettingService.getCurrent(SettingID.SITEDATA_EMPTY_ON_ENABLE) ===
-          false
+          SettingService.getCurrent(SettingID.SITEDATA_EMPTY_ON_ENABLE) !== true
         ) {
           adcpLog(
             {
-              msg: `${siteData} setting activated, but Empty Site Data on Enable is false. Existing site data kept.`,
+              msg: `${siteData} setting activated, but Empty Site Data on Enable is off. Existing site data kept.`,
               type: "info",
             },
             SettingService.getCurrent(SettingID.DEBUG_MODE) as boolean
           );
           continue;
         }
+        // Cache is excluded from per-domain cleanup on Firefox (not
+        // host-scopable), so a global cache wipe on enable makes no
+        // sense there either — the toggle is hidden; this guards the
+        // settings-import path.
+        if (
+          siteData === SiteDataType.CACHE &&
+          !browserCapabilities.cacheHostScopable
+        ) {
+          continue;
+        }
+        // On Firefox, `since` is ignored for these data types — the
+        // outcome (erase everything) is the same on both browsers.
         await browser.browsingData.remove(
           { since: 0 },
           { [siteDataToBrowser(siteData)]: true }

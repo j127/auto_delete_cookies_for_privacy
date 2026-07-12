@@ -19,14 +19,16 @@ import {
   SettingID,
   SiteDataType,
 } from "@/typings/enums";
+import { browserCapabilities } from "./browser-capabilities";
 import {
   ADCPCOOKIENAME,
   adcpLog,
   extractMainDomain,
   getHostname,
+  getMatchedExpressions,
   getSetting,
   isAWebpage,
-  prepareCleanupDomains,
+  prepareCleanupScope,
   prepareCookieDomain,
   returnMatchedExpressionObject,
   showNotification,
@@ -35,7 +37,11 @@ import {
   sleep,
   throwErrorNotification,
   trimDot,
+  dedupeCookies,
+  topLevelSiteCandidates,
   undefinedIsTrue,
+  withAllPartitions,
+  withAnyFirstPartyDomain,
 } from "./libs";
 
 /** Prepare a cookie for deletion */
@@ -52,6 +58,14 @@ export const prepareCookie = (
   if (cookieProperties.preparedCookieDomain.startsWith("file:")) {
     cookieProperties.hostname = cookieProperties.preparedCookieDomain;
     cookieProperties.mainDomain = cookieProperties.preparedCookieDomain;
+  } else if (cookie.partitionKey?.topLevelSite) {
+    // Partitioned cookie (TCP/CHIPS): keep/clean decisions key on the
+    // PARTITION's top-level site — that is the site the user actually
+    // visits, so its expression-list entries and its open tabs are what
+    // protect the partition's third-party cookies. The removal URL
+    // (preparedCookieDomain) still targets the cookie's own domain.
+    cookieProperties.hostname = getHostname(cookie.partitionKey.topLevelSite);
+    cookieProperties.mainDomain = extractMainDomain(cookieProperties.hostname);
   } else {
     cookieProperties.hostname = getHostname(
       cookieProperties.preparedCookieDomain
@@ -64,6 +78,7 @@ export const prepareCookie = (
       x: {
         domain: cookie.domain,
         path: cookie.path,
+        partitionKey: cookie.partitionKey,
         preparedCookieDomain: cookieProperties.preparedCookieDomain,
         mainDomain: cookieProperties.mainDomain,
         hostname: cookieProperties.hostname,
@@ -308,6 +323,18 @@ export const cleanCookies = async (
         storeId: cookieProperties.storeId,
         name: cookieProperties.name,
         url: cookieProperties.preparedCookieDomain,
+        // Firefox cookies carry their firstPartyDomain; remove must echo
+        // it back or the removal misses under FPI. Chrome cookies never
+        // have the property, so the key stays absent there.
+        ...(cookieProperties.firstPartyDomain !== undefined && {
+          firstPartyDomain: cookieProperties.firstPartyDomain,
+        }),
+        // Partitioned cookies must be removed with their EXACT enumerated
+        // partitionKey, passed verbatim (future Chrome fields like
+        // hasCrossSiteAncestor ride along untouched).
+        ...(cookieProperties.partitionKey !== undefined && {
+          partitionKey: cookieProperties.partitionKey,
+        }),
       };
       // url: "http://domain.com" + cookies[i].path
       adcpLog(
@@ -356,12 +383,32 @@ export const clearCookiesForThisDomain = async (
   tab: browser.tabs.Tab
 ): Promise<boolean> => {
   const hostname = getHostname(tab.url);
-  const getCookies = await browser.cookies.getAll({
-    domain: hostname,
-    storeId: tab.cookieStoreId,
-  });
+  const domainCookies = await browser.cookies.getAll(
+    withAllPartitions(
+      withAnyFirstPartyDomain({
+        domain: hostname,
+        storeId: tab.cookieStoreId,
+      })
+    )
+  );
+  // Manual per-site clean also empties this site's partition bucket:
+  // third-party cookies partitioned UNDER this top-level site (TCP/CHIPS).
+  const partitionedCookies: browser.cookies.Cookie[] = [];
+  for (const topLevelSite of topLevelSiteCandidates(hostname)) {
+    partitionedCookies.push(
+      ...(await browser.cookies.getAll(
+        withAnyFirstPartyDomain({
+          partitionKey: { topLevelSite },
+          storeId: tab.cookieStoreId,
+        })
+      ))
+    );
+  }
   // Filter out our own ADCP marker cookie that cleans up other Browsing Data
-  const cookies = getCookies.filter((c) => c.name !== ADCPCOOKIENAME);
+  const cookies = dedupeCookies([
+    ...domainCookies,
+    ...partitionedCookies,
+  ]).filter((c) => c.name !== ADCPCOOKIENAME);
 
   if (cookies.length > 0) {
     let cookieDeletedCount = 0;
@@ -370,6 +417,12 @@ export const clearCookiesForThisDomain = async (
         name: cookie.name,
         storeId: cookie.storeId,
         url: prepareCookieDomain(cookie),
+        ...(cookie.firstPartyDomain !== undefined && {
+          firstPartyDomain: cookie.firstPartyDomain,
+        }),
+        ...(cookie.partitionKey !== undefined && {
+          partitionKey: cookie.partitionKey,
+        }),
       });
       if (r) cookieDeletedCount += 1;
     }
@@ -492,13 +545,16 @@ export const clearSiteDataForThisDomain = async (
     },
     debug
   );
-  const domains = prepareCleanupDomains(hostname, port);
+  const domains = prepareCleanupScope(hostname, port);
   if (siteData === "All") {
     // The consolidated notification and the returned success flag must
     // reflect what actually got removed — removeSiteData returns false on
     // failure (and shows its own error notification).
     const siteDataCleaned: string[] = [];
     for (const sd of SITEDATATYPES) {
+      // Firefox cannot scope cache removal to hosts; skip the type there.
+      if (sd === SiteDataType.CACHE && !browserCapabilities.cacheHostScopable)
+        continue;
       if (await removeSiteData(state, sd, domains, debug, false)) {
         siteDataCleaned.push(
           browser.i18n.getMessage(`${siteDataToBrowser(sd)}Text`)
@@ -520,6 +576,12 @@ export const clearSiteDataForThisDomain = async (
     );
     return true;
   }
+  if (
+    siteData === SiteDataType.CACHE &&
+    !browserCapabilities.cacheHostScopable
+  ) {
+    return false;
+  }
   return removeSiteData(state, siteData, domains, debug, true);
 };
 
@@ -530,8 +592,9 @@ export const removeSiteData = async (
   debug: boolean,
   manual = false
 ): Promise<boolean> => {
-  // Chrome's browsingData API scopes removals by origin.
-  const listName = "origins";
+  // Chrome's browsingData API scopes removals by origin; Firefox rejects
+  // the origins key entirely and scopes by bare hostnames instead.
+  const listName = browserCapabilities.browsingDataScoping;
   const sd = siteDataToBrowser(siteData);
   adcpLog(
     {
@@ -541,12 +604,13 @@ export const removeSiteData = async (
     debug
   );
   try {
-    // Chrome's browsingData API scopes removals by `origins`, a key the
-    // Firefox-schema-generated polyfill types don't know about.
+    // The scope key is per-target (`origins` is a key the
+    // Firefox-schema-generated polyfill types don't even know about;
+    // webext.d.ts intersects it back in for cross-browser call sites).
     await browser.browsingData.remove(
       {
-        origins: domains,
-      } as import("webextension-polyfill").BrowsingData.RemovalOptions,
+        [listName]: domains,
+      } as browser.browsingData.RemovalOptions,
       {
         [sd]: true,
       }
@@ -586,16 +650,23 @@ export const removeSiteData = async (
 /** This will use the browsingData's hostname/origin attribute to delete any extra browsing data */
 export const otherBrowsingDataCleanup = async (
   state: State,
-  isSafeToCleanObjects: CleanReasonObject[]
+  isSafeToCleanObjects: CleanReasonObject[],
+  openTabDomains: Record<string, string[]> = {}
 ): Promise<ActivityLog["browsingDataCleanup"]> => {
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
   const browsingDataResult: ActivityLog["browsingDataCleanup"] = {};
-  if (getSetting(state, SettingID.CLEANUP_CACHE)) {
+  // Cache is not host-scopable on Firefox; the setting is hidden there
+  // and the type is skipped regardless of any imported settings value.
+  if (
+    getSetting(state, SettingID.CLEANUP_CACHE) &&
+    browserCapabilities.cacheHostScopable
+  ) {
     browsingDataResult[SiteDataType.CACHE] = await cleanSiteData(
       state,
       SiteDataType.CACHE,
       isSafeToCleanObjects,
-      debug
+      debug,
+      openTabDomains
     );
   }
   if (getSetting(state, SettingID.CLEANUP_INDEXEDDB)) {
@@ -603,7 +674,8 @@ export const otherBrowsingDataCleanup = async (
       state,
       SiteDataType.INDEXEDDB,
       isSafeToCleanObjects,
-      debug
+      debug,
+      openTabDomains
     );
   }
   if (getSetting(state, SettingID.CLEANUP_LOCALSTORAGE)) {
@@ -611,7 +683,8 @@ export const otherBrowsingDataCleanup = async (
       state,
       SiteDataType.LOCALSTORAGE,
       isSafeToCleanObjects,
-      debug
+      debug,
+      openTabDomains
     );
   }
   if (getSetting(state, SettingID.CLEANUP_PLUGINDATA)) {
@@ -619,7 +692,8 @@ export const otherBrowsingDataCleanup = async (
       state,
       SiteDataType.PLUGINDATA,
       isSafeToCleanObjects,
-      debug
+      debug,
+      openTabDomains
     );
   }
   if (getSetting(state, SettingID.CLEANUP_SERVICEWORKERS)) {
@@ -627,7 +701,8 @@ export const otherBrowsingDataCleanup = async (
       state,
       SiteDataType.SERVICEWORKERS,
       isSafeToCleanObjects,
-      debug
+      debug,
+      openTabDomains
     );
   }
 
@@ -641,23 +716,64 @@ export const otherBrowsingDataCleanup = async (
  * @param cleanReasonObjects Objects returned from isSafeToClean()
  * @param debug True if debug mode.
  */
+/**
+ * Cross-store guard for storage wipes. browsingData is container-blind:
+ * its RemovalOptions.cookieStoreId accepts only the default and private
+ * stores (and, for our five site-data types, no store scoping at all — on
+ * Firefox the key is honored for the cookies data type only, and Chrome
+ * has no per-store scoping either). Wiping a domain's storage because its
+ * cookies qualified in ONE store therefore destroys that domain's storage
+ * in EVERY container. So: if any other store's expression list still
+ * protects the domain for this site-data type, or the domain is open in
+ * any store's tab, its hostname must stay out of the removal scope.
+ * (The manual per-site actions stay unguarded on purpose — an explicit
+ * "clean this site now" click wins.)
+ */
+export const isDomainProtectedInAnyStore = (
+  state: State,
+  openTabDomains: Record<string, string[]>,
+  domain: string,
+  siteData: SiteDataType
+): boolean => {
+  const hostname = trimDot(domain.trim());
+  if (hostname === "") return false;
+  for (const storeKey of Object.keys(state.lists)) {
+    const matched = getMatchedExpressions(state.lists, storeKey, hostname)[0];
+    if (!matched) continue;
+    // An expression whose cleanSiteData explicitly marks this type wants
+    // it cleaned even where cookies are kept ("keep cookies, clear
+    // storage"); any other match protects the domain's storage.
+    const markedForCleaning = (matched.cleanSiteData ?? []).includes(siteData);
+    if (!markedForCleaning) return true;
+  }
+  const mainDomain = extractMainDomain(hostname);
+  return Object.values(openTabDomains).some((tabDomains) =>
+    tabDomains.includes(mainDomain)
+  );
+};
+
 export const cleanSiteData = async (
   state: State,
   siteData: SiteDataType,
   cleanReasonObjects: CleanReasonObject[],
-  debug: boolean
+  debug: boolean,
+  openTabDomains: Record<string, string[]> = {}
 ): Promise<string[]> => {
   const domains = cleanReasonObjects
     .filter((obj) => filterSiteData(obj, siteData, debug))
     .map((o) => o.cookie.domain)
-    .filter((domain) => domain.trim() !== "");
+    .filter((domain) => domain.trim() !== "")
+    .filter(
+      (domain) =>
+        !isDomainProtectedInAnyStore(state, openTabDomains, domain, siteData)
+    );
 
   const cleanList: string[] = [];
   for (const domain of domains) {
     // No port available here: these domains come from cookies, and cookies
     // are host-scoped. Storage on non-default-port origins is only covered
     // by the manual per-site actions, which read the port from the tab URL.
-    cleanList.push(...prepareCleanupDomains(domain));
+    cleanList.push(...prepareCleanupScope(domain));
   }
 
   if (cleanList.length > 0) {
@@ -749,7 +865,13 @@ export const filterSiteData = (
 /**
  * Store all tabs' host domains to prevent cookie deletion from those domains
  * returns empty object if we ignore all open Tabs
- * Tabs now grouped by cookie store e.g. '0' (normal), '1' (incognito)
+ * Tabs are grouped by RAW cookie store id — the same key space as
+ * cookie.storeId, because isSafeToClean looks straight up
+ * openTabDomains[cookie.storeId]: '0'/'1' on Chrome,
+ * firefox-default/firefox-private/firefox-container-N on Firefox. A
+ * mismatch here silently disables open-tab protection (cookies of open
+ * sites get cleaned), which is exactly what happened upstream when tabs
+ * were keyed by incognito flag while Firefox cookies carried firefox-*.
  */
 export const returnContainersOfOpenTabDomains = async (
   ignoreOpenTabs: boolean,
@@ -764,8 +886,9 @@ export const returnContainersOfOpenTabDomains = async (
   const openTabs: { [k: string]: Set<string> } = {};
   for (const tab of tabs) {
     if (isAWebpage(tab.url) && (!cleanDiscardedTabs || !tab.discarded)) {
+      // Firefox exposes the tab's real store (containers included);
       // Chrome doesn't have tab.cookieStoreId, so rely on tab.incognito
-      const cookieStoreId = tab.incognito ? "1" : "0";
+      const cookieStoreId = tab.cookieStoreId ?? (tab.incognito ? "1" : "0");
       if (!openTabs[cookieStoreId]) {
         openTabs[cookieStoreId] = new Set<string>();
       }
@@ -797,8 +920,9 @@ export const cleanCookiesOperation = async (
     browsingDataCleanup: {},
     siteDataCleaned: false,
   };
-  // Scrub private cookieStores
-  const storesIdsToScrub = ["private", "1"];
+  // Scrub private cookieStores (raw ids per browser plus the legacy
+  // normalized key) so private-browsing domains never persist in results
+  const storesIdsToScrub = ["private", "1", "firefox-private"];
   const openTabDomains = await returnContainersOfOpenTabDomains(
     cleanupProperties.ignoreOpenTabs,
     getSetting(state, SettingID.CLEAN_DISCARDED) as boolean
@@ -810,10 +934,41 @@ export const cleanCookiesOperation = async (
 
   const cookieStoreIds = new Set<string>();
 
-  // Manually add Chrome's default stores.
-  cookieStoreIds.add("0");
-  if (await browser.extension.isAllowedIncognitoAccess()) {
-    cookieStoreIds.add("1");
+  // Manually add the browser's always-present stores;
+  // getAllCookieStores only reports stores that have open tabs.
+  if (browserCapabilities.supportsContextualIdentities) {
+    // Firefox store ids.
+    cookieStoreIds.add("firefox-default");
+    if (await browser.extension.isAllowedIncognitoAccess()) {
+      cookieStoreIds.add("firefox-private");
+    }
+    // Container stores with no open tabs are missing from
+    // getAllCookieStores, so union in contextualIdentities.query. Upstream
+    // skipped container stores wholesale when its container setting was
+    // off, leaking their cookies forever (audit bug 6a) — here every
+    // container is always enumerated; only the expression-list mapping
+    // depends on the setting. The query rejects when the user disables
+    // privacy.userContext.enabled: degrade to the other sources.
+    try {
+      const identities = await browser.contextualIdentities.query({});
+      for (const identity of identities) {
+        cookieStoreIds.add(identity.cookieStoreId);
+      }
+    } catch (e: unknown) {
+      adcpLog(
+        {
+          msg: "CleanupService.cleanCookiesOperation:  contextualIdentities.query rejected (containers disabled?). Continuing with the remaining stores.",
+          x: e instanceof Error ? e.message : e,
+        },
+        debug
+      );
+    }
+  } else {
+    // Chrome's default stores.
+    cookieStoreIds.add("0");
+    if (await browser.extension.isAllowedIncognitoAccess()) {
+      cookieStoreIds.add("1");
+    }
   }
 
   // Store cookieStoreIds from the cookies API
@@ -826,9 +981,13 @@ export const cleanCookiesOperation = async (
   for (const id of cookieStoreIds) {
     let cookies: browser.cookies.Cookie[] = [];
     try {
-      cookies = await browser.cookies.getAll({
-        storeId: id,
-      });
+      cookies = await browser.cookies.getAll(
+        withAllPartitions(
+          withAnyFirstPartyDomain({
+            storeId: id,
+          })
+        )
+      );
     } catch (e: unknown) {
       if (e instanceof Error) {
         adcpLog(
@@ -941,7 +1100,8 @@ export const cleanCookiesOperation = async (
     // Handle all other browsingData cleanups.
     const storeResults = await otherBrowsingDataCleanup(
       state,
-      isSafeToCleanObjects
+      isSafeToCleanObjects,
+      openTabDomains
     );
     // Don't store domains for private browsing data
     if (storesIdsToScrub.includes(id) || !storeResults) continue;
