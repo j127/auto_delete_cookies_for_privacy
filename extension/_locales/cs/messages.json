@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Vypnout automatický úklid (ruční režim)"
   },
+  "discussionsText": {
+    "message": "Návrhy funkcí a diskuse"
+  },
   "documentationText": {
     "message": "Dokumentace"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Hlášení chyb a nápady"
+    "message": "Nahlásit chybu nebo problém"
   },
   "resetCookieCounterText": {
     "message": "Vynulovat počítadla cookies"

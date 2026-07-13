@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "자동 정리 끄기(수동 모드)"
   },
+  "discussionsText": {
+    "message": "기능 요청 및 토론"
+  },
   "documentationText": {
     "message": "문서"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "버그 신고와 기능 제안"
+    "message": "버그 또는 문제 신고"
   },
   "resetCookieCounterText": {
     "message": "쿠키 카운터 초기화"

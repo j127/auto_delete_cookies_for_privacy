@@ -223,6 +223,10 @@
     "message": "Switch automatic cleaning off (manual mode)",
     "description": "Switch automatic cleaning off (manual mode)"
   },
+  "discussionsText": {
+    "message": "Feature requests and discussions",
+    "description": "Feature requests and discussions. Support page link to GitHub Discussions."
+  },
   "documentationText": {
     "message": "Documentation",
     "description": "Documentation"
@@ -952,8 +956,8 @@
     }
   },
   "reportIssuesText": {
-    "message": "Bug reports and feature ideas",
-    "description": "Bug reports and feature ideas"
+    "message": "Report a bug or problem",
+    "description": "Report a bug or problem. Support page link to GitHub issues."
   },
   "resetCookieCounterText": {
     "message": "Reset Cookie Counters",

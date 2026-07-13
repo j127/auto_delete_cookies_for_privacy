@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Matikan pembersihan otomatis (mode manual)"
   },
+  "discussionsText": {
+    "message": "Permintaan fitur dan diskusi"
+  },
   "documentationText": {
     "message": "Dokumentasi"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Laporan bug dan ide fitur"
+    "message": "Laporkan bug atau masalah"
   },
   "resetCookieCounterText": {
     "message": "Setel ulang penghitung cookie"

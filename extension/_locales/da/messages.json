@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Slå automatisk rydning fra (manuel tilstand)"
   },
+  "discussionsText": {
+    "message": "Funktionsønsker og diskussioner"
+  },
   "documentationText": {
     "message": "Dokumentation"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Fejlrapporter og idéer"
+    "message": "Rapportér en fejl eller et problem"
   },
   "resetCookieCounterText": {
     "message": "Nulstil cookietællerne"

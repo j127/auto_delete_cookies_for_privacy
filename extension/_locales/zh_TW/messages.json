@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "關閉自動清理（手動模式）"
   },
+  "discussionsText": {
+    "message": "功能請求與討論"
+  },
   "documentationText": {
     "message": "文件"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "錯誤回報與功能建議"
+    "message": "回報錯誤或問題"
   },
   "resetCookieCounterText": {
     "message": "重設 Cookie 計數器"

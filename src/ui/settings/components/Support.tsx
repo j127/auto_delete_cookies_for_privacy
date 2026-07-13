@@ -74,6 +74,12 @@ const Support: React.FunctionComponent<OwnProps> = ({ style }) => {
         >
           {browser.i18n.getMessage("reportIssuesText")}
         </a>
+        <a
+          className="link link-primary"
+          href="https://github.com/j127/auto_delete_cookies_for_privacy/discussions"
+        >
+          {browser.i18n.getMessage("discussionsText")}
+        </a>
       </div>
       <div className="divider" />
       <h3 className="mb-2 text-xl font-semibold">

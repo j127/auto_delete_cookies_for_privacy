@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "自動クリーンアップをオフにする（手動モード）"
   },
+  "discussionsText": {
+    "message": "機能リクエストとディスカッション"
+  },
   "documentationText": {
     "message": "ドキュメント"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "バグ報告と機能の提案"
+    "message": "バグや問題を報告"
   },
   "resetCookieCounterText": {
     "message": "Cookie カウンターをリセット"

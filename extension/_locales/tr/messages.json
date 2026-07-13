@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Otomatik temizliği kapat (elle mod)"
   },
+  "discussionsText": {
+    "message": "Özellik istekleri ve tartışmalar"
+  },
   "documentationText": {
     "message": "Belgeler"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Hata bildirimleri ve özellik fikirleri"
+    "message": "Hata veya sorun bildirin"
   },
   "resetCookieCounterText": {
     "message": "Çerez sayaçlarını sıfırla"

@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Выключить автоматическую очистку (ручной режим)"
   },
+  "discussionsText": {
+    "message": "Запросы функций и обсуждения"
+  },
   "documentationText": {
     "message": "Документация"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Сообщения об ошибках и идеи"
+    "message": "Сообщить об ошибке или проблеме"
   },
   "resetCookieCounterText": {
     "message": "Сбросить счётчики куки"
