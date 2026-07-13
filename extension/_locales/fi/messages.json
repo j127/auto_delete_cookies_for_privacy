@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Kytke automaattisiivous pois (manuaalitila)"
   },
+  "discussionsText": {
+    "message": "Ominaisuustoiveet ja keskustelut"
+  },
   "documentationText": {
     "message": "Dokumentaatio"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Virheraportit ja ideat"
+    "message": "Ilmoita virheestä tai ongelmasta"
   },
   "resetCookieCounterText": {
     "message": "Nollaa evästelaskurit"

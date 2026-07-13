@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Slå av automatisk rydding (manuell modus)"
   },
+  "discussionsText": {
+    "message": "Funksjonsønsker og diskusjoner"
+  },
   "documentationText": {
     "message": "Dokumentasjon"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Feilrapporter og funksjonsidéer"
+    "message": "Rapporter en feil eller et problem"
   },
   "resetCookieCounterText": {
     "message": "Nullstill kapseltellerne"

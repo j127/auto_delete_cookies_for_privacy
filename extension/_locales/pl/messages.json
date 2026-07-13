@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Wyłącz automatyczne czyszczenie (tryb ręczny)"
   },
+  "discussionsText": {
+    "message": "Propozycje funkcji i dyskusje"
+  },
   "documentationText": {
     "message": "Dokumentacja"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Zgłoszenia błędów i pomysły"
+    "message": "Zgłoś błąd lub problem"
   },
   "resetCookieCounterText": {
     "message": "Wyzeruj liczniki ciasteczek"

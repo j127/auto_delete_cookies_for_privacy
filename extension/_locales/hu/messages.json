@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Automatikus takarítás kikapcsolása (kézi mód)"
   },
+  "discussionsText": {
+    "message": "Funkciókérések és megbeszélések"
+  },
   "documentationText": {
     "message": "Dokumentáció"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Hibajelentések és ötletek"
+    "message": "Hiba vagy probléma bejelentése"
   },
   "resetCookieCounterText": {
     "message": "Sütiszámlálók nullázása"

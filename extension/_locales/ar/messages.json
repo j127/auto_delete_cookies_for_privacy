@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "إيقاف التنظيف التلقائي (وضع يدوي)"
   },
+  "discussionsText": {
+    "message": "طلبات الميزات والنقاشات"
+  },
   "documentationText": {
     "message": "التوثيق"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "تقارير الأخطاء وأفكار الميزات"
+    "message": "الإبلاغ عن خطأ أو مشكلة"
   },
   "resetCookieCounterText": {
     "message": "تصفير عدّادات الكوكيز"

@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Skakel outomatiese skoonmaak af (handmatige modus)"
   },
+  "discussionsText": {
+    "message": "Funksieversoeke en besprekings"
+  },
   "documentationText": {
     "message": "Dokumentasie"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Foutverslae en idees"
+    "message": "Rapporteer 'n fout of probleem"
   },
   "resetCookieCounterText": {
     "message": "Stel koekietellers terug"

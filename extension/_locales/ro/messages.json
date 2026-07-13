@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Dezactivează curățarea automată (mod manual)"
   },
+  "discussionsText": {
+    "message": "Cereri de funcționalități și discuții"
+  },
   "documentationText": {
     "message": "Documentație"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Rapoarte de erori și idei"
+    "message": "Raportați o eroare sau o problemă"
   },
   "resetCookieCounterText": {
     "message": "Resetează contoarele de cookie-uri"

@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Tắt tự động dọn (chế độ thủ công)"
   },
+  "discussionsText": {
+    "message": "Yêu cầu tính năng và thảo luận"
+  },
   "documentationText": {
     "message": "Tài liệu"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Báo lỗi và góp ý tính năng"
+    "message": "Báo cáo lỗi hoặc sự cố"
   },
   "resetCookieCounterText": {
     "message": "Đặt lại bộ đếm cookie"

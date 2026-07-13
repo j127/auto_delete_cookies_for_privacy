@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Desactivar la limpieza automática (modo manual)"
   },
+  "discussionsText": {
+    "message": "Solicitudes de funciones y debates"
+  },
   "documentationText": {
     "message": "Documentación"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Informes de errores e ideas"
+    "message": "Informar de un error o problema"
   },
   "resetCookieCounterText": {
     "message": "Restablecer contadores de cookies"

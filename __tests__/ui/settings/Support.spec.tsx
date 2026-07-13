@@ -44,7 +44,7 @@ describe("Support", () => {
     );
   });
 
-  it("renders the Support heading with the bug-reports link as the only anchor", () => {
+  it("renders the Support heading with the bug-report and discussions links as the only anchors", () => {
     const { container, getByText, queryByText } = renderSupport();
     expect((container.querySelector("h1") as HTMLElement).textContent).toBe(
       "supportText"
@@ -55,10 +55,16 @@ describe("Support", () => {
     expect(bugLink.getAttribute("href")).toBe(
       "https://github.com/j127/auto_delete_cookies_for_privacy/issues"
     );
+    const discussionsLink = getByText("discussionsText").closest(
+      "a"
+    ) as HTMLAnchorElement;
+    expect(discussionsLink.getAttribute("href")).toBe(
+      "https://github.com/j127/auto_delete_cookies_for_privacy/discussions"
+    );
     // The external documentation link is gone — the in-app Help page owns
     // the docs now.
     expect(queryByText("documentationText")).toBeNull();
-    expect(container.querySelectorAll("a")).toHaveLength(1);
+    expect(container.querySelectorAll("a")).toHaveLength(2);
   });
 
   it("fills the debug info textarea through the value prop", () => {

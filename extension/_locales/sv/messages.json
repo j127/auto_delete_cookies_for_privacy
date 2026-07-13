@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Stäng av automatisk städning (manuellt läge)"
   },
+  "discussionsText": {
+    "message": "Funktionsönskemål och diskussioner"
+  },
   "documentationText": {
     "message": "Dokumentation"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Buggrapporter och funktionsidéer"
+    "message": "Rapportera en bugg eller ett problem"
   },
   "resetCookieCounterText": {
     "message": "Nollställ kakräknarna"

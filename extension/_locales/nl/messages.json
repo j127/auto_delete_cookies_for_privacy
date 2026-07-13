@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Automatisch opschonen uitzetten (handmatige modus)"
   },
+  "discussionsText": {
+    "message": "Feature-verzoeken en discussies"
+  },
   "documentationText": {
     "message": "Documentatie"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Bugmeldingen en feature-ideeën"
+    "message": "Een bug of probleem melden"
   },
   "resetCookieCounterText": {
     "message": "Cookietellers resetten"

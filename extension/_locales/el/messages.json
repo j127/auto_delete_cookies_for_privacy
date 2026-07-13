@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Απενεργοποίηση αυτόματου καθαρισμού (χειροκίνητη λειτουργία)"
   },
+  "discussionsText": {
+    "message": "Αιτήματα λειτουργιών και συζητήσεις"
+  },
   "documentationText": {
     "message": "Τεκμηρίωση"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Αναφορές σφαλμάτων και ιδέες"
+    "message": "Αναφέρετε ένα σφάλμα ή πρόβλημα"
   },
   "resetCookieCounterText": {
     "message": "Μηδενισμός μετρητών cookies"

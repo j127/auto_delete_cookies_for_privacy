@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Изключи автоматичното почистване (ръчен режим)"
   },
+  "discussionsText": {
+    "message": "Заявки за функции и дискусии"
+  },
   "documentationText": {
     "message": "Документация"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Доклади за грешки и идеи"
+    "message": "Докладвайте грешка или проблем"
   },
   "resetCookieCounterText": {
     "message": "Нулирай броячите на бисквитки"

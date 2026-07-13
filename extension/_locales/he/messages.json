@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "כיבוי הניקוי האוטומטי (מצב ידני)"
   },
+  "discussionsText": {
+    "message": "בקשות לתכונות ודיונים"
+  },
   "documentationText": {
     "message": "תיעוד"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "דיווח על באגים ורעיונות לתכונות"
+    "message": "דיווח על באג או בעיה"
   },
   "resetCookieCounterText": {
     "message": "איפוס מוני העוגיות"

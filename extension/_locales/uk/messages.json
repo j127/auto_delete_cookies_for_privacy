@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Вимкнути автоматичне очищення (ручний режим)"
   },
+  "discussionsText": {
+    "message": "Запити функцій та обговорення"
+  },
   "documentationText": {
     "message": "Документація"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Повідомлення про помилки та ідеї"
+    "message": "Повідомити про помилку чи проблему"
   },
   "resetCookieCounterText": {
     "message": "Скинути лічильники кук"

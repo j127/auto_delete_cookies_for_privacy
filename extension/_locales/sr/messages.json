@@ -177,6 +177,9 @@
   "disableAutoDeleteText": {
     "message": "Искључи аутоматско чишћење (ручни режим)"
   },
+  "discussionsText": {
+    "message": "Захтеви за функције и дискусије"
+  },
   "documentationText": {
     "message": "Документација"
   },
@@ -786,7 +789,7 @@
     }
   },
   "reportIssuesText": {
-    "message": "Пријаве грешака и идеје"
+    "message": "Пријавите грешку или проблем"
   },
   "resetCookieCounterText": {
     "message": "Ресетуј бројаче колачића"
