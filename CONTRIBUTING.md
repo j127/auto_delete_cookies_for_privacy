@@ -42,17 +42,17 @@ New recipes go in the `justfile` with `snake_case` names.
 
 - **Tests.** All code changes come with tests. `just test` must pass, including the coverage thresholds — if your change meaningfully raises coverage, feel free to bump the floors in `vitest.config.ts` to the new baseline (the long-term target is 90%).
 - **Green `just ci`** locally before you open the PR; the GitHub Actions workflow runs the same recipes.
-- **Firefox changes**: run the relevant rows of the [manual Firefox test matrix](docs/testing-firefox.md) when touching cleanup, containers, or permissions behavior; the full matrix gates the Firefox branch's merge to `main`.
+- **Firefox changes**: run the relevant rows of the [manual Firefox test matrix](docs/testing-firefox.md) when touching cleanup, containers, or permissions behavior; a full recorded pass of the matrix gates each Firefox (AMO) release.
 - **Scope discipline.** One issue per PR. Don't reformat or refactor code your change doesn't touch.
 - **Comments stay.** Don't delete existing code comments unless the code they describe is going away — several carry load-bearing context (MV3 service-worker constraints, bundler quirks).
 - **i18n**: user-facing strings go through `browser.i18n.getMessage` with a key in `extension/_locales/en/messages.json`. Key names are frozen once merged (30+ locale files reference them); only English values may change.
 
 ## Project constraints worth knowing
 
-- The extension is Manifest V3. The committed `extension/` directory is the Chromium artifact (Chrome, Brave, Chromium); desktop Firefox support is being added on the `add-firefox-support` branch, where `just build_firefox` assembles a separate artifact with a generated manifest.
+- The extension is Manifest V3. The committed `extension/` directory is the Chromium artifact (Chrome, Brave, Chromium); desktop Firefox is also supported, and `just build_firefox` assembles its separate artifact from a generated manifest.
 - The background script is a service worker: it can be killed at any idle moment and restarted on the next event. Never rely on module-level state surviving between events; use `chrome.storage.session` for state that must survive a restart within a browser session. Event listeners must be registered synchronously at the top level of `src/background.ts`.
 - Runtime enums live as plain `export enum` in `src/typings/enums.ts`. Never declare ambient `const enum`s in `.d.ts` files — Bun.build transpiles per-file and cannot inline them, which crashes at runtime while tests still pass.
 
 ## Reporting bugs
 
-Use the issue templates. For runtime errors, include the service worker console output: `brave://extensions` → the extension's card → "Inspect views: service worker".
+Use the issue templates. For runtime errors, include the background console output: on Chrome/Brave, `brave://extensions` → the extension's card → "Inspect views: service worker"; on Firefox, `about:debugging#/runtime/this-firefox` → the extension's "Inspect" button (Firefox runs an event page, not a service worker).
