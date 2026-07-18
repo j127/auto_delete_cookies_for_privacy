@@ -16,6 +16,12 @@
  *   event page declared via `background.scripts`. `type: "module"` is kept
  *   (supported since Firefox 112), so the same ESM bundles load unchanged.
  * - minimum_chrome_version: dropped (Chrome-only key).
+ * - homepage_url: retargeted from the Chrome Web Store listing to the repo, so
+ *   about:addons does not send Firefox users to a store they cannot install
+ *   from. Deliberately NOT the AMO listing: AMO's own validator rejects that
+ *   (RESTRICTED_HOMEPAGE_URL, "links directing to addons.mozilla.org are not
+ *   allowed to be used for homepage"), since AMO already links its listing
+ *   itself. The repo URL is what docs/store/firefox/listing.md specifies.
  * - permissions: `contextualIdentities` added for container support
  *   (Firefox-only API; Chrome would reject the unknown permission, which is
  *   one of the reasons the two targets need separate manifests — the other
@@ -32,6 +38,20 @@
 export const FIREFOX_ADDON_ID = "{18370def-5c02-46b5-bf90-2c8de7e67a87}";
 
 export const FIREFOX_STRICT_MIN_VERSION = "128.0";
+
+/**
+ * What about:addons shows as the add-on's homepage. The repo rather than a
+ * store listing, matching docs/store/firefox/listing.md ("Support site /
+ * homepage: the GitHub repo URL") — and AMO forbids pointing homepage_url at
+ * an addons.mozilla.org listing anyway (see the delta list above).
+ *
+ * Not to be confused with the popup Share menu's link
+ * (src/ui/popup/components/ShareMenu.tsx), which does point Firefox users at
+ * the AMO listing: that one is a "get this extension" link handed to another
+ * person, where the store listing is exactly right.
+ */
+export const FIREFOX_HOMEPAGE_URL =
+  "https://github.com/j127/auto_delete_cookies_for_privacy";
 
 interface ChromeBackground {
   service_worker: string;
@@ -57,12 +77,14 @@ export interface ChromeManifest {
   background?: Partial<ChromeBackground>;
   permissions?: string[];
   minimum_chrome_version?: string;
+  homepage_url?: string;
   [key: string]: unknown;
 }
 
 export interface FirefoxManifest {
   background: FirefoxBackground;
   permissions: string[];
+  homepage_url: string;
   browser_specific_settings: { gecko: GeckoSettings };
   [key: string]: unknown;
 }
@@ -96,6 +118,10 @@ export function buildFirefoxManifest(
   const manifest = structuredClone(chromeManifest) as FirefoxManifest;
 
   delete manifest.minimum_chrome_version;
+
+  // Assigning (rather than deleting and re-adding) overwrites the key in
+  // place, so it keeps its original position too.
+  manifest.homepage_url = FIREFOX_HOMEPAGE_URL;
 
   const background: FirefoxBackground = { scripts: [serviceWorker] };
   const backgroundType = chromeManifest.background?.type;

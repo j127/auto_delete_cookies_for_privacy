@@ -9,6 +9,7 @@ import {
   buildFirefoxManifest,
   ChromeManifest,
   FIREFOX_ADDON_ID,
+  FIREFOX_HOMEPAGE_URL,
   FIREFOX_STRICT_MIN_VERSION,
   serializeManifest,
 } from "../../scripts/firefox_manifest";
@@ -22,6 +23,8 @@ const chromeFixture = (): ChromeManifest => ({
   manifest_version: 3,
   name: "Auto-Delete Cookies for Privacy",
   version: "1.0.0",
+  homepage_url:
+    "https://chromewebstore.google.com/detail/auto-delete-cookies-for-p/ghnodpmkiilfdelcloblidoeecblgbfp",
   minimum_chrome_version: "120",
   icons: { "48": "icons/icon_48.png" },
   background: { service_worker: "bundles/background.js", type: "module" },
@@ -51,6 +54,29 @@ describe("buildFirefoxManifest", () => {
   it("drops the Chrome-only minimum_chrome_version key", () => {
     const result = buildFirefoxManifest(chromeFixture());
     expect(result).not.toHaveProperty("minimum_chrome_version");
+  });
+
+  it("retargets homepage_url away from the Chrome Web Store", () => {
+    const input = chromeFixture();
+    const result = buildFirefoxManifest(input);
+    expect(result.homepage_url).toBe(FIREFOX_HOMEPAGE_URL);
+    // The witness: a Chrome value was there and got replaced, not merely
+    // defaulted in because the key was absent.
+    expect(input.homepage_url).toContain("chromewebstore.google.com");
+    expect(result.homepage_url).not.toContain("chromewebstore");
+  });
+
+  it("never points homepage_url at AMO, which AMO itself rejects", () => {
+    // web-ext lint fails with RESTRICTED_HOMEPAGE_URL ("links directing to
+    // addons.mozilla.org are not allowed to be used for homepage") — AMO links
+    // its own listing, so the key is for the add-on's real homepage. Asserted
+    // here so the fast suite catches it; otherwise only `just lint_firefox`
+    // does, at submission time. The popup Share menu is the place that does
+    // link AMO (see ShareMenu-firefox.spec.tsx).
+    expect(FIREFOX_HOMEPAGE_URL).not.toContain("addons.mozilla.org");
+    expect(buildFirefoxManifest(chromeFixture()).homepage_url).not.toContain(
+      "addons.mozilla.org"
+    );
   });
 
   it("adds contextualIdentities and keeps permissions sorted", () => {
@@ -86,6 +112,9 @@ describe("buildFirefoxManifest", () => {
   it("passes shared fields through unchanged", () => {
     const input = chromeFixture();
     const result = buildFirefoxManifest(input);
+    // homepage_url is deliberately absent from this list: it is a transformed
+    // field, not a pass-through one (see the AMO retarget test above). It does
+    // appear in the fixture, which makes it easy to add here by mistake.
     for (const key of [
       "manifest_version",
       "name",
@@ -139,6 +168,11 @@ describe("buildFirefoxManifest with the committed manifest", () => {
       expect(result.permissions).toContain(permission);
     }
     expect(result.permissions).toContain("contextualIdentities");
+    // The shipped Firefox artifact must not send users to a Chrome-only link.
+    expect(result.homepage_url).toBe(FIREFOX_HOMEPAGE_URL);
+    // ...while the Chrome manifest still points at the Chrome Web Store: the
+    // Chrome artifact is unchanged by the AMO retarget (#326).
+    expect(chromeManifest.homepage_url).toContain("chromewebstore.google.com");
     // Shared fields come straight from the single source of truth.
     expect(result.name).toBe(chromeManifest.name);
     expect(result.version).toBe(chromeManifest.version);
