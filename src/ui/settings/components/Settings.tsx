@@ -16,6 +16,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { updateSetting } from "@/redux/actions";
 import { ReduxAction } from "@/typings/redux-constants";
+import { CURRENT_BROWSER } from "@/services/browser-capabilities";
+import type { BrowserTarget } from "@/services/browser-capabilities";
 import CheckboxSetting from "@/ui/common-components/CheckboxSetting";
 import SelectInput from "@/ui/common-components/SelectInput";
 import SiteDataControl from "./SiteDataControl";
@@ -70,6 +72,20 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
   // The single global gate: the same stored setting reveals the popup's
   // extra controls and the advanced rows on this page.
   const advancedMode = !!settings[SettingID.POPUP_ADVANCED]?.value;
+
+  // Debug-mode help is browser-specific: Chrome/Brave open the service-worker
+  // console from chrome://extensions, while Firefox inspects the event page
+  // from about:debugging (no per-id URL there). Keyed on build identity via
+  // the same Record<BrowserTarget> idiom ShareMenu uses, so a new target must
+  // supply both entries to type-check.
+  const debugConsoleUrl: Record<BrowserTarget, string> = {
+    chrome: `chrome://extensions/?id=${encodeURIComponent(browser.runtime.id)}`,
+    firefox: "about:debugging#/runtime/this-firefox",
+  };
+  const debugInstructionKey: Record<BrowserTarget, string> = {
+    chrome: "chromeDebugMode",
+    firefox: "firefoxDebugMode",
+  };
 
   return (
     <div style={style}>
@@ -300,12 +316,13 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
               <div className="alert block rounded-none alert-info" role="alert">
                 <p>{browser.i18n.getMessage("openDebugMode")}</p>
                 <pre className="my-2">
-                  <b>
-                    {`chrome://extensions/?id=`}
-                    {encodeURIComponent(browser.runtime.id)}
-                  </b>
+                  <b>{debugConsoleUrl[CURRENT_BROWSER]}</b>
                 </pre>
-                <p>{browser.i18n.getMessage("chromeDebugMode")}</p>
+                <p>
+                  {browser.i18n.getMessage(
+                    debugInstructionKey[CURRENT_BROWSER]
+                  )}
+                </p>
                 <p>
                   {browser.i18n.getMessage("consoleDebugMode")}.{" "}
                   {browser.i18n.getMessage("filterDebugMode")}
