@@ -237,6 +237,10 @@
   "filterText": {
     "message": "筛选"
   },
+  "firefoxDebugMode": {
+    "message": "Find this extension in the list and click 'Inspect' to open its console.",
+    "description": "Firefox: how to open the extension's debug console. Shown when debug mode is enabled."
+  },
   "greyListWordText": {
     "message": "灰名单"
   },

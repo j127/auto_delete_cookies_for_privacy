@@ -22,6 +22,19 @@ const advancedOn = withSettings({
   },
 });
 
+// Advanced + debug both on: the only state that renders the debug-console
+// help panel (gated by advancedMode AND DEBUG_MODE).
+const debugOn = withSettings({
+  [SettingID.POPUP_ADVANCED]: {
+    name: SettingID.POPUP_ADVANCED,
+    value: true,
+  },
+  [SettingID.DEBUG_MODE]: {
+    name: SettingID.DEBUG_MODE,
+    value: true,
+  },
+});
+
 describe("Settings", () => {
   const renderSettings = (state: State = initialState) => {
     const store = createStore(() => state);
@@ -109,6 +122,21 @@ describe("Settings", () => {
     ].forEach((key) => {
       expect(interfaceCard.textContent).toContain(key);
     });
+  });
+
+  it("shows the Chrome debug-console instructions when debug mode is on", () => {
+    // Default test flavor is chrome (vitest-setup.ts). The Firefox variant of
+    // this panel is covered by Settings-firefox.spec.tsx.
+    (global.browser.runtime as unknown as { id: string }).id = "test-ext-id";
+    const { getByText } = renderSettings(debugOn);
+    const panel = getByText("openDebugMode").closest(
+      "div.alert"
+    ) as HTMLElement;
+    expect(panel.textContent).toContain("chrome://extensions/?id=test-ext-id");
+    expect(panel.textContent).toContain("chromeDebugMode");
+    // The Firefox instructions must not appear on the Chrome build.
+    expect(panel.textContent).not.toContain("about:debugging");
+    expect(panel.textContent).not.toContain("firefoxDebugMode");
   });
 
   it("tints the Advanced mode gate row", () => {
