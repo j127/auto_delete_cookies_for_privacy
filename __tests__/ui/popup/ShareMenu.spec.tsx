@@ -10,8 +10,11 @@ describe("ShareMenu", () => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
   });
 
-  it("points at the extension page through a single constant", () => {
-    // Issue #143: swapped to the Chrome Web Store listing at publication.
+  it("shares the Chrome Web Store listing on the Chrome build", () => {
+    // Issue #143 swapped this to the Chrome Web Store listing at publication;
+    // #326 made it per-build-target. Chrome is the default test flavor
+    // (vitest-setup.ts), and the Chrome artifact must keep sharing the Chrome
+    // link — the Firefox side is covered by ShareMenu-firefox.spec.tsx.
     expect(EXTENSION_PAGE_URL).toBe(
       "https://chromewebstore.google.com/detail/auto-delete-cookies-for-p/ghnodpmkiilfdelcloblidoeecblgbfp"
     );

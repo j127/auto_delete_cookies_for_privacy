@@ -3,15 +3,39 @@
  * Copyright (c) 2026 j127. Licensed under MIT (see LICENSE).
  */
 import * as React from "react";
+import { CURRENT_BROWSER } from "@/services/browser-capabilities";
+import type { BrowserTarget } from "@/services/browser-capabilities";
 import Icon from "@/ui/common-components/Icon";
 
 /**
- * The page the Share menu points at. A single constant on purpose: until
- * the extension was published this was the GitHub repository; since
- * publication it is the Chrome Web Store listing (swap tracked by issue #143).
+ * The store listing each artifact points at. Keyed on build identity rather
+ * than a browserCapabilities field: every capability there answers "what does
+ * this browser's API support?", a question code asks before choosing a call
+ * shape. This asks "which artifact am I?" — the identity is the whole reason,
+ * so there is no capability to name. Record<BrowserTarget, ...> keeps the same
+ * exhaustiveness guarantee: a new target won't type-check until its listing is
+ * added here.
+ *
+ * The Firefox entry is the only AMO link the extension ships: the generated
+ * Firefox manifest's homepage_url points at the repo instead, because AMO
+ * rejects manifests whose homepage links back to an AMO listing. Sharing one is
+ * fine — that is a "get this extension" link for another person. The AMO URL
+ * carries no locale prefix so AMO can redirect each visitor to their own.
  */
-export const EXTENSION_PAGE_URL =
-  "https://chromewebstore.google.com/detail/auto-delete-cookies-for-p/ghnodpmkiilfdelcloblidoeecblgbfp";
+const STORE_URLS: Record<BrowserTarget, string> = {
+  chrome:
+    "https://chromewebstore.google.com/detail/auto-delete-cookies-for-p/ghnodpmkiilfdelcloblidoeecblgbfp",
+  firefox:
+    "https://addons.mozilla.org/firefox/addon/autodelete-cookies-for-privacy/",
+};
+
+/**
+ * The page the Share menu points at. Before publication this was the GitHub
+ * repository, then the Chrome Web Store listing (issue #143); since the AMO
+ * listing went live it is one per build target (issue #326), so the Firefox
+ * build never asks users to share a link they cannot install from.
+ */
+export const EXTENSION_PAGE_URL = STORE_URLS[CURRENT_BROWSER];
 
 /**
  * Quiet share dropdown in the popup's name bar (05d design). Two actions:

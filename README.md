@@ -1,6 +1,6 @@
 # Auto-Delete Cookies for Privacy
 
-This is a browser extension for Chrome/Brave that automatically deletes cookies and other site data when you close tabs, except for sites that you mark as safe.
+This is a browser extension for Chrome, Brave, and Firefox that automatically deletes cookies and other site data when you close tabs, except for sites that you mark as safe.
 
 ## What it does
 
@@ -11,11 +11,11 @@ This is a browser extension for Chrome/Brave that automatically deletes cookies 
 - Toolbar badge shows how many cookies the current site has set
 - Keep rules support wildcards and regular expressions, and can be exported/imported as files
 
-For a similar extension that works in Firefox see [Cookie AutoDelete](https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/). This extension is a fork of that one, because that one was no longer supported in Chromium browsers.
+Firefox users: this extension is [available on addons.mozilla.org](https://addons.mozilla.org/firefox/addon/autodelete-cookies-for-privacy/), and each Firefox container can have its own keep rules.
 
 ## Install
 
-Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/auto-delete-cookies-for-p/ghnodpmkiilfdelcloblidoeecblgbfp).
+Install it from the [Chrome Web Store](https://chromewebstore.google.com/detail/auto-delete-cookies-for-p/ghnodpmkiilfdelcloblidoeecblgbfp) for Chrome, Brave, and other Chromium browsers, or from [addons.mozilla.org](https://addons.mozilla.org/firefox/addon/autodelete-cookies-for-privacy/) for Firefox.
 
 Manual fallback: download the zip from the [latest release](https://github.com/j127/auto_delete_cookies_for_privacy/releases/latest), unzip it, and load the folder from `chrome://extensions` with Developer mode enabled ("Load unpacked").
 
@@ -58,4 +58,4 @@ The extension ships localized in 30+ languages.
 
 MIT. Original work copyright (c) 2017-2022 Kenny Do and CAD Team; fork modifications copyright (c) 2026 j127. See [LICENSE](LICENSE).
 
-**Auto-Delete Cookies for Privacy** is a fork of [Cookie AutoDelete (CAD)](https://github.com/Cookie-AutoDelete/Cookie-AutoDelete) which was removed from the Chrome Extension Store when Manifest V2 support ended (attribution in [LICENSE](LICENSE)). It has been rebuilt for Manifest V3 (along with other changes), and it targets Chrome, Brave, and other Chromium browsers. Firefox still supports Manifest V2 extensions, and you can download the original extension for Firefox [here](https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/).
+**Auto-Delete Cookies for Privacy** is a fork of [Cookie AutoDelete (CAD)](https://github.com/Cookie-AutoDelete/Cookie-AutoDelete) which was removed from the Chrome Web Store when Manifest V2 support ended (attribution in [LICENSE](LICENSE)). It has been rebuilt for Manifest V3 (along with other changes), and it runs on Chrome, Brave, and other Chromium browsers as well as Firefox.
