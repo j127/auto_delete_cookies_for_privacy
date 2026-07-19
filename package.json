@@ -40,7 +40,7 @@
     "jest-date-mock": "^1.0.10",
     "jest-when": "4.0.3",
     "jsdom": "29.1.1",
-    "prettier": "^3.9.4",
+    "prettier": "^3.9.5",
     "prettier-plugin-tailwindcss": "0.8.0",
     "selenium-webdriver": "4.45.0",
     "tailwindcss": "4.3.2",
