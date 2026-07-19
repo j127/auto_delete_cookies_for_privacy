@@ -36,7 +36,7 @@
         "jsdom": "29.1.1",
         "prettier": "^3.9.4",
         "prettier-plugin-tailwindcss": "0.8.0",
-        "selenium-webdriver": "4.45.0",
+        "selenium-webdriver": "4.46.0",
         "tailwindcss": "4.3.2",
         "typescript": "6.0.3",
         "typescript-eslint": "^8.62.1",
@@ -1442,7 +1442,7 @@
 
     "scheduler": ["scheduler@0.27.0", "", {}, "sha512-eNv+WrVbKu1f3vbYJT/xtiF5syA5HPIMtf9IgY/nKg0sWqzAUEvqY/xm7OcZc/qafLx/iO9FgOmeSAp4v5ti/Q=="],
 
-    "selenium-webdriver": ["selenium-webdriver@4.45.0", "", { "dependencies": { "@bazel/runfiles": "^6.5.0", "jszip": "^3.10.1", "tmp": "^0.2.7", "ws": "^8.21.0" } }, "sha512-Cb2nqvJiwXVOtRTCYHX9D1FJR5+Ls7aL3Nev0t6n4CpXsQ//YGiiUmSCbvTDDeLtbV85SZ46qmLab4SIYKXWRw=="],
+    "selenium-webdriver": ["selenium-webdriver@4.46.0", "", { "dependencies": { "@bazel/runfiles": "^6.5.0", "jszip": "^3.10.1", "tmp": "^0.2.7", "ws": "^8.21.0" } }, "sha512-UlTkgnx9y+bf3QxFsrgUyMqC2oy1Yf+qcOs7xIC/XfsUPv/ow7Sicx6SJ7AeOn2/Z+xF1M8SLqyn983wipI82w=="],
 
     "semver": ["semver@6.3.1", "", { "bin": { "semver": "bin/semver.js" } }, "sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA=="],
 
