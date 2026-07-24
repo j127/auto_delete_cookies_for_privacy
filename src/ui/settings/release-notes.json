@@ -1,6 +1,33 @@
 {
   "releases": [
     {
+      "version": "1.1.2",
+      "notes": [
+        "The Support page now has separate links for reporting bugs and for questions and discussions.",
+        "The Support page now links to the official Firefox Add-ons listing.",
+        "The debug panel now shows Firefox-specific details when debug mode is enabled.",
+        "Internal: the build pipeline was hardened (CI actions pinned to audited revisions) and the automated Firefox test suite was stabilized."
+      ]
+    },
+    {
+      "version": "1.1.1",
+      "notes": [
+        "Toolbar icon updates are now debounced per tab instead of globally, so the icon stays accurate when many tabs change at once.",
+        "Internal: every release is now checked by an automated end-to-end suite driving the packaged extension in a real Firefox."
+      ]
+    },
+    {
+      "version": "1.1.0",
+      "notes": [
+        "Firefox is now supported, including containers, Total Cookie Protection, and First-Party Isolation.",
+        "The popup and expression lists are container-aware on Firefox.",
+        "Site domains are now determined with the real Public Suffix List for more accurate cleaning.",
+        "Partitioned cookies are handled on both browsers (Total Cookie Protection on Firefox, CHIPS on Chrome).",
+        "Turning on automatic cleaning no longer wipes existing site data unless you explicitly opt in and confirm.",
+        "Sites protected by an open tab or a keep rule are guarded across all cookie stores."
+      ]
+    },
+    {
       "version": "1.0.1",
       "notes": [
         "The Share menu and homepage link now point to the Chrome Web Store listing.",
