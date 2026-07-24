@@ -73,7 +73,8 @@ package_zip_firefox: build_firefox
   echo "builds/Auto-Delete-Cookies-for-Privacy_${version}_Firefox.zip"
 
 # Real-Firefox end-to-end suite (headless; E2E_HEADED=1 to watch,
-# FIREFOX_BIN=/path to pin a channel such as ESR)
+# FIREFOX_BIN=/path to pin a channel such as ESR, GECKODRIVER_VERSION=x.y.z
+# to try a driver other than the pin in e2e/helpers/firefox_driver.ts)
 e2e_firefox: package_zip_firefox
   bunx vitest run --config vitest.e2e.config.ts
 
