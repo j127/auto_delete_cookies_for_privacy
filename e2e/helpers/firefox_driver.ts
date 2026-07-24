@@ -15,12 +15,66 @@
 
 import { readdirSync, statSync } from "fs";
 import { join, resolve } from "path";
-import { start as startGeckodriver } from "geckodriver";
+import {
+  download as downloadGeckodriver,
+  start as startGeckodriver,
+} from "geckodriver";
 import { Builder, WebDriver } from "selenium-webdriver";
 import firefox from "selenium-webdriver/firefox";
 import { FIREFOX_ADDON_ID } from "../../scripts/firefox_manifest";
 
 const GECKODRIVER_PORT = 4447;
+
+/**
+ * node-geckodriver downloads the driver binary at run time and, left
+ * unpinned, resolves "latest" — which broke CI on 2026-07-21 when
+ * geckodriver 0.37.1 shipped. Pin the binary so the suite tests one
+ * known browser/driver pair (bump together with `firefox-version` in
+ * ci.yml). GECKODRIVER_VERSION overrides the pin (node-geckodriver's own
+ * env knob, honored here too). The download cache is a versionless path,
+ * so wipe the cache (GECKODRIVER_CACHE_DIR, default OS temp dir) if a
+ * stale local binary shadows a pin change.
+ */
+export const PINNED_GECKODRIVER_VERSION = "0.37.1";
+
+/**
+ * The driver version to download. || not ??: an empty
+ * GECKODRIVER_VERSION must fall back to the pin, not reach
+ * node-geckodriver as "" (which it treats as "fetch latest").
+ */
+export const geckodriverDownloadVersion = (): string =>
+  process.env.GECKODRIVER_VERSION || PINNED_GECKODRIVER_VERSION;
+
+/**
+ * node-geckodriver forwards arbitrary camelCase params as --kebab-case
+ * CLI flags, but 6.1.0's GeckodriverParameters type doesn't declare
+ * allowSystemAccess yet; widen the type instead of casting the call.
+ */
+type GeckodriverStartParams = Parameters<typeof startGeckodriver>[0] & {
+  allowSystemAccess?: boolean;
+};
+
+/**
+ * Exported for the unit spec, which guards two contracts:
+ *
+ * - The chrome-context script (the UUID pref read) needs system access,
+ *   which recent Firefox gates behind a startup flag — and as of
+ *   geckodriver 0.37.1 that flag may no longer be set via capabilities
+ *   ("Argument --remote-allow-system-access can't be set via
+ *   capabilities"). It must be granted at the driver process with
+ *   --allow-system-access, which geckodriver passes down to Firefox.
+ *
+ * - geckoDriverVersion must NOT appear here: start() forwards every
+ *   param except cacheDir/customGeckoDriverPath/spawnOpts onto the
+ *   geckodriver command line, and the binary exits on the unknown
+ *   --gecko-driver-version flag (readiness poll then times out). The
+ *   pin is applied by downloading first and starting the downloaded
+ *   binary via customGeckoDriverPath (see ensureGeckodriver).
+ */
+export const geckodriverStartParams = (): GeckodriverStartParams => ({
+  port: GECKODRIVER_PORT,
+  allowSystemAccess: true,
+});
 
 export interface FirefoxSession {
   driver: WebDriver;
@@ -64,8 +118,13 @@ let geckodriverProcess: { kill: () => void } | undefined;
 
 const ensureGeckodriver = async (): Promise<string> => {
   if (!geckodriverProcess) {
+    // Download the pinned driver up front and start that exact binary;
+    // passing geckoDriverVersion to start() instead would leak it onto
+    // the binary's own command line (see geckodriverStartParams).
+    const binaryPath = await downloadGeckodriver(geckodriverDownloadVersion());
     geckodriverProcess = (await startGeckodriver({
-      port: GECKODRIVER_PORT,
+      ...geckodriverStartParams(),
+      customGeckoDriverPath: binaryPath,
     })) as unknown as { kill: () => void };
     // geckodriver has no readiness signal on stdout we can await through
     // this API; poll the status endpoint instead.
@@ -92,18 +151,17 @@ export const stopGeckodriver = (): void => {
 };
 
 /**
- * Launches Firefox with the extension installed and the probe tab open.
- * FIREFOX_BIN overrides the binary (e.g. Firefox ESR for the ESR column).
+ * Builds the Firefox launch options. Exported for the unit spec, which
+ * guards the geckodriver ≥0.37.1 contract: system access is granted via
+ * the driver's --allow-system-access flag (see geckodriverStartParams),
+ * so no *-remote-allow-system-access argument may appear here — passing
+ * it via capabilities fails session creation.
  */
-export const launchFirefox = async (
+export const buildFirefoxOptions = (
   prefs: Record<string, string | number | boolean> = {}
-): Promise<FirefoxSession> => {
-  const serverUrl = await ensureGeckodriver();
+): firefox.Options => {
   const options = new firefox.Options();
   if (process.env.E2E_HEADED !== "1") options.addArguments("-headless");
-  // Chrome-context script (the UUID pref read) needs system access,
-  // which recent Firefox gates behind this startup flag.
-  options.addArguments("-remote-allow-system-access");
   const binary = process.env.FIREFOX_BIN;
   if (binary) options.setBinary(binary);
   // The suite talks to localhost fixtures; disable the captive-portal and
@@ -113,6 +171,18 @@ export const launchFirefox = async (
   for (const [name, value] of Object.entries(prefs)) {
     options.setPreference(name, value);
   }
+  return options;
+};
+
+/**
+ * Launches Firefox with the extension installed and the probe tab open.
+ * FIREFOX_BIN overrides the binary (e.g. Firefox ESR for the ESR column).
+ */
+export const launchFirefox = async (
+  prefs: Record<string, string | number | boolean> = {}
+): Promise<FirefoxSession> => {
+  const serverUrl = await ensureGeckodriver();
+  const options = buildFirefoxOptions(prefs);
 
   const driver = (await new Builder()
     .forBrowser("firefox")

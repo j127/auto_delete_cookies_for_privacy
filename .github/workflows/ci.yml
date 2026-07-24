@@ -107,7 +107,12 @@ jobs:
       - uses: browser-actions/setup-firefox@v1
         id: setup-firefox
         with:
-          firefox-version: latest
+          # Pinned (together with PINNED_GECKODRIVER_VERSION in
+          # e2e/helpers/firefox_driver.ts) so the job tests one known
+          # browser/driver pair instead of chasing `latest`, which broke
+          # 2026-07-21 when geckodriver 0.37.1 shipped. Bump both
+          # deliberately when validating a new Firefox release.
+          firefox-version: "152.0.6"
 
       - uses: oven-sh/setup-bun@v2
         with:
