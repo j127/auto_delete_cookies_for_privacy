@@ -29,7 +29,7 @@
         "eslint": "^9",
         "eslint-config-prettier": "10.1.8",
         "eslint-plugin-react": "^7.37",
-        "geckodriver": "6.1.0",
+        "geckodriver": "6.1.1",
         "globals": "17.7.0",
         "jest-date-mock": "^1.0.10",
         "jest-when": "4.0.3",
@@ -860,7 +860,7 @@
 
     "fx-runner": ["fx-runner@1.5.0", "", { "dependencies": { "commander": "^12.1.0", "shell-quote": "1.8.4", "which": "^4.0.0", "winreg": "0.0.12" }, "bin": { "fx-runner": "bin/fx-runner" } }, "sha512-EstfdRQu04tM+SXR3pBmc0+GYKZj9FMHAvA8XAbKPzTvUeHP0v1/F3aQ10bG7EluR6phvFqsvn5Z7SvYJsEgNw=="],
 
-    "geckodriver": ["geckodriver@6.1.0", "", { "dependencies": { "@wdio/logger": "^9.18.0", "@zip.js/zip.js": "^2.8.11", "decamelize": "^6.0.1", "http-proxy-agent": "^7.0.2", "https-proxy-agent": "^7.0.6", "modern-tar": "^0.7.2" }, "bin": { "geckodriver": "bin/geckodriver.js" } }, "sha512-ZRXLa4ZaYTTgUO4Eefw+RsQCleugU2QLb1ME7qTYxxuRj51yAhfnXaItXNs5/vUzfIaDHuZ+YnSF005hfp07nQ=="],
+    "geckodriver": ["geckodriver@6.1.1", "", { "dependencies": { "@wdio/logger": "^9.18.0", "@zip.js/zip.js": "^2.8.11", "decamelize": "^6.0.1", "http-proxy-agent": "^7.0.2", "https-proxy-agent": "^7.0.6", "modern-tar": "^0.7.3" }, "bin": { "geckodriver": "bin/geckodriver.js" } }, "sha512-/AcCyc9o9o6hUbudaSJM2iOtXbxSLqQPOb4GrPvEN40cjraUeaX/j5kH3mSgwiroyMn7qzx2wM61AQ2XY8j3sA=="],
 
     "generator-function": ["generator-function@2.0.1", "", {}, "sha512-SFdFmIJi+ybC0vjlHN0ZGVGHc3lgE0DxPAT0djjVg+kjOnSqclqmj0KQ7ykTOLP6YxoqOvuAODGdcHJn+43q3g=="],
 
