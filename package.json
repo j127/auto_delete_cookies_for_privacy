@@ -14,7 +14,7 @@
     "@reduxjs/toolkit": "^2.12.0",
     "ipaddr.js": "^2.4.0",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7",
+    "react-dom": "^19.2.8",
     "react-redux": "^9.3.0",
     "redux": "^5.0.1",
     "tldts": "7.4.6",
