@@ -2,6 +2,8 @@
 
 This is a browser extension for Chrome, Brave, and Firefox that automatically deletes cookies and other site data when you close tabs, except for sites that you mark as safe.
 
+**Auto-Delete Cookies for Privacy** is based on Cookie-AutoDelete, but it works with Manifest v3 in Chrome, Brave, and Firefox, and it has some new features too. It also fixes some silent bugs that are found in the older Cookie-AutoDelete extension and some of the other forks.
+
 ## What it does
 
 - Deletes cookies (and other site data) from a site shortly after its last tab closes
