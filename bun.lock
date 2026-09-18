@@ -23,7 +23,7 @@
         "@types/react": "^19",
         "@types/react-dom": "^19",
         "@types/selenium-webdriver": "4.35.6",
-        "@types/webextension-polyfill": "0.12.5",
+        "@types/webextension-polyfill": "0.12.6",
         "@vitest/coverage-v8": "4.1.11",
         "daisyui": "5.6.6",
         "eslint": "^9",
@@ -31,7 +31,7 @@
         "eslint-plugin-react": "^7.37",
         "geckodriver": "6.1.0",
         "globals": "17.12.0",
-        "jest-date-mock": "^1.0.10",
+        "jest-date-mock": "1.0.10",
         "jest-when": "4.0.3",
         "jsdom": "29.1.1",
         "prettier": "^3.9.4",
@@ -410,7 +410,7 @@
 
     "@types/use-sync-external-store": ["@types/use-sync-external-store@0.0.6", "", {}, "sha512-zFDAD+tlpf2r4asuHEj0XH6pY6i0g5NeAHPn+15wk3BV6JA69eERFXC1gyGThDkVa1zCyKr5jox1+2LbV/AMLg=="],
 
-    "@types/webextension-polyfill": ["@types/webextension-polyfill@0.12.5", "", {}, "sha512-uKSAv6LgcVdINmxXMKBuVIcg/2m5JZugoZO8x20g7j2bXJkPIl/lVGQcDlbV+aXAiTyXT2RA5U5mI4IGCDMQeg=="],
+    "@types/webextension-polyfill": ["@types/webextension-polyfill@0.12.6", "", {}, "sha512-XTNQSGiQaipt1iocbpHSjYHd+Ujcya+K5H4H2uH7JwycReTFixoYqGWIKih2Ec072NuEW2lAyXRDYmlEx00+cw=="],
 
     "@types/ws": ["@types/ws@8.18.1", "", { "dependencies": { "@types/node": "*" } }, "sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg=="],
 
@@ -948,7 +948,7 @@
 
     "internal-slot": ["internal-slot@1.1.0", "", { "dependencies": { "es-errors": "^1.3.0", "hasown": "^2.0.2", "side-channel": "^1.1.0" } }, "sha512-4gd7VpWNQNB4UKKCFFVcp1AVv+FMOgs9NKzjHKusc8jTMhd5eL1NqQqOpE0KzMds804/yHlglp3uxgluOqAPLw=="],
 
-    "ipaddr.js": ["ipaddr.js@2.4.0", "", {}, "sha512-9VGk3HGanVE6JoZXHiCpnGy5X0jYDnN4EA4lntFPj+1vIWlFhIylq2CrrCOJH9EAhc5CYhq18F2Av2tgoAPsYQ=="],
+    "ipaddr.js": ["ipaddr.js@2.5.0", "", {}, "sha512-aq+t5NAc+cS6rZQQVWC2x98CPqGtKKTMDd4Gaodv0wShnItdKg/51djkGJ1hqH+Oy0ivDftCbSLCQob8zso01w=="],
 
     "is-array-buffer": ["is-array-buffer@3.0.5", "", { "dependencies": { "call-bind": "^1.0.8", "call-bound": "^1.0.3", "get-intrinsic": "^1.2.6" } }, "sha512-DDfANUiiG2wC1qawP66qlTugJeL5HyzMpfr8lLK+jMQirGzNod0B12cFB/9q838Ru27sBwfw78/rdoU7RERz6A=="],
 
