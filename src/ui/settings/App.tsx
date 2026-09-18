@@ -70,7 +70,7 @@ const App: React.FunctionComponent = () => {
         <div className="navbar-start gap-1">
           <label
             htmlFor="settings-drawer"
-            className="drawer-button btn btn-ghost lg:hidden"
+            className="btn btn-ghost drawer-button lg:hidden"
             aria-label={browser.i18n.getMessage("menuText")}
           >
             <Icon size="lg" name="bars" />
