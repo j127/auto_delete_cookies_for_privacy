@@ -47,7 +47,7 @@ export const geckodriverDownloadVersion = (): string =>
 
 /**
  * node-geckodriver forwards arbitrary camelCase params as --kebab-case
- * CLI flags, but 6.1.0's GeckodriverParameters type doesn't declare
+ * CLI flags, but 6.1.1's GeckodriverParameters type doesn't declare
  * allowSystemAccess yet; widen the type instead of casting the call.
  */
 type GeckodriverStartParams = Parameters<typeof startGeckodriver>[0] & {
