@@ -92,6 +92,36 @@
   "consoleDebugMode": {
     "message": "Skift til fanen Konsol."
   },
+  "containerAutoRemoveDescText": {
+    "message": "When a container is deleted, its keep list is removed and its cookies are cleaned.",
+    "description": "Description under the “Clean up deleted containers” toggle (Firefox containers group)."
+  },
+  "containerAutoRemoveText": {
+    "message": "Clean up deleted containers",
+    "description": "Firefox containers group: toggle for the contextualIdentitiesAutoRemove setting. Shown only while separate keep lists per container are on."
+  },
+  "containerListsDescText": {
+    "message": "Each container uses only its own keep list, and the Default list no longer applies to container tabs. Off: the Default list governs every container.",
+    "description": "Description under the “Separate keep lists per container” toggle (Firefox containers group)."
+  },
+  "containerListsOffNoticeText": {
+    "message": "Separate keep lists per container are off, so the Default list governs every container and the rules in this list are not applied. Turn on “$setting$” under $page$ to use it.",
+    "description": "Saved sites: warning under the list selector when a container list is selected while separate keep lists per container are off. $setting$ is that toggle's label, $page$ is the Protection tab name.",
+    "placeholders": {
+      "setting": {
+        "content": "$1",
+        "example": "Separate keep lists per container"
+      },
+      "page": {
+        "content": "$2",
+        "example": "Protection"
+      }
+    }
+  },
+  "containerListsText": {
+    "message": "Separate keep lists per container",
+    "description": "Firefox containers group: toggle for the contextualIdentities setting (each Firefox container gets its own keep list)."
+  },
   "contextMenusParentClean": {
     "message": "Manuel rydning"
   },
@@ -821,6 +851,10 @@
   },
   "settingGroupAutoClean": {
     "message": "Tidspunkt"
+  },
+  "settingGroupContainers": {
+    "message": "Firefox containers",
+    "description": "Protection group (Firefox build only): per-container keep lists."
   },
   "settingGroupExpression": {
     "message": "Udtryksindstillinger"
