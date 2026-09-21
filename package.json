@@ -33,7 +33,7 @@
     "@types/jest-when": "^3.5.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@types/selenium-webdriver": "4.35.6",
+    "@types/selenium-webdriver": "4.35.7",
     "@types/webextension-polyfill": "0.12.6",
     "@vitest/coverage-v8": "5.0.0",
     "daisyui": "5.7.37",
