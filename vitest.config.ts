@@ -29,21 +29,6 @@ export default defineConfig({
       },
     },
     environment: "node",
-    // Node >= 25 turns its experimental Web Storage on by default, which
-    // defines a `localStorage` getter on globalThis that returns undefined
-    // (plus an ExperimentalWarning) unless --localstorage-file is given.
-    // Vitest's jsdom environment only installs a jsdom window property on
-    // the global when Node has not already defined it, so that getter
-    // shadows jsdom's Storage and every `@jest-environment jsdom` spec that
-    // touches window.localStorage dies with "Cannot read properties of
-    // undefined (reading 'clear')". Switching the Node feature off in the
-    // worker processes restores jsdom's localStorage; Node 22 and 24 accept
-    // the flag as a no-op (the feature is off there already), so the suite
-    // behaves the same on any local Node and on CI's runner. Pinned by
-    // __tests__/vitest-web-storage.spec.ts. Vitest 5.0.0 adds localStorage
-    // and sessionStorage to its jsdom key list (vitest-dev/vitest#10293),
-    // so this entry can go once the runner is upgraded past 4.x.
-    execArgv: ["--no-experimental-webstorage"],
     globals: true,
     include: ["__tests__/**/*.spec.{ts,tsx}"],
     setupFiles: ["./vitest-setup.ts"],

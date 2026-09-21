@@ -33,7 +33,7 @@
     "@types/react-dom": "^19",
     "@types/selenium-webdriver": "4.35.6",
     "@types/webextension-polyfill": "0.12.6",
-    "@vitest/coverage-v8": "4.1.11",
+    "@vitest/coverage-v8": "5.0.0",
     "daisyui": "5.7.36",
     "eslint": "^9",
     "eslint-config-prettier": "10.1.8",
@@ -49,7 +49,8 @@
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
     "typescript-eslint": "^8.70.0",
-    "vitest": "4.1.11",
+    "vite": "8.1.0",
+    "vitest": "5.0.0",
     "web-ext": "10.6.0"
   },
   "repository": {

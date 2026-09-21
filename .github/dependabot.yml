@@ -49,11 +49,13 @@ updates:
           - "@types/react"
           - "@types/react-dom"
       # The Vitest runner and its v8 coverage provider ship as one
-      # version; a mismatch breaks `just test`.
+      # version; a mismatch breaks `just test`. vite is declared only
+      # because vitest 5 made it a required peer, so it moves with them.
       vitest:
         patterns:
           - "vitest"
           - "@vitest/coverage-v8"
+          - "vite"
       # Tailwind 4's CLI and engine ship as a single release, and
       # prettier-plugin-tailwindcss sorts class lists using their data
       # (.prettierrc.mjs -> tailwindStylesheet), so a split bump can make
