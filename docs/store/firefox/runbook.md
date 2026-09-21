@@ -21,7 +21,7 @@ Choose **Listed** on the first upload page ("On this site"). Listed means AMO ho
 ## 3. Upload the source package
 
 1. Upload `Auto-Delete-Cookies-for-Privacy_<tag>_Source.zip` from the same release.
-2. The build instructions reviewers need are inside it at `README-BUILD.md` (pinned Bun version from `.bun-version`, `bun install --frozen-lockfile`, `bun run scripts/build.ts --target firefox`). CI's `reproducible-firefox` job proves the rebuild is content-identical on every push, so the reviewer's rebuild will match.
+2. The build instructions reviewers need are inside it at `README-BUILD.md` (pinned Bun version from the `bun` line of `.tool-versions`, `bun install --frozen-lockfile`, `bun run scripts/build.ts --target firefox`). CI's `reproducible-firefox` job proves the rebuild is content-identical on every push, so the reviewer's rebuild will match.
 
 ## 4. Describe the add-on
 
@@ -33,7 +33,7 @@ Choose **Listed** on the first upload page ("On this site"). Listed means AMO ho
 
 > Auto-Delete Cookies for Privacy deletes cookies/site data of closed tabs; it collects nothing and makes no network requests.
 >
-> BUILD: the source zip contains README-BUILD.md. Toolchain is Bun (version pinned in .bun-version); `bun install --frozen-lockfile` then `bun run scripts/build.ts --target firefox` reproduces `builds/firefox/` byte-for-byte against the submitted xpi contents (bundles ship unminified on purpose; our CI re-verifies reproducibility on every push).
+> BUILD: the source zip contains README-BUILD.md. Toolchain is Bun (exact version pinned on the bun line of .tool-versions); `bun install --frozen-lockfile` then `bun run scripts/build.ts --target firefox` reproduces `builds/firefox/` byte-for-byte against the submitted xpi contents (bundles ship unminified on purpose; our CI re-verifies reproducibility on every push).
 >
 > PERMISSIONS: host access `<all_urls>` is required because the extension cleans cookies for whatever sites the user closes; per-permission justifications: [paste the relevant lines from permissions.md].
 >
