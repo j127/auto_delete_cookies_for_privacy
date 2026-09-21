@@ -43,11 +43,11 @@ function ExpressionTable(props: ExpressionTableProps) {
   const [expressionInput, setExpressionInput] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [id, setId] = useState<string | undefined>("");
-  const [invalid, setInvalidText] = useState("");
+  const [invalidText, setInvalidText] = useState("");
   // Rows with their ExpressionOptions editor revealed (05-shield layout:
   // rows are one line until expanded).
-  const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
-  const editInput = useRef<HTMLInputElement | undefined | null>(undefined);
+  const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
+  const editInputRef = useRef<HTMLInputElement | undefined | null>(undefined);
 
   const clearEditState = () => {
     setExpressionInput("");
@@ -78,45 +78,45 @@ function ExpressionTable(props: ExpressionTableProps) {
 
   useEffect(() => {
     if (
-      editInput.current &&
+      editInputRef.current &&
       editMode &&
       document.activeElement !== document.getElementById("formText")
     ) {
-      editInput.current.focus();
+      editInputRef.current.focus();
     }
   });
 
   const clearEdit = () => {
-    if (editInput.current) {
-      editInput.current.setCustomValidity("");
-      editInput.current.checkValidity();
-      editInput.current = undefined;
+    if (editInputRef.current) {
+      editInputRef.current.setCustomValidity("");
+      editInputRef.current.checkValidity();
+      editInputRef.current = undefined;
     }
     clearEditState();
   };
 
   const setInvalid = (s: string): boolean => {
-    if (!editInput.current) return false;
+    if (!editInputRef.current) return false;
     setInvalidText(s);
     // Native constraint validation carries the message for assistive tech;
-    // the visible text renders from the `invalid` state below (the Bootstrap
+    // the visible text renders from the `invalidText` state below (the Bootstrap
     // was-validated/.invalid-feedback pair is gone with #40).
-    editInput.current.setCustomValidity(s);
-    editInput.current.checkValidity();
+    editInputRef.current.setCustomValidity(s);
+    editInputRef.current.checkValidity();
     // should always return false since we set error above.
     return false;
   };
 
   const validateEdit = (): boolean => {
-    if (!editMode || !editInput.current || !id) return false;
+    if (!editMode || !editInputRef.current || !id) return false;
     const result = validateExpressionDomain(expressionInput.trim()).trim();
     if (result) {
       // validation failed.
       return setInvalid(result);
     }
     // Past this point, presume valid expression entry.
-    editInput.current.setCustomValidity("");
-    editInput.current.checkValidity();
+    editInputRef.current.setCustomValidity("");
+    editInputRef.current.checkValidity();
     return true;
   };
 
@@ -135,7 +135,7 @@ function ExpressionTable(props: ExpressionTableProps) {
       );
     }
     clearEditState();
-    editInput.current = undefined;
+    editInputRef.current = undefined;
   };
 
   const expressions = props.expressions === undefined ? [] : props.expressions;
@@ -186,7 +186,7 @@ function ExpressionTable(props: ExpressionTableProps) {
                   <div className="flex items-center gap-2">
                     <input
                       ref={(c) => {
-                        editInput.current = c;
+                        editInputRef.current = c;
                       }}
                       className="input w-full input-sm"
                       value={expressionInput}
@@ -220,8 +220,8 @@ function ExpressionTable(props: ExpressionTableProps) {
                       }}
                     />
                   </div>
-                  {invalid !== "" && (
-                    <div className="mt-1 text-sm text-error">{invalid}</div>
+                  {invalidText !== "" && (
+                    <div className="mt-1 text-sm text-error">{invalidText}</div>
                   )}
                 </td>
               ) : (

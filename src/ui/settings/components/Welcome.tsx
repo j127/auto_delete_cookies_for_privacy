@@ -23,14 +23,14 @@ import { resetCookieDeletedCounter } from "@/redux/actions";
 const displayReleaseNotes = (releases: ReleaseNote[]) => {
   return (
     <div className="flex flex-col gap-3">
-      {releases.map((release, index) => (
-        <div key={`release${index}`}>
+      {releases.map((release) => (
+        <div key={release.version}>
           <span className="badge font-mono badge-neutral">
             {release.version}
           </span>
           <ul className="mt-1 list-disc ps-6">
-            {release.notes.map((element, index2) => (
-              <li key={`release3${index2}`}>{element}</li>
+            {release.notes.map((element) => (
+              <li key={element}>{element}</li>
             ))}
           </ul>
         </div>

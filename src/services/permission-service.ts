@@ -28,7 +28,7 @@ export default class PermissionService {
    * the onAdded/onRemoved events.
    */
   public static async checkHostPermissions(): Promise<boolean> {
-    let granted = true;
+    let granted: boolean;
     try {
       granted = await browser.permissions.contains(HOST_PERMISSIONS);
     } catch {
