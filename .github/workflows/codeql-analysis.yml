@@ -11,18 +11,28 @@
 #
 name: "CodeQL"
 
-# Manual-only while the repo is private: uploading code-scanning results
-# requires GitHub Advanced Security, which personal private repos don't have.
-# Restore the push/pull_request/schedule triggers below when the repo goes
-# public for the Chrome Web Store release (Phase 5).
+# Runs on every push and pull request to main, once a week, and by hand.
+#
+# It was manual-only while the repo was private: uploading code-scanning
+# results requires GitHub Advanced Security, which personal private repos
+# don't have (every automatic run on 2026-07-05 failed with "Code scanning is
+# not enabled for this repository"). The triggers were meant to come back
+# when the repo went public for the Chrome Web Store release (Phase 5), but
+# stayed commented out until #392. In between, GitHub's CodeQL "default
+# setup" scanned main from 2026-07-18 until it stopped after 2026-08-30. It
+# also scanned the workflow files, which is why the language matrix below
+# lists "actions".
+#
+# Keep default setup switched off in the repository's code security
+# settings: while it is on, GitHub rejects the results this workflow uploads.
 on:
   workflow_dispatch:
-  # push:
-  #   branches: [main]
-  # pull_request:
-  #   branches: [main]
-  # schedule:
-  #   - cron: "0 20 * * 6"
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "0 20 * * 6"
 
 jobs:
   CodeQL-Build:
@@ -32,7 +42,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ["javascript"]
+        # "actions" checks the files in .github/workflows/; "javascript"
+        # covers the extension's JavaScript and TypeScript.
+        language: ["actions", "javascript"]
 
     permissions:
       # required for all workflows
