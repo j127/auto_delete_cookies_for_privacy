@@ -16,7 +16,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { updateSetting } from "@/redux/actions";
 import { ReduxAction } from "@/typings/redux-constants";
-import { CURRENT_BROWSER } from "@/services/browser-capabilities";
+import {
+  browserCapabilities,
+  CURRENT_BROWSER,
+} from "@/services/browser-capabilities";
 import type { BrowserTarget } from "@/services/browser-capabilities";
 import CheckboxSetting from "@/ui/common-components/CheckboxSetting";
 import SelectInput from "@/ui/common-components/SelectInput";
@@ -193,6 +196,46 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           onUpdateSetting={(payload) => onUpdateSetting(payload)}
         />
       </SettingGroup>
+
+      {/* Firefox containers only: which keep list governs a container tab.
+          Both settings exist on Chrome too but stay inert and hidden there.
+          Deliberately not behind the Advanced gate: the toggle shipped
+          with no UI at all for a whole release (#370), and its description
+          carries the one caveat a user must read before turning it on. */}
+      {browserCapabilities.supportsContextualIdentities && (
+        <SettingGroup title={browser.i18n.getMessage("settingGroupContainers")}>
+          <SettingRow>
+            <CheckboxSetting
+              text={browser.i18n.getMessage("containerListsText")}
+              description={browser.i18n.getMessage("containerListsDescText")}
+              settingObject={
+                settings[SettingID.CONTEXTUAL_IDENTITIES] ?? {
+                  name: SettingID.CONTEXTUAL_IDENTITIES,
+                  value: false,
+                }
+              }
+              updateSetting={(payload) => onUpdateSetting(payload)}
+            />
+          </SettingRow>
+          {settings[SettingID.CONTEXTUAL_IDENTITIES]?.value === true && (
+            <SettingRow>
+              <CheckboxSetting
+                text={browser.i18n.getMessage("containerAutoRemoveText")}
+                description={browser.i18n.getMessage(
+                  "containerAutoRemoveDescText"
+                )}
+                settingObject={
+                  settings[SettingID.CONTEXTUAL_IDENTITIES_AUTOREMOVE] ?? {
+                    name: SettingID.CONTEXTUAL_IDENTITIES_AUTOREMOVE,
+                    value: false,
+                  }
+                }
+                updateSetting={(payload) => onUpdateSetting(payload)}
+              />
+            </SettingRow>
+          )}
+        </SettingGroup>
+      )}
 
       <SettingGroup title={browser.i18n.getMessage("settingGroupExtension")}>
         <SettingRow>

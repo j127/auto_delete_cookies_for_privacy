@@ -256,6 +256,18 @@ describe("Settings", () => {
     expect(queryByText("defaultSettingsText")).toBeNull();
   });
 
+  it("has no Firefox containers card on the Chrome build", () => {
+    // Both container settings exist in state on Chrome too, but the card
+    // is capability-gated to Firefox (see Settings-firefox.spec.tsx).
+    [initialState, advancedOn].forEach((state) => {
+      const { container, queryByText, unmount } = renderSettings(state);
+      expect(queryByText("settingGroupContainers")).toBeNull();
+      expect(queryByText("containerListsText")).toBeNull();
+      expect(container.querySelector("#contextualIdentities")).toBeNull();
+      unmount();
+    });
+  });
+
   it("renders without console errors", () => {
     renderSettings(advancedOn);
     expect(console.error).not.toHaveBeenCalled();
