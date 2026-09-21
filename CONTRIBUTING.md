@@ -4,9 +4,10 @@ This page covers the toolchain, the branch rules, and what a change needs before
 
 ## Toolchain
 
-You need two tools installed globally:
+You need three tools installed globally:
 
-- [Bun](https://bun.sh) -- this is the package manager and bundler (there is no npm/node workflow here; use `bun`/`bunx`, not `npm`/`npx`). See the `.bun-version` file for the current version used.
+- [Bun](https://bun.sh) -- this is the package manager and bundler (there is no npm workflow here; use `bun`/`bunx`, not `npm`/`npx`). See the `.bun-version` file for the current version used.
+- [Node.js](https://nodejs.org) -- Bun launches the tools, but `tsc`, `eslint`, `prettier`, `vitest`, `web-ext` and the Tailwind step of the build all run on Node, because their launchers ask for it and `bunx` obeys. The version is declared in `mise.toml` (the 24.x line, at or above the floor in the `engines` field of `package.json`). With [mise](https://mise.jdx.dev), `mise install` in the repo picks it up; otherwise install that line yourself. CI reads the same file.
 - [just](https://github.com/casey/just) -- this is the task runner. Every project task is a `just` recipe.
 
 Everything else is a local dependency. First-time setup:
