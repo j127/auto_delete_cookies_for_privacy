@@ -21,9 +21,13 @@ export default defineConfig({
       // #37 runner switch. Ratchet plan: whenever a change meaningfully
       // raises coverage, bump these floors to the new measured baseline;
       // the long-term target is 90 percent across the board.
+      // Ratcheted again 2026-09-21 to the baseline measured on main under
+      // Vitest 5 (statements 88.55, branches 86.36, functions 85.56, lines
+      // 88.88), after #388 restored three jsdom specs that had been failing
+      // under Node >= 25: branches 85 -> 86, functions 84 -> 85.
       thresholds: {
-        branches: 85,
-        functions: 84,
+        branches: 86,
+        functions: 85,
         lines: 88,
         statements: 88,
       },
