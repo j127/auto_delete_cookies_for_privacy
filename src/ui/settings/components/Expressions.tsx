@@ -41,6 +41,16 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
     (state: State) => getSetting(state, SettingID.DEBUG_MODE) as boolean
   );
   const lists = useSelector((state: State) => state.lists);
+  // Per-container keep lists (Firefox): while the setting is off, cleanup
+  // folds every container store onto "default" and never reads a container
+  // list, so rules kept in one are inert. The selector still lists live
+  // containers so existing rules stay viewable and deletable; the notice
+  // under it says why they do not apply (#370). Optional chaining because
+  // the key only exists once validateSettings has backfilled it.
+  const containerListsOn = useSelector(
+    (state: State) =>
+      state.settings[SettingID.CONTEXTUAL_IDENTITIES]?.value === true
+  );
   const dispatch = useDispatch<Dispatch<ReduxAction>>();
 
   const [error, setErrorMessage] = React.useState("");
@@ -246,6 +256,20 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
             />
           )}
         </div>
+        {browserCapabilities.supportsContextualIdentities &&
+          storeId.startsWith("firefox-container-") &&
+          !containerListsOn && (
+            <div
+              className="alert rounded-none alert-warning"
+              id="containerListsOffNotice"
+              role="alert"
+            >
+              {browser.i18n.getMessage("containerListsOffNoticeText", [
+                browser.i18n.getMessage("containerListsText"),
+                browser.i18n.getMessage("protectionText"),
+              ])}
+            </div>
+          )}
         <div className="border-b border-base-300 p-3">
           <div className="join w-full">
             <input

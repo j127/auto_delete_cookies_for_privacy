@@ -252,5 +252,26 @@ describe("Expressions", () => {
       });
       expect(selector(container).value).toBe("default");
     });
+
+    it("never shows the inactive-container notice on Chrome", () => {
+      // Chrome has no containers toggle to point at (#370); an orphaned
+      // firefox-container list from an old import just shows as orphaned.
+      const orphanLists: StoreIdToExpressionList = {
+        "firefox-container-9": [
+          {
+            expression: "old.example",
+            id: "9",
+            listType: ListType.WHITE,
+            storeId: "firefox-container-9",
+          },
+        ],
+      };
+      const { container } = renderExpressions({ lists: orphanLists });
+      fireEvent.change(selector(container), {
+        target: { value: "firefox-container-9" },
+      });
+      expect(selector(container).value).toBe("firefox-container-9");
+      expect(container.querySelector("#containerListsOffNotice")).toBeNull();
+    });
   });
 });

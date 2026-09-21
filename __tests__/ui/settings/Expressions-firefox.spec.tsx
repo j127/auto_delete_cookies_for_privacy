@@ -12,6 +12,7 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { when } from "jest-when";
+import { SettingID } from "@/typings/enums";
 import { ReduxConstants } from "@/typings/redux-constants";
 
 vi.stubGlobal("__BROWSER__", "firefox");
@@ -21,8 +22,8 @@ const { default: Expressions } =
   await import("@/ui/settings/components/Expressions");
 
 describe("Expressions store selector on Firefox", () => {
-  const renderExpressions = () => {
-    const store = createStore(() => ({ ...initialState }));
+  const renderExpressions = (stateOverrides: Partial<State> = {}) => {
+    const store = createStore(() => ({ ...initialState, ...stateOverrides }));
     const dispatchSpy = jest.spyOn(store, "dispatch");
     const rendered = render(
       <Provider store={store}>
@@ -91,6 +92,80 @@ describe("Expressions store selector on Firefox", () => {
       expect(
         Array.from(selector(container).options).map((o) => o.value)
       ).toEqual(["default", "private"]);
+    });
+  });
+
+  // Issue #370: while per-container lists are off, cleanup folds every
+  // container store onto "default" and never reads a container list, so
+  // the page must say why rules kept in one do not apply.
+  describe("inactive container list notice", () => {
+    const workContainer = {
+      cookieStoreId: "firefox-container-7",
+      color: "orange",
+      colorCode: "#ff9f00",
+      icon: "briefcase",
+      iconUrl: "resource://usercontext-content/briefcase.svg",
+      name: "Work",
+    };
+    const withContainerLists = (value: boolean): Partial<State> => ({
+      settings: {
+        ...initialState.settings,
+        [SettingID.CONTEXTUAL_IDENTITIES]: {
+          name: SettingID.CONTEXTUAL_IDENTITIES,
+          value,
+        },
+      },
+    });
+    const notice = (container: HTMLElement) =>
+      container.querySelector("#containerListsOffNotice");
+    const selectWork = async (container: HTMLElement) => {
+      await waitFor(() => {
+        expect(
+          Array.from(selector(container).options).map((o) => o.value)
+        ).toContain("firefox-container-7");
+      });
+      fireEvent.change(selector(container), {
+        target: { value: "firefox-container-7" },
+      });
+    };
+
+    beforeEach(() => {
+      when(global.browser.contextualIdentities.query)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([workContainer] as never);
+    });
+
+    it("warns that a container list is not applied while per-container lists are off", async () => {
+      const { container } = renderExpressions(withContainerLists(false));
+      expect(notice(container)).toBeNull();
+      await selectWork(container);
+      const band = notice(container) as HTMLElement;
+      expect(band.className).toContain("alert-warning");
+      expect(band.textContent).toBe("containerListsOffNoticeText");
+      // The toggle's own label and the tab name are substituted in, so the
+      // notice keeps pointing at the right control once translated.
+      expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
+        "containerListsOffNoticeText",
+        ["containerListsText", "protectionText"]
+      );
+      // The container stays selected and listed: rules already kept there
+      // remain viewable and deletable.
+      expect(selector(container).value).toBe("firefox-container-7");
+    });
+
+    it("shows no notice while per-container lists are on", async () => {
+      const { container } = renderExpressions(withContainerLists(true));
+      await selectWork(container);
+      expect(notice(container)).toBeNull();
+    });
+
+    it("shows no notice for the Default and Private lists", async () => {
+      const { container } = renderExpressions(withContainerLists(false));
+      await selectWork(container);
+      fireEvent.change(selector(container), { target: { value: "default" } });
+      expect(notice(container)).toBeNull();
+      fireEvent.change(selector(container), { target: { value: "private" } });
+      expect(notice(container)).toBeNull();
     });
   });
 });
