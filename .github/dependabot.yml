@@ -70,12 +70,15 @@ updates:
         patterns:
           - "prettier"
           - "prettier-plugin-tailwindcss"
-      # One lint toolchain: eslint.config.mjs imports all five.
+      # One lint toolchain: eslint itself plus the five packages that
+      # eslint.config.mjs imports. @eslint/js is declared explicitly
+      # because eslint 10 stopped depending on it.
       eslint:
         patterns:
           - "eslint"
+          - "@eslint/js"
+          - "@eslint-react/eslint-plugin"
           - "eslint-config-prettier"
-          - "eslint-plugin-react"
           - "typescript-eslint"
           - "globals"
       # Only the e2e-firefox job exercises these, and the runtime and its

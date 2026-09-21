@@ -138,6 +138,9 @@ const SiteDataPanel: React.FunctionComponent<OwnProps> = ({
 
   React.useEffect(() => {
     let cancelled = false;
+    // Back to the loading state before every (re-)collect; the extra render
+    // is the point.
+    // eslint-disable-next-line @eslint-react/set-state-in-effect
     setInventory(undefined);
     collectSiteData(store.getState() as State, tab)
       // collectSiteData resolves { available: false } for everything it
@@ -194,6 +197,9 @@ const SiteDataPanel: React.FunctionComponent<OwnProps> = ({
             {row.details.length > 0 && (
               <ul className="max-h-40 overflow-auto px-3 pb-2 font-mono text-xs">
                 {row.details.map((line, i) => (
+                  // Stateless read-only lines that can repeat, so the index is
+                  // the only stable identity.
+                  // eslint-disable-next-line @eslint-react/no-array-index-key
                   <li key={`${row.key}-${i}`} className="truncate py-0.5">
                     {line}
                   </li>

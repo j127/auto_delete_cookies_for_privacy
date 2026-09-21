@@ -41,7 +41,7 @@ const ImportExport: React.FunctionComponent<OwnProps> = ({ style }) => {
   const settings = useSelector((state: State) => state.settings);
   const lists = useSelector((state: State) => state.lists);
   const dispatch = useDispatch<Dispatch<ReduxAction>>();
-  const [error, setErrorMessage] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState("");
   const [success, setSuccess] = React.useState("");
 
   const onUpdateSetting = (newSetting: Setting) => {
@@ -268,13 +268,13 @@ const ImportExport: React.FunctionComponent<OwnProps> = ({ style }) => {
         {browser.i18n.getMessage("importExportSubText")}
       </p>
 
-      {error !== "" ? (
+      {errorMessage !== "" ? (
         <div
           onClick={() => setErrorMessage("")}
           className="mb-4 alert cursor-pointer whitespace-pre-wrap alert-error"
           role="alert"
         >
-          {error}
+          {errorMessage}
         </div>
       ) : (
         ""
