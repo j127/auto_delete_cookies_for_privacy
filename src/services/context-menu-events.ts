@@ -20,6 +20,7 @@ import {
 } from "./cleanup-service";
 import {
   adcpLog,
+  effectiveListKey,
   getHostname,
   getPort,
   getSetting,
@@ -808,7 +809,15 @@ export default class ContextMenuEvents extends StoreUser {
     const payload = {
       expression: localFileToRegex(input.trim()),
       listType,
-      storeId: parseCookieStoreId(cookieStoreId),
+      // The list that GOVERNS this tab's store, the same fold the popup
+      // applies: a container tab writes to its own list only while
+      // per-container lists are on, otherwise to the default list that
+      // actually governs it (#370). parseCookieStoreId alone kept the raw
+      // container key, creating rules the cleanup read path never saw.
+      storeId: effectiveListKey(
+        StoreUser.store.getState(),
+        cookieStoreId || "default"
+      ),
     };
     adcpLog(
       {
