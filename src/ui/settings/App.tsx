@@ -47,6 +47,7 @@ const App: React.FunctionComponent = () => {
     window.scrollTo(0, 0);
     // The class component applied the font size once in componentDidMount,
     // so this effect intentionally runs on mount only.
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
   }, []);
 
   // Switch tabs and record the tab name as the hash in the url
@@ -70,7 +71,7 @@ const App: React.FunctionComponent = () => {
         <div className="navbar-start gap-1">
           <label
             htmlFor="settings-drawer"
-            className="drawer-button btn btn-ghost lg:hidden"
+            className="btn btn-ghost drawer-button lg:hidden"
             aria-label={browser.i18n.getMessage("menuText")}
           >
             <Icon size="lg" name="bars" />

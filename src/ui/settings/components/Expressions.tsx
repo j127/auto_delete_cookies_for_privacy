@@ -53,7 +53,7 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
   );
   const dispatch = useDispatch<Dispatch<ReduxAction>>();
 
-  const [error, setErrorMessage] = React.useState("");
+  const [errorMessage, setErrorMessage] = React.useState("");
   const [expressionInput, setExpressionInput] = React.useState("");
   const [storeId, setStoreId] = React.useState("default");
   const [success, setSuccess] = React.useState("");
@@ -190,13 +190,13 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
         {browser.i18n.getMessage("savedSitesSubText")}
       </p>
 
-      {error !== "" ? (
+      {errorMessage !== "" ? (
         <div
           onClick={() => setErrorMessage("")}
           className="mb-4 alert cursor-pointer whitespace-pre-wrap alert-error"
           role="alert"
         >
-          {error}
+          {errorMessage}
         </div>
       ) : (
         ""

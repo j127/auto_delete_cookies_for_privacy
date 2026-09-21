@@ -9,6 +9,7 @@ import { initialState } from "@/redux/state";
 import { ReduxConstants } from "@/typings/redux-constants";
 import { SettingID } from "@/typings/enums";
 import Welcome from "@/ui/settings/components/Welcome";
+import ReleaseNotes from "@/ui/settings/release-notes.json";
 
 describe("Welcome", () => {
   const renderWelcome = (stateOverrides: Partial<State> = {}) => {
@@ -59,6 +60,14 @@ describe("Welcome", () => {
     expect(queryByText("faqText")).toBeNull();
     expect(queryByText("oldReleasesText")).toBeNull();
     expect(container.querySelectorAll("a")).toHaveLength(0);
+  });
+
+  it("has unique versions and unique notes per release, because both serve as React keys", () => {
+    const versions = ReleaseNotes.releases.map((release) => release.version);
+    expect(new Set(versions).size).toBe(versions.length);
+    for (const release of ReleaseNotes.releases) {
+      expect(new Set(release.notes).size).toBe(release.notes.length);
+    }
   });
 
   it("renders the release notes section with the initial release note", () => {

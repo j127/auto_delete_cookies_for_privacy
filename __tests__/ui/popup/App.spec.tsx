@@ -198,6 +198,54 @@ describe("popup App", () => {
     expect(fakePort.disconnect).toHaveBeenCalledTimes(1);
   });
 
+  it("reconnects shortly after the background closes the port", async () => {
+    await renderApp();
+    await waitFor(() =>
+      expect(fakePort.onDisconnect.addListener).toHaveBeenCalledTimes(1)
+    );
+    const onDisconnect = fakePort.onDisconnect.addListener.mock
+      .calls[0][0] as (p: { error?: unknown }) => void;
+    // MV3: the background service worker idled out, which closes the port.
+    onDisconnect({});
+    await waitFor(
+      () => expect(global.browser.runtime.connect).toHaveBeenCalledTimes(2),
+      { timeout: 2000 }
+    );
+  });
+
+  it("cancels a pending reconnect when the popup unmounts", async () => {
+    const { unmount } = await renderApp();
+    await waitFor(() =>
+      expect(fakePort.onDisconnect.addListener).toHaveBeenCalledTimes(1)
+    );
+    const onDisconnect = fakePort.onDisconnect.addListener.mock
+      .calls[0][0] as (p: { error?: unknown }) => void;
+    // The timer spies live only around the two calls they observe: Testing
+    // Library's waitFor treats a mocked setTimeout as fake timers.
+    const setTimeoutSpy = jest.spyOn(globalThis, "setTimeout");
+    let reconnectTimer: unknown;
+    try {
+      onDisconnect({});
+      const reconnectCall = setTimeoutSpy.mock.calls.findIndex(
+        ([, delay]) => delay === 250
+      );
+      expect(reconnectCall).toBeGreaterThanOrEqual(0);
+      reconnectTimer = setTimeoutSpy.mock.results[reconnectCall].value;
+    } finally {
+      setTimeoutSpy.mockRestore();
+    }
+    const clearTimeoutSpy = jest.spyOn(globalThis, "clearTimeout");
+    try {
+      unmount();
+      expect(clearTimeoutSpy).toHaveBeenCalledWith(reconnectTimer);
+    } finally {
+      clearTimeoutSpy.mockRestore();
+    }
+    // The timer is gone, so no second connection is ever attempted.
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    expect(global.browser.runtime.connect).toHaveBeenCalledTimes(1);
+  });
+
   it("whitelists the wildcarded main domain from the primary keep action", async () => {
     const { dispatchSpy, getByText } = await renderApp();
     expect(getByText("keepCookiesCaptionText[example.com]")).toBeTruthy();

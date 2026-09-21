@@ -260,6 +260,10 @@ const ActivityTable: React.FunctionComponent<ActivityTableProps> = (props) => {
         );
         const storeIdEntries = Object.entries(log.storeIds);
         return (
+          // The log entries carry no id, and dateTime (the reducer's identity
+          // for removal) has one-second resolution, so two cleanups can share
+          // it. The index is the only collision-free key.
+          // eslint-disable-next-line @eslint-react/no-array-index-key
           <div key={index} className="flex items-start gap-2">
             {(log.recentlyCleaned > 0 && (
               <IconButton

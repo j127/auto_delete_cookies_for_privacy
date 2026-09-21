@@ -153,6 +153,7 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
       getAllCookies();
     }
     // Runs on mount only, mirroring the previous componentDidMount.
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
   }, []);
 
   const createCookieList = (

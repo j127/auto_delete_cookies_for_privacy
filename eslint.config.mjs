@@ -3,9 +3,9 @@
  * Copyright (c) 2017-2022 Kenny Do and CAD Team; fork changes (c) 2026 j127.
  * Licensed under MIT (see LICENSE).
  */
+import eslintReact from "@eslint-react/eslint-plugin";
 import eslint from "@eslint/js";
 import prettier from "eslint-config-prettier";
-import react from "eslint-plugin-react";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
@@ -27,7 +27,7 @@ export default tseslint.config(
   },
   eslint.configs.recommended,
   tseslint.configs.recommended,
-  react.configs.flat.recommended,
+  eslintReact.configs["recommended-typescript"],
   prettier,
   {
     languageOptions: {
@@ -41,16 +41,8 @@ export default tseslint.config(
         ecmaFeatures: { jsx: true },
       },
     },
-    settings: {
-      react: {
-        version: "detect",
-      },
-    },
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
-      "react/jsx-uses-react": "off",
-      "react/prop-types": "off",
-      "react/react-in-jsx-scope": "off",
       "no-console": "warn",
     },
   },

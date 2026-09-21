@@ -60,7 +60,7 @@ const App: React.FunctionComponent = () => {
   // re-collect (every clean sets the marker cookie, so cleans ping too).
   const [dataVersion, setDataVersion] = React.useState(0);
 
-  const port = React.useRef<browser.runtime.Port | null>(null);
+  const portRef = React.useRef<browser.runtime.Port | null>(null);
 
   // Keep the latest tab readable from the long-lived port listeners without
   // having to re-create the port on every render.
@@ -123,6 +123,7 @@ const App: React.FunctionComponent = () => {
       });
     // The class component read these settings once in componentDidMount, so
     // this effect intentionally runs on mount only.
+    // eslint-disable-next-line @eslint-react/exhaustive-deps
   }, []);
 
   // The long-lived cookie-count port; waits until the active tab is known
@@ -131,14 +132,17 @@ const App: React.FunctionComponent = () => {
     if (!tab) return;
     const hostname = getHostname(tab.url);
     if (!hostname) return;
-    if (port.current) return;
+    if (portRef.current) return;
     // Mirrors the class component's isUnmounting flag: flipped once this
     // effect instance is cleaned up (unmount or re-run).
     let cancelled = false;
+    // Pending reconnect, if any; cleared on cleanup so an unmounted popup
+    // leaves no timer behind.
+    let reconnectTimer: ReturnType<typeof setTimeout> | undefined;
     const newPort = browser.runtime.connect({
       name: `popupADCP_${hostname},${storeId.replace(",", "-")}`,
     });
-    port.current = newPort;
+    portRef.current = newPort;
     newPort.onMessage.addListener((m) => {
       const msg = m as CookieCountMsg;
       if (msg.cookieUpdated !== undefined && msg.cookieUpdated) {
@@ -152,21 +156,22 @@ const App: React.FunctionComponent = () => {
           `Disconnected due to an error: ${browser.runtime.lastError}`
         );
       }
-      port.current = null;
+      portRef.current = null;
       // MV3: the background service worker may have idled out, which
       // closes the port. Bump reconnectAttempt to reconnect (the effect
       // re-runs and recreates the port), which also wakes the worker.
       if (!cancelled) {
-        setTimeout(() => {
+        reconnectTimer = setTimeout(() => {
           if (!cancelled) setReconnectAttempt((attempt) => attempt + 1);
         }, 250);
       }
     });
     return () => {
       cancelled = true;
-      if (port.current) {
-        port.current.disconnect();
-        port.current = null;
+      if (reconnectTimer !== undefined) clearTimeout(reconnectTimer);
+      if (portRef.current) {
+        portRef.current.disconnect();
+        portRef.current = null;
       }
     };
   }, [tab, storeId, reconnectAttempt, setPopupCookieCount]);
