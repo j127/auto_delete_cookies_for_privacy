@@ -6,6 +6,10 @@ default:
 install:
   bun install
 
+# Install exactly what bun.lock records, as CI does (fails if it is stale)
+install_frozen:
+  bun install --frozen-lockfile
+
 # Compile bundles into extension/bundles
 build:
   bun run scripts/build.ts
@@ -34,8 +38,12 @@ format:
 format_check:
   bunx prettier --check .
 
-# Everything CI runs, in order
-ci: install check lint format_check check_locales test build
+# Keep this in step with the "ci" job in .github/workflows/ci.yml: same
+# steps, same order (__tests__/ci-workflow.spec.ts checks). CI's other two
+# jobs are left out: the reproducibility check, and the real-Firefox tests
+# (`just e2e_firefox`, which needs Firefox installed).
+# Everything the main CI job runs, in the same order
+ci: install_frozen check lint format_check check_locales test package_zip lint_firefox package_zip_firefox
 
 # Regenerate the extension icon PNGs from image_editing/cookie-prohibited.svg
 # (requires rsvg-convert: `brew install librsvg`; the PNGs are committed, so

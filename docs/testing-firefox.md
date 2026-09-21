@@ -1,6 +1,6 @@
 # Firefox manual test matrix
 
-The pre-merge gate for the Firefox port (issue #290): run every row once per browser channel on a real, headed Firefox before `add-firefox-support` merges to `main`, record the outcome in the Result columns, and file a follow-up issue for every failure (reference it in the row). Automated coverage notes say what the unit/regression suites already pin so the manual pass can focus on what only a real browser shows.
+The gate for every Firefox (AMO) release, first written as the merge gate for the Firefox port (issue #290): run every row once per browser channel on a real, headed Firefox before the release, record the outcome in the Result columns, and file a follow-up issue for every failure (reference it in the row). Automated coverage notes say what the unit/regression suites already pin so the manual pass can focus on what only a real browser shows.
 
 Automated companion: `just e2e_firefox` drives a real headless Firefox through rows 2, 3, 5 (and the row-13 plumbing) with a privileged extension-page probe — run it before starting a manual pass; the rows it covers then only need spot-checking. Setup for every session: `just build_firefox`, then either `just run_firefox` (throwaway profile) or `about:debugging#/runtime/this-firefox` → "Load Temporary Add-on" → any file inside `builds/firefox/`. Use a test site that sets cookies + localStorage (e.g. an httpbin cookie page plus any site with a consent banner), and keep the extension's Debug Mode on so the background console narrates decisions.
 
