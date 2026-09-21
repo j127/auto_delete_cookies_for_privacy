@@ -623,6 +623,53 @@ describe("ContextMenuEvents", () => {
         ) as number
       );
     });
+    // Issue #370: the same fold the popup applies. Selection strings are
+    // unique per test because the shared store's lists persist and the
+    // reducer dedupes by expression string alone.
+    const listsHolding = (expression: string): string[] => {
+      const lists = store.getState().lists;
+      return Object.keys(lists).filter((key) =>
+        lists[key].some((e) => e.expression === expression)
+      );
+    };
+    it("folds a container tab's right-click add into the default list while per-container lists are off", () => {
+      // With the setting off, the default list governs every container,
+      // so that is where the rule must land: a raw container key would
+      // create a rule the cleanup read path never consults.
+      ContextMenuEvents.onContextMenuClicked(
+        {
+          ...defaultOnClickData,
+          selectionText: "foldOff",
+          menuItemId: ContextMenuEvents.MenuID.SELECT_ADD_WHITE_SUBS,
+        },
+        { ...sampleTab, cookieStoreId: "firefox-container-3" }
+      );
+      expect(spyActions.addExpression).toHaveBeenCalledWith(
+        expect.objectContaining({
+          expression: "*.foldOff",
+          storeId: "default",
+        })
+      );
+      expect(listsHolding("*.foldOff")).toEqual(["default"]);
+    });
+    it("adds a container tab's right-click add into the container's own list while per-container lists are on", () => {
+      TestStore.changeSetting(SettingID.CONTEXTUAL_IDENTITIES, true);
+      ContextMenuEvents.onContextMenuClicked(
+        {
+          ...defaultOnClickData,
+          selectionText: "foldOn",
+          menuItemId: ContextMenuEvents.MenuID.SELECT_ADD_WHITE_SUBS,
+        },
+        { ...sampleTab, cookieStoreId: "firefox-container-3" }
+      );
+      expect(spyActions.addExpression).toHaveBeenCalledWith(
+        expect.objectContaining({
+          expression: "*.foldOn",
+          storeId: "firefox-container-3",
+        })
+      );
+      expect(listsHolding("*.foldOn")).toEqual(["firefox-container-3"]);
+    });
     it("Trigger SELECT_ADD_WHITE_SUBS with undefined cookieStoreId (Chrome)", () => {
       ContextMenuEvents.onContextMenuClicked(
         {
