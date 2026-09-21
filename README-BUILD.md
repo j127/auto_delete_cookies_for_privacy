@@ -5,7 +5,7 @@ Build instructions for add-on reviewers (AMO source-code submission) and anyone 
 ## Environment
 
 - Any 64-bit Linux or macOS. Releases are built on `ubuntu-latest` GitHub runners.
-- [Bun](https://bun.sh) at exactly the version pinned in [.bun-version](.bun-version) (install a specific version with `curl -fsSL https://bun.sh/install | bash -s "bun-v<version>"`). Bun is the package manager and the bundler; no Node.js/npm is used.
+- [Bun](https://bun.sh) at exactly the version pinned in [.bun-version](.bun-version) (install a specific version with `curl -fsSL https://bun.sh/install | bash -s "bun-v<version>"`). Bun is the package manager and the bundler, and npm is not used. Node.js is not required: the one build step whose launcher asks for it (the Tailwind CLI) runs on Node when it is installed and on Bun otherwise, and the compiled stylesheet is byte-identical either way (verified with the pinned Tailwind version). Release builds run on the Node line declared in [.tool-versions](.tool-versions).
 - No other global tools are required to build. (`just` is only a task-runner convenience; every command below is spelled out.)
 
 ## Steps

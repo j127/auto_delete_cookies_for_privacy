@@ -15,7 +15,7 @@ updates:
         patterns:
           - "github/codeql-action*"
       # Everything else under .github/workflows/: checkout, setup-bun,
-      # setup-just, upload-artifact, setup-firefox.
+      # setup-node, setup-just, upload-artifact, setup-firefox.
       actions:
         patterns:
           - "*"
