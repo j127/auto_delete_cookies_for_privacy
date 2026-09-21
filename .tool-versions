@@ -1,3 +1,4 @@
-# Single source of truth for the Node version: mise reads this file locally, and CI's setup-node reads it through node-version-file.
+# Single source of truth for the Node and Bun versions: mise reads this file locally, and CI reads it through setup-node's node-version-file and setup-bun's bun-version-file.
 # Why Node matters in a Bun repo, and the rules for editing this file, are in CONTRIBUTING.md (Toolchain). Keep every comment line free of single-word lines: setup-node takes the first line that is one bare token.
+bun 1.4.2
 node 24

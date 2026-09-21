@@ -94,9 +94,11 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
-      # @types/bun's version tracks the Bun runtime (it depends on
-      # bun-types at the identical version) and tsconfig.json loads it
-      # globally via "types": ["bun"]. Bumping it alone would type-check
-      # against APIs that CI's pinned `bun-version: "1.3.x"` runtime does
-      # not have. It moves only with .bun-version and the CI pins.
-      - dependency-name: "@types/bun"
+      # @types/bun is deliberately NOT ignored (it was until #391). Its
+      # version tracks the Bun runtime (it depends on bun-types at the
+      # identical version) and tsconfig.json loads it globally via
+      # "types": ["bun"], so it must equal the bun line in .tool-versions,
+      # which Dependabot cannot update. A PR that bumps @types/bun alone
+      # therefore fails __tests__/toolchain-bun.spec.ts until the bun line
+      # moves to the same version on that branch: the failing PR is the
+      # reminder that a new Bun is out.
