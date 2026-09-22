@@ -37,7 +37,7 @@ just install
 
 To try your build: `just build`, open `brave://extensions` (or `chrome://extensions`), enable Developer Mode, "Load unpacked", select the `extension/` folder. For Firefox, `just run_firefox` launches a throwaway profile with the extension loaded; to install manually instead, `just build_firefox`, open `about:debugging#/runtime/this-firefox`, "Load Temporary Add-on", and pick any file inside `builds/firefox/`.
 
-New recipes go in the `justfile` with `snake_case` names.
+New recipes go in the `justfile` with `snake_case` names and a one-line description on the comment line directly above them. That line is what `just --list` shows, so longer notes go above it; `__tests__/justfile.spec.ts` checks that it reads on its own.
 
 ## Branches
 

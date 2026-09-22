@@ -3,6 +3,7 @@
  * Copyright (c) 2026 j127. Licensed under MIT (see LICENSE).
  */
 import { readFileSync } from "fs";
+import { RECIPES } from "./justfile-recipes";
 
 // `just ci` is the local check before a pull request, and it promises to
 // run what the "ci" job in .github/workflows/ci.yml runs, in the same order.
@@ -16,32 +17,6 @@ const read = (path: string): string =>
   readFileSync(new URL(`../${path}`, import.meta.url), "utf8");
 
 const WORKFLOW = read(".github/workflows/ci.yml");
-
-type Recipe = { dependencies: string[]; body: string[] };
-
-// Reads the justfile's plain layout only: an unindented `name: dependencies`
-// header, then indented body lines until the next unindented line.
-const parseRecipes = (justfile: string): Map<string, Recipe> => {
-  const recipes = new Map<string, Recipe>();
-  let current: Recipe | undefined;
-  for (const line of justfile.split("\n")) {
-    const header = /^(\w+):(?!=)(.*)$/.exec(line);
-    if (header) {
-      current = {
-        dependencies: header[2].trim().split(/\s+/).filter(Boolean),
-        body: [],
-      };
-      recipes.set(header[1], current);
-    } else if (/^[ \t]+\S/.test(line)) {
-      current?.body.push(line.trim());
-    } else if (line.trim() !== "") {
-      current = undefined;
-    }
-  }
-  return recipes;
-};
-
-const RECIPES = parseRecipes(read("justfile"));
 
 // The "ci" job: every line after its header that is indented deeper than a
 // job name (or blank), up to the comment or header of the next job.
