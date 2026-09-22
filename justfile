@@ -45,9 +45,9 @@ format_check:
 # Everything the main CI job runs, in the same order
 ci: install_frozen check lint format_check check_locales test package_zip lint_firefox package_zip_firefox
 
+# Requires rsvg-convert (`brew install librsvg`). The PNGs are committed, so
+# CI never needs it.
 # Regenerate the extension icon PNGs from image_editing/cookie-prohibited.svg
-# (requires rsvg-convert: `brew install librsvg`; the PNGs are committed, so
-# CI never needs it)
 icons_build:
   bun run scripts/icons.ts
 
@@ -80,9 +80,10 @@ package_zip_firefox: build_firefox
   cd builds/firefox && zip -q -r -9 "../Auto-Delete-Cookies-for-Privacy_${version}_Firefox.zip" . -x "*.map"
   echo "builds/Auto-Delete-Cookies-for-Privacy_${version}_Firefox.zip"
 
-# Real-Firefox end-to-end suite (headless; E2E_HEADED=1 to watch,
-# FIREFOX_BIN=/path to pin a channel such as ESR, GECKODRIVER_VERSION=x.y.z
-# to try a driver other than the pin in e2e/helpers/firefox_driver.ts)
+# Headless by default: E2E_HEADED=1 to watch, FIREFOX_BIN=/path to pin a
+# channel such as ESR, GECKODRIVER_VERSION=x.y.z to try a driver other than
+# the pin in e2e/helpers/firefox_driver.ts.
+# Real-Firefox end-to-end suite (needs Firefox installed)
 e2e_firefox: package_zip_firefox
   bunx vitest run --config vitest.e2e.config.ts
 
