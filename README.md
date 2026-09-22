@@ -36,7 +36,7 @@ If anything doesn't work or you have feature requests, please [create an issue](
 
 ## Development
 
-Requirements: [Bun](https://bun.sh/) >= 1.3 and [just](https://github.com/casey/just).
+Requirements: [Bun](https://bun.sh/), [Node.js](https://nodejs.org/) and [just](https://github.com/casey/just). The exact Bun version and the Node line are set in [.tool-versions](.tool-versions); [CONTRIBUTING.md](CONTRIBUTING.md) explains how to install them.
 
 - `just install` - Install all dependencies
 - `just dev` - Watch mode: rebuilds bundles into `/extension` on change
@@ -45,7 +45,7 @@ Requirements: [Bun](https://bun.sh/) >= 1.3 and [just](https://github.com/casey/
 - `just lint` - Lint
 - `just test` - Run the test suite
 - `just package_zip` - Build and zip the extension into `/builds`
-- `just ci` - Everything CI runs, in order
+- `just ci` - Everything the main CI job runs, in the same order
 
 Load `/extension` as an unpacked extension to test.
 

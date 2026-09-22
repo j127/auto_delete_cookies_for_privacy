@@ -1,6 +1,6 @@
 # AMO first-submission runbook
 
-Step-by-step path from a tagged release to a listed Firefox add-on. Written for someone with no repo context; every artifact referenced is produced by CI. Do not start until the manual Firefox test matrix (docs/testing-firefox.md) has a fully recorded pass — that is the branch's merge gate anyway.
+Step-by-step path from a tagged release to a listed Firefox add-on. Written for someone with no repo context; every artifact referenced is produced by CI. Do not start until the manual Firefox test matrix (docs/testing-firefox.md) has a fully recorded pass — every Firefox release needs one anyway (CONTRIBUTING.md).
 
 ## 0. Prerequisites
 

@@ -28,7 +28,7 @@ just install
 | `just lint`                | ESLint over the whole repo (flat config, `eslint.config.mjs`)                                               |
 | `just test`                | Vitest suite with coverage; fails if coverage drops below the thresholds in `vitest.config.ts`              |
 | `just format`              | Prettier over the repo                                                                                      |
-| `just ci`                  | Exactly what CI runs: install, check, lint, test, build                                                     |
+| `just ci`                  | Everything the main CI job runs, in the same order; run it before you open a PR                             |
 | `just package_zip`         | Build and zip `extension/` into `builds/`                                                                   |
 | `just build_firefox`       | Build the Firefox artifact into `builds/firefox/` (generated manifest, event-page background)               |
 | `just run_firefox`         | Build, then launch Firefox via `web-ext` with the extension temporarily installed                           |
@@ -39,10 +39,19 @@ To try your build: `just build`, open `brave://extensions` (or `chrome://extensi
 
 New recipes go in the `justfile` with `snake_case` names.
 
+## Branches
+
+`main` is the only long-lived branch. Every change reaches it through a pull request, CI runs on every push to `main` and on every pull request into it, and releases are tagged on it.
+
+- **Issue work** happens on a short-lived branch named `issue/<number>-<short-description>`, for example `issue/391-pin-bun`. Start it from an up-to-date `main`: run `git fetch origin` first, then branch from `origin/main`.
+- **Releases** are prepared on `release/X.Y.Z`: the version bump in `package.json` and `extension/manifest.json`, plus the entry in `src/ui/settings/release-notes.json`. Once that merges, run `just release_check` on `main`, tag the commit `vX.Y.Z` and push the tag. The release workflow then builds the zips and drafts a GitHub release; publishing it and the store uploads stay manual (see `docs/store/`).
+- **Dependabot** opens its own `dependabot/...` branches. Review them like any other pull request.
+- **Merges** use a merge commit. Don't squash or rebase-merge, and never force-push `main` or otherwise rewrite its history.
+
 ## What a change needs
 
 - **Tests.** All code changes come with tests. `just test` must pass, including the coverage thresholds — if your change meaningfully raises coverage, feel free to bump the floors in `vitest.config.ts` to the new baseline (the long-term target is 90%).
-- **Green `just ci`** locally before you open the PR; the GitHub Actions workflow runs the same recipes.
+- **Green `just ci`** locally before you open the PR. It runs the same steps as the `ci` job in `.github/workflows/ci.yml`, in the same order, including Mozilla's add-on linter (`just lint_firefox`), the check AMO runs on every upload; `__tests__/ci-workflow.spec.ts` fails if the recipe and the job drift apart. Like CI, it installs from `bun.lock` without changing it, so if it stops at that first step, run `just install` and commit the updated `bun.lock`. CI also runs two jobs that `just ci` leaves out: `reproducible-firefox`, which rebuilds the Firefox add-on from a clean copy of the source and fails on any difference, and `e2e-firefox`, the real-Firefox tests (run them locally with `just e2e_firefox`, which needs Firefox installed).
 - **Firefox changes**: run the relevant rows of the [manual Firefox test matrix](docs/testing-firefox.md) when touching cleanup, containers, or permissions behavior; a full recorded pass of the matrix gates each Firefox (AMO) release.
 - **Scope discipline.** One issue per PR. Don't reformat or refactor code your change doesn't touch.
 - **Comments stay.** Don't delete existing code comments unless the code they describe is going away — several carry load-bearing context (MV3 service-worker constraints, bundler quirks).

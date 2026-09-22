@@ -2,13 +2,13 @@ name: CI
 
 on:
   push:
-    # launch-fixes is the pre-publication working branch (successor to the
-    # merged launch-prep); per-issue PRs target it and the final
-    # launch-fixes -> main merge is manual. add-firefox-support is the
-    # Firefox-port feature branch with the same working agreement (#269).
-    branches: [main, launch-fixes, add-firefox-support]
+    # main is the only long-lived branch; work reaches it through pull
+    # requests from short-lived branches (CONTRIBUTING.md, "Branches").
+    # launch-fixes and add-firefox-support, once listed here as working
+    # branches (#269), were merged and deleted.
+    branches: [main]
   pull_request:
-    branches: [main, launch-fixes, add-firefox-support]
+    branches: [main]
 
 permissions:
   contents: read
