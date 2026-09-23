@@ -36,7 +36,7 @@
     "@types/selenium-webdriver": "4.35.7",
     "@types/webextension-polyfill": "0.12.6",
     "@vitest/coverage-v8": "5.0.0",
-    "daisyui": "5.7.37",
+    "daisyui": "5.7.38",
     "eslint": "^10",
     "eslint-config-prettier": "10.1.8",
     "geckodriver": "6.1.1",
