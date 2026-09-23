@@ -12,7 +12,7 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { when } from "jest-when";
-import { SettingID } from "@/typings/enums";
+import { ListType, SettingID } from "@/typings/enums";
 import { ReduxConstants } from "@/typings/redux-constants";
 
 vi.stubGlobal("__BROWSER__", "firefox");
@@ -35,6 +35,36 @@ describe("Expressions store selector on Firefox", () => {
 
   const selector = (container: HTMLElement) =>
     container.querySelector("#storeIdSelector") as HTMLSelectElement;
+
+  const workContainer = {
+    cookieStoreId: "firefox-container-7",
+    color: "orange",
+    colorCode: "#ff9f00",
+    icon: "briefcase",
+    iconUrl: "resource://usercontext-content/briefcase.svg",
+    name: "Work",
+  };
+
+  const withContainerLists = (value: boolean): Partial<State> => ({
+    settings: {
+      ...initialState.settings,
+      [SettingID.CONTEXTUAL_IDENTITIES]: {
+        name: SettingID.CONTEXTUAL_IDENTITIES,
+        value,
+      },
+    },
+  });
+
+  const selectWork = async (container: HTMLElement) => {
+    await waitFor(() => {
+      expect(
+        Array.from(selector(container).options).map((o) => o.value)
+      ).toContain("firefox-container-7");
+    });
+    fireEvent.change(selector(container), {
+      target: { value: "firefox-container-7" },
+    });
+  };
 
   beforeEach(() => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
@@ -99,35 +129,8 @@ describe("Expressions store selector on Firefox", () => {
   // container store onto "default" and never reads a container list, so
   // the page must say why rules kept in one do not apply.
   describe("inactive container list notice", () => {
-    const workContainer = {
-      cookieStoreId: "firefox-container-7",
-      color: "orange",
-      colorCode: "#ff9f00",
-      icon: "briefcase",
-      iconUrl: "resource://usercontext-content/briefcase.svg",
-      name: "Work",
-    };
-    const withContainerLists = (value: boolean): Partial<State> => ({
-      settings: {
-        ...initialState.settings,
-        [SettingID.CONTEXTUAL_IDENTITIES]: {
-          name: SettingID.CONTEXTUAL_IDENTITIES,
-          value,
-        },
-      },
-    });
     const notice = (container: HTMLElement) =>
       container.querySelector("#containerListsOffNotice");
-    const selectWork = async (container: HTMLElement) => {
-      await waitFor(() => {
-        expect(
-          Array.from(selector(container).options).map((o) => o.value)
-        ).toContain("firefox-container-7");
-      });
-      fireEvent.change(selector(container), {
-        target: { value: "firefox-container-7" },
-      });
-    };
 
     beforeEach(() => {
       when(global.browser.contextualIdentities.query)
@@ -166,6 +169,146 @@ describe("Expressions store selector on Firefox", () => {
       expect(notice(container)).toBeNull();
       fireEvent.change(selector(container), { target: { value: "private" } });
       expect(notice(container)).toBeNull();
+    });
+  });
+  // Issue #410: with per-container lists on, a container tab answers to its
+  // own list alone — effectiveListKey stops folding it onto "default" — so
+  // a long Default list leaves every container unprotected until its rules
+  // are added again. The button copies them across in one click.
+  describe("copy rules from Default", () => {
+    const rule = (
+      expression: string,
+      listType: ListType,
+      extra: Partial<Expression> = {}
+    ): Expression => ({
+      expression,
+      id: expression,
+      listType,
+      storeId: "default",
+      ...extra,
+    });
+
+    const defaultList: ReadonlyArray<Expression> = [
+      rule("example.com", ListType.WHITE),
+      rule("*.example.org", ListType.GREY, {
+        cleanAllCookies: true,
+        cookieNames: ["sid"],
+      }),
+      // The list's own default options for new rules. They travel with the
+      // copy on purpose, so the container list behaves like its source.
+      rule("_Default:WHITE", ListType.WHITE),
+    ];
+
+    const copyButton = (container: HTMLElement) =>
+      container.querySelector(
+        'button[title="copyDefaultRulesTooltipText"]'
+      ) as HTMLElement | null;
+
+    const added = (
+      expression: string,
+      extra: Record<string, unknown> = {}
+    ) => ({
+      payload: expect.objectContaining({
+        expression,
+        storeId: "firefox-container-7",
+        ...extra,
+      }),
+      type: ReduxConstants.ADD_EXPRESSION,
+    });
+
+    beforeEach(() => {
+      when(global.browser.contextualIdentities.query)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([workContainer] as never);
+    });
+
+    it("copies every Default rule into the selected container list", async () => {
+      const { container, dispatchSpy } = renderExpressions({
+        ...withContainerLists(true),
+        lists: { default: defaultList },
+      });
+      await selectWork(container);
+      fireEvent.click(copyButton(container) as HTMLElement);
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(defaultList.length);
+      expect(dispatchSpy).toHaveBeenCalledWith(added("example.com"));
+      expect(dispatchSpy).toHaveBeenCalledWith(added("_Default:WHITE"));
+      // Each rule keeps its list type and its cleanup options, so a copy
+      // cleans exactly what the original did.
+      expect(dispatchSpy).toHaveBeenCalledWith(
+        added("*.example.org", {
+          cleanAllCookies: true,
+          cookieNames: ["sid"],
+          listType: ListType.GREY,
+        })
+      );
+      expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
+        "copyDefaultRulesSuccess",
+        ["3"]
+      );
+    });
+
+    it("copies only the rules the container list is missing", async () => {
+      const { container, dispatchSpy } = renderExpressions({
+        ...withContainerLists(true),
+        lists: {
+          default: defaultList,
+          "firefox-container-7": [
+            { ...defaultList[0], storeId: "firefox-container-7" },
+          ],
+        },
+      });
+      await selectWork(container);
+      fireEvent.click(copyButton(container) as HTMLElement);
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(2);
+      expect(dispatchSpy).not.toHaveBeenCalledWith(added("example.com"));
+      expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
+        "copyDefaultRulesSuccess",
+        ["2"]
+      );
+    });
+
+    it("dispatches nothing and says so when there is nothing to copy", async () => {
+      const { container, dispatchSpy, getByText } = renderExpressions({
+        ...withContainerLists(true),
+        lists: {
+          default: defaultList,
+          "firefox-container-7": defaultList.map((exp) => ({
+            ...exp,
+            storeId: "firefox-container-7",
+          })),
+        },
+      });
+      await selectWork(container);
+      fireEvent.click(copyButton(container) as HTMLElement);
+
+      expect(dispatchSpy).not.toHaveBeenCalled();
+      expect(getByText("copyDefaultRulesNoneFound")).not.toBeNull();
+    });
+
+    it("offers no copy while per-container lists are off", async () => {
+      // The Default list already governs the container then, and the
+      // notice above says so; copying would only duplicate rules.
+      const { container } = renderExpressions({
+        ...withContainerLists(false),
+        lists: { default: defaultList },
+      });
+      await selectWork(container);
+      expect(copyButton(container)).toBeNull();
+    });
+
+    it("offers no copy for the Default and Private lists", async () => {
+      const { container } = renderExpressions({
+        ...withContainerLists(true),
+        lists: { default: defaultList },
+      });
+      await selectWork(container);
+      expect(copyButton(container)).not.toBeNull();
+      fireEvent.change(selector(container), { target: { value: "default" } });
+      expect(copyButton(container)).toBeNull();
+      fireEvent.change(selector(container), { target: { value: "private" } });
+      expect(copyButton(container)).toBeNull();
     });
   });
 });

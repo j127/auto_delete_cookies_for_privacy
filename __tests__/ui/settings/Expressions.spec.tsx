@@ -6,7 +6,7 @@ import { fireEvent, render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
-import { ListType } from "@/typings/enums";
+import { ListType, SettingID } from "@/typings/enums";
 import { ReduxConstants } from "@/typings/redux-constants";
 import Expressions from "@/ui/settings/components/Expressions";
 
@@ -272,6 +272,39 @@ describe("Expressions", () => {
       });
       expect(selector(container).value).toBe("firefox-container-9");
       expect(container.querySelector("#containerListsOffNotice")).toBeNull();
+    });
+
+    it("never offers the copy-from-Default button on Chrome (#410)", () => {
+      // The button belongs to Firefox's per-container lists. Chrome keeps
+      // the settings but they stay inert and hidden, so even an orphaned
+      // firefox-container list with the setting switched on must not show
+      // it: the copy would be pointless there.
+      const orphanLists: StoreIdToExpressionList = {
+        "firefox-container-9": [
+          {
+            expression: "old.example",
+            id: "9",
+            listType: ListType.WHITE,
+            storeId: "firefox-container-9",
+          },
+        ],
+      };
+      const { container } = renderExpressions({
+        lists: orphanLists,
+        settings: {
+          ...initialState.settings,
+          [SettingID.CONTEXTUAL_IDENTITIES]: {
+            name: SettingID.CONTEXTUAL_IDENTITIES,
+            value: true,
+          },
+        },
+      });
+      fireEvent.change(selector(container), {
+        target: { value: "firefox-container-9" },
+      });
+      expect(
+        container.querySelector('button[title="copyDefaultRulesTooltipText"]')
+      ).toBeNull();
     });
   });
 });
