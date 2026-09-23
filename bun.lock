@@ -24,7 +24,7 @@
         "@types/jest-when": "^3.5.5",
         "@types/react": "^19",
         "@types/react-dom": "^19",
-        "@types/selenium-webdriver": "4.35.6",
+        "@types/selenium-webdriver": "4.35.7",
         "@types/webextension-polyfill": "0.12.6",
         "@vitest/coverage-v8": "5.0.0",
         "daisyui": "5.7.37",
@@ -430,7 +430,7 @@
 
     "@types/react-dom": ["@types/react-dom@19.3.0", "", { "peerDependencies": { "@types/react": "^19.3.0" } }, "sha512-ZI7bU42mZXXKHn/qNLEw2IrbiINU7X5+vfgdixBHkCNpYWXjKgfQ/P+uyGb5CjOLB9UcnTeg3rylQtV2hym44Q=="],
 
-    "@types/selenium-webdriver": ["@types/selenium-webdriver@4.35.6", "", { "dependencies": { "@types/node": "*", "@types/ws": "*" } }, "sha512-8nfyMRi4VvkY9QrQGyY/zkleAhnjnmE8YtdEeoCrWe3izp1P9vo9f5VTNRYF0up+l+kn+VuZah+je+bLddNV+g=="],
+    "@types/selenium-webdriver": ["@types/selenium-webdriver@4.35.7", "", { "dependencies": { "@types/node": "*", "@types/ws": "*" } }, "sha512-TVduvRhQrIdjPWEC6YJLxwZWegWLD3uDOsqMuWk2U9+TiXw6wAH9RlKEtuHO8kioZkJ5MWGC9pQDY0nXvgi0nA=="],
 
     "@types/stack-utils": ["@types/stack-utils@2.0.3", "", {}, "sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw=="],
 
