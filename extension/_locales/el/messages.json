@@ -93,19 +93,19 @@
     "message": "Μεταβείτε στην καρτέλα Κονσόλα."
   },
   "containerAutoRemoveDescText": {
-    "message": "When a container is deleted, its keep list is removed and its cookies are cleaned.",
+    "message": "Όταν ένα κοντέινερ διαγράφεται, η λίστα διατήρησής του αφαιρείται και τα cookies του καθαρίζονται.",
     "description": "Description under the “Clean up deleted containers” toggle (Firefox containers group)."
   },
   "containerAutoRemoveText": {
-    "message": "Clean up deleted containers",
+    "message": "Καθαρισμός διαγραμμένων κοντέινερ",
     "description": "Firefox containers group: toggle for the contextualIdentitiesAutoRemove setting. Shown only while separate keep lists per container are on."
   },
   "containerListsDescText": {
-    "message": "Each container uses only its own keep list, and the Default list no longer applies to container tabs. Off: the Default list governs every container.",
+    "message": "Κάθε κοντέινερ χρησιμοποιεί μόνο τη δική του λίστα διατήρησης και η προεπιλεγμένη λίστα δεν ισχύει πλέον για τις καρτέλες κοντέινερ. Ανενεργό: η προεπιλεγμένη λίστα ισχύει για κάθε κοντέινερ.",
     "description": "Description under the “Separate keep lists per container” toggle (Firefox containers group)."
   },
   "containerListsOffNoticeText": {
-    "message": "Separate keep lists per container are off, so the Default list governs every container and the rules in this list are not applied. Turn on “$setting$” under $page$ to use it.",
+    "message": "Οι ξεχωριστές λίστες διατήρησης ανά κοντέινερ είναι ανενεργές, οπότε η προεπιλεγμένη λίστα ισχύει για κάθε κοντέινερ και οι κανόνες αυτής της λίστας δεν εφαρμόζονται. Ενεργοποιήστε το «$setting$» στην ενότητα $page$ για να τη χρησιμοποιήσετε.",
     "description": "Saved sites: warning under the list selector when a container list is selected while separate keep lists per container are off. $setting$ is that toggle's label, $page$ is the Protection tab name.",
     "placeholders": {
       "setting": {
@@ -119,7 +119,7 @@
     }
   },
   "containerListsText": {
-    "message": "Separate keep lists per container",
+    "message": "Ξεχωριστές λίστες διατήρησης ανά κοντέινερ",
     "description": "Firefox containers group: toggle for the contextualIdentities setting (each Firefox container gets its own keep list)."
   },
   "contextMenusParentClean": {
@@ -201,7 +201,7 @@
     "message": "Επαναφορά ρυθμίσεων στις προεπιλογές"
   },
   "defaultStoreText": {
-    "message": "Default",
+    "message": "Προεπιλογή",
     "description": "Store selector entry for the default cookie store list."
   },
   "disableAutoDeleteText": {
@@ -268,7 +268,7 @@
     "message": "Φίλτρο"
   },
   "firefoxDebugMode": {
-    "message": "Find this extension in the list and click 'Inspect' to open its console.",
+    "message": "Βρείτε αυτήν την επέκταση στη λίστα και κάντε κλικ στο «Επιθεώρηση» για να ανοίξετε την κονσόλα της.",
     "description": "Firefox: how to open the extension's debug console. Shown when debug mode is enabled."
   },
   "greyListWordText": {
@@ -284,11 +284,11 @@
     }
   },
   "hostPermissionsGrantButtonText": {
-    "message": "Restore access",
+    "message": "Επαναφορά πρόσβασης",
     "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
   },
   "hostPermissionsMissingText": {
-    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "message": "Η πρόσβαση στους ιστότοπους έχει απενεργοποιηθεί για αυτήν την επέκταση, οπότε δεν μπορεί να καθαριστεί τίποτα. Επαναφέρετέ την για να συνεχιστεί ο καθαρισμός.",
     "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
@@ -426,7 +426,7 @@
     "message": "Διατήρηση"
   },
   "listStoreSelectorText": {
-    "message": "Which list",
+    "message": "Ποια λίστα",
     "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
@@ -648,7 +648,7 @@
     "message": "Τι διατηρεί"
   },
   "orphanedStoreText": {
-    "message": "removed container",
+    "message": "διαγραμμένο κοντέινερ",
     "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
   },
   "pluginDataCleanupText": {
@@ -664,7 +664,7 @@
     "message": "Ρυθμίσεις"
   },
   "privateStoreText": {
-    "message": "Private / Incognito",
+    "message": "Ιδιωτική / Ανώνυμη",
     "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
@@ -806,19 +806,19 @@
     "message": "Αφαίρεση όλων των εκφράσεων από την επιλεγμένη λίστα"
   },
   "removeOrphanedListText": {
-    "message": "Delete this orphaned list",
+    "message": "Διαγραφή αυτής της ορφανής λίστας",
     "description": "Button that deletes an expression list left behind by a removed container."
   },
   "copyDefaultRulesText": {
-    "message": "Copy rules from Default",
+    "message": "Αντιγραφή κανόνων από την προεπιλεγμένη",
     "description": "Saved sites: button that copies the Default list's rules into the selected container's list. Firefox only, and only while separate keep lists per container are on."
   },
   "copyDefaultRulesTooltipText": {
-    "message": "Copy every rule in the Default list into this container's list. Rules already in this list are left as they are.",
+    "message": "Αντιγράφει όλους τους κανόνες της προεπιλεγμένης λίστας στη λίστα αυτού του κοντέινερ. Οι κανόνες που υπάρχουν ήδη εδώ μένουν όπως είναι.",
     "description": "Tooltip for the “Copy rules from Default” button on Saved sites."
   },
   "copyDefaultRulesSuccess": {
-    "message": "Copied $num$ rule(s) from the Default list into this list.",
+    "message": "Αντιγράφηκαν $num$ κανόνες από την προεπιλεγμένη λίστα σε αυτήν τη λίστα.",
     "description": "Success alert after copying the Default list's rules into a container list. $num$ is how many rules were added.",
     "placeholders": {
       "num": {
@@ -828,7 +828,7 @@
     }
   },
   "copyDefaultRulesNoneFound": {
-    "message": "The Default list has no rules that this list is missing.",
+    "message": "Η προεπιλεγμένη λίστα δεν έχει κανόνες που να λείπουν από αυτήν τη λίστα.",
     "description": "Alert when the “Copy rules from Default” button has nothing to copy: either the Default list is empty, or every rule in it is already in this list."
   },
   "removeStorageCount": {
@@ -875,7 +875,7 @@
     "message": "Χρονισμός"
   },
   "settingGroupContainers": {
-    "message": "Firefox containers",
+    "message": "Κοντέινερ Firefox",
     "description": "Protection group (Firefox build only): per-container keep lists."
   },
   "settingGroupExpression": {
@@ -900,7 +900,7 @@
     "message": "Πλήθος cookies στο εικονίδιο της γραμμής εργαλείων"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "message": "Στον Firefox η cache δεν περιλαμβάνεται: ο Firefox μπορεί να καθαρίσει την cache του μόνο για ολόκληρο το πρόγραμμα περιήγησης, όχι για μεμονωμένους ιστότοπους.",
     "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
