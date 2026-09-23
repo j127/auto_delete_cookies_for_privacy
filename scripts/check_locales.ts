@@ -16,13 +16,16 @@
  * - the $placeholder$ tokens used in each message match en's per key
  *   (a broken placeholder crashes browser.i18n substitution at runtime);
  * - every "placeholders" definition block matches en's for that key;
- * - extensionName stays the literal untranslated brand.
+ * - extensionName stays the literal untranslated brand;
+ * - no value is still the English text, unless scripts/locale-identity.ts
+ *   says that spelling is deliberate for that locale (#409).
  *
  * Run with: bun scripts/check_locales.ts (just check_locales)
  */
 
 import { readdirSync } from "fs";
 import { join } from "path";
+import { identityReport, type Messages } from "./locale-identity";
 
 const localesRoot = join(import.meta.dir, "..", "extension", "_locales");
 
@@ -135,6 +138,31 @@ for (const locale of locales) {
   ) {
     problems.push(
       `${locale}: extensionName must stay the literal brand "${en.extensionName.message}"`
+    );
+  }
+
+  const texts = (file: MessagesFile): Messages =>
+    Object.fromEntries(
+      Object.entries(file).map(([key, entry]) => [key, entry.message])
+    );
+  const identity = identityReport(locale, texts(en), texts(data));
+  if (identity.untranslated.length > 0) {
+    problems.push(
+      `${locale}: still holding the English text: ${identity.untranslated.join(", ")} ` +
+        `(translate them, or add a key to SAME_AS_EN in scripts/locale-identity.ts ` +
+        `if that spelling really is this language's)`
+    );
+  }
+  if (identity.staleAllowances.length > 0) {
+    problems.push(
+      `${locale}: translated now, so drop from SAME_AS_EN in scripts/locale-identity.ts: ` +
+        identity.staleAllowances.join(", ")
+    );
+  }
+  if (identity.unknownAllowances.length > 0) {
+    problems.push(
+      `${locale}: SAME_AS_EN in scripts/locale-identity.ts names keys en no longer has: ` +
+        identity.unknownAllowances.join(", ")
     );
   }
 }

@@ -55,7 +55,7 @@ New recipes go in the `justfile` with `snake_case` names and a one-line descript
 - **Firefox changes**: run the relevant rows of the [manual Firefox test matrix](docs/testing-firefox.md) when touching cleanup, containers, or permissions behavior; a full recorded pass of the matrix gates each Firefox (AMO) release.
 - **Scope discipline.** One issue per PR. Don't reformat or refactor code your change doesn't touch.
 - **Comments stay.** Don't delete existing code comments unless the code they describe is going away — several carry load-bearing context (MV3 service-worker constraints, bundler quirks).
-- **i18n**: user-facing strings go through `browser.i18n.getMessage` with a key in `extension/_locales/en/messages.json`. Key names are frozen once merged (30+ locale files reference them); only English values may change.
+- **i18n**: user-facing strings go through `browser.i18n.getMessage` with a key in `extension/_locales/en/messages.json`. Key names are frozen once merged (30+ locale files reference them); only English values may change. A new key goes into all 32 locale files at once — seeded with the English text if nothing better is at hand — and `just check_locales` then fails until each locale gives it its own wording, because a seed nobody replaces ships as English to everyone (#409). If a language really does spell a label the English way, list that key for that locale in `scripts/locale-identity.ts` instead.
 
 ## Project constraints worth knowing
 
