@@ -167,6 +167,34 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
     }
   };
 
+  // Separate lists per container make a container tab answer to its own
+  // list alone: effectiveListKey (services/libs.ts) stops folding it onto
+  // "default", so Default rules no longer apply there and a long Default
+  // list leaves every container unprotected until its rules are added
+  // again. This copies them across in one click (#410). The reducer drops
+  // an expression already present, but filter here as well so the count in
+  // the message is what actually moved. The _Default:WHITE/_Default:GREY
+  // sentinels come along on purpose: they carry the list's defaults for
+  // newly added rules, so the copy behaves like the list it came from.
+  const copyDefaultRules = () => {
+    const present = new Set(
+      (lists[storeId] ?? []).map((exp) => exp.expression)
+    );
+    const missing = (lists["default"] ?? []).filter(
+      (exp) => !present.has(exp.expression)
+    );
+    if (missing.length === 0) {
+      setErrorMessage(browser.i18n.getMessage("copyDefaultRulesNoneFound"));
+      return;
+    }
+    missing.forEach((exp) => onNewExpression({ ...exp, storeId }));
+    setSuccess(
+      browser.i18n.getMessage("copyDefaultRulesSuccess", [
+        missing.length.toString(),
+      ])
+    );
+  };
+
   const createDefaultOptions = () => {
     const containers = new Set<string>(Object.keys(lists));
     containers.add("0");
@@ -255,6 +283,19 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
               title={browser.i18n.getMessage("removeOrphanedListText")}
             />
           )}
+          {browserCapabilities.supportsContextualIdentities &&
+            containerListsOn &&
+            storeId.startsWith("firefox-container-") && (
+              <IconButton
+                tag="button"
+                className="btn-neutral btn-sm"
+                iconName="list-alt"
+                role="button"
+                onClick={() => copyDefaultRules()}
+                text={browser.i18n.getMessage("copyDefaultRulesText")}
+                title={browser.i18n.getMessage("copyDefaultRulesTooltipText")}
+              />
+            )}
         </div>
         {browserCapabilities.supportsContextualIdentities &&
           storeId.startsWith("firefox-container-") &&

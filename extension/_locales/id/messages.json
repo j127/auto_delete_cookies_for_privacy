@@ -809,6 +809,28 @@
     "message": "Delete this orphaned list",
     "description": "Button that deletes an expression list left behind by a removed container."
   },
+  "copyDefaultRulesText": {
+    "message": "Copy rules from Default",
+    "description": "Saved sites: button that copies the Default list's rules into the selected container's list. Firefox only, and only while separate keep lists per container are on."
+  },
+  "copyDefaultRulesTooltipText": {
+    "message": "Copy every rule in the Default list into this container's list. Rules already in this list are left as they are.",
+    "description": "Tooltip for the “Copy rules from Default” button on Saved sites."
+  },
+  "copyDefaultRulesSuccess": {
+    "message": "Copied $num$ rule(s) from the Default list into this list.",
+    "description": "Success alert after copying the Default list's rules into a container list. $num$ is how many rules were added.",
+    "placeholders": {
+      "num": {
+        "content": "$1",
+        "example": "5"
+      }
+    }
+  },
+  "copyDefaultRulesNoneFound": {
+    "message": "The Default list has no rules that this list is missing.",
+    "description": "Alert when the “Copy rules from Default” button has nothing to copy: either the Default list is empty, or every rule in it is already in this list."
+  },
   "removeStorageCount": {
     "message": "Membersihkan $count$ item dari $storageType$.",
     "placeholders": {
