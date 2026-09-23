@@ -93,19 +93,19 @@
     "message": "Bytt til fanen Konsoll."
   },
   "containerAutoRemoveDescText": {
-    "message": "When a container is deleted, its keep list is removed and its cookies are cleaned.",
+    "message": "Når en container slettes, fjernes behold-listen dens, og informasjonskapslene dens ryddes.",
     "description": "Description under the “Clean up deleted containers” toggle (Firefox containers group)."
   },
   "containerAutoRemoveText": {
-    "message": "Clean up deleted containers",
+    "message": "Rydd opp i slettede containere",
     "description": "Firefox containers group: toggle for the contextualIdentitiesAutoRemove setting. Shown only while separate keep lists per container are on."
   },
   "containerListsDescText": {
-    "message": "Each container uses only its own keep list, and the Default list no longer applies to container tabs. Off: the Default list governs every container.",
+    "message": "Hver container bruker bare sin egen behold-liste, og standardlisten gjelder ikke lenger for containerfaner. Av: standardlisten gjelder for alle containere.",
     "description": "Description under the “Separate keep lists per container” toggle (Firefox containers group)."
   },
   "containerListsOffNoticeText": {
-    "message": "Separate keep lists per container are off, so the Default list governs every container and the rules in this list are not applied. Turn on “$setting$” under $page$ to use it.",
+    "message": "Egne behold-lister per container er slått av, så standardlisten gjelder for alle containere og reglene i denne listen brukes ikke. Slå på $setting$ under $page$ for å bruke den.",
     "description": "Saved sites: warning under the list selector when a container list is selected while separate keep lists per container are off. $setting$ is that toggle's label, $page$ is the Protection tab name.",
     "placeholders": {
       "setting": {
@@ -119,7 +119,7 @@
     }
   },
   "containerListsText": {
-    "message": "Separate keep lists per container",
+    "message": "Egne behold-lister per container",
     "description": "Firefox containers group: toggle for the contextualIdentities setting (each Firefox container gets its own keep list)."
   },
   "contextMenusParentClean": {
@@ -201,7 +201,7 @@
     "message": "Tilbakestill innstillingene til standard"
   },
   "defaultStoreText": {
-    "message": "Default",
+    "message": "Standard",
     "description": "Store selector entry for the default cookie store list."
   },
   "disableAutoDeleteText": {
@@ -268,7 +268,7 @@
     "message": "Filter"
   },
   "firefoxDebugMode": {
-    "message": "Find this extension in the list and click 'Inspect' to open its console.",
+    "message": "Finn denne utvidelsen i listen og klikk Inspiser for å åpne konsollen dens.",
     "description": "Firefox: how to open the extension's debug console. Shown when debug mode is enabled."
   },
   "greyListWordText": {
@@ -284,11 +284,11 @@
     }
   },
   "hostPermissionsGrantButtonText": {
-    "message": "Restore access",
+    "message": "Gjenopprett tilgang",
     "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
   },
   "hostPermissionsMissingText": {
-    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "message": "Nettstedstilgang er slått av for denne utvidelsen, så ingenting kan ryddes. Gjenopprett den for å fortsette oppryddingen.",
     "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
@@ -426,7 +426,7 @@
     "message": "Behold"
   },
   "listStoreSelectorText": {
-    "message": "Which list",
+    "message": "Hvilken liste",
     "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
@@ -648,7 +648,7 @@
     "message": "Hva den beholder"
   },
   "orphanedStoreText": {
-    "message": "removed container",
+    "message": "fjernet container",
     "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
   },
   "pluginDataCleanupText": {
@@ -664,7 +664,7 @@
     "message": "Innstillinger"
   },
   "privateStoreText": {
-    "message": "Private / Incognito",
+    "message": "Privat / Inkognito",
     "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
@@ -806,19 +806,19 @@
     "message": "Fjern alle uttrykk fra valgt liste"
   },
   "removeOrphanedListText": {
-    "message": "Delete this orphaned list",
+    "message": "Slett denne foreldreløse listen",
     "description": "Button that deletes an expression list left behind by a removed container."
   },
   "copyDefaultRulesText": {
-    "message": "Copy rules from Default",
+    "message": "Kopier regler fra Standard",
     "description": "Saved sites: button that copies the Default list's rules into the selected container's list. Firefox only, and only while separate keep lists per container are on."
   },
   "copyDefaultRulesTooltipText": {
-    "message": "Copy every rule in the Default list into this container's list. Rules already in this list are left as they are.",
+    "message": "Kopierer alle regler i standardlisten til denne containerens liste. Regler som allerede står her, blir stående.",
     "description": "Tooltip for the “Copy rules from Default” button on Saved sites."
   },
   "copyDefaultRulesSuccess": {
-    "message": "Copied $num$ rule(s) from the Default list into this list.",
+    "message": "$num$ regel/regler kopiert fra standardlisten til denne listen.",
     "description": "Success alert after copying the Default list's rules into a container list. $num$ is how many rules were added.",
     "placeholders": {
       "num": {
@@ -828,7 +828,7 @@
     }
   },
   "copyDefaultRulesNoneFound": {
-    "message": "The Default list has no rules that this list is missing.",
+    "message": "Standardlisten har ingen regler som denne listen mangler.",
     "description": "Alert when the “Copy rules from Default” button has nothing to copy: either the Default list is empty, or every rule in it is already in this list."
   },
   "removeStorageCount": {
@@ -875,7 +875,7 @@
     "message": "Tidspunkt"
   },
   "settingGroupContainers": {
-    "message": "Firefox containers",
+    "message": "Firefox-containere",
     "description": "Protection group (Firefox build only): per-container keep lists."
   },
   "settingGroupExpression": {
@@ -900,7 +900,7 @@
     "message": "Kapselantall på verktøylinjeikonet"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "message": "I Firefox er ikke hurtigbufferen med: Firefox kan bare tømme hurtigbufferen for hele nettleseren, ikke for enkeltnettsteder.",
     "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
