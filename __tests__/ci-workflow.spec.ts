@@ -3,6 +3,7 @@
  * Copyright (c) 2026 j127. Licensed under MIT (see LICENSE).
  */
 import { readFileSync } from "fs";
+import { PINNED_GECKODRIVER_VERSION } from "../e2e/helpers/firefox_driver";
 import { RECIPES } from "./justfile-recipes";
 
 // `just ci` is the local check before a pull request, and it promises to
@@ -65,5 +66,65 @@ describe("CI workflow", () => {
         "m"
       )
     );
+  });
+});
+
+describe("e2e-firefox job", () => {
+  // Same shape as CI_JOB above, for the job that runs the real-Firefox
+  // suite. Since #398 it caches the geckodriver binary, and the cache key
+  // has to follow the pin in e2e/helpers/firefox_driver.ts.
+  const E2E_JOB =
+    /^ {2}e2e-firefox:\n((?: {3,}\S.*\n|[ \t]*\n)*)/m.exec(WORKFLOW)?.[1] ?? "";
+
+  it("has an e2e-firefox job in ci.yml to compare against", () => {
+    expect(E2E_JOB).not.toBe("");
+  });
+
+  it("reads the driver pin out of the helper, with a pattern that still matches it", () => {
+    const script = /sed -n '([^']*)'/.exec(E2E_JOB)?.[1] ?? "";
+    expect(script, "no sed script left in the job to read the pin").not.toBe(
+      ""
+    );
+
+    // Turn the sed substitution back into a JS regex: same pattern, the
+    // BRE group escapes dropped. If the constant is ever renamed or
+    // reformatted, the workflow step would silently yield an empty
+    // version, and this is what catches that.
+    const pattern = /^s\/(.*)\/\\1\/p$/.exec(script)?.[1] ?? "";
+    expect(
+      pattern,
+      "the sed script is no longer a s/.../\\1/p substitution"
+    ).not.toBe("");
+    const asRegExp = new RegExp(
+      pattern.replaceAll("\\(", "(").replaceAll("\\)", ")"),
+      "m"
+    );
+
+    expect(
+      asRegExp.exec(read("e2e/helpers/firefox_driver.ts"))?.[1],
+      "the workflow step would not find the pin any more"
+    ).toBe(PINNED_GECKODRIVER_VERSION);
+  });
+
+  it("keys the cache on that version, so a pin change fetches a fresh binary", () => {
+    // node-geckodriver's cache path carries no version: a stale binary
+    // would otherwise shadow a new pin.
+    expect(E2E_JOB).toMatch(
+      /key: geckodriver-\$\{\{ runner\.os \}\}-\$\{\{ steps\.geckodriver\.outputs\.version \}\}/
+    );
+  });
+
+  it("caches the directory the suite actually downloads into", () => {
+    const cached = /^ {10}path: (.*)$/m.exec(E2E_JOB)?.[1];
+    const used = /^ {10}GECKODRIVER_CACHE_DIR: (.*)$/m.exec(E2E_JOB)?.[1];
+    expect(cached, "no cache path in the e2e-firefox job").toBeDefined();
+    expect(
+      used,
+      "the suite is not pointed at a stable cache directory"
+    ).toBeDefined();
+    expect(
+      used,
+      "the cached path and GECKODRIVER_CACHE_DIR must be one directory"
+    ).toBe(cached);
   });
 });

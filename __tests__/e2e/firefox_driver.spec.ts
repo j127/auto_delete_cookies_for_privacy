@@ -10,10 +10,17 @@
  * *-remote-allow-system-access argument may ride in via capabilities —
  * geckodriver rejects the session with "Argument
  * --remote-allow-system-access can't be set via capabilities".
+ *
+ * Also guards the download retry added for #398: GitHub's release
+ * download returned a 504 once and failed the whole e2e-firefox job,
+ * because the binary is fetched once per run before the first spec file.
  */
 
 import {
   buildFirefoxOptions,
+  DOWNLOAD_ATTEMPTS,
+  downloadRetryDelayMs,
+  downloadWithRetry,
   geckodriverDownloadVersion,
   geckodriverStartParams,
   PINNED_GECKODRIVER_VERSION,
@@ -99,5 +106,75 @@ describe("buildFirefoxOptions", () => {
       "browser.shell.checkDefaultBrowser": false,
       "privacy.firstparty.isolate": true,
     });
+  });
+});
+
+describe("downloadWithRetry", () => {
+  /** Records the backoff it is asked for and returns at once. */
+  const recordingSleep = (delays: number[]) => async (ms: number) => {
+    delays.push(ms);
+  };
+
+  it("downloads once when the download succeeds", async () => {
+    const delays: number[] = [];
+    const download = jest.fn().mockResolvedValue("/tmp/geckodriver");
+
+    await expect(
+      downloadWithRetry(download, "0.37.1", recordingSleep(delays))
+    ).resolves.toBe("/tmp/geckodriver");
+
+    expect(download).toHaveBeenCalledTimes(1);
+    expect(download).toHaveBeenCalledWith("0.37.1");
+    expect(delays).toEqual([]);
+  });
+
+  it("retries a transient failure and returns the binary", async () => {
+    const delays: number[] = [];
+    const download = jest
+      .fn()
+      .mockRejectedValueOnce(
+        new Error(
+          "Failed to download binary (statusCode 504): Gateway Time-out"
+        )
+      )
+      .mockRejectedValueOnce(
+        new Error("Failed to download binary (statusCode 502)")
+      )
+      .mockResolvedValue("/tmp/geckodriver");
+
+    await expect(
+      downloadWithRetry(download, "0.37.1", recordingSleep(delays))
+    ).resolves.toBe("/tmp/geckodriver");
+
+    expect(download).toHaveBeenCalledTimes(DOWNLOAD_ATTEMPTS);
+    expect(delays).toEqual([downloadRetryDelayMs(1), downloadRetryDelayMs(2)]);
+  });
+
+  it("gives up with the last error once the attempts run out", async () => {
+    const delays: number[] = [];
+    const download = jest
+      .fn()
+      .mockRejectedValueOnce(new Error("first"))
+      .mockRejectedValueOnce(new Error("second"))
+      .mockRejectedValue(new Error("last"));
+
+    await expect(
+      downloadWithRetry(download, "0.37.1", recordingSleep(delays))
+    ).rejects.toThrow("last");
+
+    expect(download).toHaveBeenCalledTimes(DOWNLOAD_ATTEMPTS);
+    expect(delays).toHaveLength(DOWNLOAD_ATTEMPTS - 1);
+  });
+
+  it("backs off longer after each failure", () => {
+    expect(
+      DOWNLOAD_ATTEMPTS,
+      "one attempt is no retry at all"
+    ).toBeGreaterThanOrEqual(2);
+    const delays = Array.from({ length: DOWNLOAD_ATTEMPTS - 1 }, (_, i) =>
+      downloadRetryDelayMs(i + 1)
+    );
+    expect(delays.every((ms) => ms > 0)).toBe(true);
+    expect([...delays].sort((a, b) => a - b)).toEqual(delays);
   });
 });

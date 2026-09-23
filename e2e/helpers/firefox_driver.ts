@@ -33,7 +33,9 @@ const GECKODRIVER_PORT = 4447;
  * ci.yml). GECKODRIVER_VERSION overrides the pin (node-geckodriver's own
  * env knob, honored here too). The download cache is a versionless path,
  * so wipe the cache (GECKODRIVER_CACHE_DIR, default OS temp dir) if a
- * stale local binary shadows a pin change.
+ * stale local binary shadows a pin change. CI points that variable at a
+ * directory it caches between runs and keys on this constant, so there a
+ * pin change fetches a fresh binary on its own (.github/workflows/ci.yml).
  */
 export const PINNED_GECKODRIVER_VERSION = "0.37.1";
 
@@ -114,6 +116,44 @@ const newestFirefoxZip = (): string => {
   return newest.path;
 };
 
+/**
+ * Attempts for the driver download. GitHub's release download answers
+ * with a transient 5xx now and then — a 504 failed the e2e-firefox job on
+ * 2026-09-21 (#398) — and the binary is fetched once per run, before the
+ * first spec file, so one bad response used to fail the whole suite.
+ */
+export const DOWNLOAD_ATTEMPTS = 3;
+
+/** Backoff before retrying: 500ms after the first failure, 1s after the second. */
+export const downloadRetryDelayMs = (attempt: number): number => attempt * 500;
+
+/** The part of node-geckodriver's download() that downloadWithRetry needs. */
+type DownloadGeckodriver = (version: string) => Promise<string>;
+
+const wait = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
+/**
+ * Download the pinned driver, retrying a transient failure. Its
+ * collaborators are injected so the unit spec can drive the retry path
+ * without touching the network; ensureGeckodriver passes the real ones.
+ * The last error surfaces unchanged once the attempts run out.
+ */
+export const downloadWithRetry = async (
+  download: DownloadGeckodriver,
+  version: string,
+  sleep: (ms: number) => Promise<void> = wait
+): Promise<string> => {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      return await download(version);
+    } catch (error) {
+      if (attempt >= DOWNLOAD_ATTEMPTS) throw error;
+      await sleep(downloadRetryDelayMs(attempt));
+    }
+  }
+};
+
 let geckodriverProcess: { kill: () => void } | undefined;
 
 const ensureGeckodriver = async (): Promise<string> => {
@@ -121,7 +161,10 @@ const ensureGeckodriver = async (): Promise<string> => {
     // Download the pinned driver up front and start that exact binary;
     // passing geckoDriverVersion to start() instead would leak it onto
     // the binary's own command line (see geckodriverStartParams).
-    const binaryPath = await downloadGeckodriver(geckodriverDownloadVersion());
+    const binaryPath = await downloadWithRetry(
+      downloadGeckodriver,
+      geckodriverDownloadVersion()
+    );
     geckodriverProcess = (await startGeckodriver({
       ...geckodriverStartParams(),
       customGeckoDriverPath: binaryPath,
