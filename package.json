@@ -24,7 +24,7 @@
     "webextension-polyfill": "^0.12"
   },
   "devDependencies": {
-    "@eslint-react/eslint-plugin": "5.19.0",
+    "@eslint-react/eslint-plugin": "5.19.1",
     "@eslint/js": "10.0.1",
     "@tailwindcss/cli": "4.3.3",
     "@testing-library/dom": "10.4.2",
