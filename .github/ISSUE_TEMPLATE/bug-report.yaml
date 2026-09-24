@@ -1,80 +1,51 @@
 ---
 name: Bug Report
-description: Create a bug report to help us improve. Please check the extension's Help page first!
-title: "[Bug]  ???"
-labels: "untested bug/issue"
+description: Something in the extension isn't working right.
+title: "[Bug] "
+labels: ["bug"]
 body:
   - type: markdown
     attributes:
-      value: |
-        Please read carefully.  Issues that do not follow the format WILL be closed and may not be answered/resolved!
-        - Please check both open and closed issues to ensure that it is not previously reported!  Duplicate issues will be closed.
-
-        - PLEASE READ THE USER GUIDE BEFORE POSTING: open the extension's settings and check the Help page (user guide, FAQ, and troubleshooting).
-        - Issues that have an answer on the Help page WILL get closed and be pointed into the right direction
-
-        - Please ensure that the bug report title starts with `[BUG] `.
-
-        Stale issues without any relevant activity WILL get closed after a reasonable amount of time.
-  - type: checkboxes
-    attributes:
-      label: Acknowledgements
-      description: Please check the box below to acknowledge that you have read the above items and that the solution was not found.
-      options:
-        - label: I acknowledge that I have read the above items
-          required: true
+      value: Thanks for reporting a problem! Answer what you can. If you're not sure about something, just say so.
   - type: textarea
+    id: problem
     attributes:
-      label: Describe the bug
-      description: "A clear and concise description of what the bug is.  A console output may be helpful to determine where the bug is."
+      label: What went wrong?
+      description: Tell us what happened and what you expected instead. Screenshots help, and you can paste or drag them into this box.
     validations:
       required: true
   - type: textarea
+    id: steps
     attributes:
-      label: To Reproduce
-      description: "How did you trigger this bug?  Please walk us through it step by step."
+      label: What were you doing when it happened?
+      description: The steps you took, if you remember them.
       placeholder: |
-        Steps to reproduce the behavior:
-
-        1. Go to '...'
-        2. Click on '...'
-        3. Scroll down to '...'
-        4. See error
+        1. Opened example.com
+        2. Closed its tab
+        3. A minute later, its cookies were still there
+  - type: dropdown
+    id: browser
+    attributes:
+      label: Browser
+      options: [Chrome, Firefox, Brave, Edge, Other]
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options: [Windows, macOS, Linux, ChromeOS, Other]
     validations:
       required: true
   - type: textarea
+    id: system-details
     attributes:
-      label: Expected Behavior
-      description: "A clear and concise description of what you expected to happen."
+      label: System details
+      description: Click the extension's icon in your toolbar, then **More controls…**, then **Support**. Click the first **Copy to Clipboard** button and paste here. If you know your browser's version, add it (browser menu → Help → About).
     validations:
       required: true
   - type: textarea
+    id: settings
     attributes:
-      label: Screenshots
-      description: |
-        Add screenshots to help explain the bug, notably the settings and any related errors.
-        For showing cookie counts or other storage data, it would be helpful to also include a partially sanitized screenshot of the Storage Inspector that you can access through Development Tools (`F12`) WHILE on that tab/site.
-  - type: input
-    attributes:
-      label: System Info - Operating System (OS)
-      placeholder: e.g. iOS, Windows 10 Pro, Android/Samsung
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: System Info - Browser Info
-      description: "** If you are using a browser edition that is not standard/public release, please include the edition alongside the version number (e.g. Chrome Dev, Chrome Canary, Brave Beta)"
-      placeholder: e.g. Chrome 120.0.6099.109, Brave 1.61.104
-    validations:
-      required: true
-  - type: input
-    attributes:
-      label: System Info - ADCP Version
-      description: 'DO NOT PUT "LATEST"'
-      placeholder: e.g. 3.6.0
-    validations:
-      required: true
-  - type: textarea
-    attributes:
-      label: Additional Context
-      description: "Add any other context about the bug below."
+      label: Your settings
+      description: On the same page, click the second **Copy to Clipboard** button and paste here. It lists your settings only, not the sites you visit or keep.
