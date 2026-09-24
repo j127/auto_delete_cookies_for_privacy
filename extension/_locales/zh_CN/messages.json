@@ -93,19 +93,19 @@
     "message": "切换到“控制台”标签页。"
   },
   "containerAutoRemoveDescText": {
-    "message": "When a container is deleted, its keep list is removed and its cookies are cleaned.",
+    "message": "删除某个容器时，它的保留列表会被移除，它的 Cookie 也会被清理。",
     "description": "Description under the “Clean up deleted containers” toggle (Firefox containers group)."
   },
   "containerAutoRemoveText": {
-    "message": "Clean up deleted containers",
+    "message": "清理已删除的容器",
     "description": "Firefox containers group: toggle for the contextualIdentitiesAutoRemove setting. Shown only while separate keep lists per container are on."
   },
   "containerListsDescText": {
-    "message": "Each container uses only its own keep list, and the Default list no longer applies to container tabs. Off: the Default list governs every container.",
+    "message": "每个容器只使用自己的保留列表，默认列表不再适用于容器标签页。关闭时：默认列表适用于所有容器。",
     "description": "Description under the “Separate keep lists per container” toggle (Firefox containers group)."
   },
   "containerListsOffNoticeText": {
-    "message": "Separate keep lists per container are off, so the Default list governs every container and the rules in this list are not applied. Turn on “$setting$” under $page$ to use it.",
+    "message": "每个容器独立的保留列表已关闭，因此所有容器都使用默认列表，本列表中的规则不会生效。要使用它，请在 $page$ 中开启“$setting$”。",
     "description": "Saved sites: warning under the list selector when a container list is selected while separate keep lists per container are off. $setting$ is that toggle's label, $page$ is the Protection tab name.",
     "placeholders": {
       "setting": {
@@ -119,7 +119,7 @@
     }
   },
   "containerListsText": {
-    "message": "Separate keep lists per container",
+    "message": "每个容器使用独立的保留列表",
     "description": "Firefox containers group: toggle for the contextualIdentities setting (each Firefox container gets its own keep list)."
   },
   "contextMenusParentClean": {
@@ -201,7 +201,7 @@
     "message": "恢复默认设置"
   },
   "defaultStoreText": {
-    "message": "Default",
+    "message": "默认",
     "description": "Store selector entry for the default cookie store list."
   },
   "disableAutoDeleteText": {
@@ -268,7 +268,7 @@
     "message": "筛选"
   },
   "firefoxDebugMode": {
-    "message": "Find this extension in the list and click 'Inspect' to open its console.",
+    "message": "在列表中找到本扩展，点击“检查”即可打开它的控制台。",
     "description": "Firefox: how to open the extension's debug console. Shown when debug mode is enabled."
   },
   "greyListWordText": {
@@ -284,11 +284,11 @@
     }
   },
   "hostPermissionsGrantButtonText": {
-    "message": "Restore access",
+    "message": "恢复访问权限",
     "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
   },
   "hostPermissionsMissingText": {
-    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "message": "本扩展的站点访问权限已关闭，因此无法清理任何内容。恢复权限即可继续清理。",
     "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
@@ -426,7 +426,7 @@
     "message": "保留"
   },
   "listStoreSelectorText": {
-    "message": "Which list",
+    "message": "哪个列表",
     "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
@@ -648,7 +648,7 @@
     "message": "保留的内容"
   },
   "orphanedStoreText": {
-    "message": "removed container",
+    "message": "已移除的容器",
     "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
   },
   "pluginDataCleanupText": {
@@ -664,7 +664,7 @@
     "message": "设置"
   },
   "privateStoreText": {
-    "message": "Private / Incognito",
+    "message": "隐私 / 无痕",
     "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
@@ -806,19 +806,19 @@
     "message": "删除所选列表的全部表达式"
   },
   "removeOrphanedListText": {
-    "message": "Delete this orphaned list",
+    "message": "删除这个孤立列表",
     "description": "Button that deletes an expression list left behind by a removed container."
   },
   "copyDefaultRulesText": {
-    "message": "Copy rules from Default",
+    "message": "从默认列表复制规则",
     "description": "Saved sites: button that copies the Default list's rules into the selected container's list. Firefox only, and only while separate keep lists per container are on."
   },
   "copyDefaultRulesTooltipText": {
-    "message": "Copy every rule in the Default list into this container's list. Rules already in this list are left as they are.",
+    "message": "把默认列表中的所有规则复制到这个容器的列表。本列表中已有的规则保持不变。",
     "description": "Tooltip for the “Copy rules from Default” button on Saved sites."
   },
   "copyDefaultRulesSuccess": {
-    "message": "Copied $num$ rule(s) from the Default list into this list.",
+    "message": "已从默认列表复制 $num$ 条规则到本列表。",
     "description": "Success alert after copying the Default list's rules into a container list. $num$ is how many rules were added.",
     "placeholders": {
       "num": {
@@ -828,7 +828,7 @@
     }
   },
   "copyDefaultRulesNoneFound": {
-    "message": "The Default list has no rules that this list is missing.",
+    "message": "默认列表中没有本列表缺少的规则。",
     "description": "Alert when the “Copy rules from Default” button has nothing to copy: either the Default list is empty, or every rule in it is already in this list."
   },
   "removeStorageCount": {
@@ -875,7 +875,7 @@
     "message": "时机"
   },
   "settingGroupContainers": {
-    "message": "Firefox containers",
+    "message": "Firefox 容器",
     "description": "Protection group (Firefox build only): per-container keep lists."
   },
   "settingGroupExpression": {
@@ -900,7 +900,7 @@
     "message": "在工具栏图标上显示 Cookie 数量"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "message": "在 Firefox 上不包含缓存：Firefox 只能清除整个浏览器的缓存，无法按站点清除。",
     "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {

@@ -93,19 +93,19 @@
     "message": "콘솔 탭으로 전환하세요."
   },
   "containerAutoRemoveDescText": {
-    "message": "When a container is deleted, its keep list is removed and its cookies are cleaned.",
+    "message": "컨테이너가 삭제되면 그 유지 목록이 제거되고 그 쿠키가 정리됩니다.",
     "description": "Description under the “Clean up deleted containers” toggle (Firefox containers group)."
   },
   "containerAutoRemoveText": {
-    "message": "Clean up deleted containers",
+    "message": "삭제된 컨테이너 정리",
     "description": "Firefox containers group: toggle for the contextualIdentitiesAutoRemove setting. Shown only while separate keep lists per container are on."
   },
   "containerListsDescText": {
-    "message": "Each container uses only its own keep list, and the Default list no longer applies to container tabs. Off: the Default list governs every container.",
+    "message": "각 컨테이너는 자신의 유지 목록만 사용하며, 기본 목록은 컨테이너 탭에 더 이상 적용되지 않습니다. 끄면: 기본 목록이 모든 컨테이너에 적용됩니다.",
     "description": "Description under the “Separate keep lists per container” toggle (Firefox containers group)."
   },
   "containerListsOffNoticeText": {
-    "message": "Separate keep lists per container are off, so the Default list governs every container and the rules in this list are not applied. Turn on “$setting$” under $page$ to use it.",
+    "message": "컨테이너마다 별도의 유지 목록이 꺼져 있어 모든 컨테이너에 기본 목록이 적용되며, 이 목록의 규칙은 적용되지 않습니다. 사용하려면 $page$에서 '$setting$'을 켜세요.",
     "description": "Saved sites: warning under the list selector when a container list is selected while separate keep lists per container are off. $setting$ is that toggle's label, $page$ is the Protection tab name.",
     "placeholders": {
       "setting": {
@@ -119,7 +119,7 @@
     }
   },
   "containerListsText": {
-    "message": "Separate keep lists per container",
+    "message": "컨테이너마다 별도의 유지 목록",
     "description": "Firefox containers group: toggle for the contextualIdentities setting (each Firefox container gets its own keep list)."
   },
   "contextMenusParentClean": {
@@ -201,7 +201,7 @@
     "message": "설정을 기본값으로 되돌리기"
   },
   "defaultStoreText": {
-    "message": "Default",
+    "message": "기본",
     "description": "Store selector entry for the default cookie store list."
   },
   "disableAutoDeleteText": {
@@ -268,7 +268,7 @@
     "message": "필터"
   },
   "firefoxDebugMode": {
-    "message": "Find this extension in the list and click 'Inspect' to open its console.",
+    "message": "목록에서 이 확장 프로그램을 찾아 '검사'를 클릭하면 콘솔이 열립니다.",
     "description": "Firefox: how to open the extension's debug console. Shown when debug mode is enabled."
   },
   "greyListWordText": {
@@ -284,11 +284,11 @@
     }
   },
   "hostPermissionsGrantButtonText": {
-    "message": "Restore access",
+    "message": "접근 복원",
     "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
   },
   "hostPermissionsMissingText": {
-    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "message": "이 확장 프로그램의 사이트 접근이 꺼져 있어 아무것도 정리할 수 없습니다. 접근을 복원하면 정리를 다시 시작합니다.",
     "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
@@ -426,7 +426,7 @@
     "message": "유지"
   },
   "listStoreSelectorText": {
-    "message": "Which list",
+    "message": "어느 목록",
     "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
@@ -648,7 +648,7 @@
     "message": "유지하는 항목"
   },
   "orphanedStoreText": {
-    "message": "removed container",
+    "message": "삭제된 컨테이너",
     "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
   },
   "pluginDataCleanupText": {
@@ -664,7 +664,7 @@
     "message": "설정"
   },
   "privateStoreText": {
-    "message": "Private / Incognito",
+    "message": "비공개 / 시크릿",
     "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
@@ -806,19 +806,19 @@
     "message": "선택한 목록의 표현식 모두 삭제"
   },
   "removeOrphanedListText": {
-    "message": "Delete this orphaned list",
+    "message": "이 고아 목록 삭제",
     "description": "Button that deletes an expression list left behind by a removed container."
   },
   "copyDefaultRulesText": {
-    "message": "Copy rules from Default",
+    "message": "기본 목록에서 규칙 복사",
     "description": "Saved sites: button that copies the Default list's rules into the selected container's list. Firefox only, and only while separate keep lists per container are on."
   },
   "copyDefaultRulesTooltipText": {
-    "message": "Copy every rule in the Default list into this container's list. Rules already in this list are left as they are.",
+    "message": "기본 목록의 모든 규칙을 이 컨테이너의 목록으로 복사합니다. 이미 이 목록에 있는 규칙은 그대로 둡니다.",
     "description": "Tooltip for the “Copy rules from Default” button on Saved sites."
   },
   "copyDefaultRulesSuccess": {
-    "message": "Copied $num$ rule(s) from the Default list into this list.",
+    "message": "기본 목록에서 규칙 $num$개를 이 목록으로 복사했습니다.",
     "description": "Success alert after copying the Default list's rules into a container list. $num$ is how many rules were added.",
     "placeholders": {
       "num": {
@@ -828,7 +828,7 @@
     }
   },
   "copyDefaultRulesNoneFound": {
-    "message": "The Default list has no rules that this list is missing.",
+    "message": "기본 목록에 이 목록이 빠뜨린 규칙이 없습니다.",
     "description": "Alert when the “Copy rules from Default” button has nothing to copy: either the Default list is empty, or every rule in it is already in this list."
   },
   "removeStorageCount": {
@@ -875,7 +875,7 @@
     "message": "시점"
   },
   "settingGroupContainers": {
-    "message": "Firefox containers",
+    "message": "Firefox 컨테이너",
     "description": "Protection group (Firefox build only): per-container keep lists."
   },
   "settingGroupExpression": {
@@ -900,7 +900,7 @@
     "message": "툴바 아이콘에 쿠키 개수 표시"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "message": "Firefox에서는 캐시가 포함되지 않습니다. Firefox는 브라우저 전체의 캐시만 지울 수 있고 사이트별로는 지울 수 없습니다.",
     "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {

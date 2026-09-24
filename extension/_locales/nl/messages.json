@@ -93,19 +93,19 @@
     "message": "Ga naar het tabblad Console."
   },
   "containerAutoRemoveDescText": {
-    "message": "When a container is deleted, its keep list is removed and its cookies are cleaned.",
+    "message": "Als een container wordt verwijderd, wordt zijn bewaarlijst verwijderd en worden zijn cookies opgeruimd.",
     "description": "Description under the “Clean up deleted containers” toggle (Firefox containers group)."
   },
   "containerAutoRemoveText": {
-    "message": "Clean up deleted containers",
+    "message": "Verwijderde containers opruimen",
     "description": "Firefox containers group: toggle for the contextualIdentitiesAutoRemove setting. Shown only while separate keep lists per container are on."
   },
   "containerListsDescText": {
-    "message": "Each container uses only its own keep list, and the Default list no longer applies to container tabs. Off: the Default list governs every container.",
+    "message": "Elke container gebruikt alleen zijn eigen bewaarlijst, en de standaardlijst geldt niet meer voor containertabbladen. Uit: de standaardlijst geldt voor elke container.",
     "description": "Description under the “Separate keep lists per container” toggle (Firefox containers group)."
   },
   "containerListsOffNoticeText": {
-    "message": "Separate keep lists per container are off, so the Default list governs every container and the rules in this list are not applied. Turn on “$setting$” under $page$ to use it.",
+    "message": "Aparte bewaarlijsten per container staan uit, dus de standaardlijst geldt voor elke container en de regels in deze lijst worden niet toegepast. Zet '$setting$' aan onder $page$ om deze te gebruiken.",
     "description": "Saved sites: warning under the list selector when a container list is selected while separate keep lists per container are off. $setting$ is that toggle's label, $page$ is the Protection tab name.",
     "placeholders": {
       "setting": {
@@ -119,7 +119,7 @@
     }
   },
   "containerListsText": {
-    "message": "Separate keep lists per container",
+    "message": "Aparte bewaarlijsten per container",
     "description": "Firefox containers group: toggle for the contextualIdentities setting (each Firefox container gets its own keep list)."
   },
   "contextMenusParentClean": {
@@ -201,7 +201,7 @@
     "message": "Instellingen terugzetten naar standaard"
   },
   "defaultStoreText": {
-    "message": "Default",
+    "message": "Standaard",
     "description": "Store selector entry for the default cookie store list."
   },
   "disableAutoDeleteText": {
@@ -268,7 +268,7 @@
     "message": "Filter"
   },
   "firefoxDebugMode": {
-    "message": "Find this extension in the list and click 'Inspect' to open its console.",
+    "message": "Zoek deze extensie in de lijst en klik op 'Inspecteren' om de console te openen.",
     "description": "Firefox: how to open the extension's debug console. Shown when debug mode is enabled."
   },
   "greyListWordText": {
@@ -284,11 +284,11 @@
     }
   },
   "hostPermissionsGrantButtonText": {
-    "message": "Restore access",
+    "message": "Toegang herstellen",
     "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
   },
   "hostPermissionsMissingText": {
-    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "message": "Sitetoegang is voor deze extensie uitgezet, dus er kan niets worden opgeruimd. Herstel de toegang om het opruimen te hervatten.",
     "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
@@ -426,7 +426,7 @@
     "message": "Bewaren"
   },
   "listStoreSelectorText": {
-    "message": "Which list",
+    "message": "Welke lijst",
     "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
@@ -648,7 +648,7 @@
     "message": "Wat het bewaart"
   },
   "orphanedStoreText": {
-    "message": "removed container",
+    "message": "verwijderde container",
     "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
   },
   "pluginDataCleanupText": {
@@ -664,7 +664,7 @@
     "message": "Instellingen"
   },
   "privateStoreText": {
-    "message": "Private / Incognito",
+    "message": "Privé / Incognito",
     "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
@@ -806,19 +806,19 @@
     "message": "Alle expressies uit de geselecteerde lijst verwijderen"
   },
   "removeOrphanedListText": {
-    "message": "Delete this orphaned list",
+    "message": "Deze verweesde lijst verwijderen",
     "description": "Button that deletes an expression list left behind by a removed container."
   },
   "copyDefaultRulesText": {
-    "message": "Copy rules from Default",
+    "message": "Regels uit Standaard kopiëren",
     "description": "Saved sites: button that copies the Default list's rules into the selected container's list. Firefox only, and only while separate keep lists per container are on."
   },
   "copyDefaultRulesTooltipText": {
-    "message": "Copy every rule in the Default list into this container's list. Rules already in this list are left as they are.",
+    "message": "Kopieert elke regel uit de standaardlijst naar de lijst van deze container. Regels die hier al staan, blijven zoals ze zijn.",
     "description": "Tooltip for the “Copy rules from Default” button on Saved sites."
   },
   "copyDefaultRulesSuccess": {
-    "message": "Copied $num$ rule(s) from the Default list into this list.",
+    "message": "$num$ regel(s) uit de standaardlijst naar deze lijst gekopieerd.",
     "description": "Success alert after copying the Default list's rules into a container list. $num$ is how many rules were added.",
     "placeholders": {
       "num": {
@@ -828,7 +828,7 @@
     }
   },
   "copyDefaultRulesNoneFound": {
-    "message": "The Default list has no rules that this list is missing.",
+    "message": "De standaardlijst bevat geen regels die in deze lijst ontbreken.",
     "description": "Alert when the “Copy rules from Default” button has nothing to copy: either the Default list is empty, or every rule in it is already in this list."
   },
   "removeStorageCount": {
@@ -875,7 +875,7 @@
     "message": "Timing"
   },
   "settingGroupContainers": {
-    "message": "Firefox containers",
+    "message": "Firefox-containers",
     "description": "Protection group (Firefox build only): per-container keep lists."
   },
   "settingGroupExpression": {
@@ -900,7 +900,7 @@
     "message": "Cookie-aantal op het werkbalkpictogram"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "message": "In Firefox hoort de cache er niet bij: Firefox kan zijn cache alleen voor de hele browser legen, niet voor afzonderlijke sites.",
     "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {

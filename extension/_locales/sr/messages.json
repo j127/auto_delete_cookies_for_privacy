@@ -93,19 +93,19 @@
     "message": "Пребаците се на картицу Конзола."
   },
   "containerAutoRemoveDescText": {
-    "message": "When a container is deleted, its keep list is removed and its cookies are cleaned.",
+    "message": "Када се контејнер обрише, његова листа задржавања се уклања, а његови колачићи се чисте.",
     "description": "Description under the “Clean up deleted containers” toggle (Firefox containers group)."
   },
   "containerAutoRemoveText": {
-    "message": "Clean up deleted containers",
+    "message": "Очисти обрисане контејнере",
     "description": "Firefox containers group: toggle for the contextualIdentitiesAutoRemove setting. Shown only while separate keep lists per container are on."
   },
   "containerListsDescText": {
-    "message": "Each container uses only its own keep list, and the Default list no longer applies to container tabs. Off: the Default list governs every container.",
+    "message": "Сваки контејнер користи само сопствену листу задржавања, а подразумевана листа више не важи за картице у контејнерима. Искључено: подразумевана листа важи за сваки контејнер.",
     "description": "Description under the “Separate keep lists per container” toggle (Firefox containers group)."
   },
   "containerListsOffNoticeText": {
-    "message": "Separate keep lists per container are off, so the Default list governs every container and the rules in this list are not applied. Turn on “$setting$” under $page$ to use it.",
+    "message": "Одвојене листе задржавања по контејнеру су искључене, па подразумевана листа важи за сваки контејнер, а правила са ове листе се не примењују. Укључите „$setting$“ у одељку $page$ да бисте је користили.",
     "description": "Saved sites: warning under the list selector when a container list is selected while separate keep lists per container are off. $setting$ is that toggle's label, $page$ is the Protection tab name.",
     "placeholders": {
       "setting": {
@@ -119,7 +119,7 @@
     }
   },
   "containerListsText": {
-    "message": "Separate keep lists per container",
+    "message": "Одвојене листе задржавања по контејнеру",
     "description": "Firefox containers group: toggle for the contextualIdentities setting (each Firefox container gets its own keep list)."
   },
   "contextMenusParentClean": {
@@ -201,7 +201,7 @@
     "message": "Врати подешавања на подразумевана"
   },
   "defaultStoreText": {
-    "message": "Default",
+    "message": "Подразумевано",
     "description": "Store selector entry for the default cookie store list."
   },
   "disableAutoDeleteText": {
@@ -268,7 +268,7 @@
     "message": "Филтер"
   },
   "firefoxDebugMode": {
-    "message": "Find this extension in the list and click 'Inspect' to open its console.",
+    "message": "Пронађите ово проширење на листи и кликните на „Испитај“ да отворите његову конзолу.",
     "description": "Firefox: how to open the extension's debug console. Shown when debug mode is enabled."
   },
   "greyListWordText": {
@@ -284,11 +284,11 @@
     }
   },
   "hostPermissionsGrantButtonText": {
-    "message": "Restore access",
+    "message": "Врати приступ",
     "description": "Button on the revoked-permissions banner; triggers the permissions.request prompt."
   },
   "hostPermissionsMissingText": {
-    "message": "Site access has been turned off for this extension, so nothing can be cleaned. Restore it to resume cleanup.",
+    "message": "Приступ сајтовима је искључен за ово проширење, па ништа не може да се очисти. Вратите га да би се чишћење наставило.",
     "description": "Banner shown when host permissions were revoked (about:addons on Firefox)."
   },
   "importCoreSettingsFailed": {
@@ -426,7 +426,7 @@
     "message": "Задржи"
   },
   "listStoreSelectorText": {
-    "message": "Which list",
+    "message": "Која листа",
     "description": "Label for the expression-list store selector (Default / Private / containers)."
   },
   "listTypeText": {
@@ -648,7 +648,7 @@
     "message": "Шта задржава"
   },
   "orphanedStoreText": {
-    "message": "removed container",
+    "message": "уклоњени контејнер",
     "description": "Suffix shown after the raw id of an expression list whose container no longer exists."
   },
   "pluginDataCleanupText": {
@@ -664,7 +664,7 @@
     "message": "Подешавања"
   },
   "privateStoreText": {
-    "message": "Private / Incognito",
+    "message": "Приватно / Инкогнито",
     "description": "Store selector entry for the private-browsing list."
   },
   "questionExpression": {
@@ -806,19 +806,19 @@
     "message": "Уклони све изразе са изабране листе"
   },
   "removeOrphanedListText": {
-    "message": "Delete this orphaned list",
+    "message": "Обриши ову напуштену листу",
     "description": "Button that deletes an expression list left behind by a removed container."
   },
   "copyDefaultRulesText": {
-    "message": "Copy rules from Default",
+    "message": "Копирај правила са подразумеване листе",
     "description": "Saved sites: button that copies the Default list's rules into the selected container's list. Firefox only, and only while separate keep lists per container are on."
   },
   "copyDefaultRulesTooltipText": {
-    "message": "Copy every rule in the Default list into this container's list. Rules already in this list are left as they are.",
+    "message": "Копира сва правила са подразумеване листе у листу овог контејнера. Правила која су већ овде остају непромењена.",
     "description": "Tooltip for the “Copy rules from Default” button on Saved sites."
   },
   "copyDefaultRulesSuccess": {
-    "message": "Copied $num$ rule(s) from the Default list into this list.",
+    "message": "Копирано правила са подразумеване листе у ову листу: $num$.",
     "description": "Success alert after copying the Default list's rules into a container list. $num$ is how many rules were added.",
     "placeholders": {
       "num": {
@@ -828,7 +828,7 @@
     }
   },
   "copyDefaultRulesNoneFound": {
-    "message": "The Default list has no rules that this list is missing.",
+    "message": "Подразумевана листа нема правила која недостају овој листи.",
     "description": "Alert when the “Copy rules from Default” button has nothing to copy: either the Default list is empty, or every rule in it is already in this list."
   },
   "removeStorageCount": {
@@ -875,7 +875,7 @@
     "message": "Време"
   },
   "settingGroupContainers": {
-    "message": "Firefox containers",
+    "message": "Firefox контејнери",
     "description": "Protection group (Firefox build only): per-container keep lists."
   },
   "settingGroupExpression": {
@@ -900,7 +900,7 @@
     "message": "Број колачића на икони траке са алаткама"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
+    "message": "У Firefox-у кеш није укључен: Firefox може да очисти свој кеш само за цео прегледач, не за појединачне сајтове.",
     "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
   },
   "siteDataEmptyOnEnable": {
