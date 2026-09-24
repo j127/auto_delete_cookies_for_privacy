@@ -116,7 +116,24 @@ jobs:
   # packaged artifact through the automated docs/testing-firefox.md rows
   # (baseline/TCP/FPI cleanup, marker cookie, site-data plumbing).
   e2e-firefox:
+    name: e2e-firefox (${{ matrix.channel }})
     runs-on: ubuntu-latest
+    strategy:
+      # One run per channel column of docs/testing-firefox.md, so every
+      # pull request fills the automated rows of both. A failure on one
+      # channel must not cancel the other: which channel broke is the
+      # signal.
+      fail-fast: false
+      matrix:
+        include:
+          # The oldest ESR that Mozilla still updates and the manifest
+          # still supports (FIREFOX_STRICT_MIN_VERSION); see "Channels"
+          # in docs/testing-firefox.md.
+          - channel: ESR
+            firefox: "140.16.0esr"
+          # The current Firefox release.
+          - channel: Rel
+            firefox: "156.0.1"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -128,7 +145,16 @@ jobs:
           # browser/driver pair instead of chasing `latest`, which broke
           # 2026-07-21 when geckodriver 0.37.1 shipped. Bump both
           # deliberately when validating a new Firefox release.
-          firefox-version: "152.0.6"
+          # Since #427 there is one such pair per channel: the versions
+          # are the matrix entries above.
+          firefox-version: ${{ matrix.firefox }}
+
+      # A recorded pass names exact versions (docs/testing-firefox.md,
+      # "Runs"); print the one this run tested.
+      - name: Firefox version
+        run: '"$FIREFOX_BIN" --version'
+        env:
+          FIREFOX_BIN: ${{ steps.setup-firefox.outputs.firefox-path }}
 
       # Bun writes bun.lock and builds the bundles, so its exact version
       # matters; .tool-versions is the single source of truth for it.

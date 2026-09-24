@@ -38,6 +38,25 @@ const cookiesFor = async (
     details: { firstPartyDomain: null, partitionKey: {}, ...details },
   })) as ProbeCookie[];
 
+/**
+ * Opens url, runs the checks that need the tab open, and closes the tab
+ * even when a check fails. Closing is the action under test in every row
+ * here, and an open tab protects its site: a tab left behind by one failed
+ * row kept the next row's localhost cookies from ever being cleaned, so a
+ * single failure read as two (first seen on Firefox ESR 140, #427).
+ */
+const whileOpen = async (
+  url: string,
+  checks: () => Promise<void>
+): Promise<void> => {
+  const tab = await openTab(session, url);
+  try {
+    await checks();
+  } finally {
+    await closeTab(session, tab);
+  }
+};
+
 beforeAll(async () => {
   fixture = await startFixtureServer();
   session = await launchFirefox();
@@ -60,16 +79,16 @@ afterAll(async () => {
 
 describe("row 2: baseline cleanup under default TCP", () => {
   it("removes a site's cookies after its tab closes", async () => {
-    const tab = await openTab(session, `${fixture.primary}/cookies`);
-    const appeared = await waitUntil(async () => {
-      const names = (await cookiesFor({ domain: "localhost" })).map(
-        (c) => c.name
-      );
-      return names.includes("e2e_header") && names.includes("e2e_js");
-    }, 15000);
-    expect(appeared).toBe(true);
+    await whileOpen(`${fixture.primary}/cookies`, async () => {
+      const appeared = await waitUntil(async () => {
+        const names = (await cookiesFor({ domain: "localhost" })).map(
+          (c) => c.name
+        );
+        return names.includes("e2e_header") && names.includes("e2e_js");
+      }, 15000);
+      expect(appeared).toBe(true);
+    });
 
-    await closeTab(session, tab);
     const cleaned = await waitUntil(async () => {
       const remaining = (await cookiesFor({ domain: "localhost" })).filter(
         (c) => c.name.startsWith("e2e_")
@@ -88,18 +107,24 @@ describe("row 2: baseline cleanup under default TCP", () => {
 
 describe("row 3: TCP-partitioned third-party cookie", () => {
   it("sees and cleans the partitioned tracker cookie", async () => {
-    const tab = await openTab(session, `${fixture.primary}/embed`);
-    let partitioned: ProbeCookie | undefined;
-    const appeared = await waitUntil(async () => {
-      const all = await cookiesFor({ domain: "127.0.0.1" });
-      partitioned = all.find((c) => c.name === "e2e_tracker");
-      return partitioned !== undefined;
-    }, 15000);
-    expect(appeared).toBe(true);
-    // Genuinely partitioned: carries the embedding top-level site.
-    expect(partitioned?.partitionKey?.topLevelSite).toBe("http://localhost");
+    await whileOpen(`${fixture.primary}/embed`, async () => {
+      let partitioned: ProbeCookie | undefined;
+      const appeared = await waitUntil(async () => {
+        const all = await cookiesFor({ domain: "127.0.0.1" });
+        partitioned = all.find((c) => c.name === "e2e_tracker");
+        return partitioned !== undefined;
+      }, 15000);
+      expect(appeared).toBe(true);
+      // Genuinely partitioned: carries the embedding top-level site.
+      // Firefox ESR 140 writes the fixture's non-default port into it
+      // (http://localhost:PORT), while 152 and later report the port-less
+      // site (http://localhost); both name the embedding localhost page.
+      // Real sites on default ports read the same on every version.
+      expect(["http://localhost", fixture.primary]).toContain(
+        partitioned?.partitionKey?.topLevelSite
+      );
+    });
 
-    await closeTab(session, tab);
     const cleaned = await waitUntil(async () => {
       const all = await cookiesFor({ domain: "127.0.0.1" });
       return !all.some((c) => c.name === "e2e_tracker");
@@ -110,20 +135,20 @@ describe("row 3: TCP-partitioned third-party cookie", () => {
 
 describe("row 13: site-data (localStorage) cleanup", () => {
   it("clears localStorage for the exact host after tab close", async () => {
-    const tab = await openTab(session, `${fixture.primary}/storage`);
-    const wrote = (await session.driver.executeScript(
-      'return localStorage.getItem("e2e_ls");'
-    )) as string | null;
-    expect(wrote).toBe("1");
-    // The marker-cookie machinery needs a beat to observe the site.
-    await waitUntil(async () => {
-      const names = (await cookiesFor({ domain: "localhost" })).map(
-        (c) => c.name
-      );
-      return names.includes("e2e_storage_marker");
-    }, 15000);
+    await whileOpen(`${fixture.primary}/storage`, async () => {
+      const wrote = (await session.driver.executeScript(
+        'return localStorage.getItem("e2e_ls");'
+      )) as string | null;
+      expect(wrote).toBe("1");
+      // The marker-cookie machinery needs a beat to observe the site.
+      await waitUntil(async () => {
+        const names = (await cookiesFor({ domain: "localhost" })).map(
+          (c) => c.name
+        );
+        return names.includes("e2e_storage_marker");
+      }, 15000);
+    });
 
-    await closeTab(session, tab);
     const cookiesCleaned = await waitUntil(async () => {
       const all = await cookiesFor({ domain: "localhost" });
       return !all.some((c) => c.name === "e2e_storage_marker");
