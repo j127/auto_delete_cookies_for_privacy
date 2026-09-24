@@ -30,7 +30,8 @@ const GECKODRIVER_PORT = 4447;
  * unpinned, resolves "latest" — which broke CI on 2026-07-21 when
  * geckodriver 0.37.1 shipped. Pin the binary so the suite tests one
  * known browser/driver pair (bump together with `firefox-version` in
- * ci.yml). GECKODRIVER_VERSION overrides the pin (node-geckodriver's own
+ * ci.yml, which since #427 takes one pinned Firefox per channel from the
+ * e2e-firefox job's matrix). GECKODRIVER_VERSION overrides the pin (node-geckodriver's own
  * env knob, honored here too). The download cache is a versionless path,
  * so wipe the cache (GECKODRIVER_CACHE_DIR, default OS temp dir) if a
  * stale local binary shadows a pin change. CI points that variable at a

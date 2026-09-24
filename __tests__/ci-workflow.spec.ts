@@ -4,6 +4,7 @@
  */
 import { readFileSync } from "fs";
 import { PINNED_GECKODRIVER_VERSION } from "../e2e/helpers/firefox_driver";
+import { FIREFOX_STRICT_MIN_VERSION } from "../scripts/firefox_manifest";
 import { RECIPES } from "./justfile-recipes";
 
 // `just ci` is the local check before a pull request, and it promises to
@@ -112,6 +113,60 @@ describe("e2e-firefox job", () => {
     expect(E2E_JOB).toMatch(
       /key: geckodriver-\$\{\{ runner\.os \}\}-\$\{\{ steps\.geckodriver\.outputs\.version \}\}/
     );
+  });
+
+  describe("channels", () => {
+    // Since #427 the job runs once per channel column of the manual
+    // matrix (docs/testing-firefox.md), each on a pinned Firefox, so every
+    // pull request fills the automated rows of both columns.
+    const ENTRIES = [
+      ...E2E_JOB.matchAll(/^ {10}- channel: (\S+)\n {12}firefox: "([^"]+)"$/gm),
+    ].map(([, channel, firefox]) => ({ channel, firefox }));
+    const versionOf = (channel: string): string =>
+      ENTRIES.find((entry) => entry.channel === channel)?.firefox ?? "";
+    const major = (version: string): number => Number.parseInt(version, 10);
+
+    it("runs once per channel column of the manual test matrix", () => {
+      const header =
+        read("docs/testing-firefox.md")
+          .split("\n")
+          .find((line) => line.startsWith("| #")) ?? "";
+      const columns = header
+        .split("|")
+        .map((cell) => cell.trim())
+        .filter(Boolean);
+      expect(columns.slice(-2)).toEqual(["ESR", "Rel"]);
+      expect(ENTRIES.map((entry) => entry.channel)).toEqual(columns.slice(-2));
+    });
+
+    it("pins an ESR build for ESR and a release build for Rel", () => {
+      expect(versionOf("ESR")).toMatch(/^\d+\.\d+(\.\d+)?esr$/);
+      expect(versionOf("Rel")).toMatch(/^\d+\.\d+(\.\d+)?$/);
+      expect(major(versionOf("Rel"))).toBeGreaterThan(major(versionOf("ESR")));
+    });
+
+    it("tests an ESR that the manifest still supports", () => {
+      // A strict_min_version above the ESR pin would make the ESR run
+      // test a Firefox that refuses to install the extension.
+      expect(major(versionOf("ESR"))).toBeGreaterThanOrEqual(
+        major(FIREFOX_STRICT_MIN_VERSION)
+      );
+    });
+
+    it("installs the channel's pinned version, not a fixed one", () => {
+      expect(E2E_JOB).toMatch(
+        /^ {10}firefox-version: \$\{\{ matrix\.firefox \}\}$/m
+      );
+    });
+
+    it("names each run after its channel and lets both finish", () => {
+      expect(E2E_JOB).toMatch(
+        /^ {4}name: e2e-firefox \(\$\{\{ matrix\.channel \}\}\)$/m
+      );
+      // Which channel broke is the signal; fail-fast would cancel the
+      // other run and hide it.
+      expect(E2E_JOB).toMatch(/^ {6}fail-fast: false$/m);
+    });
   });
 
   it("caches the directory the suite actually downloads into", () => {
