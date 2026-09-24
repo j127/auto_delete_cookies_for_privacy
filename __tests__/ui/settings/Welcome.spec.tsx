@@ -70,13 +70,26 @@ describe("Welcome", () => {
     }
   });
 
-  it("renders the release notes section with the initial release note", () => {
-    const { getByText } = renderWelcome();
+  // The page renders the newest five entries (Welcome.tsx). These two tests
+  // read the data rather than naming versions: hardcoded ones meant a new
+  // release broke the specs by pushing the oldest entry off the page, which
+  // is what 1.0.0 did when 1.2.0 was added. release_check.sh is what ties
+  // the newest entry to the version being shipped.
+  const RENDERED_RELEASES = 5;
+
+  const versionBadges = (container: HTMLElement) =>
+    Array.from(container.querySelectorAll("span.badge")).map(
+      (badge) => badge.textContent
+    );
+
+  it("renders the release notes section, newest release first", () => {
+    const { container, getByText } = renderWelcome();
+    const newest = ReleaseNotes.releases[0];
     expect(getByText("releaseNotesText")).not.toBeNull();
-    expect(getByText("1.0.0")).not.toBeNull();
-    expect(
-      getByText("Initial release of Auto-Delete Cookies for Privacy.")
-    ).not.toBeNull();
+    expect(versionBadges(container)[0]).toBe(newest.version);
+    for (const note of newest.notes) {
+      expect(getByText(note)).not.toBeNull();
+    }
   });
 
   it("dispatches the reset counter action when the reset button is clicked", () => {
@@ -112,13 +125,17 @@ describe("Welcome", () => {
     expect(console.error).not.toHaveBeenCalled();
   });
 
-  it("lists the 1.0.1 release notes", () => {
-    const { getByText } = renderWelcome();
-    expect(getByText("1.0.1")).not.toBeNull();
-    expect(
-      getByText(
-        "The Share menu and homepage link now point to the Chrome Web Store listing."
-      )
-    ).not.toBeNull();
+  it("lists the newest five releases and stops there", () => {
+    const { container, getByText, queryByText } = renderWelcome();
+    const shown = ReleaseNotes.releases.slice(0, RENDERED_RELEASES);
+    expect(versionBadges(container)).toEqual(shown.map((r) => r.version));
+    // Older releases are listed as well, not just the newest one.
+    const oldestShown = shown[shown.length - 1];
+    expect(getByText(oldestShown.notes[0])).not.toBeNull();
+    const dropped = ReleaseNotes.releases[RENDERED_RELEASES];
+    if (dropped) {
+      expect(queryByText(dropped.version)).toBeNull();
+      expect(queryByText(dropped.notes[0])).toBeNull();
+    }
   });
 });

@@ -2,8 +2,8 @@
 
 # Preflight for tagging a release: package.json and extension/manifest.json
 # must agree on the version, the generated Firefox manifest must carry the
-# same version plus a well-formed gecko id, and the working tree must be
-# clean.
+# same version plus a well-formed gecko id, the in-app release notes must
+# have an entry for that version, and the working tree must be clean.
 
 set -euo pipefail
 
@@ -29,6 +29,18 @@ console.log(manifest.version);
 
 if [ "$pkg_version" != "$ff_version" ]; then
   echo "Version mismatch: package.json=$pkg_version firefox manifest=$ff_version" >&2
+  exit 1
+fi
+
+# The settings Welcome page renders src/ui/settings/release-notes.json, whose
+# newest entry is what users see as "this release". Nothing tied it to the
+# version before, and it drifted: 1.1.2 shipped only after backfilling the
+# 1.1.0 and 1.1.1 entries, because the page still showed 1.0.1 as newest.
+notes_version=$(bun -e "console.log(require('./src/ui/settings/release-notes.json').releases[0].version)")
+
+if [ "$pkg_version" != "$notes_version" ]; then
+  echo "Version mismatch: package.json=$pkg_version newest release note=$notes_version" >&2
+  echo "Add an entry for $pkg_version at the top of src/ui/settings/release-notes.json" >&2
   exit 1
 fi
 

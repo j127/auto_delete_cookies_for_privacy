@@ -1,6 +1,17 @@
 {
   "releases": [
     {
+      "version": "1.2.0",
+      "notes": [
+        "Firefox: the Protection page has a new Firefox containers card, where each container can be given its own keep list. It is off by default, and until you turn it on the Default list covers every container.",
+        "Firefox: keeping a site from the right-click menu in a container tab now saves the rule to the list that actually applies to that tab.",
+        "Firefox: Saved sites can copy the Default list's rules into a container's own list, so switching separate lists on does not leave a container unprotected.",
+        "The Public Suffix List used to tell sites apart was updated: sites on a few more hosting platforms (for example cloud.run and ai.studio) are now cleaned separately, and several discontinued platforms are no longer split per site.",
+        "Every non-English language now has its own wording for the Saved sites list selector, the Firefox containers card and the site-access banner, which had been showing English.",
+        "Internal: the local check run before a pull request now runs exactly what CI runs, code scanning is back on, the Bun and Node versions are pinned in one place, and the automated Firefox suite no longer fails on a flaky driver download."
+      ]
+    },
+    {
       "version": "1.1.2",
       "notes": [
         "The Support page now has separate links for reporting bugs and for questions and discussions.",
