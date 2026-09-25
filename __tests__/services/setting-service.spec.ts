@@ -121,6 +121,16 @@ describe("SettingService", () => {
       await SettingService.onSettingsChange();
       expect(TestSettingService.getIsInitialized()).toEqual(true);
     });
+    it("should repaint the toolbar even when no setting changed", async () => {
+      // #438: this is the one repaint for every store change, keep-list
+      // changes included, now that the expression thunks no longer repaint
+      // on their own.
+      await SettingService.onSettingsChange();
+      expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledTimes(1);
+      expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledWith(
+        store.getState()
+      );
+    });
     // Site-data types now default ON, so each transition test must first
     // switch its type off (and let onSettingsChange observe that) before the
     // enable it wants to exercise.
