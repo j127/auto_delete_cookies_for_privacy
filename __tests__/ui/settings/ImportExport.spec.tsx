@@ -147,14 +147,18 @@ describe("ImportExport", () => {
 
     await waitFor(() => {
       expect(dispatchSpy).toHaveBeenCalledWith({
-        payload: {
-          expression: "work.example.com",
-          listType: ListType.WHITE,
-          storeId: "default",
-        },
-        type: ReduxConstants.ADD_EXPRESSION,
+        payload: [
+          {
+            expression: "work.example.com",
+            listType: ListType.WHITE,
+            storeId: "default",
+          },
+        ],
+        type: ReduxConstants.ADD_EXPRESSIONS,
       });
     });
+    // The whole file lands as one action (#437).
+    expect(dispatchSpy).toHaveBeenCalledTimes(1);
     const success = container.querySelector(".alert-success") as HTMLElement;
     expect(success.textContent).toContain("importValidExpressions");
     expect(success.textContent).toContain("importFoldedContainersText");

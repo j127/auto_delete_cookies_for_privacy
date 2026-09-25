@@ -398,6 +398,102 @@ describe("Reducer", () => {
         expect.not.arrayContaining(["store-b"])
       );
     });
+
+    // #437: ADD_EXPRESSIONS folds a batch through the single-rule case.
+    it("should add a batch across store ids as one ADD_EXPRESSIONS", () => {
+      const newState = lists(
+        { ...state },
+        {
+          payload: [
+            {
+              expression: "zeta.com",
+              listType: ListType.GREY,
+              storeId: "default",
+            },
+            {
+              expression: "alpha.com",
+              listType: ListType.WHITE,
+              storeId: "default",
+            },
+            {
+              expression: "github.com",
+              listType: ListType.GREY,
+              storeId: "store-a",
+            },
+            {
+              expression: "fresh.com",
+              listType: ListType.WHITE,
+              storeId: "store-c",
+            },
+          ],
+          type: ReduxConstants.ADD_EXPRESSIONS,
+        }
+      );
+      // WHITE before GREY, alphabetical within each, as for single adds.
+      expect(newState.default.map((e) => e.expression)).toEqual([
+        "alpha.com",
+        "messenger.com*",
+        "facebook.com*",
+        "zeta.com",
+      ]);
+      expect(newState["store-a"].map((e) => e.expression)).toEqual([
+        "messenger.com*",
+        "facebook.com*",
+        "github.com",
+      ]);
+      expect(newState["store-c"].map((e) => e.expression)).toEqual([
+        "fresh.com",
+      ]);
+      // A list the batch does not touch keeps its reference.
+      expect(newState["store-b"]).toBe(state["store-b"]);
+      const ids = [
+        ...newState.default,
+        ...newState["store-a"],
+        ...newState["store-c"],
+      ].map((e) => e.id);
+      ids.forEach((id) => expect(id).toBeTruthy());
+      expect(new Set(ids).size).toBe(ids.length);
+    });
+
+    it("should drop batch rules already in the list or repeated in the batch", () => {
+      const newState = lists(
+        { ...state },
+        {
+          payload: [
+            // Already in default (as WHITE): dropped by expression string,
+            // whatever the list type, like a single add.
+            {
+              expression: "messenger.com*",
+              listType: ListType.GREY,
+              storeId: "default",
+            },
+            {
+              expression: "new.com",
+              listType: ListType.WHITE,
+              storeId: "default",
+            },
+            // Repeated within the batch: the first one wins.
+            {
+              expression: "new.com",
+              listType: ListType.GREY,
+              storeId: "default",
+            },
+          ],
+          type: ReduxConstants.ADD_EXPRESSIONS,
+        }
+      );
+      expect(newState.default.map((e) => [e.expression, e.listType])).toEqual([
+        ["messenger.com*", ListType.WHITE],
+        ["new.com", ListType.WHITE],
+        ["facebook.com*", ListType.GREY],
+      ]);
+    });
+
+    it("should return the same state for an empty batch", () => {
+      expect(
+        lists(state, { payload: [], type: ReduxConstants.ADD_EXPRESSIONS })
+      ).toBe(state);
+    });
   });
 
   describe("expression", () => {

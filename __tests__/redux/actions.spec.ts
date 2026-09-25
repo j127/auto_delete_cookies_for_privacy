@@ -54,6 +54,10 @@ describe("Actions", () => {
         payload: sampleExpression,
         type: ReduxConstants.ADD_EXPRESSION,
       });
+      expect(Actions.addExpressionsUI([sampleExpression])).toEqual({
+        payload: [sampleExpression],
+        type: ReduxConstants.ADD_EXPRESSIONS,
+      });
       expect(Actions.removeExpressionUI(sampleExpression)).toEqual({
         payload: sampleExpression,
         type: ReduxConstants.REMOVE_EXPRESSION,
@@ -227,6 +231,127 @@ describe("Actions", () => {
         payload: expect.objectContaining({ storeId: "firefox-container-3" }),
         type: ReduxConstants.ADD_EXPRESSION,
       });
+    });
+  });
+
+  // #437: the copy-from-Default and import paths add many rules as one
+  // action instead of one dispatch per rule.
+  describe("addExpressions()", () => {
+    it("should resolve every rule and dispatch the batch as one ADD_EXPRESSIONS", () => {
+      const { dispatch, getState } = makeThunkArgs(initialState);
+      Actions.addExpressions([
+        { expression: "a.com", listType: ListType.WHITE, storeId: "0" },
+        {
+          expression: "b.com",
+          listType: ListType.GREY,
+          storeId: "firefox-private",
+        },
+      ])(dispatch, getState);
+      expect(dispatch).toHaveBeenCalledTimes(1);
+      expect(dispatch).toHaveBeenCalledWith({
+        payload: [
+          {
+            cleanAllCookies: undefined,
+            cleanSiteData: [],
+            expression: "a.com",
+            listType: ListType.WHITE,
+            storeId: "default",
+          },
+          {
+            cleanAllCookies: undefined,
+            cleanSiteData: [],
+            expression: "b.com",
+            listType: ListType.GREY,
+            storeId: "private",
+          },
+        ],
+        type: ReduxConstants.ADD_EXPRESSIONS,
+      });
+      expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledTimes(1);
+      expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledWith(
+        initialState
+      );
+    });
+
+    it("should let a _Default sentinel earlier in the batch fill the rules after it", () => {
+      // The copy from Default carries the sentinels ahead of the rules of
+      // their list type, and one-at-a-time dispatches let each rule read the
+      // sentinel already landed in the container list. The batch resolves
+      // the same way, and a rule of another list type reads its own
+      // sentinel, not this one.
+      const { dispatch, getState } = makeThunkArgs(initialState);
+      Actions.addExpressions([
+        {
+          cleanAllCookies: true,
+          cleanSiteData: [SiteDataType.LOCALSTORAGE],
+          expression: "_Default:GREY",
+          listType: ListType.GREY,
+          storeId: "firefox-container-3",
+        },
+        {
+          expression: "later.com",
+          listType: ListType.GREY,
+          storeId: "firefox-container-3",
+        },
+        {
+          expression: "white.com",
+          listType: ListType.WHITE,
+          storeId: "firefox-container-3",
+        },
+      ])(dispatch, getState);
+      const { payload } = dispatch.mock.calls[0][0] as {
+        payload: Expression[];
+      };
+      expect(payload.map((e) => e.expression)).toEqual([
+        "_Default:GREY",
+        "later.com",
+        "white.com",
+      ]);
+      expect(payload[1]).toEqual(
+        expect.objectContaining({
+          cleanAllCookies: true,
+          cleanSiteData: [SiteDataType.LOCALSTORAGE],
+          storeId: "firefox-container-3",
+        })
+      );
+      expect(payload[2].cleanAllCookies).toBeUndefined();
+      expect(payload[2].cleanSiteData).toEqual([]);
+    });
+
+    it("should keep explicit cleanup choices over a sentinel in the same batch", () => {
+      const { dispatch, getState } = makeThunkArgs(initialState);
+      Actions.addExpressions([
+        {
+          cleanAllCookies: true,
+          cleanSiteData: [SiteDataType.LOCALSTORAGE],
+          expression: "_Default:WHITE",
+          listType: ListType.WHITE,
+          storeId: "default",
+        },
+        {
+          cleanAllCookies: false,
+          cleanSiteData: [SiteDataType.CACHE],
+          expression: "chosen.com",
+          listType: ListType.WHITE,
+          storeId: "default",
+        },
+      ])(dispatch, getState);
+      const { payload } = dispatch.mock.calls[0][0] as {
+        payload: Expression[];
+      };
+      expect(payload[1]).toEqual(
+        expect.objectContaining({
+          cleanAllCookies: false,
+          cleanSiteData: [SiteDataType.CACHE],
+        })
+      );
+    });
+
+    it("should dispatch nothing for an empty batch", () => {
+      const { dispatch, getState } = makeThunkArgs(initialState);
+      Actions.addExpressions([])(dispatch, getState);
+      expect(dispatch).not.toHaveBeenCalled();
+      expect(spyBrowserActions.checkIfProtected).not.toHaveBeenCalled();
     });
   });
 

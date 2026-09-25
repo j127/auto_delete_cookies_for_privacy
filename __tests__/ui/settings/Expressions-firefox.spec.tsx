@@ -204,17 +204,23 @@ describe("Expressions store selector on Firefox", () => {
         'button[title="copyDefaultRulesTooltipText"]'
       ) as HTMLElement | null;
 
-    const added = (
-      expression: string,
-      extra: Record<string, unknown> = {}
-    ) => ({
-      payload: expect.objectContaining({
+    const added = (expression: string, extra: Record<string, unknown> = {}) =>
+      expect.objectContaining({
         expression,
         storeId: "firefox-container-7",
         ...extra,
-      }),
-      type: ReduxConstants.ADD_EXPRESSION,
-    });
+      });
+
+    // The copy travels as one ADD_EXPRESSIONS (#437); this returns its rules.
+    const copiedRules = (dispatchSpy: { mock: { calls: unknown[][] } }) => {
+      expect(dispatchSpy.mock.calls).toHaveLength(1);
+      const action = dispatchSpy.mock.calls[0][0] as {
+        type: string;
+        payload: unknown[];
+      };
+      expect(action.type).toBe(ReduxConstants.ADD_EXPRESSIONS);
+      return action.payload;
+    };
 
     beforeEach(() => {
       when(global.browser.contextualIdentities.query)
@@ -230,17 +236,21 @@ describe("Expressions store selector on Firefox", () => {
       await selectWork(container);
       fireEvent.click(copyButton(container) as HTMLElement);
 
-      expect(dispatchSpy).toHaveBeenCalledTimes(defaultList.length);
-      expect(dispatchSpy).toHaveBeenCalledWith(added("example.com"));
-      expect(dispatchSpy).toHaveBeenCalledWith(added("_Default:WHITE"));
+      const rules = copiedRules(dispatchSpy);
+      expect(rules).toHaveLength(defaultList.length);
+      expect(rules).toEqual(
+        expect.arrayContaining([added("example.com"), added("_Default:WHITE")])
+      );
       // Each rule keeps its list type and its cleanup options, so a copy
       // cleans exactly what the original did.
-      expect(dispatchSpy).toHaveBeenCalledWith(
-        added("*.example.org", {
-          cleanAllCookies: true,
-          cookieNames: ["sid"],
-          listType: ListType.GREY,
-        })
+      expect(rules).toEqual(
+        expect.arrayContaining([
+          added("*.example.org", {
+            cleanAllCookies: true,
+            cookieNames: ["sid"],
+            listType: ListType.GREY,
+          }),
+        ])
       );
       expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
         "copyDefaultRulesSuccess",
@@ -261,8 +271,9 @@ describe("Expressions store selector on Firefox", () => {
       await selectWork(container);
       fireEvent.click(copyButton(container) as HTMLElement);
 
-      expect(dispatchSpy).toHaveBeenCalledTimes(2);
-      expect(dispatchSpy).not.toHaveBeenCalledWith(added("example.com"));
+      const rules = copiedRules(dispatchSpy);
+      expect(rules).toHaveLength(2);
+      expect(rules).not.toEqual(expect.arrayContaining([added("example.com")]));
       expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
         "copyDefaultRulesSuccess",
         ["2"]

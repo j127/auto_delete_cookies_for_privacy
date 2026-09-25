@@ -13,6 +13,7 @@
 
 export const enum ReduxConstants {
   ADD_EXPRESSION = "ADD_EXPRESSION",
+  ADD_EXPRESSIONS = "ADD_EXPRESSIONS",
   CLEAR_EXPRESSIONS = "CLEAR_EXPRESSIONS",
   REMOVE_EXPRESSION = "REMOVE_EXPRESSION",
   UPDATE_EXPRESSION = "UPDATE_EXPRESSION",
@@ -32,6 +33,7 @@ export const enum ReduxConstants {
 
 export type ReduxAction =
   | ADD_EXPRESSION
+  | ADD_EXPRESSIONS
   | CLEAR_EXPRESSIONS
   | REMOVE_EXPRESSION
   | UPDATE_EXPRESSION
@@ -51,6 +53,10 @@ export type ReduxAction =
 export type ADD_EXPRESSION = Readonly<{
   type: ReduxConstants.ADD_EXPRESSION;
   payload: Expression;
+}>;
+export type ADD_EXPRESSIONS = Readonly<{
+  type: ReduxConstants.ADD_EXPRESSIONS;
+  payload: ReadonlyArray<Expression>;
 }>;
 export type CLEAR_EXPRESSIONS = Readonly<{
   type: ReduxConstants.CLEAR_EXPRESSIONS;
