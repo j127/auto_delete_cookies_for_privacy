@@ -13,7 +13,6 @@
 
 import { ListType, SettingID, SiteDataType } from "@/typings/enums";
 import type { AppDispatch } from "./store";
-import { checkIfProtected } from "@/services/browser-action-service";
 import { cleanCookiesOperation } from "@/services/cleanup-service";
 import {
   getContainerExpressionDefault,
@@ -104,6 +103,10 @@ const resolveExpressionPayload = (
   };
 };
 
+// None of the expression thunks repaint the toolbar themselves. Every store
+// change already ends in SettingService.onSettingsChange, which awaits
+// checkIfProtected for the new state, so the calls the thunks used to make
+// only doubled each repaint (#438).
 export const addExpression =
   (payload: Expression) =>
   (dispatch: AppDispatch, getState: GetState): void => {
@@ -111,12 +114,11 @@ export const addExpression =
       payload: resolveExpressionPayload(getState(), payload),
       type: ReduxConstants.ADD_EXPRESSION,
     });
-    checkIfProtected(getState());
   };
 
 // Bulk add for the copy-from-Default and import paths (#437): one action
 // instead of one per rule, so the background runs one reducer pass, one
-// checkIfProtected and one snapshot to every open page. Each rule is
+// toolbar repaint and one snapshot to every open page. Each rule is
 // resolved against the lists as they stand after the rules before it in the
 // batch, so a _Default:<listType> sentinel earlier in the same batch fills
 // the options of the rules after it, exactly as one-at-a-time dispatches
@@ -142,22 +144,20 @@ export const addExpressions =
       payload: resolved,
       type: ReduxConstants.ADD_EXPRESSIONS,
     });
-    checkIfProtected(getState());
   };
 
 export const clearExpressions =
   (payload: StoreIdToExpressionList) =>
-  (dispatch: AppDispatch, getState: GetState): void => {
+  (dispatch: AppDispatch): void => {
     dispatch({
       payload,
       type: ReduxConstants.CLEAR_EXPRESSIONS,
     });
-    checkIfProtected(getState());
   };
 
 export const removeExpression =
   (payload: Expression) =>
-  (dispatch: AppDispatch, getState: GetState): void => {
+  (dispatch: AppDispatch): void => {
     dispatch({
       payload: {
         ...payload,
@@ -166,7 +166,6 @@ export const removeExpression =
       },
       type: ReduxConstants.REMOVE_EXPRESSION,
     });
-    checkIfProtected(getState());
   };
 
 export const updateExpression =
@@ -222,17 +221,15 @@ export const updateExpression =
         }
       }
     }
-    checkIfProtected(getState());
   };
 
 export const removeList =
   (payload: keyof StoreIdToExpressionList) =>
-  (dispatch: AppDispatch, getState: GetState): void => {
+  (dispatch: AppDispatch): void => {
     dispatch({
       payload,
       type: ReduxConstants.REMOVE_LIST,
     });
-    checkIfProtected(getState());
   };
 
 export const addActivity = (payload: ActivityLog): ADD_ACTIVITY_LOG => ({

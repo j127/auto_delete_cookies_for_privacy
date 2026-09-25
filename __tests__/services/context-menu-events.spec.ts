@@ -113,9 +113,11 @@ describe("ContextMenuEvents", () => {
     when(global.browser.runtime.getManifest)
       .calledWith()
       .mockReturnValue({ version: "0.12.34" } as never);
-    // The addExpression thunk ends in checkIfProtected, which queries the
-    // active tabs and iterates the result; an unmocked query resolves
-    // undefined and every dispatch leaks an unhandled rejection.
+    // checkIfProtected queries the active tabs and iterates the result; an
+    // unmocked query resolves undefined and every repaint leaks an unhandled
+    // rejection. The addExpression thunk used to end in that call; #438 moved
+    // the repaint to the store subscriber, which this spec does not register,
+    // so the mock stays as a guard should a repaint return to this path.
     when(global.browser.tabs.query)
       .calledWith(expect.any(Object))
       .mockResolvedValue([] as never);

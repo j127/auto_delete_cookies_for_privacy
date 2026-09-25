@@ -130,6 +130,8 @@ export default class SettingService extends StoreUser {
       SettingID.CLEANUP_LOCALSTORAGE
     );
 
+    // The one toolbar repaint for every store change, keep-list changes
+    // included: the expression thunks no longer repaint on their own (#438).
     await checkIfProtected(StoreUser.store.getState());
 
     // Validate Settings Again

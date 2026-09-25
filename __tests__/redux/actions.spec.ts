@@ -145,9 +145,6 @@ describe("Actions", () => {
         },
         type: ReduxConstants.ADD_EXPRESSION,
       });
-      expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledWith(
-        initialState
-      );
     });
 
     it("should apply the container defaults from the matching _Default expression", () => {
@@ -267,10 +264,6 @@ describe("Actions", () => {
         ],
         type: ReduxConstants.ADD_EXPRESSIONS,
       });
-      expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledTimes(1);
-      expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledWith(
-        initialState
-      );
     });
 
     it("should let a _Default sentinel earlier in the batch fill the rules after it", () => {
@@ -351,31 +344,46 @@ describe("Actions", () => {
       const { dispatch, getState } = makeThunkArgs(initialState);
       Actions.addExpressions([])(dispatch, getState);
       expect(dispatch).not.toHaveBeenCalled();
+    });
+  });
+
+  // #438: SettingService.onSettingsChange, subscribed to the store, repaints
+  // the toolbar after every store change. The thunks used to repaint as well,
+  // so every keep-list change painted every tab twice.
+  describe("toolbar repaint", () => {
+    it("should be left to the store subscriber by every expression thunk", () => {
+      const { dispatch, getState } = makeThunkArgs(initialState);
+      Actions.addExpression(sampleExpression)(dispatch, getState);
+      Actions.addExpressions([sampleExpression])(dispatch, getState);
+      Actions.updateExpression(sampleExpression)(dispatch, getState);
+      Actions.removeExpression(sampleExpression)(dispatch);
+      Actions.clearExpressions({ default: [sampleExpression] })(dispatch);
+      Actions.removeList("default")(dispatch);
+      expect(dispatch).toHaveBeenCalledTimes(6);
       expect(spyBrowserActions.checkIfProtected).not.toHaveBeenCalled();
     });
   });
 
   describe("clearExpressions()", () => {
-    it("should dispatch CLEAR_EXPRESSIONS and re-check protection", () => {
-      const { dispatch, getState } = makeThunkArgs(initialState);
+    it("should dispatch CLEAR_EXPRESSIONS", () => {
+      const { dispatch } = makeThunkArgs(initialState);
       const lists = { default: [sampleExpression] };
-      Actions.clearExpressions(lists)(dispatch, getState);
+      Actions.clearExpressions(lists)(dispatch);
       expect(dispatch).toHaveBeenCalledWith({
         payload: lists,
         type: ReduxConstants.CLEAR_EXPRESSIONS,
       });
-      expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledTimes(1);
     });
   });
 
   describe("removeExpression()", () => {
-    it("should sanitize the private storeId and re-check protection", () => {
-      const { dispatch, getState } = makeThunkArgs(initialState);
+    it("should sanitize the private storeId", () => {
+      const { dispatch } = makeThunkArgs(initialState);
       Actions.removeExpression({
         expression: "domain.com",
         listType: ListType.WHITE,
         storeId: "1",
-      })(dispatch, getState);
+      })(dispatch);
       expect(dispatch).toHaveBeenCalledWith({
         payload: {
           expression: "domain.com",
@@ -384,19 +392,17 @@ describe("Actions", () => {
         },
         type: ReduxConstants.REMOVE_EXPRESSION,
       });
-      expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledTimes(1);
     });
   });
 
   describe("removeList()", () => {
-    it("should dispatch REMOVE_LIST and re-check protection", () => {
-      const { dispatch, getState } = makeThunkArgs(initialState);
-      Actions.removeList("default")(dispatch, getState);
+    it("should dispatch REMOVE_LIST", () => {
+      const { dispatch } = makeThunkArgs(initialState);
+      Actions.removeList("default")(dispatch);
       expect(dispatch).toHaveBeenCalledWith({
         payload: "default",
         type: ReduxConstants.REMOVE_LIST,
       });
-      expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -417,7 +423,6 @@ describe("Actions", () => {
         },
         type: ReduxConstants.UPDATE_EXPRESSION,
       });
-      expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledTimes(1);
     });
 
     it("should enable the deprecated localstorage setting when a default expression keeps localstorage", () => {
