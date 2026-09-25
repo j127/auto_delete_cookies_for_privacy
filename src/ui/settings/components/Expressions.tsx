@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import {
   addExpressionUI,
+  addExpressionsUI,
   clearExpressionsUI,
   removeListUI,
 } from "@/redux/actions";
@@ -93,6 +94,10 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
 
   const onNewExpression = (payload: Expression) => {
     dispatch(addExpressionUI(payload));
+  };
+
+  const onNewExpressions = (payload: ReadonlyArray<Expression>) => {
+    dispatch(addExpressionsUI(payload));
   };
 
   // Add the expression using the + button or the Enter key
@@ -175,7 +180,9 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
   // an expression already present, but filter here as well so the count in
   // the message is what actually moved. The _Default:WHITE/_Default:GREY
   // sentinels come along on purpose: they carry the list's defaults for
-  // newly added rules, so the copy behaves like the list it came from.
+  // newly added rules, so the copy behaves like the list it came from. The
+  // whole copy travels as one action (#437): one message to the background
+  // and one snapshot back, however long the Default list is.
   const copyDefaultRules = () => {
     const present = new Set(
       (lists[storeId] ?? []).map((exp) => exp.expression)
@@ -187,7 +194,7 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
       setErrorMessage(browser.i18n.getMessage("copyDefaultRulesNoneFound"));
       return;
     }
-    missing.forEach((exp) => onNewExpression({ ...exp, storeId }));
+    onNewExpressions(missing.map((exp) => ({ ...exp, storeId })));
     setSuccess(
       browser.i18n.getMessage("copyDefaultRulesSuccess", [
         missing.length.toString(),

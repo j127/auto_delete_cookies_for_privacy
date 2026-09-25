@@ -71,6 +71,21 @@ describe("StoreBridge", () => {
       expect(consoleError).toHaveBeenCalled();
       consoleError.mockRestore();
     });
+
+    it("should pass an array payload through unchanged for the batch add", () => {
+      // ADD_EXPRESSIONS (#437) is the first action whose payload is an
+      // array; the bridge must hand it over as is, neither spread nor wrapped.
+      const store = makeStore();
+      const creator = jest.fn().mockReturnValue({ type: "MAPPED" });
+      const payload = [{ expression: "a.com" }, { expression: "b.com" }];
+      dispatchBridgeAction(
+        store,
+        { ADD_EXPRESSIONS: creator },
+        { type: "ADD_EXPRESSIONS", payload }
+      );
+      expect(creator).toHaveBeenCalledWith(payload);
+      expect(creator.mock.calls[0][0]).toBe(payload);
+    });
   });
 
   describe("handleBridgeConnection()", () => {

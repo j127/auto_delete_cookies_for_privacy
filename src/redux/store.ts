@@ -16,6 +16,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { ReduxConstants } from "@/typings/redux-constants";
 import {
   addExpression,
+  addExpressions,
   clearActivities,
   clearExpressions,
   cookieCleanup,
@@ -48,6 +49,7 @@ export const backgroundActions: {
   [key in ReduxConstants]?: any;
 } & BackgroundActionsMap = {
   ADD_EXPRESSION: addExpression,
+  ADD_EXPRESSIONS: addExpressions,
   CLEAR_ACTIVITY_LOG: clearActivities,
   CLEAR_EXPRESSIONS: clearExpressions,
   COOKIE_CLEANUP: cookieCleanup,

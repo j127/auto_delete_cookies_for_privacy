@@ -14,7 +14,11 @@ import { SettingID } from "@/typings/enums";
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
-import { addExpressionUI, resetSettings, updateSetting } from "@/redux/actions";
+import {
+  addExpressionsUI,
+  resetSettings,
+  updateSetting,
+} from "@/redux/actions";
 import { initialState } from "@/redux/state";
 import { adcpLog } from "@/services/libs";
 import { ReduxAction } from "@/typings/redux-constants";
@@ -48,8 +52,8 @@ const ImportExport: React.FunctionComponent<OwnProps> = ({ style }) => {
     dispatch(updateSetting(newSetting));
   };
 
-  const onNewExpression = (payload: Expression) => {
-    dispatch(addExpressionUI(payload));
+  const onNewExpressions = (payload: ReadonlyArray<Expression>) => {
+    dispatch(addExpressionsUI(payload));
   };
 
   const onResetButtonClick = () => {
@@ -223,7 +227,10 @@ const ImportExport: React.FunctionComponent<OwnProps> = ({ style }) => {
         const result = file.target.result as string;
         const newExpressions: StoreIdToExpressionList = JSON.parse(result);
         const plan = planExpressionImport(newExpressions, lists);
-        plan.additions.forEach((expression) => onNewExpression(expression));
+        // The whole file lands as one action (#437), not one per rule.
+        if (plan.additions.length > 0) {
+          onNewExpressions(plan.additions);
+        }
         setErrorMessage(
           plan.errors.length > 0
             ? `${browser.i18n.getMessage(

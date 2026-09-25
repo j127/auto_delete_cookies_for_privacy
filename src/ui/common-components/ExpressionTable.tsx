@@ -47,7 +47,7 @@ function ExpressionTable(props: ExpressionTableProps) {
   // Rows with their ExpressionOptions editor revealed (05-shield layout:
   // rows are one line until expanded).
   const [expandedIds, setExpandedIds] = useState<Set<string>>(() => new Set());
-  const editInputRef = useRef<HTMLInputElement | undefined | null>(undefined);
+  const editInputRef = useRef<HTMLInputElement | null>(null);
 
   const clearEditState = () => {
     setExpressionInput("");
@@ -90,7 +90,7 @@ function ExpressionTable(props: ExpressionTableProps) {
     if (editInputRef.current) {
       editInputRef.current.setCustomValidity("");
       editInputRef.current.checkValidity();
-      editInputRef.current = undefined;
+      editInputRef.current = null;
     }
     clearEditState();
   };
@@ -135,7 +135,7 @@ function ExpressionTable(props: ExpressionTableProps) {
       );
     }
     clearEditState();
-    editInputRef.current = undefined;
+    editInputRef.current = null;
   };
 
   const expressions = props.expressions === undefined ? [] : props.expressions;
@@ -185,9 +185,7 @@ function ExpressionTable(props: ExpressionTableProps) {
                 <td className="editableExpression">
                   <div className="flex items-center gap-2">
                     <input
-                      ref={(c) => {
-                        editInputRef.current = c;
-                      }}
+                      ref={editInputRef}
                       className="input w-full input-sm"
                       value={expressionInput}
                       onFocus={moveCaretToEnd}

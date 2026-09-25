@@ -25,6 +25,7 @@ import {
 import {
   ADD_ACTIVITY_LOG,
   ADD_EXPRESSION,
+  ADD_EXPRESSIONS,
   CLEAR_ACTIVITY_LOG,
   CLEAR_EXPRESSIONS,
   COOKIE_CLEANUP,
@@ -40,10 +41,18 @@ import {
   UPDATE_SETTING,
 } from "@/typings/redux-constants";
 import { initialState } from "./state";
+import { lists as listsReducer } from "./reducers";
 
 export const addExpressionUI = (payload: Expression): ADD_EXPRESSION => ({
   payload,
   type: ReduxConstants.ADD_EXPRESSION,
+});
+
+export const addExpressionsUI = (
+  payload: ReadonlyArray<Expression>
+): ADD_EXPRESSIONS => ({
+  payload,
+  type: ReduxConstants.ADD_EXPRESSIONS,
 });
 
 export const clearExpressionsUI = (
@@ -68,30 +77,70 @@ export const removeListUI = (
   type: ReduxConstants.REMOVE_LIST,
 });
 
+// What one ADD_EXPRESSION carries: the payload with its storeId sanitized
+// and the cleanup options it leaves unset filled from the target list's
+// _Default:<listType> expression.
+const resolveExpressionPayload = (
+  state: State,
+  payload: Expression
+): Expression => {
+  // Sanitize the payload's storeId
+  const storeId = getStoreId(payload.storeId);
+  const defaultOptions = getContainerExpressionDefault(
+    state,
+    storeId,
+    payload.listType as ListType
+  );
+  return {
+    ...payload,
+    cleanAllCookies:
+      payload.cleanAllCookies !== undefined
+        ? payload.cleanAllCookies
+        : defaultOptions.cleanAllCookies,
+    cleanSiteData: payload.cleanSiteData
+      ? payload.cleanSiteData
+      : defaultOptions.cleanSiteData || [],
+    storeId,
+  };
+};
+
 export const addExpression =
   (payload: Expression) =>
   (dispatch: AppDispatch, getState: GetState): void => {
-    // Sanitize the payload's storeId
-    const storeId = getStoreId(payload.storeId);
-    const defaultOptions = getContainerExpressionDefault(
-      getState(),
-      storeId,
-      payload.listType as ListType
-    );
-
     dispatch({
-      payload: {
-        ...payload,
-        cleanAllCookies:
-          payload.cleanAllCookies !== undefined
-            ? payload.cleanAllCookies
-            : defaultOptions.cleanAllCookies,
-        cleanSiteData: payload.cleanSiteData
-          ? payload.cleanSiteData
-          : defaultOptions.cleanSiteData || [],
-        storeId,
-      },
+      payload: resolveExpressionPayload(getState(), payload),
       type: ReduxConstants.ADD_EXPRESSION,
+    });
+    checkIfProtected(getState());
+  };
+
+// Bulk add for the copy-from-Default and import paths (#437): one action
+// instead of one per rule, so the background runs one reducer pass, one
+// checkIfProtected and one snapshot to every open page. Each rule is
+// resolved against the lists as they stand after the rules before it in the
+// batch, so a _Default:<listType> sentinel earlier in the same batch fills
+// the options of the rules after it, exactly as one-at-a-time dispatches
+// did.
+export const addExpressions =
+  (payloads: ReadonlyArray<Expression>) =>
+  (dispatch: AppDispatch, getState: GetState): void => {
+    if (payloads.length === 0) return;
+    let state = getState();
+    const resolved: Expression[] = [];
+    payloads.forEach((payload) => {
+      const next = resolveExpressionPayload(state, payload);
+      resolved.push(next);
+      state = {
+        ...state,
+        lists: listsReducer(state.lists, {
+          payload: next,
+          type: ReduxConstants.ADD_EXPRESSION,
+        }),
+      };
+    });
+    dispatch({
+      payload: resolved,
+      type: ReduxConstants.ADD_EXPRESSIONS,
     });
     checkIfProtected(getState());
   };

@@ -119,6 +119,14 @@ export const lists = (
       }
       return newListObject;
     }
+    case ReduxConstants.ADD_EXPRESSIONS:
+      // A batch folds through the single-rule case above, so dedupe, id
+      // generation and ordering live in one place (#437).
+      return action.payload.reduce(
+        (folded, payload) =>
+          lists(folded, { payload, type: ReduxConstants.ADD_EXPRESSION }),
+        state
+      );
     case ReduxConstants.REMOVE_LIST: {
       const newListObject = { ...state };
       delete newListObject[action.payload.toString()];
