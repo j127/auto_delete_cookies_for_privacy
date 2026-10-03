@@ -19,6 +19,9 @@
  * - /embed       page embedding an iframe from the OTHER host
  * - /iframe-set  iframe body; sets a JS cookie in the third-party context
  * - /storage     writes localStorage + a cookie (site-data row)
+ * - /busy        a "busy site" for the popup-fit row: BUSY_COOKIE_COUNT
+ *                header cookies and as many localStorage entries, all
+ *                with long names
  */
 
 import { createServer, IncomingMessage, ServerResponse } from "http";
@@ -42,6 +45,16 @@ const html = (
   });
   res.end(`<!doctype html><body>${body}</body>`);
 };
+
+/** How many cookies (and localStorage entries) /busy sets. */
+export const BUSY_COOKIE_COUNT = 60;
+
+/**
+ * A long, unbroken name: the popup must truncate it or scroll it inside
+ * its own list, never widen the page.
+ */
+const busyName = (prefix: string, i: number): string =>
+  `${prefix}_${String(i).padStart(2, "0")}_${"tracking_identifier".repeat(4)}`;
 
 const handle = (req: IncomingMessage, res: ServerResponse): void => {
   const url = new URL(req.url ?? "/", `http://${req.headers.host}`);
@@ -77,6 +90,28 @@ const handle = (req: IncomingMessage, res: ServerResponse): void => {
          </script>`
       );
       return;
+    case "/busy": {
+      const indexes = [...Array(BUSY_COOKIE_COUNT).keys()];
+      html(
+        res,
+        `<h1>busy site</h1>
+         <script>
+           ${indexes
+             .map(
+               (i) =>
+                 `localStorage.setItem(${JSON.stringify(busyName("e2e_ls", i))}, "${"v".repeat(64)}");`
+             )
+             .join("\n")}
+         </script>`,
+        {
+          "set-cookie": indexes.map(
+            (i) =>
+              `${busyName("e2e_busy", i)}=${"v".repeat(64)}; Path=/; Max-Age=3600`
+          ),
+        }
+      );
+      return;
+    }
     default:
       html(res, "<h1>fixture landing</h1>");
   }

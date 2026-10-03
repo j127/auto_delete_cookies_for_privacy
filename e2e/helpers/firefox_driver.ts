@@ -218,12 +218,61 @@ export const buildFirefoxOptions = (
   return options;
 };
 
+export interface LaunchOptions {
+  /**
+   * Install the add-on with private-window access, as when a person ticks
+   * "Allow this extension to run in private windows" at the install
+   * prompt. Off by default, like a fresh install.
+   */
+  allowPrivateBrowsing?: boolean;
+}
+
+/**
+ * The body of geckodriver's Addon:Install command for a temporary install
+ * with private-window access. Exported for the unit spec.
+ */
+export const privateAddonInstallBody = (
+  zipPath: string
+): { path: string; temporary: true; allowPrivateBrowsing: true } => ({
+  path: zipPath,
+  temporary: true,
+  allowPrivateBrowsing: true,
+});
+
+/**
+ * Installs the packaged artifact as a temporary add-on with private-window
+ * access. Selenium's installAddon() sends only the path and the temporary
+ * flag, so this goes to geckodriver's Addon:Install endpoint directly,
+ * which takes allowPrivateBrowsing too.
+ */
+const installWithPrivateBrowsing = async (
+  driver: WebDriver,
+  serverUrl: string,
+  zipPath: string
+): Promise<void> => {
+  const sessionId = (await driver.getSession()).getId();
+  const res = await fetch(
+    `${serverUrl}/session/${sessionId}/moz/addon/install`,
+    {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(privateAddonInstallBody(zipPath)),
+    }
+  );
+  if (!res.ok) {
+    throw new Error(
+      `add-on install with private access failed: ${res.status} ${await res.text()}`
+    );
+  }
+};
+
 /**
  * Launches Firefox with the extension installed and the probe tab open.
  * FIREFOX_BIN overrides the binary (e.g. Firefox ESR for the ESR column).
  */
 export const launchFirefox = async (
-  prefs: Record<string, string | number | boolean> = {}
+  prefs: Record<string, string | number | boolean> = {},
+  launchOptions: LaunchOptions = {}
 ): Promise<FirefoxSession> => {
   const serverUrl = await ensureGeckodriver();
   const options = buildFirefoxOptions(prefs);
@@ -235,7 +284,11 @@ export const launchFirefox = async (
     .build()) as firefox.Driver;
 
   const zipPath = newestFirefoxZip();
-  await driver.installAddon(zipPath, true);
+  if (launchOptions.allowPrivateBrowsing) {
+    await installWithPrivateBrowsing(driver, serverUrl, zipPath);
+  } else {
+    await driver.installAddon(zipPath, true);
+  }
 
   // The internal UUID is minted per profile; it lives in a pref only
   // chrome-context script can read.
@@ -478,6 +531,138 @@ export const setBoolPref = async (
   } finally {
     await driver.setContext(firefox.Context.CONTENT);
   }
+};
+
+/**
+ * Wraps an async function body for executeAsyncScript: the body sees its
+ * arguments as `args` and may await; a rejection comes back as
+ * { scriptError } so the caller can throw it with the message intact.
+ */
+const asyncScript = (body: string): string => `
+  const done = arguments[arguments.length - 1];
+  const args = Array.prototype.slice.call(arguments, 0, -1);
+  (async () => { ${body} })().then(done, (e) => done({ scriptError: String(e) }));
+`;
+
+const unwrapScriptResult = (where: string, result: unknown): unknown => {
+  if (
+    result !== null &&
+    typeof result === "object" &&
+    "scriptError" in result
+  ) {
+    throw new Error(
+      `${where} script failed: ${(result as { scriptError: string }).scriptError}`
+    );
+  }
+  return result;
+};
+
+/**
+ * Runs an async function body in chrome context, where Firefox's own
+ * modules (Services, ChromeUtils, WebExtensionPolicy) are reachable. The
+ * body reads its arguments from `args`. Leaves the driver back in content
+ * context.
+ */
+export const inChrome = async (
+  session: FirefoxSession,
+  body: string,
+  ...args: unknown[]
+): Promise<unknown> => {
+  const driver = session.driver as firefox.Driver;
+  await driver.setContext(firefox.Context.CHROME);
+  try {
+    return unwrapScriptResult(
+      "chrome-context",
+      await driver.executeAsyncScript(asyncScript(body), ...args)
+    );
+  } finally {
+    await driver.setContext(firefox.Context.CONTENT);
+  }
+};
+
+/**
+ * Runs an async function body in the probe (settings) tab, with the
+ * extension's own browser.* APIs. For one-off calls the fixed probe() ops
+ * don't cover; the body reads its arguments from `args`.
+ */
+export const inProbe = async (
+  session: FirefoxSession,
+  body: string,
+  ...args: unknown[]
+): Promise<unknown> => {
+  const { driver, probeHandle } = session;
+  await driver.switchTo().window(probeHandle);
+  return unwrapScriptResult(
+    "probe",
+    await driver.executeAsyncScript(asyncScript(body), ...args)
+  );
+};
+
+/**
+ * Uncaught exceptions and unhandled rejections that any of the extension's
+ * pages (background, popup, settings) reported to Firefox's console
+ * service, as "<source>: <message>". Warnings are left out. console.error
+ * calls are not in this list: they stay in the extension process.
+ */
+export const extensionScriptErrors = async (
+  session: FirefoxSession
+): Promise<string[]> =>
+  (await inChrome(
+    session,
+    `const origin = args[0];
+     return Services.console
+       .getMessageArray()
+       .filter(
+         (m) =>
+           m instanceof Ci.nsIScriptError &&
+           !(m.flags & Ci.nsIScriptError.warningFlag) &&
+           !(m.flags & Ci.nsIScriptError.infoFlag) &&
+           typeof m.sourceName === "string" &&
+           m.sourceName.startsWith(origin + "/")
+       )
+       .map((m) => m.sourceName + ": " + m.errorMessage);`,
+    session.extensionOrigin
+  )) as string[];
+
+/**
+ * Starts recording the background page's console.error calls, which is
+ * where adcpLog(..., "error") lands (a caught cookies.getAll rejection, for
+ * one). Firefox runs the event page in the extension process, so the probe
+ * reaches it with runtime.getBackgroundPage(); the tap lives only as long
+ * as that background document does, and backgroundConsoleErrors() fails
+ * loudly if it has been replaced since.
+ */
+export const tapBackgroundConsoleErrors = async (
+  session: FirefoxSession
+): Promise<void> => {
+  await inProbe(
+    session,
+    `const bg = await browser.runtime.getBackgroundPage();
+     if (bg.__e2eConsoleErrors) return;
+     bg.__e2eConsoleErrors = [];
+     const original = bg.console.error.bind(bg.console);
+     bg.console.error = (...parts) => {
+       bg.__e2eConsoleErrors.push(parts.map(String).join(" "));
+       original(...parts);
+     };`
+  );
+};
+
+/** What the background logged through console.error since the tap. */
+export const backgroundConsoleErrors = async (
+  session: FirefoxSession
+): Promise<string[]> => {
+  const recorded = (await inProbe(
+    session,
+    `const bg = await browser.runtime.getBackgroundPage();
+     return bg.__e2eConsoleErrors ?? null;`
+  )) as string[] | null;
+  if (recorded === null) {
+    throw new Error(
+      "the background page restarted since tapBackgroundConsoleErrors(); its errors were not recorded"
+    );
+  }
+  return recorded;
 };
 
 /** Opens url in a new tab, waits for load, returns its handle. */

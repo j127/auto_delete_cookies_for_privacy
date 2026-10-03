@@ -24,6 +24,7 @@ import {
   geckodriverDownloadVersion,
   geckodriverStartParams,
   PINNED_GECKODRIVER_VERSION,
+  privateAddonInstallBody,
 } from "../../e2e/helpers/firefox_driver";
 
 /**
@@ -176,5 +177,18 @@ describe("downloadWithRetry", () => {
     );
     expect(delays.every((ms) => ms > 0)).toBe(true);
     expect([...delays].sort((a, b) => a - b)).toEqual(delays);
+  });
+});
+
+describe("privateAddonInstallBody", () => {
+  // Matrix row 11 installs the add-on with private-window access through
+  // geckodriver's Addon:Install endpoint, which Selenium's installAddon()
+  // cannot reach: the body must stay a temporary install of the given zip.
+  it("asks for a temporary install with private-window access", () => {
+    expect(privateAddonInstallBody("/abs/builds/x_Firefox.zip")).toEqual({
+      path: "/abs/builds/x_Firefox.zip",
+      temporary: true,
+      allowPrivateBrowsing: true,
+    });
   });
 });

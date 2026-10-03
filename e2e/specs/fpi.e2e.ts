@@ -9,18 +9,31 @@
  * years; this suite runs a real Firefox with
  * privacy.firstparty.isolate=true and proves enumeration, cleanup, and
  * the FPI-aware marker cookie all work.
+ *
+ * Matrix row 6 (FPI leftovers) runs last in the same session: cookies
+ * isolated while FPI was on must still be cleaned once it is off.
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
   closeTab,
   FirefoxSession,
+  inProbe,
   launchFirefox,
   openTab,
   probe,
+  readBoolPref,
+  setBoolPref,
   stopGeckodriver,
   waitUntil,
 } from "../helpers/firefox_driver";
 import { FixtureServer, startFixtureServer } from "../helpers/fixture_server";
+
+/**
+ * FPI_SESSION_KEY in src/services/first-party-isolation.ts. Not imported:
+ * that module pulls in browser-capabilities, which reads the build-time
+ * __BROWSER__ define as soon as it loads.
+ */
+const FPI_SESSION_KEY = "fpiEnabled";
 
 interface ProbeCookie {
   name: string;
@@ -108,4 +121,62 @@ describe("row 5: cleanup under First-Party Isolation", () => {
     expect(marker?.firstPartyDomain).toBe("localhost");
     await closeTab(session, tab);
   }, 60000);
+});
+
+// Last in the file: it switches FPI off for the rest of the session.
+describe("row 6: FPI leftovers after FPI is switched off", () => {
+  it("still cleans cookies isolated while FPI was on", async () => {
+    const tab = await openTab(session, `${fixture.primary}/cookies`);
+    try {
+      let isolated: ProbeCookie | undefined;
+      const appeared = await waitUntil(async () => {
+        const all = await cookiesFor({ domain: "localhost" });
+        isolated = all.find((c) => c.name === "e2e_header");
+        return isolated !== undefined;
+      }, 15000);
+      expect(appeared).toBe(true);
+      expect(isolated?.firstPartyDomain).toBe("localhost");
+
+      // The matrix row switches FPI off and restarts. The pref switches
+      // here at runtime; the restart stays manual (webdriver's profile does
+      // not survive one). What the restart does for the extension is clear
+      // its per-session FPI detection, so drop that cached answer too: the
+      // next check then probes Firefox and finds FPI off.
+      await setBoolPref(session, "privacy.firstparty.isolate", false);
+      expect(await readBoolPref(session, "privacy.firstparty.isolate")).toBe(
+        false
+      );
+      await inProbe(
+        session,
+        "await browser.storage.session.remove(args[0]);",
+        FPI_SESSION_KEY
+      );
+      // Switching the pref leaves existing cookies as they were: these
+      // still carry the first-party domain they were isolated under.
+      const leftovers = (await cookiesFor({ domain: "localhost" })).filter(
+        (c) => c.name.startsWith("e2e_")
+      );
+      expect(leftovers.length).toBeGreaterThan(0);
+      expect(leftovers.every((c) => c.firstPartyDomain === "localhost")).toBe(
+        true
+      );
+    } finally {
+      await closeTab(session, tab);
+    }
+
+    const cleaned = await waitUntil(async () => {
+      const all = await cookiesFor({ domain: "localhost" });
+      return !all.some((c) => c.name.startsWith("e2e_"));
+    }, 45000);
+    if (!cleaned) {
+      console.log(
+        "row6 diagnostics:",
+        JSON.stringify({
+          cookies: await cookiesFor({ domain: "localhost" }),
+          diag: await probe(session, { kind: "diagnostics" }),
+        })
+      );
+    }
+    expect(cleaned).toBe(true);
+  }, 90000);
 });
