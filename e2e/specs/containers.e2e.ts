@@ -102,6 +102,16 @@ const expressionsIn = (
   listKey: string
 ): string[] => (lists[listKey] ?? []).map((e) => e.expression);
 
+/**
+ * Whether a list holds the rule. An exact comparison on purpose: CodeQL
+ * reads includes() with a host-like literal as URL substring checking.
+ */
+const hasRule = (
+  lists: Record<string, StoredExpression[]>,
+  listKey: string,
+  expression: string
+): boolean => expressionsIn(lists, listKey).some((e) => e === expression);
+
 const dispatch = async (action: Record<string, unknown>): Promise<void> => {
   await probe(session, { kind: "dispatch", action });
 };
@@ -113,7 +123,7 @@ const keep = async (expression: string, listKey: string): Promise<void> => {
     payload: { expression, listType: "WHITE", storeId: listKey },
   });
   const stored = await waitForLists((lists) =>
-    expressionsIn(lists, listKey).includes(expression)
+    hasRule(lists, listKey, expression)
   );
   if (!stored) throw new Error(`rule ${expression} never reached ${listKey}`);
 };
@@ -368,7 +378,7 @@ describe("containers available (rows 7, 8, 9, 14)", () => {
       if (!firstPress) throw new Error(`no "${copyText}" button`);
       await firstPress.click();
       const copied = await waitForLists((lists) =>
-        expressionsIn(lists, containerA).includes("example.com")
+        hasRule(lists, containerA, "example.com")
       );
       expect(copied).toBe(true);
 
