@@ -5,7 +5,7 @@ Verification pass for the browser-action surface, the popup, and the options pag
 ## Verified
 
 - **Event page boots on real Firefox.** Headless `web-ext run` against `just build_firefox` output installs the artifact as a temporary add-on and starts the background event page with zero extension console errors (no `background.init failed`, no uncaught exceptions). The same smoke also passed during the tooling work in #295.
-- **Badge/title/icon API surface.** Everything `browser-action-service.ts` calls exists on Firefox 128+: `action.setBadgeText`, `setBadgeBackgroundColor`, `setTitle`/`getTitle`, `setIcon`. `action.setBadgeTextColor` is Firefox-native (it is the Chrome side that historically lacked it) and was already presence-guarded, so both builds take their supported path. The title format (`<name> <version> [LIST] (count)`) is plain `setTitle` text and carries over unchanged.
+- **Badge/title/icon API surface.** Everything `browser-action-service.ts` calls exists on Firefox 140+: `action.setBadgeText`, `setBadgeBackgroundColor`, `setTitle`/`getTitle`, `setIcon`. `action.setBadgeTextColor` is Firefox-native (it is the Chrome side that historically lacked it) and was already presence-guarded, so both builds take their supported path. The title format (`<name> <version> [LIST] (count)`) is plain `setTitle` text and carries over unchanged.
 - **Options page.** `options_ui.open_in_tab: true` is the same key on both browsers and the generated Firefox manifest carries it verbatim (single source of truth in the manifest transform); the settings page is a normal tab page with no popup-specific constraints.
 - **`web-ext lint`** stays at 0 errors over the built artifact (gate in CI since #296).
 
