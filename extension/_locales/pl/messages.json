@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Edytuj wyrażenie"
   },
+  "emailAddressText": {
+    "message": "Jeśli przycisk nic nie robi, wyślij swoje zgłoszenie i oba bloki powyżej z dowolnego konta e-mail na ten adres:"
+  },
+  "emailBodyPromptText": {
+    "message": "Co poszło nie tak i co robiłeś, kiedy to się stało?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Nie masz konta na GitHubie? Wyślij zgłoszenie e-mailem. Przycisk poniżej otwiera twój program pocztowy z nową wiadomością, która zawiera już oba bloki powyżej. Dopisz, co poszło nie tak, i ją wyślij."
+  },
+  "emailBugReportText": {
+    "message": "Zgłoś błąd e-mailem"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "Twoje ustawienia zostały pominięte, aby ten e-mail był krótki. Jeśli mają znaczenie, skopiuj je ze strony Wsparcie i wklej tutaj."
+  },
+  "emailSubjectText": {
+    "message": "Zgłoszenie błędu"
+  },
   "enableAutoDeleteText": {
     "message": "Włącz automatyczne czyszczenie"
   },
@@ -1430,6 +1448,6 @@
     "message": "Rozwiązywanie problemów i FAQ"
   },
   "helpTroubleshootingBody": {
-    "message": "Wylogowało cię ze strony? W kolejności prawdopodobieństwa: strona nie ma reguły zachowywania (albo ma ją tylko dokładny host, a logowanie mieszka na subdomenie — użyj formy *.example.com); to strona do-restartu, a przeglądarka się zrestartowała; pasująca reguła zachowuje tylko nazwane ciasteczka, a ciasteczko logowania nie jest zaznaczone; albo ciasteczko strony po prostu wygasło. Nie zgaduj — dziennik czyszczenia wskazuje dokładną regułę, która zadziałała.\n\nCiasteczka wracają zaraz po czyszczeniu? Strona prawie zawsze jest wciąż otwarta w jakiejś karcie — otwarte strony tworzą ciasteczka do woli i i tak są chronione.\n\nCzyszczenie nie zaszło? Sprawdź po kolei: automatyczne czyszczenie jest włączone (nagłówek okienka to mówi); strona nie jest otwarta w innej karcie; okres karencji minął; żadna reguła zachowywania nie pasuje; to nie była uśpiona karta (te liczą się jako zamknięte tylko przy włączonym tym ustawieniu zaawansowanym).\n\nWłączono czyszczenie danych stron, a stare dane wciąż są? Przeglądarka pozwala usuwać te typy tylko dla stron odwiedzanych ponownie; pozostałości zostają do następnej wizyty.\n\nIncognito? Tylko jeśli pozwolisz: strona rozszerzeń przeglądarki → Zezwalaj w trybie incognito. Incognito ma własny magazyn ciasteczek i własne zapisane strony, i nigdy nie trafia do dziennika.\n\nWciąż utknięcie? Strona Wsparcie ma wersję, kopiowalny blok diagnostyczny i odnośnik do zgłaszania błędów. Tryb debugowania (Zaawansowane) każe rozszerzeniu opowiadać każdą decyzję w konsoli service workera, z zamaskowanymi wartościami ciasteczek."
+    "message": "Wylogowało cię ze strony? W kolejności prawdopodobieństwa: strona nie ma reguły zachowywania (albo ma ją tylko dokładny host, a logowanie mieszka na subdomenie — użyj formy *.example.com); to strona do-restartu, a przeglądarka się zrestartowała; pasująca reguła zachowuje tylko nazwane ciasteczka, a ciasteczko logowania nie jest zaznaczone; albo ciasteczko strony po prostu wygasło. Nie zgaduj — dziennik czyszczenia wskazuje dokładną regułę, która zadziałała.\n\nCiasteczka wracają zaraz po czyszczeniu? Strona prawie zawsze jest wciąż otwarta w jakiejś karcie — otwarte strony tworzą ciasteczka do woli i i tak są chronione.\n\nCzyszczenie nie zaszło? Sprawdź po kolei: automatyczne czyszczenie jest włączone (nagłówek okienka to mówi); strona nie jest otwarta w innej karcie; okres karencji minął; żadna reguła zachowywania nie pasuje; to nie była uśpiona karta (te liczą się jako zamknięte tylko przy włączonym tym ustawieniu zaawansowanym).\n\nWłączono czyszczenie danych stron, a stare dane wciąż są? Przeglądarka pozwala usuwać te typy tylko dla stron odwiedzanych ponownie; pozostałości zostają do następnej wizyty.\n\nIncognito? Tylko jeśli pozwolisz: strona rozszerzeń przeglądarki → Zezwalaj w trybie incognito. Incognito ma własny magazyn ciasteczek i własne zapisane strony, i nigdy nie trafia do dziennika.\n\nWciąż utknięcie? Strona Wsparcie ma wersję, kopiowalny blok diagnostyczny, odnośnik do zgłaszania błędów i przycisk 'Zgłoś błąd e-mailem', jeśli nie masz konta na GitHubie. Tryb debugowania (Zaawansowane) każe rozszerzeniu opowiadać każdą decyzję w konsoli service workera, z zamaskowanymi wartościami ciasteczek."
   }
 }

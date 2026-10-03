@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Editar a expresión"
   },
+  "emailAddressText": {
+    "message": "Se o botón non fai nada, envía o teu informe e os dous bloques de arriba desde calquera conta de correo a este enderezo:"
+  },
+  "emailBodyPromptText": {
+    "message": "Que saíu mal e que estabas a facer cando ocorreu?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Non tes conta de GitHub? Envía o teu informe por correo electrónico. O botón de abaixo abre a túa aplicación de correo cunha mensaxe nova que xa inclúe os dous bloques de arriba. Engade que saíu mal e envíaa."
+  },
+  "emailBugReportText": {
+    "message": "Enviar un informe de erro por correo"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "A túa configuración omitiuse para que este correo sexa breve. Se importa, cópiaa desde a páxina de Asistencia e pégaa aquí."
+  },
+  "emailSubjectText": {
+    "message": "Informe de erro"
+  },
   "enableAutoDeleteText": {
     "message": "Activar a limpeza automática"
   },
@@ -1430,6 +1448,6 @@
     "message": "Resolución de problemas e preguntas frecuentes"
   },
   "helpTroubleshootingBody": {
-    "message": "Desconectado dun sitio? Por orde de probabilidade: o sitio non ten regra de conservación (ou só a ten o nome de servidor exacto, mentres o inicio de sesión vive nun subdominio — usa a forma *.example.com); é un sitio ata-reiniciar e o navegador reiniciouse; unha regra coincidente só conserva cookies con nome e a cookie de sesión non está marcada; ou a cookie do sitio simplemente caducou. Non adiviñes — o rexistro de limpeza nomea a regra exacta que actuou.\n\nAs cookies reaparecen xusto despois de limpar? O sitio case sempre segue aberto nalgunha lapela — os sitios abertos recrean cookies á vontade e ademais están protexidos.\n\nNon se executou a limpeza? Comproba por orde: a limpeza automática está activada (a cabeceira da xanela emerxente dío); o sitio non está aberto noutra lapela; o período de graza pasou; ningunha regra de conservación coincide; non era unha lapela durmida (esas só contan como pechadas se ese axuste avanzado está activado).\n\nActivaches a limpeza de datos do sitio pero os datos vellos seguen aí? O navegador só permite borrar eses tipos para sitios que volvas visitar; os restos quedan ata a próxima visita.\n\nIncógnito? Só se o permites: páxina de extensións do teu navegador → Permitir en incógnito. O incógnito ten o seu propio almacén de cookies e sitios gardados, e nunca se escribe no rexistro.\n\nSegues atascado? A páxina de Asistencia ten a versión, un bloque de depuración copiable e a ligazón para informar de erros. O modo de depuración (Avanzado) fai que a extensión narre cada decisión na consola do service worker, cos valores das cookies enmascarados."
+    "message": "Desconectado dun sitio? Por orde de probabilidade: o sitio non ten regra de conservación (ou só a ten o nome de servidor exacto, mentres o inicio de sesión vive nun subdominio — usa a forma *.example.com); é un sitio ata-reiniciar e o navegador reiniciouse; unha regra coincidente só conserva cookies con nome e a cookie de sesión non está marcada; ou a cookie do sitio simplemente caducou. Non adiviñes — o rexistro de limpeza nomea a regra exacta que actuou.\n\nAs cookies reaparecen xusto despois de limpar? O sitio case sempre segue aberto nalgunha lapela — os sitios abertos recrean cookies á vontade e ademais están protexidos.\n\nNon se executou a limpeza? Comproba por orde: a limpeza automática está activada (a cabeceira da xanela emerxente dío); o sitio non está aberto noutra lapela; o período de graza pasou; ningunha regra de conservación coincide; non era unha lapela durmida (esas só contan como pechadas se ese axuste avanzado está activado).\n\nActivaches a limpeza de datos do sitio pero os datos vellos seguen aí? O navegador só permite borrar eses tipos para sitios que volvas visitar; os restos quedan ata a próxima visita.\n\nIncógnito? Só se o permites: páxina de extensións do teu navegador → Permitir en incógnito. O incógnito ten o seu propio almacén de cookies e sitios gardados, e nunca se escribe no rexistro.\n\nSegues atascado? A páxina de Asistencia ten a versión, un bloque de depuración copiable, a ligazón para informar de erros e o botón 'Enviar un informe de erro por correo' se non tes conta de GitHub. O modo de depuración (Avanzado) fai que a extensión narre cada decisión na consola do service worker, cos valores das cookies enmascarados."
   }
 }

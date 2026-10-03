@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "İfadeyi düzenle"
   },
+  "emailAddressText": {
+    "message": "Düğme bir şey yapmazsa, raporunuzu ve yukarıdaki iki bloğu herhangi bir e-posta hesabından bu adrese gönderin:"
+  },
+  "emailBodyPromptText": {
+    "message": "Ne ters gitti ve o sırada ne yapıyordunuz?"
+  },
+  "emailBugReportHelpText": {
+    "message": "GitHub hesabınız yok mu? Raporunuzu e-postayla gönderin. Aşağıdaki düğme, yukarıdaki iki bloğu zaten içeren yeni bir iletiyle e-posta uygulamanızı açar. Neyin ters gittiğini ekleyip gönderin."
+  },
+  "emailBugReportText": {
+    "message": "E-postayla hata bildirin"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "Bu e-posta kısa kalsın diye ayarlarınız eklenmedi. Önemliyse Destek sayfasından kopyalayıp buraya yapıştırın."
+  },
+  "emailSubjectText": {
+    "message": "Hata bildirimi"
+  },
   "enableAutoDeleteText": {
     "message": "Otomatik temizliği aç"
   },
@@ -1430,6 +1448,6 @@
     "message": "Sorun giderme ve SSS"
   },
   "helpTroubleshootingBody": {
-    "message": "Bir siteden çıkış mı yaptırıldınız? Olasılık sırasına göre: sitenin koruma kuralı yok (veya yalnızca tam ana bilgisayar adında var, oysa oturum bir alt alan adında — *.example.com biçimini kullanın); yeniden-başlatmaya-dek bir site ve tarayıcı yeniden başladı; eşleşen bir kural yalnızca adlandırılmış çerezleri koruyor ve oturum çerezi işaretli değil; veya sitenin kendi çerezinin süresi doldu. Tahmin etmeyin — temizlik günlüğü tetiklenen kuralı tam olarak söyler.\n\nÇerezler temizlikten hemen sonra geri mi geliyor? Site neredeyse her zaman hâlâ bir sekmede açıktır — açık siteler istedikleri an çerez yaratır ve zaten korunur.\n\nTemizlik çalışmadı mı? Sırayla bakın: otomatik temizlik açık (açılır pencerenin başlığı söyler); site başka bir sekmede açık değil; bekleme süresi geçti; hiçbir koruma kuralı eşleşmiyor; uyuyan bir sekme değildi (onlar yalnızca o gelişmiş ayar açıksa kapatılmış sayılır).\n\nSite verisi temizliğini açtınız ama eski veriler duruyor mu? Tarayıcı bu türleri yalnızca yeniden ziyaret ettiğiniz sitelerde sildirir; kalıntılar bir sonraki ziyarete dek kalır.\n\nGizli mod? Yalnızca izin verirseniz: tarayıcınızın uzantılar sayfası → Gizli modda izin ver. Gizli modun kendi çerez deposu ve kayıtlı siteleri vardır ve asla günlüğe yazılmaz.\n\nHâlâ takıldınız mı? Destek sayfasında sürüm, kopyalanabilir bir hata ayıklama bloğu ve hata bildirim bağlantısı var. Hata ayıklama modu (Gelişmiş) uzantıya her kararı service worker konsoluna anlattırır; çerez değerleri maskelenir."
+    "message": "Bir siteden çıkış mı yaptırıldınız? Olasılık sırasına göre: sitenin koruma kuralı yok (veya yalnızca tam ana bilgisayar adında var, oysa oturum bir alt alan adında — *.example.com biçimini kullanın); yeniden-başlatmaya-dek bir site ve tarayıcı yeniden başladı; eşleşen bir kural yalnızca adlandırılmış çerezleri koruyor ve oturum çerezi işaretli değil; veya sitenin kendi çerezinin süresi doldu. Tahmin etmeyin — temizlik günlüğü tetiklenen kuralı tam olarak söyler.\n\nÇerezler temizlikten hemen sonra geri mi geliyor? Site neredeyse her zaman hâlâ bir sekmede açıktır — açık siteler istedikleri an çerez yaratır ve zaten korunur.\n\nTemizlik çalışmadı mı? Sırayla bakın: otomatik temizlik açık (açılır pencerenin başlığı söyler); site başka bir sekmede açık değil; bekleme süresi geçti; hiçbir koruma kuralı eşleşmiyor; uyuyan bir sekme değildi (onlar yalnızca o gelişmiş ayar açıksa kapatılmış sayılır).\n\nSite verisi temizliğini açtınız ama eski veriler duruyor mu? Tarayıcı bu türleri yalnızca yeniden ziyaret ettiğiniz sitelerde sildirir; kalıntılar bir sonraki ziyarete dek kalır.\n\nGizli mod? Yalnızca izin verirseniz: tarayıcınızın uzantılar sayfası → Gizli modda izin ver. Gizli modun kendi çerez deposu ve kayıtlı siteleri vardır ve asla günlüğe yazılmaz.\n\nHâlâ takıldınız mı? Destek sayfasında sürüm, kopyalanabilir bir hata ayıklama bloğu, hata bildirim bağlantısı ve GitHub hesabınız yoksa 'E-postayla hata bildirin' düğmesi var. Hata ayıklama modu (Gelişmiş) uzantıya her kararı service worker konsoluna anlattırır; çerez değerleri maskelenir."
   }
 }

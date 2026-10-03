@@ -13,6 +13,10 @@
 import { SettingID } from "@/typings/enums";
 import * as React from "react";
 import { useSelector } from "react-redux";
+import {
+  buildBugReportEmail,
+  SUPPORT_EMAIL,
+} from "@/services/bug-report-email";
 import { adcpLog } from "@/services/libs";
 import {
   formatSystemDetails,
@@ -70,6 +74,22 @@ const Support: React.FunctionComponent<OwnProps> = ({ style }) => {
       active = false;
     };
   }, []);
+  const extensionName = browser.i18n.getMessage("extensionName");
+  const extensionVersion = browser.runtime.getManifest().version;
+  const systemText = formatSystemDetails(
+    systemDetails,
+    extensionName,
+    extensionVersion
+  );
+  const settingsText = settingSlim.join("\n");
+  // The email carries the same two blocks the copy buttons copy.
+  const bugReportEmail = buildBugReportEmail({
+    subject: `${browser.i18n.getMessage("emailSubjectText")}: ${extensionName} ${extensionVersion}`,
+    prompt: browser.i18n.getMessage("emailBodyPromptText"),
+    systemDetails: systemText,
+    settings: settingsText,
+    settingsLeftOutNote: browser.i18n.getMessage("emailSettingsLeftOutText"),
+  });
   return (
     <div style={style}>
       <h1 className="mb-4 text-2xl font-bold">
@@ -109,11 +129,7 @@ const Support: React.FunctionComponent<OwnProps> = ({ style }) => {
         cols={40}
         readOnly={true}
         className="textarea block w-full max-w-xl resize-none font-mono text-xs"
-        value={formatSystemDetails(
-          systemDetails,
-          browser.i18n.getMessage("extensionName"),
-          browser.runtime.getManifest().version
-        )}
+        value={systemText}
       />
       <div className="mt-2 mb-4 flex items-center gap-2">
         <IconButton
@@ -172,7 +188,7 @@ const Support: React.FunctionComponent<OwnProps> = ({ style }) => {
         cols={40}
         readOnly={true}
         className="textarea block w-full max-w-xl resize-none font-mono text-xs"
-        value={settingSlim.join("\n")}
+        value={settingsText}
       />
       <div className="mt-2 mb-4 flex items-center gap-2">
         <IconButton
@@ -224,6 +240,29 @@ const Support: React.FunctionComponent<OwnProps> = ({ style }) => {
         />
         <span id="copy-debugSettings">&nbsp;</span>
       </div>
+      <p className="mb-2">
+        {browser.i18n.getMessage("emailBugReportHelpText")}
+      </p>
+      <div className="mt-2 mb-4 flex items-center gap-2">
+        <IconButton
+          className="btn-primary btn-sm"
+          tag="a"
+          href={bugReportEmail.href}
+          iconName="envelope"
+          title={browser.i18n.getMessage("emailBugReportText")}
+          text={browser.i18n.getMessage("emailBugReportText")}
+        />
+      </div>
+      <p className="mb-4">
+        {browser.i18n.getMessage("emailAddressText")}{" "}
+        <span
+          id="supportEmail"
+          className="font-mono break-all select-all"
+          dir="ltr"
+        >
+          {SUPPORT_EMAIL}
+        </span>
+      </p>
     </div>
   );
 };

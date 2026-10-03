@@ -53,4 +53,4 @@ None. All code ships inside the extension package reviewed by the store; the ext
 
 ## Changes and contact
 
-This file is versioned with the source code, so every change to it is visible in the repository history; material changes are called out in the release notes. Questions or concerns: open an issue at <https://github.com/j127/auto_delete_cookies_for_privacy/issues>.
+This file is versioned with the source code, so every change to it is visible in the repository history; material changes are called out in the release notes. Questions or concerns: email <support@moakh.dev>, or, if you have a GitHub account, open an issue at <https://github.com/j127/auto_delete_cookies_for_privacy/issues>.

@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Modifier l'expression"
   },
+  "emailAddressText": {
+    "message": "Si le bouton ne fait rien, envoyez votre signalement et les deux blocs ci-dessus depuis n'importe quel compte e-mail à cette adresse :"
+  },
+  "emailBodyPromptText": {
+    "message": "Qu'est-ce qui n'a pas fonctionné, et que faisiez-vous à ce moment-là ?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Pas de compte GitHub ? Envoyez plutôt votre signalement par e-mail. Le bouton ci-dessous ouvre votre messagerie avec un nouveau message qui contient déjà les deux blocs ci-dessus. Décrivez le problème, puis envoyez-le."
+  },
+  "emailBugReportText": {
+    "message": "Signaler un bug par e-mail"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "Vos réglages ont été omis pour garder cet e-mail court. S'ils comptent, copiez-les depuis la page Assistance et collez-les ici."
+  },
+  "emailSubjectText": {
+    "message": "Signalement de bug"
+  },
   "enableAutoDeleteText": {
     "message": "Activer le nettoyage automatique"
   },
@@ -1430,6 +1448,6 @@
     "message": "Dépannage et FAQ"
   },
   "helpTroubleshootingBody": {
-    "message": "Déconnecté d'un site ? Par ordre de probabilité : le site n'a pas de règle de conservation (ou seulement son nom d'hôte exact, alors que la connexion vit sur un sous-domaine — utilisez la forme *.example.com) ; c'est un site jusqu'au-redémarrage et le navigateur a redémarré ; une règle correspondante ne garde que des cookies nommés et le cookie de connexion n'est pas coché ; ou le cookie du site a simplement expiré. Ne devinez pas — le journal de nettoyage nomme la règle exacte qui a joué.\n\nLes cookies réapparaissent juste après le nettoyage ? Le site est presque toujours encore ouvert dans un onglet — les sites ouverts recréent des cookies à volonté et sont de toute façon protégés.\n\nLe nettoyage n'a pas eu lieu ? Vérifiez dans l'ordre : le nettoyage automatique est activé (l'en-tête du popup le dit) ; le site n'est pas ouvert dans un autre onglet ; le délai de grâce est passé ; aucune règle de conservation ne correspond ; ce n'était pas un onglet endormi (ils ne comptent comme fermés que si ce réglage avancé est activé).\n\nNettoyage des données de site activé mais les anciennes données sont encore là ? Le navigateur ne permet d'effacer ces types que pour les sites que vous revisitez ; les restes demeurent jusqu'à la visite suivante.\n\nIncognito ? Seulement si vous l'autorisez : page des extensions de votre navigateur → Autoriser en navigation privée. L'incognito a son propre magasin de cookies et ses propres sites enregistrés, et n'est jamais journalisé.\n\nToujours bloqué ? La page Assistance contient la version, un bloc de débogage copiable et le lien pour signaler les bugs. Le mode débogage (Avancé) fait raconter à l'extension chaque décision dans la console du service worker, valeurs de cookies masquées."
+    "message": "Déconnecté d'un site ? Par ordre de probabilité : le site n'a pas de règle de conservation (ou seulement son nom d'hôte exact, alors que la connexion vit sur un sous-domaine — utilisez la forme *.example.com) ; c'est un site jusqu'au-redémarrage et le navigateur a redémarré ; une règle correspondante ne garde que des cookies nommés et le cookie de connexion n'est pas coché ; ou le cookie du site a simplement expiré. Ne devinez pas — le journal de nettoyage nomme la règle exacte qui a joué.\n\nLes cookies réapparaissent juste après le nettoyage ? Le site est presque toujours encore ouvert dans un onglet — les sites ouverts recréent des cookies à volonté et sont de toute façon protégés.\n\nLe nettoyage n'a pas eu lieu ? Vérifiez dans l'ordre : le nettoyage automatique est activé (l'en-tête du popup le dit) ; le site n'est pas ouvert dans un autre onglet ; le délai de grâce est passé ; aucune règle de conservation ne correspond ; ce n'était pas un onglet endormi (ils ne comptent comme fermés que si ce réglage avancé est activé).\n\nNettoyage des données de site activé mais les anciennes données sont encore là ? Le navigateur ne permet d'effacer ces types que pour les sites que vous revisitez ; les restes demeurent jusqu'à la visite suivante.\n\nIncognito ? Seulement si vous l'autorisez : page des extensions de votre navigateur → Autoriser en navigation privée. L'incognito a son propre magasin de cookies et ses propres sites enregistrés, et n'est jamais journalisé.\n\nToujours bloqué ? La page Assistance contient la version, un bloc de débogage copiable, le lien pour signaler les bugs et un bouton « Signaler un bug par e-mail » si vous n'avez pas de compte GitHub. Le mode débogage (Avancé) fait raconter à l'extension chaque décision dans la console du service worker, valeurs de cookies masquées."
   }
 }

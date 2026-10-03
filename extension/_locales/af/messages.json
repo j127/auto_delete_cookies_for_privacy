@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Wysig uitdrukking"
   },
+  "emailAddressText": {
+    "message": "As die knoppie niks doen nie, e-pos jou verslag en albei blokke hierbo vanaf enige e-posrekening na hierdie adres:"
+  },
+  "emailBodyPromptText": {
+    "message": "Wat het verkeerd geloop, en wat het jy gedoen toe dit gebeur het?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Geen GitHub-rekening nie? E-pos jou verslag eerder. Die knoppie hieronder maak jou e-posprogram oop met 'n nuwe boodskap wat albei blokke hierbo reeds bevat. Voeg by wat verkeerd geloop het, en stuur dit dan."
+  },
+  "emailBugReportText": {
+    "message": "E-pos 'n foutverslag"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "Jou instellings is weggelaat om hierdie e-pos kort te hou. As dit saak maak, kopieer dit van die Ondersteuning-bladsy en plak dit hier."
+  },
+  "emailSubjectText": {
+    "message": "Foutverslag"
+  },
   "enableAutoDeleteText": {
     "message": "Skakel outomatiese skoonmaak aan"
   },
@@ -1430,6 +1448,6 @@
     "message": "Probleemoplossing en gereelde vrae"
   },
   "helpTroubleshootingBody": {
-    "message": "By 'n werf uitgeteken? In volgorde van waarskynlikheid: die werf het geen hou-reël nie (of net sy presiese gasheernaam het een, terwyl die aanmelding op 'n subdomein woon — gebruik die vorm *.example.com); dit is 'n tot-herbegin-werf en die blaaier het herbegin; 'n passende reël hou net benoemde koekies en die aanmeldkoekie is nie gemerk nie; of die werf se eie koekie het verval. Moenie raai nie — die skoonmaaklogboek noem die presiese reël wat afgegaan het.\n\nKoekies verskyn net ná die skoonmaak weer? Die werf is byna altyd nog in 'n oortjie oop — oop werwe herskep koekies na willekeur en word in elk geval beskerm.\n\nSkoonmaak het nie gebeur nie? Kyk in volgorde: outomatiese skoonmaak is aan (die opspringer se opskrif sê so); die werf is nie in 'n ander oortjie oop nie; die grasietydperk is verby; geen hou-reël pas nie; dit was nie 'n slapende oortjie nie (dié tel net as gesluit as daardie gevorderde instelling aan is).\n\nWerfdata-skoonmaak aangeskakel maar ou data is nog daar? Die blaaier laat die uitbreiding net toe om daardie tipes te skrap vir werwe wat jy weer besoek; oorblyfsels bly tot die volgende besoek.\n\nInkognito? Net as jy dit toelaat: jou blaaier se uitbreidingsbladsy → Laat toe in inkognito. Inkognito het sy eie koekiestoor en gestoorde werwe, en word nooit in die logboek geskryf nie.\n\nNog steeds vas? Die Ondersteuning-bladsy het die weergawe, 'n kopieerbare ontfoutblok en die skakel vir foutverslae. Ontfoutmodus (Gevorderd) laat die uitbreiding elke besluit in die service worker-konsole vertel, met koekiewaardes gemasker."
+    "message": "By 'n werf uitgeteken? In volgorde van waarskynlikheid: die werf het geen hou-reël nie (of net sy presiese gasheernaam het een, terwyl die aanmelding op 'n subdomein woon — gebruik die vorm *.example.com); dit is 'n tot-herbegin-werf en die blaaier het herbegin; 'n passende reël hou net benoemde koekies en die aanmeldkoekie is nie gemerk nie; of die werf se eie koekie het verval. Moenie raai nie — die skoonmaaklogboek noem die presiese reël wat afgegaan het.\n\nKoekies verskyn net ná die skoonmaak weer? Die werf is byna altyd nog in 'n oortjie oop — oop werwe herskep koekies na willekeur en word in elk geval beskerm.\n\nSkoonmaak het nie gebeur nie? Kyk in volgorde: outomatiese skoonmaak is aan (die opspringer se opskrif sê so); die werf is nie in 'n ander oortjie oop nie; die grasietydperk is verby; geen hou-reël pas nie; dit was nie 'n slapende oortjie nie (dié tel net as gesluit as daardie gevorderde instelling aan is).\n\nWerfdata-skoonmaak aangeskakel maar ou data is nog daar? Die blaaier laat die uitbreiding net toe om daardie tipes te skrap vir werwe wat jy weer besoek; oorblyfsels bly tot die volgende besoek.\n\nInkognito? Net as jy dit toelaat: jou blaaier se uitbreidingsbladsy → Laat toe in inkognito. Inkognito het sy eie koekiestoor en gestoorde werwe, en word nooit in die logboek geskryf nie.\n\nNog steeds vas? Die Ondersteuning-bladsy het die weergawe, 'n kopieerbare ontfoutblok, die skakel vir foutverslae en 'n 'E-pos 'n foutverslag'-knoppie as jy nie 'n GitHub-rekening het nie. Ontfoutmodus (Gevorderd) laat die uitbreiding elke besluit in die service worker-konsole vertel, met koekiewaardes gemasker."
   }
 }
