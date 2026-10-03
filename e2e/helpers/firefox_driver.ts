@@ -290,6 +290,12 @@ export const probe = async (
         options: Record<string, unknown>;
         dataTypes: Record<string, boolean>;
       }
+    | { kind: "dispatch"; action: Record<string, unknown> }
+    | { kind: "createContainer"; name: string }
+    | { kind: "removeContainer"; cookieStoreId: string }
+    | { kind: "queryContainers" }
+    | { kind: "openContainerTab"; url: string; cookieStoreId: string }
+    | { kind: "closeTabById"; tabId: number }
 ): Promise<unknown> => {
   const { driver, probeHandle } = session;
   await driver.switchTo().window(probeHandle);
@@ -359,11 +365,119 @@ export const probe = async (
           return { ok: false, error: String(e) };
         }
       }
+      if (op.kind === "dispatch") {
+        // One action through the UI store bridge, as the popup and the
+        // settings page send it. Callers poll the persisted state for the
+        // result (1s persist debounce, see updateSettings).
+        await browser.runtime.sendMessage({
+          type: "@@STORE_DISPATCH",
+          action: op.action,
+        });
+        return { ok: true };
+      }
+      // Containers (contextualIdentities). Each op reports a rejection as
+      // { error } instead of throwing, because a rejection is the expected
+      // answer while privacy.userContext.enabled is off (matrix row 10).
+      if (op.kind === "createContainer") {
+        try {
+          const identity = await browser.contextualIdentities.create({
+            name: op.name,
+            color: "blue",
+            icon: "fingerprint",
+          });
+          return { cookieStoreId: identity.cookieStoreId };
+        } catch (e) {
+          return { error: String(e) };
+        }
+      }
+      if (op.kind === "removeContainer") {
+        try {
+          await browser.contextualIdentities.remove(op.cookieStoreId);
+          return { ok: true };
+        } catch (e) {
+          return { error: String(e) };
+        }
+      }
+      if (op.kind === "queryContainers") {
+        try {
+          const identities = await browser.contextualIdentities.query({});
+          return { cookieStoreIds: identities.map((i) => i.cookieStoreId) };
+        } catch (e) {
+          return { error: String(e) };
+        }
+      }
+      if (op.kind === "openContainerTab") {
+        // Opened in the background so the probe tab keeps the focus that
+        // webdriver commands rely on; waits for the load to finish.
+        const tab = await browser.tabs.create({
+          active: false,
+          cookieStoreId: op.cookieStoreId,
+          url: op.url,
+        });
+        const deadline = Date.now() + 15000;
+        for (;;) {
+          const current = await browser.tabs.get(tab.id);
+          if (current.status === "complete" && current.url === op.url) {
+            return { tabId: tab.id };
+          }
+          if (Date.now() > deadline) {
+            throw new Error("container tab did not load: " + op.url);
+          }
+          await new Promise((r) => setTimeout(r, 200));
+        }
+      }
+      if (op.kind === "closeTabById") {
+        await browser.tabs.remove(op.tabId);
+        return { ok: true };
+      }
       throw new Error("unknown probe op: " + op.kind);
     })().then(done, (e) => done({ probeError: String(e) }));
     `,
     op
   );
+};
+
+/**
+ * Reads a boolean Firefox pref from chrome context (the same route as the
+ * UUID read in launchFirefox), or null when the pref is unset. Leaves the
+ * driver back in content context.
+ */
+export const readBoolPref = async (
+  session: FirefoxSession,
+  name: string
+): Promise<boolean | null> => {
+  const driver = session.driver as firefox.Driver;
+  await driver.setContext(firefox.Context.CHROME);
+  try {
+    return (await driver.executeScript(
+      `const name = arguments[0];
+       return Services.prefs.getPrefType(name) === Services.prefs.PREF_BOOL
+         ? Services.prefs.getBoolPref(name)
+         : null;`,
+      name
+    )) as boolean | null;
+  } finally {
+    await driver.setContext(firefox.Context.CONTENT);
+  }
+};
+
+/** Sets a boolean Firefox pref from chrome context; see readBoolPref. */
+export const setBoolPref = async (
+  session: FirefoxSession,
+  name: string,
+  value: boolean
+): Promise<void> => {
+  const driver = session.driver as firefox.Driver;
+  await driver.setContext(firefox.Context.CHROME);
+  try {
+    await driver.executeScript(
+      "Services.prefs.setBoolPref(arguments[0], arguments[1]);",
+      name,
+      value
+    );
+  } finally {
+    await driver.setContext(firefox.Context.CONTENT);
+  }
 };
 
 /** Opens url in a new tab, waits for load, returns its handle. */
