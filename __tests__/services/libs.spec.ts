@@ -623,6 +623,33 @@ describe("Library Functions", () => {
       // scheme candidates but counted once.
       expect(result).toStrictEqual([testCookie, bucketCookie]);
     });
+
+    it("pulls the partition bucket keyed with the port on a non-default port", async () => {
+      // Firefox ESR 140 keys this bucket http://localhost:8080 and matches
+      // the key exactly, so only the port-carrying query finds it (#432).
+      const portBucketCookie: browser.cookies.Cookie = {
+        ...testCookie,
+        domain: "127.0.0.1",
+        name: "e2e_tracker",
+        partitionKey: { topLevelSite: "http://localhost:8080" },
+      };
+      when(global.browser.cookies.getAll)
+        .calledWith({
+          partitionKey: { topLevelSite: "http://localhost:8080" },
+          storeId: "default",
+        })
+        .mockResolvedValue([portBucketCookie, portBucketCookie] as never);
+      const result = await getAllCookiesForDomain(initialState, {
+        ...sampleTab,
+        url: "http://localhost:8080/embed",
+      });
+      expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
+        partitionKey: { topLevelSite: "http://localhost:8080" },
+        storeId: "default",
+      });
+      // Overlapping answers still count once.
+      expect(result).toStrictEqual([portBucketCookie]);
+    });
   });
 
   describe("getContainerExpressionDefault()", () => {
@@ -1169,6 +1196,67 @@ describe("Library Functions", () => {
 
     it("returns nothing for an empty hostname", () => {
       expect(topLevelSiteCandidates("")).toEqual([]);
+    });
+
+    // Firefox ESR 140 keys partitions under a non-default-port page with
+    // the port (http://localhost:8080); 152 and later drop it (#432).
+    it("adds the tab's scheme, site and port when the URL carries a port", () => {
+      expect(
+        topLevelSiteCandidates("localhost", "http://localhost:8080/embed")
+      ).toEqual([
+        "https://localhost",
+        "http://localhost",
+        "http://localhost:8080",
+      ]);
+      expect(
+        topLevelSiteCandidates("sub.domain.com", "https://sub.domain.com:8443/")
+      ).toEqual([
+        "https://domain.com",
+        "http://domain.com",
+        "https://domain.com:8443",
+      ]);
+    });
+
+    it("adds no port candidate for a default port or a port-less URL", () => {
+      const portless = ["https://domain.com", "http://domain.com"];
+      expect(
+        topLevelSiteCandidates("domain.com", "https://domain.com:443/")
+      ).toEqual(portless);
+      expect(
+        topLevelSiteCandidates("domain.com", "http://domain.com:80/")
+      ).toEqual(portless);
+      expect(
+        topLevelSiteCandidates("domain.com", "https://domain.com/")
+      ).toEqual(portless);
+    });
+
+    it("ignores an unparsable or non-web tab URL", () => {
+      const portless = ["https://domain.com", "http://domain.com"];
+      expect(topLevelSiteCandidates("domain.com", "bad")).toEqual(portless);
+      expect(
+        topLevelSiteCandidates("domain.com", "ftp://domain.com:2121/")
+      ).toEqual(portless);
+    });
+
+    it("brackets an IPv6 host before its port", () => {
+      expect(topLevelSiteCandidates("::1", "http://[::1]:8080/")).toEqual([
+        "https://[::1]",
+        "http://[::1]",
+        "http://[::1]:8080",
+      ]);
+    });
+
+    // getHostname strips the brackets, but a site's origin keeps them
+    // (http://[::1]), so the port-less candidates must put them back too.
+    it("brackets an IPv6 host in the port-less candidates", () => {
+      expect(topLevelSiteCandidates("2001:db8::1")).toEqual([
+        "https://[2001:db8::1]",
+        "http://[2001:db8::1]",
+      ]);
+      expect(topLevelSiteCandidates("::1", "https://[::1]/")).toEqual([
+        "https://[::1]",
+        "http://[::1]",
+      ]);
     });
   });
 
