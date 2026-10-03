@@ -41,7 +41,7 @@ body:
     id: system-details
     attributes:
       label: System details
-      description: Click the extension's icon in your toolbar, then **More controls…**, then **Support**. Click the first **Copy to Clipboard** button and paste here. If you know your browser's version, add it (browser menu → Help → About).
+      description: Click the extension's icon in your toolbar, then **More controls…**, then **Support**. Click the first **Copy to Clipboard** button and paste here. It already lists your browser and operating system; if a line asks you to add something, fill it in.
     validations:
       required: true
   - type: textarea

@@ -23,6 +23,9 @@ describe("Support", () => {
   beforeEach(() => {
     global.browser.runtime.getManifest.mockReturnValue({ version: "1.0.0" });
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
+    // clearMocks keeps implementations, so reset the platform lookup that
+    // one test fills in.
+    global.browser.runtime.getPlatformInfo.mockReset();
     writeText = jest.fn().mockResolvedValue(undefined);
     // jsdom has no navigator.clipboard implementation.
     Object.defineProperty(window.navigator, "clipboard", {
@@ -31,8 +34,14 @@ describe("Support", () => {
     });
   });
 
-  it("renders without React warnings", () => {
+  it("renders without React warnings", async () => {
     renderSupport();
+    // The browser/OS lookup updates state after the first render; wait for
+    // it so a late act() warning would land inside this test.
+    await waitFor(() =>
+      expect(global.browser.runtime.getPlatformInfo).toHaveBeenCalled()
+    );
+    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(console.error).not.toHaveBeenCalled();
   });
 
@@ -67,12 +76,55 @@ describe("Support", () => {
     expect(container.querySelectorAll("a")).toHaveLength(2);
   });
 
-  it("fills the debug info textarea through the value prop", () => {
+  it("fills the debug info textarea with the browser and OS it can read", async () => {
+    global.browser.runtime.getPlatformInfo.mockResolvedValue({
+      os: "linux",
+      arch: "x86-64",
+    });
+    const nav = window.navigator as Navigator & { userAgentData?: unknown };
+    Object.defineProperty(nav, "userAgentData", {
+      value: {
+        brands: [
+          { brand: "Not)A;Brand", version: "99" },
+          { brand: "Chromium", version: "130" },
+          { brand: "Google Chrome", version: "130" },
+        ],
+        getHighEntropyValues: () =>
+          Promise.resolve({
+            fullVersionList: [
+              { brand: "Google Chrome", version: "130.0.6723.92" },
+            ],
+            platformVersion: "6.5.0",
+          }),
+      },
+      configurable: true,
+    });
+    try {
+      const { container } = renderSupport();
+      const info = container.querySelector("#debugInfo") as HTMLTextAreaElement;
+      await waitFor(() => {
+        expect(info.value).toBe(
+          "- Browser: Google Chrome 130.0.6723.92\n- Operating system: Linux (x86-64)\n- extensionName version: 1.0.0"
+        );
+      });
+    } finally {
+      delete nav.userAgentData;
+    }
+  });
+
+  it("asks for the browser and OS when it can't read them", async () => {
     const { container } = renderSupport();
     const info = container.querySelector("#debugInfo") as HTMLTextAreaElement;
-    expect(info.value).toBe(
-      "- Browser Info: (Please add version number on paste)\n- extensionName version: 1.0.0"
+    // Let the lookup settle: jsdom has no userAgentData and its user-agent
+    // string names no browser, and the runtime mocks resolve to nothing.
+    await waitFor(() =>
+      expect(global.browser.runtime.getPlatformInfo).toHaveBeenCalled()
     );
+    await waitFor(() => {
+      expect(info.value).toBe(
+        "- Browser: (please add your browser and its version)\n- Operating system: (please add your operating system)\n- extensionName version: 1.0.0"
+      );
+    });
   });
 
   it("fills the settings dump textarea with one line per setting", () => {

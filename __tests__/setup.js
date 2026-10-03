@@ -123,7 +123,9 @@ const apis = {
     fn: [
       "connect",
       "getBackgroundPage",
+      "getBrowserInfo",
       "getManifest",
+      "getPlatformInfo",
       "getURL",
       "openOptionsPage",
       "reload",

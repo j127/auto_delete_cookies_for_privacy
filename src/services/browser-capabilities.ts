@@ -13,6 +13,10 @@
  * duck-typing in shared code paths. Code that must diverge per browser
  * branches on this map, which keeps every platform difference documented
  * in one place and lets tests assert both sides of each branch.
+ *
+ * The one exception is ./system-details.ts, which reads getBrowserInfo,
+ * userAgentData and the user-agent string only to DISPLAY the browser and
+ * OS on the Support page for bug reports. Nothing branches on those values.
  */
 
 export type BrowserTarget = "chrome" | "firefox";
