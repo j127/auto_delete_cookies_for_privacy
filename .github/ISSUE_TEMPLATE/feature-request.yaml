@@ -1,42 +1,26 @@
 ---
 name: Feature Request
-description: Suggest an idea for enhancing/improving this project
-title: "[FEATURE REQUEST]  ???"
-labels: "Feature Request"
+description: An idea for something the extension could do, or do better.
+title: "[Idea] "
+labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
-      value: |
-        Please read carefully.  Issues that do not follow the format WILL be closed and may not be answered/resolved!
-
-        - Please check both open and closed issues to ensure that it was not previously requested.  Duplicates will be closed.
-
-        - Please ensure that the feature request title starts with `[FEATURE REQUEST] `.
-  - type: checkboxes
-    attributes:
-      label: Acknowledgements
-      description: Please check the box below to acknowledge that you have searched all existing open and closed requests and that your feature was not previously requested.
-      options:
-        - label: I acknowledge that I have read the above items
-          required: true
+      value: Thanks for sharing an idea! A few sentences are plenty.
   - type: textarea
+    id: idea
     attributes:
-      label: Is your feature request related to a problem? Please describe.
-      description: A clear and concise description of what the problem is.
-      placeholder: e.g. I'm always frustrated when [...].
+      label: What would you like the extension to do?
+      description: Describe the idea in your own words.
     validations:
       required: true
   - type: textarea
+    id: reason
     attributes:
-      label: Describe the solution that you'd like
-      description: A clear and concise description of what you want to happen.
-    validations:
-      required: true
+      label: How would it help you?
+      description: What you were trying to do, or what bothers you about how it works now.
   - type: textarea
+    id: extra
     attributes:
-      label: Describe alternatives you've considered
-      description: A clear and concise description of any alternative solutions or features you've considered.
-  - type: textarea
-    attributes:
-      label: Additional Context
-      description: Add any other context or screenshots about the feature request here.
+      label: Anything else?
+      description: Screenshots or examples help, and you can paste or drag them into this box.
