@@ -145,7 +145,7 @@ describe("row 3: per-site partition lookup on a non-default port", () => {
     // libs.ts reads the build-time browser identity at import; the bundle
     // gets it from scripts/build.ts, this node-side import from here.
     (globalThis as { __BROWSER__?: string }).__BROWSER__ = "firefox";
-    const { getHostname, topLevelSiteCandidates } =
+    const { dedupeCookies, getHostname, topLevelSiteCandidates } =
       await import("../../src/services/libs");
     const pageUrl = `${fixture.primary}/embed`;
 
@@ -173,18 +173,25 @@ describe("row 3: per-site partition lookup on a non-default port", () => {
       }
       console.log("partition lookup by key:", JSON.stringify(evidence));
 
-      const candidates = topLevelSiteCandidates(getHostname(pageUrl));
+      const candidates = topLevelSiteCandidates(getHostname(pageUrl), pageUrl);
       const found: ProbeCookie[] = [];
       for (const topLevelSite of candidates) {
         found.push(...(await byKey(topLevelSite)));
       }
+      // 152 and later answer the port-carrying key too, with the same
+      // port-less cookie, so both callers must collapse the overlap.
+      const counted = dedupeCookies(
+        found as unknown as browser.cookies.Cookie[]
+      );
       console.log(
         "candidates:",
         JSON.stringify(candidates),
         "found:",
-        found.length
+        found.length,
+        "counted:",
+        counted.length
       );
-      expect(found.map((c) => c.name)).toContain("e2e_tracker");
+      expect(counted.map((c) => c.name)).toEqual(["e2e_tracker"]);
     });
 
     // Leave nothing behind for the rows after this one.
