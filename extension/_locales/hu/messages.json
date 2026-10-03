@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Kifejezés szerkesztése"
   },
+  "emailAddressText": {
+    "message": "Ha a gomb nem csinál semmit, küldd el a jelentésedet és a fenti két blokkot bármelyik e-mail-fiókodból erre a címre:"
+  },
+  "emailBodyPromptText": {
+    "message": "Mi romlott el, és mit csináltál, amikor történt?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Nincs GitHub-fiókod? Küldd el a jelentésedet e-mailben. Az alábbi gomb megnyitja a levelezőprogramodat egy új üzenettel, amely már tartalmazza a fenti két blokkot. Írd le, mi romlott el, majd küldd el."
+  },
+  "emailBugReportText": {
+    "message": "Hibajelentés küldése e-mailben"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "A beállításaidat kihagytuk, hogy ez az e-mail rövid maradjon. Ha számítanak, másold ki őket a Támogatás oldalról, és illeszd be ide."
+  },
+  "emailSubjectText": {
+    "message": "Hibajelentés"
+  },
   "enableAutoDeleteText": {
     "message": "Automatikus takarítás bekapcsolása"
   },
@@ -1430,6 +1448,6 @@
     "message": "Hibaelhárítás és GYIK"
   },
   "helpTroubleshootingBody": {
-    "message": "Kijelentkeztetett egy webhelyről? Valószínűségi sorrendben: a webhelynek nincs megtartási szabálya (vagy csak a pontos gépnevének van, míg a bejelentkezés egy aldomainen él — használd a *.example.com formát); újraindításig-webhely, és a böngésző újraindult; egy egyező szabály csak megnevezett sütiket tart meg, és a bejelentkezési süti nincs bepipálva; vagy a webhely sütije egyszerűen lejárt. Ne találgass — a takarítási napló megnevezi a pontosan kiváltó szabályt.\n\nA sütik rögtön a takarítás után visszatérnek? A webhely szinte mindig nyitva van még valamelyik lapon — a nyitott webhelyek kedvükre újragyártják a sütiket, és amúgy is védettek.\n\nNem futott le a takarítás? Ellenőrizd sorban: az automatikus takarítás be van kapcsolva (a felugró fejléce mutatja); a webhely nincs nyitva másik lapon; a türelmi idő letelt; egyetlen megtartási szabály sem egyezik; nem alvó lap volt (azok csak akkor számítanak bezártnak, ha az a haladó beállítás be van kapcsolva).\n\nBekapcsoltad a webhelyadat-takarítást, de a régi adatok még ott vannak? A böngésző csak az újra meglátogatott webhelyeknél engedi e típusok törlését; a maradványok a következő látogatásig maradnak.\n\nInkognitó? Csak ha engedélyezed: a böngésző bővítményoldala → Engedélyezés inkognitóban. Az inkognitónak saját sütitárolója és saját mentett webhelyei vannak, és sosem kerül naplóba.\n\nMég mindig elakadtál? A Támogatás oldalon ott a verzió, egy másolható hibakeresési blokk és a hibajelentések hivatkozása. A hibakeresési mód (Haladó) rábírja a bővítményt, hogy minden döntését elmesélje a service worker konzoljában, maszkolt sütiértékekkel."
+    "message": "Kijelentkeztetett egy webhelyről? Valószínűségi sorrendben: a webhelynek nincs megtartási szabálya (vagy csak a pontos gépnevének van, míg a bejelentkezés egy aldomainen él — használd a *.example.com formát); újraindításig-webhely, és a böngésző újraindult; egy egyező szabály csak megnevezett sütiket tart meg, és a bejelentkezési süti nincs bepipálva; vagy a webhely sütije egyszerűen lejárt. Ne találgass — a takarítási napló megnevezi a pontosan kiváltó szabályt.\n\nA sütik rögtön a takarítás után visszatérnek? A webhely szinte mindig nyitva van még valamelyik lapon — a nyitott webhelyek kedvükre újragyártják a sütiket, és amúgy is védettek.\n\nNem futott le a takarítás? Ellenőrizd sorban: az automatikus takarítás be van kapcsolva (a felugró fejléce mutatja); a webhely nincs nyitva másik lapon; a türelmi idő letelt; egyetlen megtartási szabály sem egyezik; nem alvó lap volt (azok csak akkor számítanak bezártnak, ha az a haladó beállítás be van kapcsolva).\n\nBekapcsoltad a webhelyadat-takarítást, de a régi adatok még ott vannak? A böngésző csak az újra meglátogatott webhelyeknél engedi e típusok törlését; a maradványok a következő látogatásig maradnak.\n\nInkognitó? Csak ha engedélyezed: a böngésző bővítményoldala → Engedélyezés inkognitóban. Az inkognitónak saját sütitárolója és saját mentett webhelyei vannak, és sosem kerül naplóba.\n\nMég mindig elakadtál? A Támogatás oldalon ott a verzió, egy másolható hibakeresési blokk, a hibajelentések hivatkozása, és ha nincs GitHub-fiókod, a Hibajelentés küldése e-mailben gomb. A hibakeresési mód (Haladó) rábírja a bővítményt, hogy minden döntését elmesélje a service worker konzoljában, maszkolt sütiértékekkel."
   }
 }

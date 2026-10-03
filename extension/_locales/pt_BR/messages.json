@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Editar expressão"
   },
+  "emailAddressText": {
+    "message": "Se o botão não fizer nada, envie seu relato e os dois blocos acima de qualquer conta de e-mail para este endereço:"
+  },
+  "emailBodyPromptText": {
+    "message": "O que deu errado, e o que você estava fazendo quando aconteceu?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Não tem conta no GitHub? Envie seu relato por e-mail. O botão abaixo abre seu aplicativo de e-mail com uma nova mensagem que já traz os dois blocos acima. Conte o que deu errado e envie."
+  },
+  "emailBugReportText": {
+    "message": "Relatar um bug por e-mail"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "Suas configurações ficaram de fora para manter este e-mail curto. Se forem relevantes, copie-as da página Suporte e cole-as aqui."
+  },
+  "emailSubjectText": {
+    "message": "Relato de bug"
+  },
   "enableAutoDeleteText": {
     "message": "Ligar a limpeza automática"
   },
@@ -1430,6 +1448,6 @@
     "message": "Solução de problemas e perguntas frequentes"
   },
   "helpTroubleshootingBody": {
-    "message": "Desconectado de um site? Em ordem de probabilidade: o site não tem regra de manter (ou só o hostname exato tem, enquanto o login mora num subdomínio — use a forma *.example.com); é um site até-reiniciar e o navegador reiniciou; uma regra correspondente mantém só cookies nomeados e o cookie de login não está marcado; ou o cookie do site simplesmente expirou. Não adivinhe — o registro de limpeza nomeia a regra exata que agiu.\n\nCookies reaparecem logo após a limpeza? O site quase sempre ainda está aberto em alguma aba — sites abertos recriam cookies à vontade e são protegidos de qualquer forma.\n\nA limpeza não rodou? Verifique em ordem: a limpeza automática está ligada (o cabeçalho do popup diz); o site não está aberto em outra aba; o período de carência passou; nenhuma regra de manter corresponde; não era uma aba adormecida (essas só contam como fechadas se aquela configuração avançada estiver ligada).\n\nAtivou a limpeza de dados do site mas os dados antigos continuam lá? O navegador só deixa apagar esses tipos em sites que você visitar de novo; sobras ficam até a próxima visita.\n\nAnônimo? Só se você permitir: página de extensões do seu navegador → Permitir no modo anônimo. O modo anônimo tem seu próprio armazenamento de cookies e sites salvos, e nunca entra no registro.\n\nAinda travado? A página Suporte tem a versão, um bloco de depuração copiável e o link para relatar bugs. O modo de depuração (Avançado) faz a extensão narrar cada decisão no console do service worker, com os valores dos cookies mascarados."
+    "message": "Desconectado de um site? Em ordem de probabilidade: o site não tem regra de manter (ou só o hostname exato tem, enquanto o login mora num subdomínio — use a forma *.example.com); é um site até-reiniciar e o navegador reiniciou; uma regra correspondente mantém só cookies nomeados e o cookie de login não está marcado; ou o cookie do site simplesmente expirou. Não adivinhe — o registro de limpeza nomeia a regra exata que agiu.\n\nCookies reaparecem logo após a limpeza? O site quase sempre ainda está aberto em alguma aba — sites abertos recriam cookies à vontade e são protegidos de qualquer forma.\n\nA limpeza não rodou? Verifique em ordem: a limpeza automática está ligada (o cabeçalho do popup diz); o site não está aberto em outra aba; o período de carência passou; nenhuma regra de manter corresponde; não era uma aba adormecida (essas só contam como fechadas se aquela configuração avançada estiver ligada).\n\nAtivou a limpeza de dados do site mas os dados antigos continuam lá? O navegador só deixa apagar esses tipos em sites que você visitar de novo; sobras ficam até a próxima visita.\n\nAnônimo? Só se você permitir: página de extensões do seu navegador → Permitir no modo anônimo. O modo anônimo tem seu próprio armazenamento de cookies e sites salvos, e nunca entra no registro.\n\nAinda travado? A página Suporte tem a versão, um bloco de depuração copiável, o link para relatar bugs e o botão 'Relatar um bug por e-mail' se você não tiver conta no GitHub. O modo de depuração (Avançado) faz a extensão narrar cada decisão no console do service worker, com os valores dos cookies mascarados."
   }
 }

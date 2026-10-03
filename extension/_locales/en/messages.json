@@ -277,6 +277,30 @@
     "message": "Edit expression",
     "description": "Edit expression"
   },
+  "emailAddressText": {
+    "message": "If the button does nothing, email your report and both blocks above to this address from any email account:",
+    "description": "Support page: shown before the support email address, for people whose browser has no mail app set up."
+  },
+  "emailBodyPromptText": {
+    "message": "What went wrong, and what were you doing when it happened?",
+    "description": "First line of the prefilled bug report email; the person types the answer under it."
+  },
+  "emailBugReportHelpText": {
+    "message": "No GitHub account? Email your report instead. The button below opens your mail app with a new message that already holds both blocks above. Add what went wrong, then send it.",
+    "description": "Support page: explains the Email a bug report button, for people without a GitHub account."
+  },
+  "emailBugReportText": {
+    "message": "Email a bug report",
+    "description": "Support page button: opens the mail app with a bug report already filled in."
+  },
+  "emailSettingsLeftOutText": {
+    "message": "Your settings were left out to keep this email short. If they matter, copy them from the Support page and paste them here.",
+    "description": "Prefilled bug report email: replaces the settings block when the email would be too long for some mail apps."
+  },
+  "emailSubjectText": {
+    "message": "Bug report",
+    "description": "Subject of the prefilled bug report email; the extension name and version follow it."
+  },
   "enableAutoDeleteText": {
     "message": "Switch automatic cleaning on",
     "description": "Switch automatic cleaning on"
@@ -1752,7 +1776,7 @@
     "description": "Help section title"
   },
   "helpTroubleshootingBody": {
-    "message": "Logged out of a site? In order of likelihood: the site has no keep rule (or only its exact hostname does, while the login lives on a subdomain — use the *.example.com form); it's an until-restart site and the browser restarted; a matching rule keeps only named cookies and the login cookie isn't checked; or the site's own cookie expired. Don't guess — the cleanup log names the exact rule that fired.\n\nCookies reappear right after cleaning? The site is almost always still open in some tab — open sites re-create cookies at will and are protected anyway.\n\nCleanup didn't run? Check in order: automatic cleaning is on (the popup header says so); the site isn't open in another tab; the grace period has passed; no keep rule matches; it wasn't a sleeping tab (those only count as closed if that Advanced setting is on).\n\nEnabled site-data cleaning but old data is still there? The browser only lets the extension clear those types for sites you visit again; leftovers stay until the next visit.\n\nIncognito? Only if you allow it: your browser's extension page → Allow in Incognito/Private. Incognito keeps its own cookie store and saved sites, and is never written to the log.\n\nStill stuck? The Support page has the version, a copyable debug block, and the link for bug reports. Debug mode (Advanced) makes the extension narrate every decision to the service-worker console, with cookie values masked.",
+    "message": "Logged out of a site? In order of likelihood: the site has no keep rule (or only its exact hostname does, while the login lives on a subdomain — use the *.example.com form); it's an until-restart site and the browser restarted; a matching rule keeps only named cookies and the login cookie isn't checked; or the site's own cookie expired. Don't guess — the cleanup log names the exact rule that fired.\n\nCookies reappear right after cleaning? The site is almost always still open in some tab — open sites re-create cookies at will and are protected anyway.\n\nCleanup didn't run? Check in order: automatic cleaning is on (the popup header says so); the site isn't open in another tab; the grace period has passed; no keep rule matches; it wasn't a sleeping tab (those only count as closed if that Advanced setting is on).\n\nEnabled site-data cleaning but old data is still there? The browser only lets the extension clear those types for sites you visit again; leftovers stay until the next visit.\n\nIncognito? Only if you allow it: your browser's extension page → Allow in Incognito/Private. Incognito keeps its own cookie store and saved sites, and is never written to the log.\n\nStill stuck? The Support page has the version, a copyable debug block, the link for bug reports, and an “Email a bug report” button if you don't have a GitHub account. Debug mode (Advanced) makes the extension narrate every decision to the service-worker console, with cookie values masked.",
     "description": "Help section body: troubleshooting and FAQ"
   }
 }

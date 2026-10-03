@@ -55,6 +55,7 @@ DETAILS
 - Category: Privacy & Security.
 - License: MIT (matches the repo LICENSE).
 - Support site / homepage: the GitHub repo URL.
+- Support email: `support@moakh.dev`, so people without a GitHub account can reach us. It is the address the extension's Support page shows.
 - Privacy policy: paste `PRIVACY.md` into the listing's privacy-policy field (AMO hosts its own copy).
 - Tags: cookies, privacy, containers, cleaner.
 

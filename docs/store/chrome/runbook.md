@@ -21,6 +21,7 @@ The CWS has no per-version release-notes field — there is nothing to paste at 
 ## 3. Listing and privacy checks (only if something changed)
 
 - Store listing tab: copy and asset sources live in [../listing.md](../listing.md) (short/detailed description, screenshots, promo tiles).
+- Support: the item's support email is `support@moakh.dev`, the address the extension's Support page shows. The Support URL stays the GitHub repo.
 - Privacy tab: single-purpose statement and per-permission justifications live in [../permissions.md](../permissions.md). These persist between versions; re-answer only if a permission was added or removed.
 - A permission change triggers a deeper review and can disable the extension for users until they re-approve it — call it out in the PR that introduces it, and expect a slower review for that version.
 - Unlike AMO, the CWS does not ask for source code.

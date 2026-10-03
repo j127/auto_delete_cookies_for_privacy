@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Rediger uttrykk"
   },
+  "emailAddressText": {
+    "message": "Hvis knappen ikke gjør noe, send rapporten din og begge blokkene ovenfor fra en hvilken som helst e-postkonto til denne adressen:"
+  },
+  "emailBodyPromptText": {
+    "message": "Hva gikk galt, og hva holdt du på med da det skjedde?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Ingen GitHub-konto? Send rapporten din på e-post i stedet. Knappen nedenfor åpner e-postprogrammet ditt med en ny melding som allerede inneholder begge blokkene ovenfor. Legg til hva som gikk galt, og send den."
+  },
+  "emailBugReportText": {
+    "message": "Send en feilrapport på e-post"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "Innstillingene dine ble utelatt for å holde denne e-posten kort. Hvis de er relevante, kopier dem fra Støttesiden og lim dem inn her."
+  },
+  "emailSubjectText": {
+    "message": "Feilrapport"
+  },
   "enableAutoDeleteText": {
     "message": "Slå på automatisk rydding"
   },
@@ -1430,6 +1448,6 @@
     "message": "Feilsøking og spørsmål"
   },
   "helpTroubleshootingBody": {
-    "message": "Logget ut av et nettsted? I sannsynlighetsrekkefølge: nettstedet har ingen behold-regel (eller bare det eksakte vertsnavnet har en, mens innloggingen bor på et underdomene — bruk formen *.example.com); det er et til-omstart-nettsted og nettleseren startet på nytt; en regel med treff beholder bare navngitte kapsler og innloggingskapselen er ikke krysset av; eller nettstedets egen kapsel utløp. Ikke gjett — ryddeloggen navngir nøyaktig regelen som slo til.\n\nInformasjonskapsler dukker opp igjen rett etter rydding? Nettstedet er nesten alltid fortsatt åpent i en fane — åpne nettsteder gjenskaper kapsler når de vil og er beskyttet uansett.\n\nRyddingen kjørte ikke? Sjekk i rekkefølge: automatisk rydding er på (popupens overskrift sier det); nettstedet er ikke åpent i en annen fane; fristen er ute; ingen behold-regel treffer; det var ikke en sovende fane (de regnes bare som lukkede hvis den avanserte innstillingen er på).\n\nSlo på nettstedsdatarydding, men gammel data ligger der fortsatt? Nettleseren lar bare utvidelsen rydde de typene for nettsteder du besøker igjen; rester blir til neste besøk.\n\nInkognito? Bare hvis du tillater det: nettleserens utvidelsesside → Tillat i inkognito. Inkognito har sitt eget kapsellager og egne lagrede nettsteder, og skrives aldri til loggen.\n\nFortsatt fast? Støttesiden har versjonen, en kopierbar feilsøkingsblokk og lenken for feilrapporter. Feilsøkingsmodusen (Avansert) får utvidelsen til å fortelle hver beslutning i service worker-konsollen, med kapselverdier maskert."
+    "message": "Logget ut av et nettsted? I sannsynlighetsrekkefølge: nettstedet har ingen behold-regel (eller bare det eksakte vertsnavnet har en, mens innloggingen bor på et underdomene — bruk formen *.example.com); det er et til-omstart-nettsted og nettleseren startet på nytt; en regel med treff beholder bare navngitte kapsler og innloggingskapselen er ikke krysset av; eller nettstedets egen kapsel utløp. Ikke gjett — ryddeloggen navngir nøyaktig regelen som slo til.\n\nInformasjonskapsler dukker opp igjen rett etter rydding? Nettstedet er nesten alltid fortsatt åpent i en fane — åpne nettsteder gjenskaper kapsler når de vil og er beskyttet uansett.\n\nRyddingen kjørte ikke? Sjekk i rekkefølge: automatisk rydding er på (popupens overskrift sier det); nettstedet er ikke åpent i en annen fane; fristen er ute; ingen behold-regel treffer; det var ikke en sovende fane (de regnes bare som lukkede hvis den avanserte innstillingen er på).\n\nSlo på nettstedsdatarydding, men gammel data ligger der fortsatt? Nettleseren lar bare utvidelsen rydde de typene for nettsteder du besøker igjen; rester blir til neste besøk.\n\nInkognito? Bare hvis du tillater det: nettleserens utvidelsesside → Tillat i inkognito. Inkognito har sitt eget kapsellager og egne lagrede nettsteder, og skrives aldri til loggen.\n\nFortsatt fast? Støttesiden har versjonen, en kopierbar feilsøkingsblokk, lenken for feilrapporter og knappen Send en feilrapport på e-post hvis du ikke har en GitHub-konto. Feilsøkingsmodusen (Avansert) får utvidelsen til å fortelle hver beslutning i service worker-konsollen, med kapselverdier maskert."
   }
 }

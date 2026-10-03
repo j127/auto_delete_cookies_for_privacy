@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Sửa biểu thức"
   },
+  "emailAddressText": {
+    "message": "Nếu nút không có tác dụng, hãy gửi báo cáo của bạn kèm hai khối ở trên từ bất kỳ tài khoản email nào tới địa chỉ này:"
+  },
+  "emailBodyPromptText": {
+    "message": "Điều gì đã xảy ra sai, và bạn đang làm gì khi nó xảy ra?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Không có tài khoản GitHub? Hãy gửi báo cáo qua email. Nút bên dưới mở ứng dụng email của bạn với một thư mới đã có sẵn hai khối ở trên. Thêm mô tả điều gì đã sai rồi gửi đi."
+  },
+  "emailBugReportText": {
+    "message": "Báo lỗi qua email"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "Cài đặt của bạn đã được bỏ ra để email này ngắn gọn. Nếu cần, hãy sao chép chúng từ trang Hỗ trợ và dán vào đây."
+  },
+  "emailSubjectText": {
+    "message": "Báo cáo lỗi"
+  },
   "enableAutoDeleteText": {
     "message": "Bật tự động dọn"
   },
@@ -1430,6 +1448,6 @@
     "message": "Khắc phục sự cố và câu hỏi thường gặp"
   },
   "helpTroubleshootingBody": {
-    "message": "Bị đăng xuất khỏi một trang? Theo thứ tự khả năng: trang không có quy tắc giữ (hoặc chỉ đúng tên máy chủ có, trong khi đăng nhập nằm ở tên miền phụ — dùng dạng *.example.com); nó là trang đến-khi-khởi-động-lại và trình duyệt vừa khởi động lại; quy tắc khớp chỉ giữ cookie chỉ định tên mà cookie đăng nhập chưa được đánh dấu; hoặc cookie của trang đơn giản là hết hạn. Đừng đoán — nhật ký dọn dẹp nêu đích danh quy tắc đã kích hoạt.\n\nCookie xuất hiện lại ngay sau khi dọn? Trang gần như chắc chắn vẫn mở ở thẻ nào đó — trang đang mở tha hồ tạo lại cookie và đằng nào cũng được bảo vệ.\n\nDọn không chạy? Kiểm tra theo thứ tự: tự động dọn đang bật (đầu cửa sổ bật lên có ghi); trang không mở ở thẻ khác; thời gian ân hạn đã qua; không quy tắc giữ nào khớp; đó không phải thẻ ngủ (thẻ ngủ chỉ tính là đóng khi cài đặt nâng cao đó bật).\n\nĐã bật dọn dữ liệu trang mà dữ liệu cũ vẫn còn? Trình duyệt chỉ cho xóa các loại đó với trang bạn ghé lại; phần sót nằm đó đến lần ghé sau.\n\nẨn danh? Chỉ khi bạn cho phép: trang tiện ích của trình duyệt → Cho phép ở chế độ ẩn danh. Chế độ ẩn danh có kho cookie và trang đã lưu riêng, và không bao giờ được ghi vào nhật ký.\n\nVẫn bí? Trang Hỗ trợ có số phiên bản, khối gỡ lỗi sao chép được và liên kết báo lỗi. Chế độ gỡ lỗi (Nâng cao) khiến tiện ích thuật lại từng quyết định vào console của service worker, với giá trị cookie được che."
+    "message": "Bị đăng xuất khỏi một trang? Theo thứ tự khả năng: trang không có quy tắc giữ (hoặc chỉ đúng tên máy chủ có, trong khi đăng nhập nằm ở tên miền phụ — dùng dạng *.example.com); nó là trang đến-khi-khởi-động-lại và trình duyệt vừa khởi động lại; quy tắc khớp chỉ giữ cookie chỉ định tên mà cookie đăng nhập chưa được đánh dấu; hoặc cookie của trang đơn giản là hết hạn. Đừng đoán — nhật ký dọn dẹp nêu đích danh quy tắc đã kích hoạt.\n\nCookie xuất hiện lại ngay sau khi dọn? Trang gần như chắc chắn vẫn mở ở thẻ nào đó — trang đang mở tha hồ tạo lại cookie và đằng nào cũng được bảo vệ.\n\nDọn không chạy? Kiểm tra theo thứ tự: tự động dọn đang bật (đầu cửa sổ bật lên có ghi); trang không mở ở thẻ khác; thời gian ân hạn đã qua; không quy tắc giữ nào khớp; đó không phải thẻ ngủ (thẻ ngủ chỉ tính là đóng khi cài đặt nâng cao đó bật).\n\nĐã bật dọn dữ liệu trang mà dữ liệu cũ vẫn còn? Trình duyệt chỉ cho xóa các loại đó với trang bạn ghé lại; phần sót nằm đó đến lần ghé sau.\n\nẨn danh? Chỉ khi bạn cho phép: trang tiện ích của trình duyệt → Cho phép ở chế độ ẩn danh. Chế độ ẩn danh có kho cookie và trang đã lưu riêng, và không bao giờ được ghi vào nhật ký.\n\nVẫn bí? Trang Hỗ trợ có số phiên bản, khối gỡ lỗi sao chép được, liên kết báo lỗi và nút 'Báo lỗi qua email' nếu bạn không có tài khoản GitHub. Chế độ gỡ lỗi (Nâng cao) khiến tiện ích thuật lại từng quyết định vào console của service worker, với giá trị cookie được che."
   }
 }

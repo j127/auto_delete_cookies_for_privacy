@@ -25,7 +25,7 @@ Choose **Listed** on the first upload page ("On this site"). Listed means AMO ho
 
 ## 4. Describe the add-on
 
-- Fill the listing fields from [listing.md](listing.md) (name, summary, description, category Privacy & Security, license MIT, homepage/support = the GitHub repo).
+- Fill the listing fields from [listing.md](listing.md) (name, summary, description, category Privacy & Security, license MIT, homepage/support = the GitHub repo, support email = `support@moakh.dev`).
 - Paste `PRIVACY.md` into the privacy-policy field.
 - Data collection section: declare **no data collected/transmitted**, consistent with the manifest's `data_collection_permissions: { required: ["none"] }` (statement text in [permissions.md](permissions.md)).
 

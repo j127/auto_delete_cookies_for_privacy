@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Redigera uttryck"
   },
+  "emailAddressText": {
+    "message": "Om knappen inte gör något, skicka din rapport och båda blocken ovan från valfritt e-postkonto till den här adressen:"
+  },
+  "emailBodyPromptText": {
+    "message": "Vad gick fel, och vad höll du på med när det hände?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Inget GitHub-konto? Skicka din rapport via e-post i stället. Knappen nedan öppnar ditt e-postprogram med ett nytt meddelande som redan innehåller båda blocken ovan. Lägg till vad som gick fel och skicka det."
+  },
+  "emailBugReportText": {
+    "message": "Skicka en buggrapport via e-post"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "Dina inställningar utelämnades för att hålla det här mejlet kort. Om de spelar roll, kopiera dem från Supportsidan och klistra in dem här."
+  },
+  "emailSubjectText": {
+    "message": "Buggrapport"
+  },
   "enableAutoDeleteText": {
     "message": "Slå på automatisk städning"
   },
@@ -1430,6 +1448,6 @@
     "message": "Felsökning och vanliga frågor"
   },
   "helpTroubleshootingBody": {
-    "message": "Utloggad från en webbplats? I sannolikhetsordning: webbplatsen har ingen behåll-regel (eller bara dess exakta värdnamn har en, medan inloggningen bor på en underdomän — använd formen *.example.com); det är en till-omstart-webbplats och webbläsaren startades om; en matchande regel behåller bara namngivna kakor och inloggningskakan är inte ikryssad; eller webbplatsens egen kaka gick ut. Gissa inte — städloggen namnger exakt vilken regel som slog till.\n\nKakor dyker upp direkt efter städningen? Webbplatsen är nästan alltid fortfarande öppen i någon flik — öppna webbplatser skapar kakor när de vill och är skyddade ändå.\n\nStädningen kördes inte? Kontrollera i ordning: automatisk städning är på (popupens rubrik säger det); webbplatsen är inte öppen i en annan flik; fristen har gått ut; ingen behåll-regel matchar; det var inte en sovande flik (de räknas bara som stängda om den avancerade inställningen är på).\n\nSlog på webbplatsdatastädning men gammal data ligger kvar? Webbläsaren låter tillägget bara rensa de typerna för webbplatser du besöker igen; kvarlämningar ligger kvar till nästa besök.\n\nInkognito? Bara om du tillåter det: webbläsarens tilläggsida → Tillåt i inkognito. Inkognito har sitt eget kaklager och egna sparade webbplatser, och skrivs aldrig till loggen.\n\nFortfarande fast? Supportsidan har versionen, ett kopierbart felsökningsblock och länken för buggrapporter. Felsökningsläget (Avancerat) får tillägget att berätta varje beslut i service worker-konsolen, med kakvärden maskerade."
+    "message": "Utloggad från en webbplats? I sannolikhetsordning: webbplatsen har ingen behåll-regel (eller bara dess exakta värdnamn har en, medan inloggningen bor på en underdomän — använd formen *.example.com); det är en till-omstart-webbplats och webbläsaren startades om; en matchande regel behåller bara namngivna kakor och inloggningskakan är inte ikryssad; eller webbplatsens egen kaka gick ut. Gissa inte — städloggen namnger exakt vilken regel som slog till.\n\nKakor dyker upp direkt efter städningen? Webbplatsen är nästan alltid fortfarande öppen i någon flik — öppna webbplatser skapar kakor när de vill och är skyddade ändå.\n\nStädningen kördes inte? Kontrollera i ordning: automatisk städning är på (popupens rubrik säger det); webbplatsen är inte öppen i en annan flik; fristen har gått ut; ingen behåll-regel matchar; det var inte en sovande flik (de räknas bara som stängda om den avancerade inställningen är på).\n\nSlog på webbplatsdatastädning men gammal data ligger kvar? Webbläsaren låter tillägget bara rensa de typerna för webbplatser du besöker igen; kvarlämningar ligger kvar till nästa besök.\n\nInkognito? Bara om du tillåter det: webbläsarens tilläggsida → Tillåt i inkognito. Inkognito har sitt eget kaklager och egna sparade webbplatser, och skrivs aldrig till loggen.\n\nFortfarande fast? Supportsidan har versionen, ett kopierbart felsökningsblock, länken för buggrapporter och knappen Skicka en buggrapport via e-post om du inte har något GitHub-konto. Felsökningsläget (Avancerat) får tillägget att berätta varje beslut i service worker-konsolen, med kakvärden maskerade."
   }
 }

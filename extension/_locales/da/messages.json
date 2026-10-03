@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Redigér udtryk"
   },
+  "emailAddressText": {
+    "message": "Hvis knappen ikke gør noget, så send din rapport og begge blokke ovenfor fra en hvilken som helst e-mailkonto til denne adresse:"
+  },
+  "emailBodyPromptText": {
+    "message": "Hvad gik galt, og hvad var du i gang med, da det skete?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Ingen GitHub-konto? Send din rapport via e-mail i stedet. Knappen nedenfor åbner dit mailprogram med en ny besked, der allerede indeholder begge blokke ovenfor. Tilføj, hvad der gik galt, og send den."
+  },
+  "emailBugReportText": {
+    "message": "Send en fejlrapport via e-mail"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "Dine indstillinger blev udeladt for at holde denne e-mail kort. Hvis de er relevante, så kopiér dem fra Supportsiden og indsæt dem her."
+  },
+  "emailSubjectText": {
+    "message": "Fejlrapport"
+  },
   "enableAutoDeleteText": {
     "message": "Slå automatisk rydning til"
   },
@@ -1430,6 +1448,6 @@
     "message": "Fejlfinding og FAQ"
   },
   "helpTroubleshootingBody": {
-    "message": "Logget ud af et websted? I sandsynlighedsrækkefølge: webstedet har ingen behold-regel (eller kun dets præcise værtsnavn har en, mens logindet bor på et underdomæne — brug formen *.example.com); det er et indtil-genstart-websted, og browseren genstartede; en matchende regel beholder kun navngivne cookies, og login-cookien er ikke afkrydset; eller webstedets egen cookie udløb. Gæt ikke — rydningsloggen nævner præcis den regel, der slog til.\n\nCookies dukker op igen lige efter rydningen? Webstedet er næsten altid stadig åbent i en fane — åbne websteder genskaber cookies, som de vil, og er beskyttede uanset.\n\nRydningen kørte ikke? Tjek i rækkefølge: automatisk rydning er slået til (popuppens overskrift siger det); webstedet er ikke åbent i en anden fane; fristen er udløbet; ingen behold-regel matcher; det var ikke en sovende fane (de tæller kun som lukkede, hvis den avancerede indstilling er slået til).\n\nSlog webstedsdatarydning til, men gammel data ligger der stadig? Browseren lader kun udvidelsen rydde de typer for websteder, du besøger igen; efterladenskaber bliver til næste besøg.\n\nInkognito? Kun hvis du tillader det: browserens udvidelsesside → Tillad i inkognito. Inkognito har sit eget cookielager og egne gemte websteder og skrives aldrig i loggen.\n\nStadig i knibe? Supportsiden har versionen, en kopierbar fejlfindingsblok og linket til fejlrapporter. Fejlfindingstilstanden (Avanceret) får udvidelsen til at fortælle hver beslutning i service worker-konsollen, med cookieværdier maskeret."
+    "message": "Logget ud af et websted? I sandsynlighedsrækkefølge: webstedet har ingen behold-regel (eller kun dets præcise værtsnavn har en, mens logindet bor på et underdomæne — brug formen *.example.com); det er et indtil-genstart-websted, og browseren genstartede; en matchende regel beholder kun navngivne cookies, og login-cookien er ikke afkrydset; eller webstedets egen cookie udløb. Gæt ikke — rydningsloggen nævner præcis den regel, der slog til.\n\nCookies dukker op igen lige efter rydningen? Webstedet er næsten altid stadig åbent i en fane — åbne websteder genskaber cookies, som de vil, og er beskyttede uanset.\n\nRydningen kørte ikke? Tjek i rækkefølge: automatisk rydning er slået til (popuppens overskrift siger det); webstedet er ikke åbent i en anden fane; fristen er udløbet; ingen behold-regel matcher; det var ikke en sovende fane (de tæller kun som lukkede, hvis den avancerede indstilling er slået til).\n\nSlog webstedsdatarydning til, men gammel data ligger der stadig? Browseren lader kun udvidelsen rydde de typer for websteder, du besøger igen; efterladenskaber bliver til næste besøg.\n\nInkognito? Kun hvis du tillader det: browserens udvidelsesside → Tillad i inkognito. Inkognito har sit eget cookielager og egne gemte websteder og skrives aldrig i loggen.\n\nStadig i knibe? Supportsiden har versionen, en kopierbar fejlfindingsblok, linket til fejlrapporter og knappen Send en fejlrapport via e-mail, hvis du ikke har en GitHub-konto. Fejlfindingstilstanden (Avanceret) får udvidelsen til at fortælle hver beslutning i service worker-konsollen, med cookieværdier maskeret."
   }
 }

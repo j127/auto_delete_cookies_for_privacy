@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Upravit výraz"
   },
+  "emailAddressText": {
+    "message": "Pokud tlačítko nic neudělá, pošlete hlášení a oba bloky výše z libovolného e-mailového účtu na tuto adresu:"
+  },
+  "emailBodyPromptText": {
+    "message": "Co se pokazilo a co jste dělali, když se to stalo?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Nemáte účet na GitHubu? Pošlete hlášení e-mailem. Tlačítko níže otevře váš poštovní program s novou zprávou, která už obsahuje oba bloky výše. Doplňte, co se pokazilo, a zprávu odešlete."
+  },
+  "emailBugReportText": {
+    "message": "Poslat hlášení chyby e-mailem"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "Vaše nastavení bylo vynecháno, aby e-mail zůstal krátký. Pokud je důležité, zkopírujte ho ze stránky Podpora a vložte sem."
+  },
+  "emailSubjectText": {
+    "message": "Hlášení chyby"
+  },
   "enableAutoDeleteText": {
     "message": "Zapnout automatický úklid"
   },
@@ -1430,6 +1448,6 @@
     "message": "Řešení potíží a časté dotazy"
   },
   "helpTroubleshootingBody": {
-    "message": "Odhlásilo vás to z webu? V pořadí pravděpodobnosti: web nemá pravidlo ponechání (nebo ho má jen přesný hostitel, zatímco přihlášení žije na subdoméně — použijte tvar *.example.com); je to web do-restartu a prohlížeč se restartoval; odpovídající pravidlo ponechává jen jmenované cookies a přihlašovací cookie není zaškrtnutá; nebo cookie webu prostě vypršela. Nehádejte — protokol úklidu jmenuje přesné pravidlo, které zafungovalo.\n\nCookies se hned po úklidu objevují znovu? Web je téměř jistě stále otevřen na nějaké kartě — otevřené weby si cookies vytvářejí, kdy chtějí, a beztak jsou chráněné.\n\nÚklid neproběhl? Zkontrolujte popořadě: automatický úklid je zapnutý (hlavička vyskakovacího okna to říká); web není otevřen na jiné kartě; ochranná lhůta uplynula; žádné pravidlo ponechání neodpovídá; nešlo o uspanou kartu (ty se počítají jako zavřené, jen když je to pokročilé nastavení zapnuté).\n\nZapnuli jste mazání dat webů a stará data tam pořád jsou? Prohlížeč dovolí mazat tyto typy jen u webů, které znovu navštívíte; pozůstatky zůstanou do další návštěvy.\n\nAnonymní režim? Jen když ho povolíte: stránka rozšíření vašeho prohlížeče → Povolit v anonymním režimu. Anonymní režim má vlastní úložiště cookies i vlastní uložené weby a do protokolu se nikdy nezapisuje.\n\nPořád nic? Stránka Podpora má verzi, kopírovatelný ladicí blok a odkaz na hlášení chyb. Ladicí režim (Pokročilé) přiměje rozšíření vyprávět každé rozhodnutí do konzole service workeru, s maskovanými hodnotami cookies."
+    "message": "Odhlásilo vás to z webu? V pořadí pravděpodobnosti: web nemá pravidlo ponechání (nebo ho má jen přesný hostitel, zatímco přihlášení žije na subdoméně — použijte tvar *.example.com); je to web do-restartu a prohlížeč se restartoval; odpovídající pravidlo ponechává jen jmenované cookies a přihlašovací cookie není zaškrtnutá; nebo cookie webu prostě vypršela. Nehádejte — protokol úklidu jmenuje přesné pravidlo, které zafungovalo.\n\nCookies se hned po úklidu objevují znovu? Web je téměř jistě stále otevřen na nějaké kartě — otevřené weby si cookies vytvářejí, kdy chtějí, a beztak jsou chráněné.\n\nÚklid neproběhl? Zkontrolujte popořadě: automatický úklid je zapnutý (hlavička vyskakovacího okna to říká); web není otevřen na jiné kartě; ochranná lhůta uplynula; žádné pravidlo ponechání neodpovídá; nešlo o uspanou kartu (ty se počítají jako zavřené, jen když je to pokročilé nastavení zapnuté).\n\nZapnuli jste mazání dat webů a stará data tam pořád jsou? Prohlížeč dovolí mazat tyto typy jen u webů, které znovu navštívíte; pozůstatky zůstanou do další návštěvy.\n\nAnonymní režim? Jen když ho povolíte: stránka rozšíření vašeho prohlížeče → Povolit v anonymním režimu. Anonymní režim má vlastní úložiště cookies i vlastní uložené weby a do protokolu se nikdy nezapisuje.\n\nPořád nic? Stránka Podpora má verzi, kopírovatelný ladicí blok, odkaz na hlášení chyb a tlačítko „Poslat hlášení chyby e-mailem“, pokud nemáte účet na GitHubu. Ladicí režim (Pokročilé) přiměje rozšíření vyprávět každé rozhodnutí do konzole service workeru, s maskovanými hodnotami cookies."
   }
 }

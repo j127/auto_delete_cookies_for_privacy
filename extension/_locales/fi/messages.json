@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Muokkaa lauseketta"
   },
+  "emailAddressText": {
+    "message": "Jos painike ei tee mitään, lähetä raporttisi ja molemmat yllä olevat lohkot mistä tahansa sähköpostitilistä tähän osoitteeseen:"
+  },
+  "emailBodyPromptText": {
+    "message": "Mikä meni vikaan, ja mitä olit tekemässä, kun se tapahtui?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Eikö sinulla ole GitHub-tiliä? Lähetä raporttisi sähköpostilla. Alla oleva painike avaa sähköpostisovelluksesi uudella viestillä, jossa molemmat yllä olevat lohkot ovat jo valmiina. Kerro, mikä meni vikaan, ja lähetä viesti."
+  },
+  "emailBugReportText": {
+    "message": "Lähetä virheraportti sähköpostilla"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "Asetuksesi jätettiin pois, jotta tämä sähköposti pysyy lyhyenä. Jos niillä on merkitystä, kopioi ne Tuki-sivulta ja liitä tähän."
+  },
+  "emailSubjectText": {
+    "message": "Virheraportti"
+  },
   "enableAutoDeleteText": {
     "message": "Kytke automaattisiivous päälle"
   },
@@ -1430,6 +1448,6 @@
     "message": "Vianetsintä ja UKK"
   },
   "helpTroubleshootingBody": {
-    "message": "Kirjattiin ulos sivustolta? Todennäköisyysjärjestyksessä: sivustolla ei ole säilytyssääntöä (tai vain sen tarkalla isäntänimellä on, kun kirjautuminen asuu aliverkkotunnuksella — käytä muotoa *.example.com); se on uudelleenkäynnistykseen-asti-sivusto ja selain käynnistyi uudelleen; osunut sääntö säilyttää vain nimetyt evästeet eikä kirjautumiseväste ole rastittuna; tai sivuston oma eväste yksinkertaisesti vanheni. Älä arvaile — siivousloki nimeää täsmälleen säännön, joka laukesi.\n\nEvästeet ilmestyvät heti siivouksen jälkeen? Sivusto on lähes aina yhä auki jossakin välilehdessä — avoimet sivustot luovat evästeitä mielensä mukaan ja ovat joka tapauksessa suojattuja.\n\nSiivous ei tapahtunut? Tarkista järjestyksessä: automaattisiivous on päällä (ponnahdusikkunan otsake kertoo sen); sivusto ei ole auki toisessa välilehdessä; viiveaika on kulunut; mikään säilytyssääntö ei osu; kyse ei ollut nukkuvasta välilehdestä (ne lasketaan suljetuiksi vain, jos kyseinen edistynyt asetus on päällä).\n\nKytkit sivustotietojen siivouksen mutta vanhat tiedot ovat yhä siellä? Selain sallii näiden tyyppien pyyhkimisen vain sivustoilta, joilla vierailet uudelleen; jäänteet pysyvät seuraavaan käyntiin asti.\n\nIncognito? Vain jos sallit sen: selaimesi laajennussivu → Salli incognito-tilassa. Incognitolla on oma evästesäilönsä ja omat tallennetut sivustonsa, eikä sitä koskaan kirjata lokiin.\n\nYhä jumissa? Tuki-sivulla on versio, kopioitava virheenjäljityslohko ja linkki virheraportteihin. Virheenjäljitystila (Edistynyt) saa laajennuksen selostamaan jokaisen päätöksen service workerin konsoliin evästearvot peitettyinä."
+    "message": "Kirjattiin ulos sivustolta? Todennäköisyysjärjestyksessä: sivustolla ei ole säilytyssääntöä (tai vain sen tarkalla isäntänimellä on, kun kirjautuminen asuu aliverkkotunnuksella — käytä muotoa *.example.com); se on uudelleenkäynnistykseen-asti-sivusto ja selain käynnistyi uudelleen; osunut sääntö säilyttää vain nimetyt evästeet eikä kirjautumiseväste ole rastittuna; tai sivuston oma eväste yksinkertaisesti vanheni. Älä arvaile — siivousloki nimeää täsmälleen säännön, joka laukesi.\n\nEvästeet ilmestyvät heti siivouksen jälkeen? Sivusto on lähes aina yhä auki jossakin välilehdessä — avoimet sivustot luovat evästeitä mielensä mukaan ja ovat joka tapauksessa suojattuja.\n\nSiivous ei tapahtunut? Tarkista järjestyksessä: automaattisiivous on päällä (ponnahdusikkunan otsake kertoo sen); sivusto ei ole auki toisessa välilehdessä; viiveaika on kulunut; mikään säilytyssääntö ei osu; kyse ei ollut nukkuvasta välilehdestä (ne lasketaan suljetuiksi vain, jos kyseinen edistynyt asetus on päällä).\n\nKytkit sivustotietojen siivouksen mutta vanhat tiedot ovat yhä siellä? Selain sallii näiden tyyppien pyyhkimisen vain sivustoilta, joilla vierailet uudelleen; jäänteet pysyvät seuraavaan käyntiin asti.\n\nIncognito? Vain jos sallit sen: selaimesi laajennussivu → Salli incognito-tilassa. Incognitolla on oma evästesäilönsä ja omat tallennetut sivustonsa, eikä sitä koskaan kirjata lokiin.\n\nYhä jumissa? Tuki-sivulla on versio, kopioitava virheenjäljityslohko, linkki virheraportteihin ja Lähetä virheraportti sähköpostilla -painike, jos sinulla ei ole GitHub-tiliä. Virheenjäljitystila (Edistynyt) saa laajennuksen selostamaan jokaisen päätöksen service workerin konsoliin evästearvot peitettyinä."
   }
 }

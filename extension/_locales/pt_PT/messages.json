@@ -225,6 +225,24 @@
   "editExpressionText": {
     "message": "Editar expressão"
   },
+  "emailAddressText": {
+    "message": "Se o botão não fizer nada, envie o seu relatório e os dois blocos acima a partir de qualquer conta de e-mail para este endereço:"
+  },
+  "emailBodyPromptText": {
+    "message": "O que correu mal, e o que estava a fazer quando aconteceu?"
+  },
+  "emailBugReportHelpText": {
+    "message": "Não tem conta no GitHub? Envie o seu relatório por e-mail. O botão abaixo abre a sua aplicação de e-mail com uma nova mensagem que já contém os dois blocos acima. Acrescente o que correu mal e envie-a."
+  },
+  "emailBugReportText": {
+    "message": "Comunicar um erro por e-mail"
+  },
+  "emailSettingsLeftOutText": {
+    "message": "As suas definições foram omitidas para manter este e-mail curto. Se forem relevantes, copie-as da página Suporte e cole-as aqui."
+  },
+  "emailSubjectText": {
+    "message": "Relatório de erro"
+  },
   "enableAutoDeleteText": {
     "message": "Ligar a limpeza automática"
   },
@@ -1430,6 +1448,6 @@
     "message": "Resolução de problemas e perguntas frequentes"
   },
   "helpTroubleshootingBody": {
-    "message": "Desligado de um site? Por ordem de probabilidade: o site não tem regra de manter (ou só o nome de anfitrião exato tem, enquanto o início de sessão vive num subdomínio — use a forma *.example.com); é um site até-reiniciar e o navegador reiniciou; uma regra correspondente mantém só cookies nomeados e o cookie de sessão não está assinalado; ou o cookie do site simplesmente expirou. Não adivinhe — o registo de limpeza nomeia a regra exata que atuou.\n\nOs cookies reaparecem logo após a limpeza? O site está quase sempre ainda aberto nalgum separador — sites abertos recriam cookies à vontade e estão protegidos de qualquer forma.\n\nA limpeza não correu? Verifique por ordem: a limpeza automática está ligada (o cabeçalho do popup di-lo); o site não está aberto noutro separador; o período de tolerância passou; nenhuma regra de manter corresponde; não era um separador adormecido (esses só contam como fechados se essa definição avançada estiver ligada).\n\nAtivou a limpeza de dados do site mas os dados antigos continuam lá? O navegador só deixa apagar esses tipos em sites que visite de novo; os restos ficam até à próxima visita.\n\nAnónimo? Só se o permitir: página de extensões do navegador → Permitir em modo anónimo. O modo anónimo tem o seu próprio armazenamento de cookies e sites guardados, e nunca entra no registo.\n\nAinda preso? A página Suporte tem a versão, um bloco de depuração copiável e a ligação para relatar erros. O modo de depuração (Avançado) faz a extensão narrar cada decisão na consola do service worker, com os valores dos cookies mascarados."
+    "message": "Desligado de um site? Por ordem de probabilidade: o site não tem regra de manter (ou só o nome de anfitrião exato tem, enquanto o início de sessão vive num subdomínio — use a forma *.example.com); é um site até-reiniciar e o navegador reiniciou; uma regra correspondente mantém só cookies nomeados e o cookie de sessão não está assinalado; ou o cookie do site simplesmente expirou. Não adivinhe — o registo de limpeza nomeia a regra exata que atuou.\n\nOs cookies reaparecem logo após a limpeza? O site está quase sempre ainda aberto nalgum separador — sites abertos recriam cookies à vontade e estão protegidos de qualquer forma.\n\nA limpeza não correu? Verifique por ordem: a limpeza automática está ligada (o cabeçalho do popup di-lo); o site não está aberto noutro separador; o período de tolerância passou; nenhuma regra de manter corresponde; não era um separador adormecido (esses só contam como fechados se essa definição avançada estiver ligada).\n\nAtivou a limpeza de dados do site mas os dados antigos continuam lá? O navegador só deixa apagar esses tipos em sites que visite de novo; os restos ficam até à próxima visita.\n\nAnónimo? Só se o permitir: página de extensões do navegador → Permitir em modo anónimo. O modo anónimo tem o seu próprio armazenamento de cookies e sites guardados, e nunca entra no registo.\n\nAinda preso? A página Suporte tem a versão, um bloco de depuração copiável, a ligação para relatar erros e o botão 'Comunicar um erro por e-mail' se não tiver conta no GitHub. O modo de depuração (Avançado) faz a extensão narrar cada decisão na consola do service worker, com os valores dos cookies mascarados."
   }
 }

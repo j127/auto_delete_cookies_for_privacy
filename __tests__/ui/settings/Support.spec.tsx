@@ -53,7 +53,7 @@ describe("Support", () => {
     );
   });
 
-  it("renders the Support heading with the bug-report and discussions links as the only anchors", () => {
+  it("renders the Support heading with the bug-report, discussions and email links as the only anchors", () => {
     const { container, getByText, queryByText } = renderSupport();
     expect((container.querySelector("h1") as HTMLElement).textContent).toBe(
       "supportText"
@@ -73,7 +73,57 @@ describe("Support", () => {
     // The external documentation link is gone — the in-app Help page owns
     // the docs now.
     expect(queryByText("documentationText")).toBeNull();
-    expect(container.querySelectorAll("a")).toHaveLength(2);
+    // The third anchor is the mailto: link; nothing links to a page that
+    // needs a sign-in beyond the two GitHub links people already had.
+    const anchors = Array.from(container.querySelectorAll("a"));
+    expect(anchors).toHaveLength(3);
+    expect(anchors[2].getAttribute("href")).toMatch(
+      /^mailto:support@moakh\.dev\?/
+    );
+  });
+
+  it("links the Email a bug report button to a prefilled mailto: with both blocks", async () => {
+    global.browser.runtime.getPlatformInfo.mockResolvedValue({
+      os: "mac",
+      arch: "arm64",
+    });
+    const { container, getByText } = renderSupport();
+    const info = container.querySelector("#debugInfo") as HTMLTextAreaElement;
+    await waitFor(() => expect(info.value).toContain("macOS (arm64)"));
+    const dump = container.querySelector(
+      "#debugSettings"
+    ) as HTMLTextAreaElement;
+    const link = getByText("emailBugReportText").closest(
+      "a"
+    ) as HTMLAnchorElement;
+    expect(link.classList.contains("btn")).toBe(true);
+    const href = link.getAttribute("href") as string;
+    const url = new URL(href);
+    expect(url.protocol).toBe("mailto:");
+    expect(url.pathname).toBe("support@moakh.dev");
+    expect(url.searchParams.get("subject")).toBe(
+      "emailSubjectText: extensionName 1.0.0"
+    );
+    const body = url.searchParams.get("body") as string;
+    const crlf = (text: string) => text.split("\n").join("\r\n");
+    expect(body.startsWith("emailBodyPromptText")).toBe(true);
+    expect(body).toContain(`System details:\r\n${crlf(info.value)}`);
+    expect(body).toContain(`Settings:\r\n${crlf(dump.value)}`);
+    expect(body).not.toContain("emailSettingsLeftOutText");
+  });
+
+  it("shows the support address as plain text for people with no mail app", () => {
+    const { container, getByText } = renderSupport();
+    expect(getByText("emailBugReportHelpText")).toBeTruthy();
+    const address = container.querySelector("#supportEmail") as HTMLElement;
+    expect(address.textContent).toBe("support@moakh.dev");
+    expect(address.closest("a")).toBeNull();
+    expect(address.getAttribute("dir")).toBe("ltr");
+    expect(
+      (address.parentElement as HTMLElement).textContent?.startsWith(
+        "emailAddressText"
+      )
+    ).toBe(true);
   });
 
   it("fills the debug info textarea with the browser and OS it can read", async () => {
