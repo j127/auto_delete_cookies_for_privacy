@@ -45,7 +45,7 @@ SWITCHING FROM COOKIE AUTODELETE?
 Auto-Delete Cookies for Privacy is a maintained successor to the archived Cookie AutoDelete. Import your existing Cookie AutoDelete settings export on the Import / Export page: your lists carry over, container lists included.
 
 DETAILS
-• Manifest V3; Firefox 128 (ESR) or newer, desktop only.
+• Manifest V3; Firefox 140 (ESR) or newer, desktop only.
 • Available in 32 languages.
 • Optional cleanup log, statistics, and notifications.
 ```

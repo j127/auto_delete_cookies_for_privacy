@@ -153,6 +153,13 @@ describe("e2e-firefox job", () => {
       );
     });
 
+    it("tests the oldest Firefox the manifest supports", () => {
+      // The ESR channel is the oldest ESR the manifest still supports
+      // (docs/testing-firefox.md, "Channels"), so the minimum is never a
+      // Firefox that no CI run has installed.
+      expect(major(versionOf("ESR"))).toBe(major(FIREFOX_STRICT_MIN_VERSION));
+    });
+
     it("installs the channel's pinned version, not a fixed one", () => {
       expect(E2E_JOB).toMatch(
         /^ {10}firefox-version: \$\{\{ matrix\.firefox \}\}$/m

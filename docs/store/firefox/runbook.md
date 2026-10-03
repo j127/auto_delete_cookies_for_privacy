@@ -15,7 +15,7 @@ Choose **Listed** on the first upload page ("On this site"). Listed means AMO ho
 ## 2. Upload the add-on
 
 1. https://addons.mozilla.org/developers/ → "Submit a New Add-on" → "On this site".
-2. Upload `Auto-Delete-Cookies-for-Privacy_<tag>_Firefox.zip`. The validator runs the same linter as `just lint_firefox`; expect 0 errors and the two known warnings (the `data_collection_permissions` key is newer than the declared minimum Firefox version — required by AMO policy regardless — and innerHTML notices from the React vendor chunk).
+2. Upload `Auto-Delete-Cookies-for-Privacy_<tag>_Firefox.zip`. The validator runs the same linter as `just lint_firefox`; expect 0 errors and two known kinds of warning (4 warnings in all as of the 140 minimum): one `KEY_FIREFOX_ANDROID_UNSUPPORTED_BY_MIN_VERSION` because Firefox for Android only gained the `data_collection_permissions` key in 142, above the declared minimum of 140 — the key is required by AMO policy regardless and the add-on is desktop only — and three `UNSAFE_VAR_ASSIGNMENT` innerHTML notices from the React vendor chunk. The desktop variant of the first warning went away when the minimum moved to 140, the version that introduced the key on desktop.
 3. "Do You Need to Submit Source Code?" → **Yes** (the bundles are built from TypeScript).
 
 ## 3. Upload the source package

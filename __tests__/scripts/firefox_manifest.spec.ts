@@ -109,6 +109,12 @@ describe("buildFirefoxManifest", () => {
     expect(FIREFOX_ADDON_ID).toMatch(/^\{[0-9a-f-]{36}\}$/);
   });
 
+  it("declares ESR 140 as the minimum Firefox", () => {
+    // The oldest ESR that Mozilla still updates (ESR 128 reached end of life
+    // with 128.14.0 on 2025-08-19); also the ESR the e2e-firefox job tests.
+    expect(FIREFOX_STRICT_MIN_VERSION).toBe("140.0");
+  });
+
   it("passes shared fields through unchanged", () => {
     const input = chromeFixture();
     const result = buildFirefoxManifest(input);
