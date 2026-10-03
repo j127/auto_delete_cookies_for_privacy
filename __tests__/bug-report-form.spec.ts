@@ -74,6 +74,13 @@ describe("bug report form", () => {
     }
   );
 
+  // Since #435 the copied system details carry the browser version and the
+  // OS, so the directions no longer send people to look them up.
+  it("doesn't ask people to look up their browser version", () => {
+    expect(FORM).not.toMatch(/Help → About/);
+    expect(FORM).not.toMatch(/browser's version/);
+  });
+
   // GitHub skips a label the repo doesn't have, without saying so: the
   // upstream form's "untested bug/issue" was never applied to a report.
   it("labels reports as bugs", () => {

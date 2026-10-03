@@ -14,6 +14,11 @@ import { SettingID } from "@/typings/enums";
 import * as React from "react";
 import { useSelector } from "react-redux";
 import { adcpLog } from "@/services/libs";
+import {
+  formatSystemDetails,
+  getSystemDetails,
+  SystemDetails,
+} from "@/services/system-details";
 import IconButton from "@/ui/common-components/IconButton";
 
 interface OwnProps {
@@ -53,6 +58,18 @@ const Support: React.FunctionComponent<OwnProps> = ({ style }) => {
     const so = settings[s];
     return `- ${so.name}: ${so.value}`;
   });
+  // Browser and OS are read asynchronously; until they arrive (or if they
+  // can't be read) the block asks the reporter to add them by hand.
+  const [systemDetails, setSystemDetails] = React.useState<SystemDetails>({});
+  React.useEffect(() => {
+    let active = true;
+    getSystemDetails().then((details) => {
+      if (active) setSystemDetails(details);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
   return (
     <div style={style}>
       <h1 className="mb-4 text-2xl font-bold">
@@ -92,9 +109,11 @@ const Support: React.FunctionComponent<OwnProps> = ({ style }) => {
         cols={40}
         readOnly={true}
         className="textarea block w-full max-w-xl resize-none font-mono text-xs"
-        value={`- Browser Info: (Please add version number on paste)\n- ${browser.i18n.getMessage(
-          "extensionName"
-        )} version: ${browser.runtime.getManifest().version}`}
+        value={formatSystemDetails(
+          systemDetails,
+          browser.i18n.getMessage("extensionName"),
+          browser.runtime.getManifest().version
+        )}
       />
       <div className="mt-2 mb-4 flex items-center gap-2">
         <IconButton
