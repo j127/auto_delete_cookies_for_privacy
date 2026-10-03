@@ -1,7 +1,6 @@
 /**
  * Part of Auto-Delete Cookies for Privacy, a fork of Cookie AutoDelete.
- * Copyright (c) 2017-2022 Kenny Do and CAD Team; fork changes (c) 2026 j127.
- * Licensed under MIT (see LICENSE).
+ * Copyright (c) 2026 j127. Licensed under MIT (see LICENSE).
  */
 
 /**
