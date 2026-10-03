@@ -133,6 +133,76 @@ describe("row 3: TCP-partitioned third-party cookie", () => {
   }, 90000);
 });
 
+describe("row 3: per-site partition lookup on a non-default port", () => {
+  // The popup count and "Delete this site's cookies" pull a site's
+  // partition bucket with one getAll per topLevelSiteCandidates() key
+  // (getAllCookiesForDomain, clearCookiesForThisDomain). The fixture
+  // serves on a non-default port, where Firefox ESR 140 writes the port
+  // into partitionKey.topLevelSite and 152 and later do not (#432). The
+  // candidates come from the extension's own builder, so this asks Firefox
+  // exactly what those two paths ask it.
+  it("finds the partitioned tracker through the site's candidate keys", async () => {
+    // libs.ts reads the build-time browser identity at import; the bundle
+    // gets it from scripts/build.ts, this node-side import from here.
+    (globalThis as { __BROWSER__?: string }).__BROWSER__ = "firefox";
+    const { dedupeCookies, getHostname, topLevelSiteCandidates } =
+      await import("../../src/services/libs");
+    const pageUrl = `${fixture.primary}/embed`;
+
+    await whileOpen(pageUrl, async () => {
+      const appeared = await waitUntil(async () => {
+        const all = await cookiesFor({ domain: "127.0.0.1" });
+        return all.some((c) => c.name === "e2e_tracker");
+      }, 15000);
+      expect(appeared).toBe(true);
+
+      const byKey = async (topLevelSite: string): Promise<ProbeCookie[]> =>
+        (
+          (await probe(session, {
+            kind: "getAllCookies",
+            details: { firstPartyDomain: null, partitionKey: { topLevelSite } },
+          })) as ProbeCookie[]
+        ).filter((c) => c.name === "e2e_tracker");
+
+      // Evidence for #432: what each key format returns on this channel.
+      const evidence: Record<string, string[]> = {};
+      for (const key of ["http://localhost", fixture.primary]) {
+        evidence[key] = (await byKey(key)).map(
+          (c) => `${c.name} @ ${c.partitionKey?.topLevelSite}`
+        );
+      }
+      console.log("partition lookup by key:", JSON.stringify(evidence));
+
+      const candidates = topLevelSiteCandidates(getHostname(pageUrl), pageUrl);
+      const found: ProbeCookie[] = [];
+      for (const topLevelSite of candidates) {
+        found.push(...(await byKey(topLevelSite)));
+      }
+      // 152 and later answer the port-carrying key too, with the same
+      // port-less cookie, so both callers must collapse the overlap.
+      const counted = dedupeCookies(
+        found as unknown as browser.cookies.Cookie[]
+      );
+      console.log(
+        "candidates:",
+        JSON.stringify(candidates),
+        "found:",
+        found.length,
+        "counted:",
+        counted.length
+      );
+      expect(counted.map((c) => c.name)).toEqual(["e2e_tracker"]);
+    });
+
+    // Leave nothing behind for the rows after this one.
+    const cleaned = await waitUntil(async () => {
+      const all = await cookiesFor({ domain: "127.0.0.1" });
+      return !all.some((c) => c.name === "e2e_tracker");
+    }, 45000);
+    expect(cleaned).toBe(true);
+  }, 90000);
+});
+
 describe("row 13: site-data (localStorage) cleanup", () => {
   it("clears localStorage for the exact host after tab close", async () => {
     await whileOpen(`${fixture.primary}/storage`, async () => {
