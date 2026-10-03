@@ -1,0 +1,37 @@
+{
+  "default": [
+    {
+      "expression": "plain.example.com",
+      "listType": "WHITE",
+      "storeId": "default"
+    }
+  ],
+  "firefox-default": [
+    {
+      "expression": "main.example.com",
+      "listType": "WHITE",
+      "storeId": "firefox-default"
+    }
+  ],
+  "firefox-private": [
+    {
+      "expression": "secret.example.com",
+      "listType": "GREY",
+      "storeId": "firefox-private"
+    }
+  ],
+  "firefox-container-1": [
+    {
+      "expression": "personal.example.com",
+      "listType": "WHITE",
+      "storeId": "firefox-container-1"
+    }
+  ],
+  "firefox-container-4": [
+    {
+      "expression": "shop.example.com",
+      "listType": "GREY",
+      "storeId": "firefox-container-4"
+    }
+  ]
+}
