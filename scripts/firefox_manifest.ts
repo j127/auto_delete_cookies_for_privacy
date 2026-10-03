@@ -29,15 +29,16 @@
  *   supports 120).
  * - browser_specific_settings.gecko: required for AMO. The id is a random
  *   GUID (deliberately carries no account or host name); strict_min_version
- *   128 is the last broadly update-capable ESR (every API used is available
- *   by Firefox 115); data_collection_permissions is mandatory for new AMO
+ *   140 is the oldest ESR that Mozilla still updates (ESR 128 reached end of
+ *   life with 128.14.0 on 2025-08-19), and every API used is available by
+ *   Firefox 115; data_collection_permissions is mandatory for new AMO
  *   submissions since 2025-11 — this extension collects nothing.
  */
 
 /** Stable AMO add-on id. Never change this once published. */
 export const FIREFOX_ADDON_ID = "{18370def-5c02-46b5-bf90-2c8de7e67a87}";
 
-export const FIREFOX_STRICT_MIN_VERSION = "128.0";
+export const FIREFOX_STRICT_MIN_VERSION = "140.0";
 
 /**
  * What about:addons shows as the add-on's homepage. The repo rather than a
