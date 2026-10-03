@@ -130,10 +130,10 @@ jobs:
           # still supports (FIREFOX_STRICT_MIN_VERSION); see "Channels"
           # in docs/testing-firefox.md.
           - channel: ESR
-            firefox: "140.16.0esr"
+            firefox: "140.17.0esr"
           # The current Firefox release.
           - channel: Rel
-            firefox: "156.0.1"
+            firefox: "157.0"
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
