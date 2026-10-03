@@ -210,11 +210,38 @@ export const withAllPartitions = <T extends object>(details: T): T =>
  * The partitionKey.topLevelSite candidates for a hostname — used to pull
  * the partition bucket OF a site (third-party cookies stored under it).
  * topLevelSite is a scheme+registrable-domain "site", hence mainDomain.
+ *
+ * Firefox ESR 140 also writes a non-default port into the key
+ * (http://localhost:8080) and getAll matches the key exactly, while 152
+ * and later drop the port (#432). So when the tab URL carries a port, the
+ * tab's own scheme+site+port is a candidate too. Default ports never
+ * appear: URL.port is empty for them.
  */
-export const topLevelSiteCandidates = (hostname: string): string[] => {
+export const topLevelSiteCandidates = (
+  hostname: string,
+  tabUrl?: string
+): string[] => {
   const mainDomain = extractMainDomain(hostname);
   if (mainDomain === "") return [];
-  return [`https://${mainDomain}`, `http://${mainDomain}`];
+  // An IPv6 host needs its brackets back before a port can follow it.
+  // A URL origin brackets it even without a port (http://[::1]), so every
+  // candidate uses the bracketed form; extractMainDomain returns it bare.
+  const host = mainDomain.includes(":") ? `[${mainDomain}]` : mainDomain;
+  const candidates = [`https://${host}`, `http://${host}`];
+  let parsed: URL | undefined;
+  try {
+    parsed = tabUrl ? new URL(tabUrl) : undefined;
+  } catch {
+    parsed = undefined;
+  }
+  if (
+    parsed &&
+    parsed.port !== "" &&
+    (parsed.protocol === "https:" || parsed.protocol === "http:")
+  ) {
+    candidates.push(`${parsed.protocol}//${host}:${parsed.port}`);
+  }
+  return candidates;
 };
 
 export const getAllCookiesForDomain = async (
@@ -282,7 +309,7 @@ export const getAllCookiesForDomain = async (
     // Plus this site's partition bucket: third-party cookies partitioned
     // UNDER this top-level site (TCP/CHIPS). They belong to the site's
     // browsing footprint, so counts and per-tab actions include them.
-    for (const topLevelSite of topLevelSiteCandidates(hostname)) {
+    for (const topLevelSite of topLevelSiteCandidates(hostname, url)) {
       const partitioned = await browser.cookies.getAll(
         withAnyFirstPartyDomain({
           partitionKey: { topLevelSite },

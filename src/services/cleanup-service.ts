@@ -394,7 +394,7 @@ export const clearCookiesForThisDomain = async (
   // Manual per-site clean also empties this site's partition bucket:
   // third-party cookies partitioned UNDER this top-level site (TCP/CHIPS).
   const partitionedCookies: browser.cookies.Cookie[] = [];
-  for (const topLevelSite of topLevelSiteCandidates(hostname)) {
+  for (const topLevelSite of topLevelSiteCandidates(hostname, tab.url)) {
     partitionedCookies.push(
       ...(await browser.cookies.getAll(
         withAnyFirstPartyDomain({

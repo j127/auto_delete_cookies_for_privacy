@@ -930,6 +930,42 @@ describe("CleanupService", () => {
         "1",
       ]);
     });
+    it("empties the partition bucket keyed with the port on a non-default port", async () => {
+      // Firefox ESR 140 keys partitions under http://localhost:8080 with
+      // the port and getAll matches the key exactly (#432).
+      const tracker: CookiePropertiesCleanup = {
+        ...mockCookie,
+        domain: "127.0.0.1",
+        name: "e2e_tracker",
+        path: "/",
+        secure: false,
+        partitionKey: { topLevelSite: "http://localhost:8080" },
+      };
+      global.browser.cookies.getAll.mockResolvedValue([] as never);
+      when(global.browser.cookies.getAll)
+        .calledWith({
+          partitionKey: { topLevelSite: "http://localhost:8080" },
+          storeId: "0",
+        })
+        .mockResolvedValue([tracker] as never);
+      when(global.browser.cookies.remove)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue({} as never);
+
+      expect(
+        await clearCookiesForThisDomain(initialState, {
+          ...sampleTab,
+          url: "http://localhost:8080/embed",
+        })
+      ).toBe(true);
+      expect(global.browser.cookies.remove).toBeCalledTimes(1);
+      expect(global.browser.cookies.remove).toHaveBeenCalledWith({
+        name: "e2e_tracker",
+        storeId: "0",
+        url: "http://127.0.0.1/",
+        partitionKey: { topLevelSite: "http://localhost:8080" },
+      });
+    });
   });
 
   describe("clearLocalStorageForThisDomain()", () => {
