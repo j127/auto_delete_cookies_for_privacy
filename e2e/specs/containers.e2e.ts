@@ -54,6 +54,7 @@ interface PersistedState {
 }
 
 const DEFAULT_STORE = "firefox-default";
+const CONTAINER_A = "ADCP e2e A";
 
 let session: FirefoxSession;
 let fixture: FixtureServer;
@@ -213,62 +214,77 @@ const openSavedSites = async (): Promise<void> => {
   if (!mounted) throw new Error("Saved sites never rendered");
 };
 
-const listOptions = async (): Promise<string[]> => {
-  const options = await session.driver.findElements(
-    By.css("#storeIdSelector option")
-  );
-  return Promise.all(options.map((o) => o.getAttribute("value")));
-};
+/**
+ * The selector's options as [value, label] pairs, read in one script: the
+ * options re-render while the container query settles (a container's list
+ * shows as orphaned until the query answers), so element handles go stale.
+ */
+const listOptions = async (): Promise<[string, string][]> =>
+  (await session.driver.executeScript(
+    `return [...document.querySelectorAll("#storeIdSelector option")].map(
+      (o) => [o.value, o.textContent]
+    );`
+  )) as [string, string][];
 
-/** Picks a list in the "Which list" selector with a real click. */
-const selectList = async (listKey: string): Promise<void> => {
+/**
+ * Picks a list in the "Which list" selector with a real click, once its
+ * option carries the expected label (a container's name, or the orphaned
+ * marker). Retried as a whole, since a re-render can swap the option node
+ * between the find and the click.
+ */
+const selectList = async (listKey: string, label: string): Promise<void> => {
   const { driver } = session;
-  const present = await waitUntil(
-    async () => (await listOptions()).includes(listKey),
-    10000
+  const selected = await waitUntil(
+    async () => {
+      const ready = (await listOptions()).some(
+        ([value, text]) => value === listKey && text.includes(label)
+      );
+      if (!ready) return false;
+      try {
+        // Clicking the option alone selects it and fires change; clicking
+        // the select first would open its dropdown.
+        await driver
+          .findElement(By.css(`#storeIdSelector option[value="${listKey}"]`))
+          .click();
+      } catch {
+        return false;
+      }
+      return (
+        (await driver.executeScript(
+          'return document.getElementById("storeIdSelector").value;'
+        )) === listKey
+      );
+    },
+    15000,
+    300
   );
-  if (!present) {
+  if (!selected) {
     throw new Error(
-      `${listKey} not in the list selector: ${JSON.stringify(await listOptions())}`
+      `could not select ${listKey} (${label}): ${JSON.stringify(await listOptions())}`
     );
   }
-  // Clicking the option alone selects it and fires change; clicking the
-  // select first would open its dropdown.
-  await driver
-    .findElement(By.css(`#storeIdSelector option[value="${listKey}"]`))
-    .click();
-  const selected = await waitUntil(
-    async () =>
-      (await driver
-        .findElement(By.id("storeIdSelector"))
-        .getAttribute("value")) === listKey,
-    5000
-  );
-  if (!selected) throw new Error(`${listKey} could not be selected`);
 };
 
-/** The visible button whose label contains text, if there is one. */
-const buttonWithText = async (
-  text: string
-): Promise<WebElement | undefined> => {
-  for (const button of await session.driver.findElements(By.css("button"))) {
-    if ((await button.getText()).includes(text)) return button;
-  }
-  return undefined;
-};
+/** The button whose label contains text, or null when there is none. */
+const buttonWithText = async (text: string): Promise<WebElement | null> =>
+  (await session.driver.executeScript(
+    `return [...document.querySelectorAll("button")].find((b) =>
+      b.textContent.includes(arguments[0])
+    ) ?? null;`,
+    text
+  )) as WebElement | null;
 
 /** Whether an alert of the given DaisyUI kind shows text. */
 const alertShows = async (
   kind: "success" | "error",
   text: string
-): Promise<boolean> => {
-  for (const alert of await session.driver.findElements(
-    By.css(`[role="alert"].alert-${kind}`)
-  )) {
-    if ((await alert.getText()).includes(text)) return true;
-  }
-  return false;
-};
+): Promise<boolean> =>
+  (await session.driver.executeScript(
+    `return [...document.querySelectorAll('[role="alert"].alert-' + arguments[0])]
+      .some((a) => a.textContent.includes(arguments[1]));`,
+    kind,
+    text
+  )) as boolean;
 
 beforeAll(async () => {
   fixture = await startFixtureServer();
@@ -285,7 +301,7 @@ describe("containers available (rows 7, 8, 9, 14)", () => {
   beforeAll(async () => {
     session = await launchFirefox();
     await applySettings({ activeMode: true, delayBeforeClean: 1 });
-    containerA = await createContainer("ADCP e2e A");
+    containerA = await createContainer(CONTAINER_A);
   }, 120000);
 
   afterAll(async () => {
@@ -341,7 +357,7 @@ describe("containers available (rows 7, 8, 9, 14)", () => {
     it("copies the Default rules into the container list once", async () => {
       await keep("example.com", "default");
       await openSavedSites();
-      await selectList(containerA);
+      await selectList(containerA, CONTAINER_A);
       // The not-applied notice belongs to row 8; with lists on it is gone.
       expect(
         await session.driver.findElements(By.id("containerListsOffNotice"))
@@ -409,7 +425,7 @@ describe("containers available (rows 7, 8, 9, 14)", () => {
 
     it("warns on Saved sites that the container list is not applied", async () => {
       await openSavedSites();
-      await selectList(containerA);
+      await selectList(containerA, CONTAINER_A);
       const noticeShown = await waitUntil(
         async () =>
           (await session.driver.findElements(By.id("containerListsOffNotice")))
@@ -420,7 +436,7 @@ describe("containers available (rows 7, 8, 9, 14)", () => {
       // The copy button needs separate lists on, so it is hidden here.
       expect(
         await buttonWithText(await message("copyDefaultRulesText"))
-      ).toBeUndefined();
+      ).toBeNull();
     }, 60000);
   });
 
@@ -587,13 +603,17 @@ describe("row 10: containers disabled (privacy.userContext.enabled=false)", () =
     const orphan = "firefox-container-1";
     await keep("example.com", orphan);
     await openSavedSites();
-    // Default, Private and the orphan; no live container is offered.
+    // Default, Private and the orphan; no live container is offered. The
+    // profile still holds Firefox's four stock containers, one of them
+    // firefox-container-1, but the rejected query hides them all.
+    const orphanLabel = await message("orphanedStoreText");
+    const values = async () => (await listOptions()).map(([value]) => value);
     expect(
-      await waitUntil(async () => (await listOptions()).includes(orphan), 10000)
+      await waitUntil(async () => (await values()).includes(orphan), 10000)
     ).toBe(true);
-    expect(await listOptions()).toEqual(["default", "private", orphan]);
+    expect(await values()).toEqual(["default", "private", orphan]);
 
-    await selectList(orphan);
+    await selectList(orphan, orphanLabel);
     const removeText = await message("removeOrphanedListText");
     const remove = await buttonWithText(removeText);
     if (!remove) throw new Error(`no "${removeText}" button`);
