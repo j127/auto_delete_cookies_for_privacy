@@ -1240,9 +1240,22 @@ describe("Library Functions", () => {
 
     it("brackets an IPv6 host before its port", () => {
       expect(topLevelSiteCandidates("::1", "http://[::1]:8080/")).toEqual([
-        "https://::1",
-        "http://::1",
+        "https://[::1]",
+        "http://[::1]",
         "http://[::1]:8080",
+      ]);
+    });
+
+    // getHostname strips the brackets, but a site's origin keeps them
+    // (http://[::1]), so the port-less candidates must put them back too.
+    it("brackets an IPv6 host in the port-less candidates", () => {
+      expect(topLevelSiteCandidates("2001:db8::1")).toEqual([
+        "https://[2001:db8::1]",
+        "http://[2001:db8::1]",
+      ]);
+      expect(topLevelSiteCandidates("::1", "https://[::1]/")).toEqual([
+        "https://[::1]",
+        "http://[::1]",
       ]);
     });
   });

@@ -223,7 +223,11 @@ export const topLevelSiteCandidates = (
 ): string[] => {
   const mainDomain = extractMainDomain(hostname);
   if (mainDomain === "") return [];
-  const candidates = [`https://${mainDomain}`, `http://${mainDomain}`];
+  // An IPv6 host needs its brackets back before a port can follow it.
+  // A URL origin brackets it even without a port (http://[::1]), so every
+  // candidate uses the bracketed form; extractMainDomain returns it bare.
+  const host = mainDomain.includes(":") ? `[${mainDomain}]` : mainDomain;
+  const candidates = [`https://${host}`, `http://${host}`];
   let parsed: URL | undefined;
   try {
     parsed = tabUrl ? new URL(tabUrl) : undefined;
@@ -235,8 +239,6 @@ export const topLevelSiteCandidates = (
     parsed.port !== "" &&
     (parsed.protocol === "https:" || parsed.protocol === "http:")
   ) {
-    // An IPv6 host needs its brackets back before a port can follow it.
-    const host = mainDomain.includes(":") ? `[${mainDomain}]` : mainDomain;
     candidates.push(`${parsed.protocol}//${host}:${parsed.port}`);
   }
   return candidates;
