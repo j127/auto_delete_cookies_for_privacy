@@ -262,7 +262,9 @@ describe("ContextMenuEvents", () => {
         expect.any(Object),
         "All",
         expect.any(String),
-        expect.any(String)
+        expect.any(String),
+        // The tab's own store, where marker cookies are looked up.
+        "0"
       );
     });
     it("Clear Site Data For This Domain was clicked, but hostname was blank", () => {
@@ -289,7 +291,9 @@ describe("ContextMenuEvents", () => {
         expect.any(Object),
         "Cache",
         expect.any(String),
-        expect.any(String)
+        expect.any(String),
+        // The tab's own store, where marker cookies are looked up.
+        "0"
       );
     });
     it("Trigger Clear Cookies For This Domain", () => {
@@ -314,7 +318,9 @@ describe("ContextMenuEvents", () => {
         expect.any(Object),
         "IndexedDB",
         expect.any(String),
-        expect.any(String)
+        expect.any(String),
+        // The tab's own store, where marker cookies are looked up.
+        "0"
       );
     });
     it("Trigger Clear LocalStorage For This Domain", () => {
@@ -341,7 +347,9 @@ describe("ContextMenuEvents", () => {
         expect.any(Object),
         "PluginData",
         expect.any(String),
-        expect.any(String)
+        expect.any(String),
+        // The tab's own store, where marker cookies are looked up.
+        "0"
       );
     });
     it("Trigger Clear Service Workers For This Domain", () => {
@@ -356,7 +364,9 @@ describe("ContextMenuEvents", () => {
         expect.any(Object),
         "ServiceWorkers",
         expect.any(String),
-        expect.any(String)
+        expect.any(String),
+        // The tab's own store, where marker cookies are looked up.
+        "0"
       );
     });
     it("Clear Site Data passes the tab URL's explicit port along", () => {
@@ -373,7 +383,9 @@ describe("ContextMenuEvents", () => {
         expect.any(Object),
         "All",
         expect.any(String),
-        "8443"
+        "8443",
+        // The tab's own store, where marker cookies are looked up.
+        "0"
       );
     });
     it("Unknown Site Data Type was pass in.  Extreme case.", () => {

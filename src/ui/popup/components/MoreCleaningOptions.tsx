@@ -10,7 +10,7 @@ import {
   clearLocalStorageForThisDomain,
   clearSiteDataForThisDomain,
 } from "@/services/cleanup-service";
-import { getPort } from "@/services/libs";
+import { getPort, tabCookieStoreId } from "@/services/libs";
 import { animateFlash } from "@/ui/popup/popup-lib";
 
 interface OwnProps {
@@ -37,12 +37,14 @@ const MoreCleaningOptions: React.FunctionComponent<OwnProps> = ({
   const deleteSiteData = async (): Promise<boolean> => {
     const state = store.getState() as State;
     // browsingData removals are origin-scoped; carry the tab's explicit
-    // port so non-default-port storage (e.g. localhost:3000) is covered.
+    // port so non-default-port storage (e.g. localhost:3000) is covered,
+    // and its store, where the site's other hosts left marker cookies.
     const dataResult = await clearSiteDataForThisDomain(
       state,
       "All",
       hostname,
-      getPort(tab.url)
+      getPort(tab.url),
+      tabCookieStoreId(tab)
     );
     const cookieResult = await clearCookiesForThisDomain(state, tab);
     const localStorageResult = await clearLocalStorageForThisDomain(state, tab);
