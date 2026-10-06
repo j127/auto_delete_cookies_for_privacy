@@ -4,11 +4,12 @@
  */
 
 /**
- * The background's wiring for the Private keep list (#468): init(), which
- * runs on every background start or wake-up, must never erase it;
- * runtime.onStartup erases it once per browser session; and a
- * windows.onRemoved listener registered at the top level erases it when
- * the last private window closes.
+ * The background's wiring for the Private keep list (#468): init() on a
+ * wake-up never erases it; windows.onRemoved, registered at the top level,
+ * erases it when the last private window closes; windows.onCreated erases a
+ * stale list at the session's first normal window; and a session with
+ * private windows only (Firefox never remembers history) erases nothing,
+ * runtime.onStartup included.
  *
  * The services init() calls that touch unrelated browser APIs are stubbed,
  * so the real store, StoreUser, SettingService and PrivateWindowEvents run.
@@ -83,9 +84,13 @@ global.browser.storage.local.get.mockResolvedValue({
   }),
 } as never);
 
-// A wake-up mid-session: a private session was open, and no private
-// window is listed (as when the last one closing is what woke the page).
-const session: Record<string, unknown> = { privateSessionOpen: true };
+// A wake-up mid-session in normal mode: a normal window was seen, a
+// private session was open, and no private window is listed (as when the
+// last one closing is what woke the page).
+const session: Record<string, unknown> = {
+  normalWindowSeen: true,
+  privateSessionOpen: true,
+};
 global.browser.storage.session.get.mockImplementation((async (
   defaults: Record<string, unknown>
 ) => ({ ...defaults, ...session })) as never);
@@ -94,7 +99,9 @@ global.browser.storage.session.set.mockImplementation((async (
 ) => {
   Object.assign(session, items);
 }) as never);
-global.browser.windows.getAll.mockResolvedValue([] as never);
+const normalWindow = { id: 1, incognito: false };
+const privateWindow = { id: 2, incognito: true };
+global.browser.windows.getAll.mockResolvedValue([normalWindow] as never);
 global.browser.runtime.getManifest.mockReturnValue({
   version: "1.2.0",
 } as never);
@@ -104,12 +111,26 @@ await import("@/background");
 // Read once now: the config's clearMocks wipes the calls before each test.
 const startupListener = registered(onStartup);
 const messageListener = registered(onMessage);
-registered(onCreated);
+const createdListener = registered(onCreated);
 const removedListener = registered(onRemoved);
 
 /** Awaits the background's init through the UI bridge, like a page does. */
 const currentState = async (): Promise<State> =>
   (await messageListener({ type: UPDATE_STATE })) as State;
+
+/** Adds a Private-list rule through the UI bridge, like Saved sites does. */
+const keepPrivately = async (expression: string): Promise<void> => {
+  await messageListener({
+    type: DISPATCH,
+    action: {
+      type: "ADD_EXPRESSION",
+      payload: { expression, listType: ListType.WHITE, storeId: "private" },
+    },
+  });
+  await vi.waitFor(async () => {
+    expect((await currentState()).lists.private).toHaveLength(1);
+  });
+};
 
 describe("background: the Private keep list", () => {
   it("init on a wake-up does not erase it", async () => {
@@ -125,30 +146,39 @@ describe("background: the Private keep list", () => {
     expect(state.lists.default).toHaveLength(1);
   });
 
-  it("onStartup erases it", async () => {
+  it("a normal window closing leaves it, and so does onStartup", async () => {
     // Back in the list (an import, say), with no private session open.
     session.privateSessionOpen = false;
-    await messageListener({
-      type: DISPATCH,
-      action: {
-        type: "ADD_EXPRESSION",
-        payload: {
-          expression: "imported.example",
-          listType: ListType.WHITE,
-          storeId: "private",
-        },
-      },
-    });
-    await vi.waitFor(async () => {
-      expect((await currentState()).lists.private).toHaveLength(1);
-    });
-    // A normal window closing leaves it alone...
+    await keepPrivately("imported.example");
     await removedListener(1);
     expect((await currentState()).lists.private).toHaveLength(1);
-    // ...and the next browser start erases it.
+    // Browser start no longer erases on its own: the first normal window
+    // of the session does, below.
     await startupListener();
+    expect((await currentState()).lists.private).toHaveLength(1);
+  });
+
+  it("the first normal window of a new session erases a stale list", async () => {
+    // A new browser session: storage.session starts empty.
+    for (const key of Object.keys(session)) delete session[key];
+    global.browser.windows.getAll.mockResolvedValue([normalWindow] as never);
+    await createdListener(normalWindow);
     const state = await currentState();
     expect(state.lists.private).toBeUndefined();
     expect(state.lists.default).toHaveLength(1);
+    expect(session.normalWindowSeen).toBe(true);
+  });
+
+  it("in all-private mode nothing is erased", async () => {
+    // A session with private windows only: Firefox never remembers history.
+    for (const key of Object.keys(session)) delete session[key];
+    await keepPrivately("kept.example");
+    global.browser.windows.getAll.mockResolvedValue([privateWindow] as never);
+    await createdListener(privateWindow);
+    global.browser.windows.getAll.mockResolvedValue([] as never);
+    await removedListener(privateWindow.id);
+    await startupListener();
+    expect((await currentState()).lists.private).toHaveLength(1);
+    expect(session.normalWindowSeen).toBeUndefined();
   });
 });

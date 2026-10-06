@@ -106,9 +106,10 @@ const init = async (): Promise<AppStore> => {
   // Host-permission revocation guard (event-driven; one check per start).
   await PermissionService.checkHostPermissions();
 
-  // Records whether a private window is open (#468). Only ever records:
-  // erasing the Private list here would run on every wake-up, so it
-  // happens in windows.onRemoved and runtime.onStartup instead.
+  // Records which kinds of window are open (#468). On a wake-up it erases
+  // nothing: the Private list is erased only when the last private window
+  // closes, or when a session shows its first normal window with no
+  // private window open (see src/services/private-window-events.ts).
   await PrivateWindowEvents.init();
 
   // Cosmetic/optional initialization must never take the whole worker down:
@@ -327,7 +328,8 @@ browser.permissions.onRemoved.addListener(async () => {
 });
 
 // Private windows (#468): the Private keep list is erased when the last
-// private window closes. The guard keeps a build without the windows API
+// private window closes, unless no normal window was seen this session
+// (Firefox never remembers history). The guard keeps a build without the windows API
 // (Firefox for Android) listener-free; registration stays synchronous at
 // the top level, so closing a window wakes the event page.
 if (browser.windows) {
@@ -356,10 +358,6 @@ browser.runtime.onStartup.addListener(async () => {
   store.dispatch({
     type: ReduxConstants.ON_STARTUP,
   });
-  // A new browser session starts with an empty Private keep list (#468).
-  // Once per session, so a crash, a quit before windows.onRemoved ran, or
-  // missing private-window access still leaves no record behind.
-  PrivateWindowEvents.onBrowserStart();
   if (getSetting(store.getState(), SettingID.ACTIVE_MODE) === true) {
     if (getSetting(store.getState(), SettingID.ENABLE_GREYLIST) === true) {
       greyCleanup();
