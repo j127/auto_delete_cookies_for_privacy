@@ -246,6 +246,7 @@ jobs:
       - name: Install Chrome for Testing
         id: install-chrome
         run: |
+          set -o pipefail
           path=$(bunx @puppeteer/browsers@3.2.3 install "chrome@$CHROME_VERSION" --path "$CHROME_DIR" --format '{{path}}' | tail -n 1)
           test -x "$path"
           echo "path=$path" >> "$GITHUB_OUTPUT"

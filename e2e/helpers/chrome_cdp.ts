@@ -358,11 +358,26 @@ export const launchChrome = async ({
       secureOrigins,
       headed: process.env.E2E_HEADED === "1",
     }),
-    { stdio: "ignore" }
+    { stdio: ["ignore", "ignore", "pipe"] }
   );
+  // The end of Chrome's stderr, for the error when it fails to start
+  // (a missing library, a sandbox the host refuses).
+  let stderrTail = "";
+  browser.stderr?.setEncoding("utf8");
+  browser.stderr?.on("data", (chunk: string) => {
+    stderrTail = (stderrTail + chunk).slice(-4000);
+  });
   const exited = new Promise<void>((done) =>
     browser.once("exit", () => done())
   );
+  const startupReport = (): string =>
+    [
+      browser.exitCode !== null ? `exit code ${browser.exitCode}` : "",
+      browser.signalCode ? `signal ${browser.signalCode}` : "",
+      stderrTail ? `stderr:\n${stderrTail}` : "",
+    ]
+      .filter(Boolean)
+      .join("; ");
 
   const removeProfile = (): void =>
     rmSync(profileDir, { recursive: true, force: true });
@@ -382,7 +397,11 @@ export const launchChrome = async ({
         ),
       20000
     );
-    if (!url) throw new Error(`Chrome (${binary}) did not open DevTools`);
+    if (!url) {
+      throw new Error(
+        `Chrome (${binary}) did not open DevTools; ${startupReport()}`
+      );
+    }
     const cdp = await CdpClient.connect(url);
 
     const extensionId = await waitFor(async () => {
