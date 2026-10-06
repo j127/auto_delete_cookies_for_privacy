@@ -33,10 +33,10 @@ import {
   uid,
   withAnyFirstPartyDomain,
 } from "./libs";
+import StoreUser from "./store-user";
 
 /** Whether url is a web page the browser can store site data for. */
 const isHttpUrl = (url: string): boolean => /^https?:\/\//i.test(url);
-import StoreUser from "./store-user";
 
 export default class TabEvents extends StoreUser {
   public static onTabDiscarded(
