@@ -661,10 +661,12 @@ describe("Library Functions", () => {
     // Chrome tabs carry no cookieStoreId (#474): the lookup must pick the
     // tab's own store by its incognito flag, never fall back to the
     // regular store cookies.getAll defaults to.
-    const chromeTab = (incognito: boolean): browser.tabs.Tab => {
-      const { cookieStoreId: _omitted, ...rest } = sampleTab;
-      return { ...rest, incognito, url: "https://domain.com" };
-    };
+    const chromeTab = (incognito: boolean): browser.tabs.Tab => ({
+      ...sampleTab,
+      cookieStoreId: undefined,
+      incognito,
+      url: "https://domain.com",
+    });
     const queriedStoreIds = (): (string | undefined)[] =>
       global.browser.cookies.getAll.mock.calls.map(
         (call: { storeId?: string }[]) => call[0].storeId

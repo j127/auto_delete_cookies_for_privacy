@@ -970,10 +970,11 @@ describe("CleanupService", () => {
 
     // Chrome tabs carry no cookieStoreId (#474): "Delete this site's
     // cookies" must read and remove in the tab's own store.
-    const chromeGoogleTab = (incognito: boolean): browser.tabs.Tab => {
-      const { cookieStoreId: _omitted, ...rest } = googleTab;
-      return { ...rest, incognito };
-    };
+    const chromeGoogleTab = (incognito: boolean): browser.tabs.Tab => ({
+      ...googleTab,
+      cookieStoreId: undefined,
+      incognito,
+    });
     const queriedStoreIds = (): (string | undefined)[] =>
       global.browser.cookies.getAll.mock.calls.map(
         (call: { storeId?: string }[]) => call[0].storeId
