@@ -371,6 +371,195 @@ describe("TabEvents", () => {
     });
   });
 
+  describe("onFrameResponse", () => {
+    // Chrome flavor: tabs carry no cookieStoreId and requests no incognito
+    // flag, so the handler asks for the tab.
+    const TAB_ID = 7;
+    const chromeTab: browser.tabs.Tab = {
+      ...sampleTab,
+      cookieStoreId: undefined,
+      id: TAB_ID,
+      url: "https://www.example.com/",
+    };
+    const frame = (
+      url: string,
+      extra: Partial<browser.webRequest.FrameResponseDetails> = {}
+    ): browser.webRequest.FrameResponseDetails => ({
+      tabId: TAB_ID,
+      type: "sub_frame",
+      url,
+      ...extra,
+    });
+    const markerLookup = (host: string) => ({
+      domain: host,
+      name: Lib.ADCPCOOKIENAME,
+      storeId: undefined,
+    });
+
+    beforeEach(() => {
+      when(global.browser.tabs.get)
+        .calledWith(TAB_ID)
+        .mockResolvedValue(chromeTab as never);
+      // jest-when trainings outlive a test; start every case without a
+      // marker on the frame host.
+      when(global.browser.cookies.getAll)
+        .calledWith(markerLookup("devicebind.example.com"))
+        .mockResolvedValue([] as never);
+    });
+
+    it("marks a same-site frame's host with a marker of its own", async () => {
+      await TabEvents.onFrameResponse(
+        frame("https://devicebind.example.com/bind")
+      );
+      expect(global.browser.cookies.getAll).toHaveBeenCalledWith(
+        markerLookup("devicebind.example.com")
+      );
+      expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
+      expect(global.browser.cookies.set).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: Lib.ADCPCOOKIENAME,
+          storeId: undefined,
+          url: "https://devicebind.example.com/bind",
+          value: Lib.ADCPCOOKIENAME,
+        })
+      );
+    });
+
+    it("takes a main frame's host from the request, not the tab's old url", async () => {
+      // At response time the tab still shows the page being left.
+      when(global.browser.tabs.get)
+        .calledWith(TAB_ID)
+        .mockResolvedValue({
+          ...chromeTab,
+          url: "https://previous.site/",
+        } as never);
+      await TabEvents.onFrameResponse(
+        frame("https://signin.example.com/login", { type: "main_frame" })
+      );
+      expect(global.browser.cookies.set).toHaveBeenCalledWith(
+        expect.objectContaining({ url: "https://signin.example.com/login" })
+      );
+    });
+
+    it("does not mark a host that already has its own marker", async () => {
+      when(global.browser.cookies.getAll)
+        .calledWith(markerLookup("devicebind.example.com"))
+        .mockResolvedValue([
+          {
+            domain: "devicebind.example.com",
+            name: Lib.ADCPCOOKIENAME,
+          },
+        ] as never);
+      await TabEvents.onFrameResponse(
+        frame("https://devicebind.example.com/bind")
+      );
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+
+    it("sets one marker for concurrent responses from one host", async () => {
+      await Promise.all([
+        TabEvents.onFrameResponse(frame("https://devicebind.example.com/a")),
+        TabEvents.onFrameResponse(frame("https://devicebind.example.com/b")),
+      ]);
+      expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
+    });
+
+    it("skips cross-site frames, whose storage is partitioned under the site", async () => {
+      await TabEvents.onFrameResponse(frame("https://ads.other.net/slot"));
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+
+    it("skips frames of the page's own host", async () => {
+      await TabEvents.onFrameResponse(frame("https://www.example.com/embed"));
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+
+    it("skips frames inside pages that are not web pages", async () => {
+      when(global.browser.tabs.get)
+        .calledWith(TAB_ID)
+        .mockResolvedValue({
+          ...chromeTab,
+          url: "chrome-extension://abc/settings/settings.html",
+        } as never);
+      await TabEvents.onFrameResponse(
+        frame("https://devicebind.example.com/bind")
+      );
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+
+    it("skips incognito tabs", async () => {
+      when(global.browser.tabs.get)
+        .calledWith(TAB_ID)
+        .mockResolvedValue({ ...chromeTab, incognito: true } as never);
+      await TabEvents.onFrameResponse(
+        frame("https://devicebind.example.com/bind")
+      );
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+
+    it("ignores requests without a tab, fenced frames and other request types", async () => {
+      await TabEvents.onFrameResponse(
+        frame("https://devicebind.example.com/bind", { tabId: -1 })
+      );
+      await TabEvents.onFrameResponse(
+        frame("https://devicebind.example.com/bind", {
+          frameType: "fenced_frame",
+        })
+      );
+      await TabEvents.onFrameResponse(
+        frame("https://devicebind.example.com/api", {
+          type: "xmlhttprequest",
+        })
+      );
+      expect(global.browser.tabs.get).not.toHaveBeenCalled();
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+
+    it("ignores urls the browser keeps no site data for", async () => {
+      await TabEvents.onFrameResponse(frame("data:text/html,hi"));
+      await TabEvents.onFrameResponse(frame("file:///tmp/page.html"));
+      expect(global.browser.tabs.get).not.toHaveBeenCalled();
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+
+    it("does nothing while every site-data type is off", async () => {
+      for (const id of [
+        SettingID.CLEANUP_CACHE,
+        SettingID.CLEANUP_INDEXEDDB,
+        SettingID.CLEANUP_LOCALSTORAGE,
+        SettingID.CLEANUP_PLUGINDATA,
+        SettingID.CLEANUP_SERVICEWORKERS,
+      ]) {
+        TestStore.changeSetting(id, false);
+      }
+      await TabEvents.onFrameResponse(
+        frame("https://devicebind.example.com/bind")
+      );
+      expect(global.browser.tabs.get).not.toHaveBeenCalled();
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+
+    it("gives up quietly when the tab is already gone", async () => {
+      when(global.browser.tabs.get)
+        .calledWith(TAB_ID)
+        .mockRejectedValue(new Error("No tab with id: 7") as never);
+      await expect(
+        TabEvents.onFrameResponse(frame("https://devicebind.example.com/bind"))
+      ).resolves.toBeUndefined();
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+
+    it("gives up quietly when the marker lookup fails", async () => {
+      when(global.browser.cookies.getAll)
+        .calledWith(markerLookup("devicebind.example.com"))
+        .mockRejectedValue(new Error("lookup failed") as never);
+      await expect(
+        TabEvents.onFrameResponse(frame("https://devicebind.example.com/bind"))
+      ).resolves.toBeUndefined();
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+  });
+
   describe("onTabDiscarded", () => {
     it("should do nothing if clean discarded tabs setting is not enabled", () => {
       TestStore.changeSetting(SettingID.CLEAN_DISCARDED, false);

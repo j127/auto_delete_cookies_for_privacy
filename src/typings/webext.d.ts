@@ -22,6 +22,7 @@ import type {
   Cookies,
   Menus,
   Tabs,
+  WebRequest,
 } from "webextension-polyfill";
 
 /**
@@ -130,6 +131,24 @@ declare global {
         title?: string;
         url?: string;
       }
+    }
+
+    namespace webRequest {
+      /**
+       * The onResponseStarted details TabEvents.onFrameResponse reads. The
+       * polyfill types are Firefox's (incognito, cookieStoreId and
+       * frameAncestors exist only there); Chrome adds frameType instead.
+       * Every browser-specific field is optional on purpose.
+       */
+      type FrameResponseDetails = Pick<
+        WebRequest.OnResponseStartedDetailsType,
+        "tabId" | "type" | "url"
+      > & {
+        incognito?: boolean;
+        cookieStoreId?: string;
+        frameAncestors?: { url: string; frameId: number }[];
+        frameType?: "outermost_frame" | "fenced_frame" | "sub_frame";
+      };
     }
 
     namespace windows {

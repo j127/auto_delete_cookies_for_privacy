@@ -31,7 +31,11 @@ import {
   isAWebpage,
   isMarkerCookieFor,
   uid,
+  withAnyFirstPartyDomain,
 } from "./libs";
+
+/** Whether url is a web page the browser can store site data for. */
+const isHttpUrl = (url: string): boolean => /^https?:\/\//i.test(url);
 import StoreUser from "./store-user";
 
 export default class TabEvents extends StoreUser {
@@ -353,6 +357,89 @@ export default class TabEvents extends StoreUser {
       showNumberOfCookiesInIcon(tab, cookieLength);
     }
   };
+  /**
+   * webRequest.onResponseStarted for main_frame and sub_frame (#464).
+   * Storage belongs to the exact origin that wrote it, and cleanup only
+   * reaches hosts that own a cookie. A site's other pages and its
+   * same-site frames (sign-in and device-check frames on subdomains)
+   * usually keep their cookies on the parent domain, so their storage was
+   * never cleaned. Each such host now gets the marker cookie as it loads,
+   * and cleanup treats it like any cookie: keep rules, open tabs, and
+   * keep-until-restart cleanup all apply per host.
+   *
+   * Cross-site frames are left alone: their storage is partitioned under
+   * the top-level site, and Chrome clears it together with that site's
+   * own origins. Private windows are left alone too, so a private visit is
+   * never written down anywhere.
+   */
+  public static onFrameResponse = async (
+    details: browser.webRequest.FrameResponseDetails
+  ): Promise<void> => {
+    const isMainFrame = details.type === "main_frame";
+    if (details.tabId < 0) return;
+    if (!isMainFrame && details.type !== "sub_frame") return;
+    if (details.frameType === "fenced_frame") return;
+    if (details.incognito === true) return;
+    if (!isHttpUrl(details.url)) return;
+    const frameHost = getExactHostname(details.url);
+    if (frameHost === "") return;
+    const state = StoreUser.store.getState();
+    if (!hasSiteDataCleanupEnabled(state)) return;
+    const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
+
+    // Firefox reports the store, the private flag and the frame's
+    // ancestors with every request; Chrome needs the tab for those. For a
+    // main frame, tab.url still holds the page being left, so the frame's
+    // own url is the top-level page.
+    let storeId = details.cookieStoreId;
+    let incognito: boolean | undefined = details.incognito;
+    let topUrl = isMainFrame
+      ? details.url
+      : details.frameAncestors?.[details.frameAncestors.length - 1]?.url;
+    if (incognito === undefined || topUrl === undefined) {
+      try {
+        const tab = await browser.tabs.get(details.tabId);
+        incognito = tab.incognito;
+        storeId = storeId ?? tab.cookieStoreId;
+        topUrl = topUrl ?? tab.url;
+      } catch {
+        // The tab closed before its frame finished loading.
+        return;
+      }
+    }
+    if (incognito === true) return;
+    if (!isMainFrame) {
+      // Frames of extension pages, the PDF viewer or a new-tab page are
+      // never protected as an open site, so their storage stays alone.
+      if (!topUrl || !isHttpUrl(topUrl)) return;
+      const topHost = getExactHostname(topUrl);
+      // The page's own host gets its marker from the page itself.
+      if (topHost === frameHost) return;
+      if (extractMainDomain(frameHost) !== extractMainDomain(topHost)) return;
+    }
+
+    await TabEvents.ensureSiteDataMarker(
+      {
+        firstPartyDomain: extractMainDomain(frameHost),
+        host: frameHost,
+        storeId,
+        url: details.url,
+      },
+      async () => {
+        const found =
+          (await browser.cookies.getAll(
+            withAnyFirstPartyDomain({
+              domain: frameHost,
+              name: ADCPCOOKIENAME,
+              storeId,
+            })
+          )) ?? [];
+        return found.some((c) => isMarkerCookieFor(c, frameHost));
+      },
+      debug
+    );
+  };
+
   /**
    * Sets the hidden ADCP marker cookie on one exact host unless it already
    * has one. Cleanup puts the site data of every host that owns a cookie
