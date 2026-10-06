@@ -121,5 +121,9 @@ declare global {
         url?: string;
       }
     }
+
+    namespace windows {
+      type Window = import("webextension-polyfill").Windows.Window;
+    }
   }
 }
