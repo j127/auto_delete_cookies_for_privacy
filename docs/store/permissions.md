@@ -16,7 +16,7 @@ The dashboard asks for a justification per permission, one field at a time.
 
 ### `browsingData`
 
-> When the user opts in, the extension also clears other site data for cleaned sites (cache, IndexedDB, LocalStorage, plugin data, service workers). browsingData.remove with origin scoping is the only API that removes these data types.
+> When the user opts in, the extension also clears other site data for cleaned sites (cache, IndexedDB, LocalStorage, plugin data, service workers, plus the Cache Storage and file-system data that go with them). browsingData.remove with origin scoping is the only API that removes these data types.
 
 ### `storage`
 
@@ -45,6 +45,10 @@ The dashboard asks for a justification per permission, one field at a time.
 ### `notifications`
 
 > Shows the optional "cleaned N sites" summary and error notifications after cleanups. Notifications can be disabled in the extension's settings.
+
+### `webRequest`
+
+> Storage belongs to the exact origin that wrote it, so cleaning a site's data must reach every origin the site used: its other pages and the same-site frames (sign-in or device-check frames on subdomains) that keep their cookies on the parent domain. The extension observes webRequest.onResponseStarted for main frames and sub frames only to learn those page and frame addresses, and marks each same-site host for the next cleanup. It never reads request or response content, never blocks or modifies a request, and keeps nothing beyond a marker cookie the cleanup removes.
 
 ### Host permission `<all_urls>`
 
