@@ -58,6 +58,13 @@ describe("chromeLaunchArgs", () => {
     );
   });
 
+  it("keeps Chrome's sandbox on", () => {
+    // CI lifts the AppArmor restriction that would otherwise make Chrome
+    // abort on Ubuntu (.github/workflows/ci.yml), so the suite tests the
+    // browser as people run it.
+    expect(chromeLaunchArgs(LAUNCH)).not.toContain("--no-sandbox");
+  });
+
   it("opens a blank page last, after every switch", () => {
     expect(chromeLaunchArgs(LAUNCH).at(-1)).toBe("about:blank");
   });

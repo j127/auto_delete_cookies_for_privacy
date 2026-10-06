@@ -244,6 +244,14 @@ describe("e2e-chromium job", () => {
     expect(CHROMIUM_JOB).toMatch(/run: '"\$CHROME_BIN" --version'/);
   });
 
+  it("lets Chrome's sandbox start on Ubuntu", () => {
+    // Without this, AppArmor refuses the sandbox's user namespaces and
+    // Chrome aborts before DevTools opens.
+    expect(CHROMIUM_JOB).toContain(
+      "sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0"
+    );
+  });
+
   it("runs just e2e_chromium on the installed build", () => {
     expect(CHROMIUM_JOB).toMatch(/^ {6}- run: just e2e_chromium$/m);
     expect(CHROMIUM_JOB).toMatch(
