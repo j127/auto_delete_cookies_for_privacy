@@ -685,6 +685,14 @@
     "message": "Privat / Inkognito",
     "description": "Store selector entry for the private-browsing list."
   },
+  "privateListErasedNoticeText": {
+    "message": "Reglerne på denne liste slettes, når det sidste private vindue lukkes.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected. The Private list is erased automatically at the end of each private session."
+  },
+  "privateListKeptNoticeText": {
+    "message": "Firefox er indstillet til aldrig at huske historik, så alle vinduer er private, og reglerne på denne liste forbliver gemt, indtil du fjerner dem.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
+  },
   "questionExpression": {
     "message": "Hvordan virker mønstre?"
   },
@@ -1116,6 +1124,10 @@
       }
     }
   },
+  "keepRuleStaysSavedText": {
+    "message": "Firefox husker aldrig historik her, så denne behold-regel forbliver gemt, indtil du fjerner den.",
+    "description": "Popup: line under the keep actions in a private window when Firefox never remembers history, so a keep rule made there stays saved."
+  },
   "keepUntilCloseButtonText": {
     "message": "Behold, indtil browseren lukkes"
   },
@@ -1448,6 +1460,6 @@
     "message": "Fejlfinding og FAQ"
   },
   "helpTroubleshootingBody": {
-    "message": "Logget ud af et websted? I sandsynlighedsrækkefølge: webstedet har ingen behold-regel (eller kun dets præcise værtsnavn har en, mens logindet bor på et underdomæne — brug formen *.example.com); det er et indtil-genstart-websted, og browseren genstartede; en matchende regel beholder kun navngivne cookies, og login-cookien er ikke afkrydset; eller webstedets egen cookie udløb. Gæt ikke — rydningsloggen nævner præcis den regel, der slog til.\n\nCookies dukker op igen lige efter rydningen? Webstedet er næsten altid stadig åbent i en fane — åbne websteder genskaber cookies, som de vil, og er beskyttede uanset.\n\nRydningen kørte ikke? Tjek i rækkefølge: automatisk rydning er slået til (popuppens overskrift siger det); webstedet er ikke åbent i en anden fane; fristen er udløbet; ingen behold-regel matcher; det var ikke en sovende fane (de tæller kun som lukkede, hvis den avancerede indstilling er slået til).\n\nSlog webstedsdatarydning til, men gammel data ligger der stadig? Browseren lader kun udvidelsen rydde de typer for websteder, du besøger igen; efterladenskaber bliver til næste besøg.\n\nInkognito? Kun hvis du tillader det: browserens udvidelsesside → Tillad i inkognito. Inkognito har sit eget cookielager og egne gemte websteder og skrives aldrig i loggen.\n\nStadig i knibe? Supportsiden har versionen, en kopierbar fejlfindingsblok, linket til fejlrapporter og knappen Send en fejlrapport via e-mail, hvis du ikke har en GitHub-konto. Fejlfindingstilstanden (Avanceret) får udvidelsen til at fortælle hver beslutning i service worker-konsollen, med cookieværdier maskeret."
+    "message": "Logget ud af et websted? I sandsynlighedsrækkefølge: webstedet har ingen behold-regel (eller kun dets præcise værtsnavn har en, mens logindet bor på et underdomæne — brug formen *.example.com); det er et indtil-genstart-websted, og browseren genstartede; en matchende regel beholder kun navngivne cookies, og login-cookien er ikke afkrydset; eller webstedets egen cookie udløb. Gæt ikke — rydningsloggen nævner præcis den regel, der slog til.\n\nCookies dukker op igen lige efter rydningen? Webstedet er næsten altid stadig åbent i en fane — åbne websteder genskaber cookies, som de vil, og er beskyttede uanset.\n\nRydningen kørte ikke? Tjek i rækkefølge: automatisk rydning er slået til (popuppens overskrift siger det); webstedet er ikke åbent i en anden fane; fristen er udløbet; ingen behold-regel matcher; det var ikke en sovende fane (de tæller kun som lukkede, hvis den avancerede indstilling er slået til).\n\nSlog webstedsdatarydning til, men gammel data ligger der stadig? Browseren lader kun udvidelsen rydde de typer for websteder, du besøger igen; efterladenskaber bliver til næste besøg.\n\nInkognito? Kun hvis du tillader det: browserens udvidelsesside → Tillad i inkognito. Inkognito har sit eget cookielager og egne gemte websteder og skrives aldrig i loggen. Dets gemte websteder slettes, når det sidste private vindue lukkes, medmindre Firefox er indstillet til aldrig at huske historik; så forbliver de gemt.\n\nStadig i knibe? Supportsiden har versionen, en kopierbar fejlfindingsblok, linket til fejlrapporter og knappen Send en fejlrapport via e-mail, hvis du ikke har en GitHub-konto. Fejlfindingstilstanden (Avanceret) får udvidelsen til at fortælle hver beslutning i service worker-konsollen, med cookieværdier maskeret."
   }
 }

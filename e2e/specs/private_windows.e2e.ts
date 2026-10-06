@@ -264,6 +264,29 @@ describe("row 11: private windows, access on", () => {
     expect(await extensionScriptErrors(session)).toEqual([]);
     expect(await backgroundConsoleErrors(session)).toEqual([]);
   }, 180000);
+
+  it("erases the Private list when the last private window closes (#468)", async () => {
+    // Still there while the private session lasts.
+    expect(
+      ((await persistedState()).lists?.private ?? []).some(
+        (e) => e.expression === "localhost"
+      )
+    ).toBe(true);
+    await inProbe(
+      session,
+      "await browser.windows.remove(args[0]);",
+      privateWindowId
+    );
+    // Read from storage, past the save debounce: the stored settings must
+    // keep no record of the private session once it ends.
+    const erased = await waitUntil(
+      async () => ((await persistedState()).lists?.private ?? []).length === 0,
+      15000
+    );
+    expect(erased, "Private list erased from storage").toBe(true);
+    expect(await extensionScriptErrors(session)).toEqual([]);
+    expect(await backgroundConsoleErrors(session)).toEqual([]);
+  }, 60000);
 });
 
 describe("row 12: private windows, access off", () => {

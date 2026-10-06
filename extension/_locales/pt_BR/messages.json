@@ -685,6 +685,14 @@
     "message": "Privada / Anônima",
     "description": "Store selector entry for the private-browsing list."
   },
+  "privateListErasedNoticeText": {
+    "message": "As regras desta lista são apagadas quando a última janela privada é fechada.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected. The Private list is erased automatically at the end of each private session."
+  },
+  "privateListKeptNoticeText": {
+    "message": "O Firefox está configurado para nunca lembrar o histórico, então todas as janelas são privadas, e as regras desta lista continuam salvas até você removê-las.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
+  },
   "questionExpression": {
     "message": "Como funcionam os padrões?"
   },
@@ -1116,6 +1124,10 @@
       }
     }
   },
+  "keepRuleStaysSavedText": {
+    "message": "Aqui o Firefox nunca lembra o histórico, então esta regra de manter continua salva até você removê-la.",
+    "description": "Popup: line under the keep actions in a private window when Firefox never remembers history, so a keep rule made there stays saved."
+  },
   "keepUntilCloseButtonText": {
     "message": "Manter até o navegador fechar"
   },
@@ -1448,6 +1460,6 @@
     "message": "Solução de problemas e perguntas frequentes"
   },
   "helpTroubleshootingBody": {
-    "message": "Desconectado de um site? Em ordem de probabilidade: o site não tem regra de manter (ou só o hostname exato tem, enquanto o login mora num subdomínio — use a forma *.example.com); é um site até-reiniciar e o navegador reiniciou; uma regra correspondente mantém só cookies nomeados e o cookie de login não está marcado; ou o cookie do site simplesmente expirou. Não adivinhe — o registro de limpeza nomeia a regra exata que agiu.\n\nCookies reaparecem logo após a limpeza? O site quase sempre ainda está aberto em alguma aba — sites abertos recriam cookies à vontade e são protegidos de qualquer forma.\n\nA limpeza não rodou? Verifique em ordem: a limpeza automática está ligada (o cabeçalho do popup diz); o site não está aberto em outra aba; o período de carência passou; nenhuma regra de manter corresponde; não era uma aba adormecida (essas só contam como fechadas se aquela configuração avançada estiver ligada).\n\nAtivou a limpeza de dados do site mas os dados antigos continuam lá? O navegador só deixa apagar esses tipos em sites que você visitar de novo; sobras ficam até a próxima visita.\n\nAnônimo? Só se você permitir: página de extensões do seu navegador → Permitir no modo anônimo. O modo anônimo tem seu próprio armazenamento de cookies e sites salvos, e nunca entra no registro.\n\nAinda travado? A página Suporte tem a versão, um bloco de depuração copiável, o link para relatar bugs e o botão 'Relatar um bug por e-mail' se você não tiver conta no GitHub. O modo de depuração (Avançado) faz a extensão narrar cada decisão no console do service worker, com os valores dos cookies mascarados."
+    "message": "Desconectado de um site? Em ordem de probabilidade: o site não tem regra de manter (ou só o hostname exato tem, enquanto o login mora num subdomínio — use a forma *.example.com); é um site até-reiniciar e o navegador reiniciou; uma regra correspondente mantém só cookies nomeados e o cookie de login não está marcado; ou o cookie do site simplesmente expirou. Não adivinhe — o registro de limpeza nomeia a regra exata que agiu.\n\nCookies reaparecem logo após a limpeza? O site quase sempre ainda está aberto em alguma aba — sites abertos recriam cookies à vontade e são protegidos de qualquer forma.\n\nA limpeza não rodou? Verifique em ordem: a limpeza automática está ligada (o cabeçalho do popup diz); o site não está aberto em outra aba; o período de carência passou; nenhuma regra de manter corresponde; não era uma aba adormecida (essas só contam como fechadas se aquela configuração avançada estiver ligada).\n\nAtivou a limpeza de dados do site mas os dados antigos continuam lá? O navegador só deixa apagar esses tipos em sites que você visitar de novo; sobras ficam até a próxima visita.\n\nAnônimo? Só se você permitir: página de extensões do seu navegador → Permitir no modo anônimo. O modo anônimo tem seu próprio armazenamento de cookies e sites salvos, e nunca entra no registro. Esses sites salvos são apagados quando a última janela privada é fechada, a menos que o Firefox esteja configurado para nunca lembrar o histórico; nesse caso, continuam salvos.\n\nAinda travado? A página Suporte tem a versão, um bloco de depuração copiável, o link para relatar bugs e o botão 'Relatar um bug por e-mail' se você não tiver conta no GitHub. O modo de depuração (Avançado) faz a extensão narrar cada decisão no console do service worker, com os valores dos cookies mascarados."
   }
 }

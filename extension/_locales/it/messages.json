@@ -685,6 +685,14 @@
     "message": "Privata / Incognito",
     "description": "Store selector entry for the private-browsing list."
   },
+  "privateListErasedNoticeText": {
+    "message": "Le regole di questa lista vengono cancellate quando si chiude l'ultima finestra privata.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected. The Private list is erased automatically at the end of each private session."
+  },
+  "privateListKeptNoticeText": {
+    "message": "Firefox è impostato per non salvare mai la cronologia, quindi ogni finestra è privata e le regole di questa lista restano salvate finché non le rimuovi.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
+  },
   "questionExpression": {
     "message": "Come funzionano i pattern?"
   },
@@ -1116,6 +1124,10 @@
       }
     }
   },
+  "keepRuleStaysSavedText": {
+    "message": "Qui Firefox non salva mai la cronologia, quindi questa regola di conservazione resta salvata finché non la rimuovi.",
+    "description": "Popup: line under the keep actions in a private window when Firefox never remembers history, so a keep rule made there stays saved."
+  },
   "keepUntilCloseButtonText": {
     "message": "Conserva fino alla chiusura del browser"
   },
@@ -1448,6 +1460,6 @@
     "message": "Risoluzione dei problemi e FAQ"
   },
   "helpTroubleshootingBody": {
-    "message": "Disconnesso da un sito? In ordine di probabilità: il sito non ha una regola di conservazione (o ce l'ha solo per l'hostname esatto, mentre l'accesso vive su un sottodominio — usa la forma *.example.com); è un sito fino-al-riavvio e il browser si è riavviato; una regola corrispondente conserva solo cookie con nome e il cookie di accesso non è spuntato; oppure il cookie del sito è semplicemente scaduto. Non tirare a indovinare — il registro delle pulizie nomina la regola esatta che è scattata.\n\nI cookie ricompaiono subito dopo la pulizia? Il sito è quasi sempre ancora aperto in qualche scheda — i siti aperti ricreano i cookie a piacere e sono comunque protetti.\n\nLa pulizia non è partita? Controlla in ordine: la pulizia automatica è attiva (l'intestazione del popup lo dice); il sito non è aperto in un'altra scheda; il periodo di tolleranza è passato; nessuna regola di conservazione corrisponde; non era una scheda sospesa (contano come chiuse solo se quell'impostazione avanzata è attiva).\n\nHai attivato la pulizia dei dati del sito ma i dati vecchi sono ancora lì? Il browser permette di cancellare quei tipi solo per i siti che visiti di nuovo; i residui restano fino alla prossima visita.\n\nIncognito? Solo se lo permetti: pagina delle estensioni del tuo browser → Consenti in incognito. L'incognito ha il suo archivio cookie e i suoi siti salvati, e non finisce mai nel registro.\n\nAncora bloccato? La pagina Supporto ha la versione, un blocco di debug copiabile, il link per le segnalazioni e il pulsante 'Segnala un bug via email' se non hai un account GitHub. La modalità debug (Avanzato) fa raccontare all'estensione ogni decisione nella console del service worker, con i valori dei cookie mascherati."
+    "message": "Disconnesso da un sito? In ordine di probabilità: il sito non ha una regola di conservazione (o ce l'ha solo per l'hostname esatto, mentre l'accesso vive su un sottodominio — usa la forma *.example.com); è un sito fino-al-riavvio e il browser si è riavviato; una regola corrispondente conserva solo cookie con nome e il cookie di accesso non è spuntato; oppure il cookie del sito è semplicemente scaduto. Non tirare a indovinare — il registro delle pulizie nomina la regola esatta che è scattata.\n\nI cookie ricompaiono subito dopo la pulizia? Il sito è quasi sempre ancora aperto in qualche scheda — i siti aperti ricreano i cookie a piacere e sono comunque protetti.\n\nLa pulizia non è partita? Controlla in ordine: la pulizia automatica è attiva (l'intestazione del popup lo dice); il sito non è aperto in un'altra scheda; il periodo di tolleranza è passato; nessuna regola di conservazione corrisponde; non era una scheda sospesa (contano come chiuse solo se quell'impostazione avanzata è attiva).\n\nHai attivato la pulizia dei dati del sito ma i dati vecchi sono ancora lì? Il browser permette di cancellare quei tipi solo per i siti che visiti di nuovo; i residui restano fino alla prossima visita.\n\nIncognito? Solo se lo permetti: pagina delle estensioni del tuo browser → Consenti in incognito. L'incognito ha il suo archivio cookie e i suoi siti salvati, e non finisce mai nel registro. I suoi siti salvati vengono cancellati quando si chiude l'ultima finestra privata, a meno che Firefox non sia impostato per non salvare mai la cronologia; in quel caso restano salvati.\n\nAncora bloccato? La pagina Supporto ha la versione, un blocco di debug copiabile, il link per le segnalazioni e il pulsante 'Segnala un bug via email' se non hai un account GitHub. La modalità debug (Avanzato) fa raccontare all'estensione ogni decisione nella console del service worker, con i valori dei cookie mascherati."
   }
 }

@@ -685,6 +685,14 @@
     "message": "Privé / Incognito",
     "description": "Store selector entry for the private-browsing list."
   },
+  "privateListErasedNoticeText": {
+    "message": "Regels in deze lijst worden gewist wanneer het laatste privévenster sluit.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected. The Private list is erased automatically at the end of each private session."
+  },
+  "privateListKeptNoticeText": {
+    "message": "Firefox is ingesteld om nooit geschiedenis te onthouden, dus elk venster is privé en de regels in deze lijst blijven bewaard totdat je ze verwijdert.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
+  },
   "questionExpression": {
     "message": "Hoe werken patronen?"
   },
@@ -1116,6 +1124,10 @@
       }
     }
   },
+  "keepRuleStaysSavedText": {
+    "message": "Firefox onthoudt hier nooit geschiedenis, dus deze bewaarregel blijft bewaard totdat je hem verwijdert.",
+    "description": "Popup: line under the keep actions in a private window when Firefox never remembers history, so a keep rule made there stays saved."
+  },
   "keepUntilCloseButtonText": {
     "message": "Bewaren tot de browser sluit"
   },
@@ -1448,6 +1460,6 @@
     "message": "Probleemoplossing en FAQ"
   },
   "helpTroubleshootingBody": {
-    "message": "Uitgelogd bij een site? In volgorde van waarschijnlijkheid: de site heeft geen bewaarregel (of alleen de exacte hostnaam, terwijl de login op een subdomein leeft — gebruik de vorm *.example.com); het is een tot-herstart-site en de browser is herstart; een overeenkomende regel bewaart alleen benoemde cookies en de login-cookie is niet aangevinkt; of de cookie van de site is gewoon verlopen. Gok niet — het opschoonlogboek noemt de exacte regel die van kracht was.\n\nCookies verschijnen direct na het opschonen weer? De site is bijna altijd nog open in een tabblad — open sites maken naar believen nieuwe cookies aan en zijn sowieso beschermd.\n\nOpschoning niet uitgevoerd? Controleer op volgorde: automatisch opschonen staat aan (de popupkop zegt het); de site is niet open in een ander tabblad; de wachttijd is voorbij; geen bewaarregel komt overeen; het was geen slapend tabblad (die tellen alleen als gesloten als die geavanceerde instelling aan staat).\n\nSitegegevens-opschoning ingeschakeld maar oude gegevens zijn er nog? De browser laat die typen alleen wissen voor sites die je opnieuw bezoekt; restanten blijven tot het volgende bezoek.\n\nIncognito? Alleen als je het toestaat: de extensiepagina van je browser → Toestaan in incognito. Incognito heeft zijn eigen cookieopslag en bewaarde sites, en wordt nooit gelogd.\n\nKom je er nog niet uit? De pagina Ondersteuning heeft de versie, een kopieerbaar debugblok, de link voor bugmeldingen en de knop 'Een bugmelding e-mailen' als je geen GitHub-account hebt. De debugmodus (Geavanceerd) laat de extensie elke beslissing vertellen in de serviceworker-console, met gemaskeerde cookiewaarden."
+    "message": "Uitgelogd bij een site? In volgorde van waarschijnlijkheid: de site heeft geen bewaarregel (of alleen de exacte hostnaam, terwijl de login op een subdomein leeft — gebruik de vorm *.example.com); het is een tot-herstart-site en de browser is herstart; een overeenkomende regel bewaart alleen benoemde cookies en de login-cookie is niet aangevinkt; of de cookie van de site is gewoon verlopen. Gok niet — het opschoonlogboek noemt de exacte regel die van kracht was.\n\nCookies verschijnen direct na het opschonen weer? De site is bijna altijd nog open in een tabblad — open sites maken naar believen nieuwe cookies aan en zijn sowieso beschermd.\n\nOpschoning niet uitgevoerd? Controleer op volgorde: automatisch opschonen staat aan (de popupkop zegt het); de site is niet open in een ander tabblad; de wachttijd is voorbij; geen bewaarregel komt overeen; het was geen slapend tabblad (die tellen alleen als gesloten als die geavanceerde instelling aan staat).\n\nSitegegevens-opschoning ingeschakeld maar oude gegevens zijn er nog? De browser laat die typen alleen wissen voor sites die je opnieuw bezoekt; restanten blijven tot het volgende bezoek.\n\nIncognito? Alleen als je het toestaat: de extensiepagina van je browser → Toestaan in incognito. Incognito heeft zijn eigen cookieopslag en bewaarde sites, en wordt nooit gelogd. Die bewaarde sites worden gewist wanneer het laatste privévenster sluit, tenzij Firefox is ingesteld om nooit geschiedenis te onthouden; dan blijven ze bewaard.\n\nKom je er nog niet uit? De pagina Ondersteuning heeft de versie, een kopieerbaar debugblok, de link voor bugmeldingen en de knop 'Een bugmelding e-mailen' als je geen GitHub-account hebt. De debugmodus (Geavanceerd) laat de extensie elke beslissing vertellen in de serviceworker-console, met gemaskeerde cookiewaarden."
   }
 }

@@ -17,7 +17,7 @@ const matchedExpression: Expression = {
 };
 
 describe("KeepActions", () => {
-  const renderActions = (matched?: Expression) => {
+  const renderActions = (matched?: Expression, keepStaysSaved?: boolean) => {
     const store = createStore(() => initialState);
     const dispatchSpy = jest.spyOn(store, "dispatch");
     const utils = render(
@@ -25,6 +25,7 @@ describe("KeepActions", () => {
         <KeepActions
           domain="example.com"
           keepExpression="*.example.com"
+          keepStaysSaved={keepStaysSaved}
           matched={matched}
           storeId="default"
         />
@@ -88,5 +89,21 @@ describe("KeepActions", () => {
       payload: matchedExpression,
       type: "REMOVE_EXPRESSION",
     });
+  });
+
+  it("says a keep rule stays saved only when asked to (#468)", () => {
+    const note = () => document.getElementById("keepStaysSavedNote");
+    const first = renderActions();
+    expect(note()).toBeNull();
+    first.unmount();
+    renderActions(undefined, true);
+    expect(note()?.textContent).toBe("keepRuleStaysSavedText");
+  });
+
+  it("keeps the stays-saved note next to a matched rule's remove action", () => {
+    renderActions(matchedExpression, true);
+    expect(document.getElementById("keepStaysSavedNote")?.textContent).toBe(
+      "keepRuleStaysSavedText"
+    );
   });
 });

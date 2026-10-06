@@ -685,6 +685,14 @@
     "message": "Privat / Incognito",
     "description": "Store selector entry for the private-browsing list."
   },
+  "privateListErasedNoticeText": {
+    "message": "Regulile din această listă se șterg când se închide ultima fereastră privată.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected. The Private list is erased automatically at the end of each private session."
+  },
+  "privateListKeptNoticeText": {
+    "message": "Firefox este setat să nu rețină niciodată istoricul, așa că fiecare fereastră este privată, iar regulile din această listă rămân salvate până le elimini.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
+  },
   "questionExpression": {
     "message": "Cum funcționează tiparele?"
   },
@@ -1116,6 +1124,10 @@
       }
     }
   },
+  "keepRuleStaysSavedText": {
+    "message": "Aici Firefox nu reține niciodată istoricul, așa că această regulă de păstrare rămâne salvată până o elimini.",
+    "description": "Popup: line under the keep actions in a private window when Firefox never remembers history, so a keep rule made there stays saved."
+  },
   "keepUntilCloseButtonText": {
     "message": "Păstrează până la închiderea browserului"
   },
@@ -1448,6 +1460,6 @@
     "message": "Depanare și întrebări frecvente"
   },
   "helpTroubleshootingBody": {
-    "message": "Delogat de pe un site? În ordinea probabilității: site-ul nu are regulă de păstrare (sau doar numele de gazdă exact are una, în timp ce autentificarea stă pe un subdomeniu — folosește forma *.example.com); e un site de până-la-repornire și browserul a repornit; o regulă potrivită păstrează doar cookie-uri numite și cookie-ul de autentificare nu e bifat; sau cookie-ul site-ului pur și simplu a expirat. Nu ghici — jurnalul de curățare numește exact regula care a acționat.\n\nCookie-urile reapar imediat după curățare? Site-ul e aproape mereu încă deschis într-o filă — site-urile deschise recreează cookie-uri după plac și oricum sunt protejate.\n\nCurățarea n-a rulat? Verifică în ordine: curățarea automată e pornită (antetul popupului o spune); site-ul nu e deschis în altă filă; perioada de grație a trecut; nicio regulă de păstrare nu se potrivește; nu era o filă adormită (acelea contează ca închise doar cu acea setare avansată pornită).\n\nAi activat curățarea datelor de site, dar datele vechi tot acolo sunt? Browserul permite ștergerea acestor tipuri doar pentru site-urile pe care le vizitezi din nou; resturile rămân până la următoarea vizită.\n\nIncognito? Doar dacă permiți: pagina de extensii a browserului → Permite în incognito. Incognito are propriul depozit de cookie-uri și propriile site-uri salvate și nu ajunge niciodată în jurnal.\n\nTot blocat? Pagina de Asistență are versiunea, un bloc de depanare copiabil, linkul pentru rapoarte de erori și butonul „Trimite un raport de eroare prin e-mail” dacă nu ai cont GitHub. Modul de depanare (Avansat) face extensia să povestească fiecare decizie în consola service workerului, cu valorile cookie-urilor mascate."
+    "message": "Delogat de pe un site? În ordinea probabilității: site-ul nu are regulă de păstrare (sau doar numele de gazdă exact are una, în timp ce autentificarea stă pe un subdomeniu — folosește forma *.example.com); e un site de până-la-repornire și browserul a repornit; o regulă potrivită păstrează doar cookie-uri numite și cookie-ul de autentificare nu e bifat; sau cookie-ul site-ului pur și simplu a expirat. Nu ghici — jurnalul de curățare numește exact regula care a acționat.\n\nCookie-urile reapar imediat după curățare? Site-ul e aproape mereu încă deschis într-o filă — site-urile deschise recreează cookie-uri după plac și oricum sunt protejate.\n\nCurățarea n-a rulat? Verifică în ordine: curățarea automată e pornită (antetul popupului o spune); site-ul nu e deschis în altă filă; perioada de grație a trecut; nicio regulă de păstrare nu se potrivește; nu era o filă adormită (acelea contează ca închise doar cu acea setare avansată pornită).\n\nAi activat curățarea datelor de site, dar datele vechi tot acolo sunt? Browserul permite ștergerea acestor tipuri doar pentru site-urile pe care le vizitezi din nou; resturile rămân până la următoarea vizită.\n\nIncognito? Doar dacă permiți: pagina de extensii a browserului → Permite în incognito. Incognito are propriul depozit de cookie-uri și propriile site-uri salvate și nu ajunge niciodată în jurnal. Site-urile sale salvate se șterg când se închide ultima fereastră privată, cu excepția cazului în care Firefox este setat să nu rețină niciodată istoricul; atunci rămân salvate.\n\nTot blocat? Pagina de Asistență are versiunea, un bloc de depanare copiabil, linkul pentru rapoarte de erori și butonul „Trimite un raport de eroare prin e-mail” dacă nu ai cont GitHub. Modul de depanare (Avansat) face extensia să povestească fiecare decizie în consola service workerului, cu valorile cookie-urilor mascate."
   }
 }

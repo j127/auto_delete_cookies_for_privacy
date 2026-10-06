@@ -21,6 +21,7 @@ import {
   removeListUI,
 } from "@/redux/actions";
 import { browserCapabilities } from "@/services/browser-capabilities";
+import PrivateWindowEvents from "@/services/private-window-events";
 import {
   adcpLog,
   getMatchedExpressions,
@@ -61,6 +62,23 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
   const [containers, setContainers] = React.useState<
     browser.contextualIdentities.ContextualIdentity[]
   >([]);
+  // Whether the background has seen a normal window this session (#468).
+  // Without one, Firefox never remembers history: every window is private
+  // and the Private list is never erased, so its notice says that instead.
+  // Undefined until read, so the notice never flashes the wrong text.
+  const [normalWindowSeen, setNormalWindowSeen] = React.useState<
+    boolean | undefined
+  >(undefined);
+
+  React.useEffect(() => {
+    let live = true;
+    PrivateWindowEvents.readNormalWindowSeen().then((seen) => {
+      if (live) setNormalWindowSeen(seen);
+    });
+    return () => {
+      live = false;
+    };
+  }, []);
 
   // Live container names for the store selector (Firefox only; the query
   // rejects when the user disabled privacy.userContext.enabled — then the
@@ -318,6 +336,22 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
               ])}
             </div>
           )}
+        {/* The Private list is erased at the end of each private session
+            (#468), so a site kept there leaves no record behind, unless
+            Firefox never remembers history, where it stays saved. */}
+        {storeId === "private" && normalWindowSeen !== undefined && (
+          <div
+            className="alert rounded-none alert-info"
+            id="privateListErasedNotice"
+            role="status"
+          >
+            {browser.i18n.getMessage(
+              normalWindowSeen
+                ? "privateListErasedNoticeText"
+                : "privateListKeptNoticeText"
+            )}
+          </div>
+        )}
         <div className="border-b border-base-300 p-3">
           <div className="join w-full">
             <input

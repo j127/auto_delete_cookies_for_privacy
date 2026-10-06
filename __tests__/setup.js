@@ -158,6 +158,10 @@ const apis = {
       "onResponseStarted",
     ],
   },
+  windows: {
+    fn: ["getAll"],
+    events: ["onCreated", "onRemoved"],
+  },
 };
 
 const browser = {

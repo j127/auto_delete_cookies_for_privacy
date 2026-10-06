@@ -107,6 +107,50 @@ describe("popup App", () => {
     );
   });
 
+  describe("keep rules in a private window (#468)", () => {
+    const note = () => document.getElementById("keepStaysSavedNote");
+    const privateTab = {
+      ...tabFixture,
+      cookieStoreId: "firefox-private",
+      incognito: true,
+    };
+    const sessionSaw = (normalWindowSeen: boolean) =>
+      global.browser.storage.session.get.mockResolvedValue({
+        normalWindowSeen,
+      } as never);
+
+    it("says the rule stays saved when no normal window was seen (never remember history)", async () => {
+      global.browser.tabs.query.mockResolvedValue([privateTab]);
+      sessionSaw(false);
+      await renderApp();
+      await waitFor(() =>
+        expect(note()?.textContent).toBe("keepRuleStaysSavedText")
+      );
+    });
+
+    it("says nothing in a private window once a normal window was seen", async () => {
+      global.browser.tabs.query.mockResolvedValue([privateTab]);
+      sessionSaw(true);
+      await renderApp();
+      await waitFor(() =>
+        expect(global.browser.storage.session.get).toHaveBeenCalledWith({
+          normalWindowSeen: false,
+        })
+      );
+      await Promise.resolve();
+      expect(note()).toBeNull();
+    });
+
+    it("says nothing in a normal window and does not read the flag", async () => {
+      sessionSaw(false);
+      await renderApp();
+      expect(note()).toBeNull();
+      expect(global.browser.storage.session.get).not.toHaveBeenCalledWith({
+        normalWindowSeen: false,
+      });
+    });
+  });
+
   it("renders without console errors", async () => {
     await renderApp();
     expect(console.error).not.toHaveBeenCalled();

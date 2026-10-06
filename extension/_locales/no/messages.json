@@ -685,6 +685,14 @@
     "message": "Privat / Inkognito",
     "description": "Store selector entry for the private-browsing list."
   },
+  "privateListErasedNoticeText": {
+    "message": "Reglene i denne listen slettes når det siste private vinduet lukkes.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected. The Private list is erased automatically at the end of each private session."
+  },
+  "privateListKeptNoticeText": {
+    "message": "Firefox er satt til aldri å huske historikk, så alle vinduer er private, og reglene i denne listen forblir lagret til du fjerner dem.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
+  },
   "questionExpression": {
     "message": "Hvordan fungerer mønstre?"
   },
@@ -1116,6 +1124,10 @@
       }
     }
   },
+  "keepRuleStaysSavedText": {
+    "message": "Firefox husker aldri historikk her, så denne behold-regelen forblir lagret til du fjerner den.",
+    "description": "Popup: line under the keep actions in a private window when Firefox never remembers history, so a keep rule made there stays saved."
+  },
   "keepUntilCloseButtonText": {
     "message": "Behold til nettleseren lukkes"
   },
@@ -1448,6 +1460,6 @@
     "message": "Feilsøking og spørsmål"
   },
   "helpTroubleshootingBody": {
-    "message": "Logget ut av et nettsted? I sannsynlighetsrekkefølge: nettstedet har ingen behold-regel (eller bare det eksakte vertsnavnet har en, mens innloggingen bor på et underdomene — bruk formen *.example.com); det er et til-omstart-nettsted og nettleseren startet på nytt; en regel med treff beholder bare navngitte kapsler og innloggingskapselen er ikke krysset av; eller nettstedets egen kapsel utløp. Ikke gjett — ryddeloggen navngir nøyaktig regelen som slo til.\n\nInformasjonskapsler dukker opp igjen rett etter rydding? Nettstedet er nesten alltid fortsatt åpent i en fane — åpne nettsteder gjenskaper kapsler når de vil og er beskyttet uansett.\n\nRyddingen kjørte ikke? Sjekk i rekkefølge: automatisk rydding er på (popupens overskrift sier det); nettstedet er ikke åpent i en annen fane; fristen er ute; ingen behold-regel treffer; det var ikke en sovende fane (de regnes bare som lukkede hvis den avanserte innstillingen er på).\n\nSlo på nettstedsdatarydding, men gammel data ligger der fortsatt? Nettleseren lar bare utvidelsen rydde de typene for nettsteder du besøker igjen; rester blir til neste besøk.\n\nInkognito? Bare hvis du tillater det: nettleserens utvidelsesside → Tillat i inkognito. Inkognito har sitt eget kapsellager og egne lagrede nettsteder, og skrives aldri til loggen.\n\nFortsatt fast? Støttesiden har versjonen, en kopierbar feilsøkingsblokk, lenken for feilrapporter og knappen Send en feilrapport på e-post hvis du ikke har en GitHub-konto. Feilsøkingsmodusen (Avansert) får utvidelsen til å fortelle hver beslutning i service worker-konsollen, med kapselverdier maskert."
+    "message": "Logget ut av et nettsted? I sannsynlighetsrekkefølge: nettstedet har ingen behold-regel (eller bare det eksakte vertsnavnet har en, mens innloggingen bor på et underdomene — bruk formen *.example.com); det er et til-omstart-nettsted og nettleseren startet på nytt; en regel med treff beholder bare navngitte kapsler og innloggingskapselen er ikke krysset av; eller nettstedets egen kapsel utløp. Ikke gjett — ryddeloggen navngir nøyaktig regelen som slo til.\n\nInformasjonskapsler dukker opp igjen rett etter rydding? Nettstedet er nesten alltid fortsatt åpent i en fane — åpne nettsteder gjenskaper kapsler når de vil og er beskyttet uansett.\n\nRyddingen kjørte ikke? Sjekk i rekkefølge: automatisk rydding er på (popupens overskrift sier det); nettstedet er ikke åpent i en annen fane; fristen er ute; ingen behold-regel treffer; det var ikke en sovende fane (de regnes bare som lukkede hvis den avanserte innstillingen er på).\n\nSlo på nettstedsdatarydding, men gammel data ligger der fortsatt? Nettleseren lar bare utvidelsen rydde de typene for nettsteder du besøker igjen; rester blir til neste besøk.\n\nInkognito? Bare hvis du tillater det: nettleserens utvidelsesside → Tillat i inkognito. Inkognito har sitt eget kapsellager og egne lagrede nettsteder, og skrives aldri til loggen. De lagrede nettstedene slettes når det siste private vinduet lukkes, med mindre Firefox er satt til aldri å huske historikk; da forblir de lagret.\n\nFortsatt fast? Støttesiden har versjonen, en kopierbar feilsøkingsblokk, lenken for feilrapporter og knappen Send en feilrapport på e-post hvis du ikke har en GitHub-konto. Feilsøkingsmodusen (Avansert) får utvidelsen til å fortelle hver beslutning i service worker-konsollen, med kapselverdier maskert."
   }
 }

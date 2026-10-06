@@ -40,6 +40,7 @@ import {
 } from "./services/libs";
 import ContextualIdentityEvents from "./services/contextual-identity-events";
 import PermissionService from "./services/permission-service";
+import PrivateWindowEvents from "./services/private-window-events";
 import StoreUser from "./services/store-user";
 import TabEvents from "./services/tab-events";
 import { ReduxConstants } from "./typings/redux-constants";
@@ -104,6 +105,12 @@ const init = async (): Promise<AppStore> => {
 
   // Host-permission revocation guard (event-driven; one check per start).
   await PermissionService.checkHostPermissions();
+
+  // Records which kinds of window are open (#468). On a wake-up it erases
+  // nothing: the Private list is erased only when the last private window
+  // closes, or when a session shows its first normal window with no
+  // private window open (see src/services/private-window-events.ts).
+  await PrivateWindowEvents.init();
 
   // Cosmetic/optional initialization must never take the whole worker down:
   // if `ready` rejects, every event handler and the UI store bridge die with
@@ -319,6 +326,22 @@ browser.permissions.onRemoved.addListener(async () => {
   await ready;
   await PermissionService.checkHostPermissions();
 });
+
+// Private windows (#468): the Private keep list is erased when the last
+// private window closes, unless no normal window was seen this session
+// (Firefox never remembers history). The guard keeps a build without the windows API
+// (Firefox for Android) listener-free; registration stays synchronous at
+// the top level, so closing a window wakes the event page.
+if (browser.windows) {
+  browser.windows.onCreated.addListener(async (window) => {
+    await ready;
+    await PrivateWindowEvents.onWindowCreated(window);
+  });
+  browser.windows.onRemoved.addListener(async (windowId) => {
+    await ready;
+    await PrivateWindowEvents.onWindowRemoved(windowId);
+  });
+}
 
 browser.alarms.onAlarm.addListener(async (alarm) => {
   await ready;

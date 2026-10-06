@@ -685,6 +685,14 @@
     "message": "Privé / Navigation privée",
     "description": "Store selector entry for the private-browsing list."
   },
+  "privateListErasedNoticeText": {
+    "message": "Les règles de cette liste sont effacées à la fermeture de la dernière fenêtre privée.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected. The Private list is erased automatically at the end of each private session."
+  },
+  "privateListKeptNoticeText": {
+    "message": "Firefox est réglé pour ne jamais conserver l'historique : toutes les fenêtres sont privées et les règles de cette liste restent enregistrées jusqu'à ce que vous les supprimiez.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
+  },
   "questionExpression": {
     "message": "Comment fonctionnent les motifs ?"
   },
@@ -1116,6 +1124,10 @@
       }
     }
   },
+  "keepRuleStaysSavedText": {
+    "message": "Ici, Firefox ne conserve jamais l'historique : cette règle de conservation reste enregistrée jusqu'à ce que vous la supprimiez.",
+    "description": "Popup: line under the keep actions in a private window when Firefox never remembers history, so a keep rule made there stays saved."
+  },
   "keepUntilCloseButtonText": {
     "message": "Conserver jusqu'à la fermeture du navigateur"
   },
@@ -1448,6 +1460,6 @@
     "message": "Dépannage et FAQ"
   },
   "helpTroubleshootingBody": {
-    "message": "Déconnecté d'un site ? Par ordre de probabilité : le site n'a pas de règle de conservation (ou seulement son nom d'hôte exact, alors que la connexion vit sur un sous-domaine — utilisez la forme *.example.com) ; c'est un site jusqu'au-redémarrage et le navigateur a redémarré ; une règle correspondante ne garde que des cookies nommés et le cookie de connexion n'est pas coché ; ou le cookie du site a simplement expiré. Ne devinez pas — le journal de nettoyage nomme la règle exacte qui a joué.\n\nLes cookies réapparaissent juste après le nettoyage ? Le site est presque toujours encore ouvert dans un onglet — les sites ouverts recréent des cookies à volonté et sont de toute façon protégés.\n\nLe nettoyage n'a pas eu lieu ? Vérifiez dans l'ordre : le nettoyage automatique est activé (l'en-tête du popup le dit) ; le site n'est pas ouvert dans un autre onglet ; le délai de grâce est passé ; aucune règle de conservation ne correspond ; ce n'était pas un onglet endormi (ils ne comptent comme fermés que si ce réglage avancé est activé).\n\nNettoyage des données de site activé mais les anciennes données sont encore là ? Le navigateur ne permet d'effacer ces types que pour les sites que vous revisitez ; les restes demeurent jusqu'à la visite suivante.\n\nIncognito ? Seulement si vous l'autorisez : page des extensions de votre navigateur → Autoriser en navigation privée. L'incognito a son propre magasin de cookies et ses propres sites enregistrés, et n'est jamais journalisé.\n\nToujours bloqué ? La page Assistance contient la version, un bloc de débogage copiable, le lien pour signaler les bugs et un bouton « Signaler un bug par e-mail » si vous n'avez pas de compte GitHub. Le mode débogage (Avancé) fait raconter à l'extension chaque décision dans la console du service worker, valeurs de cookies masquées."
+    "message": "Déconnecté d'un site ? Par ordre de probabilité : le site n'a pas de règle de conservation (ou seulement son nom d'hôte exact, alors que la connexion vit sur un sous-domaine — utilisez la forme *.example.com) ; c'est un site jusqu'au-redémarrage et le navigateur a redémarré ; une règle correspondante ne garde que des cookies nommés et le cookie de connexion n'est pas coché ; ou le cookie du site a simplement expiré. Ne devinez pas — le journal de nettoyage nomme la règle exacte qui a joué.\n\nLes cookies réapparaissent juste après le nettoyage ? Le site est presque toujours encore ouvert dans un onglet — les sites ouverts recréent des cookies à volonté et sont de toute façon protégés.\n\nLe nettoyage n'a pas eu lieu ? Vérifiez dans l'ordre : le nettoyage automatique est activé (l'en-tête du popup le dit) ; le site n'est pas ouvert dans un autre onglet ; le délai de grâce est passé ; aucune règle de conservation ne correspond ; ce n'était pas un onglet endormi (ils ne comptent comme fermés que si ce réglage avancé est activé).\n\nNettoyage des données de site activé mais les anciennes données sont encore là ? Le navigateur ne permet d'effacer ces types que pour les sites que vous revisitez ; les restes demeurent jusqu'à la visite suivante.\n\nIncognito ? Seulement si vous l'autorisez : page des extensions de votre navigateur → Autoriser en navigation privée. L'incognito a son propre magasin de cookies et ses propres sites enregistrés, et n'est jamais journalisé. Ses sites enregistrés sont effacés à la fermeture de la dernière fenêtre privée, sauf si Firefox est réglé pour ne jamais conserver l'historique ; ils restent alors enregistrés.\n\nToujours bloqué ? La page Assistance contient la version, un bloc de débogage copiable, le lien pour signaler les bugs et un bouton « Signaler un bug par e-mail » si vous n'avez pas de compte GitHub. Le mode débogage (Avancé) fait raconter à l'extension chaque décision dans la console du service worker, valeurs de cookies masquées."
   }
 }
