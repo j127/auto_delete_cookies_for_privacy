@@ -22,6 +22,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
   FirefoxSession,
+  inProbe,
   launchFirefox,
   probe,
   stopGeckodriver,
@@ -139,21 +140,33 @@ describe("row 20: accordions open with animations off", () => {
   });
 
   it("opens a Cleanup log entry", async () => {
-    // One logged cleanup to expand; the reducer keeps entries that cleaned
-    // site data even without cookies.
+    // One real cleanup to log: the store bridge lets pages start a cleanup
+    // but never write log entries themselves. A cookie set through the
+    // extension is enough to clean; no site has to load.
+    await inProbe(
+      session,
+      `await browser.cookies.set({
+         url: "https://example.com/",
+         name: "e2e_log_entry",
+         value: "1",
+         expirationDate: Math.floor(Date.now() / 1000) + 3600,
+       });
+       return true;`
+    );
     await probe(session, {
       kind: "dispatch",
       action: {
-        type: "ADD_ACTIVITY_LOG",
-        payload: {
-          dateTime: new Date().toString(),
-          recentlyCleaned: 0,
-          storeIds: {},
-          siteDataCleaned: true,
-          browsingDataCleanup: { LocalStorage: ["example.com"] },
-        },
+        type: "COOKIE_CLEANUP",
+        payload: { greyCleanup: false, ignoreOpenTabs: true },
       },
     });
+    const logged = await waitUntil(async () => {
+      const state = (await probe(session, { kind: "getState" })) as {
+        activityLog?: unknown[];
+      };
+      return (state.activityLog ?? []).length > 0;
+    }, 20000);
+    expect(logged).toBe(true);
     await openSettingsTab("tabCleanupLog", "#heading0");
     const opened = await clickAndMeasure("#heading0");
     expect(opened.open).toBe(true);
