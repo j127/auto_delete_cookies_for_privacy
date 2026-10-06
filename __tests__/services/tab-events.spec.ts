@@ -225,6 +225,138 @@ describe("TabEvents", () => {
       expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
     });
 
+    describe("marker cookie per exact host (#464)", () => {
+      const marker = (domain: string): browser.cookies.Cookie => ({
+        ...testCookie,
+        domain,
+        name: Lib.ADCPCOOKIENAME,
+      });
+      const lookupReturns = (
+        domain: string,
+        cookies: browser.cookies.Cookie[]
+      ) =>
+        when(global.browser.cookies.getAll)
+          .calledWith({ domain, storeId: "0", partitionKey: {} })
+          .mockResolvedValue(cookies as never);
+
+      it("sets the top host's marker even when only a sub-host marker exists", async () => {
+        // A frame's marker on sub.cookie.net comes back from the lookup,
+        // which covers subdomains; it is not cookie.net's own.
+        lookupReturns("cookie.net", [marker("sub.cookie.net")]);
+        await TabEvents.getAllCookieActions({
+          ...sampleTab,
+          url: "http://cookie.net/page",
+        });
+        expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
+        expect(global.browser.cookies.set).toHaveBeenCalledWith(
+          expect.objectContaining({
+            name: Lib.ADCPCOOKIENAME,
+            url: "http://cookie.net/page",
+          })
+        );
+      });
+
+      it("does not set a second marker when the exact host has one", async () => {
+        lookupReturns("cookie.net", [marker("cookie.net")]);
+        await TabEvents.getAllCookieActions({
+          ...sampleTab,
+          url: "http://cookie.net/page",
+        });
+        expect(global.browser.cookies.set).not.toHaveBeenCalled();
+      });
+
+      it("gives a www host its own marker", async () => {
+        // The lookup is www-stripped, so the bare domain's marker shows up.
+        lookupReturns("cookie.net", [marker("cookie.net")]);
+        await TabEvents.getAllCookieActions({
+          ...sampleTab,
+          url: "https://www.cookie.net/",
+        });
+        expect(global.browser.cookies.set).toHaveBeenCalledWith(
+          expect.objectContaining({ url: "https://www.cookie.net/" })
+        );
+      });
+
+      it("sets no marker when every site-data type is off", async () => {
+        lookupReturns("cookie.net", []);
+        for (const id of [
+          SettingID.CLEANUP_CACHE,
+          SettingID.CLEANUP_INDEXEDDB,
+          SettingID.CLEANUP_LOCALSTORAGE,
+          SettingID.CLEANUP_PLUGINDATA,
+          SettingID.CLEANUP_SERVICEWORKERS,
+        ]) {
+          TestStore.changeSetting(id, false);
+        }
+        await TabEvents.getAllCookieActions({
+          ...sampleTab,
+          url: "http://cookie.net",
+        });
+        expect(global.browser.cookies.set).not.toHaveBeenCalled();
+      });
+
+      it("never writes a Chrome incognito tab's marker into the regular store", async () => {
+        // Chrome tabs carry no cookieStoreId; cookies.set would default to
+        // the regular store and keep a record of the private visit.
+        lookupReturns("cookie.net", []);
+        when(global.browser.cookies.getAll)
+          .calledWith({ domain: "cookie.net", partitionKey: {} })
+          .mockResolvedValue([] as never);
+        await TabEvents.getAllCookieActions({
+          ...sampleTab,
+          cookieStoreId: undefined,
+          incognito: true,
+          url: "http://cookie.net",
+        });
+        expect(global.browser.cookies.set).not.toHaveBeenCalled();
+        // The badge and title still update.
+        expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledTimes(1);
+      });
+
+      it("keeps a private tab's marker in its own named store", async () => {
+        when(global.browser.cookies.getAll)
+          .calledWith({
+            domain: "cookie.net",
+            storeId: "firefox-private",
+            partitionKey: {},
+          })
+          .mockResolvedValue([] as never);
+        await TabEvents.getAllCookieActions({
+          ...sampleTab,
+          cookieStoreId: "firefox-private",
+          incognito: true,
+          url: "http://cookie.net",
+        });
+        expect(global.browser.cookies.set).toHaveBeenCalledWith(
+          expect.objectContaining({ storeId: "firefox-private" })
+        );
+      });
+
+      it("shares one marker write between concurrent updates of a host", async () => {
+        lookupReturns("cookie.net", []);
+        const tab = { ...sampleTab, url: "http://cookie.net" };
+        await Promise.all([
+          TabEvents.getAllCookieActions(tab),
+          TabEvents.getAllCookieActions(tab),
+        ]);
+        expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
+      });
+
+      it("swallows a failing marker write and still paints the badge", async () => {
+        lookupReturns("cookie.net", []);
+        global.browser.cookies.set.mockRejectedValueOnce(
+          new Error("cookie rejected") as never
+        );
+        await expect(
+          TabEvents.getAllCookieActions({
+            ...sampleTab,
+            url: "http://cookie.net",
+          })
+        ).resolves.toBeUndefined();
+        expect(spyBrowserActions.checkIfProtected).toHaveBeenCalledTimes(1);
+      });
+    });
+
     it("should filter out CAD browsingDataCleanup cookie from total cookie count", async () => {
       when(global.browser.cookies.getAll)
         .calledWith({ domain: "cookie.net", storeId: "0", partitionKey: {} })

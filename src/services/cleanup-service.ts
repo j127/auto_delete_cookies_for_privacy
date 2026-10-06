@@ -36,6 +36,7 @@ import {
   siteDataToRemovalTypes,
   SITEDATATYPES,
   sleep,
+  tabCookieStoreId,
   throwErrorNotification,
   trimDot,
   dedupeCookies,
@@ -887,7 +888,7 @@ export const returnContainersOfOpenTabDomains = async (
     if (isAWebpage(tab.url) && (!cleanDiscardedTabs || !tab.discarded)) {
       // Firefox exposes the tab's real store (containers included);
       // Chrome doesn't have tab.cookieStoreId, so rely on tab.incognito
-      const cookieStoreId = tab.cookieStoreId ?? (tab.incognito ? "1" : "0");
+      const cookieStoreId = tabCookieStoreId(tab);
       if (!openTabs[cookieStoreId]) {
         openTabs[cookieStoreId] = new Set<string>();
       }

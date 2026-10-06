@@ -24,9 +24,12 @@ import {
   createPartialTabInfo,
   extractMainDomain,
   getAllCookiesForDomain,
+  getExactHostname,
   getHostname,
   getSetting,
+  hasSiteDataCleanupEnabled,
   isAWebpage,
+  isMarkerCookieFor,
   uid,
 } from "./libs";
 import StoreUser from "./store-user";
@@ -289,51 +292,35 @@ export default class TabEvents extends StoreUser {
       return c.name === ADCPCOOKIENAME;
     });
 
+    // The marker belongs to the tab's EXACT host. getAllCookiesForDomain
+    // looks up the www-stripped host and its subdomains, so a marker on
+    // some other host of the site (a frame's, say) must not count as this
+    // host's own.
+    const exactHost = getExactHostname(tab.url);
+    // Chrome tabs carry no cookieStoreId, so an incognito tab's marker
+    // used to land in the REGULAR store (cookies.set's default): a hidden,
+    // year-long record of a private visit that also surfaced in the
+    // cleanup log. Chrome cannot clear incognito storage per site anyway,
+    // so those tabs get no marker. Firefox private tabs name their own
+    // in-memory store and keep theirs.
+    const unnamedPrivateStore =
+      tab.incognito === true && tab.cookieStoreId === undefined;
     if (
-      internalCookies.length === 0 &&
-      (getSetting(StoreUser.store.getState(), SettingID.CLEANUP_CACHE) ||
-        getSetting(StoreUser.store.getState(), SettingID.CLEANUP_INDEXEDDB) ||
-        getSetting(
-          StoreUser.store.getState(),
-          SettingID.CLEANUP_LOCALSTORAGE
-        ) ||
-        getSetting(StoreUser.store.getState(), SettingID.CLEANUP_PLUGINDATA) ||
-        getSetting(
-          StoreUser.store.getState(),
-          SettingID.CLEANUP_SERVICEWORKERS
-        )) &&
+      !unnamedPrivateStore &&
+      exactHost !== "" &&
+      hasSiteDataCleanupEnabled(StoreUser.store.getState()) &&
       isAWebpage(tab.url) &&
       !tab.url.startsWith("file:")
     ) {
-      const cookiesAttributes: {
-        expirationDate: number;
-        name: string;
-        path: string;
-        storeId: string | undefined;
-        value: string;
-        firstPartyDomain?: string;
-      } = {
-        expirationDate: Math.floor(Date.now() / 1000 + 31557600),
-        name: ADCPCOOKIENAME,
-        path: `/${uid()}`,
-        storeId: tab.cookieStoreId,
-        value: ADCPCOOKIENAME,
-      };
-      // Under FPI, cookies.set without firstPartyDomain rejects; with FPI
-      // off, a non-empty firstPartyDomain rejects — hence the probe. The
-      // marker still surfaces to cleanup either way, because enumeration
-      // passes firstPartyDomain: null (match any).
-      if (await isFirstPartyIsolationOn()) {
-        cookiesAttributes.firstPartyDomain = extractMainDomain(
-          getHostname(tab.url)
-        );
-      }
-      await browser.cookies.set({ ...cookiesAttributes, url: tab.url });
-      adcpLog(
+      await TabEvents.ensureSiteDataMarker(
         {
-          msg: "TabEvents.getAllCookieActions:  A temporary cookie has been set for future BrowsingData cleaning as the site did not set any cookies yet.",
-          x: { partialTabInfo, cadLSCookie: cookiesAttributes },
+          firstPartyDomain: extractMainDomain(getHostname(tab.url)),
+          host: exactHost,
+          storeId: tab.cookieStoreId,
+          url: tab.url,
         },
+        async () =>
+          internalCookies.some((c) => isMarkerCookieFor(c, exactHost)),
         debug
       );
     }
@@ -367,6 +354,81 @@ export default class TabEvents extends StoreUser {
     }
   };
   /**
+   * Sets the hidden ADCP marker cookie on one exact host unless it already
+   * has one. Cleanup puts the site data of every host that owns a cookie
+   * in its scope, so the marker is what gets a host's storage cleaned when
+   * the site keeps its own cookies elsewhere (or sets none). The random
+   * path keeps the browser from ever sending it to the site, and isSafeToClean
+   * weighs keep rules and open tabs for it like for any cookie.
+   *
+   * Requests for the same store and host share one write: a lookup that
+   * runs while another is still setting the marker would miss it and set a
+   * second one (every marker has its own path). Never throws: a failed
+   * lookup or write only means this host's storage is not cleaned.
+   */
+  protected static async ensureSiteDataMarker(
+    target: {
+      /** The page or frame url the cookie is set for. */
+      url: string;
+      /** The url's exact host, as getExactHostname returns it. */
+      host: string;
+      /** Raw cookie store id; undefined means the browser's default. */
+      storeId: string | undefined;
+      /** The first-party domain to set under First-Party Isolation. */
+      firstPartyDomain: string;
+    },
+    hasMarker: () => Promise<boolean>,
+    debug: boolean
+  ): Promise<void> {
+    const key = `${target.storeId ?? ""}|${target.host}`;
+    if (TabEvents.markersInFlight.has(key)) return;
+    TabEvents.markersInFlight.add(key);
+    try {
+      if (await hasMarker()) return;
+      const cookiesAttributes: {
+        expirationDate: number;
+        name: string;
+        path: string;
+        storeId: string | undefined;
+        value: string;
+        firstPartyDomain?: string;
+      } = {
+        expirationDate: Math.floor(Date.now() / 1000 + 31557600),
+        name: ADCPCOOKIENAME,
+        path: `/${uid()}`,
+        storeId: target.storeId,
+        value: ADCPCOOKIENAME,
+      };
+      // Under FPI, cookies.set without firstPartyDomain rejects; with FPI
+      // off, a non-empty firstPartyDomain rejects — hence the probe. The
+      // marker still surfaces to cleanup either way, because enumeration
+      // passes firstPartyDomain: null (match any).
+      if (await isFirstPartyIsolationOn()) {
+        cookiesAttributes.firstPartyDomain = target.firstPartyDomain;
+      }
+      await browser.cookies.set({ ...cookiesAttributes, url: target.url });
+      adcpLog(
+        {
+          msg: "TabEvents.ensureSiteDataMarker:  A marker cookie has been set so a later cleanup also clears this host's site data.",
+          x: { host: target.host, cadLSCookie: cookiesAttributes },
+        },
+        debug
+      );
+    } catch (e: unknown) {
+      adcpLog(
+        {
+          msg: "TabEvents.ensureSiteDataMarker:  Could not set the marker cookie; this host's site data will not be cleaned.",
+          type: "warn",
+          x: { host: target.host, error: e instanceof Error ? e.message : e },
+        },
+        debug
+      );
+    } finally {
+      TabEvents.markersInFlight.delete(key);
+    }
+  }
+
+  /**
    * Rehydrate the tab->domain cache from storage.session on service worker
    * start. Without this, clean-on-domain-change silently stops working after
    * the worker's first idle suspension (~30s), because the in-memory map
@@ -399,4 +461,8 @@ export default class TabEvents extends StoreUser {
   protected static pendingTabUpdates: Map<number, browser.tabs.Tab> = new Map();
 
   protected static tabToDomain: { [key: number]: string } = {};
+
+  // Store-and-host keys of marker writes in progress (ensureSiteDataMarker).
+  // In-memory is fine: it only spans one lookup-and-set.
+  protected static markersInFlight: Set<string> = new Set();
 }

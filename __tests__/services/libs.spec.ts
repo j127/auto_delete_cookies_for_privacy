@@ -22,6 +22,7 @@ import { fileURLToPath } from "node:url";
 import { when } from "jest-when";
 import { initialState } from "@/redux/state";
 import {
+  ADCPCOOKIENAME,
   adcpLog,
   convertVersionToNumber,
   createPartialTabInfo,
@@ -29,6 +30,7 @@ import {
   extractMainDomain,
   getAllCookiesForDomain,
   getContainerExpressionDefault,
+  getExactHostname,
   getHostname,
   getMatchedExpressions,
   getPort,
@@ -36,8 +38,10 @@ import {
   getSetting,
   getStoreId,
   globExpressionToRegExp,
+  hasSiteDataCleanupEnabled,
   isAnIP,
   isAWebpage,
+  isMarkerCookieFor,
   localFileToRegex,
   matchIPInExpression,
   parseCookieStoreId,
@@ -48,6 +52,7 @@ import {
   siteDataToBrowser,
   siteDataToRemovalTypes,
   sleep,
+  tabCookieStoreId,
   throwErrorNotification,
   toRawStoreId,
   trimDot,
@@ -770,6 +775,128 @@ describe("Library Functions", () => {
 
     it("should return an empty string from invalid URLs", () => {
       expect(getHostname("test")).toEqual("");
+    });
+  });
+
+  describe("getExactHostname()", () => {
+    it("keeps a leading www, unlike getHostname", () => {
+      expect(getExactHostname("https://www.example.com/a")).toBe(
+        "www.example.com"
+      );
+      expect(getHostname("https://www.example.com/a")).toBe("example.com");
+    });
+
+    it("returns the host of subdomains and ports as the browser sees it", () => {
+      expect(getExactHostname("http://Sign-In.Example.com:8080/x")).toBe(
+        "sign-in.example.com"
+      );
+    });
+
+    it("drops IPv6 brackets", () => {
+      expect(getExactHostname("http://[::1]:3000/")).toBe("::1");
+    });
+
+    it("returns nothing for file urls, blanks and junk", () => {
+      expect(getExactHostname("file:///home/user/page.html")).toBe("");
+      expect(getExactHostname(undefined)).toBe("");
+      expect(getExactHostname("")).toBe("");
+      expect(getExactHostname("not a url")).toBe("");
+    });
+  });
+
+  describe("isMarkerCookieFor()", () => {
+    const marker = { domain: "sub.example.com", name: ADCPCOOKIENAME };
+
+    it("matches the marker of exactly that host", () => {
+      expect(isMarkerCookieFor(marker, "sub.example.com")).toBe(true);
+      expect(
+        isMarkerCookieFor(
+          { ...marker, domain: ".sub.example.com" },
+          "sub.example.com"
+        )
+      ).toBe(true);
+    });
+
+    it("does not match a marker of another host of the site", () => {
+      expect(isMarkerCookieFor(marker, "example.com")).toBe(false);
+      expect(isMarkerCookieFor(marker, "www.sub.example.com")).toBe(false);
+    });
+
+    it("ignores the site's own cookies and blank hosts", () => {
+      expect(
+        isMarkerCookieFor({ ...marker, name: "session" }, "sub.example.com")
+      ).toBe(false);
+      expect(isMarkerCookieFor(marker, "")).toBe(false);
+    });
+
+    it("compares IPv6 hosts with or without brackets", () => {
+      expect(isMarkerCookieFor({ ...marker, domain: "[::1]" }, "::1")).toBe(
+        true
+      );
+    });
+  });
+
+  describe("tabCookieStoreId()", () => {
+    it("uses the store a Firefox tab names", () => {
+      expect(
+        tabCookieStoreId({
+          cookieStoreId: "firefox-container-2",
+          incognito: false,
+        })
+      ).toBe("firefox-container-2");
+    });
+
+    it("maps Chrome tabs to 0 or 1 by the incognito flag", () => {
+      expect(tabCookieStoreId({ incognito: false })).toBe("0");
+      expect(tabCookieStoreId({ incognito: true })).toBe("1");
+    });
+  });
+
+  describe("hasSiteDataCleanupEnabled()", () => {
+    const allOff: State = {
+      ...initialState,
+      settings: {
+        ...initialState.settings,
+        [SettingID.CLEANUP_CACHE]: {
+          name: SettingID.CLEANUP_CACHE,
+          value: false,
+        },
+        [SettingID.CLEANUP_INDEXEDDB]: {
+          name: SettingID.CLEANUP_INDEXEDDB,
+          value: false,
+        },
+        [SettingID.CLEANUP_LOCALSTORAGE]: {
+          name: SettingID.CLEANUP_LOCALSTORAGE,
+          value: false,
+        },
+        [SettingID.CLEANUP_PLUGINDATA]: {
+          name: SettingID.CLEANUP_PLUGINDATA,
+          value: false,
+        },
+        [SettingID.CLEANUP_SERVICEWORKERS]: {
+          name: SettingID.CLEANUP_SERVICEWORKERS,
+          value: false,
+        },
+      },
+    };
+
+    it("is false with every site-data type off", () => {
+      expect(hasSiteDataCleanupEnabled(allOff)).toBe(false);
+    });
+
+    it("is true with any one type on", () => {
+      expect(
+        hasSiteDataCleanupEnabled({
+          ...allOff,
+          settings: {
+            ...allOff.settings,
+            [SettingID.CLEANUP_LOCALSTORAGE]: {
+              name: SettingID.CLEANUP_LOCALSTORAGE,
+              value: true,
+            },
+          },
+        })
+      ).toBe(true);
     });
   });
 
