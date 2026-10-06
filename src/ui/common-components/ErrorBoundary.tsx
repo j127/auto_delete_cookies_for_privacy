@@ -14,7 +14,7 @@ import * as React from "react";
 import { useDispatch, useSelector, useStore } from "react-redux";
 import { resetAll } from "@/redux/actions";
 import { adcpLog } from "@/services/libs";
-import { downloadObjectAsJSON } from "@/ui/ui-libs";
+import { downloadObjectAsJSON, listsForExport } from "@/ui/ui-libs";
 import IconButton from "./IconButton";
 
 // This fixes the error thrown when upgrading react-redux from 7.1.7 to 7.1.8
@@ -101,7 +101,10 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps> {
               iconName="download"
               role="button"
               onClick={() =>
-                downloadObjectAsJSON(this.props.state.lists, "Expressions")
+                downloadObjectAsJSON(
+                  listsForExport(this.props.state.lists),
+                  "Expressions"
+                )
               }
               title={browser.i18n.getMessage("exportTitleTimestamp")}
               text={browser.i18n.getMessage("exportURLSText")}

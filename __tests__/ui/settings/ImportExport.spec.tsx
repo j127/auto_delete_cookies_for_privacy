@@ -69,6 +69,36 @@ describe("ImportExport", () => {
     expect(success.textContent).toContain("CAD_CoreSettings_");
   });
 
+  it("exports the saved sites without the Private list (#468)", () => {
+    const hrefs: (string | null)[] = [];
+    const click = jest
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(function (this: HTMLAnchorElement) {
+        hrefs.push(this.getAttribute("href"));
+      });
+    const rule = (expression: string, storeId: string): Expression => ({
+      expression,
+      listType: ListType.WHITE,
+      storeId,
+    });
+    const { getByText } = renderPage({
+      ...initialState,
+      lists: {
+        default: [rule("normal.example", "default")],
+        private: [rule("private.example", "private")],
+      },
+    });
+    fireEvent.click(getByText("exportURLSText"));
+    click.mockRestore();
+    expect(hrefs).toHaveLength(1);
+    const prefix = "data:text/json;charset=urf-8,";
+    const exported = JSON.parse(
+      decodeURIComponent((hrefs[0] as string).slice(prefix.length))
+    );
+    expect(Object.keys(exported)).toEqual(["default"]);
+    expect(exported.default[0].expression).toBe("normal.example");
+  });
+
   it("imports known settings and dispatches only the changed values", async () => {
     const { dispatchSpy, fileInputs, container } = renderPage();
     const file = jsonFile({

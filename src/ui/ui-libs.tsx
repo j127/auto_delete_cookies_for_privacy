@@ -24,6 +24,20 @@ export const appendDynamicTimestamp = (): string => {
 };
 
 /**
+ * The saved-sites lists as they go into a backup file: everything except
+ * the Private list (#468). That list holds sites kept during a private
+ * session and is erased when the session ends, so a backup must not carry
+ * that trail either. Importing an old file that has one still works; its
+ * rules are erased at the next session end or browser start.
+ */
+export const listsForExport = (
+  lists: StoreIdToExpressionList
+): StoreIdToExpressionList =>
+  Object.fromEntries(
+    Object.entries(lists).filter(([storeId]) => storeId !== "private")
+  );
+
+/**
  * Dynamically generate data to be downloaded and executes the download.
  * https://stackoverflow.com/questions/19721439/download-json-object-as-a-file-from-browser
  */

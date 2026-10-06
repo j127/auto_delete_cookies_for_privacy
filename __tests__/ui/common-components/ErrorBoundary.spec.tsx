@@ -20,9 +20,12 @@ describe("ErrorBoundary", () => {
     global.browser.runtime.getManifest.mockReturnValue({ version: "1.0.0" });
   });
 
-  const renderBoundary = (children: React.ReactNode) => {
+  const renderBoundary = (
+    children: React.ReactNode,
+    state: State = initialState
+  ) => {
     const reducer = jest.fn<(state: State | undefined, action: any) => State>(
-      () => initialState
+      () => state
     );
     const store = createStore(reducer);
     const view = render(
@@ -70,6 +73,32 @@ describe("ErrorBoundary", () => {
     expect(reset.className).toBe("btn btn-error");
     expect(reset.getAttribute("title")).toBe("resetExtensionDataText");
     expect(reset.textContent).toBe("resetExtensionDataText");
+  });
+
+  it("exports the saved sites without the Private list (#468)", () => {
+    const hrefs: (string | null)[] = [];
+    const click = jest
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(function (this: HTMLAnchorElement) {
+        hrefs.push(this.getAttribute("href"));
+      });
+    const rule = (expression: string, storeId: string) =>
+      ({ expression, listType: "WHITE", storeId }) as Expression;
+    const { getByText } = renderBoundary(<Bomb />, {
+      ...initialState,
+      lists: {
+        default: [rule("normal.example", "default")],
+        private: [rule("private.example", "private")],
+      },
+    });
+    fireEvent.click(getByText("exportURLSText"));
+    click.mockRestore();
+    expect(hrefs).toHaveLength(1);
+    const prefix = "data:text/json;charset=urf-8,";
+    const exported = JSON.parse(
+      decodeURIComponent((hrefs[0] as string).slice(prefix.length))
+    );
+    expect(Object.keys(exported)).toEqual(["default"]);
   });
 
   it("logs the caught error through the extension logger", () => {
