@@ -861,6 +861,27 @@ export const siteDataToBrowser = (siteData: SiteDataType): string =>
   `${siteData[0].toLowerCase()}${siteData.slice(1)}`;
 
 /**
+ * The DataTypeSet browser.browsingData.remove needs to clear one of the
+ * extension's site-data types: the type's own key plus any storage the
+ * browser files under separate keys that the same setting covers
+ * (browserCapabilities.extraRemovalTypes: Chrome's Cache Storage and File
+ * System data). siteDataToBrowser stays the single-key name, because i18n
+ * keys, setting ids and log keys are built from it.
+ * @param siteData The Site Data to convert to removal types.
+ */
+export const siteDataToRemovalTypes = (
+  siteData: SiteDataType
+): browser.browsingData.DataTypeSet => {
+  const types: Record<string, boolean> = {
+    [siteDataToBrowser(siteData)]: true,
+  };
+  for (const extra of browserCapabilities.extraRemovalTypes[siteData] ?? []) {
+    types[extra] = true;
+  }
+  return types;
+};
+
+/**
  * Sleep execution for ms.
  * Ensures no 0 second setTimeout otherwise side effects.
  * Ensures we don't go over max signed 32-bit Int of 2,147,483,647

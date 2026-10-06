@@ -45,6 +45,8 @@ import {
   prepareCookieDomain,
   returnMatchedExpressionObject,
   showNotification,
+  siteDataToBrowser,
+  siteDataToRemovalTypes,
   sleep,
   throwErrorNotification,
   toRawStoreId,
@@ -1174,6 +1176,59 @@ describe("Library Functions", () => {
         prepareCleanupDomains("sub.domain.com", "8080")
       );
       expect(prepareCleanupScope("domain.com")[0]).toMatch(/^http:\/\//);
+    });
+  });
+
+  describe("siteDataToBrowser()", () => {
+    it("lowercases the first letter of the site-data type", () => {
+      expect(siteDataToBrowser(SiteDataType.LOCALSTORAGE)).toBe("localStorage");
+      expect(siteDataToBrowser(SiteDataType.INDEXEDDB)).toBe("indexedDB");
+    });
+  });
+
+  describe("siteDataToRemovalTypes() on Chrome (default flavor)", () => {
+    it("adds Cache Storage to service workers", () => {
+      expect(siteDataToRemovalTypes(SiteDataType.SERVICEWORKERS)).toEqual({
+        serviceWorkers: true,
+        cacheStorage: true,
+      });
+    });
+
+    it("adds File System data to IndexedDB", () => {
+      expect(siteDataToRemovalTypes(SiteDataType.INDEXEDDB)).toEqual({
+        indexedDB: true,
+        fileSystems: true,
+      });
+    });
+
+    it("keeps every other type to its own key", () => {
+      expect(siteDataToRemovalTypes(SiteDataType.CACHE)).toEqual({
+        cache: true,
+      });
+      expect(siteDataToRemovalTypes(SiteDataType.LOCALSTORAGE)).toEqual({
+        localStorage: true,
+      });
+      expect(siteDataToRemovalTypes(SiteDataType.PLUGINDATA)).toEqual({
+        pluginData: true,
+      });
+    });
+  });
+
+  describe("siteDataToRemovalTypes() on Firefox", () => {
+    afterEach(() => {
+      vi.unstubAllGlobals();
+      vi.resetModules();
+    });
+
+    it("never adds Chrome-only keys, which Firefox would reject", async () => {
+      vi.stubGlobal("__BROWSER__", "firefox");
+      vi.resetModules();
+      const firefoxLibs = await import("@/services/libs");
+      for (const siteData of firefoxLibs.SITEDATATYPES) {
+        expect(firefoxLibs.siteDataToRemovalTypes(siteData)).toEqual({
+          [firefoxLibs.siteDataToBrowser(siteData)]: true,
+        });
+      }
     });
   });
 

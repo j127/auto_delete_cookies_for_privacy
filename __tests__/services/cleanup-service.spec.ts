@@ -1938,9 +1938,11 @@ describe("CleanupService", () => {
       it("should clean site data for: indexedDBCleanup true", async () => {
         await otherBrowsingDataCleanup(indexedDBState, [unprotectedObj]);
         expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+        // Chrome files File System / OPFS data under its own key; it rides
+        // along with IndexedDB (#464).
         expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
           { origins: expect.any(Array) },
-          { indexedDB: true }
+          { indexedDB: true, fileSystems: true }
         );
       });
     });
@@ -1971,9 +1973,11 @@ describe("CleanupService", () => {
       it("should clean site data for: serviceWorkersCleanup true", async () => {
         await otherBrowsingDataCleanup(serviceWorkersState, [unprotectedObj]);
         expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+        // Chrome's Cache Storage (the Cache API) rides along with service
+        // workers, its main user (#464).
         expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
           { origins: expect.any(Array) },
-          { serviceWorkers: true }
+          { serviceWorkers: true, cacheStorage: true }
         );
       });
     });
@@ -2011,6 +2015,30 @@ describe("CleanupService", () => {
       expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
         { origins: ["test"] },
         { cache: true }
+      );
+    });
+    it("removes Chrome's Cache Storage together with service workers", async () => {
+      await removeSiteData(
+        sampleState,
+        SiteDataType.SERVICEWORKERS,
+        ["https://example.com"],
+        false
+      );
+      expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
+        { origins: ["https://example.com"] },
+        { serviceWorkers: true, cacheStorage: true }
+      );
+    });
+    it("removes Chrome's File System data together with IndexedDB", async () => {
+      await removeSiteData(
+        sampleState,
+        SiteDataType.INDEXEDDB,
+        ["https://example.com"],
+        false
+      );
+      expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
+        { origins: ["https://example.com"] },
+        { indexedDB: true, fileSystems: true }
       );
     });
     it("should return false if an error occurred", async () => {

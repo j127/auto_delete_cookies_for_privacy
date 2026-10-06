@@ -17,6 +17,10 @@ describe("CAPABILITIES", () => {
       supportsFirstPartyDomain: false,
       supportsContextualIdentities: false,
       storeIdScheme: "chrome",
+      extraRemovalTypes: {
+        ServiceWorkers: ["cacheStorage"],
+        IndexedDB: ["fileSystems"],
+      },
     });
   });
 
@@ -27,6 +31,7 @@ describe("CAPABILITIES", () => {
       supportsFirstPartyDomain: true,
       supportsContextualIdentities: true,
       storeIdScheme: "firefox",
+      extraRemovalTypes: {},
     });
   });
 });

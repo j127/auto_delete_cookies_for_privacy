@@ -33,6 +33,7 @@ import {
   returnMatchedExpressionObject,
   showNotification,
   siteDataToBrowser,
+  siteDataToRemovalTypes,
   SITEDATATYPES,
   sleep,
   throwErrorNotification,
@@ -611,9 +612,7 @@ export const removeSiteData = async (
       {
         [listName]: domains,
       } as browser.browsingData.RemovalOptions,
-      {
-        [sd]: true,
-      }
+      siteDataToRemovalTypes(siteData)
     );
     showNotification(
       {

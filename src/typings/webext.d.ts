@@ -59,6 +59,16 @@ declare global {
       type RemovalOptions = BrowsingData.RemovalOptions & {
         origins?: string[];
       };
+      /**
+       * Chrome's Cache Storage and File System types are missing from the
+       * Firefox-schema DataTypeSet; the Chrome build removes them along
+       * with service workers and IndexedDB (browser-capabilities
+       * extraRemovalTypes).
+       */
+      type DataTypeSet = BrowsingData.DataTypeSet & {
+        cacheStorage?: boolean;
+        fileSystems?: boolean;
+      };
     }
 
     namespace contextualIdentities {

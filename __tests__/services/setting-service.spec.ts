@@ -153,6 +153,20 @@ describe("SettingService", () => {
       await SettingService.onSettingsChange();
       expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
     });
+    it("should wipe Cache Storage along with service workers on an opted-in enable", async () => {
+      // Chrome files the Cache API under its own key; the service-workers
+      // setting covers it (#464), on enable as in per-site cleanup.
+      TestStore.changeSetting(SettingID.SITEDATA_EMPTY_ON_ENABLE, true);
+      await SettingService.onSettingsChange();
+      TestStore.changeSetting(SettingID.CLEANUP_SERVICEWORKERS, false);
+      await SettingService.onSettingsChange();
+      TestStore.changeSetting(SettingID.CLEANUP_SERVICEWORKERS, true);
+      await SettingService.onSettingsChange();
+      expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
+        { since: 0 },
+        { serviceWorkers: true, cacheStorage: true }
+      );
+    });
     it("should NOT clean that site data on enable with the default settings (wipe is opt-in)", async () => {
       // No implicit wipe on first run, upgrade, or plain enables: the
       // empty-on-enable setting defaults off (audit bug 14).
