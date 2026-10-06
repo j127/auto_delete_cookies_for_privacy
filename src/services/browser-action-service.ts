@@ -12,7 +12,11 @@
  */
 
 import { ListType, SettingID } from "@/typings/enums";
-import { getHostname, returnMatchedExpressionObject } from "./libs";
+import {
+  getHostname,
+  returnMatchedExpressionObject,
+  tabCookieStoreId,
+} from "./libs";
 
 // A tab can close between the event that captured it and these paint calls
 // (TabEvents.onTabUpdate delays actions by ~750 ms, and the cookie fetch adds
@@ -182,7 +186,9 @@ export const checkIfProtected = async (
   activeTabs.forEach((aTab) => {
     const matchedExpression = returnMatchedExpressionObject(
       state,
-      aTab.cookieStoreId || "default",
+      // An incognito Chrome tab has no cookieStoreId; its rules live in
+      // the Private list (#478).
+      tabCookieStoreId(aTab),
       getHostname(aTab.url || "")
     );
 

@@ -692,11 +692,48 @@ describe("ContextMenuEvents", () => {
         },
         { ...sampleTab, cookieStoreId: undefined }
       );
+      // A normal Chrome tab has no cookieStoreId; its store is "0" (#478).
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "*.selectedText",
         ListType.WHITE,
-        ""
+        "0"
       );
+    });
+    // Issue #478: a Chrome tab's keep-list key comes from its real store,
+    // so an incognito keep lands in the Private list cleanup checks.
+    it("adds an incognito Chrome tab's right-click add into the private list", () => {
+      ContextMenuEvents.onContextMenuClicked(
+        {
+          ...defaultOnClickData,
+          selectionText: "chromeIncognito",
+          menuItemId: ContextMenuEvents.MenuID.SELECT_ADD_WHITE_SUBS,
+        },
+        { ...sampleTab, cookieStoreId: undefined, incognito: true }
+      );
+      expect(spyActions.addExpression).toHaveBeenCalledWith(
+        expect.objectContaining({
+          expression: "*.chromeIncognito",
+          storeId: "private",
+        })
+      );
+      expect(listsHolding("*.chromeIncognito")).toEqual(["private"]);
+    });
+    it("adds a normal Chrome tab's right-click add into the default list", () => {
+      ContextMenuEvents.onContextMenuClicked(
+        {
+          ...defaultOnClickData,
+          selectionText: "chromeNormal",
+          menuItemId: ContextMenuEvents.MenuID.SELECT_ADD_WHITE_SUBS,
+        },
+        { ...sampleTab, cookieStoreId: undefined, incognito: false }
+      );
+      expect(spyActions.addExpression).toHaveBeenCalledWith(
+        expect.objectContaining({
+          expression: "*.chromeNormal",
+          storeId: "default",
+        })
+      );
+      expect(listsHolding("*.chromeNormal")).toEqual(["default"]);
     });
     it("Trigger SELECT_ADD_WHITE_SUBS with undefined inputs to addNewExpression", () => {
       ContextMenuEvents.onContextMenuClicked(
@@ -710,7 +747,7 @@ describe("ContextMenuEvents", () => {
       expect(TestContextMenuEvents.spyAddNewExpression).toHaveBeenCalledWith(
         "*.",
         ListType.WHITE,
-        ""
+        "0"
       );
     });
     it("Trigger Toggle of ACTIVE_MODE", () => {
