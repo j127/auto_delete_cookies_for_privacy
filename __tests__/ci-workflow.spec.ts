@@ -3,6 +3,7 @@
  * Copyright (c) 2026 j127. Licensed under MIT (see LICENSE).
  */
 import { readFileSync } from "fs";
+import { PINNED_CHROME_VERSION } from "../e2e/helpers/chrome_cdp";
 import { PINNED_GECKODRIVER_VERSION } from "../e2e/helpers/firefox_driver";
 import { FIREFOX_STRICT_MIN_VERSION } from "../scripts/firefox_manifest";
 import { RECIPES } from "./justfile-recipes";
@@ -188,5 +189,78 @@ describe("e2e-firefox job", () => {
       used,
       "the cached path and GECKODRIVER_CACHE_DIR must be one directory"
     ).toBe(cached);
+  });
+});
+
+describe("e2e-chromium job", () => {
+  // The job that runs the Chrome for Testing suite (#473). Like the
+  // Firefox job it tests one pinned browser build, here read out of
+  // e2e/helpers/chrome_cdp.ts, where local runs find it too.
+  const CHROMIUM_JOB =
+    /^ {2}e2e-chromium:\n((?: {3,}\S.*\n|[ \t]*\n)*)/m.exec(WORKFLOW)?.[1] ??
+    "";
+
+  it("has an e2e-chromium job in ci.yml", () => {
+    expect(CHROMIUM_JOB).not.toBe("");
+  });
+
+  it("pins an exact Chrome for Testing build", () => {
+    expect(PINNED_CHROME_VERSION).toMatch(/^\d+\.\d+\.\d+\.\d+$/);
+  });
+
+  it("reads the Chrome pin out of the helper, with a pattern that still matches it", () => {
+    // Same check as for the geckodriver pin above: a renamed or
+    // reformatted constant would leave the step with an empty version.
+    const script = /sed -n '([^']*)'/.exec(CHROMIUM_JOB)?.[1] ?? "";
+    const pattern = /^s\/(.*)\/\\1\/p$/.exec(script)?.[1] ?? "";
+    expect(pattern, "no s/.../\\1/p sed script in the job").not.toBe("");
+    const asRegExp = new RegExp(
+      pattern.replaceAll("\\(", "(").replaceAll("\\)", ")"),
+      "m"
+    );
+    expect(
+      asRegExp.exec(read("e2e/helpers/chrome_cdp.ts"))?.[1],
+      "the workflow step would not find the pin any more"
+    ).toBe(PINNED_CHROME_VERSION);
+    expect(CHROMIUM_JOB).toContain("e2e/helpers/chrome_cdp.ts");
+  });
+
+  it("installs that build with a pinned installer", () => {
+    expect(CHROMIUM_JOB).toMatch(
+      /bunx @puppeteer\/browsers@\d+\.\d+\.\d+ install "chrome@\$CHROME_VERSION"/
+    );
+    expect(CHROMIUM_JOB).toMatch(
+      /^ {10}CHROME_VERSION: \$\{\{ steps\.chrome\.outputs\.version \}\}$/m
+    );
+  });
+
+  it("keys the browser cache on the pinned version", () => {
+    expect(CHROMIUM_JOB).toMatch(
+      /key: chrome-for-testing-\$\{\{ runner\.os \}\}-\$\{\{ steps\.chrome\.outputs\.version \}\}/
+    );
+  });
+
+  it("prints the browser version it tests", () => {
+    expect(CHROMIUM_JOB).toMatch(/run: '"\$CHROME_BIN" --version'/);
+  });
+
+  it("runs just e2e_chromium on the installed build", () => {
+    expect(CHROMIUM_JOB).toMatch(/^ {6}- run: just e2e_chromium$/m);
+    expect(CHROMIUM_JOB).toMatch(
+      /^ {10}CHROME_BIN: \$\{\{ steps\.install-chrome\.outputs\.path \}\}$/m
+    );
+  });
+
+  it("builds the extension before the suite loads it", () => {
+    expect(RECIPES.get("e2e_chromium")?.dependencies).toEqual(["build"]);
+    expect(RECIPES.get("e2e_chromium")?.body).toEqual([
+      "bunx vitest run --config vitest.e2e-chromium.config.ts",
+    ]);
+  });
+
+  it("pins every action by commit SHA", () => {
+    const uses = [...CHROMIUM_JOB.matchAll(/uses: (\S+)/g)].map((m) => m[1]);
+    expect(uses.length).toBeGreaterThan(0);
+    for (const action of uses) expect(action).toMatch(/@[0-9a-f]{40}$/);
   });
 });

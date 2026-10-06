@@ -39,9 +39,10 @@ format_check:
   bunx prettier --check .
 
 # Keep this in step with the "ci" job in .github/workflows/ci.yml: same
-# steps, same order (__tests__/ci-workflow.spec.ts checks). CI's other two
-# jobs are left out: the reproducibility check, and the real-Firefox tests
-# (`just e2e_firefox`, which needs Firefox installed).
+# steps, same order (__tests__/ci-workflow.spec.ts checks). CI's other three
+# jobs are left out: the reproducibility check, the real-Firefox tests
+# (`just e2e_firefox`, which needs Firefox installed), and the Chrome for
+# Testing tests (`just e2e_chromium`, which needs the pinned build).
 # Everything the main CI job runs, in the same order
 ci: install_frozen check lint format_check check_locales test package_zip lint_firefox package_zip_firefox
 
