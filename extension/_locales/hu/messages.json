@@ -689,6 +689,10 @@
     "message": "A lista szabályai törlődnek, amikor bezárod az utolsó privát ablakot.",
     "description": "Saved sites: notice under the list selector while the Private list is selected. The Private list is erased automatically at the end of each private session."
   },
+  "privateListKeptNoticeText": {
+    "message": "A Firefox úgy van beállítva, hogy soha ne jegyezze meg az előzményeket, ezért minden ablak privát, és a lista szabályai mentve maradnak, amíg el nem távolítod őket.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
+  },
   "questionExpression": {
     "message": "Hogyan működnek a minták?"
   },
@@ -1120,6 +1124,10 @@
       }
     }
   },
+  "keepRuleStaysSavedText": {
+    "message": "A Firefox itt soha nem jegyzi meg az előzményeket, ezért ez a megtartási szabály mentve marad, amíg el nem távolítod.",
+    "description": "Popup: line under the keep actions in a private window when Firefox never remembers history, so a keep rule made there stays saved."
+  },
   "keepUntilCloseButtonText": {
     "message": "Megtartás a böngésző bezárásáig"
   },
@@ -1452,6 +1460,6 @@
     "message": "Hibaelhárítás és GYIK"
   },
   "helpTroubleshootingBody": {
-    "message": "Kijelentkeztetett egy webhelyről? Valószínűségi sorrendben: a webhelynek nincs megtartási szabálya (vagy csak a pontos gépnevének van, míg a bejelentkezés egy aldomainen él — használd a *.example.com formát); újraindításig-webhely, és a böngésző újraindult; egy egyező szabály csak megnevezett sütiket tart meg, és a bejelentkezési süti nincs bepipálva; vagy a webhely sütije egyszerűen lejárt. Ne találgass — a takarítási napló megnevezi a pontosan kiváltó szabályt.\n\nA sütik rögtön a takarítás után visszatérnek? A webhely szinte mindig nyitva van még valamelyik lapon — a nyitott webhelyek kedvükre újragyártják a sütiket, és amúgy is védettek.\n\nNem futott le a takarítás? Ellenőrizd sorban: az automatikus takarítás be van kapcsolva (a felugró fejléce mutatja); a webhely nincs nyitva másik lapon; a türelmi idő letelt; egyetlen megtartási szabály sem egyezik; nem alvó lap volt (azok csak akkor számítanak bezártnak, ha az a haladó beállítás be van kapcsolva).\n\nBekapcsoltad a webhelyadat-takarítást, de a régi adatok még ott vannak? A böngésző csak az újra meglátogatott webhelyeknél engedi e típusok törlését; a maradványok a következő látogatásig maradnak.\n\nInkognitó? Csak ha engedélyezed: a böngésző bővítményoldala → Engedélyezés inkognitóban. Az inkognitónak saját sütitárolója és saját mentett webhelyei vannak, és sosem kerül naplóba. A mentett webhelyei törlődnek, amikor bezárod az utolsó privát ablakot.\n\nMég mindig elakadtál? A Támogatás oldalon ott a verzió, egy másolható hibakeresési blokk, a hibajelentések hivatkozása, és ha nincs GitHub-fiókod, a Hibajelentés küldése e-mailben gomb. A hibakeresési mód (Haladó) rábírja a bővítményt, hogy minden döntését elmesélje a service worker konzoljában, maszkolt sütiértékekkel."
+    "message": "Kijelentkeztetett egy webhelyről? Valószínűségi sorrendben: a webhelynek nincs megtartási szabálya (vagy csak a pontos gépnevének van, míg a bejelentkezés egy aldomainen él — használd a *.example.com formát); újraindításig-webhely, és a böngésző újraindult; egy egyező szabály csak megnevezett sütiket tart meg, és a bejelentkezési süti nincs bepipálva; vagy a webhely sütije egyszerűen lejárt. Ne találgass — a takarítási napló megnevezi a pontosan kiváltó szabályt.\n\nA sütik rögtön a takarítás után visszatérnek? A webhely szinte mindig nyitva van még valamelyik lapon — a nyitott webhelyek kedvükre újragyártják a sütiket, és amúgy is védettek.\n\nNem futott le a takarítás? Ellenőrizd sorban: az automatikus takarítás be van kapcsolva (a felugró fejléce mutatja); a webhely nincs nyitva másik lapon; a türelmi idő letelt; egyetlen megtartási szabály sem egyezik; nem alvó lap volt (azok csak akkor számítanak bezártnak, ha az a haladó beállítás be van kapcsolva).\n\nBekapcsoltad a webhelyadat-takarítást, de a régi adatok még ott vannak? A böngésző csak az újra meglátogatott webhelyeknél engedi e típusok törlését; a maradványok a következő látogatásig maradnak.\n\nInkognitó? Csak ha engedélyezed: a böngésző bővítményoldala → Engedélyezés inkognitóban. Az inkognitónak saját sütitárolója és saját mentett webhelyei vannak, és sosem kerül naplóba. A mentett webhelyei törlődnek, amikor bezárod az utolsó privát ablakot, kivéve ha a Firefox úgy van beállítva, hogy soha ne jegyezze meg az előzményeket; ekkor mentve maradnak.\n\nMég mindig elakadtál? A Támogatás oldalon ott a verzió, egy másolható hibakeresési blokk, a hibajelentések hivatkozása, és ha nincs GitHub-fiókod, a Hibajelentés küldése e-mailben gomb. A hibakeresési mód (Haladó) rábírja a bővítményt, hogy minden döntését elmesélje a service worker konzoljában, maszkolt sütiértékekkel."
   }
 }

@@ -13,6 +13,7 @@
 import * as React from "react";
 import { useSelector, useStore } from "react-redux";
 import ContextualIdentityEvents from "@/services/contextual-identity-events";
+import PrivateWindowEvents from "@/services/private-window-events";
 import { browserCapabilities } from "@/services/browser-capabilities";
 import {
   ADCPCOOKIENAME,
@@ -53,6 +54,10 @@ const App: React.FunctionComponent = () => {
   const [containerName, setContainerName] = React.useState<string | undefined>(
     undefined
   );
+  // A private window while the background has seen no normal window this
+  // session: Firefox never remembers history, so keep rules made here stay
+  // saved instead of being erased with the private session (#468).
+  const [keepStaysSaved, setKeepStaysSaved] = React.useState(false);
   // Bumped after an external port disconnect so the port effect re-runs and
   // reconnects.
   const [reconnectAttempt, setReconnectAttempt] = React.useState(0);
@@ -103,6 +108,11 @@ const App: React.FunctionComponent = () => {
       .then((tabs) => {
         setStoreId(parseCookieStoreId(tabs[0].cookieStoreId));
         setTab(tabs[0]);
+        if (tabs[0].incognito) {
+          PrivateWindowEvents.readNormalWindowSeen().then((seen) =>
+            setKeepStaysSaved(!seen)
+          );
+        }
         // Container name for the site card, from the background's
         // session-persisted cache (no live query needed in the popup).
         const rawStoreId = tabs[0].cookieStoreId;
@@ -247,6 +257,7 @@ const App: React.FunctionComponent = () => {
       <KeepActions
         domain={domain}
         keepExpression={keepExpression}
+        keepStaysSaved={keepStaysSaved}
         matched={matched}
         storeId={governingStoreId}
       />

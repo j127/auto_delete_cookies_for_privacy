@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import * as React from "react";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
@@ -219,15 +219,28 @@ describe("Expressions", () => {
       });
     });
 
-    it("says the Private list is erased only while it is selected (#468)", () => {
+    /** What the background recorded about this session's windows. */
+    const sessionSaw = (normalWindowSeen: boolean) =>
+      global.browser.storage.session.get.mockResolvedValue({
+        normalWindowSeen,
+      } as never);
+
+    it("says the Private list is erased only while it is selected (#468)", async () => {
+      sessionSaw(true);
       const { container, queryByText } = renderExpressions();
       const notice = () => container.querySelector("#privateListErasedNotice");
+      await waitFor(() =>
+        expect(global.browser.storage.session.get).toHaveBeenCalledWith({
+          normalWindowSeen: false,
+        })
+      );
       expect(notice()).toBeNull();
       expect(queryByText("privateListErasedNoticeText")).toBeNull();
 
       fireEvent.change(selector(container), {
         target: { value: "private" },
       });
+      await waitFor(() => expect(notice()).not.toBeNull());
       const shown = notice() as HTMLElement;
       expect(shown.textContent).toBe("privateListErasedNoticeText");
       // The same band treatment as the container notice, in the info tone.
@@ -242,6 +255,19 @@ describe("Expressions", () => {
         target: { value: "default" },
       });
       expect(notice()).toBeNull();
+    });
+
+    it("says the Private list stays saved when no normal window was seen (never remember history)", async () => {
+      sessionSaw(false);
+      const { container } = renderExpressions();
+      fireEvent.change(selector(container), {
+        target: { value: "private" },
+      });
+      await waitFor(() =>
+        expect(
+          container.querySelector("#privateListErasedNotice")?.textContent
+        ).toBe("privateListKeptNoticeText")
+      );
     });
 
     it("lists an orphaned container list and removes it on request", () => {

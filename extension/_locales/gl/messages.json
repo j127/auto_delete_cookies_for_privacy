@@ -689,6 +689,10 @@
     "message": "As regras desta lista bórranse cando se pecha a última xanela privada.",
     "description": "Saved sites: notice under the list selector while the Private list is selected. The Private list is erased automatically at the end of each private session."
   },
+  "privateListKeptNoticeText": {
+    "message": "Firefox está configurado para non lembrar nunca o historial, así que todas as xanelas son privadas e as regras desta lista quedan gardadas ata que as quites.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
+  },
   "questionExpression": {
     "message": "Como funcionan os padróns?"
   },
@@ -1120,6 +1124,10 @@
       }
     }
   },
+  "keepRuleStaysSavedText": {
+    "message": "Aquí Firefox nunca lembra o historial, así que esta regra de conservación queda gardada ata que a quites.",
+    "description": "Popup: line under the keep actions in a private window when Firefox never remembers history, so a keep rule made there stays saved."
+  },
   "keepUntilCloseButtonText": {
     "message": "Conservar ata pechar o navegador"
   },
@@ -1452,6 +1460,6 @@
     "message": "Resolución de problemas e preguntas frecuentes"
   },
   "helpTroubleshootingBody": {
-    "message": "Desconectado dun sitio? Por orde de probabilidade: o sitio non ten regra de conservación (ou só a ten o nome de servidor exacto, mentres o inicio de sesión vive nun subdominio — usa a forma *.example.com); é un sitio ata-reiniciar e o navegador reiniciouse; unha regra coincidente só conserva cookies con nome e a cookie de sesión non está marcada; ou a cookie do sitio simplemente caducou. Non adiviñes — o rexistro de limpeza nomea a regra exacta que actuou.\n\nAs cookies reaparecen xusto despois de limpar? O sitio case sempre segue aberto nalgunha lapela — os sitios abertos recrean cookies á vontade e ademais están protexidos.\n\nNon se executou a limpeza? Comproba por orde: a limpeza automática está activada (a cabeceira da xanela emerxente dío); o sitio non está aberto noutra lapela; o período de graza pasou; ningunha regra de conservación coincide; non era unha lapela durmida (esas só contan como pechadas se ese axuste avanzado está activado).\n\nActivaches a limpeza de datos do sitio pero os datos vellos seguen aí? O navegador só permite borrar eses tipos para sitios que volvas visitar; os restos quedan ata a próxima visita.\n\nIncógnito? Só se o permites: páxina de extensións do teu navegador → Permitir en incógnito. O incógnito ten o seu propio almacén de cookies e sitios gardados, e nunca se escribe no rexistro. Os seus sitios gardados bórranse cando se pecha a última xanela privada.\n\nSegues atascado? A páxina de Asistencia ten a versión, un bloque de depuración copiable, a ligazón para informar de erros e o botón 'Enviar un informe de erro por correo' se non tes conta de GitHub. O modo de depuración (Avanzado) fai que a extensión narre cada decisión na consola do service worker, cos valores das cookies enmascarados."
+    "message": "Desconectado dun sitio? Por orde de probabilidade: o sitio non ten regra de conservación (ou só a ten o nome de servidor exacto, mentres o inicio de sesión vive nun subdominio — usa a forma *.example.com); é un sitio ata-reiniciar e o navegador reiniciouse; unha regra coincidente só conserva cookies con nome e a cookie de sesión non está marcada; ou a cookie do sitio simplemente caducou. Non adiviñes — o rexistro de limpeza nomea a regra exacta que actuou.\n\nAs cookies reaparecen xusto despois de limpar? O sitio case sempre segue aberto nalgunha lapela — os sitios abertos recrean cookies á vontade e ademais están protexidos.\n\nNon se executou a limpeza? Comproba por orde: a limpeza automática está activada (a cabeceira da xanela emerxente dío); o sitio non está aberto noutra lapela; o período de graza pasou; ningunha regra de conservación coincide; non era unha lapela durmida (esas só contan como pechadas se ese axuste avanzado está activado).\n\nActivaches a limpeza de datos do sitio pero os datos vellos seguen aí? O navegador só permite borrar eses tipos para sitios que volvas visitar; os restos quedan ata a próxima visita.\n\nIncógnito? Só se o permites: páxina de extensións do teu navegador → Permitir en incógnito. O incógnito ten o seu propio almacén de cookies e sitios gardados, e nunca se escribe no rexistro. Os seus sitios gardados bórranse cando se pecha a última xanela privada, agás que Firefox estea configurado para non lembrar nunca o historial; entón quedan gardados.\n\nSegues atascado? A páxina de Asistencia ten a versión, un bloque de depuración copiable, a ligazón para informar de erros e o botón 'Enviar un informe de erro por correo' se non tes conta de GitHub. O modo de depuración (Avanzado) fai que a extensión narre cada decisión na consola do service worker, cos valores das cookies enmascarados."
   }
 }

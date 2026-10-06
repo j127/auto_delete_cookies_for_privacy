@@ -689,6 +689,10 @@
     "message": "Reglerna i den här listan raderas när det sista privata fönstret stängs.",
     "description": "Saved sites: notice under the list selector while the Private list is selected. The Private list is erased automatically at the end of each private session."
   },
+  "privateListKeptNoticeText": {
+    "message": "Firefox är inställt på att aldrig spara historik, så alla fönster är privata, och reglerna i den här listan förblir sparade tills du tar bort dem.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
+  },
   "questionExpression": {
     "message": "Hur fungerar mönster?"
   },
@@ -1120,6 +1124,10 @@
       }
     }
   },
+  "keepRuleStaysSavedText": {
+    "message": "Firefox sparar aldrig historik här, så den här behåll-regeln förblir sparad tills du tar bort den.",
+    "description": "Popup: line under the keep actions in a private window when Firefox never remembers history, so a keep rule made there stays saved."
+  },
   "keepUntilCloseButtonText": {
     "message": "Behåll tills webbläsaren stängs"
   },
@@ -1452,6 +1460,6 @@
     "message": "Felsökning och vanliga frågor"
   },
   "helpTroubleshootingBody": {
-    "message": "Utloggad från en webbplats? I sannolikhetsordning: webbplatsen har ingen behåll-regel (eller bara dess exakta värdnamn har en, medan inloggningen bor på en underdomän — använd formen *.example.com); det är en till-omstart-webbplats och webbläsaren startades om; en matchande regel behåller bara namngivna kakor och inloggningskakan är inte ikryssad; eller webbplatsens egen kaka gick ut. Gissa inte — städloggen namnger exakt vilken regel som slog till.\n\nKakor dyker upp direkt efter städningen? Webbplatsen är nästan alltid fortfarande öppen i någon flik — öppna webbplatser skapar kakor när de vill och är skyddade ändå.\n\nStädningen kördes inte? Kontrollera i ordning: automatisk städning är på (popupens rubrik säger det); webbplatsen är inte öppen i en annan flik; fristen har gått ut; ingen behåll-regel matchar; det var inte en sovande flik (de räknas bara som stängda om den avancerade inställningen är på).\n\nSlog på webbplatsdatastädning men gammal data ligger kvar? Webbläsaren låter tillägget bara rensa de typerna för webbplatser du besöker igen; kvarlämningar ligger kvar till nästa besök.\n\nInkognito? Bara om du tillåter det: webbläsarens tilläggsida → Tillåt i inkognito. Inkognito har sitt eget kaklager och egna sparade webbplatser, och skrivs aldrig till loggen. Dess sparade webbplatser raderas när det sista privata fönstret stängs.\n\nFortfarande fast? Supportsidan har versionen, ett kopierbart felsökningsblock, länken för buggrapporter och knappen Skicka en buggrapport via e-post om du inte har något GitHub-konto. Felsökningsläget (Avancerat) får tillägget att berätta varje beslut i service worker-konsolen, med kakvärden maskerade."
+    "message": "Utloggad från en webbplats? I sannolikhetsordning: webbplatsen har ingen behåll-regel (eller bara dess exakta värdnamn har en, medan inloggningen bor på en underdomän — använd formen *.example.com); det är en till-omstart-webbplats och webbläsaren startades om; en matchande regel behåller bara namngivna kakor och inloggningskakan är inte ikryssad; eller webbplatsens egen kaka gick ut. Gissa inte — städloggen namnger exakt vilken regel som slog till.\n\nKakor dyker upp direkt efter städningen? Webbplatsen är nästan alltid fortfarande öppen i någon flik — öppna webbplatser skapar kakor när de vill och är skyddade ändå.\n\nStädningen kördes inte? Kontrollera i ordning: automatisk städning är på (popupens rubrik säger det); webbplatsen är inte öppen i en annan flik; fristen har gått ut; ingen behåll-regel matchar; det var inte en sovande flik (de räknas bara som stängda om den avancerade inställningen är på).\n\nSlog på webbplatsdatastädning men gammal data ligger kvar? Webbläsaren låter tillägget bara rensa de typerna för webbplatser du besöker igen; kvarlämningar ligger kvar till nästa besök.\n\nInkognito? Bara om du tillåter det: webbläsarens tilläggsida → Tillåt i inkognito. Inkognito har sitt eget kaklager och egna sparade webbplatser, och skrivs aldrig till loggen. Dess sparade webbplatser raderas när det sista privata fönstret stängs, om inte Firefox är inställt på att aldrig spara historik; då förblir de sparade.\n\nFortfarande fast? Supportsidan har versionen, ett kopierbart felsökningsblock, länken för buggrapporter och knappen Skicka en buggrapport via e-post om du inte har något GitHub-konto. Felsökningsläget (Avancerat) får tillägget att berätta varje beslut i service worker-konsolen, med kakvärden maskerade."
   }
 }

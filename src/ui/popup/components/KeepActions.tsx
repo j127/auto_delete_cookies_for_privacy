@@ -20,6 +20,12 @@ interface OwnProps {
   domain: string;
   matched?: Expression;
   storeId: string;
+  /**
+   * A private window in a session with no normal window: Firefox never
+   * remembers history, so the Private list is never erased and a keep rule
+   * made here stays saved (#468).
+   */
+  keepStaysSaved?: boolean;
 }
 
 /**
@@ -33,6 +39,7 @@ const KeepActions: React.FunctionComponent<OwnProps> = ({
   domain,
   matched,
   storeId,
+  keepStaysSaved = false,
 }) => {
   const dispatch = useDispatch<any>();
 
@@ -79,6 +86,14 @@ const KeepActions: React.FunctionComponent<OwnProps> = ({
             {browser.i18n.getMessage("keepCookiesCaptionText", [domain])}
           </div>
         </>
+      )}
+      {keepStaysSaved && (
+        <div
+          className="text-center text-xs text-base-content/70"
+          id="keepStaysSavedNote"
+        >
+          {browser.i18n.getMessage("keepRuleStaysSavedText")}
+        </div>
       )}
       <div className="flex gap-2">
         {!matched && (

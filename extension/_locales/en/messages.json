@@ -841,6 +841,10 @@
     "message": "Rules in this list are erased when the last private window closes.",
     "description": "Saved sites: notice under the list selector while the Private list is selected. The Private list is erased automatically at the end of each private session."
   },
+  "privateListKeptNoticeText": {
+    "message": "Firefox is set to never remember history, so every window is private, and rules in this list stay saved until you remove them.",
+    "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
+  },
   "questionExpression": {
     "message": "How do patterns work?",
     "description": "Accordion title above the saved-sites table explaining pattern syntax"
@@ -1353,6 +1357,10 @@
       }
     }
   },
+  "keepRuleStaysSavedText": {
+    "message": "Firefox never remembers history here, so this keep rule stays saved until you remove it.",
+    "description": "Popup: line under the keep actions in a private window when Firefox never remembers history, so a keep rule made there stays saved."
+  },
   "keepUntilCloseButtonText": {
     "message": "Keep until browser closes",
     "description": "Secondary popup action: greylist the current site"
@@ -1780,7 +1788,7 @@
     "description": "Help section title"
   },
   "helpTroubleshootingBody": {
-    "message": "Logged out of a site? In order of likelihood: the site has no keep rule (or only its exact hostname does, while the login lives on a subdomain — use the *.example.com form); it's an until-restart site and the browser restarted; a matching rule keeps only named cookies and the login cookie isn't checked; or the site's own cookie expired. Don't guess — the cleanup log names the exact rule that fired.\n\nCookies reappear right after cleaning? The site is almost always still open in some tab — open sites re-create cookies at will and are protected anyway.\n\nCleanup didn't run? Check in order: automatic cleaning is on (the popup header says so); the site isn't open in another tab; the grace period has passed; no keep rule matches; it wasn't a sleeping tab (those only count as closed if that Advanced setting is on).\n\nEnabled site-data cleaning but old data is still there? The browser only lets the extension clear those types for sites you visit again; leftovers stay until the next visit.\n\nIncognito? Only if you allow it: your browser's extension page → Allow in Incognito/Private. Incognito keeps its own cookie store and saved sites, and is never written to the log. Its saved sites are erased when the last private window closes.\n\nStill stuck? The Support page has the version, a copyable debug block, the link for bug reports, and an “Email a bug report” button if you don't have a GitHub account. Debug mode (Advanced) makes the extension narrate every decision to the service-worker console, with cookie values masked.",
+    "message": "Logged out of a site? In order of likelihood: the site has no keep rule (or only its exact hostname does, while the login lives on a subdomain — use the *.example.com form); it's an until-restart site and the browser restarted; a matching rule keeps only named cookies and the login cookie isn't checked; or the site's own cookie expired. Don't guess — the cleanup log names the exact rule that fired.\n\nCookies reappear right after cleaning? The site is almost always still open in some tab — open sites re-create cookies at will and are protected anyway.\n\nCleanup didn't run? Check in order: automatic cleaning is on (the popup header says so); the site isn't open in another tab; the grace period has passed; no keep rule matches; it wasn't a sleeping tab (those only count as closed if that Advanced setting is on).\n\nEnabled site-data cleaning but old data is still there? The browser only lets the extension clear those types for sites you visit again; leftovers stay until the next visit.\n\nIncognito? Only if you allow it: your browser's extension page → Allow in Incognito/Private. Incognito keeps its own cookie store and saved sites, and is never written to the log. Its saved sites are erased when the last private window closes, unless Firefox is set to never remember history; then they stay saved.\n\nStill stuck? The Support page has the version, a copyable debug block, the link for bug reports, and an “Email a bug report” button if you don't have a GitHub account. Debug mode (Advanced) makes the extension narrate every decision to the service-worker console, with cookie values masked.",
     "description": "Help section body: troubleshooting and FAQ"
   }
 }

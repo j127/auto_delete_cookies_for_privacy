@@ -689,6 +689,10 @@
     "message": "關閉最後一個無痕視窗時，本清單中的規則會被清除。",
     "description": "Saved sites: notice under the list selector while the Private list is selected. The Private list is erased automatically at the end of each private session."
   },
+  "privateListKeptNoticeText": {
+    "message": "Firefox 設定為永不記錄歷史，因此每個視窗都是無痕視窗，本清單中的規則會一直保存，直到你將其移除。",
+    "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
+  },
   "questionExpression": {
     "message": "比對模式如何運作？"
   },
@@ -1120,6 +1124,10 @@
       }
     }
   },
+  "keepRuleStaysSavedText": {
+    "message": "此處 Firefox 永不記錄歷史，因此這條保留規則會一直保存，直到你將其移除。",
+    "description": "Popup: line under the keep actions in a private window when Firefox never remembers history, so a keep rule made there stays saved."
+  },
   "keepUntilCloseButtonText": {
     "message": "保留到瀏覽器關閉"
   },
@@ -1452,6 +1460,6 @@
     "message": "疑難排解與常見問題"
   },
   "helpTroubleshootingBody": {
-    "message": "被網站登出了？按可能性排序：該網站沒有保留規則（或只有精確主機名稱的規則，而登入在子網域上——用 *.example.com 形式）；它是「重啟前」網站且瀏覽器重新啟動了；符合的規則只保留指定名稱的 Cookie 而登入 Cookie 沒被勾選；或者網站自己的 Cookie 過期了。別用猜的——清理紀錄會寫明觸發的那條規則。\n\nCookie 剛清完就回來了？幾乎總是因為網站還在某個分頁裡開著——開啟中的網站隨時能重建 Cookie，而且本來就受保護。\n\n清理沒有執行？依序檢查：自動清理已開啟（彈出視窗頂部會顯示）；網站沒有在其他分頁開啟；寬限時間已過；沒有保留規則符合；不是休眠分頁（只有開了那項進階設定才算已關閉）。\n\n開了網站資料清理但舊資料還在？瀏覽器只允許對你再次造訪的網站清除這些類型；殘留會留到下次造訪。\n\n無痕模式？只有你允許才行：瀏覽器的擴充功能頁面 → 在無痕模式中允許。無痕模式有自己獨立的 Cookie 儲存區和已儲存網站，且絕不寫入紀錄。關閉最後一個無痕視窗時，其已儲存網站會被清除。\n\n還是卡住？「支援」頁面有版本號、可複製的偵錯資訊區塊、錯誤回報連結，以及不需要 GitHub 帳號的「透過電子郵件回報錯誤」按鈕。偵錯模式（進階）會讓擴充功能把每個決定講給 Service Worker 主控台聽，Cookie 的值會被遮蔽。"
+    "message": "被網站登出了？按可能性排序：該網站沒有保留規則（或只有精確主機名稱的規則，而登入在子網域上——用 *.example.com 形式）；它是「重啟前」網站且瀏覽器重新啟動了；符合的規則只保留指定名稱的 Cookie 而登入 Cookie 沒被勾選；或者網站自己的 Cookie 過期了。別用猜的——清理紀錄會寫明觸發的那條規則。\n\nCookie 剛清完就回來了？幾乎總是因為網站還在某個分頁裡開著——開啟中的網站隨時能重建 Cookie，而且本來就受保護。\n\n清理沒有執行？依序檢查：自動清理已開啟（彈出視窗頂部會顯示）；網站沒有在其他分頁開啟；寬限時間已過；沒有保留規則符合；不是休眠分頁（只有開了那項進階設定才算已關閉）。\n\n開了網站資料清理但舊資料還在？瀏覽器只允許對你再次造訪的網站清除這些類型；殘留會留到下次造訪。\n\n無痕模式？只有你允許才行：瀏覽器的擴充功能頁面 → 在無痕模式中允許。無痕模式有自己獨立的 Cookie 儲存區和已儲存網站，且絕不寫入紀錄。關閉最後一個無痕視窗時，其已儲存網站會被清除；但若 Firefox 設定為永不記錄歷史，它們會一直保存。\n\n還是卡住？「支援」頁面有版本號、可複製的偵錯資訊區塊、錯誤回報連結，以及不需要 GitHub 帳號的「透過電子郵件回報錯誤」按鈕。偵錯模式（進階）會讓擴充功能把每個決定講給 Service Worker 主控台聽，Cookie 的值會被遮蔽。"
   }
 }
