@@ -5,16 +5,16 @@
       "notes": [
         "Firefox: the Protection page has a new Firefox containers card, where each container can be given its own keep list. It is off by default, and until you turn it on the Default list covers every container.",
         "Firefox: keeping a site from the right-click menu in a container tab now saves the rule to the list that actually applies to that tab.",
-        "Firefox: Saved sites can copy the Default list's rules into a container's own list, so switching separate lists on does not leave a container unprotected.",
+        "Firefox: Saved sites can copy the Default list's rules into a container's own list, so switching separate lists on does not leave a container with an empty keep list.",
         "Keep rules made in private windows are now erased when the last private window closes, so your settings keep no record of sites you visited privately. When Firefox is set to never remember history, every window is private and these rules stay saved. Rules already in the Private list are erased after updating, the first time a normal window is open with no private window.",
         "Copying the Default list into a container and importing a saved-sites file now land in one step instead of one rule at a time, so long lists no longer stall the Saved sites page.",
         "Firefox ESR 140: the popup's cookie count and \"Delete this site's cookies\" now include third-party cookies stored under sites on a non-standard port, such as local development servers.",
         "Firefox: version 140 or newer is now required. Firefox 128 ESR stopped getting updates in August 2025; anyone still on it keeps the previous version of the extension.",
-        "The Public Suffix List used to tell sites apart was updated: sites on a few more hosting platforms (for example cloud.run and ai.studio) are now cleaned separately, and several discontinued platforms are no longer split per site.",
+        "The Public Suffix List used to tell sites apart was updated: sites on more hosting platforms (for example surge.sh, Heroku's newer app addresses, cloud.run and ai.studio) are now cleaned separately, and several discontinued or test-only platforms are no longer split per site.",
         "Every non-English language now has its own wording for the Saved sites list selector, the Firefox containers card and the site-access banner, which had been showing English.",
         "The Support page now fills in your browser version and operating system in the details you copy for a bug report.",
         "You can report a bug without a GitHub account: the Support page's \"Email a bug report\" button opens your mail app with the details already filled in.",
-        "Internal: the local check run before a pull request now runs exactly what CI runs, code scanning is back on, the Bun and Node versions are pinned in one place, and the automated Firefox suite no longer fails on a flaky driver download, and the automated Firefox suite now runs on both the ESR and the current release and checks the container features too."
+        "Internal: the local check run before a pull request now runs exactly what CI runs, code scanning is back on, the Bun and Node versions are pinned in one place, and the automated Firefox suite no longer fails on a flaky driver download, and the automated Firefox suite now runs on both the ESR and the current release and covers nearly every row of the manual test matrix."
       ]
     },
     {
