@@ -967,6 +967,44 @@ describe("CleanupService", () => {
         partitionKey: { topLevelSite: "http://localhost:8080" },
       });
     });
+
+    // Chrome tabs carry no cookieStoreId (#474): "Delete this site's
+    // cookies" must read and remove in the tab's own store.
+    const chromeGoogleTab = (incognito: boolean): browser.tabs.Tab => {
+      const { cookieStoreId: _omitted, ...rest } = googleTab;
+      return { ...rest, incognito };
+    };
+    const queriedStoreIds = (): (string | undefined)[] =>
+      global.browser.cookies.getAll.mock.calls.map(
+        (call: { storeId?: string }[]) => call[0].storeId
+      );
+
+    it("reads and removes in the incognito store for a Chrome incognito tab", async () => {
+      global.browser.cookies.getAll.mockResolvedValue([] as never);
+      when(global.browser.cookies.getAll)
+        .calledWith({ domain: "google.com", storeId: "1", partitionKey: {} })
+        .mockResolvedValue([{ ...googleCookie, storeId: "1" }] as never);
+      when(global.browser.cookies.remove)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue({} as never);
+
+      expect(
+        await clearCookiesForThisDomain(initialState, chromeGoogleTab(true))
+      ).toBe(true);
+      expect(queriedStoreIds().length).toBeGreaterThan(0);
+      expect(queriedStoreIds().every((id) => id === "1")).toBe(true);
+      expect(global.browser.cookies.remove).toHaveBeenCalledWith(
+        expect.objectContaining({ name: "NID", storeId: "1" })
+      );
+    });
+
+    it("reads from the regular store for a normal Chrome tab", async () => {
+      global.browser.cookies.getAll.mockResolvedValue([] as never);
+
+      await clearCookiesForThisDomain(initialState, chromeGoogleTab(false));
+      expect(queriedStoreIds().length).toBeGreaterThan(0);
+      expect(queriedStoreIds().every((id) => id === "0")).toBe(true);
+    });
   });
 
   describe("clearLocalStorageForThisDomain()", () => {
