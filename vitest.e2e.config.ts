@@ -1,4 +1,4 @@
-import { defineConfig } from "vitest/config";
+import { configDefaults, defineConfig } from "vitest/config";
 
 /**
  * E2E config — real headless Firefox via selenium/geckodriver, so:
@@ -12,6 +12,9 @@ export default defineConfig({
   },
   test: {
     include: ["e2e/**/*.e2e.ts"],
+    // The Chromium specs drive Chrome, not Firefox, and have their own
+    // config (vitest.e2e-chromium.config.ts, `just e2e_chromium`).
+    exclude: [...configDefaults.exclude, "e2e/chromium/**"],
     fileParallelism: false,
     testTimeout: 120000,
     hookTimeout: 120000,

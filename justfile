@@ -96,6 +96,14 @@ package_zip_firefox: build_firefox
 e2e_firefox: package_zip_firefox
   bunx vitest run --config vitest.e2e.config.ts
 
+# It builds the Chrome bundles into extension/, the folder `just package_zip`
+# zips, and loads that folder unpacked. Headless by default: E2E_HEADED=1 to
+# watch, CHROME_BIN=/path to run a Chrome for Testing build other than the
+# pin in e2e/helpers/chrome_cdp.ts (docs/testing-chromium.md).
+# Chrome for Testing end-to-end suite (needs the pinned build installed)
+e2e_chromium: build
+  bunx vitest run --config vitest.e2e-chromium.config.ts
+
 # Preflight for tagging a release: version parity + clean tree
 release_check:
   ./scripts/release_check.sh
