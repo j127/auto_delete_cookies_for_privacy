@@ -210,7 +210,17 @@ export class CdpClient {
   static connect = (url: string): Promise<CdpClient> =>
     new Promise((resolve, reject) => {
       const socket = new WebSocket(url);
-      socket.onopen = () => resolve(new CdpClient(socket));
+      // A thin adapter: the client only needs these four members, and
+      // keeping them on CdpSocket lets the unit spec pass a fake.
+      const adapter: CdpSocket = {
+        send: (data) => socket.send(data),
+        close: () => socket.close(),
+        onmessage: null,
+        onclose: null,
+      };
+      socket.onmessage = (event) => adapter.onmessage?.(event);
+      socket.onclose = (event) => adapter.onclose?.(event);
+      socket.onopen = () => resolve(new CdpClient(adapter));
       socket.onerror = () =>
         reject(new Error(`could not connect to DevTools at ${url}`));
     });
