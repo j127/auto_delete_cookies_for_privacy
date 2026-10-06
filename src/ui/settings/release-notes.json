@@ -18,6 +18,8 @@
         "Keep rules now also decide whether a subdomain's stored data stays. To keep everything a site stores, use a rule that covers its subdomains (*.example.com), which is what the popup's \"Keep cookies for this site\" button adds.",
         "Chrome, Edge and Brave: Cache Storage is now deleted together with service workers, and file-system storage together with IndexedDB, so \"Delete all site data\" no longer leaves them behind.",
         "Chrome, Edge and Brave: in incognito windows the extension no longer puts its hidden marker cookie into your normal cookies, where it kept a record of the site you visited privately.",
+        "Chrome, Edge and Brave: in incognito windows the popup's cookie count, the toolbar badge and \"Delete this site's cookies\" now use the incognito window's cookies instead of your normal ones.",
+        "Chrome, Edge and Brave: keeping a site from an incognito window now saves the rule to the Private list, so it is erased with the private session instead of staying in your Default list.",
         "The Advanced section under \"Delete all site data\" and the entries of the Cleanup log open again when your system's animations are turned off (for example Windows' Animation effects setting).",
         "Internal: the local check run before a pull request now runs exactly what CI runs, code scanning is back on, the Bun and Node versions are pinned in one place, and the automated Firefox suite no longer fails on a flaky driver download, and the automated Firefox suite now runs on both the ESR and the current release and covers nearly every row of the manual test matrix."
       ]

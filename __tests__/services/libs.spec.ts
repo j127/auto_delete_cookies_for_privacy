@@ -657,6 +657,37 @@ describe("Library Functions", () => {
       // Overlapping answers still count once.
       expect(result).toStrictEqual([portBucketCookie]);
     });
+
+    // Chrome tabs carry no cookieStoreId (#474): the lookup must pick the
+    // tab's own store by its incognito flag, never fall back to the
+    // regular store cookies.getAll defaults to.
+    const chromeTab = (incognito: boolean): browser.tabs.Tab => ({
+      ...sampleTab,
+      cookieStoreId: undefined,
+      incognito,
+      url: "https://domain.com",
+    });
+    const queriedStoreIds = (): (string | undefined)[] =>
+      global.browser.cookies.getAll.mock.calls.map(
+        (call: { storeId?: string }[]) => call[0].storeId
+      );
+
+    it("queries the incognito store for a Chrome incognito tab", async () => {
+      await getAllCookiesForDomain(initialState, chromeTab(true));
+      expect(queriedStoreIds().length).toBeGreaterThan(0);
+      expect(queriedStoreIds().every((id) => id === "1")).toBe(true);
+      expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
+        domain: "domain.com",
+        storeId: "1",
+        partitionKey: {},
+      });
+    });
+
+    it("queries the regular store for a normal Chrome tab", async () => {
+      await getAllCookiesForDomain(initialState, chromeTab(false));
+      expect(queriedStoreIds().length).toBeGreaterThan(0);
+      expect(queriedStoreIds().every((id) => id === "0")).toBe(true);
+    });
   });
 
   describe("getContainerExpressionDefault()", () => {

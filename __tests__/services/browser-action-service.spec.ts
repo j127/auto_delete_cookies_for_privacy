@@ -466,6 +466,38 @@ describe("BrowserActionService", () => {
         title: "ADCP 1.0.0 [NO LIST] (0)",
       });
     });
+
+    // Issue #478: a Chrome tab carries no cookieStoreId, so the rule lookup
+    // must pick the list by the incognito flag, like cleanup does.
+    const chromeTab = (incognito: boolean): browser.tabs.Tab => ({
+      ...defaultTab,
+      cookieStoreId: undefined,
+      incognito,
+    });
+    const splitLists = (): StoreIdToExpressionList => ({
+      default: [expressionFor(ListType.GREY)],
+      private: [{ ...expressionFor(ListType.WHITE), storeId: "private" }],
+    });
+
+    it("looks up an incognito Chrome tab's rule in the private list", async () => {
+      const state = buildState({ lists: splitLists() });
+      await checkIfProtected(state, chromeTab(true), 2);
+      await flushPromises();
+      expect(global.browser.action.setTitle).toHaveBeenCalledWith({
+        tabId: 1,
+        title: "ADCP 1.0.0 [WHITE] (2)",
+      });
+    });
+
+    it("looks up a normal Chrome tab's rule in the default list", async () => {
+      const state = buildState({ lists: splitLists() });
+      await checkIfProtected(state, chromeTab(false), 2);
+      await flushPromises();
+      expect(global.browser.action.setTitle).toHaveBeenCalledWith({
+        tabId: 1,
+        title: "ADCP 1.0.0 [GREY] (2)",
+      });
+    });
   });
 
   describe("closed tabs (missing-tab rejections)", () => {

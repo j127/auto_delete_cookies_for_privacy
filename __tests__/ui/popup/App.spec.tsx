@@ -317,6 +317,41 @@ describe("popup App", () => {
     });
   });
 
+  // Issue #478: an incognito Chrome tab has no cookieStoreId either; its
+  // keeps belong in the Private list, where cleanup checks its cookies.
+  it("files a keep from an incognito Chrome tab under the private list", async () => {
+    global.browser.tabs.query.mockResolvedValue([
+      { ...tabFixture, incognito: true },
+    ]);
+    global.browser.storage.session.get.mockResolvedValue({
+      normalWindowSeen: true,
+    } as never);
+    const { dispatchSpy, getByText } = await renderApp();
+    fireEvent.click(getByText("keepCookiesButtonText"));
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      payload: {
+        expression: "*.example.com",
+        listType: ListType.WHITE,
+        storeId: "private",
+      },
+      type: "ADD_EXPRESSION",
+    });
+  });
+
+  it("shows an incognito Chrome tab's private-list rule, not the default list's", async () => {
+    global.browser.tabs.query.mockResolvedValue([
+      { ...tabFixture, incognito: true },
+    ]);
+    global.browser.storage.session.get.mockResolvedValue({
+      normalWindowSeen: true,
+    } as never);
+    const { getByText } = await renderApp({
+      lists: { private: [{ ...whiteExpression, storeId: "private" }] },
+      settings: settingsWith({ [SettingID.ACTIVE_MODE]: true }),
+    });
+    expect(getByText("siteKeptText")).toBeTruthy();
+  });
+
   it("replaces the keep actions with a remove action when a rule matches", async () => {
     const { dispatchSpy, getByText, queryByText } = await renderApp({
       lists: { default: [whiteExpression] },

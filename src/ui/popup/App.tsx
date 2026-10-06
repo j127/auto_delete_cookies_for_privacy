@@ -24,6 +24,7 @@ import {
   getMatchedExpressions,
   isAnIP,
   parseCookieStoreId,
+  tabCookieStoreId,
 } from "@/services/libs";
 import { ListType, SettingID } from "@/typings/enums";
 import AdvancedControls from "./components/AdvancedControls";
@@ -106,7 +107,9 @@ const App: React.FunctionComponent = () => {
         currentWindow: true,
       })
       .then((tabs) => {
-        setStoreId(parseCookieStoreId(tabs[0].cookieStoreId));
+        // Chrome tabs carry no cookieStoreId: the incognito flag picks the
+        // Private list, where cleanup checks incognito cookies (#478).
+        setStoreId(parseCookieStoreId(tabCookieStoreId(tabs[0])));
         setTab(tabs[0]);
         if (tabs[0].incognito) {
           PrivateWindowEvents.readNormalWindowSeen().then((seen) =>

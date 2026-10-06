@@ -355,7 +355,9 @@ export default class ContextMenuEvents extends StoreUser {
       },
       debug
     );
-    const cookieStoreId = (tab && tab.cookieStoreId) || "";
+    // The tab's real store: an incognito Chrome tab carries no
+    // cookieStoreId, and its keeps belong in the Private list (#478).
+    const cookieStoreId = tab ? tabCookieStoreId(tab) : "";
     const selectionText = (info && info.selectionText) || "";
     if (
       info.menuItemId
