@@ -252,7 +252,10 @@ export const getAllCookiesForDomain = async (
   if (tab.url.startsWith("about:") || tab.url.startsWith("chrome:")) return;
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
   const partialTabInfo = createPartialTabInfo(tab);
-  const { cookieStoreId, url } = tab;
+  const { url } = tab;
+  // Chrome tabs carry no cookieStoreId: without the incognito fallback an
+  // incognito tab's counts came from the regular store (#474).
+  const cookieStoreId = tabCookieStoreId(tab);
   const hostname = getHostname(url);
   if (hostname === "") {
     adcpLog(

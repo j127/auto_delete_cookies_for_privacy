@@ -15,8 +15,13 @@ import { when } from "jest-when";
 
 vi.stubGlobal("__BROWSER__", "firefox");
 vi.resetModules();
-const { cleanCookiesOperation, cleanSiteData, otherBrowsingDataCleanup } =
-  await import("@/services/cleanup-service");
+const {
+  cleanCookiesOperation,
+  cleanSiteData,
+  clearCookiesForThisDomain,
+  otherBrowsingDataCleanup,
+} = await import("@/services/cleanup-service");
+const { getAllCookiesForDomain } = await import("@/services/libs");
 const { initialState } = await import("@/redux/state");
 const { OpenTabStatus, ReasonClean, SiteDataType } =
   await import("@/typings/enums");
@@ -438,5 +443,63 @@ describe("cross-store storage-wipe guard", () => {
       expect(call[0]).not.toHaveProperty("cookieStoreId");
     }
     expect(global.browser.browsingData.remove).toHaveBeenCalled();
+  });
+});
+
+describe("per-tab cookie lookups on Firefox (#474)", () => {
+  // A Firefox tab names its own store, private windows included; the
+  // Chrome incognito fallback must never replace it.
+  const privateTab = {
+    active: true,
+    cookieStoreId: "firefox-private",
+    highlighted: false,
+    incognito: true,
+    index: 0,
+    pinned: false,
+    url: "https://private.example",
+    windowId: 1,
+  } as browser.tabs.Tab;
+  const queriedStoreIds = (): (string | undefined)[] =>
+    global.browser.cookies.getAll.mock.calls.map(
+      (call: { storeId?: string }[]) => call[0].storeId
+    );
+
+  beforeEach(() => {
+    global.browser.cookies.getAll.mockResolvedValue([] as never);
+    // The manual delete ends with a notification that names the version.
+    when(global.browser.runtime.getManifest)
+      .calledWith()
+      .mockReturnValue({ version: "0.12.34" });
+    when(global.browser.notifications.create)
+      .calledWith(expect.any(String), expect.any(Object))
+      .mockResolvedValue("testID" as never);
+  });
+
+  it("counts a private tab's cookies in firefox-private", async () => {
+    await getAllCookiesForDomain(initialState, privateTab);
+    expect(queriedStoreIds().length).toBeGreaterThan(0);
+    expect(queriedStoreIds().every((id) => id === "firefox-private")).toBe(
+      true
+    );
+  });
+
+  it("counts a container tab's cookies in its container", async () => {
+    await getAllCookiesForDomain(initialState, {
+      ...privateTab,
+      cookieStoreId: "firefox-container-9",
+      incognito: false,
+    });
+    expect(queriedStoreIds().length).toBeGreaterThan(0);
+    expect(queriedStoreIds().every((id) => id === "firefox-container-9")).toBe(
+      true
+    );
+  });
+
+  it("deletes a private tab's site cookies from firefox-private", async () => {
+    await clearCookiesForThisDomain(initialState, privateTab);
+    expect(queriedStoreIds().length).toBeGreaterThan(0);
+    expect(queriedStoreIds().every((id) => id === "firefox-private")).toBe(
+      true
+    );
   });
 });

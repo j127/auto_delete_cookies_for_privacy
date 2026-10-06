@@ -385,11 +385,14 @@ export const clearCookiesForThisDomain = async (
   tab: browser.tabs.Tab
 ): Promise<boolean> => {
   const hostname = getHostname(tab.url);
+  // The tab's own store: an incognito Chrome tab's is "1", not the
+  // regular store cookies.getAll defaults to (#474).
+  const storeId = tabCookieStoreId(tab);
   const domainCookies = await browser.cookies.getAll(
     withAllPartitions(
       withAnyFirstPartyDomain({
         domain: hostname,
-        storeId: tab.cookieStoreId,
+        storeId,
       })
     )
   );
@@ -401,7 +404,7 @@ export const clearCookiesForThisDomain = async (
       ...(await browser.cookies.getAll(
         withAnyFirstPartyDomain({
           partitionKey: { topLevelSite },
-          storeId: tab.cookieStoreId,
+          storeId,
         })
       ))
     );
