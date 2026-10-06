@@ -64,9 +64,18 @@ package_zip: build
 build_firefox:
   bun run scripts/build.ts --target firefox
 
+# On macOS it starts Firefox through `open` (scripts/firefox_via_open.sh):
+# macOS 27 refuses a Firefox started as a child of another app's terminal
+# access to its own app-data folder (#465). Elsewhere it launches directly.
 # Launch Firefox with the freshly built extension temporarily installed
 run_firefox: build_firefox
-  bunx web-ext run --source-dir builds/firefox
+  #!/usr/bin/env bash
+  set -euo pipefail
+  if [ "$(uname)" = "Darwin" ]; then
+    bunx web-ext run --source-dir builds/firefox --firefox "{{justfile_directory()}}/scripts/firefox_via_open.sh"
+  else
+    bunx web-ext run --source-dir builds/firefox
+  fi
 
 # Lint the Firefox artifact with Mozilla's addons-linter (AMO's gate)
 lint_firefox: build_firefox
