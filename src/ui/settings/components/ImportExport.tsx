@@ -24,7 +24,7 @@ import { adcpLog } from "@/services/libs";
 import { ReduxAction } from "@/typings/redux-constants";
 import IconButton from "@/ui/common-components/IconButton";
 import { planExpressionImport } from "@/ui/settings/import-plan";
-import { downloadObjectAsJSON, listsForExport } from "@/ui/ui-libs";
+import { downloadObjectAsJSON } from "@/ui/ui-libs";
 
 interface OwnProps {
   style?: React.CSSProperties;
@@ -343,9 +343,7 @@ const ImportExport: React.FunctionComponent<OwnProps> = ({ style }) => {
             className="btn-primary btn-sm"
             iconName="download"
             role="button"
-            onClick={() =>
-              downloadObjectAsJSON(listsForExport(lists), "Expressions")
-            }
+            onClick={() => downloadObjectAsJSON(lists, "Expressions")}
             title={browser.i18n.getMessage("exportTitleTimestamp")}
             text={browser.i18n.getMessage("exportURLSText")}
           />

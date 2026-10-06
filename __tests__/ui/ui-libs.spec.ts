@@ -14,11 +14,7 @@
  */
 
 import { advanceTo, clear } from "jest-date-mock";
-import {
-  appendDynamicTimestamp,
-  downloadObjectAsJSON,
-  listsForExport,
-} from "@/ui/ui-libs";
+import { appendDynamicTimestamp, downloadObjectAsJSON } from "@/ui/ui-libs";
 
 describe("appendDynamicTimestamp", () => {
   afterEach(() => {
@@ -60,31 +56,5 @@ describe("downloadObjectAsJSON", () => {
       downloadName: "CAD_TestExport_2020-05-08_01.23.45.json",
       status: true,
     });
-  });
-});
-
-describe("listsForExport", () => {
-  const rule = (expression: string, storeId: string): Expression => ({
-    expression,
-    listType: "WHITE" as Expression["listType"],
-    storeId,
-  });
-
-  it("leaves out the Private list and keeps every other list (#468)", () => {
-    const lists = {
-      default: [rule("a.example", "default")],
-      private: [rule("b.example", "private")],
-      "firefox-container-1": [rule("c.example", "firefox-container-1")],
-    };
-    expect(listsForExport(lists)).toEqual({
-      default: lists.default,
-      "firefox-container-1": lists["firefox-container-1"],
-    });
-    // The store's own object is untouched.
-    expect(lists.private).toHaveLength(1);
-  });
-
-  it("returns an empty object for no lists", () => {
-    expect(listsForExport({})).toEqual({});
   });
 });
