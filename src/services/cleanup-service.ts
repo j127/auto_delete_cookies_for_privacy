@@ -33,8 +33,10 @@ import {
   returnMatchedExpressionObject,
   showNotification,
   siteDataToBrowser,
+  siteDataToRemovalTypes,
   SITEDATATYPES,
   sleep,
+  tabCookieStoreId,
   throwErrorNotification,
   trimDot,
   dedupeCookies,
@@ -529,13 +531,51 @@ export const clearLocalStorageForThisDomain = async (
   }
 };
 
+/**
+ * Every host of the site (same registrable domain as hostname) that holds
+ * a marker cookie in storeId: the pages and same-site frames whose storage
+ * a site-wide manual wipe must reach, on top of the hostname itself. Empty
+ * when the lookup fails; the wipe then still covers the hostname.
+ */
+export const getSiteDataMarkerHosts = async (
+  hostname: string,
+  storeId?: string
+): Promise<string[]> => {
+  const mainDomain = extractMainDomain(trimDot(hostname.trim()));
+  if (mainDomain === "") return [];
+  try {
+    const markers =
+      (await browser.cookies.getAll(
+        withAnyFirstPartyDomain({
+          domain: mainDomain,
+          name: ADCPCOOKIENAME,
+          storeId,
+        })
+      )) ?? [];
+    return [
+      ...new Set(
+        markers
+          .map((c) => trimDot(c.domain.trim()).toLowerCase())
+          .filter(
+            (host) => host !== "" && extractMainDomain(host) === mainDomain
+          )
+      ),
+    ];
+  } catch {
+    return [];
+  }
+};
+
 export const clearSiteDataForThisDomain = async (
   state: State,
   siteData: SiteDataType | "All",
   hostname: string,
   // The tab URL's explicit port when the caller has one — a non-default
   // port is part of the origin that browsingData removals are scoped to.
-  port = ""
+  port = "",
+  // The tab's raw cookie store, where the site's marker cookies are looked
+  // up (tabCookieStoreId). Omitted: the browser's default store.
+  storeId?: string
 ): Promise<boolean> => {
   if (hostname.trim() === "") return false;
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
@@ -545,7 +585,21 @@ export const clearSiteDataForThisDomain = async (
     },
     debug
   );
-  const domains = prepareCleanupScope(hostname, port);
+  // The site's other hosts that stored data (its pages and same-site
+  // frames carry marker cookies, #464) are part of "this site" too. Like
+  // the rest of the manual actions, keep rules don't apply: the click
+  // asks for this site's data to go.
+  const markerHosts = (await getSiteDataMarkerHosts(hostname, storeId)).filter(
+    (host) => host !== hostname.trim()
+  );
+  const domains = [
+    ...new Set([
+      ...prepareCleanupScope(hostname, port),
+      ...markerHosts.flatMap((host) => prepareCleanupScope(host)),
+    ]),
+  ];
+  // Notifications name hosts; the scope lists up to four origins each.
+  const hosts = [hostname.trim(), ...markerHosts];
   if (siteData === "All") {
     // The consolidated notification and the returned success flag must
     // reflect what actually got removed — removeSiteData returns false on
@@ -568,7 +622,7 @@ export const clearSiteDataForThisDomain = async (
         duration: getSetting(state, SettingID.NOTIFY_DURATION) as number,
         msg: browser.i18n.getMessage("activityLogSiteDataDomainsText", [
           siteDataCleaned.join(", "),
-          domains.join(", "),
+          hosts.join(", "),
         ]),
         title: browser.i18n.getMessage("notificationTitleSiteData"),
       },
@@ -582,7 +636,7 @@ export const clearSiteDataForThisDomain = async (
   ) {
     return false;
   }
-  return removeSiteData(state, siteData, domains, debug, true);
+  return removeSiteData(state, siteData, domains, debug, true, hosts);
 };
 
 export const removeSiteData = async (
@@ -590,7 +644,9 @@ export const removeSiteData = async (
   siteData: SiteDataType,
   domains: string[],
   debug: boolean,
-  manual = false
+  manual = false,
+  // What the notification names; the scope list itself by default.
+  displayDomains: string[] = domains
 ): Promise<boolean> => {
   // Chrome's browsingData API scopes removals by origin; Firefox rejects
   // the origins key entirely and scopes by bare hostnames instead.
@@ -611,16 +667,14 @@ export const removeSiteData = async (
       {
         [listName]: domains,
       } as browser.browsingData.RemovalOptions,
-      {
-        [sd]: true,
-      }
+      siteDataToRemovalTypes(siteData)
     );
     showNotification(
       {
         duration: getSetting(state, SettingID.NOTIFY_DURATION) as number,
         msg: browser.i18n.getMessage("activityLogSiteDataDomainsText", [
           browser.i18n.getMessage(`${sd}Text`),
-          domains.join(", "),
+          displayDomains.join(", "),
         ]),
         title: browser.i18n.getMessage("notificationTitleSiteData"),
       },
@@ -888,7 +942,7 @@ export const returnContainersOfOpenTabDomains = async (
     if (isAWebpage(tab.url) && (!cleanDiscardedTabs || !tab.discarded)) {
       // Firefox exposes the tab's real store (containers included);
       // Chrome doesn't have tab.cookieStoreId, so rely on tab.incognito
-      const cookieStoreId = tab.cookieStoreId ?? (tab.incognito ? "1" : "0");
+      const cookieStoreId = tabCookieStoreId(tab);
       if (!openTabs[cookieStoreId]) {
         openTabs[cookieStoreId] = new Set<string>();
       }

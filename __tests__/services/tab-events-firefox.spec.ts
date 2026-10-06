@@ -139,3 +139,78 @@ describe("TabEvents.getAllCookieActions marker cookie on Firefox", () => {
     expect(global.browser.cookies.set).not.toHaveBeenCalled();
   });
 });
+
+describe("TabEvents.onFrameResponse on Firefox", () => {
+  // Firefox reports the store, the private flag and the frame's ancestors
+  // with every request, so no tab lookup is needed.
+  const frame = (
+    url: string,
+    extra: Partial<browser.webRequest.FrameResponseDetails> = {}
+  ): browser.webRequest.FrameResponseDetails => ({
+    cookieStoreId: "firefox-container-1",
+    frameAncestors: [{ url: "https://www.cookie.net/", frameId: 0 }],
+    incognito: false,
+    tabId: 3,
+    type: "sub_frame",
+    url,
+    ...extra,
+  });
+
+  beforeEach(() => {
+    store.dispatch({ type: ReduxConstants.RESET_SETTINGS });
+    global.browser.cookies.getAll.mockResolvedValue([] as never);
+    when(global.browser.cookies.set)
+      .calledWith(expect.any(Object))
+      .mockResolvedValue({} as never);
+  });
+
+  it("checks the frame against its top-level ancestor, in the request's store", async () => {
+    await TabEvents.onFrameResponse(frame("https://devicebind.cookie.net/x"));
+    expect(global.browser.tabs.get).not.toHaveBeenCalled();
+    expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
+      domain: "devicebind.cookie.net",
+      firstPartyDomain: null,
+      name: "ADCPBrowsingDataCleanup",
+      storeId: "firefox-container-1",
+    });
+    expect(global.browser.cookies.set).toHaveBeenCalledWith(
+      expect.objectContaining({
+        storeId: "firefox-container-1",
+        url: "https://devicebind.cookie.net/x",
+      })
+    );
+  });
+
+  it("uses the frame's registrable domain as firstPartyDomain under FPI", async () => {
+    when(global.browser.storage.session.get)
+      .calledWith(FPI_SESSION_KEY)
+      .mockResolvedValue({ [FPI_SESSION_KEY]: true } as never);
+    await TabEvents.onFrameResponse(frame("https://devicebind.cookie.net/x"));
+    expect(global.browser.cookies.set).toHaveBeenCalledWith(
+      expect.objectContaining({ firstPartyDomain: "cookie.net" })
+    );
+  });
+
+  it("skips frames whose top-level page is another site", async () => {
+    await TabEvents.onFrameResponse(
+      frame("https://devicebind.cookie.net/x", {
+        frameAncestors: [
+          { url: "https://www.cookie.net/", frameId: 4 },
+          { url: "https://other.example/", frameId: 0 },
+        ],
+      })
+    );
+    expect(global.browser.cookies.set).not.toHaveBeenCalled();
+  });
+
+  it("skips private-window requests", async () => {
+    await TabEvents.onFrameResponse(
+      frame("https://devicebind.cookie.net/x", {
+        cookieStoreId: "firefox-private",
+        incognito: true,
+      })
+    );
+    expect(global.browser.cookies.getAll).not.toHaveBeenCalled();
+    expect(global.browser.cookies.set).not.toHaveBeenCalled();
+  });
+});

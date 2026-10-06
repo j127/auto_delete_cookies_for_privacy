@@ -22,7 +22,20 @@
  * - /busy        a "busy site" for the popup-fit row: BUSY_COOKIE_COUNT
  *                header cookies and as many localStorage entries, all
  *                with long names
+ * - /site-frame  a page embedding a SAME-site frame from the
+ *                devicebind. host of its own site (www. dropped) plus the
+ *                cross-site /iframe-set. Needs hostnames that resolve to
+ *                this server (FRAME_SITE_HOSTS, see frame_site_data.e2e.ts)
+ * - /frame-storage  frame body; writes localStorage and sets no cookie,
+ *                like a device-check frame whose site keeps its cookies on
+ *                the parent domain
  */
+
+/** Hostnames /site-frame expects to resolve to this server. */
+export const FRAME_SITE_HOSTS = {
+  page: "www.adcp.test",
+  frame: "devicebind.adcp.test",
+};
 
 import { createServer, IncomingMessage, ServerResponse } from "http";
 import { AddressInfo } from "net";
@@ -112,6 +125,20 @@ const handle = (req: IncomingMessage, res: ServerResponse): void => {
       );
       return;
     }
+    case "/site-frame": {
+      const site = url.hostname.replace(/^www\./, "");
+      html(
+        res,
+        `<h1>site with a same-site frame</h1>
+         <iframe src="http://devicebind.${site}:${url.port}/frame-storage"></iframe>
+         <iframe src="http://127.0.0.1:${url.port}/iframe-set"></iframe>`,
+        { "set-cookie": `e2e_site=1; Domain=${site}; Path=/; Max-Age=3600` }
+      );
+      return;
+    }
+    case "/frame-storage":
+      html(res, `<script>localStorage.setItem("e2e_frame_ls", "1");</script>`);
+      return;
     default:
       html(res, "<h1>fixture landing</h1>");
   }

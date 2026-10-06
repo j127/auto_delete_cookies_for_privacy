@@ -75,4 +75,22 @@ describe("SettingService enable-time wipe on Firefox", () => {
       { localStorage: true }
     );
   });
+
+  it("wipes service workers without Chrome's Cache Storage key", async () => {
+    store.dispatch(
+      updateSetting({ name: SettingID.SITEDATA_EMPTY_ON_ENABLE, value: true })
+    );
+    store.dispatch(
+      updateSetting({ name: SettingID.CLEANUP_SERVICEWORKERS, value: false })
+    );
+    await SettingService.onSettingsChange();
+    store.dispatch(
+      updateSetting({ name: SettingID.CLEANUP_SERVICEWORKERS, value: true })
+    );
+    await SettingService.onSettingsChange();
+    expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
+      { since: 0 },
+      { serviceWorkers: true }
+    );
+  });
 });

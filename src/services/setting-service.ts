@@ -15,7 +15,12 @@ import { SettingID, SiteDataType } from "@/typings/enums";
 import { browserCapabilities } from "./browser-capabilities";
 import StoreUser from "./store-user";
 import { validateSettings } from "@/redux/actions";
-import { adcpLog, siteDataToBrowser, SITEDATATYPES } from "./libs";
+import {
+  adcpLog,
+  siteDataToBrowser,
+  siteDataToRemovalTypes,
+  SITEDATATYPES,
+} from "./libs";
 import { checkIfProtected, setGlobalIcon } from "./browser-action-service";
 import ContextMenuEvents from "./context-menu-events";
 import { ReduxConstants } from "@/typings/redux-constants";
@@ -78,7 +83,7 @@ export default class SettingService extends StoreUser {
         // outcome (erase everything) is the same on both browsers.
         await browser.browsingData.remove(
           { since: 0 },
-          { [siteDataToBrowser(siteData)]: true }
+          siteDataToRemovalTypes(siteData)
         );
         adcpLog(
           {

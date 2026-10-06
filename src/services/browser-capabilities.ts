@@ -19,7 +19,12 @@
  * OS on the Support page for bug reports. Nothing branches on those values.
  */
 
+import { SiteDataType } from "@/typings/enums";
+
 export type BrowserTarget = "chrome" | "firefox";
+
+/** browsingData types that only ride along with a site-data setting. */
+export type ExtraRemovalType = "cacheStorage" | "fileSystems";
 
 export interface BrowserCapabilities {
   /**
@@ -49,6 +54,17 @@ export interface BrowserCapabilities {
    * "firefox-container-<n>".
    */
   storeIdScheme: "chrome" | "firefox";
+  /**
+   * Extra browsingData types removed together with one of the extension's
+   * site-data types. Chrome keeps Cache API data (`cacheStorage`) and File
+   * System / origin private file system data (`fileSystems`) under keys of
+   * their own that no setting named, so no cleanup ever removed them
+   * (issue #464). They ride along with service workers, the Cache API's
+   * main user, and with IndexedDB, as the other place sites keep
+   * databases. Firefox has no per-site equivalent and must never receive
+   * these keys.
+   */
+  extraRemovalTypes: Partial<Record<SiteDataType, ExtraRemovalType[]>>;
 }
 
 export const CAPABILITIES: Record<BrowserTarget, BrowserCapabilities> = {
@@ -58,6 +74,10 @@ export const CAPABILITIES: Record<BrowserTarget, BrowserCapabilities> = {
     supportsFirstPartyDomain: false,
     supportsContextualIdentities: false,
     storeIdScheme: "chrome",
+    extraRemovalTypes: {
+      [SiteDataType.SERVICEWORKERS]: ["cacheStorage"],
+      [SiteDataType.INDEXEDDB]: ["fileSystems"],
+    },
   },
   firefox: {
     browsingDataScoping: "hostnames",
@@ -65,6 +85,7 @@ export const CAPABILITIES: Record<BrowserTarget, BrowserCapabilities> = {
     supportsFirstPartyDomain: true,
     supportsContextualIdentities: true,
     storeIdScheme: "firefox",
+    extraRemovalTypes: {},
   },
 };
 

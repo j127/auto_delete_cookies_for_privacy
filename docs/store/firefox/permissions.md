@@ -16,7 +16,7 @@ Reviewer-facing justifications for every permission in the generated Firefox man
 
 ### `browsingData`
 
-> When the user opts in, cleaned sites also lose their other stored data (IndexedDB, LocalStorage, service workers, plugin data) via browsingData.remove with hostname scoping. Cache is excluded on Firefox because Firefox cannot clear cache per site.
+> When the user opts in, cleaned sites also lose their other stored data (IndexedDB, LocalStorage, service workers, plugin data) via browsingData.remove with hostname scoping, including the data a site keeps on its other pages and same-site frames. Cache is excluded on Firefox because Firefox cannot clear cache per site.
 
 ### `contextualIdentities`
 
@@ -49,6 +49,10 @@ Reviewer-facing justifications for every permission in the generated Firefox man
 ### `contextMenus`
 
 > Optional right-click shortcuts for the same manual actions the popup offers (clean this site, add to keep list). The whole menu can be disabled in settings.
+
+### `webRequest`
+
+> Storage belongs to the exact host that wrote it, so cleaning a site's data must reach every host the site used: its other pages and the same-site frames (sign-in or device-check frames on subdomains) that keep their cookies on the parent domain. The extension observes webRequest.onResponseStarted for main frames and sub frames only to learn those page and frame addresses, and marks each same-site host for the next cleanup. It never reads request or response content, never blocks or modifies a request, ignores private windows, and keeps nothing beyond a marker cookie the cleanup removes.
 
 ## Data collection declaration
 

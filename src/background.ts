@@ -247,6 +247,19 @@ browser.tabs.onRemoved.addListener(async (tabId, removeInfo) => {
   await TabEvents.cleanFromTabEvents();
 });
 
+// Every page and same-site frame host that loads gets a marker cookie, so
+// cleanup also reaches storage the site keeps on hosts without cookies of
+// their own (#464). Guarded like contextMenus below.
+if (browser.webRequest) {
+  browser.webRequest.onResponseStarted.addListener(
+    async (details) => {
+      await ready;
+      await TabEvents.onFrameResponse(details);
+    },
+    { urls: ["<all_urls>"], types: ["main_frame", "sub_frame"] }
+  );
+}
+
 // This should update the cookie badge count when cookies are changed, and
 // fan out to any connected popups (MV2 added/removed that listener
 // dynamically, which would not survive worker restarts).

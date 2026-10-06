@@ -309,6 +309,19 @@ describe("browsingData scoping on Firefox", () => {
     }
   });
 
+  it("never sends Chrome's cacheStorage or fileSystems keys", async () => {
+    // Every type on (initialState): IndexedDB and service workers go out
+    // as their own keys only; Gecko rejects keys it does not know (#464).
+    await otherBrowsingDataCleanup(initialState, [
+      cleanReason("sub1.x.example", "sub1.x.example"),
+    ]);
+    expect(global.browser.browsingData.remove).toHaveBeenCalled();
+    for (const call of global.browser.browsingData.remove.mock.calls) {
+      expect(call[1]).not.toHaveProperty("cacheStorage");
+      expect(call[1]).not.toHaveProperty("fileSystems");
+    }
+  });
+
   it("surfaces a failing dataType removal as a notification", async () => {
     when(global.browser.browsingData.remove)
       .calledWith(expect.any(Object), expect.any(Object))

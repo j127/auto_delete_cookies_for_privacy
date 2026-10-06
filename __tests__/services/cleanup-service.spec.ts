@@ -29,6 +29,7 @@ import {
   clearLocalStorageForThisDomain,
   clearSiteDataForThisDomain,
   filterSiteData,
+  getSiteDataMarkerHosts,
   isSafeToClean,
   otherBrowsingDataCleanup,
   prepareCookie,
@@ -1113,6 +1114,121 @@ describe("CleanupService", () => {
     });
   });
 
+  describe("getSiteDataMarkerHosts()", () => {
+    const lookup = {
+      domain: "example.com",
+      name: ADCPCOOKIENAME,
+      storeId: "0",
+    };
+    const marker = (domain: string) => ({ domain, name: ADCPCOOKIENAME });
+
+    it("lists the site's hosts that hold a marker, once each", async () => {
+      when(global.browser.cookies.getAll)
+        .calledWith(lookup)
+        .mockResolvedValue([
+          marker("devicebind.example.com"),
+          marker(".Signin.Example.com"),
+          marker("devicebind.example.com"),
+        ] as never);
+      expect(await getSiteDataMarkerHosts("www.example.com", "0")).toEqual([
+        "devicebind.example.com",
+        "signin.example.com",
+      ]);
+    });
+
+    it("drops hosts of another site", async () => {
+      when(global.browser.cookies.getAll)
+        .calledWith(lookup)
+        .mockResolvedValue([
+          marker("example.com.evil.net"),
+          marker("cdn.example.com"),
+        ] as never);
+      expect(await getSiteDataMarkerHosts("example.com", "0")).toEqual([
+        "cdn.example.com",
+      ]);
+    });
+
+    it("returns nothing when the lookup fails or gives nothing back", async () => {
+      when(global.browser.cookies.getAll)
+        .calledWith(lookup)
+        .mockRejectedValueOnce(new Error("no cookies api") as never)
+        .mockResolvedValueOnce(undefined as never);
+      expect(await getSiteDataMarkerHosts("example.com", "0")).toEqual([]);
+      expect(await getSiteDataMarkerHosts("example.com", "0")).toEqual([]);
+    });
+
+    it("returns nothing for a blank hostname", async () => {
+      expect(await getSiteDataMarkerHosts("  ")).toEqual([]);
+    });
+  });
+
+  describe("clearSiteDataForThisDomain() with marker hosts (#464)", () => {
+    beforeEach(() => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockResolvedValue(undefined as never);
+      when(global.browser.cookies.getAll)
+        .calledWith({
+          domain: "example.com",
+          name: ADCPCOOKIENAME,
+          storeId: "0",
+        })
+        .mockResolvedValue([
+          { domain: "devicebind.example.com", name: ADCPCOOKIENAME },
+        ] as never);
+      when(global.browser.i18n.getMessage)
+        .calledWith(expect.any(String), expect.any(Array))
+        .mockImplementation(
+          ((key: string, subs: string[]) =>
+            `${key}[${subs.join("|")}]`) as never
+        );
+    });
+
+    it("wipes the storage of the site's frame hosts too", async () => {
+      global.browser.browsingData.remove.mockClear();
+      expect(
+        await clearSiteDataForThisDomain(
+          initialState,
+          "All",
+          "example.com",
+          "",
+          "0"
+        )
+      ).toBe(true);
+      for (const [scope] of global.browser.browsingData.remove.mock.calls) {
+        expect(scope.origins).toEqual(
+          expect.arrayContaining([
+            "https://example.com",
+            "https://www.example.com",
+            "https://devicebind.example.com",
+          ])
+        );
+      }
+    });
+
+    it("names hosts, not origins, in the notification", async () => {
+      await clearSiteDataForThisDomain(
+        initialState,
+        SiteDataType.LOCALSTORAGE,
+        "example.com",
+        "",
+        "0"
+      );
+      expect(spyLib.showNotification).toHaveBeenCalledWith(
+        expect.objectContaining({
+          msg: expect.stringContaining("example.com, devicebind.example.com"),
+        }),
+        expect.anything()
+      );
+      expect(spyLib.showNotification).not.toHaveBeenCalledWith(
+        expect.objectContaining({
+          msg: expect.stringContaining("https://"),
+        }),
+        expect.anything()
+      );
+    });
+  });
+
   describe("filterSiteData()", () => {
     it("should return false for a blank cookie hostname", () => {
       const cleanReasonObj: CleanReasonObject = {
@@ -1938,9 +2054,11 @@ describe("CleanupService", () => {
       it("should clean site data for: indexedDBCleanup true", async () => {
         await otherBrowsingDataCleanup(indexedDBState, [unprotectedObj]);
         expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+        // Chrome files File System / OPFS data under its own key; it rides
+        // along with IndexedDB (#464).
         expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
           { origins: expect.any(Array) },
-          { indexedDB: true }
+          { indexedDB: true, fileSystems: true }
         );
       });
     });
@@ -1971,9 +2089,11 @@ describe("CleanupService", () => {
       it("should clean site data for: serviceWorkersCleanup true", async () => {
         await otherBrowsingDataCleanup(serviceWorkersState, [unprotectedObj]);
         expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+        // Chrome's Cache Storage (the Cache API) rides along with service
+        // workers, its main user (#464).
         expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
           { origins: expect.any(Array) },
-          { serviceWorkers: true }
+          { serviceWorkers: true, cacheStorage: true }
         );
       });
     });
@@ -2011,6 +2131,30 @@ describe("CleanupService", () => {
       expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
         { origins: ["test"] },
         { cache: true }
+      );
+    });
+    it("removes Chrome's Cache Storage together with service workers", async () => {
+      await removeSiteData(
+        sampleState,
+        SiteDataType.SERVICEWORKERS,
+        ["https://example.com"],
+        false
+      );
+      expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
+        { origins: ["https://example.com"] },
+        { serviceWorkers: true, cacheStorage: true }
+      );
+    });
+    it("removes Chrome's File System data together with IndexedDB", async () => {
+      await removeSiteData(
+        sampleState,
+        SiteDataType.INDEXEDDB,
+        ["https://example.com"],
+        false
+      );
+      expect(global.browser.browsingData.remove).toHaveBeenCalledWith(
+        { origins: ["https://example.com"] },
+        { indexedDB: true, fileSystems: true }
       );
     });
     it("should return false if an error occurred", async () => {

@@ -426,6 +426,37 @@ export const getHostname = (urlToGetHostName: string | undefined): string => {
 };
 
 /**
+ * The url's exact hostname: like getHostname, but a leading "www." stays
+ * (getHostname drops it so www and the bare domain read as one site).
+ * Marker cookies are host-only, so finding the marker of exactly this host
+ * needs the host the browser actually set the cookie on. IPv6 brackets are
+ * removed like getHostname does. "" for file: urls and unparseable input.
+ */
+export const getExactHostname = (url: string | undefined): string => {
+  if (!url || url.startsWith("file:")) return "";
+  try {
+    return normalizeHost(new URL(url).hostname);
+  } catch {
+    return "";
+  }
+};
+
+/** Lowercase host without leading/trailing dots or IPv6 brackets. */
+const normalizeHost = (host: string): string =>
+  trimDot(host.trim())
+    .replace(/^\[(.*)\]$/, "$1")
+    .toLowerCase();
+
+/** Whether a cookie is this extension's marker cookie for exactly host. */
+export const isMarkerCookieFor = (
+  cookie: Pick<browser.cookies.Cookie, "domain" | "name">,
+  host: string
+): boolean =>
+  cookie.name === ADCPCOOKIENAME &&
+  host !== "" &&
+  normalizeHost(cookie.domain) === normalizeHost(host);
+
+/**
  * Returns the explicit port of the url ("3000" for http://localhost:3000),
  * or "" for default-port urls, file: urls, and anything unparseable.
  * getHostname strips ports, but Chrome's browsingData API scopes removals
@@ -676,6 +707,28 @@ export const matchIPInExpression = (
 };
 
 /**
+ * The raw cookie store a tab's cookies live in. Firefox tabs name it
+ * (containers and private windows included); Chrome tabs carry no
+ * cookieStoreId, so the incognito flag picks Chrome's "1" or "0".
+ */
+export const tabCookieStoreId = (
+  tab: Pick<browser.tabs.Tab, "cookieStoreId" | "incognito">
+): string => tab.cookieStoreId ?? (tab.incognito ? "1" : "0");
+
+/**
+ * Whether any site-data type is set to be cleaned, i.e. whether hosts need
+ * marker cookies to put their storage in a cleanup's scope.
+ */
+export const hasSiteDataCleanupEnabled = (state: State): boolean =>
+  [
+    SettingID.CLEANUP_CACHE,
+    SettingID.CLEANUP_INDEXEDDB,
+    SettingID.CLEANUP_LOCALSTORAGE,
+    SettingID.CLEANUP_PLUGINDATA,
+    SettingID.CLEANUP_SERVICEWORKERS,
+  ].some((id) => Boolean(getSetting(state, id)));
+
+/**
  * Parse cookieStoreId for use in addExpressionUI. Chrome tabs don't expose a
  * cookieStoreId, so expressions added from a tab context land in the
  * "default" store. Firefox tabs do expose one, so it is routed through
@@ -859,6 +912,27 @@ export const showNotification = (
  */
 export const siteDataToBrowser = (siteData: SiteDataType): string =>
   `${siteData[0].toLowerCase()}${siteData.slice(1)}`;
+
+/**
+ * The DataTypeSet browser.browsingData.remove needs to clear one of the
+ * extension's site-data types: the type's own key plus any storage the
+ * browser files under separate keys that the same setting covers
+ * (browserCapabilities.extraRemovalTypes: Chrome's Cache Storage and File
+ * System data). siteDataToBrowser stays the single-key name, because i18n
+ * keys, setting ids and log keys are built from it.
+ * @param siteData The Site Data to convert to removal types.
+ */
+export const siteDataToRemovalTypes = (
+  siteData: SiteDataType
+): browser.browsingData.DataTypeSet => {
+  const types: Record<string, boolean> = {
+    [siteDataToBrowser(siteData)]: true,
+  };
+  for (const extra of browserCapabilities.extraRemovalTypes[siteData] ?? []) {
+    types[extra] = true;
+  }
+  return types;
+};
 
 /**
  * Sleep execution for ms.

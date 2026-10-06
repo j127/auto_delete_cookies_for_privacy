@@ -29,6 +29,7 @@ import {
   showNotification,
   siteDataToBrowser,
   SITEDATATYPES,
+  tabCookieStoreId,
 } from "./libs";
 import StoreUser from "./store-user";
 
@@ -411,8 +412,10 @@ export default class ContextMenuEvents extends StoreUser {
             siteData,
             hostname,
             // browsingData removals are origin-scoped; carry the tab's
-            // explicit port so non-default-port storage is covered.
-            getPort(tab.url)
+            // explicit port so non-default-port storage is covered, and
+            // its store, where the site's other hosts left marker cookies.
+            getPort(tab.url),
+            tabCookieStoreId(tab)
           );
           break;
         case SiteDataType.LOCALSTORAGE:

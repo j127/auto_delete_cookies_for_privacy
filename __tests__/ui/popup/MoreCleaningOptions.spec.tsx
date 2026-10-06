@@ -86,7 +86,10 @@ describe("MoreCleaningOptions", () => {
         "All",
         "example.com",
         // The tab fixture's URL carries no explicit port.
-        ""
+        "",
+        // A Chrome tab names no store: the regular one, where the site's
+        // marker cookies live.
+        "0"
       )
     );
     expect(clearCookiesForThisDomain).toHaveBeenCalled();
@@ -106,7 +109,22 @@ describe("MoreCleaningOptions", () => {
         expect.anything(),
         "All",
         "example.com",
-        "8443"
+        "8443",
+        "0"
+      )
+    );
+  });
+
+  it("looks up an incognito tab's site hosts in the incognito store", async () => {
+    const { getByText } = renderOptions({ ...tabFixture, incognito: true });
+    fireEvent.click(getByText("deleteSiteDataText"));
+    await waitFor(() =>
+      expect(clearSiteDataForThisDomain).toHaveBeenCalledWith(
+        expect.anything(),
+        "All",
+        "example.com",
+        "",
+        "1"
       )
     );
   });
