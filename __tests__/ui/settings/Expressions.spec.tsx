@@ -219,6 +219,31 @@ describe("Expressions", () => {
       });
     });
 
+    it("says the Private list is erased only while it is selected (#468)", () => {
+      const { container, queryByText } = renderExpressions();
+      const notice = () => container.querySelector("#privateListErasedNotice");
+      expect(notice()).toBeNull();
+      expect(queryByText("privateListErasedNoticeText")).toBeNull();
+
+      fireEvent.change(selector(container), {
+        target: { value: "private" },
+      });
+      const shown = notice() as HTMLElement;
+      expect(shown.textContent).toBe("privateListErasedNoticeText");
+      // The same band treatment as the container notice, in the info tone.
+      ["alert", "alert-info", "rounded-none"].forEach((cls) =>
+        expect(shown.classList.contains(cls)).toBe(true)
+      );
+      // It sits right under the list selector, above the add bar.
+      const card = container.querySelector(".rounded-box") as HTMLElement;
+      expect(card.children[1]).toBe(shown);
+
+      fireEvent.change(selector(container), {
+        target: { value: "default" },
+      });
+      expect(notice()).toBeNull();
+    });
+
     it("lists an orphaned container list and removes it on request", () => {
       const orphanLists: StoreIdToExpressionList = {
         "firefox-container-9": [

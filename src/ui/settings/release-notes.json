@@ -6,6 +6,7 @@
         "Firefox: the Protection page has a new Firefox containers card, where each container can be given its own keep list. It is off by default, and until you turn it on the Default list covers every container.",
         "Firefox: keeping a site from the right-click menu in a container tab now saves the rule to the list that actually applies to that tab.",
         "Firefox: Saved sites can copy the Default list's rules into a container's own list, so switching separate lists on does not leave a container unprotected.",
+        "Keep rules made in private windows are now erased when the last private window closes, so your settings keep no record of sites you visited privately. Saved-sites exports leave the Private list out for the same reason.",
         "Copying the Default list into a container and importing a saved-sites file now land in one step instead of one rule at a time, so long lists no longer stall the Saved sites page.",
         "Firefox ESR 140: the popup's cookie count and \"Delete this site's cookies\" now include third-party cookies stored under sites on a non-standard port, such as local development servers.",
         "Firefox: version 140 or newer is now required. Firefox 128 ESR stopped getting updates in August 2025; anyone still on it keeps the previous version of the extension.",

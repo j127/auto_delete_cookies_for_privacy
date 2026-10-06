@@ -318,6 +318,17 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
               ])}
             </div>
           )}
+        {/* The Private list is erased at the end of each private session
+            (#468), so a site kept there leaves no record behind. */}
+        {storeId === "private" && (
+          <div
+            className="alert rounded-none alert-info"
+            id="privateListErasedNotice"
+            role="status"
+          >
+            {browser.i18n.getMessage("privateListErasedNoticeText")}
+          </div>
+        )}
         <div className="border-b border-base-300 p-3">
           <div className="join w-full">
             <input
