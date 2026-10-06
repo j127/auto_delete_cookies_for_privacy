@@ -11,7 +11,7 @@
         "react-dom": "^19.3.0",
         "react-redux": "^9.3.0",
         "redux": "^5.0.1",
-        "tldts": "7.4.13",
+        "tldts": "7.4.16",
         "webextension-polyfill": "^0.12",
       },
       "devDependencies": {
@@ -1380,9 +1380,9 @@
 
     "tinyrainbow": ["tinyrainbow@3.1.1", "", {}, "sha512-yau8yJdTt989Mm0Bd/236QnzEiPf2xLLTqUZRUJOo/3CB078LSwzei343DgtJVmfJKJE3TMINY1u42SQsP6mXw=="],
 
-    "tldts": ["tldts@7.4.13", "", { "dependencies": { "tldts-core": "^7.4.13" }, "bin": { "tldts": "bin/cli.js" } }, "sha512-iHtaIWWIbMDkCeJdTBzZFGgbluE5J+oHlb2g7+oAz1S1gpuVpabRZdQyd471Vl8UUkcz2vXSL8xZH2kyCe8tfA=="],
+    "tldts": ["tldts@7.4.16", "", { "dependencies": { "tldts-core": "^7.4.16" }, "bin": { "tldts": "bin/cli.js" } }, "sha512-QwBER5KMR86IIjpIiO7H/Z3IMJPsZ1A6RKPAqzTTgOyUQUSt9FdnKcqhTaJmkY6HVrgouZHZR0ncK5QxvmnQeg=="],
 
-    "tldts-core": ["tldts-core@7.4.13", "", {}, "sha512-mbYsrih5FRtGxs3Usvl/PqwJsNpp+jsmrdFviiK02teHDG0/HebBG/pqCylje3kzgXYzuLoHJF/0mz9W53t8Xg=="],
+    "tldts-core": ["tldts-core@7.4.16", "", {}, "sha512-MDolfaSJtlSK5Y0A1xl3277ekubZwobpBjugknDizI9O5Rm60a1m8k4ICK+MRsCDzPygT81mp3BBf5RKDlFRfA=="],
 
     "tmp": ["tmp@0.2.7", "", {}, "sha512-e0votIpp4Uo2AJYSzVHV6xCcawuiez3DzqDAbrTc3YxBkplN6e+dM13ZeIcZnDg/QpSuU2zfZ3rzwY8ukEnaXw=="],
 
