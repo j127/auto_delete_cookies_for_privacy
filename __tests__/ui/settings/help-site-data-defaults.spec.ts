@@ -2,7 +2,7 @@
  * Part of Auto-Delete Cookies for Privacy, a fork of Cookie AutoDelete.
  * Copyright (c) 2026 j127. Licensed under MIT (see LICENSE).
  */
-import { readFileSync } from "fs";
+import { readdirSync, readFileSync } from "fs";
 import { initialState } from "@/redux/state";
 import { SettingID } from "@/typings/enums";
 
@@ -14,9 +14,15 @@ import { SettingID } from "@/typings/enums";
 const LOCALES_ROOT = new URL("../../../extension/_locales/", import.meta.url);
 
 type Messages = Record<string, { message: string }>;
-const en = JSON.parse(
-  readFileSync(new URL("en/messages.json", LOCALES_ROOT), "utf8")
-) as Messages;
+const readLocale = (locale: string): Messages =>
+  JSON.parse(
+    readFileSync(new URL(`${locale}/messages.json`, LOCALES_ROOT), "utf8")
+  ) as Messages;
+const en = readLocale("en");
+const LOCALES = readdirSync(LOCALES_ROOT, { withFileTypes: true })
+  .filter((entry) => entry.isDirectory())
+  .map((entry) => entry.name)
+  .sort();
 
 // Every type behind the "Delete all site data" switch.
 const SITE_DATA_TYPES = [
@@ -74,6 +80,26 @@ describe("help copy matches the site-data defaults", () => {
     it("describes wipe-on-enable as off unless turned on", () => {
       expect(en.helpSiteDataBody.message).toContain(
         `off unless you turn on “${en.siteDataEmptyOnEnable.message}”`
+      );
+    });
+
+    it("carries the Firefox cache note verbatim right after the first sentence", () => {
+      const note = en.siteDataCacheFirefoxNoteText.message;
+      expect(firstParagraph("helpSiteDataBody")).toContain(note);
+      expect(firstParagraph("helpSiteDataBody")).toContain(
+        `${sentence} ${note}`
+      );
+    });
+  });
+
+  // The Help page is not browser-aware, so every language must keep the
+  // "On Firefox, cache is not included" caveat. Each locale reuses its own
+  // settings-page note, so an edit can't drop it in one language unnoticed.
+  describe.each(LOCALES)("%s helpSiteDataBody", (locale) => {
+    it("contains the locale's own Firefox cache note verbatim", () => {
+      const messages = readLocale(locale);
+      expect(messages.helpSiteDataBody.message).toContain(
+        messages.siteDataCacheFirefoxNoteText.message
       );
     });
   });
