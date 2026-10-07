@@ -21,7 +21,7 @@
         "Chrome, Edge and Brave: in incognito windows the popup's cookie count, the toolbar badge and \"Delete this site's cookies\" now use the incognito window's cookies instead of your normal ones.",
         "Chrome, Edge and Brave: keeping a site from an incognito window now saves the rule to the Private list, so it is erased with the private session instead of staying in your Default list.",
         "The Advanced section under \"Delete all site data\" and the entries of the Cleanup log open again when your system's animations are turned off (for example Windows' Animation effects setting).",
-        "Internal: the local check run before a pull request now runs exactly what CI runs, code scanning is back on, the Bun and Node versions are pinned in one place, and the automated Firefox suite no longer fails on a flaky driver download, and the automated Firefox suite now runs on both the ESR and the current release and covers nearly every row of the manual test matrix."
+        "Internal: the local check run before a pull request now runs exactly what CI runs, code scanning is back on, and the Bun and Node versions are pinned in one place. The automated Firefox suite no longer fails on a flaky driver download, runs on both the ESR and the current release, and covers nearly every row of the manual test matrix. A new automated suite drives Chrome and checks what site-data cleanup leaves in storage."
       ]
     },
     {
