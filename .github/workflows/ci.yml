@@ -196,3 +196,83 @@ jobs:
         env:
           FIREFOX_BIN: ${{ steps.setup-firefox.outputs.firefox-path }}
           GECKODRIVER_CACHE_DIR: ${{ runner.temp }}/geckodriver-cache
+
+  # Chrome for Testing end-to-end suite (#473): loads the unpacked Chrome
+  # build, drives it over CDP, and reads back what site-data cleanup left
+  # in storage (docs/testing-chromium.md). Chrome for Testing, because
+  # branded Chrome 137+ ignores --load-extension.
+  e2e-chromium:
+    # Pinned rather than ubuntu-latest: the "Allow Chrome's sandbox" step
+    # below is proven on 24.04, and ubuntu-latest moves to a newer image
+    # (26.04 from 2026-10-19). Move this deliberately, like the browser pins.
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Bun writes bun.lock and builds the bundles, so its exact version
+      # matters; .tool-versions is the single source of truth for it.
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: .tool-versions
+
+      # Node runs every bunx tool and the Tailwind step of the build;
+      # .tool-versions is the single source of truth for its version.
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .tool-versions
+
+      - uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4.0.0
+
+      - run: bun install --frozen-lockfile
+
+      # The suite runs on one pinned Chrome for Testing build, like the
+      # Firefox pins above. The pin lives in e2e/helpers/chrome_cdp.ts,
+      # where local runs read it too, and is read out of the helper rather
+      # than written here a second time (__tests__/ci-workflow.spec.ts
+      # checks that this still matches).
+      - name: Read the pinned Chrome for Testing version
+        id: chrome
+        run: |
+          version=$(sed -n 's/^export const PINNED_CHROME_VERSION = "\(.*\)";$/\1/p' e2e/helpers/chrome_cdp.ts)
+          test -n "$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      # The install skips the download when the cached folder already
+      # holds this build; the key follows the pin.
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/chrome-for-testing
+          key: chrome-for-testing-${{ runner.os }}-${{ steps.chrome.outputs.version }}
+
+      # @puppeteer/browsers is pinned too, so the installer cannot change
+      # under the job; it prints the executable's path last.
+      - name: Install Chrome for Testing
+        id: install-chrome
+        run: |
+          set -o pipefail
+          path=$(bunx @puppeteer/browsers@3.2.3 install "chrome@$CHROME_VERSION" --path "$CHROME_DIR" --format '{{path}}' | tail -n 1)
+          test -x "$path"
+          echo "path=$path" >> "$GITHUB_OUTPUT"
+        env:
+          CHROME_VERSION: ${{ steps.chrome.outputs.version }}
+          CHROME_DIR: ${{ runner.temp }}/chrome-for-testing
+
+      # Print the build this run tested, as the Firefox job does.
+      - name: Chrome version
+        run: '"$CHROME_BIN" --version'
+        env:
+          CHROME_BIN: ${{ steps.install-chrome.outputs.path }}
+
+      # Ubuntu 23.10+ lets AppArmor refuse unprivileged user namespaces,
+      # which Chrome's sandbox needs: Chrome then aborts with "No usable
+      # sandbox!". Lift the restriction on this throwaway runner rather
+      # than run the browser with --no-sandbox.
+      - name: Allow Chrome's sandbox
+        run: |
+          if [ -e /proc/sys/kernel/apparmor_restrict_unprivileged_userns ]; then
+            sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+          fi
+
+      - run: just e2e_chromium
+        env:
+          CHROME_BIN: ${{ steps.install-chrome.outputs.path }}

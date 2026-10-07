@@ -39,9 +39,10 @@ format_check:
   bunx prettier --check .
 
 # Keep this in step with the "ci" job in .github/workflows/ci.yml: same
-# steps, same order (__tests__/ci-workflow.spec.ts checks). CI's other two
-# jobs are left out: the reproducibility check, and the real-Firefox tests
-# (`just e2e_firefox`, which needs Firefox installed).
+# steps, same order (__tests__/ci-workflow.spec.ts checks). CI's other three
+# jobs are left out: the reproducibility check, the real-Firefox tests
+# (`just e2e_firefox`, which needs Firefox installed), and the Chrome for
+# Testing tests (`just e2e_chromium`, which needs the pinned build).
 # Everything the main CI job runs, in the same order
 ci: install_frozen check lint format_check check_locales test package_zip lint_firefox package_zip_firefox
 
@@ -95,6 +96,14 @@ package_zip_firefox: build_firefox
 # Real-Firefox end-to-end suite (needs Firefox installed)
 e2e_firefox: package_zip_firefox
   bunx vitest run --config vitest.e2e.config.ts
+
+# It builds the Chrome bundles into extension/, the folder `just package_zip`
+# zips, and loads that folder unpacked. Headless by default: E2E_HEADED=1 to
+# watch, CHROME_BIN=/path to run a Chrome for Testing build other than the
+# pin in e2e/helpers/chrome_cdp.ts (docs/testing-chromium.md).
+# Chrome for Testing end-to-end suite (needs the pinned build installed)
+e2e_chromium: build
+  bunx vitest run --config vitest.e2e-chromium.config.ts
 
 # Preflight for tagging a release: version parity + clean tree
 release_check:
