@@ -202,7 +202,10 @@ jobs:
   # in storage (docs/testing-chromium.md). Chrome for Testing, because
   # branded Chrome 137+ ignores --load-extension.
   e2e-chromium:
-    runs-on: ubuntu-latest
+    # Pinned rather than ubuntu-latest: the "Allow Chrome's sandbox" step
+    # below is proven on 24.04, and ubuntu-latest moves to a newer image
+    # (26.04 from 2026-10-19). Move this deliberately, like the browser pins.
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 

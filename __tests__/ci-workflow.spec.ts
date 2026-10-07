@@ -208,6 +208,13 @@ describe("e2e-chromium job", () => {
     expect(PINNED_CHROME_VERSION).toMatch(/^\d+\.\d+\.\d+\.\d+$/);
   });
 
+  // The sandbox step is proven on one runner image; ubuntu-latest would
+  // move the job to a new one (26.04 from 2026-10-19) without anyone
+  // checking that Chrome's sandbox still starts there.
+  it("runs on a pinned Ubuntu image, not ubuntu-latest", () => {
+    expect(CHROMIUM_JOB).toMatch(/^ {4}runs-on: ubuntu-\d{2}\.\d{2}$/m);
+  });
+
   it("reads the Chrome pin out of the helper, with a pattern that still matches it", () => {
     // Same check as for the geckodriver pin above: a renamed or
     // reformatted constant would leave the step with an empty version.
