@@ -8,7 +8,7 @@ This is a browser extension for Chrome, Brave, and Firefox that automatically de
 
 - Deletes cookies (and other site data) from a site shortly after its last tab closes
 - Two kinds of keep rules: **Keep** (never cleaned) and **Keep until browser closes**
-- Optionally clears other leftovers too: LocalStorage, IndexedDB, cache, service workers, plugin data
+- Clears other leftovers too, unless you turn that off: LocalStorage, IndexedDB, cache, service workers, plugin data
 - One-click manual cleanup for the current site from the popup or right-click menu
 - Toolbar badge shows how many cookies the current site has set
 - Keep rules support wildcards and regular expressions, and can be exported/imported as files
