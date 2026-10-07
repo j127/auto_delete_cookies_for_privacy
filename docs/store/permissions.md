@@ -16,7 +16,7 @@ The dashboard asks for a justification per permission, one field at a time.
 
 ### `browsingData`
 
-> When the user opts in, the extension also clears other site data for cleaned sites (cache, IndexedDB, LocalStorage, plugin data, service workers, plus the Cache Storage and file-system data that go with them). browsingData.remove with origin scoping is the only API that removes these data types.
+> Unless the user turns it off, the extension also clears other site data for cleaned sites (cache, IndexedDB, LocalStorage, plugin data, service workers, plus the Cache Storage and file-system data that go with them). browsingData.remove with origin scoping is the only API that removes these data types.
 
 ### `storage`
 

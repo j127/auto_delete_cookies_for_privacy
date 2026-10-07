@@ -21,7 +21,7 @@ Auto-Delete Cookies for Privacy cleans up after your tabs: when you close a site
 
 HOW IT WORKS
 • Close a site's tabs and, after a short grace period you control, its cookies are gone.
-• Optionally clean the rest of a site's footprint too: IndexedDB, LocalStorage, service workers, and plugin data. (Firefox cannot clear its cache for individual sites, so cache cleanup is excluded on Firefox.)
+• Clean the rest of a site's footprint too (on unless you turn it off): IndexedDB, LocalStorage, service workers, and plugin data. (Firefox cannot clear its cache for individual sites, so cache cleanup is excluded on Firefox.)
 • Keep lists protect the sites you choose: keep a site's data permanently, or only until the browser closes.
 • Nothing is cleaned automatically until you switch automatic cleaning on — and manual cleaning works even while it is off.
 
