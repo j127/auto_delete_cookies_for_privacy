@@ -261,7 +261,11 @@ describe("row 11: private windows, access on", () => {
     const leaks = log.filter((e) => entryLeaksPrivate(e, "127.0.0.1"));
     expect(leaks, JSON.stringify(leaks)).toEqual([]);
 
-    expect(await extensionScriptErrors(session)).toEqual([]);
+    // Soft, so a script error still lets the next line run: it throws if
+    // the background page restarted since the tap, which is the other half
+    // of explaining a "Promise rejected after context unloaded" (seen once
+    // on 2026-10-07).
+    expect.soft(await extensionScriptErrors(session)).toEqual([]);
     expect(await backgroundConsoleErrors(session)).toEqual([]);
   }, 180000);
 
@@ -284,7 +288,8 @@ describe("row 11: private windows, access on", () => {
       15000
     );
     expect(erased, "Private list erased from storage").toBe(true);
-    expect(await extensionScriptErrors(session)).toEqual([]);
+    // Soft for the same reason as in the test above.
+    expect.soft(await extensionScriptErrors(session)).toEqual([]);
     expect(await backgroundConsoleErrors(session)).toEqual([]);
   }, 60000);
 });

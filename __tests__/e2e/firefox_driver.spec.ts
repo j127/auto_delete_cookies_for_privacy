@@ -21,10 +21,12 @@ import {
   DOWNLOAD_ATTEMPTS,
   downloadRetryDelayMs,
   downloadWithRetry,
+  formatScriptError,
   geckodriverDownloadVersion,
   geckodriverStartParams,
   PINNED_GECKODRIVER_VERSION,
   privateAddonInstallBody,
+  SCRIPT_ERROR_STACK_FRAMES,
 } from "../../e2e/helpers/firefox_driver";
 
 /**
@@ -190,5 +192,48 @@ describe("privateAddonInstallBody", () => {
       temporary: true,
       allowPrivateBrowsing: true,
     });
+  });
+});
+
+describe("formatScriptError", () => {
+  // A one-off "Promise rejected after context unloaded" on 2026-10-07
+  // named only background.js. The report must carry where, when and how
+  // the extension got there, so a repeat can be traced.
+  const base = {
+    sourceName: "moz-extension://uuid/bundles/background.js",
+    lineNumber: 120,
+    columnNumber: 7,
+    errorMessage:
+      "Promise rejected after context unloaded: An unexpected error occurred\n",
+    timeStamp: Date.UTC(2026, 9, 7, 0, 53, 40, 123),
+    stack: "",
+  };
+
+  it("names the line, column and time, and trims the message", () => {
+    expect(formatScriptError(base)).toBe(
+      "moz-extension://uuid/bundles/background.js:120:7: Promise rejected after context unloaded: An unexpected error occurred [2026-10-07T00:53:40.123Z]"
+    );
+  });
+
+  it("leaves the position out when Firefox reports none", () => {
+    expect(
+      formatScriptError({ ...base, lineNumber: 0, columnNumber: 0 })
+    ).toMatch(
+      /^moz-extension:\/\/uuid\/bundles\/background\.js: Promise rejected/
+    );
+  });
+
+  it("appends the first stack frames, one per indented line", () => {
+    const frames = Array.from(
+      { length: SCRIPT_ERROR_STACK_FRAMES + 2 },
+      (_, i) => `fn${i}@moz-extension://uuid/bundles/background.js:${i + 1}:1`
+    );
+    const out = formatScriptError({ ...base, stack: frames.join("\n") + "\n" });
+    const lines = out.split("\n");
+    expect(lines).toHaveLength(1 + SCRIPT_ERROR_STACK_FRAMES);
+    expect(lines[1]).toBe(
+      "    at fn0@moz-extension://uuid/bundles/background.js:1:1"
+    );
+    expect(out).not.toContain(`fn${SCRIPT_ERROR_STACK_FRAMES}@`);
   });
 });
