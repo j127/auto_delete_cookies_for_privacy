@@ -40,8 +40,11 @@ Put `OK`, `FAIL #NNN` (issue number), or `SKIP (reason)` in each channel cell, p
 
 One line per full pass, newest first: `YYYY-MM-DD, vX.Y.Z (or commit): ESR <exact version>, Rel <exact version>; N OK, N SKIP, N FAIL`.
 
+- 2026-10-07, 1.2.0 (`main` at `4e1b77c`): ESR 140.17.0esr, Rel 157.0; 42 OK (12 with a step skipped, see the cells), 0 FAIL.
+  - All automated rows, 20 and 21 included, ran in CI on the final `main`: run 37551837356, all 37 e2e tests on each channel. The Chromium companion passed in the same run: 10 tests on Chrome for Testing 155.0.8059.39, including the storage end state of rows 13 and 21.
+  - The manual parts were not repeated: they ran on 2026-10-06 against a build of `947e765` (the entry below). Since then #472, #477, #479 and #482 changed the extension (#480 and #481 changed only tests, CI and a release note), and none of them changes the code behind those steps on Firefox: #477 and #479 take the keep list from the tab's own `cookieStoreId`, which Firefox always sets, #482 corrects Help text, and #472's frame markers are rows 13, 20 and 21, which CI covers.
 - 2026-10-06, 1.2.0 (`main` at `947e765`): ESR 140.17.0esr, Rel 157.0; 38 OK (12 with a step skipped, see the cells), 0 FAIL.
-  - Automated rows ran in CI on both channels: run 37526403832 on the final `main`, all 33 e2e tests on each channel.
+  - Automated rows ran in CI on both channels: run 37526403832 on that `main`, all 33 e2e tests on each channel.
   - Rows 20 and 21 (#464) were added after this pass: CI run 37532667128 on the pull request's branch passed them on both channels (ESR 140.17.0esr, Rel 157.0), 37 e2e tests on each. On ESR, row 20 passes without exercising the bug, which needs `::details-content` (Firefox 143+). The real-site check for row 13 ran once in CI (run 37517421847): nytimes.com and theguardian.com went from 9–36 cookies to 0 within 15 seconds of closing their tabs, and stayed at 0 a minute later.
   - The manual parts ran on Firefox 157.0 on macOS 27 (the popup and right-click keeps in a container tab with separate lists on and off, the popup keep in a private window, the Allow click, and the popup's fit). No ESR build was installed locally, so those steps are SKIP in the ESR column.
   - Row 11's manual run raised a privacy concern rather than a defect: Private-list rules outlived the private session. #468/#469 now erase the Private list when the last private window closes (except when Firefox never remembers history).
