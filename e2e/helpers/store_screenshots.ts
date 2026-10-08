@@ -144,27 +144,15 @@ export const BACKDROPS: Record<
 };
 
 /**
- * How far above a cut-off block the bottom fade starts. Small, so the
- * whole block above it stays clear.
- */
-export const FADE_LEAD = 8;
-
-/**
- * How tall the fade is from clear to the page's background colour: the
- * same as FADE_LEAD, so the cut-off block is fully covered from its top.
- */
-export const FADE_RAMP = FADE_LEAD;
-
-/**
- * Where a settings page's bottom fade starts, or null when no fade is
+ * Where a settings page's bottom cover starts, or null when none is
  * needed. A long page runs on below the viewport, and the block (a
  * settings row, a list item, a heading) that the bottom edge cuts through
- * would show as half a line of text. The fade starts just above the
- * highest such block, so that block is hidden whole and the visible page
- * ends on whole blocks. When the edge falls between blocks, nothing is cut
- * and no fade is added.
+ * would show as half a line of text. The cover hides the page from the top
+ * of the highest such block down, in the page's own background colour, so
+ * the shot ends on whole blocks. When the edge falls between blocks,
+ * nothing is cut and nothing is covered.
  */
-export const bottomFadeTop = (
+export const bottomCoverTop = (
   blocks: readonly { top: number; bottom: number }[],
   viewportHeight: number = STORE_SHOT_SIZE.height
 ): number | null => {
@@ -172,7 +160,7 @@ export const bottomFadeTop = (
     (b) => b.top < viewportHeight && b.bottom > viewportHeight
   );
   if (cut.length === 0) return null;
-  const top = Math.min(...cut.map((b) => b.top)) - FADE_LEAD;
-  // Never fade more than the bottom third away.
+  const top = Math.min(...cut.map((b) => b.top));
+  // Never cover more than the bottom third.
   return Math.max(Math.round(top), Math.round((viewportHeight * 2) / 3));
 };

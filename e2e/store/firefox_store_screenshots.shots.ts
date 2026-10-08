@@ -43,9 +43,8 @@ import {
 } from "../helpers/fixture_server";
 import {
   BACKDROPS,
-  bottomFadeTop,
+  bottomCoverTop,
   cardTop,
-  FADE_RAMP,
   FIREFOX_STORE_SHOTS,
   nextWindowSize,
   pngSize,
@@ -178,12 +177,12 @@ const openSettings = async (hash: string, mountedCss: string) => {
 const settle = () => new Promise((r) => setTimeout(r, 600));
 
 /**
- * Fades out the block the viewport's bottom edge cuts through, if any, so
- * the shot ends on whole blocks rather than half a line of text (see
- * bottomFadeTop). Only the main column fades; the fade ends in the
- * column's own background colour.
+ * Covers the block the viewport's bottom edge cuts through, if any, so the
+ * shot ends on whole blocks rather than half a line of text (see
+ * bottomCoverTop). Only the main column is covered, in its own background
+ * colour.
  */
-const fadeBottomEdge = async (): Promise<void> => {
+const coverBottomEdge = async (): Promise<void> => {
   const blocks = (await inProbe(
     session,
     `return [...document.querySelectorAll(
@@ -193,27 +192,24 @@ const fadeBottomEdge = async (): Promise<void> => {
        return { top: r.top, bottom: r.bottom };
      });`
   )) as { top: number; bottom: number }[];
-  const top = bottomFadeTop(blocks);
+  const top = bottomCoverTop(blocks);
   if (top === null) return;
   await inProbe(
     session,
-    `const [top, ramp] = args;
-     const main = document.querySelector("main");
+    `const main = document.querySelector("main");
      let background = "";
      for (let el = main; el && !background; el = el.parentElement) {
        const color = getComputedStyle(el).backgroundColor;
        if (color && color !== "transparent" && color !== "rgba(0, 0, 0, 0)") background = color;
      }
      const column = main.parentElement.getBoundingClientRect();
-     const fade = document.createElement("div");
-     fade.style.cssText =
-       "position: fixed; bottom: 0; top: " + top + "px; left: " + column.left +
+     const cover = document.createElement("div");
+     cover.style.cssText =
+       "position: fixed; bottom: 0; top: " + args[0] + "px; left: " + column.left +
        "px; width: " + column.width + "px; pointer-events: none; z-index: 2147483647;" +
-       "background: linear-gradient(to bottom, transparent 0px, " + (background || "Canvas") +
-       " " + ramp + "px);";
-     document.body.append(fade);`,
-    top,
-    FADE_RAMP
+       "background: " + (background || "Canvas") + ";";
+     document.body.append(cover);`,
+    top
   );
 };
 
@@ -484,7 +480,7 @@ describe.each(SHOT_THEMES)("Firefox store screenshots, %s theme", (theme) => {
       SCROLL_MARGIN
     )) as boolean;
     expect(found).toBe(true);
-    await fadeBottomEdge();
+    await coverBottomEdge();
     await settle();
     await save(shotFileName(shot("protection"), theme));
   }, 60000);
@@ -522,7 +518,7 @@ describe.each(SHOT_THEMES)("Firefox store screenshots, %s theme", (theme) => {
     const state = await persistedState();
     expect(total).toBe(String(state.cookieDeletedCounterTotal));
     expect(Number(total)).toBeGreaterThan(0);
-    await fadeBottomEdge();
+    await coverBottomEdge();
     await settle();
     await save(shotFileName(shot("overview"), theme));
   }, 60000);

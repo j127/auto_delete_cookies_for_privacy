@@ -12,10 +12,9 @@ import { readFileSync } from "fs";
 import {
   allShotFiles,
   BACKDROPS,
-  bottomFadeTop,
+  bottomCoverTop,
   CARD_MARGIN,
   cardTop,
-  FADE_LEAD,
   FIREFOX_STORE_SHOTS,
   nextWindowSize,
   pngSize,
@@ -143,44 +142,44 @@ describe("cardTop", () => {
   });
 });
 
-describe("bottomFadeTop", () => {
-  it("adds no fade when the bottom edge falls between blocks", () => {
+describe("bottomCoverTop", () => {
+  it("covers nothing when the bottom edge falls between blocks", () => {
     expect(
-      bottomFadeTop([
+      bottomCoverTop([
         { top: 100, bottom: 400 },
         { top: 420, bottom: 790 },
         { top: 806, bottom: 900 },
       ])
     ).toBeNull();
-    expect(bottomFadeTop([])).toBeNull();
+    expect(bottomCoverTop([])).toBeNull();
   });
 
-  it("starts just above the block the edge cuts through", () => {
+  it("starts at the top of the block the edge cuts through", () => {
     expect(
-      bottomFadeTop([
-        { top: 100, bottom: 700 },
-        { top: 735, bottom: 810 },
+      bottomCoverTop([
+        { top: 100, bottom: 732 },
+        { top: 735.4, bottom: 810 },
       ])
-    ).toBe(735 - FADE_LEAD);
+    ).toBe(735);
   });
 
-  it("fades a cut row whole, not just the cut line inside it", () => {
+  it("covers a cut row whole, not just the cut line inside it", () => {
     // A settings row and the paragraph inside it are both cut.
     expect(
-      bottomFadeTop([
+      bottomCoverTop([
         { top: 700, bottom: 830 },
         { top: 770, bottom: 830 },
       ])
-    ).toBe(700 - FADE_LEAD);
+    ).toBe(700);
   });
 
-  it("never fades more than the bottom third", () => {
-    expect(bottomFadeTop([{ top: 100, bottom: 1400 }])).toBe(533);
-    expect(bottomFadeTop([{ top: 100, bottom: 1400 }], 600)).toBe(400);
+  it("never covers more than the bottom third", () => {
+    expect(bottomCoverTop([{ top: 100, bottom: 1400 }])).toBe(533);
+    expect(bottomCoverTop([{ top: 100, bottom: 1400 }], 600)).toBe(400);
   });
 
   it("ignores blocks wholly below the viewport", () => {
-    expect(bottomFadeTop([{ top: 800, bottom: 900 }])).toBeNull();
+    expect(bottomCoverTop([{ top: 800, bottom: 900 }])).toBeNull();
   });
 });
 
