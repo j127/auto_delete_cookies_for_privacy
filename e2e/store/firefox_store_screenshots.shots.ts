@@ -43,7 +43,9 @@ import {
 } from "../helpers/fixture_server";
 import {
   BACKDROPS,
+  bottomFadeTop,
   cardTop,
+  FADE_RAMP,
   FIREFOX_STORE_SHOTS,
   nextWindowSize,
   pngSize,
@@ -54,10 +56,11 @@ import {
   STORE_SHOT_SIZE,
 } from "../helpers/store_screenshots";
 
-/** How tall the fade at the bottom of a long settings page is. */
-const FADE_HEIGHT = 72;
-/** The space left above the first card on a scrolled settings page. */
-const SCROLL_MARGIN = 24;
+/**
+ * The space left above the first card on a scrolled settings page: less
+ * than the 16px gap between cards, so no edge of the card above shows.
+ */
+const SCROLL_MARGIN = 12;
 
 /** The site the popup describes; resolved to the fixture server. */
 const SITE_HOST = "www.example.com";
@@ -175,16 +178,26 @@ const openSettings = async (hash: string, mountedCss: string) => {
 const settle = () => new Promise((r) => setTimeout(r, 600));
 
 /**
- * Fades the main column's last few pixels into its background when the
- * page runs on below the viewport, so the bottom edge reads as "continues"
- * rather than as a line of text cut in half. Nothing is added when the
- * page ends inside the viewport.
+ * Fades out the block the viewport's bottom edge cuts through, if any, so
+ * the page reads as continuing rather than ending in half a line of text
+ * (see bottomFadeTop). Only the main column fades; the fade ends in the
+ * column's own background colour.
  */
 const fadeBottomEdge = async (): Promise<void> => {
+  const blocks = (await inProbe(
+    session,
+    `return [...document.querySelectorAll(
+       "main section > h2, main section > div > *, main li, main h1, main h2, main p"
+     )].map((el) => {
+       const r = el.getBoundingClientRect();
+       return { top: r.top, bottom: r.bottom };
+     });`
+  )) as { top: number; bottom: number }[];
+  const top = bottomFadeTop(blocks);
+  if (top === null) return;
   await inProbe(
     session,
-    `const scroller = document.scrollingElement;
-     if (scroller.scrollTop + window.innerHeight >= scroller.scrollHeight - 1) return;
+    `const [top, ramp] = args;
      const main = document.querySelector("main");
      let background = "";
      for (let el = main; el && !background; el = el.parentElement) {
@@ -194,11 +207,13 @@ const fadeBottomEdge = async (): Promise<void> => {
      const column = main.parentElement.getBoundingClientRect();
      const fade = document.createElement("div");
      fade.style.cssText =
-       "position: fixed; bottom: 0; height: " + args[0] + "px; left: " + column.left +
+       "position: fixed; bottom: 0; top: " + top + "px; left: " + column.left +
        "px; width: " + column.width + "px; pointer-events: none; z-index: 2147483647;" +
-       "background: linear-gradient(to bottom, transparent, " + (background || "Canvas") + ");";
+       "background: linear-gradient(to bottom, transparent 0px, " + (background || "Canvas") +
+       " " + ramp + "px);";
      document.body.append(fade);`,
-    FADE_HEIGHT
+    top,
+    FADE_RAMP
   );
 };
 

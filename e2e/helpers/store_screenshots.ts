@@ -142,3 +142,31 @@ export const BACKDROPS: Record<
     shadow: "0 24px 60px rgba(0, 0, 0, 0.55)",
   },
 };
+
+/** How far above a cut-off block the bottom fade starts. */
+export const FADE_LEAD = 12;
+
+/** How tall the fade is from clear to the page's background colour. */
+export const FADE_RAMP = 40;
+
+/**
+ * Where a settings page's bottom fade starts, or null when no fade is
+ * needed. A long page runs on below the viewport, and the block (a
+ * settings row, a list item, a heading) that the bottom edge cuts through
+ * would show as half a line of text. The fade starts just above the
+ * highest such block, so that block fades out whole and the page reads as
+ * continuing. When the edge falls between blocks, nothing is cut and no
+ * fade is added.
+ */
+export const bottomFadeTop = (
+  blocks: readonly { top: number; bottom: number }[],
+  viewportHeight: number = STORE_SHOT_SIZE.height
+): number | null => {
+  const cut = blocks.filter(
+    (b) => b.top < viewportHeight && b.bottom > viewportHeight
+  );
+  if (cut.length === 0) return null;
+  const top = Math.min(...cut.map((b) => b.top)) - FADE_LEAD;
+  // Never fade more than the bottom third away.
+  return Math.max(Math.round(top), Math.round((viewportHeight * 2) / 3));
+};

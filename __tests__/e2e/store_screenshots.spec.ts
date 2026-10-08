@@ -12,8 +12,10 @@ import { readFileSync } from "fs";
 import {
   allShotFiles,
   BACKDROPS,
+  bottomFadeTop,
   CARD_MARGIN,
   cardTop,
+  FADE_LEAD,
   FIREFOX_STORE_SHOTS,
   nextWindowSize,
   pngSize,
@@ -138,6 +140,47 @@ describe("cardTop", () => {
 
   it("refuses a card too tall to fit", () => {
     expect(() => cardTop(800 - 2 * CARD_MARGIN + 1)).toThrow(/at most 752px/);
+  });
+});
+
+describe("bottomFadeTop", () => {
+  it("adds no fade when the bottom edge falls between blocks", () => {
+    expect(
+      bottomFadeTop([
+        { top: 100, bottom: 400 },
+        { top: 420, bottom: 790 },
+        { top: 806, bottom: 900 },
+      ])
+    ).toBeNull();
+    expect(bottomFadeTop([])).toBeNull();
+  });
+
+  it("starts just above the block the edge cuts through", () => {
+    expect(
+      bottomFadeTop([
+        { top: 100, bottom: 700 },
+        { top: 735, bottom: 810 },
+      ])
+    ).toBe(735 - FADE_LEAD);
+  });
+
+  it("fades a cut row whole, not just the cut line inside it", () => {
+    // A settings row and the paragraph inside it are both cut.
+    expect(
+      bottomFadeTop([
+        { top: 700, bottom: 830 },
+        { top: 770, bottom: 830 },
+      ])
+    ).toBe(700 - FADE_LEAD);
+  });
+
+  it("never fades more than the bottom third", () => {
+    expect(bottomFadeTop([{ top: 100, bottom: 1400 }])).toBe(533);
+    expect(bottomFadeTop([{ top: 100, bottom: 1400 }], 600)).toBe(400);
+  });
+
+  it("ignores blocks wholly below the viewport", () => {
+    expect(bottomFadeTop([{ top: 800, bottom: 900 }])).toBeNull();
   });
 });
 
