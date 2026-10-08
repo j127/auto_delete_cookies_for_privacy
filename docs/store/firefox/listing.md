@@ -61,4 +61,25 @@ DETAILS
 
 ## Assets
 
-AMO screenshots have no fixed size requirement (unlike CWS); reuse the CWS screenshots from `docs/store/screenshots/` as-is, and add one Firefox-specific shot of the popup showing a container badge once a headed pass produces one. The icon comes from the manifest (`icons/icon_128.png`); no separate upload needed.
+### Icon
+
+Upload `extension/icons/icon_128.png` as the listing icon on Edit Product Page → Media. AMO does not take the listing icon from the manifest: without the upload the listing shows AMO's default puzzle-piece icon.
+
+### Screenshots
+
+Upload these from `docs/store/screenshots/firefox/` on Edit Product Page → Media, in this order, and paste each caption into the screenshot's caption field. All are 1280×800 PNGs of the real Firefox build (popup, Protection, Saved sites and Overview), each in the light and the dark theme.
+
+| File                                                                      | Caption                                                                                            |
+| ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [01-popup.png](../screenshots/firefox/01-popup.png)                       | The popup shows the site's container and what the site stores, and keeps its cookies in one click. |
+| [01-popup-dark.png](../screenshots/firefox/01-popup-dark.png)             | The popup shows the site's container and what the site stores, and keeps its cookies in one click. |
+| [02-protection.png](../screenshots/firefox/02-protection.png)             | Give each Firefox container its own keep list from the Protection page.                            |
+| [02-protection-dark.png](../screenshots/firefox/02-protection-dark.png)   | Give each Firefox container its own keep list from the Protection page.                            |
+| [03-saved-sites.png](../screenshots/firefox/03-saved-sites.png)           | Saved sites holds a separate keep list for each container, next to the Default and Private lists.  |
+| [03-saved-sites-dark.png](../screenshots/firefox/03-saved-sites-dark.png) | Saved sites holds a separate keep list for each container, next to the Default and Private lists.  |
+| [04-overview.png](../screenshots/firefox/04-overview.png)                 | The Overview counts the cookies deleted so far and lists what is new in each release.              |
+| [04-overview-dark.png](../screenshots/firefox/04-overview-dark.png)       | The Overview counts the cookies deleted so far and lists what is new in each release.              |
+
+The captions also live in `e2e/helpers/store_screenshots.ts`, and a unit test keeps the two in step. To refresh the set for a new release, run the "Store screenshots" workflow from the Actions tab (it runs `just store_screenshots_firefox` on Linux, on the Firefox release that CI tests), download its `firefox-store-screenshots` artifact, look at every image, and commit the ones that changed. Firefox started from some macOS 27 terminals cannot open its profile (#465), so the workflow is the dependable way to take them.
+
+The Chrome Web Store screenshots in `docs/store/screenshots/` are a separate set and are not uploaded to AMO.

@@ -97,6 +97,13 @@ package_zip_firefox: build_firefox
 e2e_firefox: package_zip_firefox
   bunx vitest run --config vitest.e2e.config.ts
 
+# Writes docs/store/screenshots/firefox/ (STORE_SHOT_DIR=/path to write
+# elsewhere). Needs Firefox installed, so the "Store screenshots" workflow
+# runs it on Linux and uploads the PNGs (docs/store/firefox/listing.md).
+# Take the Firefox store screenshots from the packaged build
+store_screenshots_firefox: package_zip_firefox
+  bunx vitest run --config vitest.store-screenshots.config.ts
+
 # It builds the Chrome bundles into extension/, the folder `just package_zip`
 # zips, and loads that folder unpacked. Headless by default: E2E_HEADED=1 to
 # watch, CHROME_BIN=/path to run a Chrome for Testing build other than the

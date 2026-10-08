@@ -29,6 +29,11 @@
  * - /frame-storage  frame body; writes localStorage and sets no cookie,
  *                like a device-check frame whose site keeps its cookies on
  *                the parent domain
+ * - /shop        an ordinary-looking site for the store screenshots
+ *                (#486): SHOP_COOKIE_COUNT cookies, two localStorage
+ *                entries, an IndexedDB database and, where the page is a
+ *                secure context, a cache. The title turns to "ready" once
+ *                all of it is written
  */
 
 /** Hostnames /site-frame expects to resolve to this server. */
@@ -58,6 +63,9 @@ const html = (
   });
   res.end(`<!doctype html><body>${body}</body>`);
 };
+
+/** How many cookies /shop sets: three header cookies and one from script. */
+export const SHOP_COOKIE_COUNT = 4;
 
 /** How many cookies (and localStorage entries) /busy sets. */
 export const BUSY_COOKIE_COUNT = 60;
@@ -136,6 +144,39 @@ const handle = (req: IncomingMessage, res: ServerResponse): void => {
       );
       return;
     }
+    case "/shop":
+      // Each storage write is awaited before the title changes, so a
+      // caller polling the tab title knows the inventory is complete.
+      // caches exists only in a secure context, hence the guard.
+      html(
+        res,
+        `<h1>Example shop</h1>
+         <script>
+           document.cookie = "cart_items=2; path=/; max-age=3600";
+           localStorage.setItem("recently_viewed", JSON.stringify(["lamp", "desk", "chair"]));
+           localStorage.setItem("currency", "EUR");
+           const database = new Promise((done) => {
+             const open = indexedDB.open("shop-offline", 1);
+             open.onupgradeneeded = () => open.result.createObjectStore("products");
+             open.onsuccess = () => { open.result.close(); done(); };
+             open.onerror = () => done();
+           });
+           const cache = "caches" in window
+             ? caches.open("assets-v1")
+                 .then((c) => c.put("/shop/app.css", new Response("body {}")))
+                 .catch(() => undefined)
+             : Promise.resolve();
+           Promise.all([database, cache]).then(() => { document.title = "ready"; });
+         </script>`,
+        {
+          "set-cookie": [
+            "session_id=4f9c2a7e1b; Path=/; Max-Age=3600; HttpOnly",
+            "lang=en; Path=/; Max-Age=3600",
+            "consent=essential; Path=/; Max-Age=3600",
+          ],
+        }
+      );
+      return;
     case "/frame-storage":
       html(res, `<script>localStorage.setItem("e2e_frame_ls", "1");</script>`);
       return;
