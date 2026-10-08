@@ -8,7 +8,7 @@
  * listing copy that has to name the same files with the same captions:
  * AMO's caption fields are filled from docs/store/firefox/listing.md.
  */
-import { readFileSync } from "fs";
+import { readdirSync, readFileSync } from "fs";
 import {
   allShotFiles,
   BACKDROPS,
@@ -207,8 +207,31 @@ describe("docs/store/firefox/listing.md", () => {
     expect(row).toContain(shot.caption);
   });
 
+  it("lists no other shot files than the run writes", () => {
+    const listed = [
+      ...assets.matchAll(/\(\.\.\/screenshots\/firefox\/([^)]+)\)/g),
+    ].map((m) => m[1]);
+    expect(listed).toEqual(allShotFiles().map((f) => f.file));
+  });
+
   it("says the listing icon is a separate upload", () => {
     expect(assets).toContain("extension/icons/icon_128.png");
     expect(assets).not.toMatch(/no separate upload needed/);
+  });
+});
+
+describe("docs/store/screenshots/firefox", () => {
+  const dir = new URL("../../docs/store/screenshots/firefox/", import.meta.url);
+
+  it("holds exactly the files the run writes", () => {
+    expect(readdirSync(dir).sort()).toEqual(
+      allShotFiles()
+        .map((f) => f.file)
+        .sort()
+    );
+  });
+
+  it.each(allShotFiles())("$file is a 1280x800 PNG", ({ file }) => {
+    expect(pngSize(readFileSync(new URL(file, dir)))).toEqual(STORE_SHOT_SIZE);
   });
 });
