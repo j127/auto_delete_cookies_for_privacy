@@ -179,8 +179,8 @@ const settle = () => new Promise((r) => setTimeout(r, 600));
 
 /**
  * Fades out the block the viewport's bottom edge cuts through, if any, so
- * the page reads as continuing rather than ending in half a line of text
- * (see bottomFadeTop). Only the main column fades; the fade ends in the
+ * the shot ends on whole blocks rather than half a line of text (see
+ * bottomFadeTop). Only the main column fades; the fade ends in the
  * column's own background colour.
  */
 const fadeBottomEdge = async (): Promise<void> => {
