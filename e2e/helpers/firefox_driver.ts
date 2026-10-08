@@ -598,31 +598,89 @@ export const inProbe = async (
   );
 };
 
+/** The fields of one nsIScriptError that extensionScriptErrors() reads. */
+export interface RawScriptError {
+  sourceName: string;
+  lineNumber: number;
+  columnNumber: number;
+  errorMessage: string;
+  /** Milliseconds since the epoch, as the console service stamps it. */
+  timeStamp: number;
+  /** The SavedFrame stack as text, or "" when the error carries none. */
+  stack: string;
+}
+
+/** Stack frames kept per error: enough to reach the extension's own call. */
+export const SCRIPT_ERROR_STACK_FRAMES = 5;
+
+/**
+ * "<source>:<line>:<col>: <message> [<ISO time>]", plus the first stack
+ * frames on indented lines. A one-off "Promise rejected after context
+ * unloaded" in row 11 on 2026-10-07 named only background.js, which left
+ * no way to tell which call it was or whether it came from startup or from
+ * the test itself; the line, time and stack answer both next time.
+ */
+export const formatScriptError = (raw: RawScriptError): string => {
+  const where =
+    raw.lineNumber > 0
+      ? `${raw.sourceName}:${raw.lineNumber}:${raw.columnNumber}`
+      : raw.sourceName;
+  const when = Number.isFinite(raw.timeStamp)
+    ? ` [${new Date(raw.timeStamp).toISOString()}]`
+    : "";
+  const frames = raw.stack
+    .split("\n")
+    .map((frame) => frame.trim())
+    .filter((frame) => frame !== "")
+    .slice(0, SCRIPT_ERROR_STACK_FRAMES)
+    .map((frame) => `\n    at ${frame}`)
+    .join("");
+  return `${where}: ${raw.errorMessage.trim()}${when}${frames}`;
+};
+
 /**
  * Uncaught exceptions and unhandled rejections that any of the extension's
  * pages (background, popup, settings) reported to Firefox's console
- * service, as "<source>: <message>". Warnings are left out. console.error
- * calls are not in this list: they stay in the extension process.
+ * service since the browser started, formatted by formatScriptError().
+ * Warnings are left out. console.error calls are not in this list: they
+ * stay in the extension process.
  */
 export const extensionScriptErrors = async (
   session: FirefoxSession
 ): Promise<string[]> =>
-  (await inChrome(
-    session,
-    `const origin = args[0];
-     return Services.console
-       .getMessageArray()
-       .filter(
-         (m) =>
-           m instanceof Ci.nsIScriptError &&
-           !(m.flags & Ci.nsIScriptError.warningFlag) &&
-           !(m.flags & Ci.nsIScriptError.infoFlag) &&
-           typeof m.sourceName === "string" &&
-           m.sourceName.startsWith(origin + "/")
-       )
-       .map((m) => m.sourceName + ": " + m.errorMessage);`,
-    session.extensionOrigin
-  )) as string[];
+  (
+    (await inChrome(
+      session,
+      `const origin = args[0];
+       return Services.console
+         .getMessageArray()
+         .filter(
+           (m) =>
+             m instanceof Ci.nsIScriptError &&
+             !(m.flags & Ci.nsIScriptError.warningFlag) &&
+             !(m.flags & Ci.nsIScriptError.infoFlag) &&
+             typeof m.sourceName === "string" &&
+             m.sourceName.startsWith(origin + "/")
+         )
+         .map((m) => ({
+           sourceName: m.sourceName,
+           lineNumber: m.lineNumber,
+           columnNumber: m.columnNumber,
+           errorMessage: m.errorMessage,
+           timeStamp: m.timeStamp,
+           // Only read when an error exists, so CI rarely runs it: a
+           // quirk here must never hide the error itself.
+           stack: (() => {
+             try {
+               return m.stack ? String(m.stack) : "";
+             } catch {
+               return "";
+             }
+           })(),
+         }));`,
+      session.extensionOrigin
+    )) as RawScriptError[]
+  ).map(formatScriptError);
 
 /**
  * Starts recording the background page's console.error calls, which is
