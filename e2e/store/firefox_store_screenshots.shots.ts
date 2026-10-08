@@ -55,6 +55,8 @@ import {
 
 /** The site the popup describes; resolved to the fixture server. */
 const SITE_HOST = "www.example.com";
+/** How the popup's site card names that site. */
+const SITE_SHOWN = "example.com";
 /** The container the site is open in, made with contextualIdentities. */
 const CONTAINER_NAME = "Travel";
 /** The container's own keep list, shown on Saved sites. */
@@ -366,8 +368,10 @@ describe.each(SHOT_THEMES)("Firefox store screenshots, %s theme", (theme) => {
       expect(ready).toBe(true);
       // The popup describes the container tab's site, and nothing shows
       // the fixture server's real address.
-      expect(text).toContain(SITE_HOST);
-      expect(text).toContain(CONTAINER_NAME);
+      // (The site card names the host without its "www.")
+      const lines = text.split("\n").map((line) => line.trim());
+      expect(lines).toContain(SITE_SHOWN);
+      expect(lines).toContain(CONTAINER_NAME);
       expect(text).not.toMatch(/localhost|127\.0\.0\.1|:\d{4,5}\b/);
 
       const height = (await inProbe(
