@@ -27,6 +27,7 @@ Choose **Listed** on the first upload page ("On this site"). Listed means AMO ho
 
 - Fill the listing fields from [listing.md](listing.md) (name, summary, description, category Privacy & Security, license MIT, homepage/support = the GitHub repo, support email = `support@moakh.dev`).
 - Paste `PRIVACY.md` into the privacy-policy field.
+- On Edit Product Page → Media, upload the listing icon and the screenshots with their captions, as the Assets section of [listing.md](listing.md) lists them. The icon is not taken from the manifest.
 - Data collection section: declare **no data collected/transmitted**, consistent with the manifest's `data_collection_permissions: { required: ["none"] }` (statement text in [permissions.md](permissions.md)).
 
 ## 5. Notes for Reviewers (paste template)

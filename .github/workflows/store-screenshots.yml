@@ -1,0 +1,86 @@
+name: Store screenshots
+
+# Takes the AMO listing's screenshots (#486) from the packaged Firefox
+# build and uploads them as the "firefox-store-screenshots" artifact; they
+# are committed to docs/store/screenshots/firefox/ by hand, after a look at
+# every image (docs/store/firefox/listing.md, "Assets"). Run it from the
+# Actions tab before a listing update. Pull requests that change the
+# screenshot script run it too, so the script never rots between releases.
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - .github/workflows/store-screenshots.yml
+      - e2e/store/**
+      - e2e/helpers/firefox_driver.ts
+      - e2e/helpers/fixture_server.ts
+      - e2e/helpers/store_screenshots.ts
+      - vitest.store-screenshots.config.ts
+
+permissions:
+  contents: read
+
+concurrency:
+  group: store-screenshots-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  firefox:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: browser-actions/setup-firefox@0bc507ddf224827e3b1af68e014d5e42ab93e795 # v1.7.2
+        id: setup-firefox
+        with:
+          # The Rel pin of the e2e-firefox job in ci.yml, so the shots come
+          # from the Firefox the suite tests with the pinned geckodriver
+          # (__tests__/store-screenshots-workflow.spec.ts checks they match).
+          firefox-version: "157.0"
+
+      - name: Firefox version
+        run: '"$FIREFOX_BIN" --version'
+        env:
+          FIREFOX_BIN: ${{ steps.setup-firefox.outputs.firefox-path }}
+
+      # Bun writes bun.lock and builds the bundles, so its exact version
+      # matters; .tool-versions is the single source of truth for it.
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        with:
+          bun-version-file: .tool-versions
+
+      # Node runs every bunx tool and the Tailwind step of the build;
+      # .tool-versions is the single source of truth for its version.
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version-file: .tool-versions
+
+      - uses: extractions/setup-just@53165ef7e734c5c07cb06b3c8e7b647c5aa16db3 # v4.0.0
+
+      - run: bun install --frozen-lockfile
+
+      # The same geckodriver pin and cache as the e2e-firefox job in ci.yml.
+      - name: Read the pinned geckodriver version
+        id: geckodriver
+        run: |
+          version=$(sed -n 's/^export const PINNED_GECKODRIVER_VERSION = "\(.*\)";$/\1/p' e2e/helpers/firefox_driver.ts)
+          test -n "$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ runner.temp }}/geckodriver-cache
+          key: geckodriver-${{ runner.os }}-${{ steps.geckodriver.outputs.version }}
+
+      - run: just store_screenshots_firefox
+        env:
+          FIREFOX_BIN: ${{ steps.setup-firefox.outputs.firefox-path }}
+          GECKODRIVER_CACHE_DIR: ${{ runner.temp }}/geckodriver-cache
+          STORE_SHOT_DIR: ${{ runner.temp }}/store-screenshots
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: firefox-store-screenshots
+          path: ${{ runner.temp }}/store-screenshots/*.png
+          if-no-files-found: error
