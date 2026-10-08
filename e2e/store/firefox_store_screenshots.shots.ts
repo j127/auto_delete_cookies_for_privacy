@@ -14,8 +14,9 @@
  * The site in the popup is www.example.com, resolved to the fixture server
  * through network.dns.localDomains (as row 21 does with adcp.test), so no
  * localhost or port shows. Firefox treats it as a secure context
- * (dom.securecontext.allowlist), as a real https site would be, so the
- * popup can list its cache and storage use instead of "unknown".
+ * (dom.securecontext.allowlist, plus dom.caches.testing.enabled for the
+ * Cache API), as a real https site would be, so the popup can list its
+ * cache and storage use instead of "unknown".
  *
  * The popup is the real popup/popup.html in a frame of the probe tab while
  * the site's container tab is the active one, which is the tab the popup
@@ -52,6 +53,11 @@ import {
   ShotTheme,
   STORE_SHOT_SIZE,
 } from "../helpers/store_screenshots";
+
+/** How tall the fade at the bottom of a long settings page is. */
+const FADE_HEIGHT = 72;
+/** The space left above the first card on a scrolled settings page. */
+const SCROLL_MARGIN = 24;
 
 /** The site the popup describes; resolved to the fixture server. */
 const SITE_HOST = "www.example.com";
@@ -168,12 +174,45 @@ const openSettings = async (hash: string, mountedCss: string) => {
 /** Lets layout, images and transitions settle before a screenshot. */
 const settle = () => new Promise((r) => setTimeout(r, 600));
 
+/**
+ * Fades the main column's last few pixels into its background when the
+ * page runs on below the viewport, so the bottom edge reads as "continues"
+ * rather than as a line of text cut in half. Nothing is added when the
+ * page ends inside the viewport.
+ */
+const fadeBottomEdge = async (): Promise<void> => {
+  await inProbe(
+    session,
+    `const scroller = document.scrollingElement;
+     if (scroller.scrollTop + window.innerHeight >= scroller.scrollHeight - 1) return;
+     const main = document.querySelector("main");
+     let background = "";
+     for (let el = main; el && !background; el = el.parentElement) {
+       const color = getComputedStyle(el).backgroundColor;
+       if (color && color !== "transparent" && color !== "rgba(0, 0, 0, 0)") background = color;
+     }
+     const column = main.parentElement.getBoundingClientRect();
+     const fade = document.createElement("div");
+     fade.style.cssText =
+       "position: fixed; bottom: 0; height: " + args[0] + "px; left: " + column.left +
+       "px; width: " + column.width + "px; pointer-events: none; z-index: 2147483647;" +
+       "background: linear-gradient(to bottom, transparent, " + (background || "Canvas") + ");";
+     document.body.append(fade);`,
+    FADE_HEIGHT
+  );
+};
+
 beforeAll(async () => {
   mkdirSync(OUT_DIR, { recursive: true });
   fixture = await startFixtureServer();
   session = await launchFirefox({
     "network.dns.localDomains": [SITE_HOST, ...VISITED_HOSTS].join(","),
     "dom.securecontext.allowlist": SITE_HOST,
+    // The Cache API checks the scheme itself rather than the secure
+    // context, so on plain http it refuses, and the popup would say
+    // "unknown" where a real https site shows a count. This lets the
+    // fixture stand in for an https site there too.
+    "dom.caches.testing.enabled": true,
     // The fixture speaks plain http on a high port; don't let HTTPS-First
     // try TLS on it first.
     "dom.security.https_first": false,
@@ -412,17 +451,25 @@ describe.each(SHOT_THEMES)("Firefox store screenshots, %s theme", (theme) => {
       session,
       'return browser.i18n.getMessage("settingGroupContainers");'
     )) as string;
+    // Scroll the card before the containers card to the top, so both are
+    // whole and no card is cut at the top edge.
     const found = (await inProbe(
       session,
-      `const heading = [...document.querySelectorAll("main *")].find(
-         (el) => el.children.length === 0 && el.textContent.trim() === args[0]
+      `const heading = [...document.querySelectorAll("main h2")].find(
+         (el) => el.textContent.trim() === args[0]
        );
-       if (!heading) return false;
-       heading.scrollIntoView({ block: "center" });
-       return true;`,
-      heading
+       const card = heading?.closest("section");
+       const before = card?.previousElementSibling;
+       if (!before) return false;
+       const scroller = document.scrollingElement;
+       scroller.scrollTop += before.getBoundingClientRect().top - args[1];
+       const box = card.getBoundingClientRect();
+       return box.top >= 0 && box.bottom <= window.innerHeight;`,
+      heading,
+      SCROLL_MARGIN
     )) as boolean;
     expect(found).toBe(true);
+    await fadeBottomEdge();
     await settle();
     await save(shotFileName(shot("protection"), theme));
   }, 60000);
@@ -460,6 +507,7 @@ describe.each(SHOT_THEMES)("Firefox store screenshots, %s theme", (theme) => {
     const state = await persistedState();
     expect(total).toBe(String(state.cookieDeletedCounterTotal));
     expect(Number(total)).toBeGreaterThan(0);
+    await fadeBottomEdge();
     await settle();
     await save(shotFileName(shot("overview"), theme));
   }, 60000);
