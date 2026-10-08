@@ -62,8 +62,12 @@ const CONTAINER_RULES = [
   { expression: "*.example.org", listType: "WHITE" },
   { expression: "maps.example.net", listType: "GREY" },
 ];
-/** Cookies the Overview reports as deleted. */
-const DELETED_COOKIES = 37;
+/**
+ * Sites visited and closed in the default container before the shots, so
+ * the Overview's counters come from real cleanups: the store bridge has no
+ * way to set them, as the settings page has none.
+ */
+const VISITED_HOSTS = ["news.example.net", "www.example.org"];
 
 const OUT_DIR = resolve(
   process.env.STORE_SHOT_DIR || "docs/store/screenshots/firefox"
@@ -166,7 +170,7 @@ beforeAll(async () => {
   mkdirSync(OUT_DIR, { recursive: true });
   fixture = await startFixtureServer();
   session = await launchFirefox({
-    "network.dns.localDomains": SITE_HOST,
+    "network.dns.localDomains": [SITE_HOST, ...VISITED_HOSTS].join(","),
     "dom.securecontext.allowlist": SITE_HOST,
     // The fixture speaks plain http on a high port; don't let HTTPS-First
     // try TLS on it first.
@@ -198,23 +202,58 @@ beforeAll(async () => {
       payload: { ...rule, storeId: containerId },
     });
   }
-  await dispatch({
-    type: "INCREMENT_COOKIE_DELETED_COUNTER",
-    payload: DELETED_COOKIES,
-  });
   // The background persists on a one-second debounce.
-  const seeded = await waitUntil(async () => {
-    const state = await persistedState();
-    return (
-      (state.lists?.[containerId] ?? []).length >= CONTAINER_RULES.length &&
-      state.cookieDeletedCounterTotal === DELETED_COOKIES
-    );
-  }, 10000);
+  const seeded = await waitUntil(
+    async () =>
+      ((await persistedState()).lists?.[containerId] ?? []).length >=
+      CONTAINER_RULES.length,
+    10000
+  );
   if (!seeded) {
     throw new Error(
       `state not seeded: ${JSON.stringify(await persistedState())}`
     );
   }
+
+  // Visit and close a few sites with a one-second grace period, so the
+  // Overview counts cookies that cleanups really deleted; then put the
+  // default 15 seconds back, which the popup quotes.
+  await probe(session, {
+    kind: "updateSettings",
+    settings: { delayBeforeClean: 1 },
+  });
+  for (const host of VISITED_HOSTS) {
+    await inProbe(
+      session,
+      `const tab = await browser.tabs.create({ url: args[0], active: false });
+       const deadline = Date.now() + 20000;
+       for (;;) {
+         const t = await browser.tabs.get(tab.id);
+         if (t.status === "complete" && t.title === "ready") break;
+         if (Date.now() > deadline) throw new Error("did not load: " + args[0]);
+         await new Promise((r) => setTimeout(r, 200));
+       }
+       await browser.tabs.remove(tab.id);`,
+      `http://${host}:${fixture.port}/shop`
+    );
+  }
+  const counted = await waitUntil(
+    async () =>
+      ((await persistedState()).cookieDeletedCounterTotal ?? 0) >=
+      VISITED_HOSTS.length * SHOP_COOKIE_COUNT,
+    60000,
+    1000
+  );
+  if (!counted) {
+    throw new Error(
+      `cleanups not counted: ${(await persistedState()).cookieDeletedCounterTotal}`
+    );
+  }
+  const restored = (await probe(session, {
+    kind: "updateSettings",
+    settings: { delayBeforeClean: 15 },
+  })) as Record<string, unknown>;
+  expect(restored).toEqual({ delayBeforeClean: 15 });
 
   // The popup reads the container's name from the background's session
   // cache, which the background fills as the container is created.
@@ -414,7 +453,9 @@ describe.each(SHOT_THEMES)("Firefox store screenshots, %s theme", (theme) => {
     const total = await session.driver
       .findElement(By.css("#statTotal"))
       .getText();
-    expect(total).toBe(String(DELETED_COOKIES));
+    const state = await persistedState();
+    expect(total).toBe(String(state.cookieDeletedCounterTotal));
+    expect(Number(total)).toBeGreaterThan(0);
     await settle();
     await save(shotFileName(shot("overview"), theme));
   }, 60000);
