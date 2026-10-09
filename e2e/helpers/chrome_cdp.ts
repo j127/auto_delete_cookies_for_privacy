@@ -134,6 +134,11 @@ export const chromeLaunchArgs = (options: ChromeLaunchOptions): string[] => [
   "--disable-background-networking",
   "--disable-component-update",
   "--disable-sync",
+  // On macOS, Chrome otherwise asks for the login keychain password to
+  // reach "Chromium Safe Storage". The throwaway profile needs no real
+  // keychain, so these keep the prompt from popping up on every run.
+  "--use-mock-keychain",
+  "--password-store=basic",
   `--host-resolver-rules=${options.hostResolverRules}`,
   `--unsafely-treat-insecure-origin-as-secure=${options.secureOrigins.join(",")}`,
   ...(options.enableFeatures?.length
