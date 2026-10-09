@@ -47,6 +47,8 @@ import {
   parseCookieStoreId,
   prepareCleanupDomains,
   prepareCookieDomain,
+  cookieRemovalUrls,
+  removeCookieAtEveryScheme,
   returnMatchedExpressionObject,
   showNotification,
   siteDataToBrowser,
@@ -1857,6 +1859,89 @@ describe("Library Functions", () => {
           secure: true,
         })
       ).toEqual("https://example.com./");
+    });
+  });
+
+  describe("cookieRemovalUrls()", () => {
+    it("adds the https:// url after the http:// one", () => {
+      expect(cookieRemovalUrls("http://www.ebay.com.au/abc")).toEqual([
+        "http://www.ebay.com.au/abc",
+        "https://www.ebay.com.au/abc",
+      ]);
+    });
+
+    it("keeps an https:// url as the only one", () => {
+      expect(cookieRemovalUrls("https://google.com/")).toEqual([
+        "https://google.com/",
+      ]);
+    });
+
+    it("keeps a file:// url as the only one", () => {
+      expect(cookieRemovalUrls("file:///home/user")).toEqual([
+        "file:///home/user",
+      ]);
+    });
+  });
+
+  describe("removeCookieAtEveryScheme()", () => {
+    const details = { name: "k", storeId: "0" };
+    beforeEach(() => {
+      global.browser.cookies.remove.mockReset();
+    });
+
+    it("removes a non-Secure cookie through http:// and then https://", async () => {
+      when(global.browser.cookies.remove)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue({ name: "k" } as never);
+      expect(
+        await removeCookieAtEveryScheme({
+          ...details,
+          url: "http://www.ebay.com.au/p",
+        })
+      ).toEqual({ name: "k" });
+      expect(global.browser.cookies.remove.mock.calls).toEqual([
+        [{ ...details, url: "http://www.ebay.com.au/p" }],
+        [{ ...details, url: "https://www.ebay.com.au/p" }],
+      ]);
+    });
+
+    it("counts a removal that only the https:// url made (scheme-bound cookies)", async () => {
+      when(global.browser.cookies.remove)
+        .calledWith(expect.objectContaining({ url: "http://a.test/" }))
+        .mockResolvedValue(null as never);
+      when(global.browser.cookies.remove)
+        .calledWith(expect.objectContaining({ url: "https://a.test/" }))
+        .mockResolvedValue({ name: "k" } as never);
+      expect(
+        await removeCookieAtEveryScheme({ ...details, url: "http://a.test/" })
+      ).toEqual({ name: "k" });
+    });
+
+    it("resolves null when neither url removed anything", async () => {
+      when(global.browser.cookies.remove)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue(null as never);
+      expect(
+        await removeCookieAtEveryScheme({ ...details, url: "http://a.test/" })
+      ).toBeNull();
+    });
+
+    it("calls a Secure cookie's https:// url once", async () => {
+      when(global.browser.cookies.remove)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue({ name: "k" } as never);
+      await removeCookieAtEveryScheme({ ...details, url: "https://a.test/" });
+      expect(global.browser.cookies.remove).toHaveBeenCalledTimes(1);
+    });
+
+    it("rejects as soon as a removal rejects", async () => {
+      when(global.browser.cookies.remove)
+        .calledWith(expect.any(Object))
+        .mockRejectedValue(new Error("bad") as never);
+      await expect(
+        removeCookieAtEveryScheme({ ...details, url: "http://a.test/" })
+      ).rejects.toThrow("bad");
+      expect(global.browser.cookies.remove).toHaveBeenCalledTimes(1);
     });
   });
 

@@ -443,7 +443,8 @@ describe("CleanupService", () => {
           storeId: "0",
           partitionKey: {},
         });
-        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(2);
+        // yahooCookie is not Secure: removed through http:// and https://.
+        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(3);
         expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
         expect(result.cachedResults.dateTime.indexOf("12:34:56")).not.toBe(-1);
         expect(result.cachedResults.recentlyCleaned).toBe(2);
@@ -475,7 +476,8 @@ describe("CleanupService", () => {
           sampleState,
           cleanupProperties
         );
-        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(2);
+        // yahooCookie is not Secure: removed through http:// and https://.
+        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(3);
         // Two cookies were marked, one removal rejected: the counter, the
         // log, and the notification set must reflect only the real removal.
         expect(result.cachedResults.recentlyCleaned).toBe(1);
@@ -499,7 +501,8 @@ describe("CleanupService", () => {
 
       it("If cleanupProperties is missing, presume Regular clean, exclude open tabs.", async () => {
         await cleanCookiesOperation(sampleState);
-        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(2);
+        // yahooCookie is not Secure: removed through http:// and https://.
+        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(3);
       });
 
       it("Browser Restart clean, exclude open tabs.", async () => {
@@ -507,7 +510,8 @@ describe("CleanupService", () => {
           ...cleanupProperties,
           greyCleanup: true,
         });
-        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(3);
+        // yahooCookie is not Secure: removed through http:// and https://.
+        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(4);
         expect(result.cachedResults.recentlyCleaned).toBe(3);
         expect(result.setOfDeletedDomainCookies).toEqual([
           "test.com",
@@ -521,7 +525,8 @@ describe("CleanupService", () => {
           greyCleanup: true,
           ignoreOpenTabs: true,
         });
-        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(5);
+        // yahooCookie is not Secure: removed through http:// and https://.
+        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(6);
         expect(result.cachedResults.recentlyCleaned).toBe(5);
         expect(result.setOfDeletedDomainCookies).toEqual([
           "test.com",
@@ -537,7 +542,8 @@ describe("CleanupService", () => {
           ...cleanupProperties,
           ignoreOpenTabs: true,
         });
-        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(3);
+        // yahooCookie is not Secure: removed through http:// and https://.
+        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(4);
         expect(result.cachedResults.recentlyCleaned).toBe(3);
         expect(result.setOfDeletedDomainCookies).toEqual([
           "test.com",
@@ -959,11 +965,18 @@ describe("CleanupService", () => {
           url: "http://localhost:8080/embed",
         })
       ).toBe(true);
-      expect(global.browser.cookies.remove).toBeCalledTimes(1);
+      // Not Secure: removed through http:// and then https://.
+      expect(global.browser.cookies.remove).toBeCalledTimes(2);
       expect(global.browser.cookies.remove).toHaveBeenCalledWith({
         name: "e2e_tracker",
         storeId: "0",
         url: "http://127.0.0.1/",
+        partitionKey: { topLevelSite: "http://localhost:8080" },
+      });
+      expect(global.browser.cookies.remove).toHaveBeenCalledWith({
+        name: "e2e_tracker",
+        storeId: "0",
+        url: "https://127.0.0.1/",
         partitionKey: { topLevelSite: "http://localhost:8080" },
       });
     });

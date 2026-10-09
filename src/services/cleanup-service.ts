@@ -30,6 +30,7 @@ import {
   isAWebpage,
   prepareCleanupScope,
   prepareCookieDomain,
+  removeCookieAtEveryScheme,
   returnMatchedExpressionObject,
   showNotification,
   siteDataToBrowser,
@@ -346,7 +347,7 @@ export const cleanCookies = async (
         },
         debug
       );
-      return browser.cookies.remove(cookieRemove);
+      return removeCookieAtEveryScheme(cookieRemove);
     })
   );
   const removed: CleanReasonObject[] = [];
@@ -418,7 +419,7 @@ export const clearCookiesForThisDomain = async (
   if (cookies.length > 0) {
     let cookieDeletedCount = 0;
     for (const cookie of cookies) {
-      const r = await browser.cookies.remove({
+      const r = await removeCookieAtEveryScheme({
         name: cookie.name,
         storeId: cookie.storeId,
         url: prepareCookieDomain(cookie),

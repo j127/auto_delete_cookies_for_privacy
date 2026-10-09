@@ -837,6 +837,36 @@ export const prepareCookieDomain = (cookie: browser.cookies.Cookie): string => {
 };
 
 /**
+ * The urls cookies.remove is called with for a cookie whose removal url
+ * prepareCookieDomain built. A cookie without the Secure attribute that an
+ * https page set gets the http:// url, and where Chromium binds cookies to
+ * the scheme that set them (scheme-bound cookies, #464 on Edge), that url
+ * no longer matches: the removal quietly does nothing. So such cookies are
+ * also removed through https://. The http:// url stays first, so a
+ * cookie set over plain http goes the way it always did.
+ */
+export const cookieRemovalUrls = (preparedUrl: string): string[] =>
+  preparedUrl.startsWith("http://")
+    ? [preparedUrl, `https://${preparedUrl.slice("http://".length)}`]
+    : [preparedUrl];
+
+/**
+ * cookies.remove through every url in cookieRemovalUrls(details.url), in
+ * order. Resolves with the first non-null result, or null when no call
+ * removed anything; rejects as soon as a call rejects.
+ */
+export const removeCookieAtEveryScheme = async (
+  details: Parameters<typeof browser.cookies.remove>[0]
+): Promise<Awaited<ReturnType<typeof browser.cookies.remove>>> => {
+  let removed: Awaited<ReturnType<typeof browser.cookies.remove>> = null;
+  for (const url of cookieRemovalUrls(details.url)) {
+    const result = await browser.cookies.remove({ ...details, url });
+    removed = removed ?? result;
+  }
+  return removed;
+};
+
+/**
  * Returns the first available matched expression.
  * wrapper for getMatchedExpressions
  *

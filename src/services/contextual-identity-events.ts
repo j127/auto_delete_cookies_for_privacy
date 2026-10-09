@@ -28,6 +28,7 @@ import {
   adcpLog,
   getSetting,
   prepareCookieDomain,
+  removeCookieAtEveryScheme,
   withAllPartitions,
   withAnyFirstPartyDomain,
 } from "./libs";
@@ -139,7 +140,7 @@ export default class ContextualIdentityEvents extends StoreUser {
       );
       await Promise.allSettled(
         cookies.map((cookie) =>
-          browser.cookies.remove({
+          removeCookieAtEveryScheme({
             name: cookie.name,
             storeId: cookie.storeId,
             url: prepareCookieDomain(cookie),
