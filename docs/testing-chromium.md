@@ -8,8 +8,9 @@ The fixture serves `www.adcp.test`, which sets its cookie on the parent domain a
 
 - `e2e/chromium/site_data.e2e.ts`, with the default site-data settings: the storage of the top-level host, of the same-site frame host (#464) and of the separate subdomain tab is empty, and the site's cookies are gone.
 - `e2e/chromium/keep_rule.e2e.ts`: with the keep rule `*.adcp.test`, added through the store bridge as the popup adds it, all three origins keep their storage and the site keeps its cookies. A second site without a rule, `www.unkept.test`, closes last; its cookies and storage must be gone, which shows the cleanup ran.
+- `e2e/chromium/late_cookie.e2e.ts`: a cookie that a site sets right after its cleanup is cleaned too. Its `/late` page sets the site cookie and sends a keepalive request to `/held`, which the fixture holds. The spec closes the tab, waits for the cleanup, then releases the held response, which sets a cookie on the parent domain with no tab of the site open. A second cleanup must remove it, as with the `.ebay.com.au` cookies that came back within ~5 s of a 1 s-delay cleanup.
 
-These are the Chromium end-state counterparts of rows 13 and 21 of the [Firefox test matrix](testing-firefox.md). Gecko leaves storage on port-carrying origins such as `localhost:PORT` alone, so the Firefox rows can only assert the cleanup log. Here `--host-resolver-rules` maps the fixture hostnames to the local server, so the origins carry no port and Chrome really clears them.
+The first two are the Chromium end-state counterparts of rows 13 and 21 of the [Firefox test matrix](testing-firefox.md). Gecko leaves storage on port-carrying origins such as `localhost:PORT` alone, so the Firefox rows can only assert the cleanup log. Here `--host-resolver-rules` maps the fixture hostnames to the local server, so the origins carry no port and Chrome really clears them.
 
 ## How it works
 

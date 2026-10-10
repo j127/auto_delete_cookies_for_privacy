@@ -16,6 +16,7 @@ import {
   ChromiumFixture,
   fixtureHostResolverRules,
   fixtureOrigins,
+  LATE_COOKIE,
   OTHER_SITE_HOSTS,
   SITE_COOKIE,
   SITE_HOSTS,
@@ -122,6 +123,37 @@ describe("Chromium fixture", () => {
     expect(plain.type).toMatch(/^text\/plain/);
     expect(plain.body).toBe(`${SITE_HOSTS.tab}\n`);
     expect(plain.cookie).toEqual([]);
+  });
+
+  it("serves a page that sets the site cookie and sends a keepalive request to /held", async () => {
+    const page = await get(SITE_HOSTS.page, "/late");
+    expect(page.cookie).toEqual([
+      `${SITE_COOKIE}=1; Domain=adcp.test; Path=/; Max-Age=86400`,
+    ]);
+    expect(page.body).toContain(
+      `fetch("/held", { method: "POST", keepalive: true })`
+    );
+    expect(page.body).toContain(`document.title = "ready"`);
+  });
+
+  it("holds /held until releaseHeld(), then sets the late cookie on the parent domain", async () => {
+    let answered = false;
+    const reply = get(SITE_HOSTS.page, "/held").then((r) => {
+      answered = true;
+      return r;
+    });
+    while (fixture.heldCount() === 0) {
+      await new Promise((done) => setTimeout(done, 10));
+    }
+    await new Promise((done) => setTimeout(done, 50));
+    expect(answered).toBe(false);
+    fixture.releaseHeld();
+    const held = await reply;
+    expect(fixture.heldCount()).toBe(0);
+    expect(held.status).toBe(204);
+    expect(held.cookie).toEqual([
+      `${LATE_COOKIE}=1; Domain=adcp.test; Path=/; Max-Age=86400`,
+    ]);
   });
 
   it("answers 404 elsewhere", async () => {
