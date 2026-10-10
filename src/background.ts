@@ -41,6 +41,7 @@ import {
 import ContextualIdentityEvents from "./services/contextual-identity-events";
 import PermissionService from "./services/permission-service";
 import PrivateWindowEvents from "./services/private-window-events";
+import RecentCleanup from "./services/recent-cleanup";
 import StoreUser from "./services/store-user";
 import TabEvents from "./services/tab-events";
 import { ReduxConstants } from "./typings/redux-constants";
@@ -94,9 +95,11 @@ const init = async (): Promise<AppStore> => {
 
   store.dispatch(validateSettings());
 
-  // Rehydrate the per-session tab->domain cache and re-arm any pending
-  // delayed cleanup that was scheduled before the worker was suspended.
+  // Rehydrate the per-session tab->domain cache and the recently cleaned
+  // sites (RecentCleanup), and re-arm any pending delayed cleanup that was
+  // scheduled before the worker was suspended.
   await TabEvents.hydrateFromSession();
+  await RecentCleanup.hydrateFromSession();
   await AlarmEvents.recoverPendingCleanup();
 
   // Container name/color cache (Firefox only; inert on Chrome). Runs on
@@ -269,6 +272,8 @@ browser.cookies.onChanged.addListener(async (changeInfo) => {
   if (cookiePopupPorts.length > 0) {
     await onCookiePopupUpdates(changeInfo);
   }
+  // Last: it waits for a running cleanup to finish.
+  await CookieEvents.rescheduleCleanupForLateCookie(changeInfo);
 });
 
 browser.runtime.onConnect.addListener(async (port) => {

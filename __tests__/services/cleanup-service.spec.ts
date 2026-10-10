@@ -38,6 +38,7 @@ import {
 } from "@/services/cleanup-service";
 
 import * as Lib from "@/services/libs";
+import RecentCleanup from "@/services/recent-cleanup";
 
 // This dynamically generates the spies for all functions in Libs
 const spyLib: JestSpyObject = global.generateSpies(Lib);
@@ -451,6 +452,48 @@ describe("CleanupService", () => {
           "test.com",
           "yahoo.com",
         ]);
+      });
+
+      it("reports the main domains it removed cookies from, the marker included", async () => {
+        const spyFinished = jest.spyOn(RecentCleanup, "cleanupFinished");
+        when(global.browser.cookies.getAll)
+          .calledWith({ storeId: "0", partitionKey: {} })
+          .mockResolvedValue([
+            mockCookie,
+            youtubeCookie, // whitelist: kept
+            openTabCookie, // open tab: kept
+            {
+              ...mockCookie,
+              domain: "www.marker.com",
+              name: Lib.ADCPCOOKIENAME,
+            },
+          ] as never);
+        try {
+          await cleanCookiesOperation(sampleState, cleanupProperties);
+          expect(spyFinished).toHaveBeenCalledTimes(1);
+          expect(Array.from(spyFinished.mock.calls[0][0])).toEqual([
+            "test.com",
+            "marker.com",
+          ]);
+        } finally {
+          spyFinished.mockRestore();
+        }
+      });
+
+      it("ends its RecentCleanup run even when the cleanup throws", async () => {
+        const spyFinished = jest.spyOn(RecentCleanup, "cleanupFinished");
+        global.browser.cookies.getAllCookieStores.mockRejectedValueOnce(
+          new Error("boom")
+        );
+        try {
+          await expect(
+            cleanCookiesOperation(sampleState, cleanupProperties)
+          ).rejects.toThrow("boom");
+          expect(spyFinished).toHaveBeenCalledTimes(1);
+          await expect(RecentCleanup.settled()).resolves.toBeUndefined();
+        } finally {
+          spyFinished.mockRestore();
+        }
       });
 
       // Chrome rejects unknown cookies.* keys, so no call may ever carry

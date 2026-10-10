@@ -13,9 +13,19 @@
 
 import { when } from "jest-when";
 
+import { resetSettings, updateSetting } from "@/redux/actions";
+import { initialState } from "@/redux/state";
+import createStore from "@/redux/store";
+import AlarmEvents from "@/services/alarm-events";
 import CookieEvents from "@/services/cookie-events";
 import * as Lib from "@/services/libs";
+import RecentCleanup from "@/services/recent-cleanup";
+import StoreUser from "@/services/store-user";
 import TabEvents from "@/services/tab-events";
+import { SettingID } from "@/typings/enums";
+
+const store = createStore(initialState);
+StoreUser.init(store);
 
 const spyLib: JestSpyObject = global.generateSpies(Lib);
 
@@ -103,6 +113,149 @@ describe("CookieEvents", () => {
         cause: "overwrite",
       });
       expect(spyLib.getHostname).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("rescheduleCleanupForLateCookie()", () => {
+    const ebayCookie: browser.cookies.Cookie = {
+      ...defaultCookie,
+      domain: ".ebay.com.au",
+      name: "nonsession",
+    };
+    const added = (cookie = ebayCookie) => ({
+      removed: false,
+      cookie,
+      cause: "explicit" as browser.cookies.OnChangedCause,
+    });
+    const openTabs = (tabs: Partial<browser.tabs.Tab>[]) =>
+      when(global.browser.tabs.query)
+        .calledWith({ windowType: "normal" })
+        .mockResolvedValue(tabs as never);
+    const markCleaned = (domain: string) => {
+      RecentCleanup.noteTabDomainLeft(domain);
+      RecentCleanup.cleanupStarted();
+      RecentCleanup.cleanupFinished([domain]);
+    };
+    let spyAlarm: ReturnType<typeof jest.spyOn>;
+
+    beforeEach(() => {
+      RecentCleanup.reset();
+      store.dispatch(
+        updateSetting({ name: SettingID.ACTIVE_MODE, value: true })
+      );
+      spyAlarm = jest
+        .spyOn(AlarmEvents, "createActiveModeAlarm")
+        .mockResolvedValue(undefined);
+      openTabs([{ ...defaultTab, url: "https://example.com" }]);
+      markCleaned("ebay.com.au");
+    });
+
+    afterEach(() => {
+      spyAlarm.mockRestore();
+      store.dispatch(resetSettings());
+    });
+
+    it("schedules a cleanup when a recently cleaned site with no open tab sets a cookie", async () => {
+      await CookieEvents.rescheduleCleanupForLateCookie(added());
+      expect(spyAlarm).toHaveBeenCalledTimes(1);
+    });
+
+    it("counts the ADCP marker cookie like any other", async () => {
+      await CookieEvents.rescheduleCleanupForLateCookie(
+        added({
+          ...ebayCookie,
+          domain: "www.ebay.com.au",
+          name: Lib.ADCPCOOKIENAME,
+        })
+      );
+      expect(spyAlarm).toHaveBeenCalledTimes(1);
+    });
+
+    it("ignores removals", async () => {
+      await CookieEvents.rescheduleCleanupForLateCookie({
+        ...added(),
+        removed: true,
+      });
+      expect(spyAlarm).not.toHaveBeenCalled();
+    });
+
+    it("ignores the overwrite half of a cookie update", async () => {
+      await CookieEvents.rescheduleCleanupForLateCookie({
+        ...added(),
+        cause: "overwrite",
+      });
+      expect(spyAlarm).not.toHaveBeenCalled();
+    });
+
+    it("does nothing when active mode is off", async () => {
+      store.dispatch(
+        updateSetting({ name: SettingID.ACTIVE_MODE, value: false })
+      );
+      await CookieEvents.rescheduleCleanupForLateCookie(added());
+      expect(spyAlarm).not.toHaveBeenCalled();
+    });
+
+    it("ignores a site that was not recently cleaned", async () => {
+      await CookieEvents.rescheduleCleanupForLateCookie(
+        added({ ...defaultCookie, domain: ".doubleclick.net" })
+      );
+      expect(spyAlarm).not.toHaveBeenCalled();
+    });
+
+    it("ignores a recently cleaned site once its window has passed", async () => {
+      const now = Date.now();
+      const spyNow = jest
+        .spyOn(Date, "now")
+        .mockReturnValue(now + RecentCleanup.WINDOW_MS + 1);
+      try {
+        await CookieEvents.rescheduleCleanupForLateCookie(added());
+      } finally {
+        spyNow.mockRestore();
+      }
+      expect(spyAlarm).not.toHaveBeenCalled();
+    });
+
+    it("ignores the site while a tab in the cookie's store shows it", async () => {
+      openTabs([{ ...defaultTab, url: "https://www.ebay.com.au/itm/1" }]);
+      await CookieEvents.rescheduleCleanupForLateCookie(added());
+      expect(spyAlarm).not.toHaveBeenCalled();
+    });
+
+    it("still schedules when only a private tab shows the site", async () => {
+      // Chrome tabs carry no cookieStoreId; incognito puts this one in "1".
+      openTabs([
+        {
+          ...defaultTab,
+          cookieStoreId: undefined,
+          incognito: true,
+          url: "https://www.ebay.com.au",
+        },
+      ]);
+      await CookieEvents.rescheduleCleanupForLateCookie(added());
+      expect(spyAlarm).toHaveBeenCalledTimes(1);
+    });
+
+    it("weighs a partitioned cookie by its top-level site", async () => {
+      await CookieEvents.rescheduleCleanupForLateCookie(
+        added({
+          ...defaultCookie,
+          domain: ".tracker.example",
+          partitionKey: { topLevelSite: "https://ebay.com.au" },
+        })
+      );
+      expect(spyAlarm).toHaveBeenCalledTimes(1);
+    });
+
+    it("waits for a running cleanup before deciding", async () => {
+      RecentCleanup.reset();
+      RecentCleanup.noteTabDomainLeft("ebay.com.au");
+      RecentCleanup.cleanupStarted();
+      const pending = CookieEvents.rescheduleCleanupForLateCookie(added());
+      await Promise.resolve();
+      expect(spyAlarm).not.toHaveBeenCalled();
+      RecentCleanup.cleanupFinished(["ebay.com.au"]);
+      await pending;
+      expect(spyAlarm).toHaveBeenCalledTimes(1);
     });
   });
 });
