@@ -65,6 +65,26 @@ describe("chromeLaunchArgs", () => {
     expect(chromeLaunchArgs(LAUNCH)).not.toContain("--no-sandbox");
   });
 
+  it("never asks for the macOS login keychain", () => {
+    const args = chromeLaunchArgs(LAUNCH);
+    expect(args).toContain("--use-mock-keychain");
+    expect(args).toContain("--password-store=basic");
+  });
+
+  it("switches Chrome features on only when asked", () => {
+    expect(
+      chromeLaunchArgs(LAUNCH).some((a) => a.startsWith("--enable-features"))
+    ).toBe(false);
+    expect(
+      chromeLaunchArgs({
+        ...LAUNCH,
+        enableFeatures: ["EnableSchemeBoundCookies", "EnablePortBoundCookies"],
+      })
+    ).toContain(
+      "--enable-features=EnableSchemeBoundCookies,EnablePortBoundCookies"
+    );
+  });
+
   it("opens a blank page last, after every switch", () => {
     expect(chromeLaunchArgs(LAUNCH).at(-1)).toBe("about:blank");
   });

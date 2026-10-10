@@ -36,15 +36,19 @@ export interface ChromiumRun {
 /**
  * The fixture plus a Chrome session with automatic cleaning on, a 1s
  * delay and the cleanup log on. Nothing else changes: every site-data
- * setting keeps its default.
+ * setting keeps its default. enableFeatures switches Chrome features on
+ * for the run (chromeLaunchArgs).
  */
-export const startChromiumRun = async (): Promise<ChromiumRun> => {
+export const startChromiumRun = async ({
+  enableFeatures,
+}: { enableFeatures?: string[] } = {}): Promise<ChromiumRun> => {
   const fixture = await startChromiumFixture();
   let session: ChromeSession;
   try {
     session = await launchChrome({
       hostResolverRules: fixtureHostResolverRules(fixture.port),
       secureOrigins: fixtureOrigins(),
+      enableFeatures,
     });
   } catch (error) {
     await fixture.stop();

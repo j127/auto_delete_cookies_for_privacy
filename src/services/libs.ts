@@ -837,6 +837,109 @@ export const prepareCookieDomain = (cookie: browser.cookies.Cookie): string => {
 };
 
 /**
+ * The urls cookies.remove is called with for a cookie whose removal url
+ * prepareCookieDomain built. A cookie without the Secure attribute that an
+ * https page set gets the http:// url, and where Chromium binds cookies to
+ * the scheme that set them (scheme-bound cookies, #464 on Edge), that url
+ * no longer matches: the removal quietly does nothing. So such cookies may
+ * also need the https:// url. The http:// url stays first.
+ *
+ * Port-bound cookies (Chromium's EnablePortBoundCookies) set from a
+ * non-default port still match neither url: cookies carry no port, so
+ * prepareCookieDomain cannot add one.
+ */
+export const cookieRemovalUrls = (preparedUrl: string): string[] =>
+  preparedUrl.startsWith("http://")
+    ? [preparedUrl, `https://${preparedUrl.slice("http://".length)}`]
+    : [preparedUrl];
+
+type CookieRemoveDetails = Parameters<typeof browser.cookies.remove>[0];
+type CookieRemoveResult = Awaited<ReturnType<typeof browser.cookies.remove>>;
+
+/**
+ * Whether the exact cookie (name, domain, path, host-only flag, store,
+ * partition and first-party domain) is still in the store. A failed
+ * lookup counts as gone.
+ */
+/**
+ * A partitionKey as one comparable string. An absent key and {} both mean
+ * unpartitioned.
+ */
+const partitionKeyId = (
+  key: { topLevelSite?: string; hasCrossSiteAncestor?: boolean } | undefined
+): string =>
+  key?.topLevelSite === undefined
+    ? ""
+    : `${key.topLevelSite}|${key.hasCrossSiteAncestor ?? ""}`;
+
+const cookieStillStored = async (
+  details: CookieRemoveDetails,
+  cookie: Pick<browser.cookies.Cookie, "domain" | "path"> & {
+    hostOnly?: boolean;
+  }
+): Promise<boolean> => {
+  try {
+    const query = {
+      domain: trimDot(cookie.domain),
+      name: details.name,
+      path: cookie.path,
+      storeId: details.storeId,
+      ...(details.partitionKey !== undefined && {
+        partitionKey: details.partitionKey,
+      }),
+    };
+    const found =
+      (await browser.cookies.getAll(
+        details.firstPartyDomain !== undefined
+          ? { ...query, firstPartyDomain: details.firstPartyDomain }
+          : withAnyFirstPartyDomain(query)
+      )) ?? [];
+    return found.some(
+      (c) =>
+        c.name === details.name &&
+        c.domain === cookie.domain &&
+        c.path === cookie.path &&
+        (cookie.hostOnly === undefined || c.hostOnly === cookie.hostOnly) &&
+        partitionKeyId(c.partitionKey) === partitionKeyId(details.partitionKey)
+    );
+  } catch {
+    return false;
+  }
+};
+
+/**
+ * Removes one cookie through cookieRemovalUrls(details.url), in order. The
+ * https:// url is only tried while the exact cookie is still stored after
+ * the http:// one: cookies.remove matches by url and name, not one cookie
+ * (Chrome removes every same-name cookie the url would be sent, a parent
+ * domain's included), so an unconditional https:// call could take a
+ * Secure same-name cookie a keep rule protects. Firefox and Chromium
+ * without scheme-bound cookies therefore never make the second call. With
+ * scheme-bound cookies on, that call can still take a same-name cookie the
+ * https:// url is sent; cookies.remove offers nothing narrower.
+ * Resolves with the first non-null result, or null when no call removed
+ * anything; rejects as soon as a call rejects.
+ */
+export const removeCookieAtEveryScheme = async (
+  details: CookieRemoveDetails,
+  cookie: Pick<browser.cookies.Cookie, "domain" | "path"> & {
+    hostOnly?: boolean;
+  }
+): Promise<CookieRemoveResult> => {
+  const [first, ...rest] = cookieRemovalUrls(details.url);
+  let removed: CookieRemoveResult = await browser.cookies.remove({
+    ...details,
+    url: first,
+  });
+  for (const url of rest) {
+    if (!(await cookieStillStored(details, cookie))) break;
+    const result = await browser.cookies.remove({ ...details, url });
+    removed = removed ?? result;
+  }
+  return removed;
+};
+
+/**
  * Returns the first available matched expression.
  * wrapper for getMatchedExpressions
  *

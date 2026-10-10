@@ -108,6 +108,11 @@ export interface ChromeLaunchOptions {
   secureOrigins: string[];
   /** Show the browser window instead of running headless. */
   headed?: boolean;
+  /**
+   * Chrome features to switch on, e.g. EnableSchemeBoundCookies, which
+   * Edge can run with while Chrome for Testing leaves it off (#464).
+   */
+  enableFeatures?: string[];
 }
 
 /**
@@ -129,8 +134,16 @@ export const chromeLaunchArgs = (options: ChromeLaunchOptions): string[] => [
   "--disable-background-networking",
   "--disable-component-update",
   "--disable-sync",
+  // On macOS, Chrome otherwise asks for the login keychain password to
+  // reach "Chromium Safe Storage". The throwaway profile needs no real
+  // keychain, so these keep the prompt from popping up on every run.
+  "--use-mock-keychain",
+  "--password-store=basic",
   `--host-resolver-rules=${options.hostResolverRules}`,
   `--unsafely-treat-insecure-origin-as-secure=${options.secureOrigins.join(",")}`,
+  ...(options.enableFeatures?.length
+    ? [`--enable-features=${options.enableFeatures.join(",")}`]
+    : []),
   ...(options.headed ? [] : ["--headless"]),
   "about:blank",
 ];
@@ -337,9 +350,10 @@ export const chromeExtensionDir = (): string => resolve("extension");
 export const launchChrome = async ({
   hostResolverRules,
   secureOrigins,
+  enableFeatures,
 }: Pick<
   ChromeLaunchOptions,
-  "hostResolverRules" | "secureOrigins"
+  "hostResolverRules" | "secureOrigins" | "enableFeatures"
 >): Promise<ChromeSession> => {
   const extensionDir = chromeExtensionDir();
   if (!existsSync(join(extensionDir, "bundles", "background.js"))) {
@@ -356,6 +370,7 @@ export const launchChrome = async ({
       profileDir,
       hostResolverRules,
       secureOrigins,
+      enableFeatures,
       headed: process.env.E2E_HEADED === "1",
     }),
     { stdio: ["ignore", "ignore", "pipe"] }
