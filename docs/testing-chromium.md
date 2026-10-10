@@ -8,6 +8,7 @@ The fixture serves `www.adcp.test`, which sets its cookie on the parent domain a
 
 - `e2e/chromium/site_data.e2e.ts`, with the default site-data settings: the storage of the top-level host, of the same-site frame host (#464) and of the separate subdomain tab is empty, and the site's cookies are gone.
 - `e2e/chromium/keep_rule.e2e.ts`: with the keep rule `*.adcp.test`, added through the store bridge as the popup adds it, all three origins keep their storage and the site keeps its cookies. A second site without a rule, `www.unkept.test`, closes last; its cookies and storage must be gone, which shows the cleanup ran.
+- `e2e/chromium/removal_count.e2e.ts`, with Chrome's `EnableSchemeBoundCookies` feature on: the probe sets cookies on `bound.scheme.test` over https without the Secure flag, an http twin of one of them and a plain http cookie, then `www.unkept.test` opens and closes to start a cleanup. `chrome.cookies.remove` resolves even when it matched nothing, so the cleanup reads each store again after removing; the cookies its log entry lists, and its count, must be exactly the ones that went (#464).
 
 These are the Chromium end-state counterparts of rows 13 and 21 of the [Firefox test matrix](testing-firefox.md). Gecko leaves storage on port-carrying origins such as `localhost:PORT` alone, so the Firefox rows can only assert the cleanup log. Here `--host-resolver-rules` maps the fixture hostnames to the local server, so the origins carry no port and Chrome really clears them.
 

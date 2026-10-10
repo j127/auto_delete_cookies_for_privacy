@@ -58,6 +58,29 @@ describe("chromeLaunchArgs", () => {
     );
   });
 
+  it("never asks for the macOS login keychain", () => {
+    const args = chromeLaunchArgs(LAUNCH);
+    expect(args).toContain("--use-mock-keychain");
+    expect(args).toContain("--password-store=basic");
+  });
+
+  it("switches on the features asked for, and none by default", () => {
+    expect(
+      chromeLaunchArgs({
+        ...LAUNCH,
+        enableFeatures: ["EnableSchemeBoundCookies", "Other"],
+      })
+    ).toContain("--enable-features=EnableSchemeBoundCookies,Other");
+    expect(
+      chromeLaunchArgs(LAUNCH).some((a) => a.startsWith("--enable-features"))
+    ).toBe(false);
+    expect(
+      chromeLaunchArgs({ ...LAUNCH, enableFeatures: [] }).some((a) =>
+        a.startsWith("--enable-features")
+      )
+    ).toBe(false);
+  });
+
   it("keeps Chrome's sandbox on", () => {
     // CI lifts the AppArmor restriction that would otherwise make Chrome
     // abort on Ubuntu (.github/workflows/ci.yml), so the suite tests the
