@@ -161,6 +161,56 @@ describe("ContextualIdentityEvents on Firefox", () => {
     );
   });
 
+  it("removes a non-Secure cookie of the removed container through http://, checking it is gone", async () => {
+    store.dispatch(
+      updateSetting({
+        name: SettingID.CONTEXTUAL_IDENTITIES_AUTOREMOVE,
+        value: true,
+      })
+    );
+    const plainCookie: browser.cookies.Cookie = {
+      domain: "plain.example",
+      firstPartyDomain: "",
+      hostOnly: true,
+      httpOnly: false,
+      name: "plain",
+      path: "/",
+      sameSite: "no_restriction",
+      secure: false,
+      session: false,
+      storeId: "firefox-container-7",
+      value: "x",
+    };
+    when(global.browser.cookies.getAll)
+      .calledWith({
+        storeId: "firefox-container-7",
+        firstPartyDomain: null,
+        partitionKey: {},
+      })
+      .mockResolvedValue([plainCookie] as never);
+
+    await ContextualIdentityEvents.init();
+    await ContextualIdentityEvents.onRemoved({
+      contextualIdentity: workContainer,
+    });
+
+    expect(global.browser.cookies.remove).toHaveBeenCalledTimes(1);
+    expect(global.browser.cookies.remove).toHaveBeenCalledWith({
+      name: "plain",
+      storeId: "firefox-container-7",
+      url: "http://plain.example/",
+      firstPartyDomain: "",
+    });
+    // The exact-cookie lookup that decides whether https:// is needed.
+    expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
+      domain: "plain.example",
+      name: "plain",
+      path: "/",
+      storeId: "firefox-container-7",
+      firstPartyDomain: "",
+    });
+  });
+
   it("leaves the removed container's cookies and list alone with autoremove off", async () => {
     store.dispatch({
       payload: {
