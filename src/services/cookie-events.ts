@@ -11,7 +11,14 @@
  * SOFTWARE.
  */
 
-import { extractMainDomain, getHostname } from "./libs";
+import { SettingID } from "@/typings/enums";
+import AlarmEvents from "./alarm-events";
+import {
+  prepareCookie,
+  returnContainersOfOpenTabDomains,
+} from "./cleanup-service";
+import { adcpLog, extractMainDomain, getHostname, getSetting } from "./libs";
+import RecentCleanup from "./recent-cleanup";
 import StoreUser from "./store-user";
 import TabEvents from "./tab-events";
 
@@ -40,5 +47,48 @@ export default class CookieEvents extends StoreUser {
         TabEvents.onTabUpdate(tab.id, { cookieChanged: changeInfo }, tab);
       }
     });
+  }
+
+  /**
+   * Schedules the active-mode cleanup again when a site sets a cookie right
+   * after a cleanup emptied it and no tab shows it any more: responses to
+   * requests still in flight when its tab closed (see RecentCleanup).
+   *
+   * The ADCP marker cookie counts like any other. It is only set while a
+   * page or same-site frame of its host loads, so with the site still open
+   * the open-tab check below stops it, and without one the page that just
+   * loaded may have written storage that only another cleanup removes.
+   */
+  public static async rescheduleCleanupForLateCookie(changeInfo: {
+    removed: boolean;
+    cookie: browser.cookies.Cookie;
+    cause: browser.cookies.OnChangedCause;
+  }): Promise<void> {
+    const { cause, cookie, removed } = changeInfo;
+    // An overwrite reports the replaced cookie as removed, then the new one
+    // as added with cause "explicit"; only that second event counts.
+    if (removed || cause === "overwrite") return;
+    if (!getSetting(StoreUser.store.getState(), SettingID.ACTIVE_MODE)) {
+      return;
+    }
+    await RecentCleanup.settled();
+    // The same main domain cleanup weighs the cookie by: a partitioned
+    // cookie belongs to its partition's top-level site.
+    const { mainDomain } = prepareCookie(cookie);
+    if (!RecentCleanup.wasRecentlyCleaned(mainDomain)) return;
+    const state = StoreUser.store.getState();
+    const openTabDomains = await returnContainersOfOpenTabDomains(
+      false,
+      getSetting(state, SettingID.CLEAN_DISCARDED) as boolean
+    );
+    if (openTabDomains[cookie.storeId]?.includes(mainDomain)) return;
+    adcpLog(
+      {
+        msg: "CookieEvents.rescheduleCleanupForLateCookie:  A recently cleaned site with no open tab set a cookie.  Scheduling another cleanup.",
+        x: { mainDomain, name: cookie.name, storeId: cookie.storeId },
+      },
+      getSetting(state, SettingID.DEBUG_MODE) as boolean
+    );
+    await AlarmEvents.createActiveModeAlarm();
   }
 }

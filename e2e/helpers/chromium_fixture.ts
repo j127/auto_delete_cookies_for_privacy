@@ -28,6 +28,12 @@
  *           like a sign-in page: writes storage only.
  * - /plain  a plain-text page that writes nothing, for reading an
  *           origin's storage back.
+ * - /late   a top-level page that sets the site cookie and, as it loads,
+ *           sends a keepalive request to /held: a request still in
+ *           flight when its tab closes, like eBay's.
+ * - /held   answered only when the spec calls releaseHeld(), with a
+ *           cookie on the parent domain: the late cookie a response sets
+ *           after the cleanup that followed the tab's close.
  * (Plain node http, not Bun.serve: the e2e specs run under vitest's node
  * runtime.)
  */
@@ -62,6 +68,9 @@ export const OTHER_SITE_HOSTS = {
 /** The cookie /site sets on its parent domain. */
 export const SITE_COOKIE = "adcp_site";
 
+/** The cookie a held /held response sets once released. */
+export const LATE_COOKIE = "adcp_late";
+
 /** What each page writes; names a check can look for. */
 export const STORAGE_NAMES = {
   localStorage: "adcp-probe",
@@ -81,7 +90,17 @@ export const fixtureHostResolverRules = (port: number): string =>
 
 export interface ChromiumFixture {
   port: number;
+  /** How many /held requests wait for releaseHeld(). */
+  heldCount: () => number;
+  /** Answers every waiting /held request, each with LATE_COOKIE. */
+  releaseHeld: () => void;
   stop: () => Promise<void>;
+}
+
+/** A /held request waiting for releaseHeld(), with the site it came for. */
+interface HeldResponse {
+  res: ServerResponse;
+  site: string;
 }
 
 /** The registrable site of a fixture host: its first label dropped. */
@@ -118,7 +137,11 @@ const html = (
   res.end(`<!doctype html><meta charset="utf-8"><title>loading</title>${body}`);
 };
 
-const handle = (req: IncomingMessage, res: ServerResponse): void => {
+const handle = (
+  req: IncomingMessage,
+  res: ServerResponse,
+  held: HeldResponse[]
+): void => {
   const host = (req.headers.host ?? "").replace(/:\d+$/, "");
   const { pathname } = new URL(req.url ?? "/", "http://fixture");
   switch (pathname) {
@@ -165,6 +188,28 @@ const handle = (req: IncomingMessage, res: ServerResponse): void => {
          </script>`
       );
       return;
+    case "/late": {
+      const site = siteOf(host);
+      html(
+        res,
+        // keepalive lets the request outlive the page, as browsers do for
+        // beacons and unload-time fetches.
+        `<h1>${host}</h1>
+         <script>
+           fetch("/held", { method: "POST", keepalive: true }).catch(() => {});
+           document.title = "ready";
+         </script>`,
+        {
+          "set-cookie": `${SITE_COOKIE}=1; Domain=${site}; Path=/; Max-Age=86400`,
+        }
+      );
+      return;
+    }
+    case "/held":
+      // Drain the (empty) body so the request counts as fully received.
+      req.resume();
+      held.push({ res, site: siteOf(host) });
+      return;
     case "/plain":
       res.writeHead(200, { "content-type": "text/plain; charset=utf-8" });
       res.end(`${host}\n`);
@@ -177,11 +222,21 @@ const handle = (req: IncomingMessage, res: ServerResponse): void => {
 
 export const startChromiumFixture = (): Promise<ChromiumFixture> =>
   new Promise((resolve) => {
-    const server = createServer(handle);
+    const held: HeldResponse[] = [];
+    const server = createServer((req, res) => handle(req, res, held));
     server.listen(0, "127.0.0.1", () => {
       const { port } = server.address() as AddressInfo;
       resolve({
         port,
+        heldCount: () => held.length,
+        releaseHeld: () => {
+          for (const { res, site } of held.splice(0)) {
+            res.writeHead(204, {
+              "set-cookie": `${LATE_COOKIE}=1; Domain=${site}; Path=/; Max-Age=86400`,
+            });
+            res.end();
+          }
+        },
         stop: () =>
           new Promise<void>((done) => {
             server.close(() => done());

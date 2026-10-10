@@ -110,7 +110,7 @@ export interface ChromeLaunchOptions {
   headed?: boolean;
   /**
    * Chrome features to switch on, e.g. EnableSchemeBoundCookies, which
-   * keys a cookie by the scheme that set it (#464).
+   * Edge can run with while Chrome for Testing leaves it off (#464).
    */
   enableFeatures?: string[];
 }

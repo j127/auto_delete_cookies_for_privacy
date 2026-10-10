@@ -36,7 +36,8 @@ export interface ChromiumRun {
 /**
  * The fixture plus a Chrome session with automatic cleaning on, a 1s
  * delay and the cleanup log on. Nothing else changes: every site-data
- * setting keeps its default. enableFeatures switches Chrome features on.
+ * setting keeps its default. enableFeatures switches Chrome features on
+ * for the run (chromeLaunchArgs).
  */
 export const startChromiumRun = async ({
   enableFeatures,
