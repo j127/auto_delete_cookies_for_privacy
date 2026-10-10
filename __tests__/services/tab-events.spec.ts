@@ -22,6 +22,7 @@ import { ReduxConstants } from "@/typings/redux-constants";
 import AlarmEvents from "@/services/alarm-events";
 import * as BrowserActionService from "@/services/browser-action-service";
 import * as Lib from "@/services/libs";
+import RecentCleanup from "@/services/recent-cleanup";
 import TabEvents from "@/services/tab-events";
 import StoreUser from "@/services/store-user";
 
@@ -30,6 +31,7 @@ const spyBrowserActions: JestSpyObject =
   global.generateSpies(BrowserActionService);
 const spyLib: JestSpyObject = global.generateSpies(Lib);
 const spyTabEvents: JestSpyObject = global.generateSpies(TabEvents);
+const spyNoteTabDomainLeft = jest.spyOn(RecentCleanup, "noteTabDomainLeft");
 
 jest.useFakeTimers();
 
@@ -720,6 +722,7 @@ describe("TabEvents", () => {
       });
       expect(TestTabEvents.getTabToDomain()[0]).toBe("example.com");
       expect(spyTabEvents.cleanFromTabEvents).not.toHaveBeenCalled();
+      expect(spyNoteTabDomainLeft).not.toHaveBeenCalled();
     });
 
     it("should not trigger clean if cleanOnDomainChange was not enabled", () => {
@@ -731,6 +734,8 @@ describe("TabEvents", () => {
       });
       expect(TestTabEvents.getTabToDomain()[0]).toBe("domain.cad");
       expect(spyTabEvents.cleanFromTabEvents).not.toHaveBeenCalled();
+      // The site the tab left, for rescheduling on late cookies.
+      expect(spyNoteTabDomainLeft).toHaveBeenCalledWith("example.com");
     });
 
     it("should trigger clean if mainDomain was changed and domainChangeCleanup is enabled", () => {
@@ -794,6 +799,7 @@ describe("TabEvents", () => {
         isWindowClosing: false,
       });
       expect(TestTabEvents.getTabToDomain()[0]).toBe(undefined);
+      expect(spyNoteTabDomainLeft).toHaveBeenCalledWith("example.com");
     });
   });
 

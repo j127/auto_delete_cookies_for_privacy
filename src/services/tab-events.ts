@@ -33,6 +33,7 @@ import {
   uid,
   withAnyFirstPartyDomain,
 } from "./libs";
+import RecentCleanup from "./recent-cleanup";
 import StoreUser from "./store-user";
 
 /** Whether url is a web page the browser can store site data for. */
@@ -167,6 +168,7 @@ export default class TabEvents extends StoreUser {
         const oldMainDomain = TabEvents.tabToDomain[tabId];
         TabEvents.tabToDomain[tabId] = mainDomain;
         TabEvents.persistTabToDomain();
+        RecentCleanup.noteTabDomainLeft(oldMainDomain);
         if (
           getSetting(StoreUser.store.getState(), SettingID.CLEAN_DOMAIN_CHANGE)
         ) {
@@ -235,6 +237,7 @@ export default class TabEvents extends StoreUser {
       },
       getSetting(StoreUser.store.getState(), SettingID.DEBUG_MODE) as boolean
     );
+    RecentCleanup.noteTabDomainLeft(TabEvents.tabToDomain[tabId]);
     delete TabEvents.tabToDomain[tabId];
     TabEvents.persistTabToDomain();
   }

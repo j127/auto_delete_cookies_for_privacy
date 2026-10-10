@@ -46,6 +46,7 @@ import {
   withAllPartitions,
   withAnyFirstPartyDomain,
 } from "./libs";
+import RecentCleanup from "./recent-cleanup";
 
 /** Prepare a cookie for deletion */
 export const prepareCookie = (
@@ -971,6 +972,26 @@ export const cleanCookiesOperation = async (
     ignoreOpenTabs: false,
   }
 ): Promise<Record<string, any>> => {
+  // Main domains this cleanup removed cookies from, so a site that sets a
+  // cookie again right after its cleanup gets another one (RecentCleanup).
+  const cleanedMainDomains = new Set<string>();
+  RecentCleanup.cleanupStarted();
+  try {
+    return await cleanCookiesInAllStores(
+      state,
+      cleanupProperties,
+      cleanedMainDomains
+    );
+  } finally {
+    RecentCleanup.cleanupFinished(cleanedMainDomains);
+  }
+};
+
+const cleanCookiesInAllStores = async (
+  state: State,
+  cleanupProperties: CleanupProperties,
+  cleanedMainDomains: Set<string>
+): Promise<Record<string, any>> => {
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
   const deletedSiteDataArrays: ActivityLog["browsingDataCleanup"] = {};
   const setOfDeletedDomainCookies = new Set<string>();
@@ -1142,6 +1163,11 @@ export const cleanCookiesOperation = async (
         );
       }
     }
+
+    // The marker counts too: its removal is what cleans the site's storage.
+    cleanResult.removed.forEach((obj) => {
+      cleanedMainDomains.add(obj.cookie.mainDomain);
+    });
 
     // Only cookies that were really removed count toward the log, the
     // counters, and the notification — a failed cookies.remove used to be
