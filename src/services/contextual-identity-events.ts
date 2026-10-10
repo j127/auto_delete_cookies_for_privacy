@@ -140,17 +140,20 @@ export default class ContextualIdentityEvents extends StoreUser {
       );
       await Promise.allSettled(
         cookies.map((cookie) =>
-          removeCookieAtEveryScheme({
-            name: cookie.name,
-            storeId: cookie.storeId,
-            url: prepareCookieDomain(cookie),
-            ...(cookie.firstPartyDomain !== undefined && {
-              firstPartyDomain: cookie.firstPartyDomain,
-            }),
-            ...(cookie.partitionKey !== undefined && {
-              partitionKey: cookie.partitionKey,
-            }),
-          })
+          removeCookieAtEveryScheme(
+            {
+              name: cookie.name,
+              storeId: cookie.storeId,
+              url: prepareCookieDomain(cookie),
+              ...(cookie.firstPartyDomain !== undefined && {
+                firstPartyDomain: cookie.firstPartyDomain,
+              }),
+              ...(cookie.partitionKey !== undefined && {
+                partitionKey: cookie.partitionKey,
+              }),
+            },
+            cookie
+          )
         )
       );
       adcpLog(
