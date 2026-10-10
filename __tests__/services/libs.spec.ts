@@ -1925,6 +1925,42 @@ describe("Library Functions", () => {
       expect(global.browser.cookies.remove).toHaveBeenCalledTimes(1);
     });
 
+    it.each([
+      ["the host-only flag", { hostOnly: false }],
+      [
+        "the partition",
+        { partitionKey: { topLevelSite: "https://site.test" } },
+      ],
+      ["the path", { path: "/other" }],
+    ])(
+      "skips https:// when only %s differs from the stored cookie",
+      async (_label, difference) => {
+        when(global.browser.cookies.getAll)
+          .calledWith(expect.any(Object))
+          .mockResolvedValue([{ ...stored, ...difference }] as never);
+        await removeCookieAtEveryScheme(
+          { ...details, url: "http://www.example.com/" },
+          target
+        );
+        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(1);
+      }
+    );
+
+    it("tries https:// for a partitioned cookie still stored in its own partition", async () => {
+      const partitionKey = {
+        topLevelSite: "https://site.test",
+        hasCrossSiteAncestor: true,
+      };
+      when(global.browser.cookies.getAll)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([{ ...stored, partitionKey }] as never);
+      await removeCookieAtEveryScheme(
+        { ...details, url: "http://www.example.com/", partitionKey },
+        target
+      );
+      expect(global.browser.cookies.remove).toHaveBeenCalledTimes(2);
+    });
+
     it("tries https:// while the exact cookie is still stored (scheme-bound cookies)", async () => {
       when(global.browser.cookies.getAll)
         .calledWith(expect.any(Object))

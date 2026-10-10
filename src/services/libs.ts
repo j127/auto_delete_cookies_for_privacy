@@ -861,6 +861,17 @@ type CookieRemoveResult = Awaited<ReturnType<typeof browser.cookies.remove>>;
  * partition and first-party domain) is still in the store. A failed
  * lookup counts as gone.
  */
+/**
+ * A partitionKey as one comparable string. An absent key and {} both mean
+ * unpartitioned.
+ */
+const partitionKeyId = (
+  key: { topLevelSite?: string; hasCrossSiteAncestor?: boolean } | undefined
+): string =>
+  key?.topLevelSite === undefined
+    ? ""
+    : `${key.topLevelSite}|${key.hasCrossSiteAncestor ?? ""}`;
+
 const cookieStillStored = async (
   details: CookieRemoveDetails,
   cookie: Pick<browser.cookies.Cookie, "domain" | "path"> & {
@@ -888,7 +899,8 @@ const cookieStillStored = async (
         c.name === details.name &&
         c.domain === cookie.domain &&
         c.path === cookie.path &&
-        (cookie.hostOnly === undefined || c.hostOnly === cookie.hostOnly)
+        (cookie.hostOnly === undefined || c.hostOnly === cookie.hostOnly) &&
+        partitionKeyId(c.partitionKey) === partitionKeyId(details.partitionKey)
     );
   } catch {
     return false;
