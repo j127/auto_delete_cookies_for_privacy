@@ -98,13 +98,20 @@ const capture = async (): Promise<Buffer> =>
   Buffer.from(await session.driver.takeScreenshot(), "base64");
 
 /**
- * Resizes the window until a screenshot of the viewport is exactly the
- * store size: the toolbars' share of the window differs between builds.
- * The resizes and waits are logged, so a slow run shows in the job's log.
+ * Resizes the window until a screenshot of the probe tab's viewport is
+ * exactly the store size: the toolbars' share of the window differs
+ * between builds. The probe tab is brought to the front for it, since the
+ * options page the extension opens on install can have taken its place
+ * (see sizeViewportTo). The resizes are logged, so a run that had to wait
+ * shows in the job's log.
  */
 const sizeViewport = async (): Promise<void> => {
-  const window = session.driver.manage().window();
+  const { driver, probeHandle } = session;
+  const window = driver.manage().window();
   const resizes = await sizeViewportTo({
+    showTab: async () => {
+      await driver.switchTo().window(probeHandle);
+    },
     windowSize: () => window.getRect(),
     resizeWindow: async (size) => {
       await window.setRect(size);

@@ -128,21 +128,27 @@ describe("nextWindowSize", () => {
 });
 
 /**
- * A window whose toolbars take `chrome` of it. After a resize the viewport
- * keeps reporting its old size for `lagPolls` screenshots, as a real one
- * does while the resize is still on its way to the page; the first
- * `ignoredResizes` resizes do nothing at all.
+ * A window whose toolbars take `chrome` of it, with the measured tab in
+ * front or in the background. A tab in the background keeps the viewport it
+ * had when it went there, as Firefox's does. After a resize the viewport of
+ * a tab in front keeps reporting its old size for `lagPolls` screenshots;
+ * the first `ignoredResizes` resizes do nothing at all; and another tab
+ * takes the front just before each resize numbered in `stolenBeforeResize`.
  */
 const fakeWindow = ({
   window,
   chrome = { width: 0, height: 86 },
+  inFront = true,
   lagPolls = 0,
   ignoredResizes = 0,
+  stolenBeforeResize = [],
 }: {
   window: { width: number; height: number };
   chrome?: { width: number; height: number };
+  inFront?: boolean;
   lagPolls?: number;
   ignoredResizes?: number;
+  stolenBeforeResize?: number[];
 }) => {
   const viewportOf = (size: { width: number; height: number }) => ({
     width: size.width - chrome.width,
@@ -151,22 +157,34 @@ const fakeWindow = ({
   let current = window;
   let shown = viewportOf(window);
   let stalePolls = 0;
+  let front = inFront;
   const resizes: { width: number; height: number }[] = [];
   const sleeps: number[] = [];
+  const calls: string[] = [];
   return {
     resizes,
     sleeps,
+    /** "show", "resize" and "shot", in the order they were made. */
+    calls,
     sleep: async (ms: number) => {
       sleeps.push(ms);
     },
+    showTab: async () => {
+      calls.push("show");
+      front = true;
+    },
     windowSize: async () => current,
     resizeWindow: async (size: { width: number; height: number }) => {
+      calls.push("resize");
       resizes.push(size);
+      if (stolenBeforeResize.includes(resizes.length)) front = false;
       if (resizes.length <= ignoredResizes) return;
       current = size;
       stalePolls = lagPolls;
     },
     viewportSize: async () => {
+      calls.push("shot");
+      if (!front) return shown;
       if (stalePolls > 0) stalePolls--;
       else shown = viewportOf(current);
       return shown;
@@ -177,6 +195,7 @@ const fakeWindow = ({
 describe("sizeViewportTo", () => {
   // Headless Firefox's first window, as in the CI run that failed.
   const HEADLESS_WINDOW = { width: 1366, height: 768 };
+  const HEADLESS_VIEWPORT = { width: 1366, height: 682 };
   const SIZED_WINDOW = { width: 1280, height: 886 };
 
   it("leaves a window alone whose viewport already fits", async () => {
@@ -193,6 +212,42 @@ describe("sizeViewportTo", () => {
     ]);
     expect(win.resizes).toEqual([SIZED_WINDOW]);
     expect(win.sleeps).toEqual([]);
+  });
+
+  it("brings a tab in the background to the front before it measures or resizes", async () => {
+    // The options page the extension opens on install took the front.
+    const win = fakeWindow({ window: HEADLESS_WINDOW, inFront: false });
+    expect(await sizeViewportTo(win, STORE_SHOT_SIZE, win)).toEqual([
+      { window: SIZED_WINDOW, viewport: STORE_SHOT_SIZE, waitedMs: 0 },
+    ]);
+    expect(win.calls).toEqual(["show", "shot", "resize", "show", "shot"]);
+    expect(win.sleeps).toEqual([]);
+  });
+
+  it("is what a tab left in the background would fail on", async () => {
+    const win = fakeWindow({ window: HEADLESS_WINDOW, inFront: false });
+    await expect(
+      sizeViewportTo({ ...win, showTab: async () => {} }, STORE_SHOT_SIZE, {
+        sleep: win.sleep,
+        attempts: 2,
+        settleMs: 200,
+      })
+    ).rejects.toThrow(/could not size the viewport to 1280x800/);
+    // The window followed each resize; the viewport never did.
+    expect(win.resizes).toEqual([SIZED_WINDOW, { width: 1194, height: 1004 }]);
+    expect(await win.viewportSize()).toEqual(HEADLESS_VIEWPORT);
+  });
+
+  it("brings the tab back when another takes the front before the resize", async () => {
+    const win = fakeWindow({
+      window: HEADLESS_WINDOW,
+      stolenBeforeResize: [1],
+    });
+    expect(await sizeViewportTo(win, STORE_SHOT_SIZE, win)).toEqual([
+      { window: SIZED_WINDOW, viewport: STORE_SHOT_SIZE, waitedMs: 0 },
+    ]);
+    // No second resize: one worked out from the stale viewport would be wrong.
+    expect(win.resizes).toEqual([SIZED_WINDOW]);
   });
 
   it("waits for a viewport that follows the window late, without resizing again", async () => {
@@ -212,11 +267,7 @@ describe("sizeViewportTo", () => {
       settleMs: 300,
     });
     expect(tried).toEqual([
-      {
-        window: SIZED_WINDOW,
-        viewport: { width: 1366, height: 682 },
-        waitedMs: 300,
-      },
+      { window: SIZED_WINDOW, viewport: HEADLESS_VIEWPORT, waitedMs: 300 },
       { window: SIZED_WINDOW, viewport: STORE_SHOT_SIZE, waitedMs: 0 },
     ]);
     expect(win.resizes).toEqual([SIZED_WINDOW, SIZED_WINDOW]);
@@ -257,7 +308,7 @@ describe("sizeViewportTo", () => {
       `could not size the viewport to 1280x800: ${JSON.stringify(
         Array(3).fill({
           window: SIZED_WINDOW,
-          viewport: { width: 1366, height: 682 },
+          viewport: HEADLESS_VIEWPORT,
           waitedMs: 200,
         })
       )}`
