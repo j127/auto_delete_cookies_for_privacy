@@ -109,6 +109,62 @@ describe("audit regressions on the Gecko-semantics jar", () => {
     expect(jar.cookies).toHaveLength(0);
   });
 
+  // #490: with genius.com on the whitelist and its tab closed, a cleanup
+  // left the rapgenius.com cookies Total Cookie Protection stores under it.
+  describe("third-party cookies partitioned under a whitelisted site", () => {
+    const whitelist = (...expressions: string[]): State => ({
+      ...initialState,
+      lists: {
+        default: expressions.map((expression) => ({
+          expression,
+          listType: ListType.WHITE,
+          storeId: "default",
+        })),
+      },
+    });
+    const seedGenius = () => {
+      const jar = installGeckoCookieMock();
+      jar.seed(
+        fxCookie({ domain: "genius.com", name: "session" }),
+        fxCookie({
+          domain: ".rapgenius.com",
+          hostOnly: false,
+          name: "tracker",
+          partitionKey: { topLevelSite: "https://genius.com" },
+        })
+      );
+      return jar;
+    };
+
+    it("cleans them and keeps the site's own cookies", async () => {
+      const jar = seedGenius();
+      const result = await runCleanup(whitelist("*.genius.com"));
+      expect(jar.cookies.map((c) => c.name)).toEqual(["session"]);
+      expect(result.setOfDeletedDomainCookies).toEqual(["rapgenius.com"]);
+    });
+
+    it("keeps them once their own domain is whitelisted too", async () => {
+      const jar = seedGenius();
+      await runCleanup(whitelist("*.genius.com", "*.rapgenius.com"));
+      expect(jar.cookies.map((c) => c.name)).toEqual(["session", "tracker"]);
+    });
+
+    it("keeps them while the site is open in a tab", async () => {
+      const jar = seedGenius();
+      when(global.browser.tabs.query)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([
+          {
+            cookieStoreId: "firefox-default",
+            incognito: false,
+            url: "https://genius.com/Michael-sembello-maniac-lyrics",
+          },
+        ] as never);
+      await runCleanup(whitelist("*.genius.com"));
+      expect(jar.cookies.map((c) => c.name)).toEqual(["session", "tracker"]);
+    });
+  });
+
   it("bug 4: a private-window whitelist actually protects private cookies", async () => {
     const jar = installGeckoCookieMock();
     when(global.browser.extension.isAllowedIncognitoAccess)

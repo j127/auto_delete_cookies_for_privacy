@@ -2485,9 +2485,10 @@ describe("CleanupService", () => {
   });
 
   // Audit bug 2: partitioned third-party cookies (CHIPS on Chrome, TCP on
-  // Firefox). Decisions key on the PARTITION's top-level site — the site
-  // the user actually visits — while removal still targets the cookie's
-  // own domain with the exact enumerated partitionKey echoed back.
+  // Firefox). Open-tab protection keys on the PARTITION's top-level site —
+  // the site the user actually visits — while keep rules match the
+  // cookie's own domain (#490) and removal targets that domain with the
+  // exact enumerated partitionKey echoed back.
   describe("partitioned cookies (CHIPS/TCP)", () => {
     const partitionedCookie: browser.cookies.Cookie = {
       domain: "tracker.example",
@@ -2507,11 +2508,22 @@ describe("CleanupService", () => {
       ignoreOpenTabs: false,
     };
 
-    it("keys decisions on the partition's top-level site, removal on the cookie domain", () => {
+    it("keys open tabs on the partition's top-level site, rules and removal on the cookie domain", () => {
       const prepared = prepareCookie(partitionedCookie);
-      expect(prepared.hostname).toBe("shop.example");
+      expect(prepared.hostname).toBe("tracker.example");
       expect(prepared.mainDomain).toBe("shop.example");
       expect(prepared.preparedCookieDomain).toBe("https://tracker.example/");
+    });
+
+    it("keeps a subdomain cookie's own host for rules to match", () => {
+      const prepared = prepareCookie({
+        ...partitionedCookie,
+        domain: ".cdn.tracker.example",
+        hostOnly: false,
+        partitionKey: { topLevelSite: "https://www.shop.example" },
+      });
+      expect(prepared.hostname).toBe("cdn.tracker.example");
+      expect(prepared.mainDomain).toBe("shop.example");
     });
 
     it("keeps unpartitioned cookie keying unchanged", () => {
@@ -2540,26 +2552,75 @@ describe("CleanupService", () => {
       expect(afterClose.reason).toBe(ReasonClean.NoMatchedExpression);
     });
 
-    it("keeps the partition when its top-level site is whitelisted", () => {
-      const whitelistedState: State = {
-        ...initialState,
-        lists: {
-          default: [
-            {
-              expression: "shop.example",
-              listType: ListType.WHITE,
-              storeId: "default",
-            },
-          ],
-        },
-      };
+    const whitelistState = (expression: string): State => ({
+      ...initialState,
+      lists: {
+        default: [
+          {
+            expression,
+            listType: ListType.WHITE,
+            storeId: "default",
+          },
+        ],
+      },
+    });
+
+    // #490: whitelisting a site kept every third-party cookie that Total
+    // Cookie Protection stores under it.
+    it("cleans a third-party cookie when only its top-level site is whitelisted", () => {
       const prepared = prepareCookie(partitionedCookie);
-      const result = isSafeToClean(whitelistedState, prepared, {
+      const result = isSafeToClean(whitelistState("shop.example"), prepared, {
+        ...baseCleanupProperties,
+        openTabDomains: {},
+      });
+      expect(result.cleanCookie).toBe(true);
+      expect(result.reason).toBe(ReasonClean.NoMatchedExpression);
+    });
+
+    it("still protects it while the whitelisted top-level site is open", () => {
+      const prepared = prepareCookie(partitionedCookie);
+      const result = isSafeToClean(whitelistState("shop.example"), prepared, {
+        ...baseCleanupProperties,
+        openTabDomains: { "0": ["shop.example"] },
+      });
+      expect(result.cleanCookie).toBe(false);
+      expect(result.reason).toBe(ReasonKeep.OpenTabs);
+    });
+
+    it("keeps a third-party cookie when its own domain is whitelisted", () => {
+      const prepared = prepareCookie(partitionedCookie);
+      const result = isSafeToClean(
+        whitelistState("tracker.example"),
+        prepared,
+        {
+          ...baseCleanupProperties,
+          openTabDomains: {},
+        }
+      );
+      expect(result.cleanCookie).toBe(false);
+      expect(result.reason).toBe(ReasonKeep.MatchedExpression);
+    });
+
+    it("keeps a whitelisted site's own partitioned cookie (CHIPS)", () => {
+      const prepared = prepareCookie({
+        ...partitionedCookie,
+        domain: "shop.example",
+      });
+      const result = isSafeToClean(whitelistState("shop.example"), prepared, {
         ...baseCleanupProperties,
         openTabDomains: {},
       });
       expect(result.cleanCookie).toBe(false);
       expect(result.reason).toBe(ReasonKeep.MatchedExpression);
+    });
+
+    it("does not let the cookie domain's own tab protect the partition", () => {
+      const prepared = prepareCookie(partitionedCookie);
+      const result = isSafeToClean(sampleState, prepared, {
+        ...baseCleanupProperties,
+        openTabDomains: { "0": ["tracker.example"] },
+      });
+      expect(result.cleanCookie).toBe(true);
     });
 
     it("removes with the exact enumerated partitionKey passed verbatim", async () => {
