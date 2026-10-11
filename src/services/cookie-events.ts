@@ -72,7 +72,7 @@ export default class CookieEvents extends StoreUser {
       return;
     }
     await RecentCleanup.settled();
-    // The same main domain cleanup weighs the cookie by: a partitioned
+    // The same main domain cleanup checks open tabs by: a partitioned
     // cookie belongs to its partition's top-level site.
     const { mainDomain } = prepareCookie(cookie);
     if (!RecentCleanup.wasRecentlyCleaned(mainDomain)) return;

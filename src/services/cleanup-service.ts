@@ -63,13 +63,20 @@ export const prepareCookie = (
     cookieProperties.hostname = cookieProperties.preparedCookieDomain;
     cookieProperties.mainDomain = cookieProperties.preparedCookieDomain;
   } else if (cookie.partitionKey?.topLevelSite) {
-    // Partitioned cookie (TCP/CHIPS): keep/clean decisions key on the
+    // Partitioned cookie (TCP/CHIPS): open-tab protection keys on the
     // PARTITION's top-level site — that is the site the user actually
-    // visits, so its expression-list entries and its open tabs are what
-    // protect the partition's third-party cookies. The removal URL
-    // (preparedCookieDomain) still targets the cookie's own domain.
-    cookieProperties.hostname = getHostname(cookie.partitionKey.topLevelSite);
-    cookieProperties.mainDomain = extractMainDomain(cookieProperties.hostname);
+    // visits, so its open tabs are what protect the partition's
+    // third-party cookies. Expression lists match the cookie's OWN host,
+    // like every other cookie: a rule for a site keeps that site's
+    // cookies, not the third-party ones stored under it (#490). The
+    // removal URL (preparedCookieDomain) targets the cookie's own domain
+    // too.
+    cookieProperties.hostname = getHostname(
+      cookieProperties.preparedCookieDomain
+    );
+    cookieProperties.mainDomain = extractMainDomain(
+      getHostname(cookie.partitionKey.topLevelSite)
+    );
   } else {
     cookieProperties.hostname = getHostname(
       cookieProperties.preparedCookieDomain
