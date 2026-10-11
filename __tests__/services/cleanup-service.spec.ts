@@ -26,6 +26,7 @@ import {
   cleanCookiesOperation,
   cleanSiteData,
   clearCookiesForThisDomain,
+  clearCookieTypeSiteData,
   clearLocalStorageForThisDomain,
   clearSiteDataForThisDomain,
   filterSiteData,
@@ -2613,6 +2614,171 @@ describe("CleanupService", () => {
       await cleanCookies(initialState, [reasonObj]);
       const removeArg = global.browser.cookies.remove.mock.calls[0][0];
       expect(removeArg).not.toHaveProperty("partitionKey");
+    });
+  });
+});
+
+describe("clearCookieTypeSiteData() (#464)", () => {
+  const keptCookie = {
+    domain: "keep.ebay.com.au",
+    hostOnly: true,
+    name: "kept",
+    path: "/",
+    storeId: "0",
+  };
+  const removals = (): unknown[][] =>
+    global.browser.browsingData.remove.mock.calls.filter(
+      (call: unknown[]) =>
+        (call[1] as Record<string, boolean> | undefined)?.cookies === true
+    );
+  beforeEach(() => {
+    global.browser.cookies.getAll.mockReset();
+    global.browser.browsingData.remove.mockReset();
+    global.browser.cookies.getAll.mockResolvedValue([] as never);
+    global.browser.browsingData.remove.mockResolvedValue(undefined as never);
+  });
+
+  it("clears a site with no cookies left, in one call for all its hosts", async () => {
+    expect(
+      await clearCookieTypeSiteData(
+        [".ebay.com.au", "www.ebay.com.au", "signup.ebay.com.au"],
+        "0",
+        false
+      )
+    ).toEqual(["ebay.com.au"]);
+    expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+    const [[scope, types]] = global.browser.browsingData.remove.mock.calls;
+    expect(types).toEqual({ cookies: true });
+    expect(scope.origins).toEqual(
+      expect.arrayContaining([
+        "https://ebay.com.au",
+        "https://www.ebay.com.au",
+        "https://signup.ebay.com.au",
+        "http://signup.ebay.com.au",
+      ])
+    );
+  });
+
+  it("looks for cookies left on every host and partition of the site, and partitioned under it", async () => {
+    await clearCookieTypeSiteData(["www.ebay.com.au"], "0", false);
+    expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
+      domain: "ebay.com.au",
+      storeId: "0",
+      partitionKey: {},
+    });
+    expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
+      partitionKey: { topLevelSite: "https://ebay.com.au" },
+      storeId: "0",
+    });
+    expect(global.browser.cookies.getAll).toHaveBeenCalledWith({
+      partitionKey: { topLevelSite: "http://ebay.com.au" },
+      storeId: "0",
+    });
+  });
+
+  it("leaves a site alone while a kept cookie is left on any of its hosts", async () => {
+    when(global.browser.cookies.getAll)
+      .calledWith({ domain: "ebay.com.au", storeId: "0", partitionKey: {} })
+      .mockResolvedValue([keptCookie] as never);
+    expect(
+      await clearCookieTypeSiteData(["www.ebay.com.au"], "0", false)
+    ).toEqual([]);
+    expect(removals()).toEqual([]);
+  });
+
+  it("leaves a site alone while a cookie is partitioned under it", async () => {
+    when(global.browser.cookies.getAll)
+      .calledWith({
+        partitionKey: { topLevelSite: "https://ebay.com.au" },
+        storeId: "0",
+      })
+      .mockResolvedValue([
+        { ...keptCookie, domain: "tracker.example" },
+      ] as never);
+    expect(
+      await clearCookieTypeSiteData(["www.ebay.com.au"], "0", false)
+    ).toEqual([]);
+    expect(removals()).toEqual([]);
+  });
+
+  it("decides for each site on its own", async () => {
+    when(global.browser.cookies.getAll)
+      .calledWith({ domain: "ebay.com.au", storeId: "0", partitionKey: {} })
+      .mockResolvedValue([keptCookie] as never);
+    expect(
+      await clearCookieTypeSiteData(
+        ["www.ebay.com.au", "www.example.com"],
+        "0",
+        false
+      )
+    ).toEqual(["example.com"]);
+    expect(removals()).toHaveLength(1);
+  });
+
+  it("keeps going when one site's lookup fails", async () => {
+    when(global.browser.cookies.getAll)
+      .calledWith({ domain: "ebay.com.au", storeId: "0", partitionKey: {} })
+      .mockRejectedValue(new Error("lookup failed") as never);
+    expect(
+      await clearCookieTypeSiteData(
+        ["www.ebay.com.au", "www.example.com"],
+        "0",
+        false
+      )
+    ).toEqual(["example.com"]);
+  });
+
+  it("does nothing outside Chrome's regular store", async () => {
+    expect(
+      await clearCookieTypeSiteData(["www.ebay.com.au"], "1", false)
+    ).toEqual([]);
+    expect(global.browser.cookies.getAll).not.toHaveBeenCalled();
+    expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
+  });
+
+  it("does nothing without site-data domains", async () => {
+    expect(await clearCookieTypeSiteData(["", " "], "0", false)).toEqual([]);
+    expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
+  });
+
+  it("runs after a cleanup that cleaned a site's storage", async () => {
+    const ebayCookie = {
+      domain: ".ebay.com.au",
+      hostOnly: false,
+      httpOnly: false,
+      name: "s",
+      path: "/",
+      sameSite: "no_restriction",
+      secure: true,
+      session: true,
+      storeId: "0",
+      value: "x",
+    };
+    when(global.browser.extension.isAllowedIncognitoAccess)
+      .calledWith()
+      .mockResolvedValue(false as never);
+    when(global.browser.tabs.query)
+      .calledWith(expect.any(Object))
+      .mockResolvedValue([] as never);
+    when(global.browser.cookies.getAllCookieStores)
+      .calledWith()
+      .mockResolvedValue([{ id: "0" }] as never);
+    when(global.browser.cookies.getAll)
+      .calledWith({ storeId: "0", partitionKey: {} })
+      .mockResolvedValue([ebayCookie] as never);
+    global.browser.cookies.remove.mockReset();
+    when(global.browser.cookies.remove)
+      .calledWith(expect.any(Object))
+      .mockResolvedValue({} as never);
+
+    await cleanCookiesOperation(initialState, {
+      greyCleanup: false,
+      ignoreOpenTabs: false,
+    });
+
+    expect(removals()).toHaveLength(1);
+    expect(removals()[0][0]).toEqual({
+      origins: expect.arrayContaining(["https://www.ebay.com.au"]),
     });
   });
 });

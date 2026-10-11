@@ -19,6 +19,7 @@ const {
   cleanCookiesOperation,
   cleanSiteData,
   clearCookiesForThisDomain,
+  clearCookieTypeSiteData,
   otherBrowsingDataCleanup,
 } = await import("@/services/cleanup-service");
 const { getAllCookiesForDomain } = await import("@/services/libs");
@@ -501,5 +502,24 @@ describe("per-tab cookie lookups on Firefox (#474)", () => {
     expect(queriedStoreIds().every((id) => id === "firefox-private")).toBe(
       true
     );
+  });
+});
+
+describe("clearCookieTypeSiteData() on Firefox", () => {
+  it("never clears cookie-type site data: Firefox scopes by hostname and keeps no such record", async () => {
+    global.browser.cookies.getAll.mockClear();
+    global.browser.browsingData.remove.mockClear();
+    expect(
+      await clearCookieTypeSiteData(
+        ["www.ebay.com.au"],
+        "firefox-default",
+        false
+      )
+    ).toEqual([]);
+    expect(
+      await clearCookieTypeSiteData(["www.ebay.com.au"], "0", false)
+    ).toEqual([]);
+    expect(global.browser.cookies.getAll).not.toHaveBeenCalled();
+    expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
   });
 });
