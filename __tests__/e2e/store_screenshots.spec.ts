@@ -20,6 +20,7 @@ import {
   pngSize,
   SHOT_THEMES,
   shotFileName,
+  sizeViewportTo,
   STORE_SHOT_SIZE,
 } from "../../e2e/helpers/store_screenshots";
 
@@ -123,6 +124,155 @@ describe("nextWindowSize", () => {
     expect(
       nextWindowSize({ width: 1280, height: 885 }, STORE_SHOT_SIZE)
     ).toEqual({ width: 1280, height: 885 });
+  });
+});
+
+/**
+ * A window whose toolbars take `chrome` of it. After a resize the viewport
+ * keeps reporting its old size for `lagPolls` screenshots, as a real one
+ * does while the resize is still on its way to the page; the first
+ * `ignoredResizes` resizes do nothing at all.
+ */
+const fakeWindow = ({
+  window,
+  chrome = { width: 0, height: 86 },
+  lagPolls = 0,
+  ignoredResizes = 0,
+}: {
+  window: { width: number; height: number };
+  chrome?: { width: number; height: number };
+  lagPolls?: number;
+  ignoredResizes?: number;
+}) => {
+  const viewportOf = (size: { width: number; height: number }) => ({
+    width: size.width - chrome.width,
+    height: size.height - chrome.height,
+  });
+  let current = window;
+  let shown = viewportOf(window);
+  let stalePolls = 0;
+  const resizes: { width: number; height: number }[] = [];
+  const sleeps: number[] = [];
+  return {
+    resizes,
+    sleeps,
+    sleep: async (ms: number) => {
+      sleeps.push(ms);
+    },
+    windowSize: async () => current,
+    resizeWindow: async (size: { width: number; height: number }) => {
+      resizes.push(size);
+      if (resizes.length <= ignoredResizes) return;
+      current = size;
+      stalePolls = lagPolls;
+    },
+    viewportSize: async () => {
+      if (stalePolls > 0) stalePolls--;
+      else shown = viewportOf(current);
+      return shown;
+    },
+  };
+};
+
+describe("sizeViewportTo", () => {
+  // Headless Firefox's first window, as in the CI run that failed.
+  const HEADLESS_WINDOW = { width: 1366, height: 768 };
+  const SIZED_WINDOW = { width: 1280, height: 886 };
+
+  it("leaves a window alone whose viewport already fits", async () => {
+    const win = fakeWindow({ window: SIZED_WINDOW });
+    expect(await sizeViewportTo(win, STORE_SHOT_SIZE, win)).toEqual([]);
+    expect(win.resizes).toEqual([]);
+    expect(win.sleeps).toEqual([]);
+  });
+
+  it("makes room for the toolbars in one resize", async () => {
+    const win = fakeWindow({ window: HEADLESS_WINDOW });
+    expect(await sizeViewportTo(win, STORE_SHOT_SIZE, win)).toEqual([
+      { window: SIZED_WINDOW, viewport: STORE_SHOT_SIZE, waitedMs: 0 },
+    ]);
+    expect(win.resizes).toEqual([SIZED_WINDOW]);
+    expect(win.sleeps).toEqual([]);
+  });
+
+  it("waits for a viewport that follows the window late, without resizing again", async () => {
+    const win = fakeWindow({ window: HEADLESS_WINDOW, lagPolls: 7 });
+    expect(await sizeViewportTo(win, STORE_SHOT_SIZE, win)).toEqual([
+      { window: SIZED_WINDOW, viewport: STORE_SHOT_SIZE, waitedMs: 700 },
+    ]);
+    // A second resize here would be worked out from a stale screenshot.
+    expect(win.resizes).toEqual([SIZED_WINDOW]);
+    expect(win.sleeps).toEqual(Array(7).fill(100));
+  });
+
+  it("asks again when a resize did nothing", async () => {
+    const win = fakeWindow({ window: HEADLESS_WINDOW, ignoredResizes: 1 });
+    const tried = await sizeViewportTo(win, STORE_SHOT_SIZE, {
+      sleep: win.sleep,
+      settleMs: 300,
+    });
+    expect(tried).toEqual([
+      {
+        window: SIZED_WINDOW,
+        viewport: { width: 1366, height: 682 },
+        waitedMs: 300,
+      },
+      { window: SIZED_WINDOW, viewport: STORE_SHOT_SIZE, waitedMs: 0 },
+    ]);
+    expect(win.resizes).toEqual([SIZED_WINDOW, SIZED_WINDOW]);
+  });
+
+  it("measures again once the viewport has settled on another size", async () => {
+    // The first screenshot is a pixel taller than the viewport really is,
+    // so the first resize leaves the window a pixel short.
+    const win = fakeWindow({ window: HEADLESS_WINDOW });
+    const viewportSize = win.viewportSize;
+    win.viewportSize = async () => {
+      const size = await viewportSize();
+      return win.resizes.length === 0
+        ? { width: size.width, height: size.height + 1 }
+        : size;
+    };
+    const tried = await sizeViewportTo(win, STORE_SHOT_SIZE, {
+      sleep: win.sleep,
+      settleMs: 200,
+    });
+    expect(tried.map((t) => t.viewport)).toEqual([
+      { width: 1280, height: 799 },
+      STORE_SHOT_SIZE,
+    ]);
+    expect(win.resizes).toEqual([{ width: 1280, height: 885 }, SIZED_WINDOW]);
+  });
+
+  it("gives up after the last attempt, naming every resize it made", async () => {
+    const win = fakeWindow({ window: HEADLESS_WINDOW, ignoredResizes: 99 });
+    await expect(
+      sizeViewportTo(win, STORE_SHOT_SIZE, {
+        sleep: win.sleep,
+        attempts: 3,
+        settleMs: 200,
+        pollMs: 50,
+      })
+    ).rejects.toThrow(
+      `could not size the viewport to 1280x800: ${JSON.stringify(
+        Array(3).fill({
+          window: SIZED_WINDOW,
+          viewport: { width: 1366, height: 682 },
+          waitedMs: 200,
+        })
+      )}`
+    );
+    expect(win.resizes).toHaveLength(3);
+    expect(win.sleeps).toEqual(Array(12).fill(50));
+  });
+
+  it("waits five seconds a resize, four times, by default", async () => {
+    const win = fakeWindow({ window: HEADLESS_WINDOW, ignoredResizes: 99 });
+    await expect(
+      sizeViewportTo(win, STORE_SHOT_SIZE, { sleep: win.sleep })
+    ).rejects.toThrow(/could not size the viewport/);
+    expect(win.resizes).toHaveLength(4);
+    expect(win.sleeps).toEqual(Array(200).fill(100));
   });
 });
 

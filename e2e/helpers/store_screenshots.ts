@@ -100,6 +100,80 @@ export const nextWindowSize = (
   height: window.height + target.height - shot.height,
 });
 
+/** What sizeViewportTo needs of the browser window; the run passes webdriver's. */
+export interface SizedWindow {
+  /** The whole window's size, toolbars included. */
+  windowSize(): Promise<{ width: number; height: number }>;
+  resizeWindow(size: { width: number; height: number }): Promise<void>;
+  /** The size of a screenshot of the viewport. */
+  viewportSize(): Promise<{ width: number; height: number }>;
+}
+
+/** One resize sizeViewportTo made, and what the viewport did about it. */
+export interface ViewportSizingAttempt {
+  /** The window size asked for. */
+  window: { width: number; height: number };
+  /** The viewport's size when the wait ended. */
+  viewport: { width: number; height: number };
+  /** How long the viewport took to reach the target, or the whole wait. */
+  waitedMs: number;
+}
+
+const sameSize = (
+  a: { width: number; height: number },
+  b: { width: number; height: number }
+): boolean => a.width === b.width && a.height === b.height;
+
+/**
+ * Resizes the window until a screenshot of the viewport is exactly the
+ * target size, and returns the resizes it took (none when the viewport
+ * already fits).
+ *
+ * The viewport follows the window a moment after the resize call returns,
+ * so a screenshot taken straight away can still have the old size. Each
+ * resize is therefore followed by a wait, up to settleMs, for the viewport
+ * to reach the target. A window size worked out from a stale screenshot
+ * would be wrong, and four of those in a row failed the run on a busy CI
+ * runner; only when the wait runs out is the window measured again, from
+ * what is by then a settled window and viewport.
+ */
+export const sizeViewportTo = async (
+  win: SizedWindow,
+  target: { width: number; height: number } = STORE_SHOT_SIZE,
+  {
+    attempts = 4,
+    settleMs = 5000,
+    pollMs = 100,
+    sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms)),
+  }: {
+    attempts?: number;
+    settleMs?: number;
+    pollMs?: number;
+    sleep?: (ms: number) => Promise<void>;
+  } = {}
+): Promise<ViewportSizingAttempt[]> => {
+  const tried: ViewportSizingAttempt[] = [];
+  let viewport = await win.viewportSize();
+  while (!sameSize(viewport, target) && tried.length < attempts) {
+    const window = nextWindowSize(await win.windowSize(), viewport, target);
+    await win.resizeWindow(window);
+    let waitedMs = 0;
+    for (;;) {
+      viewport = await win.viewportSize();
+      if (sameSize(viewport, target) || waitedMs >= settleMs) break;
+      await sleep(pollMs);
+      waitedMs += pollMs;
+    }
+    tried.push({ window, viewport, waitedMs });
+  }
+  if (!sameSize(viewport, target)) {
+    throw new Error(
+      `could not size the viewport to ${target.width}x${target.height}: ${JSON.stringify(tried)}`
+    );
+  }
+  return tried;
+};
+
 /** The least space kept above and below the popup card. */
 export const CARD_MARGIN = 24;
 
