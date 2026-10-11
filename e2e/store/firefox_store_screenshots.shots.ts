@@ -46,12 +46,12 @@ import {
   bottomCoverTop,
   cardTop,
   FIREFOX_STORE_SHOTS,
-  nextWindowSize,
   pngSize,
   POPUP_WIDTH,
   SHOT_THEMES,
   shotFileName,
   ShotTheme,
+  sizeViewportTo,
   STORE_SHOT_SIZE,
 } from "../helpers/store_screenshots";
 
@@ -98,26 +98,28 @@ const capture = async (): Promise<Buffer> =>
   Buffer.from(await session.driver.takeScreenshot(), "base64");
 
 /**
- * Resizes the window until a screenshot of the viewport is exactly the
- * store size: the toolbars' share of the window differs between builds.
+ * Resizes the window until a screenshot of the probe tab's viewport is
+ * exactly the store size: the toolbars' share of the window differs
+ * between builds. The probe tab is brought to the front for it, since the
+ * options page the extension opens on install can have taken its place
+ * (see sizeViewportTo). The resizes are logged, so a run that had to wait
+ * shows in the job's log.
  */
 const sizeViewport = async (): Promise<void> => {
-  const window = session.driver.manage().window();
-  await window.setRect({ width: STORE_SHOT_SIZE.width, height: 900 });
-  for (let attempt = 0; attempt < 4; attempt++) {
-    const size = pngSize(await capture());
-    if (
-      size.width === STORE_SHOT_SIZE.width &&
-      size.height === STORE_SHOT_SIZE.height
-    ) {
-      return;
-    }
-    const rect = await window.getRect();
-    await window.setRect(nextWindowSize(rect, size));
-  }
-  throw new Error(
-    `could not size the viewport to ${STORE_SHOT_SIZE.width}x${STORE_SHOT_SIZE.height}: ${JSON.stringify(pngSize(await capture()))}`
-  );
+  const { driver, probeHandle } = session;
+  const window = driver.manage().window();
+  const resizes = await sizeViewportTo({
+    showTab: async () => {
+      await driver.switchTo().window(probeHandle);
+    },
+    windowSize: () => window.getRect(),
+    resizeWindow: async (size) => {
+      await window.setRect(size);
+    },
+    viewportSize: async () => pngSize(await capture()),
+  });
+  // eslint-disable-next-line no-console
+  console.log(`viewport sized: ${JSON.stringify(resizes)}`);
 };
 
 /** Saves a screenshot of the current tab, refusing any other size. */
