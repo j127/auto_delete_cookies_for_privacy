@@ -114,6 +114,33 @@ describe("cleanCookiesOperation() on Firefox", () => {
     expect(result.cachedResults.recentlyCleaned).toBe(1);
   });
 
+  // Firefox resolves cookies.remove with null when no cookie matched, so
+  // its result already tells a removal from a miss: no second read.
+  it("trusts cookies.remove and does not read a store again", async () => {
+    // The mock still lists the cookie after removing; on Chrome that would
+    // count as a miss.
+    const result = await cleanCookiesOperation(initialState, {
+      greyCleanup: false,
+      ignoreOpenTabs: false,
+    });
+    const containerReads = global.browser.cookies.getAll.mock.calls.filter(
+      (call: { storeId: string }[]) => call[0].storeId === "firefox-container-9"
+    );
+    expect(containerReads).toHaveLength(1);
+    expect(result.cachedResults.recentlyCleaned).toBe(1);
+  });
+
+  it("does not count a removal Firefox resolved null", async () => {
+    when(global.browser.cookies.remove)
+      .calledWith(expect.any(Object))
+      .mockResolvedValue(null as never);
+    const result = await cleanCookiesOperation(initialState, {
+      greyCleanup: false,
+      ignoreOpenTabs: false,
+    });
+    expect(result.cachedResults.recentlyCleaned).toBe(0);
+  });
+
   it("keeps a container cookie the default list protects while the container setting is off", async () => {
     const protectedState: State = {
       ...initialState,

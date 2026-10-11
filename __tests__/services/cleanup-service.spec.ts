@@ -28,6 +28,7 @@ import {
   clearCookiesForThisDomain,
   clearCookieTypeSiteData,
   clearLocalStorageForThisDomain,
+  cookieIdentityKey,
   clearSiteDataForThisDomain,
   filterSiteData,
   getSiteDataMarkerHosts,
@@ -262,6 +263,50 @@ const restartCleanCookie: CookiePropertiesCleanup = {
   name: "cleanOnRestart",
 };
 
+/**
+ * A Chrome-like cookie jar behind the cookies mocks. getAll lists what is
+ * left in a store, and cookies.remove resolves with its details whether or
+ * not a cookie went, as Chrome's does. A removal takes one cookie of the
+ * same store, name and partition whose own removal URL is the URL given.
+ * A `stuck` cookie never goes: Chrome cannot reach it with the URL the
+ * cleanup sends, like a scheme-bound cookie set over the other scheme
+ * (#464). Returns the live jar.
+ */
+const chromeCookieJar = (
+  cookies: browser.cookies.Cookie[],
+  stuck: browser.cookies.Cookie[] = []
+): browser.cookies.Cookie[] => {
+  const jar = [...cookies];
+  for (const storeId of new Set(jar.map((c) => c.storeId))) {
+    when(global.browser.cookies.getAll)
+      .calledWith({ storeId, partitionKey: {} })
+      .mockImplementation(async () => jar.filter((c) => c.storeId === storeId));
+  }
+  when(global.browser.cookies.remove)
+    .calledWith(expect.any(Object))
+    .mockImplementation(
+      async (details: {
+        storeId: string;
+        name: string;
+        url: string;
+        partitionKey?: unknown;
+      }) => {
+        const i = jar.findIndex(
+          (c) =>
+            !stuck.includes(c) &&
+            c.storeId === details.storeId &&
+            c.name === details.name &&
+            Lib.prepareCookieDomain(c) === details.url &&
+            JSON.stringify(c.partitionKey) ===
+              JSON.stringify(details.partitionKey)
+        );
+        if (i !== -1) jar.splice(i, 1);
+        return details;
+      }
+    );
+  return jar;
+};
+
 describe("CleanupService", () => {
   beforeEach(() => {
     when(global.browser.runtime.getManifest)
@@ -310,6 +355,11 @@ describe("CleanupService", () => {
       when(global.browser.cookies.remove)
         .calledWith(expect.any(Object))
         .mockResolvedValue({} as never);
+      // On Chrome the stores are read again after removing; an empty read
+      // means every removed cookie is gone.
+      when(global.browser.cookies.getAll)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([] as never);
     });
 
     it("should be called 5 times for cookies.remove and report all as removed", async () => {
@@ -412,22 +462,19 @@ describe("CleanupService", () => {
         // above; a leaked rejection would silently shrink the counts now
         // that failed removals are no longer reported as cleaned.
         global.browser.cookies.remove.mockReset();
-        when(global.browser.cookies.remove)
-          .calledWith(expect.any(Object))
-          .mockResolvedValue({} as never);
         when(global.browser.cookies.getAllCookieStores)
           .calledWith()
           .mockResolvedValue([{ id: "0" }] as never);
-        when(global.browser.cookies.getAll)
-          .calledWith({ storeId: "0", partitionKey: {} })
-          .mockResolvedValue([
-            mockCookie, // no list
-            googleCookie, // greylist, opentab
-            youtubeCookie, // whitelist
-            yahooCookie, // no list
-            openTabCookie, // opentab
-            githubCookie, // greylist
-          ] as never);
+        // Store "0" reads what is left in it: the cleanup counts only
+        // cookies that are gone when it reads the store again.
+        chromeCookieJar([
+          mockCookie, // no list
+          googleCookie, // greylist, opentab
+          youtubeCookie, // whitelist
+          yahooCookie, // no list
+          openTabCookie, // opentab
+          githubCookie, // greylist
+        ]);
       });
 
       it("Regular clean, exclude open tabs.", async () => {
@@ -457,18 +504,16 @@ describe("CleanupService", () => {
 
       it("reports the main domains it removed cookies from, the marker included", async () => {
         const spyFinished = jest.spyOn(RecentCleanup, "cleanupFinished");
-        when(global.browser.cookies.getAll)
-          .calledWith({ storeId: "0", partitionKey: {} })
-          .mockResolvedValue([
-            mockCookie,
-            youtubeCookie, // whitelist: kept
-            openTabCookie, // open tab: kept
-            {
-              ...mockCookie,
-              domain: "www.marker.com",
-              name: Lib.ADCPCOOKIENAME,
-            },
-          ] as never);
+        chromeCookieJar([
+          mockCookie,
+          youtubeCookie, // whitelist: kept
+          openTabCookie, // open tab: kept
+          {
+            ...mockCookie,
+            domain: "www.marker.com",
+            name: Lib.ADCPCOOKIENAME,
+          },
+        ]);
         try {
           await cleanCookiesOperation(sampleState, cleanupProperties);
           expect(spyFinished).toHaveBeenCalledTimes(1);
@@ -2486,9 +2531,10 @@ describe("CleanupService", () => {
   });
 
   // Audit bug 2: partitioned third-party cookies (CHIPS on Chrome, TCP on
-  // Firefox). Decisions key on the PARTITION's top-level site — the site
-  // the user actually visits — while removal still targets the cookie's
-  // own domain with the exact enumerated partitionKey echoed back.
+  // Firefox). Open-tab protection keys on the PARTITION's top-level site —
+  // the site the user actually visits — while keep rules match the
+  // cookie's own domain (#490) and removal targets that domain with the
+  // exact enumerated partitionKey echoed back.
   describe("partitioned cookies (CHIPS/TCP)", () => {
     const partitionedCookie: browser.cookies.Cookie = {
       domain: "tracker.example",
@@ -2508,11 +2554,22 @@ describe("CleanupService", () => {
       ignoreOpenTabs: false,
     };
 
-    it("keys decisions on the partition's top-level site, removal on the cookie domain", () => {
+    it("keys open tabs on the partition's top-level site, rules and removal on the cookie domain", () => {
       const prepared = prepareCookie(partitionedCookie);
-      expect(prepared.hostname).toBe("shop.example");
+      expect(prepared.hostname).toBe("tracker.example");
       expect(prepared.mainDomain).toBe("shop.example");
       expect(prepared.preparedCookieDomain).toBe("https://tracker.example/");
+    });
+
+    it("keeps a subdomain cookie's own host for rules to match", () => {
+      const prepared = prepareCookie({
+        ...partitionedCookie,
+        domain: ".cdn.tracker.example",
+        hostOnly: false,
+        partitionKey: { topLevelSite: "https://www.shop.example" },
+      });
+      expect(prepared.hostname).toBe("cdn.tracker.example");
+      expect(prepared.mainDomain).toBe("shop.example");
     });
 
     it("keeps unpartitioned cookie keying unchanged", () => {
@@ -2541,26 +2598,75 @@ describe("CleanupService", () => {
       expect(afterClose.reason).toBe(ReasonClean.NoMatchedExpression);
     });
 
-    it("keeps the partition when its top-level site is whitelisted", () => {
-      const whitelistedState: State = {
-        ...initialState,
-        lists: {
-          default: [
-            {
-              expression: "shop.example",
-              listType: ListType.WHITE,
-              storeId: "default",
-            },
-          ],
-        },
-      };
+    const whitelistState = (expression: string): State => ({
+      ...initialState,
+      lists: {
+        default: [
+          {
+            expression,
+            listType: ListType.WHITE,
+            storeId: "default",
+          },
+        ],
+      },
+    });
+
+    // #490: whitelisting a site kept every third-party cookie that Total
+    // Cookie Protection stores under it.
+    it("cleans a third-party cookie when only its top-level site is whitelisted", () => {
       const prepared = prepareCookie(partitionedCookie);
-      const result = isSafeToClean(whitelistedState, prepared, {
+      const result = isSafeToClean(whitelistState("shop.example"), prepared, {
+        ...baseCleanupProperties,
+        openTabDomains: {},
+      });
+      expect(result.cleanCookie).toBe(true);
+      expect(result.reason).toBe(ReasonClean.NoMatchedExpression);
+    });
+
+    it("still protects it while the whitelisted top-level site is open", () => {
+      const prepared = prepareCookie(partitionedCookie);
+      const result = isSafeToClean(whitelistState("shop.example"), prepared, {
+        ...baseCleanupProperties,
+        openTabDomains: { "0": ["shop.example"] },
+      });
+      expect(result.cleanCookie).toBe(false);
+      expect(result.reason).toBe(ReasonKeep.OpenTabs);
+    });
+
+    it("keeps a third-party cookie when its own domain is whitelisted", () => {
+      const prepared = prepareCookie(partitionedCookie);
+      const result = isSafeToClean(
+        whitelistState("tracker.example"),
+        prepared,
+        {
+          ...baseCleanupProperties,
+          openTabDomains: {},
+        }
+      );
+      expect(result.cleanCookie).toBe(false);
+      expect(result.reason).toBe(ReasonKeep.MatchedExpression);
+    });
+
+    it("keeps a whitelisted site's own partitioned cookie (CHIPS)", () => {
+      const prepared = prepareCookie({
+        ...partitionedCookie,
+        domain: "shop.example",
+      });
+      const result = isSafeToClean(whitelistState("shop.example"), prepared, {
         ...baseCleanupProperties,
         openTabDomains: {},
       });
       expect(result.cleanCookie).toBe(false);
       expect(result.reason).toBe(ReasonKeep.MatchedExpression);
+    });
+
+    it("does not let the cookie domain's own tab protect the partition", () => {
+      const prepared = prepareCookie(partitionedCookie);
+      const result = isSafeToClean(sampleState, prepared, {
+        ...baseCleanupProperties,
+        openTabDomains: { "0": ["tracker.example"] },
+      });
+      expect(result.cleanCookie).toBe(true);
     });
 
     it("removes with the exact enumerated partitionKey passed verbatim", async () => {
@@ -2614,6 +2720,252 @@ describe("CleanupService", () => {
       await cleanCookies(initialState, [reasonObj]);
       const removeArg = global.browser.cookies.remove.mock.calls[0][0];
       expect(removeArg).not.toHaveProperty("partitionKey");
+    });
+  });
+  // Chrome's cookies.remove resolves with its details even when no cookie
+  // matched, so one #464 cleanup logged 29 removals while 20 of those
+  // cookies were still there. Only cookies gone on a second read count.
+  describe("removal confirmation on Chrome", () => {
+    const cleanupProperties: CleanupProperties = {
+      greyCleanup: false,
+      ignoreOpenTabs: true,
+    };
+    const siteA: browser.cookies.Cookie = {
+      ...mockCookie,
+      domain: "a.example",
+      name: "a",
+    };
+    const siteB: browser.cookies.Cookie = {
+      ...mockCookie,
+      domain: "b.example",
+      name: "b",
+    };
+    // Scheme-bound twins: Chrome keys them apart by source scheme, which
+    // the cookies API does not show, so they look identical here.
+    const twinHttps: browser.cookies.Cookie = {
+      ...mockCookie,
+      domain: "twin.example",
+      name: "sid",
+      secure: false,
+    };
+    const twinHttp: browser.cookies.Cookie = { ...twinHttps };
+    const marked = (cookie: browser.cookies.Cookie): CleanReasonObject => ({
+      cached: false,
+      cleanCookie: true,
+      cookie: prepareCookie(cookie),
+      openTabStatus: OpenTabStatus.TabsWereIgnored,
+      reason: ReasonClean.NoMatchedExpression,
+    });
+
+    beforeEach(() => {
+      global.browser.cookies.getAll.mockReset();
+      global.browser.cookies.remove.mockReset();
+      when(global.browser.tabs.query)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([] as never);
+      when(global.browser.extension.isAllowedIncognitoAccess)
+        .calledWith()
+        .mockResolvedValue(false as never);
+      when(global.browser.cookies.getAllCookieStores)
+        .calledWith()
+        .mockResolvedValue([{ id: "0" }] as never);
+    });
+
+    it("does not count a cookie that cookies.remove missed", async () => {
+      const jar = chromeCookieJar([siteA, siteB], [siteB]);
+      const result = await cleanCookies(initialState, [
+        marked(siteA),
+        marked(siteB),
+      ]);
+      expect(global.browser.cookies.remove).toHaveBeenCalledTimes(2);
+      expect(result.removed.map((o) => o.cookie.name)).toEqual(["a"]);
+      expect(result.failedCount).toBe(1);
+      expect(result.firstError).toBeUndefined();
+      expect(jar).toEqual([siteB]);
+    });
+
+    it("reads each store once more after removing", async () => {
+      chromeCookieJar([siteA, { ...siteB, storeId: "1" }]);
+      await cleanCookies(initialState, [
+        marked(siteA),
+        marked({ ...siteB, storeId: "1" }),
+      ]);
+      expect(global.browser.cookies.getAll.mock.calls).toEqual([
+        [{ storeId: "0", partitionKey: {} }],
+        [{ storeId: "1", partitionKey: {} }],
+      ]);
+    });
+
+    it("counts one of two scheme-bound twins when only one goes", async () => {
+      chromeCookieJar([twinHttps, twinHttp], [twinHttp]);
+      const result = await cleanCookies(
+        initialState,
+        [marked(twinHttps), marked(twinHttp)],
+        [[twinHttps, twinHttp]]
+      );
+      expect(result.removed).toHaveLength(1);
+      expect(result.failedCount).toBe(1);
+    });
+
+    it("keeps what cookies.remove reported when the store cannot be read again", async () => {
+      when(global.browser.cookies.remove)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue({} as never);
+      when(global.browser.cookies.getAll)
+        .calledWith(expect.any(Object))
+        .mockRejectedValue(new Error("No cookie store found") as never);
+      const result = await cleanCookies(initialState, [marked(siteA)]);
+      expect(result.removed).toHaveLength(1);
+      expect(spyLib.adcpLog).toHaveBeenCalledWith(
+        expect.objectContaining({
+          msg: expect.stringContaining("could not read store 0 again"),
+          type: "warn",
+        }),
+        false
+      );
+    });
+
+    it("logs a cookie that is still there after removing", async () => {
+      chromeCookieJar([siteA], [siteA]);
+      await cleanCookies(initialState, [marked(siteA)]);
+      expect(spyLib.adcpLog).toHaveBeenCalledWith(
+        expect.objectContaining({
+          msg: expect.stringContaining("the cookie is still there"),
+          x: expect.objectContaining({ name: "a", domain: "a.example" }),
+        }),
+        false
+      );
+    });
+
+    it("leaves missed cookies out of the log count, the stores and the domains", async () => {
+      chromeCookieJar([siteA, siteB, twinHttps, twinHttp], [siteB, twinHttp]);
+      const result = await cleanCookiesOperation(
+        sampleState,
+        cleanupProperties
+      );
+      expect(global.browser.cookies.remove).toHaveBeenCalledTimes(4);
+      expect(result.cachedResults.recentlyCleaned).toBe(2);
+      expect(
+        result.cachedResults.storeIds["0"].map(
+          (o: CleanReasonObject) => o.cookie.domain
+        )
+      ).toEqual(["a.example", "twin.example"]);
+      expect(result.setOfDeletedDomainCookies).toEqual([
+        "a.example",
+        "twin.example",
+      ]);
+    });
+
+    it("counts a cookie a page set again before the second read as not removed", async () => {
+      const jar = chromeCookieJar([siteA]);
+      when(global.browser.cookies.remove)
+        .calledWith(expect.any(Object))
+        .mockImplementationOnce(async (details: object) => {
+          // Removed, then set again by the page straight away.
+          return details;
+        });
+      const result = await cleanCookiesOperation(
+        sampleState,
+        cleanupProperties
+      );
+      expect(jar).toEqual([siteA]);
+      expect(result.cachedResults.recentlyCleaned).toBe(0);
+      expect(result.setOfDeletedDomainCookies).toEqual([]);
+    });
+
+    describe("clearCookiesForThisDomain()", () => {
+      const tab: browser.tabs.Tab = { ...sampleTab, url: "https://a.example" };
+      const siteA2: browser.cookies.Cookie = { ...siteA, name: "a2" };
+
+      beforeEach(() => {
+        when(global.browser.i18n.getMessage)
+          .calledWith(expect.any(String))
+          .mockReturnValue("");
+        when(global.browser.i18n.getMessage)
+          .calledWith(expect.any(String), expect.any(Array))
+          .mockReturnValue("");
+        for (const topLevelSite of ["https://a.example", "http://a.example"]) {
+          when(global.browser.cookies.getAll)
+            .calledWith({ partitionKey: { topLevelSite }, storeId: "0" })
+            .mockResolvedValue([] as never);
+        }
+      });
+      const trainDomainQuery = (jar: browser.cookies.Cookie[]) =>
+        when(global.browser.cookies.getAll)
+          .calledWith({ domain: "a.example", storeId: "0", partitionKey: {} })
+          .mockImplementation(async () => [...jar]);
+
+      it("reports only the cookies that are really gone", async () => {
+        trainDomainQuery(chromeCookieJar([siteA, siteA2], [siteA2]));
+        expect(await clearCookiesForThisDomain(initialState, tab)).toBe(true);
+        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(2);
+        expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
+          "manualCleanRemoved",
+          ["1", "2"]
+        );
+      });
+
+      it("returns false when every removal missed", async () => {
+        trainDomainQuery(chromeCookieJar([siteA, siteA2], [siteA, siteA2]));
+        expect(await clearCookiesForThisDomain(initialState, tab)).toBe(false);
+        expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
+          "manualCleanRemoved",
+          ["0", "2"]
+        );
+      });
+
+      it("counts the scheme-bound twin that went although only one was listed after dedupe", async () => {
+        const twinA: browser.cookies.Cookie = { ...siteA };
+        trainDomainQuery(chromeCookieJar([siteA, twinA], [twinA]));
+        await clearCookiesForThisDomain(initialState, tab);
+        // dedupeCookies keeps one of the twins, so one removal is sent.
+        expect(global.browser.cookies.remove).toHaveBeenCalledTimes(1);
+        expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
+          "manualCleanRemoved",
+          ["1", "1"]
+        );
+      });
+    });
+  });
+
+  describe("cookieIdentityKey()", () => {
+    it("tells partitions apart by top-level site and cross-site ancestor", () => {
+      const base = { ...mockCookie, partitionKey: undefined };
+      const keys = new Set(
+        [
+          base,
+          { ...base, partitionKey: { topLevelSite: "https://a.example" } },
+          {
+            ...base,
+            partitionKey: {
+              topLevelSite: "https://a.example",
+              hasCrossSiteAncestor: true,
+            },
+          },
+          {
+            ...base,
+            partitionKey: {
+              topLevelSite: "https://a.example",
+              hasCrossSiteAncestor: false,
+            },
+          },
+          { ...base, storeId: "1" },
+          { ...base, path: "/other" },
+          { ...base, firstPartyDomain: "test.com" },
+        ].map((c) => cookieIdentityKey(c as browser.cookies.Cookie))
+      );
+      expect(keys.size).toBe(7);
+    });
+
+    it("ignores value, expiry and flags", () => {
+      expect(
+        cookieIdentityKey({
+          ...mockCookie,
+          value: "other",
+          secure: false,
+          expirationDate: 1,
+        })
+      ).toBe(cookieIdentityKey(mockCookie));
     });
   });
 });

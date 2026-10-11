@@ -49,7 +49,10 @@ interface CleanReasonObject {
 }
 
 interface CookiePropertiesCleanup extends browser.cookies.Cookie {
+  // The site whose open tabs protect the cookie: the main domain of its
+  // own host, or of its partition's top-level site when it is partitioned.
   mainDomain: string;
+  // The cookie's own host, which the expression lists are matched against.
   hostname: string;
   preparedCookieDomain: string;
 }
