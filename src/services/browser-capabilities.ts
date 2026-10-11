@@ -65,6 +65,15 @@ export interface BrowserCapabilities {
    * these keys.
    */
   extraRemovalTypes: Partial<Record<SiteDataType, ExtraRemovalType[]>>;
+  /**
+   * Whether cookies.remove tells a miss from a removal. Firefox resolves
+   * null when no cookie matched the details. Chrome resolves with the
+   * details it was given whether or not a cookie was deleted, so a silent
+   * miss (a scheme-bound cookie removed through the other scheme's URL,
+   * #464) looks like a removal there; cleanup re-reads the store to see
+   * which cookies are really gone.
+   */
+  cookieRemoveReportsMisses: boolean;
 }
 
 export const CAPABILITIES: Record<BrowserTarget, BrowserCapabilities> = {
@@ -78,6 +87,7 @@ export const CAPABILITIES: Record<BrowserTarget, BrowserCapabilities> = {
       [SiteDataType.SERVICEWORKERS]: ["cacheStorage"],
       [SiteDataType.INDEXEDDB]: ["fileSystems"],
     },
+    cookieRemoveReportsMisses: false,
   },
   firefox: {
     browsingDataScoping: "hostnames",
@@ -86,6 +96,7 @@ export const CAPABILITIES: Record<BrowserTarget, BrowserCapabilities> = {
     supportsContextualIdentities: true,
     storeIdScheme: "firefox",
     extraRemovalTypes: {},
+    cookieRemoveReportsMisses: true,
   },
 };
 

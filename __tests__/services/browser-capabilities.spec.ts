@@ -21,6 +21,7 @@ describe("CAPABILITIES", () => {
         ServiceWorkers: ["cacheStorage"],
         IndexedDB: ["fileSystems"],
       },
+      cookieRemoveReportsMisses: false,
     });
   });
 
@@ -32,6 +33,7 @@ describe("CAPABILITIES", () => {
       supportsContextualIdentities: true,
       storeIdScheme: "firefox",
       extraRemovalTypes: {},
+      cookieRemoveReportsMisses: true,
     });
   });
 });

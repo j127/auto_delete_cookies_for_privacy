@@ -313,10 +313,144 @@ export const isSafeToClean = (
   };
 };
 
+/**
+ * A cookie's identity as the cookies API shows it: store, name, domain,
+ * path, partition and first-party domain. Chrome's own key also holds the
+ * cookie's source scheme and port under scheme and port binding, which
+ * the API does not expose, so two live cookies can share this key.
+ */
+export const cookieIdentityKey = (cookie: browser.cookies.Cookie): string => {
+  const partitionKey = cookie.partitionKey as
+    { topLevelSite?: string; hasCrossSiteAncestor?: boolean } | undefined;
+  return [
+    cookie.storeId,
+    cookie.name,
+    cookie.domain,
+    cookie.path,
+    partitionKey?.topLevelSite ?? "",
+    partitionKey?.hasCrossSiteAncestor === undefined
+      ? ""
+      : String(partitionKey.hasCrossSiteAncestor),
+    cookie.firstPartyDomain ?? "",
+  ].join("|");
+};
+
+/**
+ * Counts cookies per identity key over the results of one or more
+ * cookies.getAll calls. Each call lists a cookie at most once, but two
+ * calls can list the same cookie (a site's domain query and its partition
+ * query), so a key's count is its highest count in any one list: cookies
+ * sharing a key share domain and partition, so one query that finds any of
+ * them finds them all.
+ */
+const countCookiesByKey = (
+  lists: browser.cookies.Cookie[][]
+): Map<string, number> => {
+  const counts = new Map<string, number>();
+  for (const list of lists) {
+    const inList = new Map<string, number>();
+    for (const cookie of list) {
+      const key = cookieIdentityKey(cookie);
+      inList.set(key, (inList.get(key) ?? 0) + 1);
+    }
+    for (const [key, n] of inList) {
+      counts.set(key, Math.max(counts.get(key) ?? 0, n));
+    }
+  }
+  return counts;
+};
+
+/**
+ * Keeps the removals whose cookie is really gone.
+ *
+ * Chrome's cookies.remove resolves with the details it was given even when
+ * no cookie matched, so a silent miss there looked like a removal: one
+ * #464 cleanup logged 29 cookies as removed while 20 were still present.
+ * On Chrome this reads each touched store once more and, per identity key,
+ * keeps as many removals as cookies disappeared. A cookie a page set again
+ * in between counts as not removed, since it is there. Firefox resolves
+ * null on a miss, so its result already holds and nothing is read again.
+ *
+ * @param attempted Removals whose cookies.remove resolved non-null.
+ * @param cookieOf The cookie each removal targeted.
+ * @param enumerated The cookies.getAll results the removals were picked
+ *   from, read before removing. Defaults to the targeted cookies.
+ */
+export const confirmRemovedCookies = async <T>(
+  attempted: T[],
+  cookieOf: (item: T) => browser.cookies.Cookie,
+  enumerated: browser.cookies.Cookie[][] = [attempted.map(cookieOf)],
+  debug = false
+): Promise<T[]> => {
+  if (browserCapabilities.cookieRemoveReportsMisses || attempted.length === 0)
+    return attempted;
+  const before = countCookiesByKey(enumerated);
+  const remainingLists: browser.cookies.Cookie[][] = [];
+  // A store that cannot be read again keeps what cookies.remove reported.
+  const unreadable = new Set<string>();
+  for (const storeId of new Set(attempted.map((i) => cookieOf(i).storeId))) {
+    try {
+      remainingLists.push(
+        (await browser.cookies.getAll(
+          withAllPartitions(withAnyFirstPartyDomain({ storeId }))
+        )) || []
+      );
+    } catch (e: unknown) {
+      unreadable.add(storeId);
+      adcpLog(
+        {
+          msg: `CleanupService.confirmRemovedCookies: could not read store ${storeId} again; keeping what cookies.remove reported.`,
+          type: "warn",
+          x: e instanceof Error ? e.message : e,
+        },
+        debug
+      );
+    }
+  }
+  const remaining = countCookiesByKey(remainingLists);
+  // Per key, how many of its removals can still be counted as gone.
+  const gone = new Map<string, number>();
+  return attempted.filter((item) => {
+    const cookie = cookieOf(item);
+    if (unreadable.has(cookie.storeId)) return true;
+    const key = cookieIdentityKey(cookie);
+    if (!gone.has(key)) {
+      gone.set(
+        key,
+        Math.max(0, (before.get(key) ?? 0) - (remaining.get(key) ?? 0))
+      );
+    }
+    const left = gone.get(key) as number;
+    if (left === 0) {
+      adcpLog(
+        {
+          msg: "CleanupService.confirmRemovedCookies: cookies.remove resolved but the cookie is still there:",
+          type: "warn",
+          x: {
+            name: cookie.name,
+            domain: cookie.domain,
+            path: cookie.path,
+            partitionKey: cookie.partitionKey,
+          },
+        },
+        debug
+      );
+      return false;
+    }
+    gone.set(key, left - 1);
+    return true;
+  });
+};
+
 /** Clean cookies */
 export const cleanCookies = async (
   state: State,
-  markedForDeletion: CleanReasonObject[]
+  markedForDeletion: CleanReasonObject[],
+  /**
+   * The cookies.getAll results the cookies were picked from, read before
+   * removing (see confirmRemovedCookies). Defaults to the marked cookies.
+   */
+  enumerated?: browser.cookies.Cookie[][]
 ): Promise<{
   /** The subset whose cookies.remove actually removed something. */
   removed: CleanReasonObject[];
@@ -358,15 +492,13 @@ export const cleanCookies = async (
       return removeCookieAtEveryScheme(cookieRemove, cookieProperties);
     })
   );
-  const removed: CleanReasonObject[] = [];
-  let failedCount = 0;
+  const resolved: CleanReasonObject[] = [];
   let firstError: unknown;
   results.forEach((result, i) => {
     if (result.status === "fulfilled" && result.value) {
-      removed.push(markedForDeletion[i]);
+      resolved.push(markedForDeletion[i]);
       return;
     }
-    failedCount += 1;
     if (result.status === "rejected" && firstError === undefined) {
       firstError = result.reason;
     }
@@ -385,7 +517,19 @@ export const cleanCookies = async (
       debug
     );
   });
-  return { removed, failedCount, firstError };
+  // Chrome resolves non-null on a miss too, so a non-null result is only a
+  // candidate there until the store is read again.
+  const removed = await confirmRemovedCookies(
+    resolved,
+    (obj) => obj.cookie,
+    enumerated ?? [markedForDeletion.map((obj) => obj.cookie)],
+    debug
+  );
+  return {
+    removed,
+    failedCount: markedForDeletion.length - removed.length,
+    firstError,
+  };
 };
 
 // Cleanup of all cookies for domain.
@@ -425,7 +569,7 @@ export const clearCookiesForThisDomain = async (
   ]).filter((c) => c.name !== ADCPCOOKIENAME);
 
   if (cookies.length > 0) {
-    let cookieDeletedCount = 0;
+    const resolved: browser.cookies.Cookie[] = [];
     for (const cookie of cookies) {
       const r = await removeCookieAtEveryScheme(
         {
@@ -441,8 +585,19 @@ export const clearCookiesForThisDomain = async (
         },
         cookie
       );
-      if (r) cookieDeletedCount += 1;
+      if (r) resolved.push(cookie);
     }
+    // Count only cookies that are really gone (Chrome resolves non-null on
+    // a miss too). Twins under one identity key are counted from the raw
+    // lists, since dedupeCookies keeps one of them.
+    const cookieDeletedCount = (
+      await confirmRemovedCookies(
+        resolved,
+        (cookie) => cookie,
+        [domainCookies, partitionedCookies],
+        getSetting(state, SettingID.DEBUG_MODE) as boolean
+      )
+    ).length;
     showNotification(
       {
         duration: getSetting(state, SettingID.NOTIFY_DURATION) as number,
@@ -1152,7 +1307,7 @@ const cleanCookiesInAllStores = async (
       );
     }
 
-    const cleanResult = await cleanCookies(state, markedForDeletion);
+    const cleanResult = await cleanCookies(state, markedForDeletion, [cookies]);
     if (cleanResult.firstError !== undefined) {
       // The old call here had no msg, which adcpLog silently drops.
       adcpLog(
