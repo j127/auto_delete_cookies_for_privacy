@@ -872,6 +872,88 @@ export const removeSiteData = async (
 };
 
 /** This will use the browsingData's hostname/origin attribute to delete any extra browsing data */
+/**
+ * Clears what Chromium files under the `cookies` removal type for each
+ * site whose storage this cleanup just cleaned (#464). Edge keeps a small
+ * record there per host (100 bytes on www.ebay.com.au and signup.) that
+ * is not a cookie cookies.getAll can see, so removing the cookies one by
+ * one never reaches it and the site stays listed in Edge's "All cookies
+ * and site data". Only browsingData.remove with `cookies` clears it.
+ *
+ * That removal clears cookies for the whole registrable domain, kept ones
+ * included, so it only runs for a site with no cookies left at all after
+ * the cookie cleanup: on any of its hosts, in any partition, or
+ * partitioned under it. Whatever is left was kept on purpose, and the
+ * site is skipped (its record stays). Only Chromium's regular store:
+ * Firefox scopes removals by hostname and shows no such record, and
+ * Chrome cannot clear incognito data per site. Returns the sites cleared.
+ * @param siteDataDomains The cookie domains the site-data cleanup cleaned.
+ */
+export const clearCookieTypeSiteData = async (
+  siteDataDomains: string[],
+  storeId: string,
+  debug: boolean
+): Promise<string[]> => {
+  if (browserCapabilities.browsingDataScoping !== "origins") return [];
+  if (storeId !== "0") return [];
+  const hostsBySite = new Map<string, Set<string>>();
+  for (const domain of siteDataDomains) {
+    const host = trimDot(domain.trim()).toLowerCase();
+    const site = extractMainDomain(host);
+    if (host === "" || site === "") continue;
+    const hosts = hostsBySite.get(site) ?? new Set<string>([site]);
+    hosts.add(host);
+    hostsBySite.set(site, hosts);
+  }
+  const cleared: string[] = [];
+  for (const [site, hosts] of hostsBySite) {
+    try {
+      const left = [
+        ...((await browser.cookies.getAll(
+          withAllPartitions(withAnyFirstPartyDomain({ domain: site, storeId }))
+        )) ?? []),
+      ];
+      for (const topLevelSite of topLevelSiteCandidates(site)) {
+        left.push(
+          ...((await browser.cookies.getAll(
+            withAnyFirstPartyDomain({ partitionKey: { topLevelSite }, storeId })
+          )) ?? [])
+        );
+      }
+      if (left.length > 0) {
+        adcpLog(
+          {
+            msg: `CleanupService.clearCookieTypeSiteData: ${site} still has cookies; leaving its cookie-type site data alone.`,
+            x: { cookiesLeft: left.length },
+          },
+          debug
+        );
+        continue;
+      }
+      const origins = [
+        ...new Set([...hosts].flatMap((host) => prepareCleanupScope(host))),
+      ];
+      // A cookie the site sets between the lookup and this call is the
+      // only kept cookie this could take; nothing of the site is open.
+      await browser.browsingData.remove(
+        { origins } as browser.browsingData.RemovalOptions,
+        { cookies: true }
+      );
+      cleared.push(site);
+    } catch (e: unknown) {
+      adcpLog(
+        {
+          msg: `CleanupService.clearCookieTypeSiteData: clearing ${site} failed.`,
+          type: "error",
+          x: e instanceof Error ? e.message : e,
+        },
+        debug
+      );
+    }
+  }
+  return cleared;
+};
+
 export const otherBrowsingDataCleanup = async (
   state: State,
   isSafeToCleanObjects: CleanReasonObject[],
@@ -1352,6 +1434,13 @@ const cleanCookiesInAllStores = async (
       isSafeToCleanObjects,
       openTabDomains
     );
+    if (storeResults) {
+      await clearCookieTypeSiteData(
+        Object.values(storeResults).flatMap((domains) => domains ?? []),
+        id,
+        debug
+      );
+    }
     // Don't store domains for private browsing data
     if (storesIdsToScrub.includes(id) || !storeResults) continue;
     for (const sd of SITEDATATYPES) {
