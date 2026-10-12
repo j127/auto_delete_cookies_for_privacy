@@ -1,6 +1,17 @@
 {
   "releases": [
     {
+      "version": "1.2.1",
+      "notes": [
+        "Chrome, Edge and Brave: sites no longer stay listed in Edge's \"All cookies and site data\" after a cleanup. Edge keeps a small record for each part of a site that is not a regular cookie, and the extension could not reach it; it is now cleared once a site has no cookies left. A site you keep cookies for keeps that record too, because clearing it would also delete the kept cookies.",
+        "Chrome, Edge and Brave: cookies that secure (https) pages set without the Secure flag are now deleted when the browser ties each cookie to the kind of address that set it. Before, such cookies, the extension's own hidden marker cookie included, could stay behind.",
+        "When a site sets cookies again right after its cleanup, for example from requests still finishing when its tab closed, the extension now cleans again instead of leaving them until your next visit.",
+        "A keep rule for a site no longer keeps the third-party cookies stored under it (Total Cookie Protection on Firefox, CHIPS on Chrome). Those cookies are kept only by a rule for their own site.",
+        "Chrome, Edge and Brave: the Cleanup log, the cleaned-cookie counter and the notification now count only cookies that were really deleted.",
+        "Internal: the automated Chrome suite now also checks cookies tied to secure addresses, kept cookies that share a name with deleted ones, and the removal counts. The Firefox store screenshots no longer fail on a window-sizing race, and the build and test tools were updated."
+      ]
+    },
+    {
       "version": "1.2.0",
       "notes": [
         "Firefox: the Protection page has a new Firefox containers card, where each container can be given its own keep list. It is off by default, and until you turn it on the Default list covers every container.",
