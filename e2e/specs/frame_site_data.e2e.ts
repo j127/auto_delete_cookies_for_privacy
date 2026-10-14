@@ -19,6 +19,10 @@
  * port-carrying origins alone, which real sites never are. The spec checks
  * the marker cookies and the cleanup log, which records the hosts whose
  * storage the extension asked Firefox to clear.
+ *
+ * The cross-site frame's host gets a marker as well since #504, in the
+ * partition of the page's site and never one of its own; row 22
+ * (embedded_frame_site_data.e2e.ts) covers what cleanup does with it.
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
@@ -41,6 +45,7 @@ const MARKER = "ADCPBrowsingDataCleanup";
 interface ProbeCookie {
   name: string;
   domain: string;
+  partitionKey?: { topLevelSite?: string } | null;
 }
 
 let session: FirefoxSession;
@@ -52,11 +57,18 @@ const cookiesFor = async (domain: string): Promise<ProbeCookie[]> =>
     details: { firstPartyDomain: null, partitionKey: {}, domain },
   })) as ProbeCookie[];
 
-/** Whether host holds a marker cookie of its own (not a subdomain's). */
-const hasMarker = async (host: string): Promise<boolean> =>
-  (await cookiesFor(host)).some(
+/** Host's own marker cookies (not a subdomain's), in any partition. */
+const markersOf = async (host: string): Promise<ProbeCookie[]> =>
+  (await cookiesFor(host)).filter(
     (c) => c.name === MARKER && c.domain.replace(/^\./, "") === host
   );
+
+/**
+ * Whether host holds an unpartitioned marker cookie of its own, the one a
+ * page or same-site frame host gets.
+ */
+const hasMarker = async (host: string): Promise<boolean> =>
+  (await markersOf(host)).some((c) => !c.partitionKey?.topLevelSite);
 
 beforeAll(async () => {
   fixture = await startFixtureServer();
@@ -83,7 +95,7 @@ afterAll(async () => {
 });
 
 describe("row 21: same-site frame site data", () => {
-  it("marks the same-site frame host, not the cross-site one, and cleans it after the tab closes", async () => {
+  it("marks the same-site frame host, the cross-site one only under the page's site, and cleans both after the tab closes", async () => {
     const page = `http://${FRAME_SITE_HOSTS.page}:${fixture.port}/site-frame`;
     const tab = await openTab(session, page);
     try {
@@ -107,8 +119,25 @@ describe("row 21: same-site frame site data", () => {
       }
       expect(frameMarked).toBe(true);
       // The cross-site frame's storage is partitioned under the page's
-      // site; it never gets a marker of its own.
+      // site; it never gets a marker of its own. Its marker sits in that
+      // partition too (#504): the one Firefox keeps the frame's own cookie
+      // in, whatever this version writes into the key (ESR 140 adds the
+      // page's port).
+      const crossSiteMarked = await waitUntil(
+        async () => (await markersOf("127.0.0.1")).length === 1,
+        15000
+      );
+      expect(crossSiteMarked).toBe(true);
       expect(await hasMarker("127.0.0.1")).toBe(false);
+      const frameCookie = (await cookiesFor("127.0.0.1")).find(
+        (c) => c.name === "e2e_tracker"
+      );
+      expect(frameCookie?.partitionKey?.topLevelSite).toMatch(
+        /^http:\/\/adcp\.test(:\d+)?$/
+      );
+      expect((await markersOf("127.0.0.1"))[0].partitionKey?.topLevelSite).toBe(
+        frameCookie?.partitionKey?.topLevelSite
+      );
     } finally {
       await closeTab(session, tab);
     }
@@ -118,6 +147,7 @@ describe("row 21: same-site frame site data", () => {
       45000
     );
     expect(markerCleaned).toBe(true);
+    expect(await markersOf("127.0.0.1")).toEqual([]);
 
     const frameWipeLogged = await waitUntil(async () => {
       const state = (await probe(session, { kind: "getState" })) as {

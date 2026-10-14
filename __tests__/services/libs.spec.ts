@@ -41,6 +41,7 @@ import {
   hasSiteDataCleanupEnabled,
   isAnIP,
   isAWebpage,
+  isInPartitionOf,
   isMarkerCookieFor,
   localFileToRegex,
   matchIPInExpression,
@@ -63,6 +64,7 @@ import {
   prepareCleanupHostnames,
   prepareCleanupScope,
   topLevelSiteCandidates,
+  topLevelSiteOf,
   validateExpressionDomain,
   withAllPartitions,
   withAnyFirstPartyDomain,
@@ -865,6 +867,143 @@ describe("Library Functions", () => {
     it("compares IPv6 hosts with or without brackets", () => {
       expect(isMarkerCookieFor({ ...marker, domain: "[::1]" }, "::1")).toBe(
         true
+      );
+    });
+
+    // #504: a host has one marker of its own and one per site that embeds
+    // it as a cross-site frame, partitioned under that site.
+    describe("partitioned markers", () => {
+      const embedded = {
+        ...marker,
+        partitionKey: { topLevelSite: "https://embedder.net" },
+      };
+
+      it("does not take a partitioned marker for the host's own", () => {
+        expect(isMarkerCookieFor(embedded, "sub.example.com")).toBe(false);
+      });
+
+      it("takes Firefox's null partitionKey as unpartitioned", () => {
+        expect(
+          isMarkerCookieFor(
+            { ...marker, partitionKey: null } as never,
+            "sub.example.com"
+          )
+        ).toBe(true);
+      });
+
+      it("matches the marker in the embedding page's partition", () => {
+        expect(
+          isMarkerCookieFor(
+            embedded,
+            "sub.example.com",
+            "https://www.embedder.net/page"
+          )
+        ).toBe(true);
+      });
+
+      it("does not match a marker in another site's partition, or the host's own", () => {
+        expect(
+          isMarkerCookieFor(embedded, "sub.example.com", "https://other.org/")
+        ).toBe(false);
+        expect(
+          isMarkerCookieFor(marker, "sub.example.com", "https://embedder.net/")
+        ).toBe(false);
+      });
+    });
+  });
+
+  describe("topLevelSiteOf()", () => {
+    it("returns the page's scheme and registrable domain", () => {
+      expect(topLevelSiteOf("https://www.reddit.com/r/videos")).toBe(
+        "https://reddit.com"
+      );
+      expect(topLevelSiteOf("http://old.sub.example.co.uk/")).toBe(
+        "http://example.co.uk"
+      );
+    });
+
+    // Firefox ESR 140 writes a non-default port into the key (#432).
+    it("keeps a port the url carries, and no default port", () => {
+      expect(topLevelSiteOf("http://localhost:8080/embed")).toBe(
+        "http://localhost:8080"
+      );
+      expect(topLevelSiteOf("https://domain.com:443/")).toBe(
+        "https://domain.com"
+      );
+    });
+
+    it("brackets an IPv6 host and leaves an IPv4 host as it is", () => {
+      expect(topLevelSiteOf("http://[::1]:8080/")).toBe("http://[::1]:8080");
+      expect(topLevelSiteOf("http://127.0.0.1/")).toBe("http://127.0.0.1");
+    });
+
+    it("returns nothing for urls that are not web pages", () => {
+      expect(topLevelSiteOf(undefined)).toBe("");
+      expect(topLevelSiteOf("not a url")).toBe("");
+      expect(topLevelSiteOf("about:blank")).toBe("");
+      expect(topLevelSiteOf("moz-extension://abc/settings.html")).toBe("");
+      expect(topLevelSiteOf("file:///tmp/page.html")).toBe("");
+    });
+  });
+
+  describe("isInPartitionOf()", () => {
+    const under = (topLevelSite: string) => ({
+      partitionKey: { topLevelSite },
+    });
+
+    it("matches by scheme and registrable domain", () => {
+      expect(
+        isInPartitionOf(under("https://reddit.com"), "https://www.reddit.com/r")
+      ).toBe(true);
+      expect(
+        isInPartitionOf(under("https://reddit.com"), "https://old.reddit.com/")
+      ).toBe(true);
+    });
+
+    it("tells schemes and sites apart", () => {
+      expect(
+        isInPartitionOf(under("http://reddit.com"), "https://www.reddit.com/")
+      ).toBe(false);
+      expect(
+        isInPartitionOf(under("https://reddit.com"), "https://example.com/")
+      ).toBe(false);
+    });
+
+    // Firefox ESR 140 keeps the port in the key; 152 and later drop it.
+    it("compares the port only when the key carries one", () => {
+      expect(
+        isInPartitionOf(under("http://localhost"), "http://localhost:8080/")
+      ).toBe(true);
+      expect(
+        isInPartitionOf(
+          under("http://localhost:8080"),
+          "http://localhost:8080/"
+        )
+      ).toBe(true);
+      expect(
+        isInPartitionOf(
+          under("http://localhost:9090"),
+          "http://localhost:8080/"
+        )
+      ).toBe(false);
+    });
+
+    it("is false for unpartitioned cookies and unparseable input", () => {
+      expect(isInPartitionOf({}, "https://reddit.com/")).toBe(false);
+      expect(isInPartitionOf({ partitionKey: {} }, "https://reddit.com/")).toBe(
+        false
+      );
+      expect(
+        isInPartitionOf({ partitionKey: null } as never, "https://reddit.com/")
+      ).toBe(false);
+      expect(isInPartitionOf(under("garbage"), "https://reddit.com/")).toBe(
+        false
+      );
+      expect(isInPartitionOf(under("https://reddit.com"), undefined)).toBe(
+        false
+      );
+      expect(isInPartitionOf(under("https://reddit.com"), "not a url")).toBe(
+        false
       );
     });
   });

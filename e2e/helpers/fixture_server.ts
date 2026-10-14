@@ -29,6 +29,15 @@
  * - /frame-storage  frame body; writes localStorage and sets no cookie,
  *                like a device-check frame whose site keeps its cookies on
  *                the parent domain
+ * - /embedder    a page embedding a CROSS-site frame, /embedded-storage
+ *                on EMBED_HOSTS.frame, and setting a cookie on its own
+ *                site. Needs the port-less EMBED_HOSTS, which reach this
+ *                server through Firefox's proxy (proxyPrefs, see
+ *                embedded_frame_site_data.e2e.ts)
+ * - /embedded-storage  frame body; notes in data-had on its body whether
+ *                its localStorage entry was already there, then writes
+ *                it. Sets no cookie, like a video player whose cookies
+ *                the browser blocks
  * - /shop        an ordinary-looking site for the store screenshots
  *                (#486): SHOP_COOKIE_COUNT cookies, two localStorage
  *                entries, an IndexedDB database and, where the page is a
@@ -41,6 +50,36 @@ export const FRAME_SITE_HOSTS = {
   page: "www.adcp.test",
   frame: "devicebind.adcp.test",
 };
+
+/**
+ * Port-less hostnames for the cross-site frame row (#504): two sites that
+ * embed the same frame host. Gecko's storage wipe matches a storage's host
+ * with its port, and cookies carry none, so only storage on port-less
+ * origins is ever cleared; proxyPrefs gets such origins to this server.
+ */
+export const EMBED_HOSTS = {
+  page: "www.adcp.test",
+  otherPage: "www.adcp-news.test",
+  frame: "player.adcp-embed.test",
+};
+
+/**
+ * Firefox prefs that send every plain-http request to the fixture server
+ * as its proxy, so any hostname reaches it on the default port. The server
+ * answers a proxy request like a direct one: it routes by path, and reads
+ * the host from the request's absolute url.
+ */
+export const proxyPrefs = (
+  port: number
+): Record<string, string | number | boolean> => ({
+  "network.proxy.type": 1,
+  "network.proxy.http": "127.0.0.1",
+  "network.proxy.http_port": port,
+  "network.proxy.no_proxies_on": "localhost, 127.0.0.1",
+  // The fixture speaks plain http; don't let HTTPS-First try TLS first.
+  "dom.security.https_first": false,
+  "dom.security.https_first_schemeless": false,
+});
 
 import { createServer, IncomingMessage, ServerResponse } from "http";
 import { AddressInfo } from "net";
@@ -144,6 +183,25 @@ const handle = (req: IncomingMessage, res: ServerResponse): void => {
       );
       return;
     }
+    case "/embedder": {
+      const site = url.hostname.replace(/^www\./, "");
+      html(
+        res,
+        `<h1>site with a cross-site frame</h1>
+         <iframe src="http://${EMBED_HOSTS.frame}/embedded-storage"></iframe>`,
+        { "set-cookie": `e2e_site=1; Domain=${site}; Path=/; Max-Age=3600` }
+      );
+      return;
+    }
+    case "/embedded-storage":
+      html(
+        res,
+        `<script>
+           document.body.dataset.had = String(localStorage.getItem("e2e_embedded_ls") !== null);
+           localStorage.setItem("e2e_embedded_ls", "1");
+         </script>`
+      );
+      return;
     case "/shop":
       // Each storage write is awaited before the title changes, so a
       // caller polling the tab title knows the inventory is complete.

@@ -957,7 +957,8 @@ export const clearCookieTypeSiteData = async (
 export const otherBrowsingDataCleanup = async (
   state: State,
   isSafeToCleanObjects: CleanReasonObject[],
-  openTabDomains: Record<string, string[]> = {}
+  openTabDomains: Record<string, string[]> = {},
+  embeddedMainDomains: ReadonlySet<string> = new Set()
 ): Promise<ActivityLog["browsingDataCleanup"]> => {
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
   const browsingDataResult: ActivityLog["browsingDataCleanup"] = {};
@@ -972,7 +973,8 @@ export const otherBrowsingDataCleanup = async (
       SiteDataType.CACHE,
       isSafeToCleanObjects,
       debug,
-      openTabDomains
+      openTabDomains,
+      embeddedMainDomains
     );
   }
   if (getSetting(state, SettingID.CLEANUP_INDEXEDDB)) {
@@ -981,7 +983,8 @@ export const otherBrowsingDataCleanup = async (
       SiteDataType.INDEXEDDB,
       isSafeToCleanObjects,
       debug,
-      openTabDomains
+      openTabDomains,
+      embeddedMainDomains
     );
   }
   if (getSetting(state, SettingID.CLEANUP_LOCALSTORAGE)) {
@@ -990,7 +993,8 @@ export const otherBrowsingDataCleanup = async (
       SiteDataType.LOCALSTORAGE,
       isSafeToCleanObjects,
       debug,
-      openTabDomains
+      openTabDomains,
+      embeddedMainDomains
     );
   }
   if (getSetting(state, SettingID.CLEANUP_PLUGINDATA)) {
@@ -999,7 +1003,8 @@ export const otherBrowsingDataCleanup = async (
       SiteDataType.PLUGINDATA,
       isSafeToCleanObjects,
       debug,
-      openTabDomains
+      openTabDomains,
+      embeddedMainDomains
     );
   }
   if (getSetting(state, SettingID.CLEANUP_SERVICEWORKERS)) {
@@ -1008,7 +1013,8 @@ export const otherBrowsingDataCleanup = async (
       SiteDataType.SERVICEWORKERS,
       isSafeToCleanObjects,
       debug,
-      openTabDomains
+      openTabDomains,
+      embeddedMainDomains
     );
   }
 
@@ -1034,12 +1040,19 @@ export const otherBrowsingDataCleanup = async (
  * any store's tab, its hostname must stay out of the removal scope.
  * (The manual per-site actions stay unguarded on purpose — an explicit
  * "clean this site now" click wins.)
+ *
+ * On Firefox a wipe is partition-blind as well: it empties the host's
+ * storage as a site of its own and inside every site that embeds it. So
+ * a domain that a still-open site embeds stays out of the scope too.
  */
 export const isDomainProtectedInAnyStore = (
   state: State,
   openTabDomains: Record<string, string[]>,
   domain: string,
-  siteData: SiteDataType
+  siteData: SiteDataType,
+  // Main domains that pages of still-open sites embed
+  // (mainDomainsEmbeddedInOpenSites).
+  embeddedMainDomains: ReadonlySet<string> = new Set()
 ): boolean => {
   const hostname = trimDot(domain.trim());
   if (hostname === "") return false;
@@ -1052,18 +1065,90 @@ export const isDomainProtectedInAnyStore = (
     const markedForCleaning = (matched.cleanSiteData ?? []).includes(siteData);
     if (!markedForCleaning) return true;
   }
-  const mainDomain = extractMainDomain(hostname);
-  return Object.values(openTabDomains).some((tabDomains) =>
-    tabDomains.includes(mainDomain)
+  return isDomainInUseInAnyStore(openTabDomains, embeddedMainDomains, domain);
+};
+
+/**
+ * The main domains of the hosts that pages of still-open sites embed as
+ * cross-site frames. Such a host has a marker cookie in the partition of
+ * the site that embeds it (TabEvents.onFrameResponse), and isSafeToClean
+ * keeps a partitioned cookie while its top-level site has an open tab.
+ * Where no marker is partitioned (Chrome, First-Party Isolation) the set
+ * is empty.
+ *
+ * Storage wipes are per host and reach every partition (and every store),
+ * so wiping youtube.com because the Reddit tab closed would also empty the
+ * YouTube player of another site that is still open (#504).
+ * @param cleanReasonObjects isSafeToClean results of every store.
+ */
+export const mainDomainsEmbeddedInOpenSites = (
+  cleanReasonObjects: CleanReasonObject[]
+): Set<string> => {
+  const embedded = new Set<string>();
+  for (const obj of cleanReasonObjects) {
+    if (
+      obj.reason === ReasonKeep.OpenTabs &&
+      obj.cookie.name === ADCPCOOKIENAME &&
+      obj.cookie.partitionKey?.topLevelSite
+    ) {
+      const mainDomain = extractMainDomain(trimDot(obj.cookie.domain.trim()));
+      if (mainDomain !== "") embedded.add(mainDomain);
+    }
+  }
+  return embedded;
+};
+
+/**
+ * Whether a domain's site is in use right now, in any store: open in a
+ * tab, or embedded as a cross-site frame by a site that is. Its storage
+ * must not be wiped then, whichever store's cookies asked for the wipe.
+ * Checked by main domain, like open tabs everywhere else: a wipe for one
+ * host also names the registrable domain and its www host
+ * (prepareCleanupHostnames).
+ */
+export const isDomainInUseInAnyStore = (
+  openTabDomains: Record<string, string[]>,
+  embeddedMainDomains: ReadonlySet<string>,
+  domain: string
+): boolean => {
+  const mainDomain = extractMainDomain(trimDot(domain.trim()));
+  if (mainDomain === "") return false;
+  return (
+    embeddedMainDomains.has(mainDomain) ||
+    Object.values(openTabDomains).some((tabDomains) =>
+      tabDomains.includes(mainDomain)
+    )
   );
 };
+
+/**
+ * Whether a marker cookie that cleanup would remove stays for now. Its
+ * removal is what puts its host's storage in a wipe, and the wipe is
+ * skipped while the host's site is in use (isDomainInUseInAnyStore).
+ * Removed anyway, nothing would ask for that storage again until the
+ * host's next visit; kept, the cleanup after the site goes out of use
+ * finds the marker and wipes then.
+ */
+export const isMarkerHeldForLaterWipe = (
+  obj: CleanReasonObject,
+  openTabDomains: Record<string, string[]>,
+  embeddedMainDomains: ReadonlySet<string>
+): boolean =>
+  obj.cleanCookie &&
+  obj.cookie.name === ADCPCOOKIENAME &&
+  isDomainInUseInAnyStore(
+    openTabDomains,
+    embeddedMainDomains,
+    obj.cookie.domain
+  );
 
 export const cleanSiteData = async (
   state: State,
   siteData: SiteDataType,
   cleanReasonObjects: CleanReasonObject[],
   debug: boolean,
-  openTabDomains: Record<string, string[]> = {}
+  openTabDomains: Record<string, string[]> = {},
+  embeddedMainDomains: ReadonlySet<string> = new Set()
 ): Promise<string[]> => {
   const domains = cleanReasonObjects
     .filter((obj) => filterSiteData(obj, siteData, debug))
@@ -1071,7 +1156,13 @@ export const cleanSiteData = async (
     .filter((domain) => domain.trim() !== "")
     .filter(
       (domain) =>
-        !isDomainProtectedInAnyStore(state, openTabDomains, domain, siteData)
+        !isDomainProtectedInAnyStore(
+          state,
+          openTabDomains,
+          domain,
+          siteData,
+          embeddedMainDomains
+        )
     );
 
   const cleanList: string[] = [];
@@ -1303,7 +1394,14 @@ const cleanCookiesInAllStores = async (
     cookieStoreIds.add(store.id);
   }
 
-  // Clean for each cookieStore jar
+  // Read and judge every cookieStore jar before anything is removed: a
+  // storage wipe reaches every store, so what the open sites of one store
+  // embed decides what may be wiped for all of them.
+  const jars: {
+    id: string;
+    cookies: browser.cookies.Cookie[];
+    isSafeToCleanObjects: CleanReasonObject[];
+  }[] = [];
   for (const id of cookieStoreIds) {
     let cookies: browser.cookies.Cookie[] = [];
     try {
@@ -1358,8 +1456,20 @@ const cleanCookiesInAllStores = async (
       );
     }
 
+    jars.push({ id, cookies, isSafeToCleanObjects });
+  }
+
+  const embeddedMainDomains = mainDomainsEmbeddedInOpenSites(
+    jars.flatMap((jar) => jar.isSafeToCleanObjects)
+  );
+
+  // Clean for each cookieStore jar
+  for (const { id, cookies, isSafeToCleanObjects } of jars) {
     const markedForDeletion = isSafeToCleanObjects.filter((obj) => {
-      const r = obj.cleanCookie && obj.cookie.hostname.trim() !== "";
+      const r =
+        obj.cleanCookie &&
+        obj.cookie.hostname.trim() !== "" &&
+        !isMarkerHeldForLaterWipe(obj, openTabDomains, embeddedMainDomains);
       adcpLog(
         {
           msg: `CleanupService.cleanCookiesOperation: Clean Cookies returned ${r} for ${obj.cookie.hostname}`,
@@ -1432,7 +1542,8 @@ const cleanCookiesInAllStores = async (
     const storeResults = await otherBrowsingDataCleanup(
       state,
       isSafeToCleanObjects,
-      openTabDomains
+      openTabDomains,
+      embeddedMainDomains
     );
     if (storeResults) {
       await clearCookieTypeSiteData(

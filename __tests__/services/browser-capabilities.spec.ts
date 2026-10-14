@@ -22,6 +22,7 @@ describe("CAPABILITIES", () => {
         IndexedDB: ["fileSystems"],
       },
       cookieRemoveReportsMisses: false,
+      storageRemovalIgnoresPartitions: false,
     });
   });
 
@@ -34,6 +35,7 @@ describe("CAPABILITIES", () => {
       storeIdScheme: "firefox",
       extraRemovalTypes: {},
       cookieRemoveReportsMisses: true,
+      storageRemovalIgnoresPartitions: true,
     });
   });
 });
