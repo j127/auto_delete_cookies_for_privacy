@@ -74,6 +74,18 @@ export interface BrowserCapabilities {
    * which cookies are really gone.
    */
   cookieRemoveReportsMisses: boolean;
+  /**
+   * Whether a browsingData storage removal only reaches the storage of the
+   * hosts it names, whatever partition that storage sits in. Firefox's
+   * `hostnames` match a storage's own host: naming the top-level site
+   * leaves the storage of its cross-site frames alone (it is kept under
+   * the frame's host, partitioned under the site), and naming a frame's
+   * host clears that host's storage in every partition and as a site of
+   * its own (issue #504). So on Firefox each cross-site frame host gets a
+   * marker cookie of its own, and cleanup has to check where else that
+   * host is in use before it wipes it.
+   */
+  storageRemovalIgnoresPartitions: boolean;
 }
 
 export const CAPABILITIES: Record<BrowserTarget, BrowserCapabilities> = {
@@ -88,6 +100,7 @@ export const CAPABILITIES: Record<BrowserTarget, BrowserCapabilities> = {
       [SiteDataType.INDEXEDDB]: ["fileSystems"],
     },
     cookieRemoveReportsMisses: false,
+    storageRemovalIgnoresPartitions: false,
   },
   firefox: {
     browsingDataScoping: "hostnames",
@@ -97,6 +110,7 @@ export const CAPABILITIES: Record<BrowserTarget, BrowserCapabilities> = {
     storeIdScheme: "firefox",
     extraRemovalTypes: {},
     cookieRemoveReportsMisses: true,
+    storageRemovalIgnoresPartitions: true,
   },
 };
 

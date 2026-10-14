@@ -244,6 +244,60 @@ export const topLevelSiteCandidates = (
   return candidates;
 };
 
+/**
+ * The partitionKey.topLevelSite of the partition that pages of topUrl's
+ * site store their cross-site frames' cookies and storage under: the
+ * page's scheme and registrable domain. A port in the url is kept, as in
+ * topLevelSiteCandidates (#432): Firefox ESR 140 writes it into the key.
+ * Firefox builds the key it stores from this value itself, so a cookie
+ * set with it lands in the partition that version keeps for the page,
+ * port or not (frame_site_data.e2e.ts compares the two). "" for a url
+ * that is not http(s).
+ */
+export const topLevelSiteOf = (topUrl: string | undefined): string => {
+  let parsed: URL;
+  try {
+    parsed = new URL(topUrl ?? "");
+  } catch {
+    return "";
+  }
+  if (parsed.protocol !== "https:" && parsed.protocol !== "http:") return "";
+  const mainDomain = extractMainDomain(getHostname(topUrl));
+  if (mainDomain === "") return "";
+  // As in topLevelSiteCandidates: an IPv6 host needs its brackets back.
+  const host = mainDomain.includes(":") ? `[${mainDomain}]` : mainDomain;
+  return `${parsed.protocol}//${host}${parsed.port === "" ? "" : `:${parsed.port}`}`;
+};
+
+/**
+ * Whether a cookie sits in the partition of topUrl's site: same scheme and
+ * registrable domain. A port only has to match when the cookie's key
+ * carries one (Firefox ESR 140, see topLevelSiteOf). An unpartitioned
+ * cookie is in no site's partition.
+ */
+export const isInPartitionOf = (
+  cookie: Pick<browser.cookies.Cookie, "partitionKey">,
+  topUrl: string | undefined
+): boolean => {
+  const key = cookie.partitionKey?.topLevelSite;
+  if (!key) return false;
+  let keyUrl: URL;
+  let top: URL;
+  try {
+    keyUrl = new URL(key);
+    top = new URL(topUrl ?? "");
+  } catch {
+    return false;
+  }
+  const keySite = extractMainDomain(getHostname(key));
+  return (
+    keySite !== "" &&
+    keyUrl.protocol === top.protocol &&
+    keySite === extractMainDomain(getHostname(topUrl)) &&
+    (keyUrl.port === "" || keyUrl.port === top.port)
+  );
+};
+
 export const getAllCookiesForDomain = async (
   state: State,
   tab: browser.tabs.Tab
@@ -450,14 +504,25 @@ const normalizeHost = (host: string): string =>
     .replace(/^\[(.*)\]$/, "$1")
     .toLowerCase();
 
-/** Whether a cookie is this extension's marker cookie for exactly host. */
+/**
+ * Whether a cookie is this extension's marker cookie for exactly host.
+ * A host has one marker as a page or same-site frame, which is
+ * unpartitioned, and one more per site that embeds it as a cross-site
+ * frame, partitioned under that site (#504). They are told apart by
+ * topUrl: omitted for the host's own marker, or the embedding page's url
+ * for the marker in that page's partition (isInPartitionOf).
+ */
 export const isMarkerCookieFor = (
-  cookie: Pick<browser.cookies.Cookie, "domain" | "name">,
-  host: string
+  cookie: Pick<browser.cookies.Cookie, "domain" | "name" | "partitionKey">,
+  host: string,
+  topUrl?: string
 ): boolean =>
   cookie.name === ADCPCOOKIENAME &&
   host !== "" &&
-  normalizeHost(cookie.domain) === normalizeHost(host);
+  normalizeHost(cookie.domain) === normalizeHost(host) &&
+  (topUrl === undefined
+    ? !cookie.partitionKey?.topLevelSite
+    : isInPartitionOf(cookie, topUrl));
 
 /**
  * Returns the explicit port of the url ("3000" for http://localhost:3000),

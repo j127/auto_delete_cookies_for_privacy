@@ -138,6 +138,43 @@ describe("TabEvents.getAllCookieActions marker cookie on Firefox", () => {
     await TabEvents.getAllCookieActions(firefoxTab);
     expect(global.browser.cookies.set).not.toHaveBeenCalled();
   });
+
+  // #504: the same host can hold a marker as a cross-site frame of another
+  // site. That one is cleaned with the embedding site, so the page still
+  // needs a marker of its own.
+  it("sets the page's own marker when its host only has one as another site's frame", async () => {
+    when(global.browser.storage.session.get)
+      .calledWith(FPI_SESSION_KEY)
+      .mockResolvedValue({ [FPI_SESSION_KEY]: false } as never);
+    when(global.browser.cookies.getAll)
+      .calledWith({
+        domain: "sub.cookie.net",
+        storeId: "firefox-default",
+        firstPartyDomain: null,
+        partitionKey: {},
+      })
+      .mockResolvedValue([
+        {
+          domain: "sub.cookie.net",
+          firstPartyDomain: "",
+          hostOnly: true,
+          httpOnly: false,
+          name: "ADCPBrowsingDataCleanup",
+          partitionKey: { topLevelSite: "https://embedder.example" },
+          path: "/x",
+          sameSite: "no_restriction",
+          secure: false,
+          session: false,
+          storeId: "firefox-default",
+          value: "ADCPBrowsingDataCleanup",
+        },
+      ] as never);
+    await TabEvents.getAllCookieActions(firefoxTab);
+    expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
+    expect(global.browser.cookies.set.mock.calls[0][0]).not.toHaveProperty(
+      "partitionKey"
+    );
+  });
 });
 
 describe("TabEvents.onFrameResponse on Firefox", () => {
@@ -156,12 +193,19 @@ describe("TabEvents.onFrameResponse on Firefox", () => {
     ...extra,
   });
 
+  const setFpi = (on: boolean) =>
+    when(global.browser.storage.session.get)
+      .calledWith(FPI_SESSION_KEY)
+      .mockResolvedValue({ [FPI_SESSION_KEY]: on } as never);
+
   beforeEach(() => {
     store.dispatch({ type: ReduxConstants.RESET_SETTINGS });
     global.browser.cookies.getAll.mockResolvedValue([] as never);
     when(global.browser.cookies.set)
       .calledWith(expect.any(Object))
       .mockResolvedValue({} as never);
+    // jest-when trainings outlive a test; every case starts with FPI off.
+    setFpi(false);
   });
 
   it("checks the frame against its top-level ancestor, in the request's store", async () => {
@@ -182,25 +226,129 @@ describe("TabEvents.onFrameResponse on Firefox", () => {
   });
 
   it("uses the frame's registrable domain as firstPartyDomain under FPI", async () => {
-    when(global.browser.storage.session.get)
-      .calledWith(FPI_SESSION_KEY)
-      .mockResolvedValue({ [FPI_SESSION_KEY]: true } as never);
+    setFpi(true);
     await TabEvents.onFrameResponse(frame("https://devicebind.cookie.net/x"));
     expect(global.browser.cookies.set).toHaveBeenCalledWith(
       expect.objectContaining({ firstPartyDomain: "cookie.net" })
     );
   });
 
-  it("skips frames whose top-level page is another site", async () => {
-    await TabEvents.onFrameResponse(
-      frame("https://devicebind.cookie.net/x", {
-        frameAncestors: [
-          { url: "https://www.cookie.net/", frameId: 4 },
-          { url: "https://other.example/", frameId: 0 },
-        ],
-      })
-    );
-    expect(global.browser.cookies.set).not.toHaveBeenCalled();
+  // #504: Firefox clears storage by host, so a cross-site frame's storage
+  // is only reached through a cookie on the frame's own host.
+  describe("cross-site frames", () => {
+    const embedded = (
+      url = "https://www.player.example/embed/1",
+      top = "https://www.cookie.net/watch"
+    ) => frame(url, { frameAncestors: [{ url: top, frameId: 0 }] });
+    const partitionedMarker = (topLevelSite: string) => ({
+      domain: "www.player.example",
+      name: "ADCPBrowsingDataCleanup",
+      partitionKey: { topLevelSite },
+    });
+    const lookup = {
+      domain: "www.player.example",
+      firstPartyDomain: null,
+      name: "ADCPBrowsingDataCleanup",
+      partitionKey: {},
+      storeId: "firefox-container-1",
+    };
+
+    it("marks the frame's host in the partition of the top-level site", async () => {
+      await TabEvents.onFrameResponse(embedded());
+      expect(global.browser.cookies.getAll).toHaveBeenCalledWith(lookup);
+      expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
+      expect(global.browser.cookies.set).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: "ADCPBrowsingDataCleanup",
+          partitionKey: { topLevelSite: "https://cookie.net" },
+          storeId: "firefox-container-1",
+          url: "https://www.player.example/embed/1",
+        })
+      );
+      expect(global.browser.cookies.set.mock.calls[0][0]).not.toHaveProperty(
+        "firstPartyDomain"
+      );
+    });
+
+    it("takes the partition from the top-level page, not the frame's parent", async () => {
+      await TabEvents.onFrameResponse(
+        frame("https://www.player.example/embed/1", {
+          frameAncestors: [
+            { url: "https://ads.middle.example/slot", frameId: 4 },
+            { url: "https://www.cookie.net/", frameId: 0 },
+          ],
+        })
+      );
+      expect(global.browser.cookies.set).toHaveBeenCalledWith(
+        expect.objectContaining({
+          partitionKey: { topLevelSite: "https://cookie.net" },
+        })
+      );
+    });
+
+    it("keeps a port the top-level page carries (#432)", async () => {
+      await TabEvents.onFrameResponse(
+        embedded("http://127.0.0.1:8080/iframe-set", "http://localhost:8080/")
+      );
+      expect(global.browser.cookies.set).toHaveBeenCalledWith(
+        expect.objectContaining({
+          partitionKey: { topLevelSite: "http://localhost:8080" },
+          url: "http://127.0.0.1:8080/iframe-set",
+        })
+      );
+    });
+
+    it("does not mark a host again that has a marker in that partition", async () => {
+      when(global.browser.cookies.getAll)
+        .calledWith(lookup)
+        .mockResolvedValue([partitionedMarker("https://cookie.net")] as never);
+      await TabEvents.onFrameResponse(embedded());
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+
+    it("marks a host whose markers are its own or in other sites' partitions", async () => {
+      when(global.browser.cookies.getAll)
+        .calledWith(lookup)
+        .mockResolvedValue([
+          { domain: "www.player.example", name: "ADCPBrowsingDataCleanup" },
+          partitionedMarker("https://other.example"),
+          partitionedMarker("http://cookie.net"),
+        ] as never);
+      await TabEvents.onFrameResponse(embedded());
+      expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
+    });
+
+    it("sets one marker per embedding site for concurrent responses", async () => {
+      await Promise.all([
+        TabEvents.onFrameResponse(embedded()),
+        TabEvents.onFrameResponse(embedded()),
+        TabEvents.onFrameResponse(
+          embedded(undefined, "https://www.other.example/")
+        ),
+      ]);
+      const sites = global.browser.cookies.set.mock.calls.map(
+        (call: { partitionKey: { topLevelSite: string } }[]) =>
+          call[0].partitionKey.topLevelSite
+      );
+      expect(sites.sort()).toEqual([
+        "https://cookie.net",
+        "https://other.example",
+      ]);
+    });
+
+    // cookies.set rejects a partitionKey next to a firstPartyDomain.
+    it("leaves the frame alone under First-Party Isolation", async () => {
+      setFpi(true);
+      await TabEvents.onFrameResponse(embedded());
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+
+    it("leaves frames of pages that are not web pages alone", async () => {
+      await TabEvents.onFrameResponse(
+        embedded(undefined, "moz-extension://abc/settings/settings.html")
+      );
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
   });
 
   it("skips private-window requests", async () => {

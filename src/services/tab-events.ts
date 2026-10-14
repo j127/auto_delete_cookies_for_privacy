@@ -17,6 +17,7 @@ import {
   checkIfProtected,
   showNumberOfCookiesInIcon,
 } from "./browser-action-service";
+import { browserCapabilities } from "./browser-capabilities";
 import { isFirstPartyIsolationOn } from "./first-party-isolation";
 import {
   ADCPCOOKIENAME,
@@ -30,7 +31,9 @@ import {
   hasSiteDataCleanupEnabled,
   isAWebpage,
   isMarkerCookieFor,
+  topLevelSiteOf,
   uid,
+  withAllPartitions,
   withAnyFirstPartyDomain,
 } from "./libs";
 import RecentCleanup from "./recent-cleanup";
@@ -370,10 +373,20 @@ export default class TabEvents extends StoreUser {
    * and cleanup treats it like any cookie: keep rules, open tabs, and
    * keep-until-restart cleanup all apply per host.
    *
-   * Cross-site frames are left alone: their storage is partitioned under
-   * the top-level site, and Chrome clears it together with that site's
-   * own origins. Private windows are left alone too, so a private visit is
-   * never written down anywhere.
+   * Cross-site frames are left alone on Chrome: their storage is
+   * partitioned under the top-level site, and Chrome clears it together
+   * with that site's own origins. Private windows are left alone too, so a
+   * private visit is never written down anywhere.
+   *
+   * Firefox clears storage by host and only for the hosts it is given, so
+   * a cross-site frame's storage stayed for good unless the frame's host
+   * also owned a cookie (#504: a YouTube player in a Reddit page). There
+   * the frame's host gets a marker as well, partitioned under the
+   * top-level site like the frame's storage. Cleanup protects a
+   * partitioned cookie while its top-level site is open, so the marker
+   * goes, and the storage with it, once the embedding site is closed.
+   * Under First-Party Isolation cookies are not partitioned this way, and
+   * cross-site frames stay without a marker.
    */
   public static onFrameResponse = async (
     details: browser.webRequest.FrameResponseDetails
@@ -411,6 +424,10 @@ export default class TabEvents extends StoreUser {
       }
     }
     if (incognito === true) return;
+    // Set for a cross-site frame: the page whose partition its marker
+    // goes in, and that partition's key.
+    let embedderUrl: string | undefined;
+    let topLevelSite: string | undefined;
     if (!isMainFrame) {
       // Frames of extension pages, the PDF viewer or a new-tab page are
       // never protected as an open site, so their storage stays alone.
@@ -418,7 +435,15 @@ export default class TabEvents extends StoreUser {
       const topHost = getExactHostname(topUrl);
       // The page's own host gets its marker from the page itself.
       if (topHost === frameHost) return;
-      if (extractMainDomain(frameHost) !== extractMainDomain(topHost)) return;
+      if (extractMainDomain(frameHost) !== extractMainDomain(topHost)) {
+        if (!browserCapabilities.storageRemovalIgnoresPartitions) return;
+        topLevelSite = topLevelSiteOf(topUrl);
+        if (topLevelSite === "") return;
+        // cookies.set rejects a partitionKey next to the firstPartyDomain
+        // that First-Party Isolation requires.
+        if (await isFirstPartyIsolationOn()) return;
+        embedderUrl = topUrl;
+      }
     }
 
     await TabEvents.ensureSiteDataMarker(
@@ -426,18 +451,23 @@ export default class TabEvents extends StoreUser {
         firstPartyDomain: extractMainDomain(frameHost),
         host: frameHost,
         storeId,
+        topLevelSite,
         url: details.url,
       },
       async () => {
+        const lookup = withAnyFirstPartyDomain({
+          domain: frameHost,
+          name: ADCPCOOKIENAME,
+          storeId,
+        });
+        // The key Firefox stores is not always the one it was handed
+        // (topLevelSiteOf), so a partitioned marker is looked up across
+        // all partitions and matched by site.
         const found =
           (await browser.cookies.getAll(
-            withAnyFirstPartyDomain({
-              domain: frameHost,
-              name: ADCPCOOKIENAME,
-              storeId,
-            })
+            embedderUrl === undefined ? lookup : withAllPartitions(lookup)
           )) ?? [];
-        return found.some((c) => isMarkerCookieFor(c, frameHost));
+        return found.some((c) => isMarkerCookieFor(c, frameHost, embedderUrl));
       },
       debug
     );
@@ -451,10 +481,11 @@ export default class TabEvents extends StoreUser {
    * path keeps the browser from ever sending it to the site, and isSafeToClean
    * weighs keep rules and open tabs for it like for any cookie.
    *
-   * Requests for the same store and host share one write: a lookup that
-   * runs while another is still setting the marker would miss it and set a
-   * second one (every marker has its own path). Never throws: a failed
-   * lookup or write only means this host's storage is not cleaned.
+   * Requests for the same store, partition and host share one write: a
+   * lookup that runs while another is still setting the marker would miss
+   * it and set a second one (every marker has its own path). Never throws:
+   * a failed lookup or write only means this host's storage is not
+   * cleaned.
    */
   protected static async ensureSiteDataMarker(
     target: {
@@ -466,11 +497,17 @@ export default class TabEvents extends StoreUser {
       storeId: string | undefined;
       /** The first-party domain to set under First-Party Isolation. */
       firstPartyDomain: string;
+      /**
+       * For a cross-site frame's host: the partitionKey.topLevelSite of
+       * the page that embeds it (topLevelSiteOf). Omitted, the marker is
+       * unpartitioned.
+       */
+      topLevelSite?: string;
     },
     hasMarker: () => Promise<boolean>,
     debug: boolean
   ): Promise<void> {
-    const key = `${target.storeId ?? ""}|${target.host}`;
+    const key = `${target.storeId ?? ""}|${target.topLevelSite ?? ""}|${target.host}`;
     if (TabEvents.markersInFlight.has(key)) return;
     TabEvents.markersInFlight.add(key);
     try {
@@ -482,6 +519,7 @@ export default class TabEvents extends StoreUser {
         storeId: string | undefined;
         value: string;
         firstPartyDomain?: string;
+        partitionKey?: { topLevelSite: string };
       } = {
         expirationDate: Math.floor(Date.now() / 1000 + 31557600),
         name: ADCPCOOKIENAME,
@@ -495,6 +533,9 @@ export default class TabEvents extends StoreUser {
       // passes firstPartyDomain: null (match any).
       if (await isFirstPartyIsolationOn()) {
         cookiesAttributes.firstPartyDomain = target.firstPartyDomain;
+      }
+      if (target.topLevelSite !== undefined) {
+        cookiesAttributes.partitionKey = { topLevelSite: target.topLevelSite };
       }
       await browser.cookies.set({ ...cookiesAttributes, url: target.url });
       adcpLog(

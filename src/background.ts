@@ -252,7 +252,9 @@ browser.tabs.onRemoved.addListener(async (tabId, removeInfo) => {
 
 // Every page and same-site frame host that loads gets a marker cookie, so
 // cleanup also reaches storage the site keeps on hosts without cookies of
-// their own (#464). Guarded like contextMenus below.
+// their own (#464). On Firefox the hosts of cross-site frames get one too,
+// partitioned under the page's site (#504). Guarded like contextMenus
+// below.
 if (browser.webRequest) {
   browser.webRequest.onResponseStarted.addListener(
     async (details) => {

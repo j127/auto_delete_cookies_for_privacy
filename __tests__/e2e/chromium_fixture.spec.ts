@@ -14,6 +14,7 @@
 import { request } from "http";
 import {
   ChromiumFixture,
+  EMBEDDED_HOST,
   fixtureHostResolverRules,
   fixtureOrigins,
   LATE_COOKIE,
@@ -116,6 +117,32 @@ describe("Chromium fixture", () => {
   it("sets no cookie on the frame or the separate tab", async () => {
     expect((await get(SITE_HOSTS.frame, "/frame")).cookie).toEqual([]);
     expect((await get(SITE_HOSTS.tab, "/tab")).cookie).toEqual([]);
+  });
+
+  // #504: a frame from another site, whose storage is partitioned under
+  // the page's site.
+  it("embeds a cross-site frame in /embedder, next to the site cookie", async () => {
+    expect(EMBEDDED_HOST.endsWith(".unkept.test")).toBe(true);
+    const page = await get(SITE_HOSTS.page, "/embedder");
+    expect(page.status).toBe(200);
+    expect(page.cookie).toEqual([
+      `${SITE_COOKIE}=1; Domain=adcp.test; Path=/; Max-Age=86400`,
+    ]);
+    expect(page.body).toContain(
+      `<iframe src="http://${EMBEDDED_HOST}/embedded"></iframe>`
+    );
+  });
+
+  it("serves a cross-site frame that reports what it found, then writes storage and sets no cookie", async () => {
+    const frame = await get(EMBEDDED_HOST, "/embedded");
+    expect(frame.status).toBe(200);
+    expect(frame.cookie).toEqual([]);
+    expect(frame.body).toContain("localStorage.getItem");
+    expect(frame.body).toContain("indexedDB.databases()");
+    expect(frame.body).toContain("localStorage.setItem");
+    expect(frame.body).toContain("indexedDB.open");
+    expect(frame.body).toContain('"found:"');
+    expect(frame.body).not.toContain("document.cookie");
   });
 
   it("serves a plain-text page that writes nothing", async () => {
