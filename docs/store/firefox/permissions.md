@@ -16,7 +16,7 @@ Reviewer-facing justifications for every permission in the generated Firefox man
 
 ### `browsingData`
 
-> Unless the user turns it off, cleaned sites also lose their other stored data (IndexedDB, LocalStorage, service workers, plugin data) via browsingData.remove with hostname scoping, including the data a site keeps on its other pages and same-site frames. Cache is excluded on Firefox because Firefox cannot clear cache per site.
+> Unless the user turns it off, cleaned sites also lose their other stored data (IndexedDB, LocalStorage, service workers, plugin data) via browsingData.remove with hostname scoping, including the data a site keeps on its other pages and same-site frames, and the data that frames from other sites keep inside its pages. Cache is excluded on Firefox because Firefox cannot clear cache per site.
 
 ### `contextualIdentities`
 
@@ -52,7 +52,7 @@ Reviewer-facing justifications for every permission in the generated Firefox man
 
 ### `webRequest`
 
-> Storage belongs to the exact host that wrote it, so cleaning a site's data must reach every host the site used: its other pages and the same-site frames (sign-in or device-check frames on subdomains) that keep their cookies on the parent domain. The extension observes webRequest.onResponseStarted for main frames and sub frames only to learn those page and frame addresses, and marks each same-site host for the next cleanup. It never reads request or response content, never blocks or modifies a request, ignores private windows, and keeps nothing beyond a marker cookie the cleanup removes.
+> Storage belongs to the exact host that wrote it, so cleaning a site's data must reach every host the site used: its other pages and the same-site frames (sign-in or device-check frames on subdomains) that keep their cookies on the parent domain. The same goes for frames from other sites, such as an embedded video player: Firefox keeps their storage under the frame's host and clears storage host by host, so that host has to be named when the embedding site is cleaned. The extension observes webRequest.onResponseStarted for main frames and sub frames only to learn those page and frame addresses, and marks each host for the next cleanup (a cross-site frame's host with a marker cookie partitioned under the embedding site). It never reads request or response content, never blocks or modifies a request, ignores private windows, and keeps nothing beyond a marker cookie the cleanup removes.
 
 ## Data collection declaration
 

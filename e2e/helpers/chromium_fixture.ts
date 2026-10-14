@@ -34,6 +34,12 @@
  * - /held   answered only when the spec calls releaseHeld(), with a
  *           cookie on the parent domain: the late cookie a response sets
  *           after the cleanup that followed the tab's close.
+ * - /embedder  a top-level page that sets the site cookie and embeds a
+ *           CROSS-site frame, /embedded on EMBEDDED_HOST (#504). Its
+ *           title turns "found:" plus what the frame reported.
+ * - /embedded  the cross-site frame body: tells its parent which of its
+ *           localStorage entry and IndexedDB database were already there,
+ *           then writes both. Sets no cookie.
  * (Plain node http, not Bun.serve: the e2e specs run under vitest's node
  * runtime.)
  */
@@ -64,6 +70,13 @@ export const OTHER_SITE_HOSTS = {
   page: `www.${OTHER_SITE}`,
   frame: `devicebind.${OTHER_SITE}`,
 };
+
+/**
+ * The host of the cross-site frame /embedder embeds: a host of OTHER_SITE
+ * that no page of the suite opens in a tab of its own, so its only
+ * storage is what it keeps as a frame, partitioned under the page's site.
+ */
+export const EMBEDDED_HOST = `player.${OTHER_SITE}`;
 
 /** The cookie /site sets on its parent domain. */
 export const SITE_COOKIE = "adcp_site";
@@ -205,6 +218,52 @@ const handle = (
       );
       return;
     }
+    case "/embedder": {
+      const site = siteOf(host);
+      html(
+        res,
+        `<h1>${host}</h1>
+         <script>
+           addEventListener("message", (e) => {
+             if (typeof e.data === "string" && e.data.startsWith("found:")) {
+               document.title = e.data;
+             }
+           });
+         </script>
+         <iframe src="http://${EMBEDDED_HOST}/embedded"></iframe>`,
+        {
+          "set-cookie": `${SITE_COOKIE}=1; Domain=${site}; Path=/; Max-Age=86400`,
+        }
+      );
+      return;
+    }
+    case "/embedded":
+      html(
+        res,
+        `<script>
+           (async () => {
+             const found = [];
+             if (localStorage.getItem(${JSON.stringify(STORAGE_NAMES.localStorage)}) !== null) {
+               found.push("localStorage");
+             }
+             const names = (await indexedDB.databases()).map((d) => d.name);
+             if (names.includes(${JSON.stringify(STORAGE_NAMES.indexedDB)})) {
+               found.push("indexedDB");
+             }
+             localStorage.setItem(${JSON.stringify(STORAGE_NAMES.localStorage)}, "x".repeat(200));
+             await new Promise((resolve, reject) => {
+               const open = indexedDB.open(${JSON.stringify(STORAGE_NAMES.indexedDB)}, 1);
+               open.onupgradeneeded = () => open.result.createObjectStore("s");
+               open.onerror = () => reject(open.error);
+               open.onsuccess = () => { open.result.close(); resolve(); };
+             });
+             return "found:" + found.join(",");
+           })().then(
+             (report) => parent.postMessage(report, "*"),
+             (e) => parent.postMessage("found:error " + e, "*"));
+         </script>`
+      );
+      return;
     case "/held":
       // Drain the (empty) body so the request counts as fully received.
       req.resume();
