@@ -92,16 +92,30 @@ package_zip_firefox: build_firefox
 
 # Headless by default: E2E_HEADED=1 to watch, FIREFOX_BIN=/path to pin a
 # channel such as ESR, GECKODRIVER_VERSION=x.y.z to try a driver other than
-# the pin in e2e/helpers/firefox_driver.ts.
+# the pin in e2e/helpers/firefox_driver.ts. On macOS, with FIREFOX_BIN unset,
+# it points FIREFOX_BIN at scripts/firefox_via_open.sh: macOS 27 refuses the
+# Firefox that geckodriver spawns from another app's terminal access to its
+# own app-data folder (#465).
 # Real-Firefox end-to-end suite (needs Firefox installed)
 e2e_firefox: package_zip_firefox
+  #!/usr/bin/env bash
+  set -euo pipefail
+  if [ "$(uname)" = "Darwin" ] && [ -z "${FIREFOX_BIN:-}" ]; then
+    export FIREFOX_BIN="{{justfile_directory()}}/scripts/firefox_via_open.sh"
+  fi
   bunx vitest run --config vitest.e2e.config.ts
 
 # Writes docs/store/screenshots/firefox/ (STORE_SHOT_DIR=/path to write
 # elsewhere). Needs Firefox installed, so the "Store screenshots" workflow
 # runs it on Linux and uploads the PNGs (docs/store/firefox/listing.md).
+# On macOS it sets FIREFOX_BIN the same way `just e2e_firefox` does (#465).
 # Take the Firefox store screenshots from the packaged build
 store_screenshots_firefox: package_zip_firefox
+  #!/usr/bin/env bash
+  set -euo pipefail
+  if [ "$(uname)" = "Darwin" ] && [ -z "${FIREFOX_BIN:-}" ]; then
+    export FIREFOX_BIN="{{justfile_directory()}}/scripts/firefox_via_open.sh"
+  fi
   bunx vitest run --config vitest.store-screenshots.config.ts
 
 # It builds the Chrome bundles into extension/, the folder `just package_zip`
