@@ -1,6 +1,15 @@
 {
   "releases": [
     {
+      "version": "1.2.2",
+      "notes": [
+        "Firefox: the storage that frames from other sites keep inside a page (for example an embedded YouTube player's Local Storage) is now cleaned once the embedding site closes. Before, it stayed unless the frame's site had a cookie of its own. It is left alone while the frame's own site is open in a tab, still embedded in another open site, or kept by one of your rules, because Firefox clears stored data host by host and would clear that site's own data too. For this, the extension now also notes the address of frames from other sites as they load, as it already did for same-site frames; it never sees their content.",
+        "A keep rule for a site no longer keeps that site's cookies stored under other sites you don't keep (Total Cookie Protection on Firefox, CHIPS on Chrome). For example, a rule for youtube.com keeps your YouTube sign-in, but no longer keeps the cookies of a YouTube video embedded on a site you don't keep. To keep an embed such as Disqus comments signed in on a site, keep that site too. The cookie list in the rule editor now shows only the cookies a rule can keep.",
+        "The Overview page now shows the extension's name. After an update to a new major or minor version, the settings page opens with a notice and a \"See what's new\" button that jumps to these release notes. Patch updates no longer open the settings page.",
+        "Internal: the automated Firefox suite now runs from macOS 27 app terminals and checks the storage of cross-site frames and the keep rules for partitioned cookies, the Firefox test matrix records the embedded-frame CI results, and the store listings have a new before/after promo image."
+      ]
+    },
+    {
       "version": "1.2.1",
       "notes": [
         "Chrome, Edge and Brave: sites no longer stay listed in Edge's \"All cookies and site data\" after a cleanup. Edge keeps a small record for each part of a site that is not a regular cookie, and the extension could not reach it; it is now cleared once a site has no cookies left. A site you keep cookies for keeps that record too, because clearing it would also delete the kept cookies.",
