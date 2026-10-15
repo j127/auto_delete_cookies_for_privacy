@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Deschide pagina Protecție"
   },
+  "updatedToLatestText": {
+    "message": "Ai actualizat Auto-Delete Cookies for Privacy la versiunea $version$.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Vezi ce este nou"
+  },
+  "updatedDismissText": {
+    "message": "Închide"
+  },
   "savedSitesText": {
     "message": "Site-uri salvate"
   },

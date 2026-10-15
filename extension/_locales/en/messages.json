@@ -1521,6 +1521,24 @@
     "message": "Open the Protection page",
     "description": "Overview activation card: button that jumps to the Protection section"
   },
+  "updatedToLatestText": {
+    "message": "You’ve updated to version $version$ of Auto-Delete Cookies for Privacy.",
+    "description": "Overview page: notice shown once, above the activation card, when the settings page auto-opens after an update. $version$ is the new version number. The extension name stays untranslated.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "See what’s new",
+    "description": "Overview update notice: button that scrolls to the release notes"
+  },
+  "updatedDismissText": {
+    "message": "Dismiss",
+    "description": "Overview update notice: accessible label of the close (✕) button"
+  },
   "savedSitesText": {
     "message": "Saved sites",
     "description": "Settings sidebar: the keep-list (expressions) section"

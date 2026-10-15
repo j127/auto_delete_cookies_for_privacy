@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Відкрити сторінку «Захист»"
   },
+  "updatedToLatestText": {
+    "message": "Ви оновили Auto-Delete Cookies for Privacy до версії $version$.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Що нового"
+  },
+  "updatedDismissText": {
+    "message": "Закрити"
+  },
   "savedSitesText": {
     "message": "Збережені сайти"
   },

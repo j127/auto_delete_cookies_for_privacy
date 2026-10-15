@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "保護ページを開く"
   },
+  "updatedToLatestText": {
+    "message": "Auto-Delete Cookies for Privacy をバージョン $version$ に更新しました。",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "新機能を見る"
+  },
+  "updatedDismissText": {
+    "message": "閉じる"
+  },
   "savedSitesText": {
     "message": "保存済みサイト"
   },

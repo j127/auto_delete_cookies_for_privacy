@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Отворете страницата Защита"
   },
+  "updatedToLatestText": {
+    "message": "Актуализирахте до версия $version$ на Auto-Delete Cookies for Privacy.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Вижте какво е новото"
+  },
+  "updatedDismissText": {
+    "message": "Затваряне"
+  },
   "savedSitesText": {
     "message": "Записани сайтове"
   },

@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Koruma sayfasını aç"
   },
+  "updatedToLatestText": {
+    "message": "Auto-Delete Cookies for Privacy uzantısını $version$ sürümüne güncellediniz.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Yenilikleri gör"
+  },
+  "updatedDismissText": {
+    "message": "Kapat"
+  },
   "savedSitesText": {
     "message": "Kayıtlı siteler"
   },

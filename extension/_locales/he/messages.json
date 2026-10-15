@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "פתיחת דף ההגנה"
   },
+  "updatedToLatestText": {
+    "message": "עדכנת לגרסה $version$ של Auto-Delete Cookies for Privacy.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "ראו מה חדש"
+  },
+  "updatedDismissText": {
+    "message": "סגירה"
+  },
   "savedSitesText": {
     "message": "אתרים שמורים"
   },

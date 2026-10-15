@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Άνοιγμα της σελίδας Προστασία"
   },
+  "updatedToLatestText": {
+    "message": "Ενημερώσατε στην έκδοση $version$ του Auto-Delete Cookies for Privacy.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Δείτε τι νέο υπάρχει"
+  },
+  "updatedDismissText": {
+    "message": "Κλείσιμο"
+  },
   "savedSitesText": {
     "message": "Αποθηκευμένοι ιστότοποι"
   },

@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Åpne siden Beskyttelse"
   },
+  "updatedToLatestText": {
+    "message": "Du har oppdatert til versjon $version$ av Auto-Delete Cookies for Privacy.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Se hva som er nytt"
+  },
+  "updatedDismissText": {
+    "message": "Lukk"
+  },
   "savedSitesText": {
     "message": "Lagrede nettsteder"
   },

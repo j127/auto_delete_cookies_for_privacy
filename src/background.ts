@@ -46,6 +46,7 @@ import StoreUser from "./services/store-user";
 import TabEvents from "./services/tab-events";
 import { ReduxConstants } from "./typings/redux-constants";
 import SettingService from "./services/setting-service";
+import { flagJustUpdated } from "./services/update-notice";
 
 let store: AppStore;
 
@@ -470,6 +471,7 @@ browser.runtime.onInstalled.addListener(async (details) => {
         });
       }
       if (getSetting(store.getState(), SettingID.ENABLE_NEW_POPUP)) {
+        await flagJustUpdated();
         await browser.runtime.openOptionsPage();
       }
       break;

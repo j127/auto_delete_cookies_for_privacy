@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Otevřít stránku Ochrana"
   },
+  "updatedToLatestText": {
+    "message": "Aktualizovali jste Auto-Delete Cookies for Privacy na verzi $version$.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Co je nového"
+  },
+  "updatedDismissText": {
+    "message": "Zavřít"
+  },
   "savedSitesText": {
     "message": "Uložené weby"
   },

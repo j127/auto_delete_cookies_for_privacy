@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "A Védelem oldal megnyitása"
   },
+  "updatedToLatestText": {
+    "message": "Frissítettél a(z) Auto-Delete Cookies for Privacy $version$ verziójára.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Újdonságok megtekintése"
+  },
+  "updatedDismissText": {
+    "message": "Bezárás"
+  },
   "savedSitesText": {
     "message": "Mentett webhelyek"
   },

@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Avaa Suojaus-sivu"
   },
+  "updatedToLatestText": {
+    "message": "Olet päivittänyt Auto-Delete Cookies for Privacy -lisäosan versioon $version$.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Katso uudet ominaisuudet"
+  },
+  "updatedDismissText": {
+    "message": "Sulje"
+  },
   "savedSitesText": {
     "message": "Tallennetut sivustot"
   },
