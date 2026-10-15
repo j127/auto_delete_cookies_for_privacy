@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "افتح صفحة الحماية"
   },
+  "updatedToLatestText": {
+    "message": "لقد قمت بالتحديث إلى الإصدار $version$ من Auto-Delete Cookies for Privacy.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "اطّلع على الجديد"
+  },
+  "updatedDismissText": {
+    "message": "إغلاق"
+  },
   "savedSitesText": {
     "message": "المواقع المحفوظة"
   },

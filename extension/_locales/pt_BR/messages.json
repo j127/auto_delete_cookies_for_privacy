@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Abrir a página Proteção"
   },
+  "updatedToLatestText": {
+    "message": "Você atualizou o Auto-Delete Cookies for Privacy para a versão $version$.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Veja as novidades"
+  },
+  "updatedDismissText": {
+    "message": "Fechar"
+  },
   "savedSitesText": {
     "message": "Sites salvos"
   },

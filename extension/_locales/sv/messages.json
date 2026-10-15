@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Öppna sidan Skydd"
   },
+  "updatedToLatestText": {
+    "message": "Du har uppdaterat till version $version$ av Auto-Delete Cookies for Privacy.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Se vad som är nytt"
+  },
+  "updatedDismissText": {
+    "message": "Stäng"
+  },
   "savedSitesText": {
     "message": "Sparade webbplatser"
   },

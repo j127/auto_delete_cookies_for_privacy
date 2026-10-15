@@ -61,7 +61,7 @@ describe("settings App", () => {
     expect(drawerToggle(container)).not.toBeNull();
     expect(container.querySelector("aside")).not.toBeNull();
     expect(container.querySelector("#themeSwitcher")).not.toBeNull();
-    expect(contentHeading(container)).toBe("overviewText");
+    expect(contentHeading(container)).toBe("extensionName");
     expect(sideBarButton(getByRole, "overviewText").className).toContain(
       "menu-active"
     );
@@ -100,7 +100,7 @@ describe("settings App", () => {
 
   it("jumps to the Protection tab from the overview activation card", () => {
     const { container, getByRole } = renderApp();
-    expect(contentHeading(container)).toBe("overviewText");
+    expect(contentHeading(container)).toBe("extensionName");
 
     fireEvent.click(getByRole("button", { name: "setupOpenProtectionText" }));
 

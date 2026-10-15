@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Buka halaman Perlindungan"
   },
+  "updatedToLatestText": {
+    "message": "Anda telah memperbarui Auto-Delete Cookies for Privacy ke versi $version$.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Lihat yang baru"
+  },
+  "updatedDismissText": {
+    "message": "Tutup"
+  },
   "savedSitesText": {
     "message": "Situs tersimpan"
   },

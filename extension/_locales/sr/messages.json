@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Отвори страницу Заштита"
   },
+  "updatedToLatestText": {
+    "message": "Ажурирали сте Auto-Delete Cookies for Privacy на верзију $version$.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Погледајте шта је ново"
+  },
+  "updatedDismissText": {
+    "message": "Затвори"
+  },
   "savedSitesText": {
     "message": "Сачувани сајтови"
   },

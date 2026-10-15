@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Mở trang Bảo vệ"
   },
+  "updatedToLatestText": {
+    "message": "Bạn đã cập nhật Auto-Delete Cookies for Privacy lên phiên bản $version$.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Xem có gì mới"
+  },
+  "updatedDismissText": {
+    "message": "Đóng"
+  },
   "savedSitesText": {
     "message": "Trang đã lưu"
   },

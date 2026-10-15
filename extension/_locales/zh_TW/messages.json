@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "開啟「防護」頁"
   },
+  "updatedToLatestText": {
+    "message": "你已更新到 Auto-Delete Cookies for Privacy 的 $version$ 版本。",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "查看新變更"
+  },
+  "updatedDismissText": {
+    "message": "關閉"
+  },
   "savedSitesText": {
     "message": "已儲存的網站"
   },

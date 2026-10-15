@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "보호 페이지 열기"
   },
+  "updatedToLatestText": {
+    "message": "Auto-Delete Cookies for Privacy을(를) 버전 $version$(으)로 업데이트했습니다.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "새로운 기능 보기"
+  },
+  "updatedDismissText": {
+    "message": "닫기"
+  },
   "savedSitesText": {
     "message": "저장한 사이트"
   },

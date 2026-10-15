@@ -19,6 +19,7 @@ import IconButton from "@/ui/common-components/IconButton";
 import { ReduxAction } from "@/typings/redux-constants";
 import { SettingID } from "@/typings/enums";
 import { resetCookieDeletedCounter } from "@/redux/actions";
+import { consumeJustUpdated } from "@/services/update-notice";
 
 const displayReleaseNotes = (releases: ReleaseNote[]) => {
   return (
@@ -55,6 +56,15 @@ const Welcome: React.FunctionComponent<OwnProps> = ({ style, switchTabs }) => {
     (state: State) => !!state.settings[SettingID.ACTIVE_MODE]?.value
   );
   const dispatch = useDispatch<Dispatch<ReduxAction>>();
+  // True only on the visit that the background opened after an update.
+  const [justUpdated, setJustUpdated] = React.useState(false);
+  const releaseNotesRef = React.useRef<HTMLHeadingElement>(null);
+
+  React.useEffect(() => {
+    void consumeJustUpdated().then((updated) => {
+      if (updated) setJustUpdated(true);
+    });
+  }, []);
 
   const onResetCounterButtonClick = () => {
     dispatch(resetCookieDeletedCounter());
@@ -64,8 +74,41 @@ const Welcome: React.FunctionComponent<OwnProps> = ({ style, switchTabs }) => {
   return (
     <div style={style}>
       <h1 className="mb-4 text-2xl font-bold">
-        {browser.i18n.getMessage("overviewText")}
+        {browser.i18n.getMessage("extensionName")}
       </h1>
+
+      {justUpdated && (
+        <div
+          role="status"
+          id="updatedNotice"
+          className="mb-4 alert flex-wrap alert-success"
+        >
+          <span>
+            {browser.i18n.getMessage("updatedToLatestText", [
+              browser.runtime.getManifest().version,
+            ])}
+          </span>
+          <div className="flex items-center gap-1">
+            <button
+              type="button"
+              className="btn btn-sm"
+              onClick={() =>
+                releaseNotesRef.current?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              {browser.i18n.getMessage("updatedSeeWhatsNewText")}
+            </button>
+            <button
+              type="button"
+              className="btn btn-circle btn-ghost btn-sm"
+              aria-label={browser.i18n.getMessage("updatedDismissText")}
+              onClick={() => setJustUpdated(false)}
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Activation steps (#262). Shown only until automatic cleaning is on;
           styled to match the Protection page's activeModeCallout so the
@@ -121,7 +164,7 @@ const Welcome: React.FunctionComponent<OwnProps> = ({ style, switchTabs }) => {
         />
       </div>
       <div className="divider" />
-      <h2 className="mb-3 text-xl font-semibold">
+      <h2 ref={releaseNotesRef} className="mb-3 text-xl font-semibold">
         {browser.i18n.getMessage("releaseNotesText")}
       </h2>
 

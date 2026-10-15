@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import * as React from "react";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
@@ -38,11 +38,77 @@ describe("Welcome", () => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
   });
 
-  it("renders the overview heading", () => {
+  // The Overview sidebar entry says "Overview"; the page's own heading is the
+  // extension name, so a full-screen window still shows what this page is.
+  it("headlines the page with the extension name", () => {
     const { container } = renderWelcome();
     expect((container.querySelector("h1") as HTMLElement).textContent).toBe(
-      "overviewText"
+      "extensionName"
     );
+  });
+
+  describe("update notice", () => {
+    const session = global.browser.storage.session;
+
+    beforeEach(() => {
+      global.browser.runtime.getManifest.mockReturnValue({
+        version: "1.2.0",
+      } as never);
+    });
+
+    it("is hidden on an ordinary visit", async () => {
+      session.get.mockResolvedValue({ justUpdated: false } as never);
+      renderWelcome();
+      await waitFor(() => expect(session.get).toHaveBeenCalled());
+      expect(document.getElementById("updatedNotice")).toBeNull();
+      expect(session.remove).not.toHaveBeenCalled();
+    });
+
+    const showNotice = async () => {
+      session.get.mockResolvedValue({ justUpdated: true } as never);
+      const utils = renderWelcome();
+      const notice = await waitFor(() => {
+        const el = document.getElementById("updatedNotice");
+        expect(el).not.toBeNull();
+        return el as HTMLElement;
+      });
+      return { ...utils, notice };
+    };
+
+    it("shows above the setup card after an update, and clears the flag", async () => {
+      const { container, notice } = await showNotice();
+      expect(session.remove).toHaveBeenCalledWith("justUpdated");
+      // Right below the h1, before the activation steps.
+      const h1 = container.querySelector("h1") as HTMLElement;
+      const steps = document.getElementById("setupSteps") as HTMLElement;
+      expect(h1.nextElementSibling).toBe(notice);
+      expect(notice.nextElementSibling).toBe(steps);
+    });
+
+    it("names the installed version", async () => {
+      await showNotice();
+      expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
+        "updatedToLatestText",
+        ["1.2.0"]
+      );
+    });
+
+    it("See what's new scrolls to the release notes", async () => {
+      const scrollIntoView = vi.fn();
+      Element.prototype.scrollIntoView = scrollIntoView;
+      const { getByText } = await showNotice();
+      fireEvent.click(getByText("updatedSeeWhatsNewText"));
+      expect(scrollIntoView).toHaveBeenCalledTimes(1);
+      expect(scrollIntoView.mock.contexts[0]).toBe(
+        getByText("releaseNotesText")
+      );
+    });
+
+    it("the close button dismisses it", async () => {
+      const { getByLabelText } = await showNotice();
+      fireEvent.click(getByLabelText("updatedDismissText"));
+      expect(document.getElementById("updatedNotice")).toBeNull();
+    });
   });
 
   it("shows the session and total counters as stat cards", () => {

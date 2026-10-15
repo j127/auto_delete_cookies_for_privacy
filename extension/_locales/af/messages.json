@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "Maak die Beskerming-bladsy oop"
   },
+  "updatedToLatestText": {
+    "message": "Jy het opgedateer na weergawe $version$ van Auto-Delete Cookies for Privacy.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Sien wat nuut is"
+  },
+  "updatedDismissText": {
+    "message": "Maak toe"
+  },
   "savedSitesText": {
     "message": "Gestoorde werwe"
   },

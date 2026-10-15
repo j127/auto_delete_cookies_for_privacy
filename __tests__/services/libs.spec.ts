@@ -25,6 +25,7 @@ import {
   ADCPCOOKIENAME,
   adcpLog,
   convertVersionToNumber,
+  isMinorOrMajorUpdate,
   createPartialTabInfo,
   eventListenerActions,
   extractMainDomain,
@@ -265,6 +266,24 @@ describe("Library Functions", () => {
       expect.assertions(1);
       adcpLog({}, true);
       expect(consoleOutput.length).toEqual(0);
+    });
+  });
+
+  describe("isMinorOrMajorUpdate()", () => {
+    it("is false for a patch update", () => {
+      expect(isMinorOrMajorUpdate("1.2.0", "1.2.1")).toBe(false);
+      expect(isMinorOrMajorUpdate("1.0.9", "1.0.10")).toBe(false);
+    });
+    it("is true when the minor number changes", () => {
+      expect(isMinorOrMajorUpdate("1.1.4", "1.2.0")).toBe(true);
+    });
+    it("is true when the major number changes", () => {
+      expect(isMinorOrMajorUpdate("1.9.0", "2.0.0")).toBe(true);
+    });
+    it("is true when a version is missing or unparsable", () => {
+      expect(isMinorOrMajorUpdate(undefined, "1.2.0")).toBe(true);
+      expect(isMinorOrMajorUpdate("1.2.0", undefined)).toBe(true);
+      expect(isMinorOrMajorUpdate("beta", "1.2.0")).toBe(true);
     });
   });
 

@@ -1255,6 +1255,21 @@
   "setupOpenProtectionText": {
     "message": "De pagina Bescherming openen"
   },
+  "updatedToLatestText": {
+    "message": "Je hebt Auto-Delete Cookies for Privacy bijgewerkt naar versie $version$.",
+    "placeholders": {
+      "version": {
+        "content": "$1",
+        "example": "1.2.0"
+      }
+    }
+  },
+  "updatedSeeWhatsNewText": {
+    "message": "Bekijk wat er nieuw is"
+  },
+  "updatedDismissText": {
+    "message": "Sluiten"
+  },
   "savedSitesText": {
     "message": "Bewaarde sites"
   },
