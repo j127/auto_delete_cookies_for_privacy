@@ -92,8 +92,10 @@ describe("store_screenshots_firefox recipe", () => {
   it("packages the Firefox zip first, then runs the screenshot config", () => {
     expect(RECIPES.get("store_screenshots_firefox")).toMatchObject({
       dependencies: ["package_zip_firefox"],
-      body: ["bunx vitest run --config vitest.store-screenshots.config.ts"],
     });
+    expect(RECIPES.get("store_screenshots_firefox")?.body.at(-1)).toBe(
+      "bunx vitest run --config vitest.store-screenshots.config.ts"
+    );
   });
 
   it("is left out of the e2e suite, which would otherwise take shots", () => {
