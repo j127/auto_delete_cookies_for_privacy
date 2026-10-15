@@ -14,6 +14,7 @@ import { initialState } from "@/redux/state";
 import {
   cleanSiteData,
   filterSiteData,
+  isPartitionKept,
   isSafeToClean,
   matchKeepRules,
   prepareCookie,
@@ -230,5 +231,27 @@ describe("site data of a partitioned cookie no rule keeps (#511)", () => {
         false
       )
     ).toEqual([".youtube.com"]);
+  });
+});
+
+describe("isPartitionKept()", () => {
+  it("is true for an unpartitioned cookie and one partitioned under its own site", () => {
+    expect(isPartitionKept(withRules(), ownYouTube, false)).toBe(true);
+    expect(isPartitionKept(withRules(), cfClearance, false)).toBe(true);
+  });
+
+  it("is false under a site no rule keeps, true once a rule keeps it", () => {
+    expect(isPartitionKept(withRules(youtube), embeddedYouTube, false)).toBe(
+      false
+    );
+    expect(
+      isPartitionKept(withRules(youtube, lenovo), embeddedYouTube, false)
+    ).toBe(true);
+  });
+
+  it("needs a Whitelist rule for the embedding site at a startup cleanup", () => {
+    const grey = withRules(youtube, rule("*.lenovo.com", ListType.GREY));
+    expect(isPartitionKept(grey, embeddedYouTube, false)).toBe(true);
+    expect(isPartitionKept(grey, embeddedYouTube, true)).toBe(false);
   });
 });

@@ -13,8 +13,9 @@
 import { ListType, SiteDataType } from "@/typings/enums";
 import ipaddr from "ipaddr.js";
 import * as React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useStore } from "react-redux";
 import { updateExpressionUI } from "@/redux/actions";
+import { isPartitionKept, prepareCookie } from "@/services/cleanup-service";
 import {
   toRawStoreId,
   withAllPartitions,
@@ -70,6 +71,7 @@ const OptionCheckbox: React.FunctionComponent<{
 function ExpressionOptions(props: ExpressionOptionsProps) {
   const { expression } = props;
   const dispatch = useDispatch<any>();
+  const store = useStore<State>();
   const [cookies, setCookies] = React.useState<browser.cookies.Cookie[]>([]);
 
   const getAllCookies = async () => {
@@ -145,7 +147,14 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
         });
       }
     }
-    setCookies(foundCookies);
+    // Leave out cookies partitioned under a site no rule keeps: cleanup
+    // would not keep them, so picking their names would do nothing.
+    const state = store.getState();
+    setCookies(
+      foundCookies.filter((cookie) =>
+        isPartitionKept(state, prepareCookie(cookie), false)
+      )
+    );
   };
 
   React.useEffect(() => {

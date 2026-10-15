@@ -117,25 +117,44 @@ export const matchKeepRules = (
   cookieProperties: CookiePropertiesCleanup,
   greyCleanup: boolean
 ): { matched?: Expression; ownMatch?: Expression } => {
+  const ownMatch = returnMatchedExpressionObject(
+    state,
+    cookieProperties.storeId,
+    cookieProperties.hostname
+  );
+  if (!ownMatch) return { matched: undefined, ownMatch };
+  return {
+    matched: isPartitionKept(state, cookieProperties, greyCleanup)
+      ? ownMatch
+      : undefined,
+    ownMatch,
+  };
+};
+
+/**
+ * Whether the partition a cookie is stored in lets its own site's rule keep
+ * it (#511): true for an unpartitioned cookie and for one partitioned under
+ * its own site, otherwise only while a rule also keeps the site it is
+ * partitioned under. See matchKeepRules. The keep-rule editor lists cookie
+ * names through this too, so it shows what cleanup can keep.
+ */
+export const isPartitionKept = (
+  state: State,
+  cookieProperties: CookiePropertiesCleanup,
+  greyCleanup: boolean
+): boolean => {
   const { storeId, hostname, mainDomain, partitionKey } = cookieProperties;
-  const ownMatch = returnMatchedExpressionObject(state, storeId, hostname);
   const topLevelSite = partitionKey?.topLevelSite;
-  if (
-    !ownMatch ||
-    !topLevelSite ||
-    extractMainDomain(hostname) === mainDomain
-  ) {
-    return { matched: ownMatch, ownMatch };
-  }
+  if (!topLevelSite || extractMainDomain(hostname) === mainDomain) return true;
   const embedderMatch = returnMatchedExpressionObject(
     state,
     storeId,
     getHostname(topLevelSite)
   );
-  const embedderKept =
+  return (
     embedderMatch !== undefined &&
-    (!greyCleanup || embedderMatch.listType === ListType.WHITE);
-  return { matched: embedderKept ? ownMatch : undefined, ownMatch };
+    (!greyCleanup || embedderMatch.listType === ListType.WHITE)
+  );
 };
 
 /** Returns an object representing the cookie with internal flags */
