@@ -87,6 +87,22 @@ describe("background: the page that opens on install and update", () => {
     expect(order).toEqual(["flag", "open"]);
   });
 
+  it("a minor update opens and flags it", async () => {
+    global.browser.runtime.openOptionsPage.mockClear();
+    await installedListener({ reason: "update", previousVersion: "1.1.4" });
+    expect(global.browser.runtime.openOptionsPage).toHaveBeenCalledTimes(1);
+  });
+
+  it("a patch update opens nothing and flags nothing", async () => {
+    global.browser.runtime.openOptionsPage.mockClear();
+    global.browser.storage.session.set.mockClear();
+    await installedListener({ reason: "update", previousVersion: "1.2.0" });
+    expect(global.browser.runtime.openOptionsPage).not.toHaveBeenCalled();
+    expect(global.browser.storage.session.set).not.toHaveBeenCalledWith({
+      justUpdated: true,
+    });
+  });
+
   it("does not flag a fresh install", async () => {
     global.browser.storage.session.set.mockClear();
     await installedListener({ reason: "install" });

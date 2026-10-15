@@ -119,6 +119,31 @@ export const convertVersionToNumber = (version?: string): number => {
 };
 
 /**
+ * Whether an update is worth opening the settings page for: the major or
+ * minor number changed. A patch release (1.2.0 to 1.2.1) is only a bug fix,
+ * so it does not interrupt the user. When either version is missing or does
+ * not parse, answers true: an unknown update is shown rather than hidden.
+ */
+export const isMinorOrMajorUpdate = (
+  previousVersion?: string,
+  currentVersion?: string
+): boolean => {
+  const parse = (version?: string) =>
+    (version ?? "")
+      .split(".")
+      .slice(0, 2)
+      .map((part) => parseInt(part, 10));
+  const [prevMajor, prevMinor] = parse(previousVersion);
+  const [curMajor, curMinor] = parse(currentVersion);
+  if (
+    [prevMajor, prevMinor, curMajor, curMinor].some((n) => !Number.isInteger(n))
+  ) {
+    return true;
+  }
+  return prevMajor !== curMajor || prevMinor !== curMinor;
+};
+
+/**
  * Abstract Event Listener call to add/remove with checks.
  * @param event The event listener
  * @param listener The callback function to add/check/remove.

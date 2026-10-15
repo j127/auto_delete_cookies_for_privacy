@@ -35,6 +35,7 @@ import CookieEvents from "./services/cookie-events";
 import {
   adcpLog,
   convertVersionToNumber,
+  isMinorOrMajorUpdate,
   extractMainDomain,
   getSetting,
 } from "./services/libs";
@@ -470,7 +471,15 @@ browser.runtime.onInstalled.addListener(async (details) => {
           type: ReduxConstants.RESET_COOKIE_DELETED_COUNTER,
         });
       }
-      if (getSetting(store.getState(), SettingID.ENABLE_NEW_POPUP)) {
+      // Patch releases (1.2.0 to 1.2.1) stay quiet; the Overview page still
+      // lists their release notes.
+      if (
+        getSetting(store.getState(), SettingID.ENABLE_NEW_POPUP) &&
+        isMinorOrMajorUpdate(
+          details.previousVersion,
+          browser.runtime.getManifest().version
+        )
+      ) {
         await flagJustUpdated();
         await browser.runtime.openOptionsPage();
       }
