@@ -154,7 +154,9 @@ describe("ExpressionOptions", () => {
   });
 
   it("lists kept and browser cookie names when cleanAllCookies is false", async () => {
-    global.browser.cookies.getAll.mockResolvedValue([{ name: "sessionid" }]);
+    global.browser.cookies.getAll.mockResolvedValue([
+      { domain: "example.com", name: "sessionid", path: "/", storeId: "0" },
+    ]);
     const expression: Expression = {
       ...baseExpression,
       cleanAllCookies: false,
@@ -183,5 +185,124 @@ describe("ExpressionOptions", () => {
       payload: { ...expression, cookieNames: [] },
       type: ReduxConstants.UPDATE_EXPRESSION,
     });
+  });
+});
+
+// Cleanup keeps a cookie partitioned under ANOTHER site only while a rule
+// also keeps that site (#511), so the editor lists only the cookie names a
+// rule can keep.
+describe("ExpressionOptions partitioned cookies", () => {
+  const youtube: Expression = {
+    expression: "youtube.com",
+    id: "yt",
+    listType: ListType.WHITE,
+    storeId: "default",
+  };
+  const lenovo: Expression = {
+    expression: "lenovo.com",
+    id: "lv",
+    listType: ListType.WHITE,
+    storeId: "default",
+  };
+
+  const cookie = (
+    name: string,
+    partitionTopLevelSite?: string
+  ): browser.cookies.Cookie =>
+    ({
+      domain: ".youtube.com",
+      hostOnly: false,
+      httpOnly: false,
+      name,
+      path: "/",
+      sameSite: "no_restriction",
+      secure: true,
+      session: false,
+      storeId: "0",
+      value: "v",
+      ...(partitionTopLevelSite && {
+        partitionKey: { topLevelSite: partitionTopLevelSite },
+      }),
+    }) as browser.cookies.Cookie;
+
+  const renderWithRules = (expression: Expression, rules: Expression[]) => {
+    const state: State = { ...initialState, lists: { default: rules } };
+    return render(
+      <Provider store={createStore(() => state)}>
+        <ExpressionOptions
+          expression={{ ...expression, cleanAllCookies: false }}
+        />
+      </Provider>
+    );
+  };
+
+  beforeEach(() => {
+    global.browser.i18n.getMessage.mockImplementation((key: string) => key);
+    global.browser.cookies.getAll.mockResolvedValue([
+      cookie("unpartitioned"),
+      cookie("ownSite", "https://youtube.com"),
+      cookie("underLenovo", "https://lenovo.com"),
+    ]);
+  });
+
+  it("lists cookies unpartitioned or partitioned under their own site, and hides ones under a site no rule keeps", async () => {
+    const { findByText, queryByText } = renderWithRules(youtube, [youtube]);
+    await findByText("unpartitioned");
+    await findByText("ownSite");
+    expect(queryByText("underLenovo")).toBeNull();
+  });
+
+  it("lists cookies partitioned under a site another rule keeps", async () => {
+    const { findByText } = renderWithRules(youtube, [youtube, lenovo]);
+    await findByText("unpartitioned");
+    await findByText("ownSite");
+    await findByText("underLenovo");
+  });
+
+  it("still lists a name the rule already keeps", async () => {
+    const { findByText } = renderWithRules(
+      { ...youtube, cookieNames: ["underLenovo"] },
+      [youtube]
+    );
+    await findByText("underLenovo");
+  });
+
+  it("filters the regex, file: and CIDR branches too", async () => {
+    global.browser.cookies.getAll.mockResolvedValue([
+      cookie("unpartitioned"),
+      cookie("underLenovo", "https://lenovo.com"),
+      {
+        ...cookie("ipCookie"),
+        domain: "192.168.1.5",
+      },
+      {
+        ...cookie("ipUnderLenovo", "https://lenovo.com"),
+        domain: "192.168.1.5",
+      },
+      {
+        ...cookie("localFile"),
+        domain: "",
+        path: "/home/user/a",
+      },
+    ]);
+    const regex = renderWithRules({ ...youtube, expression: "/youtube/" }, [
+      { ...youtube, expression: "/youtube/" },
+    ]);
+    await regex.findByText("unpartitioned");
+    expect(regex.queryByText("underLenovo")).toBeNull();
+    regex.unmount();
+
+    const cidr = renderWithRules({ ...youtube, expression: "192.168.0.0/16" }, [
+      { ...youtube, expression: "192.168.0.0/16" },
+    ]);
+    await cidr.findByText("ipCookie");
+    expect(cidr.queryByText("ipUnderLenovo")).toBeNull();
+    cidr.unmount();
+
+    const file = renderWithRules(
+      { ...youtube, expression: "file:///home/user/" },
+      [{ ...youtube, expression: "file:///home/user/" }]
+    );
+    await file.findByText("localFile");
   });
 });
