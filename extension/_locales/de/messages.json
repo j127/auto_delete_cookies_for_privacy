@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "Bereinigt: $matchedExpression$ auf der $listType$ behält die eigenen Cookies der Website, dieses ist aber unter $mainDomain$ gespeichert, das nicht behalten wird",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "Beim Start bereinigt: $hostname$ steht weder auf der Whitelist noch auf der Greylist",
     "placeholders": {

@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "Curățat: $matchedExpression$ de pe $listType$ păstrează cookie-urile proprii ale site-ului, dar acesta este stocat sub $mainDomain$, care nu este păstrat",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "Curățat la pornire: $hostname$ nu apare nici pe lista albă, nici pe cea gri",
     "placeholders": {

@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "نُظف: $matchedExpression$ في $listType$ يُبقي كوكيز الموقع نفسه، لكن هذه مخزّنة تحت $mainDomain$، وهو غير مُبقى",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "نُظف عند بدء التشغيل: $hostname$ ليس في القائمة البيضاء ولا الرمادية",
     "placeholders": {

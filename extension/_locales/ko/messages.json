@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "정리됨: $listType$의 $matchedExpression$은(는) 사이트 자체의 쿠키를 유지하지만, 이 쿠키는 유지되지 않는 $mainDomain$ 아래에 저장되어 있습니다",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "시작 시 정리: $hostname$이(가) 화이트리스트에도 그레이리스트에도 없습니다",
     "placeholders": {

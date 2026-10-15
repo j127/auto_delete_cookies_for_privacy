@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "Очишћено: $matchedExpression$ на листи $listType$ задржава сопствене колачиће сајта, али овај је сачуван под $mainDomain$, који се не задржава",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "Очишћено при покретању: $hostname$ није ни на белој ни на сивој листи",
     "placeholders": {

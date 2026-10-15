@@ -9,6 +9,7 @@ import { initialState } from "@/redux/state";
 import { ReduxConstants } from "@/typings/redux-constants";
 import {
   FilterOptions,
+  ListType,
   OpenTabStatus,
   ReasonClean,
   SiteDataType,
@@ -137,6 +138,40 @@ describe("ActivityTable", () => {
     expect(dangers).toHaveLength(1);
     expect(dangers[0].textContent).toBe(
       "example.com (cookieA, cookieB): reasonCleanNoList"
+    );
+  });
+
+  // #511: the rule kept the host's own cookies, not this partitioned one.
+  it("names the rule, its list and the embedding site for a partitioned cookie no rule keeps", () => {
+    const { container } = renderTable({
+      activityLog: [
+        makeLog({
+          storeIds: {
+            default: [
+              {
+                ...makeCleanReason(
+                  makeCookie("youtube.com", "embedded", {
+                    mainDomain: "lenovo.com",
+                  })
+                ),
+                expression: {
+                  expression: "*.youtube.com",
+                  listType: ListType.WHITE,
+                  storeId: "default",
+                },
+                reason: ReasonClean.PartitionNotKept,
+              },
+            ],
+          },
+        }),
+      ],
+    });
+    expect(container.querySelector(".alert.alert-error")?.textContent).toBe(
+      "youtube.com (embedded): reasonCleanPartitionNotKept"
+    );
+    expect(global.browser.i18n.getMessage).toHaveBeenCalledWith(
+      "reasonCleanPartitionNotKept",
+      ["*.youtube.com", "whiteListWordText", "lenovo.com"]
     );
   });
 

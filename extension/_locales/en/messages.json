@@ -923,6 +923,24 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "Cleaned: $matchedExpression$ on the $listType$ keeps the site's own cookies, but this one is stored under $mainDomain$, which is not kept",
+    "description": "Cleaned: $matchedExpression$ on the $listType$ keeps the site's own cookies, but this one is stored under $mainDomain$ (a cookie partitioned under another site), which is not kept. Used in cleanup logs.",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "Cleaned at startup: $hostname$ appears on neither the Whitelist nor the Greylist",
     "description": "Cleaned at startup: $hostname$ appears on neither the Whitelist nor the Greylist",

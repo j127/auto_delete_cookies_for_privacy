@@ -292,6 +292,92 @@ describe("row 3: partitioned tracker under a kept site", () => {
   }, 180000);
 });
 
+describe("row 3: partitioned tracker whose own site is kept", () => {
+  // The other direction of #490 (#511): a rule for the tracker's own site
+  // keeps the tracker's own cookies, not the ones Total Cookie Protection
+  // stores under a site no rule keeps. Those are only ever sent there.
+  const keptRules = async (): Promise<string[]> => {
+    const state = (await probe(session, { kind: "getState" })) as {
+      lists?: Record<string, { expression: string }[]>;
+    };
+    return (state.lists?.default ?? []).map((e) => e.expression);
+  };
+  const fixtureCookieNames = async (domain: string): Promise<string[]> =>
+    (await cookiesFor({ domain }))
+      .map((c) => c.name)
+      .filter((name) => name.startsWith("e2e_"));
+
+  it("cleans the tracker's cookie under the closed site and keeps the tracker's own", async () => {
+    await probe(session, {
+      kind: "dispatch",
+      action: {
+        type: "ADD_EXPRESSION",
+        payload: {
+          expression: "127.0.0.1",
+          listType: "WHITE",
+          storeId: "default",
+        },
+      },
+    });
+    const kept = await waitUntil(
+      async () => (await keptRules()).some((e) => e === "127.0.0.1"),
+      10000
+    );
+    expect(kept).toBe(true);
+
+    try {
+      // The tracker's own cookies, set as a site of its own.
+      await whileOpen(`${fixture.thirdParty}/cookies`, async () => {
+        const appeared = await waitUntil(
+          async () => (await fixtureCookieNames("127.0.0.1")).length === 2,
+          15000
+        );
+        expect(appeared).toBe(true);
+      });
+      // Its cookie as a frame of localhost, partitioned under localhost.
+      await whileOpen(`${fixture.primary}/embed`, async () => {
+        const appeared = await waitUntil(
+          async () =>
+            (await fixtureCookieNames("127.0.0.1")).includes("e2e_tracker"),
+          15000
+        );
+        expect(appeared).toBe(true);
+      });
+
+      const trackerCleaned = await waitUntil(
+        async () =>
+          !(await fixtureCookieNames("127.0.0.1")).includes("e2e_tracker"),
+        45000
+      );
+      if (!trackerCleaned) {
+        console.log(
+          "row3 kept-tracker diagnostics:",
+          JSON.stringify(await probe(session, { kind: "diagnostics" }))
+        );
+      }
+      expect(trackerCleaned).toBe(true);
+      expect((await fixtureCookieNames("127.0.0.1")).sort()).toEqual([
+        "e2e_header",
+        "e2e_js",
+      ]);
+    } finally {
+      await probe(session, {
+        kind: "dispatch",
+        action: { type: "CLEAR_EXPRESSIONS", payload: {} },
+      });
+      await waitUntil(async () => (await keptRules()).length === 0, 10000);
+    }
+
+    // Leave nothing behind for the rows after this one.
+    await whileOpen(`${fixture.thirdParty}/cookies`, async () => undefined);
+    const cleaned = await waitUntil(
+      async () => (await fixtureCookieNames("127.0.0.1")).length === 0,
+      45000
+    );
+    expect(cleaned).toBe(true);
+  }, 180000);
+});
+
 describe("row 13: site-data (localStorage) cleanup", () => {
   it("clears localStorage for the exact host after tab close", async () => {
     await whileOpen(`${fixture.primary}/storage`, async () => {

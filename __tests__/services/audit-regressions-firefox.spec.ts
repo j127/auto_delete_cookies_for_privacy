@@ -163,6 +163,51 @@ describe("audit regressions on the Gecko-semantics jar", () => {
       await runCleanup(whitelist("*.genius.com"));
       expect(jar.cookies.map((c) => c.name)).toEqual(["session", "tracker"]);
     });
+
+    // #511, the other direction: a rule for the embedded site kept its
+    // cookies partitioned under every site that embeds it.
+    describe("a kept site's cookies partitioned under another site", () => {
+      const seedYouTube = () => {
+        const jar = installGeckoCookieMock();
+        jar.seed(
+          fxCookie({ domain: ".youtube.com", hostOnly: false, name: "SID" }),
+          fxCookie({
+            domain: ".youtube.com",
+            hostOnly: false,
+            name: "embedded",
+            partitionKey: { topLevelSite: "https://lenovo.com" },
+          }),
+          fxCookie({
+            domain: ".beyondunreal.com",
+            hostOnly: false,
+            name: "cf_clearance",
+            partitionKey: { topLevelSite: "https://beyondunreal.com" },
+          })
+        );
+        return jar;
+      };
+
+      it("cleans them when the embedding site is not kept", async () => {
+        const jar = seedYouTube();
+        const result = await runCleanup(
+          whitelist("*.youtube.com", "*.beyondunreal.com")
+        );
+        expect(jar.cookies.map((c) => c.name)).toEqual(["SID", "cf_clearance"]);
+        expect(result.cachedResults.recentlyCleaned).toBe(1);
+      });
+
+      it("keeps them when the embedding site is kept too", async () => {
+        const jar = seedYouTube();
+        await runCleanup(
+          whitelist("*.youtube.com", "*.lenovo.com", "*.beyondunreal.com")
+        );
+        expect(jar.cookies.map((c) => c.name)).toEqual([
+          "SID",
+          "embedded",
+          "cf_clearance",
+        ]);
+      });
+    });
   });
 
   it("bug 4: a private-window whitelist actually protects private cookies", async () => {
