@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "Καθαρίστηκε: το $matchedExpression$ στη $listType$ διατηρεί τα δικά cookies του ιστότοπου, αλλά αυτό είναι αποθηκευμένο κάτω από το $mainDomain$, που δεν διατηρείται",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "Καθαρίστηκε στην εκκίνηση: το $hostname$ δεν είναι ούτε στη λευκή ούτε στη γκρίζα λίστα",
     "placeholders": {

@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "Ryddet: $matchedExpression$ på $listType$ beholder webstedets egne cookies, men denne er gemt under $mainDomain$, som ikke beholdes",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "Ryddet ved opstart: $hostname$ står hverken på hvidlisten eller grålisten",
     "placeholders": {

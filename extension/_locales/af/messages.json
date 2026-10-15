@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "Skoongemaak: $matchedExpression$ op die $listType$ hou die werf se eie koekies, maar hierdie een word onder $mainDomain$ gestoor, wat nie gehou word nie",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "Met begin skoongemaak: $hostname$ verskyn nie op die witlys of die gryslys nie",
     "placeholders": {

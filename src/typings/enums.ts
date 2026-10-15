@@ -92,6 +92,7 @@ export enum ReasonClean {
   ExpiredCookieRestart = "reasonCleanCookieExpiredRestart",
   CADSiteDataCookie = "reasonCADSiteDataCookie",
   CADSiteDataCookieRestart = "reasonCADSiteDataCookieRestart",
+  PartitionNotKept = "reasonCleanPartitionNotKept",
 }
 
 export enum OpenTabStatus {

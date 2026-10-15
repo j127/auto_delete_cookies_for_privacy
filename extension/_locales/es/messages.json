@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "Limpiado: $matchedExpression$ en la $listType$ conserva las cookies propias del sitio, pero esta está guardada bajo $mainDomain$, que no se conserva",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "Limpiado al iniciar: $hostname$ no aparece ni en la lista blanca ni en la gris",
     "placeholders": {

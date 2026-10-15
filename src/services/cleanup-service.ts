@@ -100,6 +100,44 @@ export const prepareCookie = (
   return cookieProperties;
 };
 
+/**
+ * The keep rule that applies to a cookie, and the rule it would have had
+ * if only its own host counted. Rules match a cookie's own host (#490).
+ * A cookie partitioned under ANOTHER site is only ever used on that site,
+ * so its own site's rule keeps it only while that site is kept too
+ * (#511): a rule for youtube.com keeps the YouTube session, not the
+ * cookies of a YouTube player embedded on lenovo.com. A cookie
+ * partitioned under its own site (a first-party CHIPS cookie such as
+ * Cloudflare's cf_clearance) needs nothing more. At a startup cleanup a
+ * Greylist rule keeps nothing, so the embedding site's rule has to be on
+ * the Whitelist then.
+ */
+export const matchKeepRules = (
+  state: State,
+  cookieProperties: CookiePropertiesCleanup,
+  greyCleanup: boolean
+): { matched?: Expression; ownMatch?: Expression } => {
+  const { storeId, hostname, mainDomain, partitionKey } = cookieProperties;
+  const ownMatch = returnMatchedExpressionObject(state, storeId, hostname);
+  const topLevelSite = partitionKey?.topLevelSite;
+  if (
+    !ownMatch ||
+    !topLevelSite ||
+    extractMainDomain(hostname) === mainDomain
+  ) {
+    return { matched: ownMatch, ownMatch };
+  }
+  const embedderMatch = returnMatchedExpressionObject(
+    state,
+    storeId,
+    getHostname(topLevelSite)
+  );
+  const embedderKept =
+    embedderMatch !== undefined &&
+    (!greyCleanup || embedderMatch.listType === ListType.WHITE);
+  return { matched: embedderKept ? ownMatch : undefined, ownMatch };
+};
+
 /** Returns an object representing the cookie with internal flags */
 export const isSafeToClean = (
   state: State,
@@ -148,11 +186,30 @@ export const isSafeToClean = (
   }
 
   // Checks the list for the first available match
-  const matchedExpression = returnMatchedExpressionObject(
+  const { matched: matchedExpression, ownMatch } = matchKeepRules(
     state,
-    storeId,
-    hostname
+    cookieProperties,
+    greyCleanup
   );
+  // The cookie's own site is kept, but the site it is partitioned under
+  // is not (matchKeepRules): it goes like a cookie no rule matches.
+  if (!matchedExpression && ownMatch) {
+    adcpLog(
+      {
+        msg: "CleanupService.isSafeToClean:  matched Expression, but the cookie is partitioned under a site no rule keeps.  Safe to Clean.",
+        x: { partialCookieInfo, ownMatch },
+      },
+      debug
+    );
+    return {
+      cached: false,
+      cleanCookie: true,
+      cookie: cookieProperties,
+      expression: ownMatch,
+      openTabStatus,
+      reason: ReasonClean.PartitionNotKept,
+    };
+  }
 
   // Internal ADCP marker cookie Checks
   if (
@@ -1200,9 +1257,14 @@ export const filterSiteData = (
   debug = false
 ): boolean => {
   const notProtectedByOpenTab = obj.reason !== ReasonKeep.OpenTabs;
+  // No rule keeps the cookie. A cookie partitioned under a site no rule
+  // keeps counts too, whatever its own host's rule says (#511): that rule
+  // still protects the host's storage from the wipe, through
+  // isDomainProtectedInAnyStore.
   const notInAnyLists =
     obj.reason === ReasonClean.NoMatchedExpression ||
-    obj.reason === ReasonClean.StartupNoMatchedExpression;
+    obj.reason === ReasonClean.StartupNoMatchedExpression ||
+    obj.reason === ReasonClean.PartitionNotKept;
   const isExpiredNotRestart = obj.reason === ReasonClean.ExpiredCookie;
   const isExpiredRestart = obj.reason === ReasonClean.ExpiredCookieRestart;
   const isCADCookieNoExpression =

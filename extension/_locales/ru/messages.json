@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "Очищено: $matchedExpression$ в списке $listType$ сохраняет собственные куки сайта, но эта хранится под $mainDomain$, который не сохраняется",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "Очищено при запуске: $hostname$ нет ни в белом, ни в сером списке",
     "placeholders": {

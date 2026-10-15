@@ -92,6 +92,16 @@ const returnReasonMessages = (cleanReasonObject: CleanReasonObject) => {
       ]);
     }
 
+    case ReasonClean.PartitionNotKept: {
+      return browser.i18n.getMessage(reason, [
+        matchedExpression ? matchedExpression.expression : "",
+        matchedExpression && matchedExpression.listType === ListType.GREY
+          ? browser.i18n.getMessage("greyListWordText")
+          : browser.i18n.getMessage("whiteListWordText"),
+        mainDomain,
+      ]);
+    }
+
     case ReasonClean.MatchedExpressionButNoCookieName:
     case ReasonKeep.MatchedExpression: {
       return browser.i18n.getMessage(reason, [

@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "Очищено: $matchedExpression$ у списку $listType$ залишає власні куки сайту, але цю збережено під $mainDomain$, який не залишається",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "Очищено під час запуску: $hostname$ немає ні в білому, ні в сірому списку",
     "placeholders": {

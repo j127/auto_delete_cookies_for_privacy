@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "Opgeschoond: $matchedExpression$ op de $listType$ bewaart de eigen cookies van de site, maar deze is opgeslagen onder $mainDomain$, dat niet bewaard wordt",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "Bij het opstarten opgeschoond: $hostname$ staat noch op de witte lijst noch op de grijze lijst",
     "placeholders": {

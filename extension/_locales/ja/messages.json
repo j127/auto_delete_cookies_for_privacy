@@ -763,6 +763,23 @@
       }
     }
   },
+  "reasonCleanPartitionNotKept": {
+    "message": "クリーンアップ: $listType$ の $matchedExpression$ はサイト自身の Cookie を保持しますが、この Cookie は保持対象ではない $mainDomain$ の下に保存されています",
+    "placeholders": {
+      "matchedExpression": {
+        "content": "$1",
+        "example": "*.youtube.com"
+      },
+      "listType": {
+        "content": "$2",
+        "example": "Whitelist"
+      },
+      "mainDomain": {
+        "content": "$3",
+        "example": "lenovo.com"
+      }
+    }
+  },
   "reasonCleanStartupNoList": {
     "message": "起動時にクリーンアップ: $hostname$ はホワイトリストにもグレーリストにもありません",
     "placeholders": {

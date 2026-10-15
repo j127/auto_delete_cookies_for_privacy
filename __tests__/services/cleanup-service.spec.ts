@@ -2633,7 +2633,10 @@ describe("CleanupService", () => {
       expect(result.reason).toBe(ReasonKeep.OpenTabs);
     });
 
-    it("keeps a third-party cookie when its own domain is whitelisted", () => {
+    // #511: its own domain's rule alone no longer keeps it. The cookie is
+    // only ever sent on the site it is partitioned under, so that site
+    // has to be kept too.
+    it("cleans a third-party cookie whose own domain is whitelisted but whose top-level site is not", () => {
       const prepared = prepareCookie(partitionedCookie);
       const result = isSafeToClean(
         whitelistState("tracker.example"),
@@ -2643,6 +2646,26 @@ describe("CleanupService", () => {
           openTabDomains: {},
         }
       );
+      expect(result.cleanCookie).toBe(true);
+      expect(result.reason).toBe(ReasonClean.PartitionNotKept);
+    });
+
+    it("keeps a third-party cookie when its own domain and its top-level site are whitelisted", () => {
+      const prepared = prepareCookie(partitionedCookie);
+      const both: State = {
+        ...initialState,
+        lists: {
+          default: ["tracker.example", "shop.example"].map((expression) => ({
+            expression,
+            listType: ListType.WHITE,
+            storeId: "default",
+          })),
+        },
+      };
+      const result = isSafeToClean(both, prepared, {
+        ...baseCleanupProperties,
+        openTabDomains: {},
+      });
       expect(result.cleanCookie).toBe(false);
       expect(result.reason).toBe(ReasonKeep.MatchedExpression);
     });
