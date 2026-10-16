@@ -41,6 +41,12 @@ Put `OK`, `FAIL #NNN` (issue number), or `SKIP (reason)` in each channel cell, p
 
 One line per full pass, newest first: `YYYY-MM-DD, vX.Y.Z (or commit): ESR <exact version>, Rel <exact version>; N OK, N SKIP, N FAIL`.
 
+- 2026-10-16, 1.2.2 (`main` at `3fdcdd2`): ESR 140.17.0esr, Rel 157.0 (CI) and 158.0 (manual); 44 OK (12 with a step skipped, see the cells), 0 FAIL.
+  - All automated rows, 22 included, ran in CI on the release's merge commit: run 38811887197, all 41 e2e tests on each channel. The Chromium companion passed in the same run: 31 tests on Chrome for Testing 155.0.8059.39.
+  - The manual parts ran on Firefox 158.0 on macOS 27: the popup and right-click keeps in a container tab with separate lists on and off, "Copy rules from Default" pressed twice, the popup keep in a private window, the Allow click, and the popup's fit. They were repeated because the popup, the right-click menu and the container handling changed after the 2026-10-06 run. No ESR build was installed locally, so those steps are SKIP in the ESR column.
+  - Row 11 first looked like a failure: after every private window was closed, the kept site's cookies and the Private list were gone. That is the intended end of a private session (#468), so the step was run again with a private window left open, and the kept site's cookies survived its tab closing.
+  - Row 22's scenario also ran once on the real site (#504): on reddit.com in a fresh Firefox 158.0 profile, a YouTube player's localStorage item was gone after its tab closed and a cleanup ran from the popup.
+  - This pass ran after 1.2.2 was already on AMO. 1.2.1 has no entry of its own; its changes are in this build.
 - 2026-10-07, 1.2.0 (`main` at `4e1b77c`): ESR 140.17.0esr, Rel 157.0; 42 OK (12 with a step skipped, see the cells), 0 FAIL.
   - All automated rows, 20 and 21 included, ran in CI on the final `main`: run 37551837356, all 37 e2e tests on each channel. The Chromium companion passed in the same run: 10 tests on Chrome for Testing 155.0.8059.39, including the storage end state of rows 13 and 21.
   - The manual parts were not repeated: they ran on 2026-10-06 against a build of `947e765` (the entry below). Since then #472, #477, #479 and #482 changed the extension (#480 and #481 changed only tests, CI and a release note), and none of them changes the code behind those steps on Firefox: #477 and #479 take the keep list from the tab's own `cookieStoreId`, which Firefox always sets, #482 corrects Help text, and #472's frame markers are rows 13, 20 and 21, which CI covers.
