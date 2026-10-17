@@ -41,6 +41,10 @@ Put `OK`, `FAIL #NNN` (issue number), or `SKIP (reason)` in each channel cell, p
 
 One line per full pass, newest first: `YYYY-MM-DD, vX.Y.Z (or commit): ESR <exact version>, Rel <exact version>; N OK, N SKIP, N FAIL`.
 
+- 2026-10-17, 1.2.3 (`main` at `b1871be`): ESR 140.17.0esr, Rel 157.0; 44 OK (12 with a step skipped, see the cells), 0 FAIL.
+  - All automated rows ran in CI on `main` after #517 merged: run 39048219999, all 42 e2e tests on each channel, including row 14's updated case and row 22's new container case. The Chromium companion passed in the same run: 31 tests on Chrome for Testing 155.0.8059.39.
+  - The manual parts were not repeated: they ran on 2026-10-16 for 1.2.2 (the entry below). Since then only #517 changed the extension, in how storage wipes are limited to one container (`cleanup-service.ts`, `browser-capabilities.ts`), which rows 14 and 22 cover in CI. None of the popup, right-click, permission or popup-fit code behind those steps changed.
+  - Row 22's container case also ran on the real site before the merge: on reddit.com in Firefox 158.0, with `*.youtube.com` kept in a container's list, a YouTube player's localStorage item was gone after its tab closed and a cleanup ran from the popup.
 - 2026-10-16, 1.2.2 (`main` at `3fdcdd2`): ESR 140.17.0esr, Rel 157.0 (CI) and 158.0 (manual); 44 OK (12 with a step skipped, see the cells), 0 FAIL.
   - All automated rows, 22 included, ran in CI on the release's merge commit: run 38811887197, all 41 e2e tests on each channel. The Chromium companion passed in the same run: 31 tests on Chrome for Testing 155.0.8059.39.
   - The manual parts ran on Firefox 158.0 on macOS 27: the popup and right-click keeps in a container tab with separate lists on and off, "Copy rules from Default" pressed twice, the popup keep in a private window, the Allow click, and the popup's fit. They were repeated because the popup, the right-click menu and the container handling changed after the 2026-10-06 run. No ESR build was installed locally, so those steps are SKIP in the ESR column.
