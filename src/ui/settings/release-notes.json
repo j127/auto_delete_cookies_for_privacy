@@ -1,6 +1,13 @@
 {
   "releases": [
     {
+      "version": "1.2.3",
+      "notes": [
+        "Firefox: a keep rule in one container no longer keeps a site's Local Storage and IndexedDB from being cleaned outside that container. For example, if you keep YouTube in a container, the data of YouTube videos embedded on other sites is now cleaned when those sites close, and the container keeps its own YouTube data. A site's service worker data still stays everywhere while any container keeps the site, because Firefox can only clear it in all containers at once.",
+        "Internal: the automated Firefox suite checks a video player kept in a container, and the Firefox test matrix records the test pass for 1.2.2."
+      ]
+    },
+    {
       "version": "1.2.2",
       "notes": [
         "Firefox: the storage that frames from other sites keep inside a page (for example an embedded YouTube player's Local Storage) is now cleaned once the embedding site closes. Before, it stayed unless the frame's site had a cookie of its own. It is left alone while the frame's own site is open in a tab, still embedded in another open site, or kept by one of your rules, because Firefox clears stored data host by host and would clear that site's own data too. For this, the extension now also notes the address of frames from other sites as they load, as it already did for same-site frames; it never sees their content.",
