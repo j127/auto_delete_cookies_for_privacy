@@ -45,7 +45,9 @@ interface StoredExpression {
 
 interface ActivityEntry {
   storeIds?: Record<string, { cookie: { name: string; hostname: string } }[]>;
-  browsingDataCleanup?: { LocalStorage?: string[] };
+  browsingDataCleanup?: Partial<
+    Record<"LocalStorage" | "IndexedDB" | "ServiceWorkers", string[]>
+  >;
 }
 
 interface PersistedState {
@@ -512,11 +514,13 @@ describe("containers available (rows 7, 8, 9, 14)", () => {
       if (!emptied) throw new Error("activity log was not cleared");
     }, 60000);
 
-    it("leaves a site's storage alone while another container keeps it", async () => {
+    it("keeps a site's service-worker data while another container keeps it, and wipes its localStorage in the default store", async () => {
       // Two sites in the default store, where neither is kept: localhost is
-      // kept in container A, 127.0.0.1 nowhere, so only 127.0.0.1 may join
-      // the storage wipe. No tab of either stays open (an open tab in any
-      // store also vetoes the wipe, which would hide the list guard).
+      // kept in container A, 127.0.0.1 nowhere. localStorage and IndexedDB
+      // wipes are limited to the default store (#504), so both sites join
+      // those; a service-worker wipe reaches every container, so only
+      // 127.0.0.1 may join that one. No tab of either stays open (an open
+      // tab also vetoes the wipe, which would hide the list guard).
       const tabs = [
         await openTab(session, `${fixture.primary}/storage`),
         await openTab(session, `${fixture.thirdParty}/storage`),
@@ -537,8 +541,13 @@ describe("containers available (rows 7, 8, 9, 14)", () => {
         for (const tab of tabs) await closeTab(session, tab);
       }
 
-      const wipedOf = (entry: ActivityEntry): string[] =>
-        entry.browsingDataCleanup?.LocalStorage ?? [];
+      const wipedOf = (
+        entry: ActivityEntry,
+        type: "LocalStorage" | "IndexedDB" | "ServiceWorkers" = "LocalStorage"
+      ): string[] => entry.browsingDataCleanup?.[type] ?? [];
+      const allWiped = (
+        type: "LocalStorage" | "IndexedDB" | "ServiceWorkers"
+      ): string[] => log.flatMap((e) => wipedOf(e, type));
       const cleanedInDefault = (entry: ActivityEntry, host: string) =>
         (entry.storeIds?.[DEFAULT_STORE] ?? []).some(
           (o) =>
@@ -549,14 +558,21 @@ describe("containers available (rows 7, 8, 9, 14)", () => {
         log = (await persistedState()).activityLog ?? [];
         return (
           log.some((e) => cleanedInDefault(e, "localhost")) &&
-          log.some((e) => wipedOf(e).includes("127.0.0.1"))
+          log.some((e) => wipedOf(e).includes("127.0.0.1")) &&
+          log.some((e) => wipedOf(e).includes("localhost"))
         );
       }, 45000);
       if (!settled) console.log("row14 log:", JSON.stringify(log));
       expect(settled).toBe(true);
-      // localhost's cookies were cleaned in the default store, yet its
-      // storage stayed out of every wipe.
-      expect(log.flatMap(wipedOf)).not.toContain("localhost");
+      // localhost's cookies were cleaned in the default store, and so was
+      // its storage there. Container A's own copy is out of reach of that
+      // wipe (row 22's container case reads it back; Gecko does not wipe
+      // the ported origins this fixture serves, see row 13).
+      expect(allWiped("IndexedDB")).toContain("localhost");
+      // Firefox cannot limit a service-worker wipe to one store, so
+      // container A's rule still keeps localhost out of that one.
+      expect(allWiped("ServiceWorkers")).toContain("127.0.0.1");
+      expect(allWiped("ServiceWorkers")).not.toContain("localhost");
     }, 120000);
   });
 });
