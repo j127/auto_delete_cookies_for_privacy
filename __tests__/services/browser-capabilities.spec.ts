@@ -23,6 +23,7 @@ describe("CAPABILITIES", () => {
       },
       cookieRemoveReportsMisses: false,
       storageRemovalIgnoresPartitions: false,
+      storeScopedSiteDataTypes: [],
     });
   });
 
@@ -36,6 +37,7 @@ describe("CAPABILITIES", () => {
       extraRemovalTypes: {},
       cookieRemoveReportsMisses: true,
       storageRemovalIgnoresPartitions: true,
+      storeScopedSiteDataTypes: ["LocalStorage", "IndexedDB"],
     });
   });
 });

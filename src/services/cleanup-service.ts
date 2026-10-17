@@ -892,7 +892,10 @@ export const removeSiteData = async (
   debug: boolean,
   manual = false,
   // What the notification names; the scope list itself by default.
-  displayDomains: string[] = domains
+  displayDomains: string[] = domains,
+  // The one cookie store the removal is limited to (siteDataWipeStore);
+  // undefined reaches every store.
+  cookieStoreId?: string
 ): Promise<boolean> => {
   // Chrome's browsingData API scopes removals by origin; Firefox rejects
   // the origins key entirely and scopes by bare hostnames instead.
@@ -900,7 +903,7 @@ export const removeSiteData = async (
   const sd = siteDataToBrowser(siteData);
   adcpLog(
     {
-      msg: `CleanupService.removeSiteData: Cleanup of ${listName} for ${sd}:`,
+      msg: `CleanupService.removeSiteData: Cleanup of ${listName} for ${sd}${cookieStoreId === undefined ? "" : ` in ${cookieStoreId}`}:`,
       x: domains,
     },
     debug
@@ -912,6 +915,7 @@ export const removeSiteData = async (
     await browser.browsingData.remove(
       {
         [listName]: domains,
+        ...(cookieStoreId !== undefined && { cookieStoreId }),
       } as browser.browsingData.RemovalOptions,
       siteDataToRemovalTypes(siteData)
     );
@@ -1034,7 +1038,9 @@ export const otherBrowsingDataCleanup = async (
   state: State,
   isSafeToCleanObjects: CleanReasonObject[],
   openTabDomains: Record<string, string[]> = {},
-  embeddedMainDomains: ReadonlySet<string> = new Set()
+  embeddedMainDomains: ReadonlySet<string> = new Set(),
+  // Per raw store id, as in cleanSiteData.
+  embeddedByStore: ReadonlyMap<string, ReadonlySet<string>> = new Map()
 ): Promise<ActivityLog["browsingDataCleanup"]> => {
   const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
   const browsingDataResult: ActivityLog["browsingDataCleanup"] = {};
@@ -1050,7 +1056,8 @@ export const otherBrowsingDataCleanup = async (
       isSafeToCleanObjects,
       debug,
       openTabDomains,
-      embeddedMainDomains
+      embeddedMainDomains,
+      embeddedByStore
     );
   }
   if (getSetting(state, SettingID.CLEANUP_INDEXEDDB)) {
@@ -1060,7 +1067,8 @@ export const otherBrowsingDataCleanup = async (
       isSafeToCleanObjects,
       debug,
       openTabDomains,
-      embeddedMainDomains
+      embeddedMainDomains,
+      embeddedByStore
     );
   }
   if (getSetting(state, SettingID.CLEANUP_LOCALSTORAGE)) {
@@ -1070,7 +1078,8 @@ export const otherBrowsingDataCleanup = async (
       isSafeToCleanObjects,
       debug,
       openTabDomains,
-      embeddedMainDomains
+      embeddedMainDomains,
+      embeddedByStore
     );
   }
   if (getSetting(state, SettingID.CLEANUP_PLUGINDATA)) {
@@ -1080,7 +1089,8 @@ export const otherBrowsingDataCleanup = async (
       isSafeToCleanObjects,
       debug,
       openTabDomains,
-      embeddedMainDomains
+      embeddedMainDomains,
+      embeddedByStore
     );
   }
   if (getSetting(state, SettingID.CLEANUP_SERVICEWORKERS)) {
@@ -1090,7 +1100,8 @@ export const otherBrowsingDataCleanup = async (
       isSafeToCleanObjects,
       debug,
       openTabDomains,
-      embeddedMainDomains
+      embeddedMainDomains,
+      embeddedByStore
     );
   }
 
@@ -1105,17 +1116,20 @@ export const otherBrowsingDataCleanup = async (
  * @param debug True if debug mode.
  */
 /**
- * Cross-store guard for storage wipes. browsingData is container-blind:
- * its RemovalOptions.cookieStoreId accepts only the default and private
- * stores (and, for our five site-data types, no store scoping at all — on
- * Firefox the key is honored for the cookies data type only, and Chrome
- * has no per-store scoping either). Wiping a domain's storage because its
- * cookies qualified in ONE store therefore destroys that domain's storage
- * in EVERY container. So: if any other store's expression list still
- * protects the domain for this site-data type, or the domain is open in
- * any store's tab, its hostname must stay out of the removal scope.
- * (The manual per-site actions stay unguarded on purpose — an explicit
- * "clean this site now" click wins.)
+ * Cross-store guard for storage wipes. A wipe without a cookieStoreId is
+ * container-blind: Chrome has no per-store scoping, and Firefox honors
+ * the key only for cookies, localStorage and IndexedDB, and ignores
+ * firefox-private for storage (browserCapabilities.storeScopedSiteDataTypes,
+ * siteDataWipeStore). This guard was first written (#281) on the belief
+ * that Firefox honored it for cookies only; #504 found otherwise, and the
+ * types it can scope now go through isDomainProtectedInStore instead. For
+ * every other wipe, wiping a domain's storage because its cookies
+ * qualified in ONE store destroys that domain's storage in EVERY
+ * container. So: if any other store's expression list still protects the
+ * domain for this site-data type, or the domain is open in any store's
+ * tab, its hostname must stay out of the removal scope. (The manual
+ * per-site actions stay unguarded on purpose — an explicit "clean this
+ * site now" click wins.)
  *
  * On Firefox a wipe is partition-blind as well: it empties the host's
  * storage as a site of its own and inside every site that embeds it. So
@@ -1142,6 +1156,57 @@ export const isDomainProtectedInAnyStore = (
     if (!markedForCleaning) return true;
   }
   return isDomainInUseInAnyStore(openTabDomains, embeddedMainDomains, domain);
+};
+
+/**
+ * The cookie store a wipe of this site-data type is limited to when it
+ * cleans up after a cookie of storeId, or undefined for a wipe that
+ * reaches every store. Firefox limits localStorage and IndexedDB to one
+ * container (or to no container) with cookieStoreId (#504): a keep rule
+ * for YouTube in one container then no longer stops the cleanup of
+ * YouTube's storage outside it. firefox-private is left out: given it,
+ * Firefox removes no storage at all (Firefox 158), while a wipe without
+ * it still reaches the private window's IndexedDB.
+ */
+export const siteDataWipeStore = (
+  siteData: SiteDataType,
+  storeId: string
+): string | undefined =>
+  browserCapabilities.storeScopedSiteDataTypes.includes(siteData) &&
+  storeId !== "" &&
+  storeId !== "firefox-private"
+    ? storeId
+    : undefined;
+
+/**
+ * The guard for a wipe limited to one store (siteDataWipeStore): only
+ * that store's own keep list (the Default list while separate container
+ * lists are off) and its own open tabs and embedding sites count, because
+ * the wipe leaves every other store's storage alone. A match whose
+ * cleanSiteData marks this type still allows the wipe, as in
+ * isDomainProtectedInAnyStore.
+ * @param embeddedMainDomains Main domains still-open sites of THIS store
+ * embed (mainDomainsEmbeddedInOpenSites over this store's cookies).
+ */
+export const isDomainProtectedInStore = (
+  state: State,
+  storeId: string,
+  openTabDomains: Record<string, string[]>,
+  domain: string,
+  siteData: SiteDataType,
+  embeddedMainDomains: ReadonlySet<string> = new Set()
+): boolean => {
+  const hostname = trimDot(domain.trim());
+  if (hostname === "") return false;
+  const matched = returnMatchedExpressionObject(state, storeId, hostname);
+  if (matched && !(matched.cleanSiteData ?? []).includes(siteData)) {
+    return true;
+  }
+  return isDomainInUseInAnyStore(
+    { [storeId]: openTabDomains[storeId] ?? [] },
+    embeddedMainDomains,
+    domain
+  );
 };
 
 /**
@@ -1224,44 +1289,69 @@ export const cleanSiteData = async (
   cleanReasonObjects: CleanReasonObject[],
   debug: boolean,
   openTabDomains: Record<string, string[]> = {},
-  embeddedMainDomains: ReadonlySet<string> = new Set()
+  embeddedMainDomains: ReadonlySet<string> = new Set(),
+  // Per raw store id, the main domains that store's still-open sites
+  // embed, for wipes limited to one store (siteDataWipeStore). A store
+  // missing here falls back to embeddedMainDomains, every store's, which
+  // protects more.
+  embeddedByStore: ReadonlyMap<string, ReadonlySet<string>> = new Map()
 ): Promise<string[]> => {
-  const domains = cleanReasonObjects
-    .filter((obj) => filterSiteData(obj, siteData, debug))
-    .map((o) => o.cookie.domain)
-    .filter((domain) => domain.trim() !== "")
-    .filter(
-      (domain) =>
-        !isDomainProtectedInAnyStore(
-          state,
-          openTabDomains,
-          domain,
-          siteData,
-          embeddedMainDomains
-        )
-    );
-
-  const cleanList: string[] = [];
-  for (const domain of domains) {
-    // No port available here: these domains come from cookies, and cookies
-    // are host-scoped. Storage on non-default-port origins is only covered
-    // by the manual per-site actions, which read the port from the tab URL.
-    cleanList.push(...prepareCleanupScope(domain));
+  // The domains to wipe, per store the wipe is limited to; the undefined
+  // key is a wipe that reaches every store.
+  const domainsByStore = new Map<string | undefined, string[]>();
+  for (const obj of cleanReasonObjects) {
+    if (!filterSiteData(obj, siteData, debug)) continue;
+    const domain = obj.cookie.domain;
+    if (domain.trim() === "") continue;
+    const wipeStore = siteDataWipeStore(siteData, obj.cookie.storeId);
+    const isProtected =
+      wipeStore === undefined
+        ? isDomainProtectedInAnyStore(
+            state,
+            openTabDomains,
+            domain,
+            siteData,
+            embeddedMainDomains
+          )
+        : isDomainProtectedInStore(
+            state,
+            wipeStore,
+            openTabDomains,
+            domain,
+            siteData,
+            embeddedByStore.get(wipeStore) ?? embeddedMainDomains
+          );
+    if (isProtected) continue;
+    domainsByStore.set(wipeStore, [
+      ...(domainsByStore.get(wipeStore) ?? []),
+      domain,
+    ]);
   }
 
-  if (cleanList.length > 0) {
+  const cleaned: string[] = [];
+  for (const [wipeStore, domains] of domainsByStore) {
+    const cleanList: string[] = [];
+    for (const domain of domains) {
+      // No port available here: these domains come from cookies, and cookies
+      // are host-scoped. Storage on non-default-port origins is only covered
+      // by the manual per-site actions, which read the port from the tab URL.
+      cleanList.push(...prepareCleanupScope(domain));
+    }
+    if (cleanList.length === 0) continue;
     const r = await removeSiteData(
       state,
       siteData,
       [...new Set(cleanList)],
       debug,
-      false
+      false,
+      undefined,
+      wipeStore
     );
     if (r) {
-      return domains;
+      cleaned.push(...domains);
     }
   }
-  return [];
+  return cleaned;
 };
 
 /** Setup SiteData cleaning.  Undefined will not be cleaned. */
@@ -1543,6 +1633,13 @@ const cleanCookiesInAllStores = async (
   const embeddedMainDomains = mainDomainsEmbeddedInOpenSites(
     jars.flatMap((jar) => jar.isSafeToCleanObjects)
   );
+  // The same per store, for the wipes limited to one store (#504).
+  const embeddedByStore = new Map(
+    jars.map((jar) => [
+      jar.id,
+      mainDomainsEmbeddedInOpenSites(jar.isSafeToCleanObjects),
+    ])
+  );
 
   // Clean for each cookieStore jar
   for (const { id, cookies, isSafeToCleanObjects } of jars) {
@@ -1619,12 +1716,19 @@ const cleanCookiesInAllStores = async (
       setOfDeletedDomainCookies.add(obj.cookie.hostname);
     });
 
-    // Handle all other browsingData cleanups.
+    // Handle all other browsingData cleanups. A held marker asks for no
+    // wipe yet: the cleanup that removes it wipes then. Its host is in use
+    // in some store, which every wipe used to skip; a wipe limited to
+    // another store would now go ahead at every cleanup until then.
     const storeResults = await otherBrowsingDataCleanup(
       state,
-      isSafeToCleanObjects,
+      isSafeToCleanObjects.filter(
+        (obj) =>
+          !isMarkerHeldForLaterWipe(obj, openTabDomains, embeddedMainDomains)
+      ),
       openTabDomains,
-      embeddedMainDomains
+      embeddedMainDomains,
+      embeddedByStore
     );
     if (storeResults) {
       await clearCookieTypeSiteData(
