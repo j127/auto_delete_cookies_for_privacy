@@ -86,6 +86,15 @@ export interface BrowserCapabilities {
    * host is in use before it wipes it.
    */
   storageRemovalIgnoresPartitions: boolean;
+  /**
+   * The site-data types whose browsingData removal can be limited to one
+   * cookie store (a container, or no container) with `cookieStoreId`.
+   * Firefox honors it for localStorage and IndexedDB and rejects it for
+   * the others ("Firefox does not support clearing serviceWorkers with
+   * 'cookieStoreId'"), checked on Firefox 158 (#504). Chrome has no
+   * per-store scoping. See siteDataWipeStore for the private store.
+   */
+  storeScopedSiteDataTypes: ReadonlyArray<SiteDataType>;
 }
 
 export const CAPABILITIES: Record<BrowserTarget, BrowserCapabilities> = {
@@ -101,6 +110,7 @@ export const CAPABILITIES: Record<BrowserTarget, BrowserCapabilities> = {
     },
     cookieRemoveReportsMisses: false,
     storageRemovalIgnoresPartitions: false,
+    storeScopedSiteDataTypes: [],
   },
   firefox: {
     browsingDataScoping: "hostnames",
@@ -111,6 +121,10 @@ export const CAPABILITIES: Record<BrowserTarget, BrowserCapabilities> = {
     extraRemovalTypes: {},
     cookieRemoveReportsMisses: true,
     storageRemovalIgnoresPartitions: true,
+    storeScopedSiteDataTypes: [
+      SiteDataType.LOCALSTORAGE,
+      SiteDataType.INDEXEDDB,
+    ],
   },
 };
 

@@ -20,7 +20,9 @@ const {
   cleanSiteData,
   clearCookiesForThisDomain,
   clearCookieTypeSiteData,
+  isDomainProtectedInStore,
   otherBrowsingDataCleanup,
+  siteDataWipeStore,
 } = await import("@/services/cleanup-service");
 const { getAllCookiesForDomain } = await import("@/services/libs");
 const { initialState } = await import("@/redux/state");
@@ -373,7 +375,9 @@ describe("browsingData scoping on Firefox", () => {
 // Cross-store guard (issue #281): browsingData wipes are container-blind,
 // so a hostname protected in ANY store must stay out of the scope list.
 describe("cross-store storage-wipe guard", () => {
-  const defaultStoreReason = (): CleanReasonObject => ({
+  const defaultStoreReason = (
+    storeId = "firefox-default"
+  ): CleanReasonObject => ({
     cached: false,
     cleanCookie: true,
     cookie: {
@@ -388,12 +392,30 @@ describe("cross-store storage-wipe guard", () => {
       sameSite: "no_restriction",
       secure: true,
       session: false,
-      storeId: "firefox-default",
+      storeId,
       value: "v",
     },
     openTabStatus: OpenTabStatus.TabsWasNotIgnored,
     reason: ReasonClean.NoMatchedExpression,
   });
+  const keptIn = (storeId: string, extra: Partial<Expression> = {}): State => ({
+    ...initialState,
+    lists: {
+      [storeId]: [
+        {
+          expression: "work.example",
+          listType: "WHITE" as ListType,
+          storeId,
+          ...extra,
+        },
+      ],
+    },
+  });
+  /** The cookieStoreId of every removal so far, "none" where there was none. */
+  const removalStores = (): string[] =>
+    global.browser.browsingData.remove.mock.calls.map(
+      (call: { cookieStoreId?: string }[]) => call[0].cookieStoreId ?? "none"
+    );
 
   beforeEach(() => {
     when(global.browser.browsingData.remove)
@@ -401,22 +423,25 @@ describe("cross-store storage-wipe guard", () => {
       .mockResolvedValue(undefined as never);
   });
 
-  it("keeps storage of a domain whitelisted only in another container", async () => {
-    const state: State = {
-      ...initialState,
-      lists: {
-        "firefox-container-5": [
-          {
-            expression: "work.example",
-            listType: "WHITE" as ListType,
-            storeId: "firefox-container-5",
-          },
-        ],
-      },
-    };
+  // #281 kept every store's storage while any container kept the domain,
+  // on the belief that Firefox could not limit a storage wipe to one
+  // store. It can for localStorage and IndexedDB (#504), so those wipes
+  // now stay in the cookie's own store and ask only that store.
+  it("wipes the default store's localStorage of a domain kept only in another container, there only (#504)", async () => {
     const cleaned = await cleanSiteData(
-      state,
+      keptIn("firefox-container-5"),
       SiteDataType.LOCALSTORAGE,
+      [defaultStoreReason()],
+      false
+    );
+    expect(cleaned).toEqual(["work.example"]);
+    expect(removalStores()).toEqual(["firefox-default"]);
+  });
+
+  it("keeps service-worker data of a domain kept only in another container (no per-store removal)", async () => {
+    const cleaned = await cleanSiteData(
+      keptIn("firefox-container-5"),
+      SiteDataType.SERVICEWORKERS,
       [defaultStoreReason()],
       false
     );
@@ -424,13 +449,115 @@ describe("cross-store storage-wipe guard", () => {
     expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
   });
 
-  it("keeps storage of a domain open in another container's tab", async () => {
+  it("keeps a container's IndexedDB that the container's own list keeps", async () => {
+    const state = keptIn("firefox-container-5");
+    const cleaned = await cleanSiteData(
+      {
+        ...state,
+        settings: {
+          ...state.settings,
+          contextualIdentities: { name: "contextualIdentities", value: true },
+        },
+      },
+      SiteDataType.INDEXEDDB,
+      [defaultStoreReason("firefox-container-5")],
+      false
+    );
+    expect(cleaned).toEqual([]);
+    expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
+  });
+
+  it("asks the Default list for a container while separate container lists are off", async () => {
+    // The container's own list is not applied, so it keeps nothing...
+    let cleaned = await cleanSiteData(
+      keptIn("firefox-container-5"),
+      SiteDataType.LOCALSTORAGE,
+      [defaultStoreReason("firefox-container-5")],
+      false
+    );
+    expect(cleaned).toEqual(["work.example"]);
+    expect(removalStores()).toEqual(["firefox-container-5"]);
+    // ...and the Default list keeps the container's storage.
+    global.browser.browsingData.remove.mockClear();
+    cleaned = await cleanSiteData(
+      keptIn("default"),
+      SiteDataType.LOCALSTORAGE,
+      [defaultStoreReason("firefox-container-5")],
+      false
+    );
+    expect(cleaned).toEqual([]);
+    expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
+  });
+
+  it("wipes the default store's localStorage of a domain open only in another container's tab", async () => {
     const cleaned = await cleanSiteData(
       initialState,
       SiteDataType.LOCALSTORAGE,
       [defaultStoreReason()],
       false,
       { "firefox-container-2": ["work.example"] }
+    );
+    expect(cleaned).toEqual(["work.example"]);
+    expect(removalStores()).toEqual(["firefox-default"]);
+  });
+
+  it("keeps localStorage of a domain open in a tab of the same store", async () => {
+    const cleaned = await cleanSiteData(
+      initialState,
+      SiteDataType.LOCALSTORAGE,
+      [defaultStoreReason()],
+      false,
+      { "firefox-default": ["work.example"] }
+    );
+    expect(cleaned).toEqual([]);
+    expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
+  });
+
+  it("keeps service-worker data of a domain open in another container's tab", async () => {
+    const cleaned = await cleanSiteData(
+      initialState,
+      SiteDataType.SERVICEWORKERS,
+      [defaultStoreReason()],
+      false,
+      { "firefox-container-2": ["work.example"] }
+    );
+    expect(cleaned).toEqual([]);
+    expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
+  });
+
+  it("counts only the sites of the same store that embed the domain", async () => {
+    const everyStore = new Set(["work.example"]);
+    // Embedded by an open site of another store only.
+    let cleaned = await cleanSiteData(
+      initialState,
+      SiteDataType.LOCALSTORAGE,
+      [defaultStoreReason()],
+      false,
+      {},
+      everyStore,
+      new Map([["firefox-default", new Set<string>()]])
+    );
+    expect(cleaned).toEqual(["work.example"]);
+    // Embedded by an open site of the same store.
+    global.browser.browsingData.remove.mockClear();
+    cleaned = await cleanSiteData(
+      initialState,
+      SiteDataType.LOCALSTORAGE,
+      [defaultStoreReason()],
+      false,
+      {},
+      everyStore,
+      new Map([["firefox-default", everyStore]])
+    );
+    expect(cleaned).toEqual([]);
+    // Without a set for the store, every store's set counts.
+    cleaned = await cleanSiteData(
+      initialState,
+      SiteDataType.LOCALSTORAGE,
+      [defaultStoreReason()],
+      false,
+      {},
+      everyStore
     );
     expect(cleaned).toEqual([]);
     expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
@@ -460,17 +587,124 @@ describe("cross-store storage-wipe guard", () => {
     expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
   });
 
-  it("never passes cookieStoreId on site-data removals (unsupported for these types)", async () => {
-    await cleanSiteData(
-      initialState,
-      SiteDataType.LOCALSTORAGE,
+  it("still wipes service-worker data when the other store's match marks it for cleaning", async () => {
+    const cleaned = await cleanSiteData(
+      keptIn("firefox-container-5", {
+        cleanSiteData: [SiteDataType.SERVICEWORKERS],
+      }),
+      SiteDataType.SERVICEWORKERS,
       [defaultStoreReason()],
       false
     );
-    for (const call of global.browser.browsingData.remove.mock.calls) {
-      expect(call[0]).not.toHaveProperty("cookieStoreId");
+    expect(cleaned).toEqual(["work.example"]);
+    expect(removalStores()).toEqual(["none"]);
+  });
+
+  it("wipes the store's own data when its own match marks this type for cleaning", async () => {
+    const cleaned = await cleanSiteData(
+      keptIn("default", { cleanSiteData: [SiteDataType.INDEXEDDB] }),
+      SiteDataType.INDEXEDDB,
+      [defaultStoreReason()],
+      false
+    );
+    expect(cleaned).toEqual(["work.example"]);
+    expect(removalStores()).toEqual(["firefox-default"]);
+  });
+
+  it("passes cookieStoreId for localStorage and IndexedDB only, never for the private store", async () => {
+    for (const type of [
+      SiteDataType.LOCALSTORAGE,
+      SiteDataType.INDEXEDDB,
+      SiteDataType.SERVICEWORKERS,
+      SiteDataType.PLUGINDATA,
+    ]) {
+      await cleanSiteData(initialState, type, [defaultStoreReason()], false);
     }
-    expect(global.browser.browsingData.remove).toHaveBeenCalled();
+    await cleanSiteData(
+      initialState,
+      SiteDataType.LOCALSTORAGE,
+      [defaultStoreReason("firefox-private")],
+      false
+    );
+    expect(removalStores()).toEqual([
+      "firefox-default",
+      "firefox-default",
+      "none",
+      "none",
+      "none",
+    ]);
+  });
+
+  it("makes one removal per store", async () => {
+    const cleaned = await cleanSiteData(
+      initialState,
+      SiteDataType.LOCALSTORAGE,
+      [
+        defaultStoreReason(),
+        defaultStoreReason("firefox-container-5"),
+        defaultStoreReason("firefox-private"),
+      ],
+      false
+    );
+    expect(cleaned).toEqual(["work.example", "work.example", "work.example"]);
+    expect(removalStores()).toEqual([
+      "firefox-default",
+      "firefox-container-5",
+      "none",
+    ]);
+  });
+
+  describe("siteDataWipeStore()", () => {
+    it("limits localStorage and IndexedDB to the default store or a container", () => {
+      for (const type of [SiteDataType.LOCALSTORAGE, SiteDataType.INDEXEDDB]) {
+        expect(siteDataWipeStore(type, "firefox-default")).toBe(
+          "firefox-default"
+        );
+        expect(siteDataWipeStore(type, "firefox-container-3")).toBe(
+          "firefox-container-3"
+        );
+      }
+    });
+
+    it("leaves the private store and the other types unlimited", () => {
+      expect(
+        siteDataWipeStore(SiteDataType.LOCALSTORAGE, "firefox-private")
+      ).toBeUndefined();
+      expect(siteDataWipeStore(SiteDataType.LOCALSTORAGE, "")).toBeUndefined();
+      for (const type of [
+        SiteDataType.SERVICEWORKERS,
+        SiteDataType.PLUGINDATA,
+        SiteDataType.CACHE,
+      ]) {
+        expect(siteDataWipeStore(type, "firefox-default")).toBeUndefined();
+      }
+    });
+  });
+
+  describe("isDomainProtectedInStore()", () => {
+    it("ignores blank domains", () => {
+      expect(
+        isDomainProtectedInStore(
+          keptIn("default"),
+          "firefox-default",
+          {},
+          " ",
+          SiteDataType.LOCALSTORAGE
+        )
+      ).toBe(false);
+    });
+
+    it("protects any host of a site open in the store's tab", () => {
+      expect(
+        isDomainProtectedInStore(
+          initialState,
+          "firefox-default",
+          { "firefox-default": ["work.example"] },
+          "cdn.work.example",
+          SiteDataType.LOCALSTORAGE
+        )
+      ).toBe(true);
+    });
   });
 });
 

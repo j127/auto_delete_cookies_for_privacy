@@ -37,6 +37,7 @@ import {
   prepareCookie,
   removeSiteData,
   returnContainersOfOpenTabDomains,
+  siteDataWipeStore,
 } from "@/services/cleanup-service";
 
 import * as Lib from "@/services/libs";
@@ -909,6 +910,33 @@ describe("CleanupService", () => {
         false
       );
       expect(result).toEqual([]);
+    });
+
+    it("never limits a wipe to one store on Chrome", async () => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockResolvedValue(undefined as never);
+      for (const type of [SiteDataType.LOCALSTORAGE, SiteDataType.INDEXEDDB]) {
+        expect(siteDataWipeStore(type, "0")).toBeUndefined();
+        await cleanSiteData(
+          initialState,
+          type,
+          [
+            {
+              cached: false,
+              cleanCookie: true,
+              cookie: { ...youtubeCookie, storeId: "0" },
+              openTabStatus: OpenTabStatus.TabsWasNotIgnored,
+              reason: ReasonClean.NoMatchedExpression,
+            },
+          ],
+          false
+        );
+      }
+      expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(2);
+      for (const call of global.browser.browsingData.remove.mock.calls) {
+        expect(call[0]).not.toHaveProperty("cookieStoreId");
+      }
     });
   });
 

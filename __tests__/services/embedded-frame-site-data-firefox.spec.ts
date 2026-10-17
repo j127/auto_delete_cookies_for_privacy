@@ -164,6 +164,90 @@ describe("cross-site frame storage on Firefox (#504)", () => {
     expect(wipedHostnames()).not.toContain(PLAYER);
   });
 
+  describe("with a container that keeps or uses the frame host", () => {
+    /** Every removal of this run: its data types and its store. */
+    const removals = (): string[] =>
+      global.browser.browsingData.remove.mock.calls.map(
+        (call: ({ cookieStoreId?: string } & Record<string, boolean>)[]) =>
+          `${Object.keys(call[1]).join("+")}@${call[0].cookieStoreId ?? "every store"}`
+      );
+
+    beforeEach(() => {
+      when(global.browser.contextualIdentities.query)
+        .calledWith(expect.any(Object))
+        .mockResolvedValue([
+          { cookieStoreId: "firefox-container-9", name: "Video" },
+        ] as never);
+    });
+
+    it("wipes the closed site's frame storage outside the container that keeps the host", async () => {
+      // The reporter's setup: the player is kept in one container's list
+      // only, and the embedding site was open in no container.
+      const state: State = {
+        ...initialState,
+        lists: {
+          "firefox-container-9": [
+            {
+              expression: "*.player.example",
+              listType: ListType.WHITE,
+              storeId: "firefox-container-9",
+            },
+          ],
+        },
+        settings: {
+          ...initialState.settings,
+          contextualIdentities: { name: "contextualIdentities", value: true },
+        },
+      };
+      const jar = installGeckoCookieMock();
+      jar.seed(marker("https://reddit.example"));
+      const result = await cleanCookiesOperation(state, {
+        greyCleanup: false,
+        ignoreOpenTabs: false,
+      });
+      expect(jar.cookies).toHaveLength(0);
+      const cleaned = result.cachedResults.browsingDataCleanup;
+      expect(cleaned.LocalStorage).toEqual([PLAYER]);
+      expect(cleaned.IndexedDB).toEqual([PLAYER]);
+      // Firefox cannot limit these to a store, so the container's rule
+      // still keeps them.
+      expect(cleaned.ServiceWorkers).toEqual([]);
+      expect(cleaned.PluginData).toEqual([]);
+      expect(removals()).toEqual([
+        "indexedDB@firefox-default",
+        "localStorage@firefox-default",
+      ]);
+    });
+
+    it("wipes the closed site's frame storage while a site open in a container embeds the host", async () => {
+      const jar = installGeckoCookieMock();
+      jar.seed(
+        fxCookie({
+          domain: ".player.example",
+          hostOnly: false,
+          name: "sid",
+          partitionKey: { topLevelSite: "https://reddit.example" },
+        }),
+        marker("https://news.example", "firefox-container-9")
+      );
+      openTabs({
+        cookieStoreId: "firefox-container-9",
+        url: "https://news.example/story",
+      });
+      const result = await runCleanup();
+      expect(markersLeft(jar)).toEqual([
+        "firefox-container-9:https://news.example",
+      ]);
+      const cleaned = result.cachedResults.browsingDataCleanup;
+      expect(cleaned.LocalStorage).toEqual(["player.example"]);
+      expect(cleaned.ServiceWorkers).toEqual([]);
+      expect(removals()).toEqual([
+        "indexedDB@firefox-default",
+        "localStorage@firefox-default",
+      ]);
+    });
+  });
+
   describe("while the frame host is still in use elsewhere", () => {
     it("skips the wipe and keeps the marker while another open site embeds the host", async () => {
       const jar = installGeckoCookieMock();
