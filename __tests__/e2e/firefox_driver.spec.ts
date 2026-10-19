@@ -18,12 +18,14 @@
 
 import {
   buildFirefoxOptions,
+  CONTEXT_UNLOADED_MESSAGE,
   DOWNLOAD_ATTEMPTS,
   downloadRetryDelayMs,
   downloadWithRetry,
   formatScriptError,
   geckodriverDownloadVersion,
   geckodriverStartParams,
+  isInstallReloadLeftover,
   PINNED_GECKODRIVER_VERSION,
   privateAddonInstallBody,
   SCRIPT_ERROR_STACK_FRAMES,
@@ -235,5 +237,53 @@ describe("formatScriptError", () => {
       "    at fn0@moz-extension://uuid/bundles/background.js:1:1"
     );
     expect(out).not.toContain(`fn${SCRIPT_ERROR_STACK_FRAMES}@`);
+  });
+});
+
+describe("isInstallReloadLeftover", () => {
+  // An install with private access reloads the add-on, which can unload
+  // the first background page in the middle of init() (row 11, 2026-10-07
+  // and 2026-10-19). Only that leftover may be dropped.
+  const tappedAt = Date.UTC(2026, 9, 19, 20, 37, 40);
+  const reloaded = { reloadedOnInstall: true, tappedAt };
+  const leftover = {
+    errorMessage: `${CONTEXT_UNLOADED_MESSAGE}: An unexpected error occurred\n`,
+    timeStamp: tappedAt - 15000,
+  };
+
+  it("drops a context-unloaded error from before the tap after a reloading install", () => {
+    expect(isInstallReloadLeftover(leftover, reloaded)).toBe(true);
+  });
+
+  it("keeps it when the install did not reload the add-on", () => {
+    expect(
+      isInstallReloadLeftover(leftover, {
+        ...reloaded,
+        reloadedOnInstall: false,
+      })
+    ).toBe(false);
+  });
+
+  it("keeps it before the console tap is in", () => {
+    expect(isInstallReloadLeftover(leftover, { reloadedOnInstall: true })).toBe(
+      false
+    );
+  });
+
+  it("keeps it from the tap on", () => {
+    for (const timeStamp of [tappedAt, tappedAt + 1]) {
+      expect(
+        isInstallReloadLeftover({ ...leftover, timeStamp }, reloaded)
+      ).toBe(false);
+    }
+  });
+
+  it("keeps every other error", () => {
+    expect(
+      isInstallReloadLeftover(
+        { ...leftover, errorMessage: "TypeError: x is undefined" },
+        reloaded
+      )
+    ).toBe(false);
   });
 });

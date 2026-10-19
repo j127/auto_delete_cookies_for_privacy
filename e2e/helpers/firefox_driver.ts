@@ -85,6 +85,17 @@ export interface FirefoxSession {
   extensionOrigin: string;
   /** Window handle of the kept-open probe (settings) tab. */
   probeHandle: string;
+  /**
+   * Whether the install reloaded the add-on: an install with private
+   * access does (installWithPrivateBrowsing), so the background page that
+   * first started was unloaded, maybe in the middle of its init().
+   */
+  reloadedOnInstall: boolean;
+  /**
+   * When tapBackgroundConsoleErrors() first ran, in milliseconds since the
+   * epoch, or undefined before that.
+   */
+  tappedAt?: number;
   quit: () => Promise<void>;
 }
 
@@ -243,7 +254,10 @@ export const privateAddonInstallBody = (
  * Installs the packaged artifact as a temporary add-on with private-window
  * access. Selenium's installAddon() sends only the path and the temporary
  * flag, so this goes to geckodriver's Addon:Install endpoint directly,
- * which takes allowPrivateBrowsing too.
+ * which takes allowPrivateBrowsing too. Marionette grants that access
+ * after the install and then calls addon.reload() (remote/shared/
+ * Addon.sys.mjs), so the background page that started first is unloaded
+ * again at once; see isInstallReloadLeftover().
  */
 const installWithPrivateBrowsing = async (
   driver: WebDriver,
@@ -319,6 +333,7 @@ export const launchFirefox = async (
     driver,
     extensionOrigin,
     probeHandle,
+    reloadedOnInstall: launchOptions.allowPrivateBrowsing === true,
     quit: async () => {
       await driver.quit();
     },
@@ -638,12 +653,37 @@ export const formatScriptError = (raw: RawScriptError): string => {
   return `${where}: ${raw.errorMessage.trim()}${when}${frames}`;
 };
 
+/** Firefox's message for a promise of a page that has since unloaded. */
+export const CONTEXT_UNLOADED_MESSAGE =
+  "Promise rejected after context unloaded";
+
+/**
+ * Whether a script error was left by the reload an install with private
+ * access does (installWithPrivateBrowsing). That reload can unload the
+ * first background page while its init() still waits on an API call, and
+ * Firefox then reports "Promise rejected after context unloaded" for it
+ * (row 11: once on 2026-10-07, and on 2026-10-19 with the stack
+ * `init@background.js`, two seconds after launch). Only that message,
+ * only for such a session, and only before the console tap: once the tap
+ * is in, a background page that unloads again makes
+ * backgroundConsoleErrors() throw, and its errors count again here.
+ */
+export const isInstallReloadLeftover = (
+  raw: Pick<RawScriptError, "errorMessage" | "timeStamp">,
+  session: Pick<FirefoxSession, "reloadedOnInstall" | "tappedAt">
+): boolean =>
+  session.reloadedOnInstall &&
+  session.tappedAt !== undefined &&
+  raw.timeStamp < session.tappedAt &&
+  raw.errorMessage.trim().startsWith(CONTEXT_UNLOADED_MESSAGE);
+
 /**
  * Uncaught exceptions and unhandled rejections that any of the extension's
  * pages (background, popup, settings) reported to Firefox's console
  * service since the browser started, formatted by formatScriptError().
- * Warnings are left out. console.error calls are not in this list: they
- * stay in the extension process.
+ * Warnings are left out, and so is what isInstallReloadLeftover() matches.
+ * console.error calls are not in this list: they stay in the extension
+ * process.
  */
 export const extensionScriptErrors = async (
   session: FirefoxSession
@@ -680,7 +720,9 @@ export const extensionScriptErrors = async (
          }));`,
       session.extensionOrigin
     )) as RawScriptError[]
-  ).map(formatScriptError);
+  )
+    .filter((raw) => !isInstallReloadLeftover(raw, session))
+    .map(formatScriptError);
 
 /**
  * Starts recording the background page's console.error calls, which is
@@ -688,11 +730,13 @@ export const extensionScriptErrors = async (
  * one). Firefox runs the event page in the extension process, so the probe
  * reaches it with runtime.getBackgroundPage(); the tap lives only as long
  * as that background document does, and backgroundConsoleErrors() fails
- * loudly if it has been replaced since.
+ * loudly if it has been replaced since. The first call also stamps
+ * session.tappedAt, which isInstallReloadLeftover() reads.
  */
 export const tapBackgroundConsoleErrors = async (
   session: FirefoxSession
 ): Promise<void> => {
+  session.tappedAt ??= Date.now();
   await inProbe(
     session,
     `const bg = await browser.runtime.getBackgroundPage();
