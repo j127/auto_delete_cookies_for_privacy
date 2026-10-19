@@ -265,6 +265,8 @@ describe("row 11: private windows, access on", () => {
     // the background page restarted since the tap, which is the other half
     // of explaining a "Promise rejected after context unloaded" (seen once
     // on 2026-10-07).
+    // The 2026-10-19 repeat traced it to the install's own reload
+    // (isInstallReloadLeftover), which extensionScriptErrors now leaves out.
     expect.soft(await extensionScriptErrors(session)).toEqual([]);
     expect(await backgroundConsoleErrors(session)).toEqual([]);
   }, 180000);
