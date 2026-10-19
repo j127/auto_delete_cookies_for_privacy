@@ -95,6 +95,8 @@ describe("help copy matches the site-data defaults", () => {
   // The Help page is not browser-aware, so every language must keep the
   // "On Firefox, cache is not included" caveat. Each locale reuses its own
   // settings-page note, so an edit can't drop it in one language unnoticed.
+  // Since #529 the note also names Cache Storage and file-system storage
+  // and carries a $BRAVE$ link, which both messages must fill from $1.
   describe.each(LOCALES)("%s helpSiteDataBody", (locale) => {
     it("contains the locale's own Firefox cache note verbatim", () => {
       const messages = readLocale(locale);
@@ -102,6 +104,27 @@ describe("help copy matches the site-data defaults", () => {
         messages.siteDataCacheFirefoxNoteText.message
       );
     });
+
+    it("links Brave once, through $1, in the note and the Help body", () => {
+      const messages = readLocale(locale) as Record<
+        string,
+        {
+          message: string;
+          placeholders?: Record<string, { content: string }>;
+        }
+      >;
+      for (const key of ["siteDataCacheFirefoxNoteText", "helpSiteDataBody"]) {
+        expect(messages[key].message.match(/\$BRAVE\$/g)).toHaveLength(1);
+        expect(messages[key].placeholders?.brave.content).toBe("$1");
+      }
+    });
+  });
+
+  it("the English note names what Firefox leaves and the manual way out", () => {
+    const note = en.siteDataCacheFirefoxNoteText.message;
+    ["cache", "Cache Storage", "file-system storage", "padlock"].forEach(
+      (part) => expect(note).toContain(part)
+    );
   });
 
   it("helpGettingStartedBody step 2 matches the defaults", () => {

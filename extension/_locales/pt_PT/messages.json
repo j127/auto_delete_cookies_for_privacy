@@ -943,8 +943,14 @@
     "message": "Contagem de cookies no ícone da barra"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "No Firefox, a cache não é incluída: o Firefox só consegue limpar a cache do navegador inteiro, não de sites individuais.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "No Firefox, a cache, o Cache Storage e o armazenamento do sistema de ficheiros não são incluídos: o Firefox não oferece às extensões nenhuma forma de os eliminar automaticamente para cada site. Entretanto, pode limpar os dados de um site manualmente (o ícone do cadeado na barra de endereço) ou experimentar o $BRAVE$, onde a extensão também os elimina.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "Ao ativar um novo tipo de dados, apagar o que já está armazenado"
@@ -1462,7 +1468,13 @@
     "message": "O que é eliminado"
   },
   "helpSiteDataBody": {
-    "message": "Por predefinição a extensão elimina os cookies e tudo o resto que um site guarda no seu dispositivo: cache, IndexedDB, LocalStorage, dados de plugins e service workers. No Firefox, a cache não é incluída: o Firefox só consegue limpar a cache do navegador inteiro, não de sites individuais. Desligue «Eliminar todos os dados do site» para eliminar só cookies, ou escolha tipos individuais em «Avançado — escolher exatamente o que eliminar».\n\nDuas coisas a saber antes de os ligar:\n\n• Apagar o que já está armazenado fica desligado, a não ser que ligue «Ao ativar um novo tipo de dados, apagar o que já está armazenado». Enquanto estiver ligado, ligar um tipo apaga de imediato todos os dados desse tipo atualmente armazenados de todos os sites (é o aviso na página).\n\n• Os dados antigos não podem ser limpos seletivamente. O navegador só deixa a extensão apagar estes tipos por site daqui em diante, em sites que visite de novo. Os restos de antes de ativar a opção ficam até o site ser visitado outra vez."
+    "message": "Por predefinição a extensão elimina os cookies e tudo o resto que um site guarda no seu dispositivo: cache, IndexedDB, LocalStorage, dados de plugins e service workers. No Firefox, a cache, o Cache Storage e o armazenamento do sistema de ficheiros não são incluídos: o Firefox não oferece às extensões nenhuma forma de os eliminar automaticamente para cada site. Entretanto, pode limpar os dados de um site manualmente (o ícone do cadeado na barra de endereço) ou experimentar o $BRAVE$, onde a extensão também os elimina. Desligue «Eliminar todos os dados do site» para eliminar só cookies, ou escolha tipos individuais em «Avançado — escolher exatamente o que eliminar».\n\nDuas coisas a saber antes de os ligar:\n\n• Apagar o que já está armazenado fica desligado, a não ser que ligue «Ao ativar um novo tipo de dados, apagar o que já está armazenado». Enquanto estiver ligado, ligar um tipo apaga de imediato todos os dados desse tipo atualmente armazenados de todos os sites (é o aviso na página).\n\n• Os dados antigos não podem ser limpos seletivamente. O navegador só deixa a extensão apagar estes tipos por site daqui em diante, em sites que visite de novo. Os restos de antes de ativar a opção ficam até o site ser visitado outra vez.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Regras de manter e padrões"

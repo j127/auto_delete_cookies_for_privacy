@@ -943,8 +943,14 @@
     "message": "Nombre de cookies sur l'icône de la barre d'outils"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "Sur Firefox, le cache n'est pas inclus : Firefox ne peut vider son cache que pour tout le navigateur, pas pour des sites individuels.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "Sur Firefox, le cache, Cache Storage et le stockage du système de fichiers ne sont pas inclus : Firefox n'offre aux extensions aucun moyen de les supprimer automatiquement pour chaque site. En attendant, vous pouvez effacer vous-même les données d'un site (l'icône du cadenas dans la barre d'adresse), ou essayer $BRAVE$, où l'extension les supprime aussi.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "À l'activation d'un nouveau type de données, effacer ce qui est déjà stocké"
@@ -1462,7 +1468,13 @@
     "message": "Ce qui est supprimé"
   },
   "helpSiteDataBody": {
-    "message": "Par défaut, l'extension supprime les cookies et tout ce qu'un site stocke d'autre sur votre appareil : cache, IndexedDB, LocalStorage, données de plugins et service workers. Sur Firefox, le cache n'est pas inclus : Firefox ne peut vider son cache que pour tout le navigateur, pas pour des sites individuels. Désactivez « Supprimer toutes les données de site » pour ne supprimer que les cookies, ou choisissez les types un par un dans « Avancé — choisir exactement quoi supprimer ».\n\nDeux choses à savoir avant de basculer :\n\n• L'effacement de ce qui est déjà stocké est désactivé tant que vous n'activez pas « À l'activation d'un nouveau type de données, effacer ce qui est déjà stocké ». Tant qu'il est activé, activer un type efface aussitôt toutes les données de ce type actuellement stockées, pour chaque site (c'est l'avertissement de la page).\n\n• Les anciennes données ne peuvent pas être nettoyées sélectivement. Le navigateur ne permet à l'extension d'effacer ces types par site que pour l'avenir, pour les sites que vous revisitez. Les restes antérieurs à l'activation demeurent jusqu'à une nouvelle visite du site."
+    "message": "Par défaut, l'extension supprime les cookies et tout ce qu'un site stocke d'autre sur votre appareil : cache, IndexedDB, LocalStorage, données de plugins et service workers. Sur Firefox, le cache, Cache Storage et le stockage du système de fichiers ne sont pas inclus : Firefox n'offre aux extensions aucun moyen de les supprimer automatiquement pour chaque site. En attendant, vous pouvez effacer vous-même les données d'un site (l'icône du cadenas dans la barre d'adresse), ou essayer $BRAVE$, où l'extension les supprime aussi. Désactivez « Supprimer toutes les données de site » pour ne supprimer que les cookies, ou choisissez les types un par un dans « Avancé — choisir exactement quoi supprimer ».\n\nDeux choses à savoir avant de basculer :\n\n• L'effacement de ce qui est déjà stocké est désactivé tant que vous n'activez pas « À l'activation d'un nouveau type de données, effacer ce qui est déjà stocké ». Tant qu'il est activé, activer un type efface aussitôt toutes les données de ce type actuellement stockées, pour chaque site (c'est l'avertissement de la page).\n\n• Les anciennes données ne peuvent pas être nettoyées sélectivement. Le navigateur ne permet à l'extension d'effacer ces types par site que pour l'avenir, pour les sites que vous revisitez. Les restes antérieurs à l'activation demeurent jusqu'à une nouvelle visite du site.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Règles de conservation et motifs"

@@ -943,8 +943,14 @@
     "message": "Kakantal på verktygsfältsikonen"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "I Firefox ingår inte cachen: Firefox kan bara tömma sin cache för hela webbläsaren, inte för enskilda webbplatser.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "I Firefox ingår inte cachen, Cache Storage och filsystemlagring: Firefox ger inte tillägg något sätt att radera dem automatiskt för varje webbplats. Tills vidare kan du rensa en webbplats data själv (hänglåsikonen i adressfältet) eller prova $BRAVE$, där tillägget raderar dem också.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "När en ny datatyp slås på, radera det som redan lagrats"
@@ -1462,7 +1468,13 @@
     "message": "Vad som raderas"
   },
   "helpSiteDataBody": {
-    "message": "Som standard raderar tillägget kakor och allt annat en webbplats lagrar på din enhet: cache, IndexedDB, LocalStorage, insticksdata och service workers. I Firefox ingår inte cachen: Firefox kan bara tömma sin cache för hela webbläsaren, inte för enskilda webbplatser. Slå av Radera all webbplatsdata för att bara radera kakor, eller välj enskilda typer under Avancerat — välj exakt vad som raderas.\n\nTvå saker att veta innan du slår på dem:\n\n• Att radera det som redan lagrats är avstängt tills du slår på reglaget När en ny datatyp slås på, radera det som redan lagrats. Medan det är på rensar en typ som slås på genast all för närvarande lagrad data av den typen för varje webbplats (det är varningen på sidan).\n\n• Gammal data kan inte städas selektivt. Webbläsaren låter bara tillägget rensa dessa typer per webbplats framåt i tiden, för webbplatser du besöker igen. Kvarlämningar från innan du slog på alternativet ligger kvar tills webbplatsen besöks en gång till."
+    "message": "Som standard raderar tillägget kakor och allt annat en webbplats lagrar på din enhet: cache, IndexedDB, LocalStorage, insticksdata och service workers. I Firefox ingår inte cachen, Cache Storage och filsystemlagring: Firefox ger inte tillägg något sätt att radera dem automatiskt för varje webbplats. Tills vidare kan du rensa en webbplats data själv (hänglåsikonen i adressfältet) eller prova $BRAVE$, där tillägget raderar dem också. Slå av Radera all webbplatsdata för att bara radera kakor, eller välj enskilda typer under Avancerat — välj exakt vad som raderas.\n\nTvå saker att veta innan du slår på dem:\n\n• Att radera det som redan lagrats är avstängt tills du slår på reglaget När en ny datatyp slås på, radera det som redan lagrats. Medan det är på rensar en typ som slås på genast all för närvarande lagrad data av den typen för varje webbplats (det är varningen på sidan).\n\n• Gammal data kan inte städas selektivt. Webbläsaren låter bara tillägget rensa dessa typer per webbplats framåt i tiden, för webbplatser du besöker igen. Kvarlämningar från innan du slog på alternativet ligger kvar tills webbplatsen besöks en gång till.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Behåll-regler och mönster"

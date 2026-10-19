@@ -45,9 +45,19 @@ describe("Help", () => {
     getByText("helpGettingStartedBody");
   });
 
-  it("contains no links at all — the guide is fully self-contained", () => {
+  it("links out only to Brave, from What gets deleted, in a new tab (#529)", () => {
+    global.browser.i18n.getMessage.mockImplementation(
+      (key: string, substitutions?: string[]) =>
+        substitutions ? `${key} ${substitutions[0]}` : key
+    );
     const { container } = render(<Help />);
-    expect(container.querySelectorAll("a")).toHaveLength(0);
+    const links = Array.from(container.querySelectorAll("a"));
+    expect(links).toHaveLength(1);
+    expect(links[0].getAttribute("href")).toBe("https://brave.com/");
+    expect(links[0].getAttribute("target")).toBe("_blank");
+    expect(links[0].closest("details")?.textContent).toContain(
+      "helpSiteDataTitle"
+    );
   });
 
   it("renders without console errors", () => {

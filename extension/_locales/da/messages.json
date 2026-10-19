@@ -943,8 +943,14 @@
     "message": "Cookieantal på værktøjslinjeikonet"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "I Firefox er cachen ikke med: Firefox kan kun rydde sin cache for hele browseren, ikke for enkelte websteder.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "I Firefox er cachen, Cache Storage og filsystemlager ikke med: Firefox giver ikke udvidelser nogen måde at slette dem automatisk for hvert websted. Indtil da kan du selv rydde et websteds data (hængelåsikonet i adresselinjen) eller prøve $BRAVE$, hvor udvidelsen også sletter dem.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "Når en ny datatype slås til, slet det allerede gemte"
@@ -1462,7 +1468,13 @@
     "message": "Hvad der slettes"
   },
   "helpSiteDataBody": {
-    "message": "Fra fabrikken sletter udvidelsen cookies og alt andet, et websted gemmer på din enhed: cache, IndexedDB, LocalStorage, plugin-data og service workers. I Firefox er cachen ikke med: Firefox kan kun rydde sin cache for hele browseren, ikke for enkelte websteder. Slå Slet al webstedsdata fra for kun at slette cookies, eller vælg de enkelte typer under Avanceret — vælg præcis, hvad der slettes.\n\nTo ting at vide, før du slår dem til:\n\n• Sletning af det allerede gemte er slået fra, indtil du slår det til med kontakten Når en ny datatype slås til, slet det allerede gemte. Mens den er slået til, rydder det at slå en type til straks al aktuelt gemt data af den type for hvert websted (det er advarslen på siden).\n\n• Gammel data kan ikke ryddes selektivt. Browseren lader kun udvidelsen rydde disse typer pr. websted fremadrettet, for websteder du besøger igen. Efterladenskaber fra før du slog muligheden til, bliver liggende, indtil webstedet besøges en gang til."
+    "message": "Fra fabrikken sletter udvidelsen cookies og alt andet, et websted gemmer på din enhed: cache, IndexedDB, LocalStorage, plugin-data og service workers. I Firefox er cachen, Cache Storage og filsystemlager ikke med: Firefox giver ikke udvidelser nogen måde at slette dem automatisk for hvert websted. Indtil da kan du selv rydde et websteds data (hængelåsikonet i adresselinjen) eller prøve $BRAVE$, hvor udvidelsen også sletter dem. Slå Slet al webstedsdata fra for kun at slette cookies, eller vælg de enkelte typer under Avanceret — vælg præcis, hvad der slettes.\n\nTo ting at vide, før du slår dem til:\n\n• Sletning af det allerede gemte er slået fra, indtil du slår det til med kontakten Når en ny datatype slås til, slet det allerede gemte. Mens den er slået til, rydder det at slå en type til straks al aktuelt gemt data af den type for hvert websted (det er advarslen på siden).\n\n• Gammel data kan ikke ryddes selektivt. Browseren lader kun udvidelsen rydde disse typer pr. websted fremadrettet, for websteder du besøger igen. Efterladenskaber fra før du slog muligheden til, bliver liggende, indtil webstedet besøges en gang til.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Behold-regler og mønstre"

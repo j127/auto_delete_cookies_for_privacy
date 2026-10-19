@@ -943,8 +943,14 @@
     "message": "Cookie-Anzahl auf dem Symbolleisten-Symbol"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "Unter Firefox ist der Cache nicht dabei: Firefox kann seinen Cache nur für den gesamten Browser leeren, nicht für einzelne Websites.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "Unter Firefox sind der Cache, Cache Storage und der Dateisystemspeicher nicht dabei: Firefox bietet Erweiterungen keine Möglichkeit, sie automatisch für jede Website zu löschen. Bis dahin kannst du die Daten einer Website selbst löschen (Schloss-Symbol in der Adressleiste) oder $BRAVE$ ausprobieren, wo die Erweiterung auch sie löscht.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "Beim Aktivieren eines neuen Datentyps bereits Gespeichertes löschen"
@@ -1462,7 +1468,13 @@
     "message": "Was gelöscht wird"
   },
   "helpSiteDataBody": {
-    "message": "Ab Werk löscht die Erweiterung Cookies und alles Übrige, was eine Website auf deinem Gerät speichert: Cache, IndexedDB, LocalStorage, Plugin-Daten und Service Worker. Unter Firefox ist der Cache nicht dabei: Firefox kann seinen Cache nur für den gesamten Browser leeren, nicht für einzelne Websites. Schalte „Alle Websitedaten löschen“ aus, um nur Cookies zu löschen, oder wähle einzelne Typen unter „Erweitert — genau wählen, was gelöscht wird“.\n\nZwei Dinge solltest du vorher wissen:\n\n• Das Löschen von bereits Gespeichertem ist aus, solange du „Beim Aktivieren eines neuen Datentyps bereits Gespeichertes löschen“ nicht einschaltest. Ist es an, löscht das Einschalten eines Typs sofort alle aktuell gespeicherten Daten dieses Typs für jede Website (das ist die Warnung auf der Seite).\n\n• Alte Daten lassen sich nicht gezielt bereinigen. Der Browser erlaubt der Erweiterung das Löschen dieser Typen pro Website nur für die Zukunft, bei Websites, die du erneut besuchst. Reste aus der Zeit vor dem Aktivieren bleiben, bis die Website noch einmal besucht wird."
+    "message": "Ab Werk löscht die Erweiterung Cookies und alles Übrige, was eine Website auf deinem Gerät speichert: Cache, IndexedDB, LocalStorage, Plugin-Daten und Service Worker. Unter Firefox sind der Cache, Cache Storage und der Dateisystemspeicher nicht dabei: Firefox bietet Erweiterungen keine Möglichkeit, sie automatisch für jede Website zu löschen. Bis dahin kannst du die Daten einer Website selbst löschen (Schloss-Symbol in der Adressleiste) oder $BRAVE$ ausprobieren, wo die Erweiterung auch sie löscht. Schalte „Alle Websitedaten löschen“ aus, um nur Cookies zu löschen, oder wähle einzelne Typen unter „Erweitert — genau wählen, was gelöscht wird“.\n\nZwei Dinge solltest du vorher wissen:\n\n• Das Löschen von bereits Gespeichertem ist aus, solange du „Beim Aktivieren eines neuen Datentyps bereits Gespeichertes löschen“ nicht einschaltest. Ist es an, löscht das Einschalten eines Typs sofort alle aktuell gespeicherten Daten dieses Typs für jede Website (das ist die Warnung auf der Seite).\n\n• Alte Daten lassen sich nicht gezielt bereinigen. Der Browser erlaubt der Erweiterung das Löschen dieser Typen pro Website nur für die Zukunft, bei Websites, die du erneut besuchst. Reste aus der Zeit vor dem Aktivieren bleiben, bis die Website noch einmal besucht wird.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Behalten-Regeln und Muster"

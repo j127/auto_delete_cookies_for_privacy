@@ -943,8 +943,14 @@
     "message": "Jumlah cookie di ikon bilah alat"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "Di Firefox, cache tidak termasuk: Firefox hanya bisa membersihkan cache-nya untuk seluruh peramban, bukan untuk masing-masing situs.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "Di Firefox, cache, Cache Storage, dan penyimpanan sistem berkas tidak termasuk: Firefox tidak menyediakan cara bagi ekstensi untuk menghapusnya secara otomatis per situs. Sementara itu, kamu bisa membersihkan data situs sendiri (ikon gembok di bilah alamat), atau mencoba $BRAVE$, tempat ekstensi juga menghapusnya.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "Saat jenis data baru diaktifkan, hapus yang sudah tersimpan"
@@ -1462,7 +1468,13 @@
     "message": "Apa yang dihapus"
   },
   "helpSiteDataBody": {
-    "message": "Bawaannya ekstensi menghapus cookie dan semua hal lain yang situs simpan di perangkat Anda: cache, IndexedDB, LocalStorage, data plugin, dan service worker. Di Firefox, cache tidak termasuk: Firefox hanya bisa membersihkan cache-nya untuk seluruh peramban, bukan untuk masing-masing situs. Matikan Hapus semua data situs untuk hanya menghapus cookie, atau pilih jenis satu per satu di Lanjutan — pilih persis apa yang dihapus.\n\nDua hal yang perlu diketahui sebelum menyalakannya:\n\n• Menghapus yang sudah tersimpan nonaktif sampai Anda menyalakan Saat jenis data baru diaktifkan, hapus yang sudah tersimpan. Selama itu menyala, menyalakan satu jenis langsung menghapus semua data jenis itu yang tersimpan saat ini untuk setiap situs (itulah peringatan di halamannya).\n\n• Data lama tidak bisa dibersihkan selektif. Peramban hanya mengizinkan ekstensi menghapus jenis-jenis ini per situs ke depannya, untuk situs yang Anda kunjungi lagi. Sisa dari sebelum opsi dinyalakan tetap ada sampai situsnya dikunjungi sekali lagi."
+    "message": "Bawaannya ekstensi menghapus cookie dan semua hal lain yang situs simpan di perangkat Anda: cache, IndexedDB, LocalStorage, data plugin, dan service worker. Di Firefox, cache, Cache Storage, dan penyimpanan sistem berkas tidak termasuk: Firefox tidak menyediakan cara bagi ekstensi untuk menghapusnya secara otomatis per situs. Sementara itu, kamu bisa membersihkan data situs sendiri (ikon gembok di bilah alamat), atau mencoba $BRAVE$, tempat ekstensi juga menghapusnya. Matikan Hapus semua data situs untuk hanya menghapus cookie, atau pilih jenis satu per satu di Lanjutan — pilih persis apa yang dihapus.\n\nDua hal yang perlu diketahui sebelum menyalakannya:\n\n• Menghapus yang sudah tersimpan nonaktif sampai Anda menyalakan Saat jenis data baru diaktifkan, hapus yang sudah tersimpan. Selama itu menyala, menyalakan satu jenis langsung menghapus semua data jenis itu yang tersimpan saat ini untuk setiap situs (itulah peringatan di halamannya).\n\n• Data lama tidak bisa dibersihkan selektif. Peramban hanya mengizinkan ekstensi menghapus jenis-jenis ini per situs ke depannya, untuk situs yang Anda kunjungi lagi. Sisa dari sebelum opsi dinyalakan tetap ada sampai situsnya dikunjungi sekali lagi.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Aturan simpan dan pola"

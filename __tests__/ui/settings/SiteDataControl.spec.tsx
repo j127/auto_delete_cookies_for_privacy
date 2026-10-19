@@ -51,6 +51,12 @@ describe("SiteDataControl", () => {
     expect(master().indeterminate).toBe(false);
   });
 
+  it("shows no Firefox note and no link on Chrome", () => {
+    const { container, queryByText } = renderControl(initialState.settings);
+    expect(queryByText(/siteDataCacheFirefoxNoteText/)).toBeNull();
+    expect(container.querySelectorAll("a")).toHaveLength(0);
+  });
+
   it("renders the master toggle unchecked when every type is off", () => {
     renderControl(allOffSettings());
     expect(master().checked).toBe(false);

@@ -6,6 +6,9 @@ import { SettingID } from "@/typings/enums";
 import * as React from "react";
 import { browserCapabilities } from "@/services/browser-capabilities";
 import CheckboxSetting from "@/ui/common-components/CheckboxSetting";
+import MessageWithLink, {
+  BRAVE_LINK,
+} from "@/ui/common-components/MessageWithLink";
 
 interface OwnProps {
   settings: State["settings"];
@@ -114,9 +117,17 @@ const SiteDataControl: React.FunctionComponent<OwnProps> = ({
             {browser.i18n.getMessage("deleteAllSiteDataDescText")}
             {/* Behavior genuinely differs on Firefox: cache cannot be
                 cleared per site there, so the type is excluded and the
-                help text says so. */}
+                help text says so. Neither are Cache Storage and
+                file-system storage (#529), so the note names those too
+                and links to Brave, where they are cleared. */}
             {!browserCapabilities.cacheHostScopable && (
-              <> {browser.i18n.getMessage("siteDataCacheFirefoxNoteText")}</>
+              <>
+                {" "}
+                <MessageWithLink
+                  link={BRAVE_LINK}
+                  messageKey="siteDataCacheFirefoxNoteText"
+                />
+              </>
             )}
           </span>
         </span>

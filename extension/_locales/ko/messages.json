@@ -943,8 +943,14 @@
     "message": "툴바 아이콘에 쿠키 개수 표시"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "Firefox에서는 캐시가 포함되지 않습니다. Firefox는 브라우저 전체의 캐시만 지울 수 있고 사이트별로는 지울 수 없습니다.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "Firefox에서는 캐시, Cache Storage, 파일 시스템 저장소가 포함되지 않습니다. Firefox에는 확장 프로그램이 이를 사이트별로 자동 삭제할 방법이 없습니다. 그동안은 사이트 데이터를 직접 지우거나(주소 표시줄의 자물쇠 아이콘) 확장 프로그램이 이것까지 삭제하는 $BRAVE$를 사용해 보세요.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "새 데이터 유형을 켤 때 이미 저장된 것 지우기"
@@ -1462,7 +1468,13 @@
     "message": "삭제되는 항목"
   },
   "helpSiteDataBody": {
-    "message": "기본적으로 확장 프로그램은 쿠키와 사이트가 기기에 저장하는 나머지 모든 것 — 캐시, IndexedDB, LocalStorage, 플러그인 데이터, 서비스 워커 — 을 삭제합니다. Firefox에서는 캐시가 포함되지 않습니다. Firefox는 브라우저 전체의 캐시만 지울 수 있고 사이트별로는 지울 수 없습니다. 쿠키만 삭제하려면 '모든 사이트 데이터 삭제'를 끄고, 유형을 개별 선택하려면 '고급 — 삭제할 항목을 정확히 선택'을 여세요.\n\n켜기 전에 알아둘 두 가지:\n\n• 이미 저장된 것 지우기는 '새 데이터 유형을 켤 때 이미 저장된 것 지우기'를 켜지 않는 한 꺼져 있습니다. 켜져 있는 동안에는 유형을 켜는 즉시 그 유형의 현재 저장된 데이터가 모든 사이트에서 지워집니다(페이지의 경고가 이것입니다).\n\n• 옛 데이터는 선택적으로 정리할 수 없습니다. 브라우저는 다시 방문하는 사이트에 한해서만 사이트별로 이 유형들을 지우게 해 줍니다. 옵션을 켜기 전의 잔여물은 그 사이트를 다시 방문할 때까지 남습니다."
+    "message": "기본적으로 확장 프로그램은 쿠키와 사이트가 기기에 저장하는 나머지 모든 것 — 캐시, IndexedDB, LocalStorage, 플러그인 데이터, 서비스 워커 — 을 삭제합니다. Firefox에서는 캐시, Cache Storage, 파일 시스템 저장소가 포함되지 않습니다. Firefox에는 확장 프로그램이 이를 사이트별로 자동 삭제할 방법이 없습니다. 그동안은 사이트 데이터를 직접 지우거나(주소 표시줄의 자물쇠 아이콘) 확장 프로그램이 이것까지 삭제하는 $BRAVE$를 사용해 보세요. 쿠키만 삭제하려면 '모든 사이트 데이터 삭제'를 끄고, 유형을 개별 선택하려면 '고급 — 삭제할 항목을 정확히 선택'을 여세요.\n\n켜기 전에 알아둘 두 가지:\n\n• 이미 저장된 것 지우기는 '새 데이터 유형을 켤 때 이미 저장된 것 지우기'를 켜지 않는 한 꺼져 있습니다. 켜져 있는 동안에는 유형을 켜는 즉시 그 유형의 현재 저장된 데이터가 모든 사이트에서 지워집니다(페이지의 경고가 이것입니다).\n\n• 옛 데이터는 선택적으로 정리할 수 없습니다. 브라우저는 다시 방문하는 사이트에 한해서만 사이트별로 이 유형들을 지우게 해 줍니다. 옵션을 켜기 전의 잔여물은 그 사이트를 다시 방문할 때까지 남습니다.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "유지 규칙과 패턴"

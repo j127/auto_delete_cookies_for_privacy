@@ -943,8 +943,14 @@
     "message": "Số cookie trên biểu tượng thanh công cụ"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "Trên Firefox, bộ nhớ đệm không được tính: Firefox chỉ có thể xoá bộ nhớ đệm cho toàn bộ trình duyệt, không xoá theo từng trang.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "Trên Firefox, bộ nhớ đệm, Cache Storage và bộ nhớ hệ thống tệp không được tính: Firefox không cho tiện ích mở rộng cách nào để tự động xoá chúng theo từng trang. Trong lúc chờ, bạn có thể tự xoá dữ liệu của trang (biểu tượng ổ khoá trên thanh địa chỉ), hoặc thử $BRAVE$, nơi tiện ích xoá cả chúng.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "Khi bật một loại dữ liệu mới, xóa những gì đã lưu sẵn"
@@ -1462,7 +1468,13 @@
     "message": "Những gì bị xóa"
   },
   "helpSiteDataBody": {
-    "message": "Mặc định tiện ích xóa cookie và mọi thứ khác một trang lưu trên thiết bị: bộ nhớ đệm, IndexedDB, LocalStorage, dữ liệu plugin và service worker. Trên Firefox, bộ nhớ đệm không được tính: Firefox chỉ có thể xoá bộ nhớ đệm cho toàn bộ trình duyệt, không xoá theo từng trang. Tắt Xóa toàn bộ dữ liệu trang để chỉ xóa cookie, hoặc chọn từng loại trong phần Nâng cao — chọn chính xác những gì cần xóa.\n\nHai điều cần biết trước khi gạt:\n\n• Việc xóa những gì đã lưu sẵn bị tắt cho đến khi bạn bật Khi bật một loại dữ liệu mới, xóa những gì đã lưu sẵn. Trong lúc nó bật, bật một loại sẽ xóa ngay toàn bộ dữ liệu loại đó đang lưu cho mọi trang (cảnh báo trên trang nói về điều này).\n\n• Dữ liệu cũ không thể dọn chọn lọc. Trình duyệt chỉ cho tiện ích xóa các loại này theo từng trang kể từ nay, với trang bạn ghé lại. Phần sót từ trước khi bật vẫn nằm đó đến khi trang được ghé thêm lần nữa."
+    "message": "Mặc định tiện ích xóa cookie và mọi thứ khác một trang lưu trên thiết bị: bộ nhớ đệm, IndexedDB, LocalStorage, dữ liệu plugin và service worker. Trên Firefox, bộ nhớ đệm, Cache Storage và bộ nhớ hệ thống tệp không được tính: Firefox không cho tiện ích mở rộng cách nào để tự động xoá chúng theo từng trang. Trong lúc chờ, bạn có thể tự xoá dữ liệu của trang (biểu tượng ổ khoá trên thanh địa chỉ), hoặc thử $BRAVE$, nơi tiện ích xoá cả chúng. Tắt Xóa toàn bộ dữ liệu trang để chỉ xóa cookie, hoặc chọn từng loại trong phần Nâng cao — chọn chính xác những gì cần xóa.\n\nHai điều cần biết trước khi gạt:\n\n• Việc xóa những gì đã lưu sẵn bị tắt cho đến khi bạn bật Khi bật một loại dữ liệu mới, xóa những gì đã lưu sẵn. Trong lúc nó bật, bật một loại sẽ xóa ngay toàn bộ dữ liệu loại đó đang lưu cho mọi trang (cảnh báo trên trang nói về điều này).\n\n• Dữ liệu cũ không thể dọn chọn lọc. Trình duyệt chỉ cho tiện ích xóa các loại này theo từng trang kể từ nay, với trang bạn ghé lại. Phần sót từ trước khi bật vẫn nằm đó đến khi trang được ghé thêm lần nữa.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Quy tắc giữ và mẫu"

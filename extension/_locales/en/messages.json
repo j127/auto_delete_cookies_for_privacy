@@ -1132,8 +1132,14 @@
     "description": "Interface: show the site's cookie count on the icon"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "On Firefox, the cache, Cache Storage and file-system storage are not included: Firefox has no way for extensions to delete them automatically for each site. In the meantime, you can clear a site's data yourself (the padlock icon in the address bar), or try $BRAVE$, where the extension deletes them too.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "When a New Data Type Is Enabled, Wipe What's Already Stored",
@@ -1784,8 +1790,14 @@
     "description": "Help section title"
   },
   "helpSiteDataBody": {
-    "message": "Out of the box the extension deletes cookies and everything else a site stores on your device: Cache, IndexedDB, LocalStorage, Plugin Data, and Service Workers. On Firefox, cache is not included: Firefox can only clear its cache for the whole browser, not for individual sites. Turn off “Delete all site data” to delete cookies only, or pick individual types under “Advanced — choose exactly what to delete”.\n\nTwo things to know before flipping these:\n\n• Wiping what's already stored is off unless you turn on “When a New Data Type Is Enabled, Wipe What's Already Stored”. While that's on, switching a type on clears all currently stored data of that type for every site, right away (that's the warning on the page).\n\n• Old data can't be selectively cleaned. The browser only lets the extension clear these types per-site going forward, for sites you visit again. Leftovers from before you enabled the option stay until the site is visited once more.",
-    "description": "Help section body: what gets deleted"
+    "message": "Out of the box the extension deletes cookies and everything else a site stores on your device: Cache, IndexedDB, LocalStorage, Plugin Data, and Service Workers. On Firefox, the cache, Cache Storage and file-system storage are not included: Firefox has no way for extensions to delete them automatically for each site. In the meantime, you can clear a site's data yourself (the padlock icon in the address bar), or try $BRAVE$, where the extension deletes them too. Turn off “Delete all site data” to delete cookies only, or pick individual types under “Advanced — choose exactly what to delete”.\n\nTwo things to know before flipping these:\n\n• Wiping what's already stored is off unless you turn on “When a New Data Type Is Enabled, Wipe What's Already Stored”. While that's on, switching a type on clears all currently stored data of that type for every site, right away (that's the warning on the page).\n\n• Old data can't be selectively cleaned. The browser only lets the extension clear these types per-site going forward, for sites you visit again. Leftovers from before you enabled the option stay until the site is visited once more.",
+    "description": "Help section body: what gets deleted",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Keep rules and patterns",
