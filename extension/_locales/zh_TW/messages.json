@@ -943,8 +943,14 @@
     "message": "在工具列圖示上顯示 Cookie 數量"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "在 Firefox 上不包含快取：Firefox 只能清除整個瀏覽器的快取，無法逐站清除。",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "在 Firefox 上不包含快取、Cache Storage 與檔案系統儲存空間：Firefox 沒有提供擴充套件逐站自動刪除它們的方法。在此之前，你可以自行清除網站資料（網址列中的鎖頭圖示），或試試 $BRAVE$，擴充套件在其中也會刪除它們。",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "啟用新資料類型時，抹除已儲存的內容"
@@ -1462,7 +1468,13 @@
     "message": "清理的內容"
   },
   "helpSiteDataBody": {
-    "message": "預設情況下擴充功能會刪除 Cookie 以及網站在你裝置上儲存的其餘一切：快取、IndexedDB、LocalStorage、外掛資料和 Service Worker。在 Firefox 上不包含快取：Firefox 只能清除整個瀏覽器的快取，無法逐站清除。關掉「刪除全部網站資料」即可只刪除 Cookie，或在「進階——精確選擇要刪除的內容」中個別挑選類型。\n\n動手前要知道兩件事：\n\n• 抹除已儲存的內容預設關閉，除非你開啟「啟用新資料類型時，抹除已儲存的內容」。開啟期間，開啟某類型會立即清除所有網站目前儲存的該類型資料（頁面上的警告就是在說這個）。\n\n• 舊資料無法選擇性清理。瀏覽器只允許擴充功能對你再次造訪的網站逐站清除這些類型。啟用之前的殘留會一直留到你再造訪那個網站。"
+    "message": "預設情況下擴充功能會刪除 Cookie 以及網站在你裝置上儲存的其餘一切：快取、IndexedDB、LocalStorage、外掛資料和 Service Worker。在 Firefox 上不包含快取、Cache Storage 與檔案系統儲存空間：Firefox 沒有提供擴充套件逐站自動刪除它們的方法。在此之前，你可以自行清除網站資料（網址列中的鎖頭圖示），或試試 $BRAVE$，擴充套件在其中也會刪除它們。關掉「刪除全部網站資料」即可只刪除 Cookie，或在「進階——精確選擇要刪除的內容」中個別挑選類型。\n\n動手前要知道兩件事：\n\n• 抹除已儲存的內容預設關閉，除非你開啟「啟用新資料類型時，抹除已儲存的內容」。開啟期間，開啟某類型會立即清除所有網站目前儲存的該類型資料（頁面上的警告就是在說這個）。\n\n• 舊資料無法選擇性清理。瀏覽器只允許擴充功能對你再次造訪的網站逐站清除這些類型。啟用之前的殘留會一直留到你再造訪那個網站。",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "保留規則與比對模式"

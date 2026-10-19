@@ -943,8 +943,14 @@
     "message": "Liczba ciasteczek na ikonie paska narzędzi"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "W Firefoksie pamięć podręczna nie jest objęta: Firefox potrafi wyczyścić swoją pamięć podręczną tylko dla całej przeglądarki, nie dla pojedynczych stron.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "W Firefoksie pamięć podręczna, Cache Storage i pamięć systemu plików nie są objęte: Firefox nie daje rozszerzeniom sposobu, by usuwać je automatycznie dla każdej strony. Do tego czasu możesz sam wyczyścić dane strony (ikona kłódki na pasku adresu) albo wypróbować $BRAVE$, gdzie rozszerzenie usuwa także je.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "Przy włączeniu nowego typu danych usuń to, co już zapisane"
@@ -1462,7 +1468,13 @@
     "message": "Co jest usuwane"
   },
   "helpSiteDataBody": {
-    "message": "Domyślnie rozszerzenie usuwa ciasteczka i wszystko inne, co strona przechowuje na twoim urządzeniu: pamięć podręczną, IndexedDB, LocalStorage, dane wtyczek i service workery. W Firefoksie pamięć podręczna nie jest objęta: Firefox potrafi wyczyścić swoją pamięć podręczną tylko dla całej przeglądarki, nie dla pojedynczych stron. Wyłącz „Usuwaj wszystkie dane strony”, aby usuwać tylko ciasteczka, albo wybierz poszczególne typy w sekcji „Zaawansowane — wybierz dokładnie, co usuwać”.\n\nDwie rzeczy warte poznania przed przełączeniem:\n\n• Usuwanie tego, co już zapisane, jest wyłączone, dopóki nie włączysz „Przy włączeniu nowego typu danych usuń to, co już zapisane”. Gdy jest włączone, włączenie typu od razu usuwa wszystkie obecnie zapisane dane tego typu dla każdej strony (o tym ostrzega strona).\n\n• Starych danych nie da się czyścić wybiórczo. Przeglądarka pozwala rozszerzeniu usuwać te typy per strona tylko na przyszłość, dla stron, które znów odwiedzisz. Pozostałości sprzed włączenia opcji zostają do kolejnej wizyty."
+    "message": "Domyślnie rozszerzenie usuwa ciasteczka i wszystko inne, co strona przechowuje na twoim urządzeniu: pamięć podręczną, IndexedDB, LocalStorage, dane wtyczek i service workery. W Firefoksie pamięć podręczna, Cache Storage i pamięć systemu plików nie są objęte: Firefox nie daje rozszerzeniom sposobu, by usuwać je automatycznie dla każdej strony. Do tego czasu możesz sam wyczyścić dane strony (ikona kłódki na pasku adresu) albo wypróbować $BRAVE$, gdzie rozszerzenie usuwa także je. Wyłącz „Usuwaj wszystkie dane strony”, aby usuwać tylko ciasteczka, albo wybierz poszczególne typy w sekcji „Zaawansowane — wybierz dokładnie, co usuwać”.\n\nDwie rzeczy warte poznania przed przełączeniem:\n\n• Usuwanie tego, co już zapisane, jest wyłączone, dopóki nie włączysz „Przy włączeniu nowego typu danych usuń to, co już zapisane”. Gdy jest włączone, włączenie typu od razu usuwa wszystkie obecnie zapisane dane tego typu dla każdej strony (o tym ostrzega strona).\n\n• Starych danych nie da się czyścić wybiórczo. Przeglądarka pozwala rozszerzeniu usuwać te typy per strona tylko na przyszłość, dla stron, które znów odwiedzisz. Pozostałości sprzed włączenia opcji zostają do kolejnej wizyty.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Reguły zachowywania i wzorce"

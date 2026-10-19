@@ -943,8 +943,14 @@
     "message": "Evästemäärä työkalupalkin kuvakkeessa"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "Firefoxissa välimuisti ei ole mukana: Firefox voi tyhjentää välimuistinsa vain koko selaimelta, ei yksittäisiltä sivustoilta.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "Firefoxissa välimuisti, Cache Storage ja tiedostojärjestelmätallennus eivät ole mukana: Firefox ei tarjoa laajennuksille keinoa poistaa niitä automaattisesti sivustokohtaisesti. Sillä välin voit tyhjentää sivuston tiedot itse (osoiterivin lukkokuvake) tai kokeilla $BRAVE$-selainta, jossa laajennus poistaa myös ne.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "Kun uusi tietotyyppi otetaan käyttöön, pyyhi jo tallennettu"
@@ -1462,7 +1468,13 @@
     "message": "Mitä poistetaan"
   },
   "helpSiteDataBody": {
-    "message": "Oletuksena laajennus poistaa evästeet ja kaiken muun, mitä sivusto tallentaa laitteellesi: välimuistin, IndexedDB:n, LocalStoragen, lisäosatiedot ja service workerit. Firefoxissa välimuisti ei ole mukana: Firefox voi tyhjentää välimuistinsa vain koko selaimelta, ei yksittäisiltä sivustoilta. Kytke Poista kaikki sivustotiedot -kytkin pois, jos haluat poistaa vain evästeet, tai valitse yksittäiset tyypit kohdasta Edistynyt — valitse tarkalleen mitä poistetaan.\n\nKaksi asiaa, jotka kannattaa tietää ennen kytkemistä:\n\n• Jo tallennetun pyyhkiminen on pois päältä, kunnes kytket päälle asetuksen Kun uusi tietotyyppi otetaan käyttöön, pyyhi jo tallennettu. Kun se on päällä, tyypin kytkeminen päälle pyyhkii heti kaikki kyseisen tyypin tallennetut tiedot jokaiselta sivustolta (siitä sivun varoitus kertoo).\n\n• Vanhoja tietoja ei voi siivota valikoiden. Selain sallii laajennuksen pyyhkiä näitä tyyppejä sivustokohtaisesti vain tästä eteenpäin, sivustoilta joilla vierailet uudelleen. Ennen valinnan kytkemistä kertyneet jäänteet pysyvät, kunnes sivustolla käydään vielä kerran."
+    "message": "Oletuksena laajennus poistaa evästeet ja kaiken muun, mitä sivusto tallentaa laitteellesi: välimuistin, IndexedDB:n, LocalStoragen, lisäosatiedot ja service workerit. Firefoxissa välimuisti, Cache Storage ja tiedostojärjestelmätallennus eivät ole mukana: Firefox ei tarjoa laajennuksille keinoa poistaa niitä automaattisesti sivustokohtaisesti. Sillä välin voit tyhjentää sivuston tiedot itse (osoiterivin lukkokuvake) tai kokeilla $BRAVE$-selainta, jossa laajennus poistaa myös ne. Kytke Poista kaikki sivustotiedot -kytkin pois, jos haluat poistaa vain evästeet, tai valitse yksittäiset tyypit kohdasta Edistynyt — valitse tarkalleen mitä poistetaan.\n\nKaksi asiaa, jotka kannattaa tietää ennen kytkemistä:\n\n• Jo tallennetun pyyhkiminen on pois päältä, kunnes kytket päälle asetuksen Kun uusi tietotyyppi otetaan käyttöön, pyyhi jo tallennettu. Kun se on päällä, tyypin kytkeminen päälle pyyhkii heti kaikki kyseisen tyypin tallennetut tiedot jokaiselta sivustolta (siitä sivun varoitus kertoo).\n\n• Vanhoja tietoja ei voi siivota valikoiden. Selain sallii laajennuksen pyyhkiä näitä tyyppejä sivustokohtaisesti vain tästä eteenpäin, sivustoilta joilla vierailet uudelleen. Ennen valinnan kytkemistä kertyneet jäänteet pysyvät, kunnes sivustolla käydään vielä kerran.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Säilytyssäännöt ja kuviot"

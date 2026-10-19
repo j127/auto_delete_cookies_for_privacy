@@ -943,8 +943,14 @@
     "message": "Koekietelling op die nutsbalkikoon"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "In Firefox is die kas nie ingesluit nie: Firefox kan sy kas net vir die hele blaaier skoonmaak, nie vir individuele werwe nie.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "In Firefox is die kas, Cache Storage en lêerstelselberging nie ingesluit nie: Firefox bied uitbreidings geen manier om dit outomaties per werf te skrap nie. Intussen kan jy 'n werf se data self skoonmaak (die slotikoon in die adresbalk), of $BRAVE$ probeer, waar die uitbreiding dit ook skrap.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "Wanneer 'n nuwe datatipe aangeskakel word, vee uit wat reeds gestoor is"
@@ -1462,7 +1468,13 @@
     "message": "Wat geskrap word"
   },
   "helpSiteDataBody": {
-    "message": "Uit die boks skrap die uitbreiding koekies en alles anders wat 'n werf op jou toestel stoor: kas, IndexedDB, LocalStorage, inpropdata en service workers. In Firefox is die kas nie ingesluit nie: Firefox kan sy kas net vir die hele blaaier skoonmaak, nie vir individuele werwe nie. Skakel Skrap alle werfdata af om net koekies te skrap, of kies individuele tipes onder Gevorderd — kies presies wat geskrap word.\n\nTwee dinge om te weet voor jy hulle omskakel:\n\n• Om uit te vee wat reeds gestoor is, is af totdat jy dit aanskakel met die skakelaar Wanneer 'n nuwe datatipe aangeskakel word, vee uit wat reeds gestoor is. Terwyl dit aan is, vee die aanskakel van 'n tipe dadelik al die tans gestoorde data van daardie tipe vir elke werf uit (dis die waarskuwing op die bladsy).\n\n• Ou data kan nie selektief skoongemaak word nie. Die blaaier laat die uitbreiding net toe om hierdie tipes per werf vorentoe uit te vee, vir werwe wat jy weer besoek. Oorblyfsels van voor jy die opsie aangeskakel het, bly tot die werf weer besoek word."
+    "message": "Uit die boks skrap die uitbreiding koekies en alles anders wat 'n werf op jou toestel stoor: kas, IndexedDB, LocalStorage, inpropdata en service workers. In Firefox is die kas, Cache Storage en lêerstelselberging nie ingesluit nie: Firefox bied uitbreidings geen manier om dit outomaties per werf te skrap nie. Intussen kan jy 'n werf se data self skoonmaak (die slotikoon in die adresbalk), of $BRAVE$ probeer, waar die uitbreiding dit ook skrap. Skakel Skrap alle werfdata af om net koekies te skrap, of kies individuele tipes onder Gevorderd — kies presies wat geskrap word.\n\nTwee dinge om te weet voor jy hulle omskakel:\n\n• Om uit te vee wat reeds gestoor is, is af totdat jy dit aanskakel met die skakelaar Wanneer 'n nuwe datatipe aangeskakel word, vee uit wat reeds gestoor is. Terwyl dit aan is, vee die aanskakel van 'n tipe dadelik al die tans gestoorde data van daardie tipe vir elke werf uit (dis die waarskuwing op die bladsy).\n\n• Ou data kan nie selektief skoongemaak word nie. Die blaaier laat die uitbreiding net toe om hierdie tipes per werf vorentoe uit te vee, vir werwe wat jy weer besoek. Oorblyfsels van voor jy die opsie aangeskakel het, bly tot die werf weer besoek word.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Hou-reëls en patrone"

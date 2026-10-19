@@ -943,8 +943,14 @@
     "message": "在工具栏图标上显示 Cookie 数量"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "在 Firefox 上不包含缓存：Firefox 只能清除整个浏览器的缓存，无法按站点清除。",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "在 Firefox 上不包含缓存、Cache Storage 和文件系统存储：Firefox 没有为扩展提供按站点自动删除它们的方法。在此之前，你可以自己清除站点数据（地址栏中的锁形图标），或试试 $BRAVE$，扩展在其中也会删除它们。",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "启用新数据类型时，抹掉已存储的内容"
@@ -1462,7 +1468,13 @@
     "message": "清理的内容"
   },
   "helpSiteDataBody": {
-    "message": "默认情况下扩展会删除 Cookie 以及网站在你设备上存储的其余一切：缓存、IndexedDB、LocalStorage、插件数据和 Service Worker。在 Firefox 上不包含缓存：Firefox 只能清除整个浏览器的缓存，无法按站点清除。关掉“删除全部站点数据”即可只删除 Cookie，或在“高级——精确选择要删除的内容”中单独挑选类型。\n\n动手前要知道两件事：\n\n• 抹掉已存储的内容默认关闭，除非你打开“启用新数据类型时，抹掉已存储的内容”。它打开期间，打开某个类型会立即清除所有网站当前存储的该类型数据（页面上的警告说的就是这个）。\n\n• 旧数据无法选择性清理。浏览器只允许扩展对你再次访问的网站按站点清除这些类型。启用之前的残留会一直留到你再访问那个网站。"
+    "message": "默认情况下扩展会删除 Cookie 以及网站在你设备上存储的其余一切：缓存、IndexedDB、LocalStorage、插件数据和 Service Worker。在 Firefox 上不包含缓存、Cache Storage 和文件系统存储：Firefox 没有为扩展提供按站点自动删除它们的方法。在此之前，你可以自己清除站点数据（地址栏中的锁形图标），或试试 $BRAVE$，扩展在其中也会删除它们。关掉“删除全部站点数据”即可只删除 Cookie，或在“高级——精确选择要删除的内容”中单独挑选类型。\n\n动手前要知道两件事：\n\n• 抹掉已存储的内容默认关闭，除非你打开“启用新数据类型时，抹掉已存储的内容”。它打开期间，打开某个类型会立即清除所有网站当前存储的该类型数据（页面上的警告说的就是这个）。\n\n• 旧数据无法选择性清理。浏览器只允许扩展对你再次访问的网站按站点清除这些类型。启用之前的残留会一直留到你再访问那个网站。",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "保留规则与匹配模式"

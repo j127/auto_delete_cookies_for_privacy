@@ -943,8 +943,14 @@
     "message": "Numărul de cookie-uri pe pictograma din bară"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "În Firefox, cache-ul nu este inclus: Firefox își poate goli cache-ul doar pentru tot browserul, nu pentru site-uri individuale.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "În Firefox, cache-ul, Cache Storage și stocarea sistemului de fișiere nu sunt incluse: Firefox nu le oferă extensiilor nicio cale de a le șterge automat pentru fiecare site. Până atunci, poți șterge singur datele unui site (pictograma lacăt din bara de adrese) sau poți încerca $BRAVE$, unde extensia le șterge și pe acestea.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "La activarea unui nou tip de date, șterge ce e deja stocat"
@@ -1462,7 +1468,13 @@
     "message": "Ce se șterge"
   },
   "helpSiteDataBody": {
-    "message": "Implicit, extensia șterge cookie-urile și tot restul pe care un site îl stochează pe dispozitivul tău: cache, IndexedDB, LocalStorage, date de pluginuri și service workeri. În Firefox, cache-ul nu este inclus: Firefox își poate goli cache-ul doar pentru tot browserul, nu pentru site-uri individuale. Oprește „Șterge toate datele de site” ca să ștergi doar cookie-uri, sau alege tipuri individuale în „Avansat — alege exact ce se șterge”.\n\nDouă lucruri de știut înainte să le comuți:\n\n• Ștergerea a ce e deja stocat e oprită până când pornești „La activarea unui nou tip de date, șterge ce e deja stocat”. Cât timp e pornită, pornirea unui tip șterge imediat toate datele de acel tip stocate în prezent pentru fiecare site (acesta e avertismentul de pe pagină).\n\n• Datele vechi nu pot fi curățate selectiv. Browserul îi permite extensiei să șteargă aceste tipuri per site doar de acum înainte, pentru site-urile pe care le vizitezi din nou. Resturile de dinaintea activării rămân până când site-ul e vizitat încă o dată."
+    "message": "Implicit, extensia șterge cookie-urile și tot restul pe care un site îl stochează pe dispozitivul tău: cache, IndexedDB, LocalStorage, date de pluginuri și service workeri. În Firefox, cache-ul, Cache Storage și stocarea sistemului de fișiere nu sunt incluse: Firefox nu le oferă extensiilor nicio cale de a le șterge automat pentru fiecare site. Până atunci, poți șterge singur datele unui site (pictograma lacăt din bara de adrese) sau poți încerca $BRAVE$, unde extensia le șterge și pe acestea. Oprește „Șterge toate datele de site” ca să ștergi doar cookie-uri, sau alege tipuri individuale în „Avansat — alege exact ce se șterge”.\n\nDouă lucruri de știut înainte să le comuți:\n\n• Ștergerea a ce e deja stocat e oprită până când pornești „La activarea unui nou tip de date, șterge ce e deja stocat”. Cât timp e pornită, pornirea unui tip șterge imediat toate datele de acel tip stocate în prezent pentru fiecare site (acesta e avertismentul de pe pagină).\n\n• Datele vechi nu pot fi curățate selectiv. Browserul îi permite extensiei să șteargă aceste tipuri per site doar de acum înainte, pentru site-urile pe care le vizitezi din nou. Resturile de dinaintea activării rămân până când site-ul e vizitat încă o dată.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Reguli de păstrare și tipare"

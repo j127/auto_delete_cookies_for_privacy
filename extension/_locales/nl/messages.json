@@ -943,8 +943,14 @@
     "message": "Cookie-aantal op het werkbalkpictogram"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "In Firefox hoort de cache er niet bij: Firefox kan zijn cache alleen voor de hele browser legen, niet voor afzonderlijke sites.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "In Firefox horen de cache, Cache Storage en bestandssysteemopslag er niet bij: Firefox geeft extensies geen manier om ze automatisch per site te verwijderen. Tot die tijd kun je de gegevens van een site zelf wissen (het hangslotpictogram in de adresbalk) of $BRAVE$ proberen, waar de extensie ze ook verwijdert.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "Bij het inschakelen van een nieuw gegevenstype wissen wat al is opgeslagen"
@@ -1462,7 +1468,13 @@
     "message": "Wat er verwijderd wordt"
   },
   "helpSiteDataBody": {
-    "message": "Standaard verwijdert de extensie cookies en al het andere dat een site op je apparaat opslaat: cache, IndexedDB, LocalStorage, plugin-gegevens en serviceworkers. In Firefox hoort de cache er niet bij: Firefox kan zijn cache alleen voor de hele browser legen, niet voor afzonderlijke sites. Zet 'Alle sitegegevens verwijderen' uit om alleen cookies te verwijderen, of kies losse typen onder 'Geavanceerd — precies kiezen wat er verwijderd wordt'.\n\nTwee dingen om te weten voor je ze omzet:\n\n• Wissen wat al is opgeslagen staat uit, tenzij je 'Bij het inschakelen van een nieuw gegevenstype wissen wat al is opgeslagen' aanzet. Zolang dat aanstaat, wist het aanzetten van een type meteen alle momenteel opgeslagen gegevens van dat type voor elke site (dat is de waarschuwing op de pagina).\n\n• Oude gegevens kunnen niet selectief worden opgeschoond. De browser laat de extensie deze typen alleen per site wissen voor de toekomst, bij sites die je opnieuw bezoekt. Restanten van vóór het inschakelen blijven staan tot de site nog eens wordt bezocht."
+    "message": "Standaard verwijdert de extensie cookies en al het andere dat een site op je apparaat opslaat: cache, IndexedDB, LocalStorage, plugin-gegevens en serviceworkers. In Firefox horen de cache, Cache Storage en bestandssysteemopslag er niet bij: Firefox geeft extensies geen manier om ze automatisch per site te verwijderen. Tot die tijd kun je de gegevens van een site zelf wissen (het hangslotpictogram in de adresbalk) of $BRAVE$ proberen, waar de extensie ze ook verwijdert. Zet 'Alle sitegegevens verwijderen' uit om alleen cookies te verwijderen, of kies losse typen onder 'Geavanceerd — precies kiezen wat er verwijderd wordt'.\n\nTwee dingen om te weten voor je ze omzet:\n\n• Wissen wat al is opgeslagen staat uit, tenzij je 'Bij het inschakelen van een nieuw gegevenstype wissen wat al is opgeslagen' aanzet. Zolang dat aanstaat, wist het aanzetten van een type meteen alle momenteel opgeslagen gegevens van dat type voor elke site (dat is de waarschuwing op de pagina).\n\n• Oude gegevens kunnen niet selectief worden opgeschoond. De browser laat de extensie deze typen alleen per site wissen voor de toekomst, bij sites die je opnieuw bezoekt. Restanten van vóór het inschakelen blijven staan tot de site nog eens wordt bezocht.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Bewaarregels en patronen"

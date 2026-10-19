@@ -943,8 +943,14 @@
     "message": "Número de cookies na icona da barra"
   },
   "siteDataCacheFirefoxNoteText": {
-    "message": "En Firefox a caché non se inclúe: Firefox só pode baleirar a súa caché para todo o navegador, non para sitios concretos.",
-    "description": "Firefox-only note appended to the site-data master toggle description; cache cleanup is excluded on Firefox."
+    "message": "En Firefox non se inclúen a caché, Cache Storage nin o almacenamento do sistema de ficheiros: Firefox non lles ofrece ás extensións ningunha forma de borralos automaticamente para cada sitio. Mentres tanto, podes borrar ti mesmo os datos dun sitio (a icona do cadeado na barra de enderezos) ou probar $BRAVE$, onde a extensión tamén os borra.",
+    "description": "Firefox-only note appended to the site-data master toggle description, and repeated word for word in the Help page's \"What gets deleted\" section. $BRAVE$ becomes a link to Brave's website (opens in a new tab); keep the token, and keep the brand name untranslated.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "siteDataEmptyOnEnable": {
     "message": "Ao activar un novo tipo de datos, borrar o xa almacenado"
@@ -1462,7 +1468,13 @@
     "message": "Que se borra"
   },
   "helpSiteDataBody": {
-    "message": "Por defecto a extensión borra as cookies e todo o demais que un sitio garda no teu dispositivo: caché, IndexedDB, LocalStorage, datos de plugins e service workers. En Firefox a caché non se inclúe: Firefox só pode baleirar a súa caché para todo o navegador, non para sitios concretos. Apaga Borrar todos os datos do sitio para borrar só cookies, ou escolle tipos individuais en Avanzado — escolle exactamente que borrar.\n\nDúas cousas antes de activalos:\n\n• Borrar o xa gardado está desactivado ata que acendas Ao activar un novo tipo de datos, borrar o xa almacenado. Mentres estea acendido, acender un tipo borra ao momento todos os datos dese tipo gardados para cada sitio (ese é o aviso da páxina).\n\n• Os datos vellos non se poden limpar selectivamente. O navegador só permite á extensión borrar estes tipos por sitio de aquí en diante, para sitios que volvas visitar. Os restos de antes de activar a opción quedan ata que o sitio se visite outra vez."
+    "message": "Por defecto a extensión borra as cookies e todo o demais que un sitio garda no teu dispositivo: caché, IndexedDB, LocalStorage, datos de plugins e service workers. En Firefox non se inclúen a caché, Cache Storage nin o almacenamento do sistema de ficheiros: Firefox non lles ofrece ás extensións ningunha forma de borralos automaticamente para cada sitio. Mentres tanto, podes borrar ti mesmo os datos dun sitio (a icona do cadeado na barra de enderezos) ou probar $BRAVE$, onde a extensión tamén os borra. Apaga Borrar todos os datos do sitio para borrar só cookies, ou escolle tipos individuais en Avanzado — escolle exactamente que borrar.\n\nDúas cousas antes de activalos:\n\n• Borrar o xa gardado está desactivado ata que acendas Ao activar un novo tipo de datos, borrar o xa almacenado. Mentres estea acendido, acender un tipo borra ao momento todos os datos dese tipo gardados para cada sitio (ese é o aviso da páxina).\n\n• Os datos vellos non se poden limpar selectivamente. O navegador só permite á extensión borrar estes tipos por sitio de aquí en diante, para sitios que volvas visitar. Os restos de antes de activar a opción quedan ata que o sitio se visite outra vez.",
+    "placeholders": {
+      "brave": {
+        "content": "$1",
+        "example": "Brave"
+      }
+    }
   },
   "helpPatternsTitle": {
     "message": "Regras de conservación e padróns"

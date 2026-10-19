@@ -4,6 +4,10 @@
  */
 import * as React from "react";
 import Icon from "@/ui/common-components/Icon";
+import MessageWithLink, {
+  BRAVE_LINK,
+  type MessageLink,
+} from "@/ui/common-components/MessageWithLink";
 
 interface OwnProps {
   style?: React.CSSProperties;
@@ -12,12 +16,21 @@ interface OwnProps {
 /**
  * The in-app user guide: collapsed sections that together are the only
  * user documentation the project ships. Nothing here links out of the
- * extension.
+ * extension, except the Brave link in "What gets deleted" (#529), which
+ * the Firefox site-data note carries.
  */
-const HELP_SECTIONS: { titleKey: string; bodyKey: string }[] = [
+const HELP_SECTIONS: {
+  titleKey: string;
+  bodyKey: string;
+  link?: MessageLink;
+}[] = [
   { titleKey: "helpGettingStartedTitle", bodyKey: "helpGettingStartedBody" },
   { titleKey: "helpCleaningTitle", bodyKey: "helpCleaningBody" },
-  { titleKey: "helpSiteDataTitle", bodyKey: "helpSiteDataBody" },
+  {
+    titleKey: "helpSiteDataTitle",
+    bodyKey: "helpSiteDataBody",
+    link: BRAVE_LINK,
+  },
   { titleKey: "helpPatternsTitle", bodyKey: "helpPatternsBody" },
   { titleKey: "helpImportExportTitle", bodyKey: "helpImportExportBody" },
   { titleKey: "helpLogTitle", bodyKey: "helpLogBody" },
@@ -35,7 +48,7 @@ const Help: React.FunctionComponent<OwnProps> = ({ style }) => (
     </p>
     <div className="overflow-hidden rounded-box border border-base-300 bg-base-100">
       <div className="divide-y divide-base-300">
-        {HELP_SECTIONS.map(({ titleKey, bodyKey }) => (
+        {HELP_SECTIONS.map(({ titleKey, bodyKey, link }) => (
           <details className="group/help" key={titleKey}>
             <summary className="flex cursor-pointer items-center gap-2 px-4 py-3 font-semibold">
               <Icon
@@ -46,7 +59,11 @@ const Help: React.FunctionComponent<OwnProps> = ({ style }) => (
               {browser.i18n.getMessage(titleKey)}
             </summary>
             <div className="px-4 pb-4 text-sm whitespace-pre-line text-base-content/80">
-              {browser.i18n.getMessage(bodyKey)}
+              {link ? (
+                <MessageWithLink link={link} messageKey={bodyKey} />
+              ) : (
+                browser.i18n.getMessage(bodyKey)
+              )}
             </div>
           </details>
         ))}
