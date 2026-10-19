@@ -14,6 +14,10 @@ This is a browser extension for Chrome, Brave, and Firefox that automatically de
 - Keep rules support wildcards and regular expressions, and can be exported/imported as files
 - Each Firefox container can have its own keep rules
 
+### What Firefox won't let it clear
+
+On Chrome and Brave, Cache Storage (the Cache API) is cleared together with service workers, and file-system storage (the origin private file system) together with IndexedDB. Firefox gives extensions no way to delete those two for a single site, and it can only clear its cache for the whole browser, so on Firefox all three stay behind after a cleanup. To remove them for one site, click the padlock in the address bar and choose "Clear cookies and site data…" (this also deletes the site's cookies). The Firefox side is tracked in Mozilla's [bug 1526246](https://bugzilla.mozilla.org/show_bug.cgi?id=1526246) (Cache API) and [bug 1535763](https://bugzilla.mozilla.org/show_bug.cgi?id=1535763) (clearing all of a site's storage).
+
 ## Install
 
 - **Chrome, Brave, and other Chromium browsers** -- [Chrome Web Store](https://chromewebstore.google.com/detail/auto-delete-cookies-for-p/ghnodpmkiilfdelcloblidoeecblgbfp)
