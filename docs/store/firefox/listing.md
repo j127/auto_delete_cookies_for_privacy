@@ -31,6 +31,11 @@ BUILT FOR FIREFOX
 • Works with First-Party Isolation profiles, and still cleans up isolated leftovers after you turn FPI off.
 • Private-browsing keep lists work as advertised, and private domains never appear in the activity log.
 
+ON FIREFOX FOR ANDROID
+• Firefox's own "Delete browsing data on quit" has no exceptions. Use the keep list instead: turn on automatic cleaning, keep the sites you want to stay signed in to, and turn on "Clean restored tabs on startup" (under Advanced mode). Everything else, partitioned cookies included, is cleared when its tab closes and again each time Firefox starts.
+• Important: in Firefox's settings, leave "Cookies and site data" unselected under "Delete browsing data on quit". Otherwise Firefox deletes the cookies of the sites you kept too.
+• Containers and the right-click menu are not available on Android.
+
 THE POPUP
 • See how many cookies the current site has set, and inspect what else it stores on your device.
 • Clean the current site's data, or run a full cleanup, with one click.

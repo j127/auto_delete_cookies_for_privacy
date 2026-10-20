@@ -34,6 +34,14 @@
  * including open tabs. That errs toward keeping cookies a while longer
  * rather than logging someone out of a tab they still have open.
  *
+ * The setup recommended for Android (README, "Firefox for Android") uses
+ * the Keep list in place of Firefox's all-or-nothing "Delete browsing data
+ * on quit": keep rules protect the sites that matter, and "Clean restored
+ * tabs on startup" clears everything else at each start. That startup
+ * cleanup ignores open tabs, so it calls forget() and carried sites do not
+ * protect anything there; this service only matters to people who leave
+ * that setting off and expect open tabs to be left alone (#534).
+ *
  * Private tabs never count: Firefox does not restore them, and private
  * sites must never be written to disk.
  *
