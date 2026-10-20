@@ -7,9 +7,9 @@
  * Firefox for Android on top of the Firefox flavor (#534). Android runs the
  * same Firefox build, but its `browser` has no contextualIdentities (from
  * Firefox for Android 138 on), no context menus and no windows API, and
- * runtime.getPlatformInfo reports os "android". Tabs carry no
- * cookieStoreId there (MDN lists tabs.Tab.cookieStoreId as unsupported), so
- * specs build tabs without one.
+ * runtime.getPlatformInfo reports os "android". MDN lists
+ * tabs.Tab.cookieStoreId as unsupported there (Gecko's Android code does set
+ * it), so specs build tabs without one to pin the fallback.
  *
  * Use per file AFTER stubbing __BROWSER__ to "firefox": the mock tree from
  * __tests__/setup.js is per file, so removing APIs here never leaks into

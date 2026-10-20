@@ -40,7 +40,7 @@ The same Firefox package runs on Firefox for Android 142 or newer (`FIREFOX_ANDR
 What differs on Android, and what the code does about it:
 
 - No `contextualIdentities`, `contextMenus` or `windows` API. `hasContainerApi` and `hasContextMenuApi` (`src/services/browser-capabilities.ts`) hide the container settings and the context menu setting, and the Private keep list is never erased (no window events), which Saved sites and the popup say in `privateListKeptAndroidText`.
-- Tabs carry no `cookieStoreId` (MDN lists it as unsupported), so `tabCookieStoreId` keys them `firefox-default` / `firefox-private`.
+- MDN lists `tabs.Tab.cookieStoreId` as unsupported, but Gecko's Android tabs code sets it. In case a tab comes without one, `tabCookieStoreId` keys it `firefox-default` / `firefox-private` rather than Chrome's `0` / `1`.
 - `tabs.query` lists only the tabs Firefox has loaded since it started (Mozilla bug 1583281). `src/services/carried-open-tabs.ts` carries the sites that were open over a restart and treats them as open tabs until a listed tab shows them or the person cleans including open tabs. Trade-off: a tab closed from the tab tray without being opened again keeps its site's cookies until then.
 - The popup opens as a full-width page; its 430px minimum width is capped at the screen width.
 

@@ -37,7 +37,8 @@ const fxCookie = (domain: string): browser.cookies.Cookie => ({
   value: "v",
 });
 
-// What Firefox for Android reports for a normal tab: no cookieStoreId.
+// A normal tab as MDN describes Firefox for Android's: no cookieStoreId
+// (Gecko's Android code does set one; this pins the fallback).
 const androidTab = (url: string) => ({ id: 1, incognito: false, url });
 
 const runCleanup = () =>

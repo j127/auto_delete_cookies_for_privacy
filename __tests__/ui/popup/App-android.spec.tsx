@@ -28,7 +28,8 @@ installAndroidFlavor();
 const { initialState } = await import("@/redux/state");
 const { default: App } = await import("@/ui/popup/App");
 
-// Firefox for Android tabs carry no cookieStoreId (MDN) and there is no
+// A Firefox for Android tab as MDN describes it, without cookieStoreId
+// (Gecko's Android code does set one; this pins the fallback). There is no
 // windows API (#534).
 const androidTab = (incognito = false) => ({
   active: true,
