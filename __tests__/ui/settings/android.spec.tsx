@@ -69,6 +69,18 @@ describe("settings pages on Firefox for Android (#534)", () => {
     );
   });
 
+  it("stacks the add bar on a phone so the input keeps its width", () => {
+    const { container } = render(
+      <Provider store={createStore(() => initialState)}>
+        <Expressions />
+      </Provider>
+    );
+    const bar = container.querySelector("#formText")?.parentElement;
+    ["join", "join-vertical", "sm:join-horizontal", "w-full"].forEach((cls) =>
+      expect(bar?.classList.contains(cls)).toBe(true)
+    );
+  });
+
   it("hides the container settings and the context menu setting", () => {
     const { queryByText } = render(
       <Provider

@@ -362,7 +362,9 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
           </div>
         )}
         <div className="border-b border-base-300 p-3">
-          <div className="join w-full">
+          {/* Stacked on a phone (Firefox for Android, #534): side by side,
+              the two buttons left the input about 80px wide. */}
+          <div className="join w-full join-vertical sm:join-horizontal">
             <input
               className="input join-item w-full"
               value={expressionInput}
