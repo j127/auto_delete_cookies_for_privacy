@@ -16,6 +16,7 @@ import {
   escapeCookieName,
   escapeLegacyCookieNames,
   isCookieNamePattern,
+  literalCookieName,
 } from "@/services/cookie-name-patterns";
 import { ListType, ReasonClean, ReasonKeep } from "@/typings/enums";
 
@@ -231,6 +232,43 @@ describe("escapeCookieName", () => {
 
   it("leaves a name without * unchanged", () => {
     expect(escapeCookieName("sid")).toBe("sid");
+  });
+
+  it("leaves backslashes as they are, since only \\* is an escape", () => {
+    expect(escapeCookieName("a\\b")).toBe("a\\b");
+    expect(cookieNameMatches(escapeCookieName("a\\b"), "a\\b")).toBe(true);
+  });
+
+  it("round-trips every name made of a, *, and backslash", () => {
+    // Every string of length 0 to 6 over the characters that matter.
+    const alphabet = ["a", "*", "\\"];
+    let names = [""];
+    for (let length = 0; length < 6; length += 1) {
+      const longer = names.flatMap((name) => alphabet.map((c) => name + c));
+      for (const name of longer) {
+        const entry = escapeCookieName(name);
+        expect(literalCookieName(entry)).toBe(name);
+        expect(cookieNameMatches(entry, name)).toBe(true);
+        expect(cookieNameMatches(entry, `${name}a`)).toBe(false);
+      }
+      names = longer;
+    }
+  });
+});
+
+describe("literalCookieName", () => {
+  it.each([
+    ["sid", "sid"],
+    ["", ""],
+    ["a\\*b", "a*b"],
+    ["\\\\*", "\\*"],
+    ["a\\b", "a\\b"],
+  ])("reads %j as the cookie %j", (entry, name) => {
+    expect(literalCookieName(entry)).toBe(name);
+  });
+
+  it.each(["*", "auth_*", "\\**"])("has no single name for %j", (entry) => {
+    expect(literalCookieName(entry)).toBeUndefined();
   });
 });
 

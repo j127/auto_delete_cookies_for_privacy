@@ -178,9 +178,25 @@ export const cookieNamesInclude = (
 /**
  * A saved entry for a cookie of exactly this name: a `*` in a real cookie
  * name is escaped, so the entry keeps only that cookie.
+ *
+ * Backslashes are left as they are on purpose. Only `\*` is an escape; a
+ * backslash before anything else is an ordinary character, so `a\b` must
+ * stay `a\b` to keep matching exactly, as rules saved before patterns
+ * do. A name ending in a backslash before a `*` still works: `\` then `*`
+ * becomes `\\*`, read back as `\` and a literal `*`.
  */
 export const escapeCookieName = (name: string): string =>
-  name.replace(/\*/g, "\\*");
+  name.split("*").join("\\*");
+
+/**
+ * The cookie name a wildcard-free entry stands for, with `\*` read as `*`
+ * the same way matching reads it. Undefined for a pattern.
+ */
+export const literalCookieName = (entry: string): string | undefined => {
+  if (!entry.includes("*")) return entry;
+  const pieces = splitAtWildcards(entry);
+  return pieces.length === 1 ? pieces[0] : undefined;
+};
 
 /** storage.local key, set once the rules saved before #539 are escaped. */
 export const COOKIE_NAME_PATTERNS_KEY = "cookieNamePatternsMigrated";

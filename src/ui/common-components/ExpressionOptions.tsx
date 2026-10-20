@@ -20,6 +20,7 @@ import {
   cookieNameMatches,
   escapeCookieName,
   isCookieNamePattern,
+  literalCookieName,
 } from "@/services/cookie-name-patterns";
 import {
   toRawStoreId,
@@ -49,9 +50,6 @@ const coerceBoolean = (bool: boolean | undefined) => {
   if (bool === undefined) return false;
   return !bool;
 };
-
-/** The cookie name a saved entry without wildcards stands for. */
-const cookieNameOfEntry = (entry: string) => entry.replace(/\\\*/g, "*");
 
 /**
  * A DaisyUI checkbox with a trailing label. The pre-#40 version drew
@@ -205,7 +203,13 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
       new Set(cookieList.map((cookie) => cookie.name))
     );
     const cookieNames = Array.from(
-      new Set([...Array.from(exactEntries, cookieNameOfEntry), ...currentNames])
+      new Set([
+        ...Array.from(
+          exactEntries,
+          (entry) => literalCookieName(entry) ?? entry
+        ),
+        ...currentNames,
+      ])
     ).sort((a, b) => a.localeCompare(b));
     const without = (entry: string) =>
       originalCookieNames.filter((cookieName) => cookieName !== entry);
