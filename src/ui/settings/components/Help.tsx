@@ -32,6 +32,7 @@ const HELP_SECTIONS: {
     link: BRAVE_LINK,
   },
   { titleKey: "helpPatternsTitle", bodyKey: "helpPatternsBody" },
+  { titleKey: "helpCookieNamesTitle", bodyKey: "helpCookieNamesBody" },
   { titleKey: "helpImportExportTitle", bodyKey: "helpImportExportBody" },
   { titleKey: "helpLogTitle", bodyKey: "helpLogBody" },
   { titleKey: "helpPermissionsTitle", bodyKey: "helpPermissionsBody" },

@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Simpan semua cookie sampai mulai ulang"
   },
+  "cookieNameAddLabel": {
+    "message": "Tambahkan nama atau pola cookie untuk disimpan"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Nama atau pola cookie, mis. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Tambah"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Mencakup $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Tidak mencakup cookie situs yang ada saat ini"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Disimpan oleh $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Simpan cache"
   },
@@ -1377,6 +1407,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ cookie bernama, $PATTERNS$ pola",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Membersihkan $TYPES$",
     "placeholders": {
@@ -1481,6 +1524,12 @@
   },
   "helpPatternsBody": {
     "message": "Setiap situs tersimpan adalah pola di salah satu dari dua daftar. Situs Simpan tidak pernah dibersihkan. Situs Simpan sampai peramban ditutup selamat dari pembersihan biasa tapi dibersihkan saat mulai ulang. Situs yang tidak cocok dengan keduanya dibersihkan begitu Anda meninggalkannya — nasib bawaan; aturan adalah pengecualiannya.\n\nPola hanya mencocokkan nama host — tanpa https://, tanpa path:\n\n• example.com — persis domain itu, bukan mail.example.com\n• *.example.com — domain dan setiap subdomain\n• 192.168.1.100 — alamat IP itu\n• 10.0.0.0/8 — IP mana pun dalam rentang CIDR\n• /^(mail|news)\\.example\\.com$/ — ekspresi reguler di antara garis miring\n• file:///home/user/notes — halaman yang dibuka dari folder lokal itu\n\nSetiap aturan juga membawa opsi per situs (bentangkan barisnya di halaman Situs tersimpan): menyimpan hanya cookie bernama alih-alih semuanya, dan pilihan data situs per jenis. Aturan Buat opsi bawaan menetapkan opsi awal untuk setiap aturan yang ditambahkan setelahnya.\n\nTip: agar SEMUA cookie lenyap saat mulai ulang, tambahkan * sebagai aturan Simpan sampai peramban ditutup dan tandai situs yang benar-benar permanen dengan Simpan."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Menyimpan hanya sebagian cookie"
+  },
+  "helpCookieNamesBody": {
+    "message": "Aturan menyimpan semua cookie situs kecuali Anda menghapus centang “Simpan semua cookie” di opsinya. Setelah itu, aturan hanya menyimpan cookie yang Anda centang, dan cookie lain dari situs itu dibersihkan.\n\nDaftar menampilkan nama yang disimpan aturan dan cookie yang dipasang situs saat ini. Untuk menyimpan cookie yang belum ada, atau sekelompok cookie yang namanya berubah-ubah, ketik nama atau pola di kotak di atas daftar lalu pilih Tambah:\n\n• sid — hanya cookie bernama sid\n• auth_* — setiap cookie yang namanya diawali auth_\n• *_session — setiap cookie yang namanya diakhiri _session\n• a\\* — cookie bernama a* (\\* adalah tanda bintang sungguhan)\n\nNama peka huruf besar-kecil. Di bawah setiap pola, daftar menunjukkan cookie situs saat ini mana yang dicakupnya.\n\nVersi lama ekstensi ini, dan Cookie AutoDelete, membaca pola seperti auth_* sebagai satu nama cookie. Aturan berpola yang Anda impor ke sana tidak menyimpan apa pun untuk pola tersebut, sehingga cookie tersebut dibersihkan."
   },
   "helpImportExportTitle": {
     "message": "Impor dan ekspor"

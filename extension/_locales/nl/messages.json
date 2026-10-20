@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Alle cookies bewaren tot herstart"
   },
+  "cookieNameAddLabel": {
+    "message": "Een cookienaam of patroon toevoegen om te bewaren"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Cookienaam of patroon, bijv. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Toevoegen"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Dekt $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Dekt geen van de huidige cookies van de site"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Bewaard door $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Cache bewaren"
   },
@@ -1377,6 +1407,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ benoemde cookies, $PATTERNS$ patronen",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Wist $TYPES$",
     "placeholders": {
@@ -1481,6 +1524,12 @@
   },
   "helpPatternsBody": {
     "message": "Elke bewaarde site is een patroon op een van twee lijsten. 'Bewaren'-sites worden nooit opgeschoond. 'Bewaren tot de browser sluit'-sites overleven normale opschoningen maar worden bij herstart opgeschoond. Een site die met geen van beide overeenkomt wordt opgeschoond zodra je hem verlaat — het standaardlot; regels zijn de uitzonderingen.\n\nPatronen kijken alleen naar de hostnaam — geen https://, geen paden:\n\n• example.com — precies dat domein, niet mail.example.com\n• *.example.com — het domein en elk subdomein\n• 192.168.1.100 — dat IP-adres\n• 10.0.0.0/8 — elk IP in het CIDR-bereik\n• /^(mail|news)\\.example\\.com$/ — een reguliere expressie tussen schuine strepen\n• file:///home/user/notes — pagina's geopend uit die lokale map\n\nElke regel draagt ook opties per site (klap zijn rij open op de pagina Bewaarde sites): alleen benoemde cookies bewaren in plaats van allemaal, en keuzes per gegevenstype. Een regel 'Standaardopties aanmaken' bepaalt de startopties voor elke regel die daarna wordt toegevoegd.\n\nTip: om ALLE cookies bij herstart te laten verdwijnen, voeg * toe als 'Bewaren tot de browser sluit'-regel en markeer je echt permanente sites als 'Bewaren'."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Slechts enkele cookies bewaren"
+  },
+  "helpCookieNamesBody": {
+    "message": "Een regel bewaart alle cookies van een site, tenzij je “Alle cookies bewaren” in de opties uitvinkt. Dan bewaart hij alleen de cookies die je aanvinkt, en worden de andere cookies van de site opgeruimd.\n\nDe lijst toont de namen die de regel bewaart en de cookies die de site op dit moment heeft gezet. Om een cookie te bewaren die er nog niet is, of een familie cookies waarvan de namen wisselen, typ je een naam of patroon in het vak boven de lijst en kies je Toevoegen:\n\n• sid — alleen de cookie met de naam sid\n• auth_* — elke cookie waarvan de naam begint met auth_\n• *_session — elke cookie waarvan de naam eindigt op _session\n• a\\* — de cookie met de naam a* (\\* is een echt sterretje)\n\nNamen zijn hoofdlettergevoelig. Onder elk patroon toont de lijst welke huidige cookies van de site het dekt.\n\nOudere versies van deze extensie, en Cookie AutoDelete, lezen een patroon als auth_* als één cookienaam. Regels met patronen die je daar importeert, bewaren niets voor die patronen, dus die cookies worden opgeruimd."
   },
   "helpImportExportTitle": {
     "message": "Importeren en exporteren"

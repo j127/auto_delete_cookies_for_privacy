@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Ponechat všechny cookies do restartu"
   },
+  "cookieNameAddLabel": {
+    "message": "Přidat název nebo vzor cookie k ponechání"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Název nebo vzor cookie, např. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Přidat"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Pokrývá $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Nepokrývá žádnou ze současných cookies webu"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Ponecháno vzorem $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Ponechat mezipaměť"
   },
@@ -1377,6 +1407,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ jmenovaných cookies, vzory: $PATTERNS$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Maže $TYPES$",
     "placeholders": {
@@ -1481,6 +1524,12 @@
   },
   "helpPatternsBody": {
     "message": "Každý uložený web je vzor na jednom ze dvou seznamů. Weby „Ponechat“ se neuklízejí nikdy. Weby „Ponechat do zavření prohlížeče“ přežijí běžné úklidy, ale při restartu se uklidí. Web, který neodpovídá žádnému, se uklidí, jakmile ho opustíte — to je výchozí osud; pravidla jsou výjimky.\n\nVzory se porovnávají jen s názvem hostitele — žádné https://, žádné cesty:\n\n• example.com — přesně tato doména, ne mail.example.com\n• *.example.com — doména a každá subdoména\n• 192.168.1.100 — tato IP adresa\n• 10.0.0.0/8 — libovolná IP v rozsahu CIDR\n• /^(mail|news)\\.example\\.com$/ — regulární výraz mezi lomítky\n• file:///home/user/notes — stránky otevřené z této místní složky\n\nKaždé pravidlo nese i volby pro daný web (rozbalte jeho řádek na stránce Uložené weby): ponechávat jen jmenované cookies místo všech a volby dat podle typu. Pravidlo „Vytvořit výchozí volby“ určuje výchozí volby každého později přidaného pravidla.\n\nTip: aby při restartu zmizely VŠECHNY cookies, přidejte * jako pravidlo „Ponechat do zavření prohlížeče“ a opravdu trvalé weby označte „Ponechat“."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Ponechání jen některých cookies"
+  },
+  "helpCookieNamesBody": {
+    "message": "Pravidlo ponechává všechny cookies webu, pokud v jeho možnostech nezrušíte zaškrtnutí „Ponechat všechny cookies“. Pak ponechá jen cookies, které zaškrtnete, a ostatní cookies webu se smažou.\n\nSeznam ukazuje názvy, které pravidlo ponechává, a cookies, které web právě nastavil. Chcete-li ponechat cookie, která tam ještě není, nebo skupinu cookies s měnícími se názvy, napište název nebo vzor do pole nad seznamem a zvolte „Přidat“:\n\n• sid — jen cookie s názvem sid\n• auth_* — každá cookie, jejíž název začíná auth_\n• *_session — každá cookie, jejíž název končí _session\n• a\\* — cookie s názvem a* (\\* je skutečná hvězdička)\n\nV názvech záleží na velikosti písmen. Pod každým vzorem seznam ukazuje, které ze současných cookies webu pokrývá.\n\nStarší verze tohoto rozšíření a Cookie AutoDelete čtou vzor jako auth_* jako jeden název cookie. Pravidla se vzory, která tam importujete, pro tyto vzory nic neponechají, takže se tyto cookies smažou."
   },
   "helpImportExportTitle": {
     "message": "Import a export"

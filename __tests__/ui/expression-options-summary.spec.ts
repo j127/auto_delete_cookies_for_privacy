@@ -62,4 +62,34 @@ describe("expressionOptionsSummary", () => {
       })
     ).toBe("summaryNamedCookiesText 1 · summaryClearsTypesText LocalStorage");
   });
+
+  it("counts patterns apart from exact names (#539)", () => {
+    expect(
+      expressionOptionsSummary({
+        ...base,
+        cleanAllCookies: false,
+        cookieNames: ["sid", "auth_*", "*_csrf"],
+      })
+    ).toBe("summaryNamedCookiesPatternsText 1 2");
+  });
+
+  it("counts an escaped asterisk as an exact name, not a pattern", () => {
+    expect(
+      expressionOptionsSummary({
+        ...base,
+        cleanAllCookies: false,
+        cookieNames: ["a\\*b"],
+      })
+    ).toBe("summaryNamedCookiesText 1");
+  });
+
+  it("ignores saved patterns while every cookie is kept", () => {
+    expect(
+      expressionOptionsSummary({
+        ...base,
+        cookieNames: ["auth_*"],
+        cleanSiteData: [SiteDataType.CACHE],
+      })
+    ).toBe("summaryAllCookiesText · summaryClearsTypesText Cache");
+  });
 });

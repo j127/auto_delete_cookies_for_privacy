@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "すべての Cookie を再起動まで保持"
   },
+  "cookieNameAddLabel": {
+    "message": "保持する Cookie の名前またはパターンを追加"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Cookie 名またはパターン(例: auth_*)"
+  },
+  "cookieNameAddButton": {
+    "message": "追加"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "対象: $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "サイトの現在の Cookie はどれも対象外です"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "$PATTERN$ により保持",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "キャッシュを保持"
   },
@@ -1377,6 +1407,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "名前指定の Cookie $COUNT$ 件、パターン $PATTERNS$ 件",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "$TYPES$ を消去",
     "placeholders": {
@@ -1481,6 +1524,12 @@
   },
   "helpPatternsBody": {
     "message": "保存済みサイトはそれぞれ、2 つのリストのどちらかにあるパターンです。「保持」のサイトは決してクリーンアップされません。「ブラウザーを閉じるまで保持」のサイトは通常のクリーンアップを生き延びますが、再起動時に消去されます。どちらにも一致しないサイトは離れた時点でクリーンアップされます — それが既定の運命で、ルールは例外です。\n\nパターンはホスト名だけに一致します — https:// もパスも不要:\n\n• example.com — そのドメインだけ。mail.example.com は含まない\n• *.example.com — ドメインと全サブドメイン\n• 192.168.1.100 — その IP アドレス\n• 10.0.0.0/8 — CIDR 範囲内の任意の IP\n• /^(mail|news)\\.example\\.com$/ — スラッシュで囲んだ正規表現\n• file:///home/user/notes — そのローカルフォルダーから開いたページ\n\n各ルールにはサイト別オプションもあります（保存済みサイトのページで行を展開）: すべてではなく名前指定の Cookie だけを保持する、種別ごとのサイトデータ選択。「既定オプションを作成」ルールは、以後追加されるルールの初期オプションを決めます。\n\nヒント: 再起動時にすべての Cookie を消したいなら、* を「ブラウザーを閉じるまで保持」ルールとして追加し、本当に恒久的なサイトだけ「保持」にします。"
+  },
+  "helpCookieNamesTitle": {
+    "message": "一部の Cookie だけを保持する"
+  },
+  "helpCookieNamesBody": {
+    "message": "ルールは、オプションで「すべての Cookie を保持」のチェックを外さない限り、サイトのすべての Cookie を保持します。外すと、チェックした Cookie だけを保持し、サイトのほかの Cookie は削除されます。\n\n一覧には、ルールが保持する名前と、サイトがいま設定している Cookie が表示されます。まだ存在しない Cookie や、名前が変わる一連の Cookie を保持するには、一覧の上の欄に名前またはパターンを入力して「追加」を選びます:\n\n• sid — sid という名前の Cookie だけ\n• auth_* — 名前が auth_ で始まるすべての Cookie\n• *_session — 名前が _session で終わるすべての Cookie\n• a\\* — a* という名前の Cookie(\\* は文字としてのアスタリスク)\n\n名前は大文字と小文字を区別します。各パターンの下に、サイトの現在の Cookie のうちどれが対象かが表示されます。\n\nこの拡張機能の古いバージョンと Cookie AutoDelete は、auth_* のようなパターンを 1 つの Cookie 名として読みます。そこにパターン付きのルールをインポートすると、そのパターンでは何も保持されず、該当する Cookie は削除されます。"
   },
   "helpImportExportTitle": {
     "message": "インポートとエクスポート"

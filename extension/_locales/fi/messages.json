@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Säilytä kaikki evästeet uudelleenkäynnistykseen asti"
   },
+  "cookieNameAddLabel": {
+    "message": "Lisää säilytettävän evästeen nimi tai kuvio"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Evästeen nimi tai kuvio, esim. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Lisää"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Kattaa: $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Ei kata yhtään sivuston nykyistä evästettä"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Säilyttää: $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Säilytä välimuisti"
   },
@@ -1377,6 +1407,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ nimettyä evästettä, $PATTERNS$ kuviota",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Pyyhkii: $TYPES$",
     "placeholders": {
@@ -1481,6 +1524,12 @@
   },
   "helpPatternsBody": {
     "message": "Jokainen tallennettu sivusto on kuvio jommallakummalla kahdesta listasta. Säilytä-sivustoja ei siivota koskaan. Säilytä selaimen sulkemiseen asti -sivustot selviävät tavallisista siivouksista, mutta siivotaan uudelleenkäynnistyksessä. Sivusto, joka ei osu kumpaankaan, siivotaan heti kun poistut siltä — se on oletuskohtalo; säännöt ovat poikkeuksia.\n\nKuviot vertautuvat vain isäntänimeen — ei https://-alkua, ei polkuja:\n\n• example.com — täsmälleen tuo verkkotunnus, ei mail.example.com\n• *.example.com — verkkotunnus ja jokainen aliverkkotunnus\n• 192.168.1.100 — tuo IP-osoite\n• 10.0.0.0/8 — mikä tahansa IP CIDR-alueella\n• /^(mail|news)\\.example\\.com$/ — säännöllinen lauseke kauttaviivojen välissä\n• file:///home/user/notes — tuosta paikallisesta kansiosta avatut sivut\n\nJokaisella säännöllä on myös sivustokohtaiset valinnat (laajenna sen rivi Tallennetut sivustot -sivulla): säilytä vain nimetyt evästeet kaikkien sijaan ja tyyppikohtaiset sivustotietovalinnat. Luo oletusvalinnat -sääntö määrää aloitusvalinnat jokaiselle myöhemmin lisätylle säännölle.\n\nVinkki: jotta KAIKKI evästeet katoaisivat uudelleenkäynnistyksessä, lisää * Säilytä selaimen sulkemiseen asti -sääntönä ja merkitse todella pysyvät sivustosi Säilytä-tilaan."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Vain joidenkin evästeiden säilyttäminen"
+  },
+  "helpCookieNamesBody": {
+    "message": "Sääntö säilyttää sivuston kaikki evästeet, ellet poista valintaa kohdasta ”Säilytä kaikki evästeet” sen asetuksista. Silloin se säilyttää vain valitsemasi evästeet, ja sivuston muut evästeet poistetaan.\n\nLuettelossa näkyvät nimet, jotka sääntö säilyttää, ja evästeet, jotka sivusto on juuri nyt asettanut. Jos haluat säilyttää evästeen, jota ei vielä ole, tai evästeperheen, jonka nimet vaihtuvat, kirjoita nimi tai kuvio luettelon yläpuolella olevaan kenttään ja valitse ”Lisää”:\n\n• sid — vain eväste nimeltä sid\n• auth_* — jokainen eväste, jonka nimi alkaa auth_\n• *_session — jokainen eväste, jonka nimi päättyy _session\n• a\\* — eväste nimeltä a* (\\* on oikea tähti)\n\nNimissä isot ja pienet kirjaimet erotellaan. Jokaisen kuvion alla luettelo näyttää, mitkä sivuston nykyisistä evästeistä se kattaa.\n\nTämän laajennuksen vanhemmat versiot ja Cookie AutoDelete lukevat kuvion kuten auth_* yhtenä evästeen nimenä. Sinne tuodut kuvioita sisältävät säännöt eivät säilytä noilla kuvioilla mitään, joten ne evästeet poistetaan."
   },
   "helpImportExportTitle": {
     "message": "Tuonti ja vienti"

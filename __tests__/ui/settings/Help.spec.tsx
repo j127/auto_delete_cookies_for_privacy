@@ -10,6 +10,7 @@ const SECTION_TITLES = [
   "helpCleaningTitle",
   "helpSiteDataTitle",
   "helpPatternsTitle",
+  "helpCookieNamesTitle",
   "helpImportExportTitle",
   "helpLogTitle",
   "helpPermissionsTitle",
@@ -21,14 +22,14 @@ describe("Help", () => {
     global.browser.i18n.getMessage.mockImplementation((key: string) => key);
   });
 
-  it("renders the heading and all eight sections collapsed", () => {
+  it("renders the heading and all nine sections collapsed", () => {
     const { container, getByText } = render(<Help />);
     expect((container.querySelector("h1") as HTMLElement).textContent).toBe(
       "helpText"
     );
     getByText("helpSubText");
     const sections = Array.from(container.querySelectorAll("details"));
-    expect(sections).toHaveLength(8);
+    expect(sections).toHaveLength(9);
     sections.forEach((section) => expect(section.open).toBe(false));
     SECTION_TITLES.forEach((title) => getByText(title));
   });

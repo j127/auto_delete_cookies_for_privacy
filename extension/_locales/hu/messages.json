@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Minden süti megtartása újraindításig"
   },
+  "cookieNameAddLabel": {
+    "message": "Megtartandó süti nevének vagy mintájának hozzáadása"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Süti neve vagy mintája, pl. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Hozzáadás"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Lefedi: $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "A webhely egyik jelenlegi sütijét sem fedi le"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Megtartja: $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Gyorsítótár megtartása"
   },
@@ -1377,6 +1407,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ megnevezett süti, $PATTERNS$ minta",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Törli: $TYPES$",
     "placeholders": {
@@ -1481,6 +1524,12 @@
   },
   "helpPatternsBody": {
     "message": "Minden mentett webhely egy minta a két lista egyikén. A Megtartás webhelyek sosem takarítódnak. A Bezárásig megtartott webhelyek túlélik a rendes takarításokat, de a böngésző újraindulásakor takarítódnak. Az egyikre sem illő webhely rögtön takarítódik, ahogy elhagyod — ez az alapértelmezett sors; a szabályok a kivételek.\n\nA minták csak a gépnévre illeszkednek — se https://, se útvonalak:\n\n• example.com — pontosan ez a domain, a mail.example.com nem\n• *.example.com — a domain és minden aldomain\n• 192.168.1.100 — ez az IP-cím\n• 10.0.0.0/8 — bármely IP a CIDR-tartományban\n• /^(mail|news)\\.example\\.com$/ — reguláris kifejezés perjelek között\n• file:///home/user/notes — az ebből a helyi mappából megnyitott oldalak\n\nMinden szabály webhelyenkénti beállításokat is hordoz (nyisd le a sorát a Mentett webhelyek oldalon): csak megnevezett sütik megtartása az összes helyett, és típusonkénti webhelyadat-választás. Az Alapértelmezett beállítások létrehozása szabály adja a később hozzáadott szabályok kiinduló beállításait.\n\nTipp: hogy MINDEN süti eltűnjön újraindításkor, add hozzá a * mintát Bezárásig megtartás szabályként, és a tényleg állandó webhelyeidet jelöld Megtartásra."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Csak néhány süti megtartása"
+  },
+  "helpCookieNamesBody": {
+    "message": "Egy szabály a webhely összes sütijét megtartja, hacsak ki nem veszed a pipát a(z) „Minden süti megtartása” elől a beállításaiban. Ekkor csak a bepipált sütiket tartja meg, a webhely többi sütije törlődik.\n\nA lista mutatja a szabály által megtartott neveket és a webhely által éppen beállított sütiket. Ha olyan sütit szeretnél megtartani, amely még nincs ott, vagy változó nevű sütik egy csoportját, írj be egy nevet vagy mintát a lista feletti mezőbe, és válaszd a(z) „Hozzáadás” gombot:\n\n• sid — csak a sid nevű süti\n• auth_* — minden süti, amelynek neve auth_ kezdetű\n• *_session — minden süti, amelynek neve _session végű\n• a\\* — az a* nevű süti (a \\* valódi csillag)\n\nA nevekben számít a kis- és nagybetű. Minden minta alatt a lista mutatja, hogy a webhely mely jelenlegi sütijeit fedi le.\n\nA bővítmény régebbi verziói és a Cookie AutoDelete egy olyan mintát, mint az auth_*, egyetlen sütinévként olvasnak. Az oda importált, mintákat tartalmazó szabályok ezekre a mintákra semmit sem tartanak meg, így azok a sütik törlődnek."
   },
   "helpImportExportTitle": {
     "message": "Importálás és exportálás"

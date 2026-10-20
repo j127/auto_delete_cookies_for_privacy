@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Conservar todas as cookies ata reiniciar"
   },
+  "cookieNameAddLabel": {
+    "message": "Engadir un nome ou padrón de cookie para conservar"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Nome ou padrón de cookie, p. ex. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Engadir"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Abrangue $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Non abrangue ningunha das cookies actuais do sitio"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Conservada por $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Conservar a caché"
   },
@@ -1377,6 +1407,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ cookies con nome, $PATTERNS$ padróns",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Borra $TYPES$",
     "placeholders": {
@@ -1481,6 +1524,12 @@
   },
   "helpPatternsBody": {
     "message": "Cada sitio gardado é un padrón nunha de dúas listas. Os sitios Conservar nunca se limpan. Os sitios Conservar ata pechar o navegador sobreviven ás limpezas normais pero límpanse ao reiniciar. Un sitio que non coincide con ningunha límpase en canto o abandonas — o destino por defecto; as regras son as excepcións.\n\nOs padróns só miran o nome de servidor — sen https://, sen rutas:\n\n• example.com — exactamente ese dominio, non mail.example.com\n• *.example.com — o dominio e cada subdominio\n• 192.168.1.100 — ese enderezo IP\n• 10.0.0.0/8 — calquera IP do rango CIDR\n• /^(mail|news)\\.example\\.com$/ — unha expresión regular entre barras\n• file:///home/user/notes — páxinas abertas desde ese cartafol local\n\nCada regra leva ademais opcións por sitio (desprega a súa fila na páxina Sitios gardados): conservar só cookies con nome no canto de todas, e escollas de datos por tipo. Unha regra Crear opcións predeterminadas fixa as opcións iniciais de cada regra engadida despois.\n\nConsello: para que TODAS as cookies desaparezan ao reiniciar, engade * como regra Conservar ata pechar o navegador e marca Conservar nos teus sitios realmente permanentes."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Conservar só algunhas cookies"
+  },
+  "helpCookieNamesBody": {
+    "message": "Unha regra conserva todas as cookies dun sitio, agás que desmarques «Conservar todas as cookies» nas súas opcións. Entón conserva só as cookies que marques, e as demais cookies do sitio límpanse.\n\nA lista mostra os nomes que conserva a regra e as cookies que o sitio creou agora mesmo. Para conservar unha cookie que aínda non está, ou unha familia de cookies cuxos nomes cambian, escribe un nome ou padrón na caixa sobre a lista e escolle «Engadir»:\n\n• sid — só a cookie chamada sid\n• auth_* — toda cookie cuxo nome comeza por auth_\n• *_session — toda cookie cuxo nome remata en _session\n• a\\* — a cookie chamada a* (\\* é un asterisco real)\n\nOs nomes distinguen maiúsculas e minúsculas. Baixo cada padrón, a lista mostra que cookies actuais do sitio abrangue.\n\nAs versións anteriores desta extensión, e Cookie AutoDelete, len un padrón como auth_* como un único nome de cookie. As regras con padróns que importes alí non conservan nada para eses padróns, así que esas cookies límpanse."
   },
   "helpImportExportTitle": {
     "message": "Importar e exportar"

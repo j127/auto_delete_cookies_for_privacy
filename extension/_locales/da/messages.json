@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Behold alle cookies indtil genstart"
   },
+  "cookieNameAddLabel": {
+    "message": "Tilføj et cookienavn eller mønster, der skal beholdes"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Cookienavn eller mønster, f.eks. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Tilføj"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Dækker $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Dækker ingen af sidens nuværende cookies"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Beholdt af $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Behold cache"
   },
@@ -1377,6 +1407,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ navngivne cookies, $PATTERNS$ mønstre",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Rydder $TYPES$",
     "placeholders": {
@@ -1481,6 +1524,12 @@
   },
   "helpPatternsBody": {
     "message": "Hvert gemt websted er et mønster på en af to lister. Behold-websteder ryddes aldrig. Behold, indtil browseren lukkes-websteder overlever almindelige rydninger, men ryddes når browseren genstarter. Et websted, der ikke matcher nogen af dem, ryddes, så snart du forlader det — standardskæbnen; reglerne er undtagelserne.\n\nMønstre matcher kun værtsnavnet — intet https://, ingen stier:\n\n• example.com — præcis det domæne, ikke mail.example.com\n• *.example.com — domænet og hvert underdomæne\n• 192.168.1.100 — den IP-adresse\n• 10.0.0.0/8 — enhver IP i CIDR-intervallet\n• /^(mail|news)\\.example\\.com$/ — et regulært udtryk mellem skråstreger\n• file:///home/user/notes — sider åbnet fra den lokale mappe\n\nHver regel bærer også indstillinger pr. websted (fold dens række ud på siden Gemte websteder): behold kun navngivne cookies i stedet for alle, og datavalg pr. type. En Opret standardindstillinger-regel sætter startindstillingerne for hver regel, der tilføjes senere.\n\nTip: for at få ALLE cookies til at forsvinde ved genstart, tilføj * som en Behold, indtil browseren lukkes-regel og markér dine virkelig permanente websteder Behold."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Behold kun nogle cookies"
+  },
+  "helpCookieNamesBody": {
+    "message": "En regel beholder alle et websteds cookies, medmindre du fjerner fluebenet i “Behold alle cookies” i dens indstillinger. Så beholder den kun de cookies, du sætter flueben ved, og webstedets andre cookies ryddes.\n\nListen viser de navne, reglen beholder, og de cookies, webstedet har sat lige nu. For at beholde en cookie, der ikke findes endnu, eller en familie af cookies med skiftende navne, skal du skrive et navn eller mønster i feltet over listen og vælge Tilføj:\n\n• sid — kun cookien med navnet sid\n• auth_* — alle cookies, hvis navn starter med auth_\n• *_session — alle cookies, hvis navn slutter med _session\n• a\\* — cookien med navnet a* (\\* er en rigtig stjerne)\n\nDer skelnes mellem store og små bogstaver i navne. Under hvert mønster viser listen, hvilke af webstedets nuværende cookies det dækker.\n\nÆldre versioner af denne udvidelse og Cookie AutoDelete læser et mønster som auth_* som ét cookienavn. Regler med mønstre, som du importerer dér, beholder intet for de mønstre, så de cookies ryddes."
   },
   "helpImportExportTitle": {
     "message": "Import og eksport"

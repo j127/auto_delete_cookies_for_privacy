@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Conserver tous les cookies jusqu'au redémarrage"
   },
+  "cookieNameAddLabel": {
+    "message": "Ajouter un nom ou un motif de cookie à conserver"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Nom ou motif de cookie, p. ex. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Ajouter"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Couvre $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Ne couvre aucun des cookies actuels du site"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Conservé par $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Conserver le cache"
   },
@@ -1377,6 +1407,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ cookies nommés, $PATTERNS$ motifs",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Efface $TYPES$",
     "placeholders": {
@@ -1481,6 +1524,12 @@
   },
   "helpPatternsBody": {
     "message": "Chaque site enregistré est un motif sur l'une de deux listes. Les sites « Conserver » ne sont jamais nettoyés. Les sites « Conserver jusqu'à la fermeture » survivent aux nettoyages normaux mais sont nettoyés au redémarrage du navigateur. Un site qui ne correspond à aucune des deux est nettoyé dès que vous le quittez — le sort par défaut ; les règles sont les exceptions.\n\nLes motifs ne portent que sur le nom d'hôte — pas de https://, pas de chemins :\n\n• example.com — exactement ce domaine, pas mail.example.com\n• *.example.com — le domaine et chaque sous-domaine\n• 192.168.1.100 — cette adresse IP\n• 10.0.0.0/8 — toute IP de la plage CIDR\n• /^(mail|news)\\.example\\.com$/ — une expression régulière entre barres obliques\n• file:///home/user/notes — les pages ouvertes depuis ce dossier local\n\nChaque règle porte aussi des options par site (dépliez sa ligne sur la page Sites enregistrés) : ne conserver que des cookies nommés plutôt que tous, et des choix de données de site par type. Une règle « Créer les options par défaut » fixe les options de départ de chaque règle ajoutée ensuite.\n\nAstuce : pour que TOUS les cookies disparaissent au redémarrage, ajoutez * comme règle « Conserver jusqu'à la fermeture » et marquez « Conserver » vos sites vraiment permanents."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Ne conserver que certains cookies"
+  },
+  "helpCookieNamesBody": {
+    "message": "Une règle conserve tous les cookies d'un site, sauf si vous décochez « Conserver tous les cookies » dans ses options. Elle ne conserve alors que les cookies que vous cochez, et les autres cookies du site sont nettoyés.\n\nLa liste montre les noms que la règle conserve et les cookies que le site a définis en ce moment. Pour conserver un cookie qui n'est pas encore là, ou une famille de cookies dont les noms changent, saisissez un nom ou un motif dans le champ au-dessus de la liste et choisissez « Ajouter » :\n\n• sid — uniquement le cookie nommé sid\n• auth_* — tout cookie dont le nom commence par auth_\n• *_session — tout cookie dont le nom se termine par _session\n• a\\* — le cookie nommé a* (\\* est un vrai astérisque)\n\nLes noms sont sensibles à la casse. Sous chaque motif, la liste indique quels cookies actuels du site il couvre.\n\nLes anciennes versions de cette extension, et Cookie AutoDelete, lisent un motif comme auth_* comme un seul nom de cookie. Les règles à motifs que vous y importez ne conservent rien pour ces motifs, donc ces cookies sont nettoyés."
   },
   "helpImportExportTitle": {
     "message": "Import et export"

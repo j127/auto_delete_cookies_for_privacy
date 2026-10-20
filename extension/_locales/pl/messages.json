@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Zachowaj wszystkie ciasteczka do restartu"
   },
+  "cookieNameAddLabel": {
+    "message": "Dodaj nazwę lub wzorzec ciasteczka do zachowania"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Nazwa lub wzorzec ciasteczka, np. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Dodaj"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Obejmuje $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Nie obejmuje żadnego z obecnych ciasteczek witryny"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Zachowane przez $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Zachowaj pamięć podręczną"
   },
@@ -1377,6 +1407,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ nazwanych ciasteczek, wzorce: $PATTERNS$",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Czyści $TYPES$",
     "placeholders": {
@@ -1481,6 +1524,12 @@
   },
   "helpPatternsBody": {
     "message": "Każda zapisana strona to wzorzec na jednej z dwóch list. Strony „Zachowaj” nie są nigdy czyszczone. Strony „Zachowaj do zamknięcia przeglądarki” przeżywają zwykłe czyszczenia, ale są czyszczone przy restarcie. Strona niepasująca do żadnej jest czyszczona, gdy tylko ją opuścisz — domyślny los; reguły to wyjątki.\n\nWzorce dotyczą tylko nazwy hosta — bez https://, bez ścieżek:\n\n• example.com — dokładnie ta domena, nie mail.example.com\n• *.example.com — domena i każda subdomena\n• 192.168.1.100 — ten adres IP\n• 10.0.0.0/8 — dowolny adres z zakresu CIDR\n• /^(mail|news)\\.example\\.com$/ — wyrażenie regularne między ukośnikami\n• file:///home/user/notes — strony otwarte z tego lokalnego katalogu\n\nKażda reguła niesie też opcje per strona (rozwiń jej wiersz na stronie Zapisane strony): zachowywanie tylko nazwanych ciasteczek zamiast wszystkich i wybory danych per typ. Reguła „Utwórz opcje domyślne” ustala opcje startowe każdej reguły dodanej później.\n\nWskazówka: aby WSZYSTKIE ciasteczka znikały przy restarcie, dodaj * jako regułę „Zachowaj do zamknięcia przeglądarki”, a naprawdę stałe strony oznacz „Zachowaj”."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Zachowywanie tylko niektórych ciasteczek"
+  },
+  "helpCookieNamesBody": {
+    "message": "Reguła zachowuje wszystkie ciasteczka witryny, chyba że odznaczysz „Zachowaj wszystkie ciasteczka” w jej opcjach. Wtedy zachowuje tylko zaznaczone ciasteczka, a pozostałe ciasteczka witryny są czyszczone.\n\nLista pokazuje nazwy, które reguła zachowuje, oraz ciasteczka ustawione teraz przez witrynę. Aby zachować ciasteczko, którego jeszcze nie ma, albo rodzinę ciasteczek o zmiennych nazwach, wpisz nazwę lub wzorzec w polu nad listą i wybierz „Dodaj”:\n\n• sid — tylko ciasteczko o nazwie sid\n• auth_* — każde ciasteczko, którego nazwa zaczyna się od auth_\n• *_session — każde ciasteczko, którego nazwa kończy się na _session\n• a\\* — ciasteczko o nazwie a* (\\* to prawdziwa gwiazdka)\n\nW nazwach rozróżniana jest wielkość liter. Pod każdym wzorcem lista pokazuje, które z obecnych ciasteczek witryny obejmuje.\n\nStarsze wersje tego rozszerzenia oraz Cookie AutoDelete odczytują wzorzec taki jak auth_* jako jedną nazwę ciasteczka. Reguły ze wzorcami zaimportowane tam nie zachowują nic dla tych wzorców, więc te ciasteczka są czyszczone."
   },
   "helpImportExportTitle": {
     "message": "Import i eksport"

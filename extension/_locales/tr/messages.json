@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Tüm çerezleri yeniden başlatmaya dek koru"
   },
+  "cookieNameAddLabel": {
+    "message": "Korunacak bir çerez adı veya deseni ekle"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Çerez adı veya deseni, ör. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Ekle"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Kapsadıkları: $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Sitenin şu anki çerezlerinin hiçbirini kapsamıyor"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "$PATTERN$ ile korunuyor",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Önbelleği koru"
   },
@@ -1377,6 +1407,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ adlandırılmış çerez, $PATTERNS$ desen",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "$TYPES$ temizler",
     "placeholders": {
@@ -1481,6 +1524,12 @@
   },
   "helpPatternsBody": {
     "message": "Kayıtlı her site, iki listeden birindeki bir desendir. Koru siteleri asla temizlenmez. Tarayıcı kapanana dek koru siteleri olağan temizliklerden sağ çıkar ama tarayıcı yeniden başladığında temizlenir. İkisiyle de eşleşmeyen bir site, ayrıldığınız anda temizlenir — varsayılan kader budur; kurallar istisnadır.\n\nDesenler yalnızca ana bilgisayar adıyla eşleşir — https:// yok, yol yok:\n\n• example.com — tam olarak o alan adı, mail.example.com değil\n• *.example.com — alan adı ve her alt alan adı\n• 192.168.1.100 — o IP adresi\n• 10.0.0.0/8 — CIDR aralığındaki herhangi bir IP\n• /^(mail|news)\\.example\\.com$/ — eğik çizgiler arasında bir düzenli ifade\n• file:///home/user/notes — o yerel klasörden açılan sayfalar\n\nHer kural ayrıca site bazlı seçenekler taşır (Kayıtlı siteler sayfasında satırını genişletin): hepsi yerine yalnızca adlandırılmış çerezleri koruma ve tür bazında site verisi seçimleri. Varsayılan seçenekleri oluştur kuralı, sonradan eklenen her kuralın başlangıç seçeneklerini belirler.\n\nİpucu: TÜM çerezlerin yeniden başlatmada yok olması için * ögesini Tarayıcı kapanana dek koru kuralı olarak ekleyin ve gerçekten kalıcı sitelerinizi Koru olarak işaretleyin."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Yalnızca bazı çerezleri korumak"
+  },
+  "helpCookieNamesBody": {
+    "message": "Bir kural, seçeneklerinde “Tüm çerezleri koru” işaretini kaldırmadığınız sürece sitenin tüm çerezlerini korur. Kaldırırsanız yalnızca işaretlediğiniz çerezleri korur ve sitenin diğer çerezleri temizlenir.\n\nListe, kuralın koruduğu adları ve sitenin şu anda ayarladığı çerezleri gösterir. Henüz olmayan bir çerezi ya da adları değişen bir çerez grubunu korumak için listenin üstündeki kutuya bir ad veya desen yazıp Ekle seçeneğini seçin:\n\n• sid — yalnızca sid adlı çerez\n• auth_* — adı auth_ ile başlayan her çerez\n• *_session — adı _session ile biten her çerez\n• a\\* — a* adlı çerez (\\* gerçek bir yıldız işaretidir)\n\nAdlarda büyük/küçük harf ayrımı yapılır. Her desenin altında liste, sitenin şu anki çerezlerinden hangilerini kapsadığını gösterir.\n\nBu uzantının eski sürümleri ve Cookie AutoDelete, auth_* gibi bir deseni tek bir çerez adı olarak okur. Oraya içe aktardığınız desenli kurallar bu desenler için hiçbir şey korumaz, bu yüzden o çerezler temizlenir."
   },
   "helpImportExportTitle": {
     "message": "İçe ve dışa aktarma"

@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Conserva tutti i cookie fino al riavvio"
   },
+  "cookieNameAddLabel": {
+    "message": "Aggiungi un nome o un pattern di cookie da conservare"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Nome o pattern del cookie, es. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Aggiungi"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Copre $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Non copre nessuno dei cookie attuali del sito"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Conservato da $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Conserva la cache"
   },
@@ -1377,6 +1407,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ cookie con nome, $PATTERNS$ pattern",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Cancella $TYPES$",
     "placeholders": {
@@ -1481,6 +1524,12 @@
   },
   "helpPatternsBody": {
     "message": "Ogni sito salvato è un pattern su una di due liste. I siti «Conserva» non vengono mai puliti. I siti «Conserva fino alla chiusura» sopravvivono alle pulizie normali ma vengono puliti al riavvio del browser. Un sito che non corrisponde a nessuna delle due viene pulito appena lo lasci — il destino predefinito; le regole sono le eccezioni.\n\nI pattern guardano solo il nome host — niente https://, niente percorsi:\n\n• example.com — esattamente quel dominio, non mail.example.com\n• *.example.com — il dominio e ogni sottodominio\n• 192.168.1.100 — quell'indirizzo IP\n• 10.0.0.0/8 — qualsiasi IP nell'intervallo CIDR\n• /^(mail|news)\\.example\\.com$/ — un'espressione regolare tra barre\n• file:///home/user/notes — pagine aperte da quella cartella locale\n\nOgni regola porta anche opzioni per sito (espandi la sua riga nella pagina Siti salvati): conservare solo cookie con nome invece di tutti, e scelte sui dati per tipo. Una regola «Crea opzioni predefinite» stabilisce le opzioni di partenza per ogni regola aggiunta dopo.\n\nSuggerimento: per far sparire TUTTI i cookie al riavvio, aggiungi * come regola «Conserva fino alla chiusura» e marca «Conserva» i siti davvero permanenti."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Conservare solo alcuni cookie"
+  },
+  "helpCookieNamesBody": {
+    "message": "Una regola conserva tutti i cookie di un sito, a meno che tu non tolga la spunta a «Conserva tutti i cookie» nelle sue opzioni. Allora conserva solo i cookie che spunti, e gli altri cookie del sito vengono eliminati.\n\nL'elenco mostra i nomi che la regola conserva e i cookie che il sito ha impostato in questo momento. Per conservare un cookie che non c'è ancora, o una famiglia di cookie dai nomi variabili, scrivi un nome o un pattern nel campo sopra l'elenco e scegli «Aggiungi»:\n\n• sid — solo il cookie chiamato sid\n• auth_* — ogni cookie il cui nome inizia con auth_\n• *_session — ogni cookie il cui nome finisce con _session\n• a\\* — il cookie chiamato a* (\\* è un vero asterisco)\n\nI nomi distinguono maiuscole e minuscole. Sotto ogni pattern, l'elenco mostra quali cookie attuali del sito copre.\n\nLe versioni precedenti di questa estensione, e Cookie AutoDelete, leggono un pattern come auth_* come un unico nome di cookie. Le regole con pattern che importi lì non conservano nulla per quei pattern, quindi quei cookie vengono eliminati."
   },
   "helpImportExportTitle": {
     "message": "Importazione ed esportazione"
