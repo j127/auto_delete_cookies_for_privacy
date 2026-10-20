@@ -19,7 +19,8 @@ import {
   SettingID,
   SiteDataType,
 } from "@/typings/enums";
-import { browserCapabilities } from "./browser-capabilities";
+import { browserCapabilities, hasContainerApi } from "./browser-capabilities";
+import CarriedOpenTabs from "./carried-open-tabs";
 import {
   ADCPCOOKIENAME,
   adcpLog,
@@ -1446,6 +1447,9 @@ export const returnContainersOfOpenTabDomains = async (
   cleanDiscardedTabs: boolean
 ): Promise<Record<string, string[]>> => {
   if (ignoreOpenTabs) {
+    // Cleaning open tabs on purpose: sites carried over a restart on
+    // Firefox for Android count as open tabs, so they go too.
+    await CarriedOpenTabs.forget();
     return {};
   }
   const tabs = await browser.tabs.query({
@@ -1467,7 +1471,10 @@ export const returnContainersOfOpenTabDomains = async (
   for (const id of Object.keys(openTabs)) {
     openTabsArray[id] = Array.from(openTabs[id]);
   }
-  return openTabsArray;
+  // Firefox for Android lists only the tabs it has loaded since starting,
+  // so sites still open in tabs it has not restored yet are added back
+  // (#534). A no-op everywhere else.
+  return CarriedOpenTabs.protect(openTabsArray);
 };
 
 /** Main function for cookie cleanup. Returns a list of domains that cookies and other site data were deleted from */
@@ -1536,20 +1543,23 @@ const cleanCookiesInAllStores = async (
     // off, leaking their cookies forever (audit bug 6a) — here every
     // container is always enumerated; only the expression-list mapping
     // depends on the setting. The query rejects when the user disables
-    // privacy.userContext.enabled: degrade to the other sources.
-    try {
-      const identities = await browser.contextualIdentities.query({});
-      for (const identity of identities) {
-        cookieStoreIds.add(identity.cookieStoreId);
+    // privacy.userContext.enabled: degrade to the other sources. Firefox
+    // for Android has no contextualIdentities API to ask (#534).
+    if (hasContainerApi()) {
+      try {
+        const identities = await browser.contextualIdentities.query({});
+        for (const identity of identities) {
+          cookieStoreIds.add(identity.cookieStoreId);
+        }
+      } catch (e: unknown) {
+        adcpLog(
+          {
+            msg: "CleanupService.cleanCookiesOperation:  contextualIdentities.query rejected (containers disabled?). Continuing with the remaining stores.",
+            x: e instanceof Error ? e.message : e,
+          },
+          debug
+        );
       }
-    } catch (e: unknown) {
-      adcpLog(
-        {
-          msg: "CleanupService.cleanCookiesOperation:  contextualIdentities.query rejected (containers disabled?). Continuing with the remaining stores.",
-          x: e instanceof Error ? e.message : e,
-        },
-        debug
-      );
     }
   } else {
     // Chrome's default stores.

@@ -693,6 +693,10 @@
     "message": "Firefox diatur untuk tidak pernah mengingat riwayat, jadi setiap jendela bersifat pribadi, dan aturan di daftar ini tetap tersimpan sampai Anda menghapusnya.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
+  "privateListKeptAndroidText": {
+    "message": "Firefox untuk Android tidak memberi tahu ekstensi kapan penjelajahan pribadi berakhir, jadi aturan simpan yang dibuat di tab pribadi tetap tersimpan sampai Anda menghapusnya.",
+    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  },
   "questionExpression": {
     "message": "Bagaimana pola bekerja?"
   },

@@ -45,7 +45,7 @@ SWITCHING FROM COOKIE AUTODELETE?
 Auto-Delete Cookies for Privacy is a maintained successor to the archived Cookie AutoDelete. Import your existing Cookie AutoDelete settings export on the Import / Export page: your lists carry over, container lists included.
 
 DETAILS
-• Manifest V3; Firefox 140 (ESR) or newer, desktop only.
+• Manifest V3; Firefox 140 (ESR) or newer on desktop, and Firefox for Android 142 or newer. Containers and the right-click menu are desktop only, because Firefox for Android has neither.
 • Available in 32 languages.
 • Optional cleanup log, statistics, and notifications.
 ```
@@ -58,6 +58,7 @@ DETAILS
 - Support email: `support@moakh.dev`, so people without a GitHub account can reach us. It is the address the extension's Support page shows.
 - Privacy policy: paste `PRIVACY.md` into the listing's privacy-policy field (AMO hosts its own copy).
 - Tags: cookies, privacy, containers, cleaner.
+- Compatibility: Firefox, and Firefox for Android once its check in [docs/testing-firefox.md](../../testing-firefox.md) has a recorded pass (see [runbook.md](runbook.md), step 2). The manifest declares both minimums: 140 on desktop, 142 on Android.
 
 ## Assets
 

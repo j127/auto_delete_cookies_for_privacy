@@ -693,6 +693,10 @@
     "message": "Firefox が履歴を一切記憶しない設定のため、すべてのウィンドウがプライベートになり、このリストのルールは削除するまで保存されたままになります。",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
+  "privateListKeptAndroidText": {
+    "message": "Android 版 Firefox はプライベートブラウジングの終了を拡張機能に知らせないため、プライベートタブで作成した保持ルールは削除するまで保存されたままになります。",
+    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  },
   "questionExpression": {
     "message": "パターンの仕組みは？"
   },
