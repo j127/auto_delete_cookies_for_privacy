@@ -18,6 +18,7 @@ import { updateExpressionUI } from "@/redux/actions";
 import { isPartitionKept, prepareCookie } from "@/services/cleanup-service";
 import {
   cookieNameMatches,
+  escapeCookieName,
   isCookieNamePattern,
 } from "@/services/cookie-name-patterns";
 import {
@@ -48,13 +49,6 @@ const coerceBoolean = (bool: boolean | undefined) => {
   if (bool === undefined) return false;
   return !bool;
 };
-
-/**
- * A saved entry for a cookie of this exact name. A `*` in a real cookie
- * name is escaped, so ticking that cookie keeps only it rather than
- * turning its name into a pattern (#539).
- */
-const entryForCookieName = (name: string) => name.replace(/\*/g, "\\*");
 
 /** The cookie name a saved entry without wildcards stands for. */
 const cookieNameOfEntry = (entry: string) => entry.replace(/\\\*/g, "*");
@@ -245,7 +239,9 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
     });
 
     const nameRows = cookieNames.map((name) => {
-      const entry = entryForCookieName(name);
+      // A `*` in a real cookie name is escaped, so ticking that cookie
+      // keeps only it rather than turning its name into a pattern (#539).
+      const entry = escapeCookieName(name);
       const checked = exactEntries.has(entry);
       const coveringPattern = checked
         ? undefined

@@ -13,6 +13,8 @@ import { isSafeToClean, prepareCookie } from "@/services/cleanup-service";
 import {
   cookieNameMatches,
   cookieNamesInclude,
+  escapeCookieName,
+  escapeLegacyCookieNames,
   isCookieNamePattern,
 } from "@/services/cookie-name-patterns";
 import { ListType, ReasonClean, ReasonKeep } from "@/typings/enums";
@@ -213,6 +215,64 @@ describe("cookieNamesInclude", () => {
     expect(cookieNamesInclude(before, "auth_a")).toBe(false);
     const after = [...before, "auth_*"];
     expect(cookieNamesInclude(after, "auth_a")).toBe(true);
+  });
+});
+
+describe("escapeCookieName", () => {
+  it.each(["*", "a*b", "**", "a\\b", "a\\*b", "plain", ""])(
+    "makes an entry that matches %j and nothing else",
+    (name) => {
+      const entry = escapeCookieName(name);
+      expect(isCookieNamePattern(entry)).toBe(false);
+      expect(cookieNameMatches(entry, name)).toBe(true);
+      expect(cookieNameMatches(entry, `${name}x`)).toBe(false);
+    }
+  );
+
+  it("leaves a name without * unchanged", () => {
+    expect(escapeCookieName("sid")).toBe("sid");
+  });
+});
+
+describe("escapeLegacyCookieNames", () => {
+  const rule = (id: string, cookieNames?: string[]): Expression => ({
+    cleanAllCookies: false,
+    cookieNames,
+    expression: `${id}.example`,
+    id,
+    listType: ListType.WHITE,
+    storeId: "default",
+  });
+
+  it("escapes every name of a rule that saved a * as part of a name", () => {
+    const updates = escapeLegacyCookieNames({
+      default: [rule("a", ["sid", "*"]), rule("b", ["theme"])],
+      private: [rule("c", ["odd*name", "x\\*y"])],
+    });
+    expect(updates).toEqual([
+      { ...rule("a"), cookieNames: ["sid", "\\*"] },
+      { ...rule("c"), cookieNames: ["odd\\*name", "x\\\\*y"] },
+    ]);
+  });
+
+  it("keeps each escaped rule keeping only the cookie it named", () => {
+    const [escaped] = escapeLegacyCookieNames({
+      default: [rule("a", ["*", "x\\*y"])],
+    });
+    const names = escaped.cookieNames as string[];
+    expect(cookieNamesInclude(names, "*")).toBe(true);
+    expect(cookieNamesInclude(names, "x\\*y")).toBe(true);
+    expect(cookieNamesInclude(names, "anything")).toBe(false);
+    expect(cookieNamesInclude(names, "x*y")).toBe(false);
+  });
+
+  it("returns nothing when no saved name has *", () => {
+    expect(
+      escapeLegacyCookieNames({
+        default: [rule("a", ["sid"]), rule("b"), rule("c", [])],
+      })
+    ).toEqual([]);
+    expect(escapeLegacyCookieNames({})).toEqual([]);
   });
 });
 

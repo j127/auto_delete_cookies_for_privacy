@@ -174,3 +174,32 @@ export const cookieNamesInclude = (
   }
   return false;
 };
+
+/**
+ * A saved entry for a cookie of exactly this name: a `*` in a real cookie
+ * name is escaped, so the entry keeps only that cookie.
+ */
+export const escapeCookieName = (name: string): string =>
+  name.replace(/\*/g, "\\*");
+
+/** storage.local key, set once the rules saved before #539 are escaped. */
+export const COOKIE_NAME_PATTERNS_KEY = "cookieNamePatternsMigrated";
+
+/**
+ * Rules saved before patterns existed hold cookie names as plain text, so a
+ * `*` in one was part of a real cookie name (a site can name a cookie `*`).
+ * Read as a pattern, it would keep more cookies than the user chose.
+ * Returns those rules with every saved name escaped, so each still keeps
+ * exactly the cookie it named; rules without `*` are left out.
+ */
+export const escapeLegacyCookieNames = (
+  lists: StoreIdToExpressionList
+): Expression[] =>
+  Object.values(lists).flatMap((list) =>
+    list
+      .filter((exp) => exp.cookieNames?.some((name) => name.includes("*")))
+      .map((exp) => ({
+        ...exp,
+        cookieNames: (exp.cookieNames as string[]).map(escapeCookieName),
+      }))
+  );
