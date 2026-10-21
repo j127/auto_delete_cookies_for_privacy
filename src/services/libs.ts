@@ -803,10 +803,22 @@ export const matchIPInExpression = (
  * The raw cookie store a tab's cookies live in. Firefox tabs name it
  * (containers and private windows included); Chrome tabs carry no
  * cookieStoreId, so the incognito flag picks Chrome's "1" or "0".
+ *
+ * A tab without one on the Firefox build maps to Firefox's own ids. MDN
+ * lists tabs.Tab.cookieStoreId as unsupported on Firefox for Android,
+ * although Gecko's Android tabs code does set it; should a tab ever come
+ * without one, Chrome's "0" would match no cookie's storeId, which silently
+ * turns open-tab protection off, and cookies.getAll rejects it (#534).
  */
 export const tabCookieStoreId = (
   tab: Pick<browser.tabs.Tab, "cookieStoreId" | "incognito">
-): string => tab.cookieStoreId ?? (tab.incognito ? "1" : "0");
+): string => {
+  if (tab.cookieStoreId) return tab.cookieStoreId;
+  if (browserCapabilities.storeIdScheme === "firefox") {
+    return tab.incognito ? "firefox-private" : "firefox-default";
+  }
+  return tab.incognito ? "1" : "0";
+};
 
 /**
  * Whether any site-data type is set to be cleaned, i.e. whether hosts need

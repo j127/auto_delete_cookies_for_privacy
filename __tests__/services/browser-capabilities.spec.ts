@@ -63,3 +63,25 @@ describe("CURRENT_BROWSER binding", () => {
     );
   });
 });
+
+describe("runtime API presence on the Chrome build", () => {
+  it("never reports containers, even with the API object present", async () => {
+    const { hasContainerApi } = await import("@/services/browser-capabilities");
+    expect(global.browser.contextualIdentities).toBeDefined();
+    expect(hasContainerApi()).toBe(false);
+  });
+
+  it("reports context menus by the API's presence", async () => {
+    const { hasContextMenuApi } =
+      await import("@/services/browser-capabilities");
+    expect(hasContextMenuApi()).toBe(true);
+    const menus = global.browser.contextMenus;
+    try {
+      delete (global.browser as unknown as Record<string, unknown>)
+        .contextMenus;
+      expect(hasContextMenuApi()).toBe(false);
+    } finally {
+      global.browser.contextMenus = menus;
+    }
+  });
+});

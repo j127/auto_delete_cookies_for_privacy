@@ -29,3 +29,17 @@ export const animateFlash = (
     // Ignore, we just won't animate anything.
   }
 };
+
+/** The popup's design width (the 05d mockup's frame). */
+export const POPUP_FRAME_WIDTH = 430;
+
+/**
+ * The popup's minimum width: the design frame, but never wider than the
+ * screen. Firefox for Android shows the popup as a full-width page, and a
+ * phone is often narrower than 430px (#534). An unknown or zero screen
+ * width keeps the frame.
+ */
+export const popupMinWidth = (screenWidth: number | undefined): number =>
+  screenWidth && screenWidth > 0
+    ? Math.min(POPUP_FRAME_WIDTH, screenWidth)
+    : POPUP_FRAME_WIDTH;

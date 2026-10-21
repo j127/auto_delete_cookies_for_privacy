@@ -59,7 +59,7 @@ New recipes go in the `justfile` with `snake_case` names and a one-line descript
 
 ## Project constraints worth knowing
 
-- The extension is Manifest V3. The committed `extension/` directory is the Chromium artifact (Chrome, Brave, Chromium); desktop Firefox is also supported, and `just build_firefox` assembles its separate artifact from a generated manifest.
+- The extension is Manifest V3. The committed `extension/` directory is the Chromium artifact (Chrome, Brave, Chromium); Firefox is also supported, on desktop and on Android, and `just build_firefox` assembles its separate artifact from a generated manifest. Android runs the same Firefox package without containers, context menus or the windows API, so code checks for those APIs at runtime (`src/services/browser-capabilities.ts`).
 - The background script is a service worker: it can be killed at any idle moment and restarted on the next event. Never rely on module-level state surviving between events; use `chrome.storage.session` for state that must survive a restart within a browser session. Event listeners must be registered synchronously at the top level of `src/background.ts`.
 - Runtime enums live as plain `export enum` in `src/typings/enums.ts`. Never declare ambient `const enum`s in `.d.ts` files — Bun.build transpiles per-file and cannot inline them, which crashes at runtime while tests still pass.
 

@@ -25,7 +25,11 @@ const ThemeSwitcher: React.FunctionComponent = () => {
 
   return (
     <label className="flex items-center gap-2">
-      <span className="text-sm">{browser.i18n.getMessage("themeText")}</span>
+      {/* Read out but not shown on a phone, where the bar has no room
+          for it next to the name (#534). */}
+      <span className="sr-only text-sm sm:not-sr-only">
+        {browser.i18n.getMessage("themeText")}
+      </span>
       <select
         className="select w-28 select-sm"
         id="themeSwitcher"

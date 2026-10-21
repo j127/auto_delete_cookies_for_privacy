@@ -845,6 +845,10 @@
     "message": "Firefox is set to never remember history, so every window is private, and rules in this list stay saved until you remove them.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
+  "privateListKeptAndroidText": {
+    "message": "Firefox for Android doesn't tell extensions when private browsing ends, so keep rules made in private tabs stay saved until you remove them.",
+    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  },
   "questionExpression": {
     "message": "How do patterns work?",
     "description": "Accordion title above the saved-sites table explaining pattern syntax"

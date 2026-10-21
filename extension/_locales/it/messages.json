@@ -693,6 +693,10 @@
     "message": "Firefox è impostato per non salvare mai la cronologia, quindi ogni finestra è privata e le regole di questa lista restano salvate finché non le rimuovi.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
+  "privateListKeptAndroidText": {
+    "message": "Firefox per Android non comunica alle estensioni quando termina la navigazione anonima, quindi le regole di conservazione create nelle schede anonime restano salvate finché non le rimuovi.",
+    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  },
   "questionExpression": {
     "message": "Come funzionano i pattern?"
   },

@@ -9,6 +9,7 @@ import {
   buildFirefoxManifest,
   ChromeManifest,
   FIREFOX_ADDON_ID,
+  FIREFOX_ANDROID_STRICT_MIN_VERSION,
   FIREFOX_HOMEPAGE_URL,
   FIREFOX_STRICT_MIN_VERSION,
   serializeManifest,
@@ -104,6 +105,9 @@ describe("buildFirefoxManifest", () => {
         strict_min_version: FIREFOX_STRICT_MIN_VERSION,
         data_collection_permissions: { required: ["none"] },
       },
+      gecko_android: {
+        strict_min_version: FIREFOX_ANDROID_STRICT_MIN_VERSION,
+      },
     });
     // The id must be GUID-shaped; AMO rejects bare names.
     expect(FIREFOX_ADDON_ID).toMatch(/^\{[0-9a-f-]{36}\}$/);
@@ -113,6 +117,18 @@ describe("buildFirefoxManifest", () => {
     // The oldest ESR that Mozilla still updates (ESR 128 reached end of life
     // with 128.14.0 on 2025-08-19); also the ESR the e2e-firefox job tests.
     expect(FIREFOX_STRICT_MIN_VERSION).toBe("140.0");
+  });
+
+  it("declares Firefox for Android 142 as the minimum there (#534)", () => {
+    // The first Firefox for Android with data_collection_permissions, the
+    // key AMO requires; the desktop minimum of 140 predates it on Android.
+    expect(FIREFOX_ANDROID_STRICT_MIN_VERSION).toBe("142.0");
+    const android =
+      buildFirefoxManifest(chromeFixture()).browser_specific_settings
+        .gecko_android;
+    expect(Number.parseFloat(android.strict_min_version)).toBeGreaterThan(
+      Number.parseFloat(FIREFOX_STRICT_MIN_VERSION)
+    );
   });
 
   it("passes shared fields through unchanged", () => {
@@ -169,6 +185,9 @@ describe("buildFirefoxManifest with the committed manifest", () => {
     expect(result.background.type).toBe("module");
     expect(result).not.toHaveProperty("minimum_chrome_version");
     expect(result.browser_specific_settings.gecko.id).toBe(FIREFOX_ADDON_ID);
+    expect(
+      result.browser_specific_settings.gecko_android.strict_min_version
+    ).toBe(FIREFOX_ANDROID_STRICT_MIN_VERSION);
     // Every Chrome permission survives, plus the Firefox-only one.
     for (const permission of chromeManifest.permissions ?? []) {
       expect(result.permissions).toContain(permission);

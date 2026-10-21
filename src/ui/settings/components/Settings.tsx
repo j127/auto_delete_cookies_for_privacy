@@ -17,8 +17,9 @@ import { Dispatch } from "redux";
 import { updateSetting } from "@/redux/actions";
 import { ReduxAction } from "@/typings/redux-constants";
 import {
-  browserCapabilities,
   CURRENT_BROWSER,
+  hasContainerApi,
+  hasContextMenuApi,
 } from "@/services/browser-capabilities";
 import type { BrowserTarget } from "@/services/browser-capabilities";
 import CheckboxSetting from "@/ui/common-components/CheckboxSetting";
@@ -201,8 +202,9 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
           Both settings exist on Chrome too but stay inert and hidden there.
           Deliberately not behind the Advanced gate: the toggle shipped
           with no UI at all for a whole release (#370), and its description
-          carries the one caveat a user must read before turning it on. */}
-      {browserCapabilities.supportsContextualIdentities && (
+          carries the one caveat a user must read before turning it on.
+          Hidden on Firefox for Android too, which has no containers (#534). */}
+      {hasContainerApi() && (
         <SettingGroup title={browser.i18n.getMessage("settingGroupContainers")}>
           <SettingRow>
             <CheckboxSetting
@@ -340,13 +342,16 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
                 }}
               />
             </SettingRow>
-            <SettingRow>
-              <CheckboxSetting
-                text={browser.i18n.getMessage("enableContextMenus")}
-                settingObject={settings[SettingID.CONTEXT_MENUS]}
-                updateSetting={(payload) => onUpdateSetting(payload)}
-              />
-            </SettingRow>
+            {/* Firefox for Android has no context menus (#534). */}
+            {hasContextMenuApi() && (
+              <SettingRow>
+                <CheckboxSetting
+                  text={browser.i18n.getMessage("enableContextMenus")}
+                  settingObject={settings[SettingID.CONTEXT_MENUS]}
+                  updateSetting={(payload) => onUpdateSetting(payload)}
+                />
+              </SettingRow>
+            )}
             <SettingRow>
               <CheckboxSetting
                 text={browser.i18n.getMessage(SettingID.DEBUG_MODE)}

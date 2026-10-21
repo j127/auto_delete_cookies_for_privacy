@@ -33,12 +33,25 @@
  *   life with 128.14.0 on 2025-08-19), and every API used is available by
  *   Firefox 115; data_collection_permissions is mandatory for new AMO
  *   submissions since 2025-11 — this extension collects nothing.
+ * - browser_specific_settings.gecko_android: the same package also runs on
+ *   Firefox for Android (#534), where data_collection_permissions only
+ *   exists from 142, so that is the Android minimum. Without this key the
+ *   desktop minimum (140) would apply there too and AMO's linter warns
+ *   (KEY_FIREFOX_ANDROID_UNSUPPORTED_BY_MIN_VERSION). Android lacks
+ *   containers, context menus and windows; the code checks for those APIs
+ *   at runtime (src/services/browser-capabilities.ts).
  */
 
 /** Stable AMO add-on id. Never change this once published. */
 export const FIREFOX_ADDON_ID = "{18370def-5c02-46b5-bf90-2c8de7e67a87}";
 
 export const FIREFOX_STRICT_MIN_VERSION = "140.0";
+
+/**
+ * Oldest Firefox for Android: the first with data_collection_permissions
+ * (see the delta list above and docs/store/firefox/runbook.md).
+ */
+export const FIREFOX_ANDROID_STRICT_MIN_VERSION = "142.0";
 
 /**
  * What about:addons shows as the add-on's homepage. The repo rather than a
@@ -86,7 +99,10 @@ export interface FirefoxManifest {
   background: FirefoxBackground;
   permissions: string[];
   homepage_url: string;
-  browser_specific_settings: { gecko: GeckoSettings };
+  browser_specific_settings: {
+    gecko: GeckoSettings;
+    gecko_android: { strict_min_version: string };
+  };
   [key: string]: unknown;
 }
 
@@ -138,6 +154,9 @@ export function buildFirefoxManifest(
       id: FIREFOX_ADDON_ID,
       strict_min_version: FIREFOX_STRICT_MIN_VERSION,
       data_collection_permissions: { required: ["none"] },
+    },
+    gecko_android: {
+      strict_min_version: FIREFOX_ANDROID_STRICT_MIN_VERSION,
     },
   };
 

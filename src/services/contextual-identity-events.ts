@@ -23,7 +23,7 @@
 
 import { SettingID } from "@/typings/enums";
 import { ReduxConstants } from "@/typings/redux-constants";
-import { browserCapabilities } from "./browser-capabilities";
+import { hasContainerApi } from "./browser-capabilities";
 import {
   adcpLog,
   getSetting,
@@ -45,9 +45,13 @@ export interface ContainerInfo {
 export default class ContextualIdentityEvents extends StoreUser {
   public static readonly SESSION_KEY = "containerCache";
 
-  /** Whether containers exist on this build at all. */
+  /**
+   * Whether containers exist here at all: never on the Chrome build, and
+   * not on Firefox for Android either, which runs the Firefox build without
+   * a contextualIdentities API (#534).
+   */
   public static isSupported(): boolean {
-    return browserCapabilities.supportsContextualIdentities;
+    return hasContainerApi();
   }
 
   /** Read-only view of the container cache for UI consumers. */

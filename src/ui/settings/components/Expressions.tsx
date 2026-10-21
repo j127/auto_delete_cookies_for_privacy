@@ -20,7 +20,10 @@ import {
   clearExpressionsUI,
   removeListUI,
 } from "@/redux/actions";
-import { browserCapabilities } from "@/services/browser-capabilities";
+import {
+  browserCapabilities,
+  hasContainerApi,
+} from "@/services/browser-capabilities";
 import PrivateWindowEvents from "@/services/private-window-events";
 import {
   adcpLog,
@@ -83,8 +86,10 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
   // Live container names for the store selector (Firefox only; the query
   // rejects when the user disabled privacy.userContext.enabled — then the
   // selector simply lists no containers, orphaned lists still show).
+  // Firefox for Android has no contextualIdentities object at all, so the
+  // build flag alone is not enough: reading .query there threw (#534).
   React.useEffect(() => {
-    if (!browserCapabilities.supportsContextualIdentities) return;
+    if (!hasContainerApi()) return;
     let live = true;
     browser.contextualIdentities
       .query({})
@@ -338,7 +343,9 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
           )}
         {/* The Private list is erased at the end of each private session
             (#468), so a site kept there leaves no record behind, unless
-            Firefox never remembers history, where it stays saved. */}
+            Firefox never remembers history, where it stays saved. Firefox
+            for Android has no windows API, so the end of a private session
+            is never seen there and the list is never erased (#534). */}
         {storeId === "private" && normalWindowSeen !== undefined && (
           <div
             className="alert rounded-none alert-info"
@@ -346,14 +353,18 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
             role="status"
           >
             {browser.i18n.getMessage(
-              normalWindowSeen
-                ? "privateListErasedNoticeText"
-                : "privateListKeptNoticeText"
+              !PrivateWindowEvents.isSupported()
+                ? "privateListKeptAndroidText"
+                : normalWindowSeen
+                  ? "privateListErasedNoticeText"
+                  : "privateListKeptNoticeText"
             )}
           </div>
         )}
         <div className="border-b border-base-300 p-3">
-          <div className="join w-full">
+          {/* Stacked on a phone (Firefox for Android, #534): side by side,
+              the two buttons left the input about 80px wide. */}
+          <div className="join w-full join-vertical sm:join-horizontal">
             <input
               className="input join-item w-full"
               value={expressionInput}

@@ -81,6 +81,71 @@ describe("just run_firefox", () => {
   });
 });
 
+// `just run_firefox_android` (#534) runs the same build on Firefox for
+// Android over adb. Runs the recipe body with `bunx` stubbed and returns
+// the arguments web-ext got.
+const androidArgs = (env: Record<string, string> = {}): string[] => {
+  const body = RECIPES.get("run_firefox_android")?.body ?? [];
+  const stubs = mkdtempSync(join(tmpdir(), "run-firefox-android-"));
+  const calls = join(stubs, "calls");
+  writeFileSync(
+    join(stubs, "bunx"),
+    `#!/bin/sh\nfor arg in "$@"; do printf '%s\\n' "$arg" >> "${calls}"; done\n`,
+    { mode: 0o755 }
+  );
+  const childEnv: NodeJS.ProcessEnv = {
+    ...process.env,
+    PATH: `${stubs}:${process.env.PATH ?? ""}`,
+  };
+  for (const key of ["FIREFOX_APK", "ADB_DEVICE", "ADB_BIN"]) {
+    delete childEnv[key];
+  }
+  const run = spawnSync("bash", ["-c", body.join("\n")], {
+    cwd: ROOT,
+    env: { ...childEnv, ...env },
+    encoding: "utf8",
+  });
+  expect(run.status, run.stderr).toBe(0);
+  return readFileSync(calls, "utf8").split("\n").filter(Boolean);
+};
+
+const valueAfter = (args: string[], flag: string) =>
+  args.includes(flag) ? args[args.indexOf(flag) + 1] : undefined;
+
+describe("just run_firefox_android", () => {
+  it("is a bash script recipe that builds the Firefox artifact first", () => {
+    const recipe = RECIPES.get("run_firefox_android");
+    expect(recipe?.body.slice(0, 2)).toEqual([
+      "#!/usr/bin/env bash",
+      "set -euo pipefail",
+    ]);
+    expect(recipe?.dependencies).toEqual(["build_firefox"]);
+  });
+
+  it("runs the Firefox build on release Firefox for Android", () => {
+    const args = androidArgs();
+    expect(args.slice(0, 2)).toEqual(["web-ext", "run"]);
+    expect(args).toContain("--target=firefox-android");
+    expect(valueAfter(args, "--firefox-apk")).toBe("org.mozilla.firefox");
+    expect(valueAfter(args, "--source-dir")).toBe(
+      ["builds", "firefox"].join("/")
+    );
+    expect(args).not.toContain("--android-device");
+    expect(args).not.toContain("--adb-bin");
+  });
+
+  it("takes another package, device and adb from the environment", () => {
+    const args = androidArgs({
+      ADB_BIN: "/opt/android/adb",
+      ADB_DEVICE: "emulator-5554",
+      FIREFOX_APK: "org.mozilla.fennec_fdroid",
+    });
+    expect(valueAfter(args, "--firefox-apk")).toBe("org.mozilla.fennec_fdroid");
+    expect(valueAfter(args, "--android-device")).toBe("emulator-5554");
+    expect(valueAfter(args, "--adb-bin")).toBe("/opt/android/adb");
+  });
+});
+
 // Runs a recipe body with `uname` and `bunx` stubbed; the stub records the
 // FIREFOX_BIN it saw ("unset" when absent).
 const firefoxBinSeenBy = (
