@@ -1437,7 +1437,7 @@
     "message": "Alle gemte websteder blev fjernet."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ poster fra gamle containerlister blev flettet ind i standardlisten.",
+    "message": "$COUNT$ poster fra gamle containerlister blev flettet ind i standardlisten. De regler gælder nu for alle faner.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Import og eksport"
   },
   "helpImportExportBody": {
-    "message": "Siden Import / Eksport sikkerhedskopierer to ting hver for sig: dine gemte websteder og dine indstillinger. Begge er almindelige JSON-filer med tidsstemplede navne, så gentagne kopier ikke overskriver hinanden. Import sletter aldrig det, du allerede har; præcise dubletter springes over, og ugyldige poster afvises med en årsag, mens resten alligevel importeres.\n\nEksporter fra det oprindelige Cookie AutoDelete importeres fejlfrit — samme format. Eksporter fra Firefox-æraen kan indeholde containerfane-lister (en Firefox-funktion, der ikke findes i Chromium); de poster flettes ind i din standardliste, dubletter springes over, og importbeskeden fortæller, hvor mange der blev flettet.\n\nNulstillingen af indstillingerne til standard bor også på den side. Den rører ikke dine gemte websteder."
+    "message": "Siden Import / Eksport sikkerhedskopierer to ting hver for sig: dine gemte websteder og dine indstillinger. Begge er almindelige JSON-filer med tidsstemplede navne, så gentagne kopier ikke overskriver hinanden. Import sletter aldrig det, du allerede har; præcise dubletter springes over, og ugyldige poster afvises med en årsag, mens resten alligevel importeres.\n\nEksporter fra det oprindelige Cookie AutoDelete importeres fejlfrit — samme format. Eksporter fra Firefox-æraen kan indeholde containerfane-lister. Firefox på en computer beholder dem som selvstændige lister. Chromium og Firefox til Android har ingen containere, så dér flettes de poster ind i din standardliste, dubletter springes over, og importbeskeden fortæller, hvor mange der blev flettet. Flettede regler gælder for alle faner, ikke kun for én container.\n\nNulstillingen af indstillingerne til standard bor også på den side. Den rører ikke dine gemte websteder."
   },
   "helpLogTitle": {
     "message": "Rydningsloggen"

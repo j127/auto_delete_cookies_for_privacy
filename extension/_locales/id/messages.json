@@ -1437,7 +1437,7 @@
     "message": "Semua situs tersimpan telah dihapus."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ entri dari daftar kontainer lama digabung ke daftar bawaan.",
+    "message": "$COUNT$ entri dari daftar kontainer lama digabung ke daftar bawaan. Aturan itu kini berlaku untuk semua tab.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Impor dan ekspor"
   },
   "helpImportExportBody": {
-    "message": "Halaman Impor / Ekspor mencadangkan dua hal secara terpisah: situs tersimpan dan pengaturan Anda. Keduanya berkas JSON biasa dengan nama bercap waktu, jadi cadangan berulang tidak saling menimpa. Impor tidak pernah menghapus yang sudah Anda punya; duplikat persis dilewati, dan entri tak valid ditolak dengan alasan sementara sisanya tetap diimpor.\n\nEkspor dari Cookie AutoDelete asli bisa diimpor mulus — format sama. Ekspor era Firefox mungkin berisi daftar tab kontainer (fitur Firefox yang tidak ada di Chromium); entri itu digabung ke daftar bawaan Anda, duplikat dilewati, dan pesan impor memberi tahu berapa yang digabung.\n\nMengembalikan pengaturan ke bawaan juga ada di halaman itu. Situs tersimpan Anda tidak tersentuh."
+    "message": "Halaman Impor / Ekspor mencadangkan dua hal secara terpisah: situs tersimpan dan pengaturan Anda. Keduanya berkas JSON biasa dengan nama bercap waktu, jadi cadangan berulang tidak saling menimpa. Impor tidak pernah menghapus yang sudah Anda punya; duplikat persis dilewati, dan entri tak valid ditolak dengan alasan sementara sisanya tetap diimpor.\n\nEkspor dari Cookie AutoDelete asli bisa diimpor mulus — format sama. Ekspor era Firefox mungkin berisi daftar tab kontainer. Firefox di komputer menyimpannya sebagai daftar tersendiri. Chromium dan Firefox untuk Android tidak punya kontainer, jadi di sana entri itu digabung ke daftar bawaan Anda, duplikat dilewati, dan pesan impor memberi tahu berapa yang digabung. Aturan yang digabung berlaku untuk semua tab, bukan hanya tab satu kontainer.\n\nMengembalikan pengaturan ke bawaan juga ada di halaman itu. Situs tersimpan Anda tidak tersentuh."
   },
   "helpLogTitle": {
     "message": "Log pembersihan"

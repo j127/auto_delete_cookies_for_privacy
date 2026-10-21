@@ -1437,7 +1437,7 @@
     "message": "Alla sparade webbplatser togs bort."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ poster från gamla containerlistor slogs ihop med standardlistan.",
+    "message": "$COUNT$ poster från gamla containerlistor slogs ihop med standardlistan. De reglerna gäller nu för alla flikar.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Import och export"
   },
   "helpImportExportBody": {
-    "message": "Sidan Import / Export säkerhetskopierar två saker separat: dina sparade webbplatser och dina inställningar. Båda är vanliga JSON-filer med tidsstämplade namn, så upprepade kopior skriver inte över varandra. Import raderar aldrig det du redan har; exakta dubbletter hoppas över och ogiltiga poster avvisas med orsak medan resten ändå importeras.\n\nExporter från ursprungliga Cookie AutoDelete importeras felfritt — samma format. Exporter från Firefox-eran kan innehålla containerfliklistor (en Firefox-funktion som inte finns i Chromium); de posterna slås ihop med din standardlista, dubbletter hoppas över, och importmeddelandet berättar hur många som slogs ihop.\n\nÅterställningen av inställningarna till standard bor också på den sidan. Den rör inte dina sparade webbplatser."
+    "message": "Sidan Import / Export säkerhetskopierar två saker separat: dina sparade webbplatser och dina inställningar. Båda är vanliga JSON-filer med tidsstämplade namn, så upprepade kopior skriver inte över varandra. Import raderar aldrig det du redan har; exakta dubbletter hoppas över och ogiltiga poster avvisas med orsak medan resten ändå importeras.\n\nExporter från ursprungliga Cookie AutoDelete importeras felfritt — samma format. Exporter från Firefox-eran kan innehålla containerfliklistor. Firefox på en dator behåller dem som egna listor. Chromium och Firefox för Android har inga containrar, så där slås de posterna ihop med din standardlista, dubbletter hoppas över, och importmeddelandet berättar hur många som slogs ihop. Sammanslagna regler gäller för alla flikar, inte bara för en container.\n\nÅterställningen av inställningarna till standard bor också på den sidan. Den rör inte dina sparade webbplatser."
   },
   "helpLogTitle": {
     "message": "Städloggen"

@@ -1437,7 +1437,7 @@
     "message": "Tutti i siti salvati sono stati rimossi."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ voci da vecchie liste contenitore sono state unite nella lista predefinita.",
+    "message": "$COUNT$ voci da vecchie liste contenitore sono state unite nella lista predefinita. Ora quelle regole valgono per tutte le schede.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Importazione ed esportazione"
   },
   "helpImportExportBody": {
-    "message": "La pagina Importa / Esporta salva due cose separatamente: i siti salvati e le impostazioni. Entrambi sono semplici file JSON con nomi con marca temporale, così i backup ripetuti non si sovrascrivono. L'importazione non cancella mai ciò che hai già; i duplicati esatti vengono saltati e le voci non valide rifiutate con un motivo mentre il resto viene comunque importato.\n\nLe esportazioni dal Cookie AutoDelete originale si importano senza problemi — stesso formato. Le esportazioni dell'era Firefox possono contenere liste di schede contenitore (una funzione di Firefox assente in Chromium); quelle voci vengono unite nella lista predefinita, saltando i duplicati, e il messaggio di importazione dice quante sono state unite.\n\nAnche il ripristino delle impostazioni predefinite vive in quella pagina. Non tocca i tuoi siti salvati."
+    "message": "La pagina Importa / Esporta salva due cose separatamente: i siti salvati e le impostazioni. Entrambi sono semplici file JSON con nomi con marca temporale, così i backup ripetuti non si sovrascrivono. L'importazione non cancella mai ciò che hai già; i duplicati esatti vengono saltati e le voci non valide rifiutate con un motivo mentre il resto viene comunque importato.\n\nLe esportazioni dal Cookie AutoDelete originale si importano senza problemi — stesso formato. Le esportazioni dell'era Firefox possono contenere liste di schede contenitore. Firefox su computer le mantiene come liste a sé. Chromium e Firefox per Android non hanno contenitori, quindi lì quelle voci vengono unite nella lista predefinita, saltando i duplicati, e il messaggio di importazione dice quante sono state unite. Le regole unite valgono per tutte le schede, non solo per quelle di un contenitore.\n\nAnche il ripristino delle impostazioni predefinite vive in quella pagina. Non tocca i tuoi siti salvati."
   },
   "helpLogTitle": {
     "message": "Il registro delle pulizie"

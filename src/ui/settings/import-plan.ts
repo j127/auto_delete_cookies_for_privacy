@@ -10,7 +10,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { browserCapabilities } from "@/services/browser-capabilities";
+import {
+  browserCapabilities,
+  hasContainerApi,
+} from "@/services/browser-capabilities";
 import { getStoreId, validateExpressionDomain } from "@/services/libs";
 
 export const parseRawExpression = (exp: Expression): string[] => {
@@ -57,13 +60,15 @@ export interface ImportPlan {
 /**
  * Store keys that import unchanged on this build. Both builds keep
  * default/private; the Firefox build additionally keeps container lists
- * as their own keys (full per-container parity).
+ * as their own keys (full per-container parity), but only where the
+ * browser running it has containers. Firefox for Android has none (#534),
+ * so there container lists fold into default exactly as on Chrome (#538):
+ * kept as their own keys they would show in Saved sites but never apply.
  */
 const isNativeStoreId = (storeId: string) =>
   storeId === "default" ||
   storeId === "private" ||
-  (browserCapabilities.supportsContextualIdentities &&
-    storeId.startsWith("firefox-container-"));
+  (hasContainerApi() && storeId.startsWith("firefox-container-"));
 
 /**
  * The key an imported list lands under. On Firefox, old Cookie AutoDelete
@@ -81,11 +86,13 @@ const importTargetStoreId = (storeId: string): string =>
  * Turns a parsed expressions-export file into a list of additions.
  *
  * Native lists import unchanged (on the Firefox build that includes
- * container lists, with firefox-default/-private normalized to their
- * unified keys first). On the Chrome build any other store key — Firefox
+ * container lists where the container API exists, with
+ * firefox-default/-private normalized to their unified keys first). On the
+ * Chrome build and on Firefox for Android any other store key — Firefox
  * container lists like `firefox-container-1` from original Cookie
- * AutoDelete exports — would never match a Chromium cookie store and sit
- * inert, so those entries fold into `default` instead. Folded entries are
+ * AutoDelete exports — would never match a cookie store there and sit
+ * inert, so those entries fold into `default` instead. A folded rule then
+ * applies to every tab, not just one container's. Folded entries are
  * deduped against everything already headed for the default list; the key is
  * the expression string alone because the ADD_EXPRESSION reducer drops any
  * addition whose expression already exists in the target list, regardless of

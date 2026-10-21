@@ -1437,7 +1437,7 @@
     "message": "Usunięto wszystkie zapisane strony."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ wpisów ze starych list kontenerów scalono z listą domyślną.",
+    "message": "$COUNT$ wpisów ze starych list kontenerów scalono z listą domyślną. Te reguły obowiązują teraz we wszystkich kartach.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Import i eksport"
   },
   "helpImportExportBody": {
-    "message": "Strona Import / Eksport zabezpiecza dwie rzeczy osobno: zapisane strony i ustawienia. Obie to zwykłe pliki JSON z nazwami ze znacznikiem czasu, więc kolejne kopie się nie nadpisują. Import nigdy nie usuwa tego, co już masz; dokładne duplikaty są pomijane, a nieprawidłowe wpisy odrzucane z powodem, podczas gdy reszta i tak się importuje.\n\nEksporty z oryginalnego Cookie AutoDelete importują się bez problemu — ten sam format. Eksporty z ery Firefoksa mogą zawierać listy kart kontenerowych (funkcja Firefoksa nieobecna w Chromium); te wpisy są scalane z listą domyślną z pominięciem duplikatów, a komunikat importu mówi, ile scalono.\n\nNa tej stronie mieszka też przywracanie ustawień domyślnych. Nie rusza ono zapisanych stron."
+    "message": "Strona Import / Eksport zabezpiecza dwie rzeczy osobno: zapisane strony i ustawienia. Obie to zwykłe pliki JSON z nazwami ze znacznikiem czasu, więc kolejne kopie się nie nadpisują. Import nigdy nie usuwa tego, co już masz; dokładne duplikaty są pomijane, a nieprawidłowe wpisy odrzucane z powodem, podczas gdy reszta i tak się importuje.\n\nEksporty z oryginalnego Cookie AutoDelete importują się bez problemu — ten sam format. Eksporty z ery Firefoksa mogą zawierać listy kart kontenerowych. Firefox na komputerze zachowuje je jako osobne listy. Chromium i Firefox na Androida nie mają kontenerów, więc tam te wpisy są scalane z listą domyślną z pominięciem duplikatów, a komunikat importu mówi, ile scalono. Scalone reguły obowiązują we wszystkich kartach, nie tylko w jednym kontenerze.\n\nNa tej stronie mieszka też przywracanie ustawień domyślnych. Nie rusza ono zapisanych stron."
   },
   "helpLogTitle": {
     "message": "Dziennik czyszczenia"

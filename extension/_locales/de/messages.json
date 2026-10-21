@@ -1437,7 +1437,7 @@
     "message": "Alle gespeicherten Websites wurden entfernt."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ Einträge aus alten Container-Listen wurden in die Standardliste übernommen.",
+    "message": "$COUNT$ Einträge aus alten Container-Listen wurden in die Standardliste übernommen. Diese Regeln gelten jetzt für alle Tabs.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Import und Export"
   },
   "helpImportExportBody": {
-    "message": "Die Seite Import / Export sichert zwei Dinge getrennt: deine gespeicherten Websites und deine Einstellungen. Beides sind einfache JSON-Dateien mit Zeitstempel im Namen, sodass wiederholte Sicherungen einander nicht überschreiben. Ein Import löscht nie, was du schon hast; exakte Duplikate werden übersprungen, ungültige Einträge mit Begründung abgelehnt, der Rest wird trotzdem importiert.\n\nExporte aus dem ursprünglichen Cookie AutoDelete lassen sich sauber importieren — gleiches Format. Exporte aus der Firefox-Ära können Container-Tab-Listen enthalten (ein Firefox-Feature, das es in Chromium nicht gibt); diese Einträge werden in deine Standardliste übernommen, Duplikate übersprungen, und die Importmeldung nennt die Anzahl.\n\nAuch das Zurücksetzen der Einstellungen auf die Standardwerte liegt auf dieser Seite. Deine gespeicherten Websites bleiben davon unberührt."
+    "message": "Die Seite Import / Export sichert zwei Dinge getrennt: deine gespeicherten Websites und deine Einstellungen. Beides sind einfache JSON-Dateien mit Zeitstempel im Namen, sodass wiederholte Sicherungen einander nicht überschreiben. Ein Import löscht nie, was du schon hast; exakte Duplikate werden übersprungen, ungültige Einträge mit Begründung abgelehnt, der Rest wird trotzdem importiert.\n\nExporte aus dem ursprünglichen Cookie AutoDelete lassen sich sauber importieren — gleiches Format. Exporte aus der Firefox-Ära können Container-Tab-Listen enthalten. Firefox auf dem Computer behält sie als eigene Listen. Chromium und Firefox für Android haben keine Container, daher werden diese Einträge dort in deine Standardliste übernommen, Duplikate übersprungen, und die Importmeldung nennt die Anzahl. Übernommene Regeln gelten für alle Tabs, nicht nur für einen Container.\n\nAuch das Zurücksetzen der Einstellungen auf die Standardwerte liegt auf dieser Seite. Deine gespeicherten Websites bleiben davon unberührt."
   },
   "helpLogTitle": {
     "message": "Das Bereinigungsprotokoll"

@@ -1437,7 +1437,7 @@
     "message": "Alle lagrede nettsteder ble fjernet."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ oppføringer fra gamle beholderlister ble slått sammen med standardlisten.",
+    "message": "$COUNT$ oppføringer fra gamle beholderlister ble slått sammen med standardlisten. Disse reglene gjelder nå for alle faner.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Import og eksport"
   },
   "helpImportExportBody": {
-    "message": "Siden Import / Eksport sikkerhetskopierer to ting hver for seg: lagrede nettsteder og innstillinger. Begge er vanlige JSON-filer med tidsstempel i navnet, så gjentatte kopier ikke overskriver hverandre. Import sletter aldri det du allerede har; nøyaktige duplikater hoppes over, og ugyldige oppføringer avvises med årsak mens resten likevel importeres.\n\nEksporter fra det opprinnelige Cookie AutoDelete importeres uten problemer — samme format. Eksporter fra Firefox-tiden kan inneholde beholderfanelister (en Firefox-funksjon som ikke finnes i Chromium); de oppføringene slås sammen med standardlisten din, duplikater hoppes over, og importmeldingen forteller hvor mange som ble slått sammen.\n\nTilbakestillingen av innstillingene til standard bor også på den siden. Den rører ikke de lagrede nettstedene dine."
+    "message": "Siden Import / Eksport sikkerhetskopierer to ting hver for seg: lagrede nettsteder og innstillinger. Begge er vanlige JSON-filer med tidsstempel i navnet, så gjentatte kopier ikke overskriver hverandre. Import sletter aldri det du allerede har; nøyaktige duplikater hoppes over, og ugyldige oppføringer avvises med årsak mens resten likevel importeres.\n\nEksporter fra det opprinnelige Cookie AutoDelete importeres uten problemer — samme format. Eksporter fra Firefox-tiden kan inneholde beholderfanelister. Firefox på en datamaskin beholder dem som egne lister. Chromium og Firefox for Android har ingen beholdere, så der slås de oppføringene sammen med standardlisten din, duplikater hoppes over, og importmeldingen forteller hvor mange som ble slått sammen. Sammenslåtte regler gjelder for alle faner, ikke bare for én beholder.\n\nTilbakestillingen av innstillingene til standard bor også på den siden. Den rører ikke de lagrede nettstedene dine."
   },
   "helpLogTitle": {
     "message": "Ryddeloggen"

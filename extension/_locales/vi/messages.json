@@ -1437,7 +1437,7 @@
     "message": "Đã xóa mọi trang đã lưu."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ mục từ các danh sách container cũ đã được gộp vào danh sách mặc định.",
+    "message": "$COUNT$ mục từ các danh sách container cũ đã được gộp vào danh sách mặc định. Các quy tắc đó giờ áp dụng cho mọi thẻ.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Nhập và xuất"
   },
   "helpImportExportBody": {
-    "message": "Trang Nhập / Xuất sao lưu hai thứ riêng biệt: các trang đã lưu và cài đặt của bạn. Cả hai đều là tệp JSON thường với tên gắn dấu thời gian, nên các bản sao lưu lặp lại không đè lên nhau. Nhập không bao giờ xóa những gì bạn đã có; mục trùng hoàn toàn bị bỏ qua, mục không hợp lệ bị từ chối kèm lý do trong khi phần còn lại vẫn được nhập.\n\nBản xuất từ Cookie AutoDelete gốc nhập vào mượt mà — cùng định dạng. Bản xuất thời Firefox có thể chứa danh sách thẻ container (tính năng Firefox không có trên Chromium); các mục đó được gộp vào danh sách mặc định, bỏ qua trùng lặp, và thông báo nhập cho biết đã gộp bao nhiêu.\n\nViệc đặt lại cài đặt về mặc định cũng nằm ở trang đó. Nó không đụng đến các trang đã lưu."
+    "message": "Trang Nhập / Xuất sao lưu hai thứ riêng biệt: các trang đã lưu và cài đặt của bạn. Cả hai đều là tệp JSON thường với tên gắn dấu thời gian, nên các bản sao lưu lặp lại không đè lên nhau. Nhập không bao giờ xóa những gì bạn đã có; mục trùng hoàn toàn bị bỏ qua, mục không hợp lệ bị từ chối kèm lý do trong khi phần còn lại vẫn được nhập.\n\nBản xuất từ Cookie AutoDelete gốc nhập vào mượt mà — cùng định dạng. Bản xuất thời Firefox có thể chứa danh sách thẻ container. Firefox trên máy tính giữ chúng thành danh sách riêng. Chromium và Firefox cho Android không có container, nên ở đó các mục ấy được gộp vào danh sách mặc định, bỏ qua trùng lặp, và thông báo nhập cho biết đã gộp bao nhiêu. Quy tắc đã gộp áp dụng cho mọi thẻ, không chỉ thẻ của một container.\n\nViệc đặt lại cài đặt về mặc định cũng nằm ở trang đó. Nó không đụng đến các trang đã lưu."
   },
   "helpLogTitle": {
     "message": "Nhật ký dọn dẹp"
