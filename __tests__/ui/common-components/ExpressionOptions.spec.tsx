@@ -188,6 +188,176 @@ describe("ExpressionOptions", () => {
   });
 });
 
+// A rule can keep cookie names typed in by hand, and patterns like auth_*
+// (#539).
+describe("ExpressionOptions cookie-name patterns", () => {
+  const expression: Expression = {
+    ...baseExpression,
+    cleanAllCookies: false,
+    cookieNames: ["theme", "auth_*"],
+  };
+  const siteCookie = (name: string) => ({
+    domain: "example.com",
+    name,
+    path: "/",
+    storeId: "0",
+  });
+
+  beforeEach(() => {
+    global.browser.i18n.getMessage.mockImplementation(
+      (key: string, subs?: string | string[]) =>
+        subs === undefined
+          ? key
+          : [key, ...(Array.isArray(subs) ? subs : [subs])].join(" ")
+    );
+    global.browser.cookies.getAll.mockResolvedValue([
+      siteCookie("auth_b2"),
+      siteCookie("auth_a1"),
+      siteCookie("theme"),
+      siteCookie("tracker"),
+    ]);
+  });
+
+  const renderOptions = (exp: Expression) => {
+    const reducer = jest.fn<(state: State | undefined, action: any) => State>(
+      () => initialState
+    );
+    const view = render(
+      <Provider store={createStore(reducer)}>
+        <ExpressionOptions expression={exp} />
+      </Provider>
+    );
+    const dispatchedActions = () =>
+      reducer.mock.calls.map(([, action]) => action);
+    return { ...view, dispatchedActions };
+  };
+  const checkbox = (container: HTMLElement, id: string) =>
+    container.querySelector(`[id="${id}"]`) as HTMLInputElement;
+
+  it("shows a saved pattern and the site's cookies it covers", async () => {
+    const { container, findByText, getByText } = renderOptions(expression);
+    await findByText("cookieNamePatternCoversText auth_a1, auth_b2");
+    getByText("auth_*");
+    expect(checkbox(container, "pattern-exp1-auth_*").checked).toBe(true);
+  });
+
+  it("says when a pattern covers none of the site's cookies", async () => {
+    const { findByText } = renderOptions({
+      ...expression,
+      cookieNames: ["nothing_*"],
+    });
+    await findByText("cookieNamePatternCoversNoneText");
+  });
+
+  it("shows a cookie a pattern covers as kept by it, and locks its box", async () => {
+    const { container, findByText } = renderOptions(expression);
+    await findByText("auth_a1");
+    const covered = checkbox(container, "false-exp1-auth_a1");
+    expect(covered.checked).toBe(true);
+    expect(covered.disabled).toBe(true);
+    expect((covered.closest("label") as HTMLElement).textContent).toContain(
+      "cookieNameKeptByPatternText auth_*"
+    );
+    const uncovered = checkbox(container, "false-exp1-tracker");
+    expect(uncovered.checked).toBe(false);
+    expect(uncovered.disabled).toBe(false);
+    expect(checkbox(container, "true-exp1-theme").checked).toBe(true);
+  });
+
+  it("removes a pattern when its box is unticked", async () => {
+    const { findByText, dispatchedActions } = renderOptions(expression);
+    fireEvent.click(await findByText("auth_*"));
+    expect(dispatchedActions()).toContainEqual({
+      payload: { ...expression, cookieNames: ["theme"] },
+      type: ReduxConstants.UPDATE_EXPRESSION,
+    });
+  });
+
+  it("adds a typed pattern, trimmed, and clears the field", async () => {
+    const { container, getByText, dispatchedActions } =
+      renderOptions(expression);
+    const input = container.querySelector(
+      '[id="exp1-addCookieName"]'
+    ) as HTMLInputElement;
+    expect(input.getAttribute("aria-label")).toBe("cookieNameAddLabel");
+    expect(input.placeholder).toBe("cookieNameAddPlaceholder");
+    const button = getByText("cookieNameAddButton") as HTMLButtonElement;
+    expect(button.disabled).toBe(true);
+
+    fireEvent.change(input, { target: { value: "  *_csrf " } });
+    expect(button.disabled).toBe(false);
+    fireEvent.click(button);
+    expect(dispatchedActions()).toContainEqual({
+      payload: { ...expression, cookieNames: ["theme", "auth_*", "*_csrf"] },
+      type: ReduxConstants.UPDATE_EXPRESSION,
+    });
+    await waitFor(() => expect(input.value).toBe(""));
+  });
+
+  it("adds a plain name by pressing Enter", () => {
+    const { container, dispatchedActions } = renderOptions(expression);
+    const input = container.querySelector(
+      '[id="exp1-addCookieName"]'
+    ) as HTMLInputElement;
+    fireEvent.change(input, { target: { value: "later_cookie" } });
+    fireEvent.submit(input.closest("form") as HTMLFormElement);
+    expect(dispatchedActions()).toContainEqual({
+      payload: {
+        ...expression,
+        cookieNames: ["theme", "auth_*", "later_cookie"],
+      },
+      type: ReduxConstants.UPDATE_EXPRESSION,
+    });
+  });
+
+  it("does not add a blank or duplicate entry", () => {
+    const { container, dispatchedActions } = renderOptions(expression);
+    const input = container.querySelector(
+      '[id="exp1-addCookieName"]'
+    ) as HTMLInputElement;
+    const form = input.closest("form") as HTMLFormElement;
+    fireEvent.change(input, { target: { value: "   " } });
+    fireEvent.submit(form);
+    fireEvent.change(input, { target: { value: "auth_*" } });
+    fireEvent.submit(form);
+    expect(
+      dispatchedActions().filter(
+        (action) => action.type === ReduxConstants.UPDATE_EXPRESSION
+      )
+    ).toEqual([]);
+    expect(input.value).toBe("");
+  });
+
+  it("hides the add field while all cookies are kept", () => {
+    const { container } = renderOptions(baseExpression);
+    expect(container.querySelector('[id="exp1-addCookieName"]')).toBeNull();
+  });
+
+  it("escapes a real asterisk when a cookie is ticked, so it stays one name", async () => {
+    global.browser.cookies.getAll.mockResolvedValue([siteCookie("odd*name")]);
+    const exp = { ...expression, cookieNames: [] };
+    const { findByText, dispatchedActions } = renderOptions(exp);
+    fireEvent.click(await findByText("odd*name"));
+    expect(dispatchedActions()).toContainEqual({
+      payload: { ...exp, cookieNames: ["odd\\*name"] },
+      type: ReduxConstants.UPDATE_EXPRESSION,
+    });
+  });
+
+  it("shows an escaped entry as the cookie it names, ticked", async () => {
+    global.browser.cookies.getAll.mockResolvedValue([siteCookie("odd*name")]);
+    const exp = { ...expression, cookieNames: ["odd\\*name"] };
+    const { container, findByText, dispatchedActions } = renderOptions(exp);
+    await findByText("odd*name");
+    expect(checkbox(container, "true-exp1-odd*name").checked).toBe(true);
+    fireEvent.click(checkbox(container, "true-exp1-odd*name"));
+    expect(dispatchedActions()).toContainEqual({
+      payload: { ...exp, cookieNames: [] },
+      type: ReduxConstants.UPDATE_EXPRESSION,
+    });
+  });
+});
+
 // Cleanup keeps a cookie partitioned under ANOTHER site only while a rule
 // also keeps that site (#511), so the editor lists only the cookie names a
 // rule can keep.

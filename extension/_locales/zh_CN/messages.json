@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "保留全部 Cookie 直到重启"
   },
+  "cookieNameAddLabel": {
+    "message": "添加要保留的 Cookie 名称或匹配模式"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Cookie 名称或匹配模式,例如 auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "添加"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "匹配:$NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "未匹配该网站当前的任何 Cookie"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "由 $PATTERN$ 保留",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "保留缓存"
   },
@@ -1381,6 +1411,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ 个指定名称的 Cookie,$PATTERNS$ 个匹配模式",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "清除 $TYPES$",
     "placeholders": {
@@ -1485,6 +1528,12 @@
   },
   "helpPatternsBody": {
     "message": "每个已保存的站点都是两张列表之一上的一个模式。“保留”站点绝不清理。“保留到浏览器关闭”站点能挺过平时的清理，但会在浏览器重启时被清理。两边都不匹配的站点在你离开时就被清理——这是默认命运；规则是例外。\n\n模式只匹配主机名——不带 https://，不带路径：\n\n• example.com——仅该域名，不含 mail.example.com\n• *.example.com——该域名及每个子域名\n• 192.168.1.100——该 IP 地址\n• 10.0.0.0/8——CIDR 范围内的任意 IP\n• /^(mail|news)\\.example\\.com$/——斜杠之间的正则表达式\n• file:///home/user/notes——从该本地目录打开的页面\n\n每条规则还带有按站点的选项（在“已保存的站点”页展开它的行）：只保留指定名称的 Cookie 而不是全部，以及按类型的站点数据选择。“创建默认选项”规则决定之后新增规则的初始选项。\n\n提示：想让所有 Cookie 在重启时消失，就把 * 添加为“保留到浏览器关闭”规则，再把真正要永久保留的站点标为“保留”。"
+  },
+  "helpCookieNamesTitle": {
+    "message": "只保留部分 Cookie"
+  },
+  "helpCookieNamesBody": {
+    "message": "规则会保留网站的全部 Cookie,除非你在其选项中取消勾选“保留全部 Cookie”。取消后,它只保留你勾选的 Cookie,网站的其他 Cookie 会被清理。\n\n列表显示规则保留的名称,以及网站当前设置的 Cookie。要保留尚未出现的 Cookie,或名称会变化的一组 Cookie,请在列表上方的输入框中输入名称或匹配模式,然后选择“添加”:\n\n• sid — 只保留名为 sid 的 Cookie\n• auth_* — 名称以 auth_ 开头的所有 Cookie\n• *_session — 名称以 _session 结尾的所有 Cookie\n• a\\* — 名为 a* 的 Cookie(\\* 表示真正的星号)\n\n名称区分大小写。每个匹配模式下方会列出它匹配了网站当前的哪些 Cookie。\n\n本扩展的旧版本以及 Cookie AutoDelete 会把 auth_* 这样的匹配模式当作一个 Cookie 名称。把带匹配模式的规则导入那里后,这些模式不会保留任何 Cookie,相应的 Cookie 会被清理。"
   },
   "helpImportExportTitle": {
     "message": "导入与导出"

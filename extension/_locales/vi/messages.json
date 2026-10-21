@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Giữ mọi cookie đến khi khởi động lại"
   },
+  "cookieNameAddLabel": {
+    "message": "Thêm tên hoặc mẫu cookie cần giữ"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Tên hoặc mẫu cookie, ví dụ auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Thêm"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Bao gồm $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Không bao gồm cookie hiện tại nào của trang"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Được giữ bởi $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Giữ bộ nhớ đệm"
   },
@@ -1381,6 +1411,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ cookie chỉ định tên, $PATTERNS$ mẫu",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Xóa $TYPES$",
     "placeholders": {
@@ -1485,6 +1528,12 @@
   },
   "helpPatternsBody": {
     "message": "Mỗi trang đã lưu là một mẫu trên một trong hai danh sách. Trang Giữ lại không bao giờ bị dọn. Trang Giữ đến khi đóng trình duyệt sống sót qua các đợt dọn thường nhưng bị dọn khi khởi động lại. Trang không khớp cái nào sẽ bị dọn ngay khi bạn rời đi — số phận mặc định; quy tắc là ngoại lệ.\n\nMẫu chỉ khớp tên máy chủ — không https://, không đường dẫn:\n\n• example.com — đúng tên miền đó, không phải mail.example.com\n• *.example.com — tên miền và mọi tên miền phụ\n• 192.168.1.100 — địa chỉ IP đó\n• 10.0.0.0/8 — bất kỳ IP nào trong dải CIDR\n• /^(mail|news)\\.example\\.com$/ — biểu thức chính quy giữa hai dấu gạch chéo\n• file:///home/user/notes — trang mở từ thư mục cục bộ đó\n\nMỗi quy tắc còn mang tùy chọn theo trang (mở rộng hàng của nó ở trang Trang đã lưu): chỉ giữ cookie chỉ định tên thay vì tất cả, và lựa chọn dữ liệu theo loại. Quy tắc Tạo tùy chọn mặc định đặt tùy chọn khởi đầu cho mọi quy tắc thêm sau.\n\nMẹo: để MỌI cookie biến mất khi khởi động lại, thêm * làm quy tắc Giữ đến khi đóng trình duyệt và đánh dấu Giữ lại cho các trang thực sự lâu dài."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Chỉ giữ một số cookie"
+  },
+  "helpCookieNamesBody": {
+    "message": "Một quy tắc giữ mọi cookie của trang, trừ khi bạn bỏ chọn “Giữ mọi cookie” trong tùy chọn của nó. Khi đó nó chỉ giữ các cookie bạn chọn, còn các cookie khác của trang bị dọn.\n\nDanh sách hiển thị các tên mà quy tắc giữ và các cookie trang đang đặt lúc này. Để giữ một cookie chưa có, hoặc một nhóm cookie có tên thay đổi, hãy gõ tên hoặc mẫu vào ô phía trên danh sách rồi chọn Thêm:\n\n• sid — chỉ cookie có tên sid\n• auth_* — mọi cookie có tên bắt đầu bằng auth_\n• *_session — mọi cookie có tên kết thúc bằng _session\n• a\\* — cookie có tên a* (\\* là một dấu sao thật)\n\nTên phân biệt chữ hoa chữ thường. Dưới mỗi mẫu, danh sách cho biết mẫu đó bao gồm những cookie hiện tại nào của trang.\n\nCác phiên bản cũ hơn của tiện ích này, và Cookie AutoDelete, đọc một mẫu như auth_* như một tên cookie duy nhất. Các quy tắc có mẫu mà bạn nhập vào đó sẽ không giữ gì cho các mẫu ấy, nên các cookie đó bị dọn."
   },
   "helpImportExportTitle": {
     "message": "Nhập và xuất"

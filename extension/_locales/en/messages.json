@@ -509,6 +509,42 @@
     "message": "Keep All Cookies until restart",
     "description": "Keep All Cookies until restart. Found in Expression Options. For Greylist entries."
   },
+  "cookieNameAddLabel": {
+    "message": "Add a cookie name or pattern to keep",
+    "description": "Accessible label and tooltip of the field that adds a cookie name or pattern to a keep rule (Expression Options)"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Cookie name or pattern, e.g. auth_*",
+    "description": "Placeholder of the field that adds a cookie name or pattern to a keep rule. Keep auth_* as is."
+  },
+  "cookieNameAddButton": {
+    "message": "Add",
+    "description": "Button that adds the typed cookie name or pattern to the rule"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Covers $NAMES$",
+    "description": "Muted line under a cookie-name pattern: the site's current cookies it matches, comma-separated",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Covers none of the site's current cookies",
+    "description": "Muted line under a cookie-name pattern that matches none of the site's current cookies"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Kept by $PATTERN$",
+    "description": "Muted line under a cookie that a saved pattern already keeps",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Keep Cache",
     "description": "Keep Cache. Found in Expression Options. For Whitelist entries."
@@ -1677,6 +1713,20 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ named cookies, $PATTERNS$ patterns",
+    "description": "Options summary part: only the listed cookie names and name patterns (like auth_*) are kept",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Clears $TYPES$",
     "description": "Options summary part: these site-data types get cleaned",
@@ -1810,6 +1860,14 @@
   "helpPatternsBody": {
     "message": "Every saved site is a pattern on one of two lists. “Keep” sites are never cleaned. “Keep until browser closes” sites survive normal cleanups but are cleaned when the browser restarts. A site matching neither is cleaned as soon as you leave it — the default fate; rules are the exceptions.\n\nPatterns match the hostname only — no https://, no paths:\n\n• example.com — exactly that domain, not mail.example.com\n• *.example.com — the domain and every subdomain\n• 192.168.1.100 — that IP address\n• 10.0.0.0/8 — any IP in the CIDR range\n• /^(mail|news)\\.example\\.com$/ — a regular expression between slashes\n• file:///home/user/notes — pages opened from that local folder\n\nEvery rule also carries per-site options (expand its row on the Saved sites page): keep only named cookies instead of all of them, and per-type site-data choices. A “Create default options” rule sets the starting options for every rule added afterwards.\n\nTip: to make ALL cookies vanish on restart, add * as a “Keep until browser closes” rule and mark your truly permanent sites “Keep”.",
     "description": "Help section body: keep rules and patterns"
+  },
+  "helpCookieNamesTitle": {
+    "message": "Keeping only some cookies",
+    "description": "Help section title"
+  },
+  "helpCookieNamesBody": {
+    "message": "A rule keeps all of a site's cookies unless you untick “Keep All Cookies” in its options. Then it keeps only the cookies you tick, and the site's other cookies are cleaned.\n\nThe list shows the names the rule keeps and the cookies the site has set right now. To keep a cookie that isn't there yet, or a family of cookies whose names change, type a name or pattern in the box above the list and choose Add:\n\n• sid — only the cookie named sid\n• auth_* — every cookie whose name starts with auth_\n• *_session — every cookie whose name ends with _session\n• a\\* — the cookie named a* (\\* is a real asterisk)\n\nNames are case-sensitive. Under each pattern, the list shows which of the site's current cookies it covers.\n\nOlder versions of this extension, and Cookie AutoDelete, read a pattern such as auth_* as one cookie name. Rules with patterns that you import there keep nothing for those patterns, so those cookies are cleaned.",
+    "description": "Help section body: keeping only some cookies, cookie-name patterns. Keep sid, auth_*, *_session, a* and a\\* as they are."
   },
   "helpImportExportTitle": {
     "message": "Import and export",

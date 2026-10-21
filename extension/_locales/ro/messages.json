@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Păstrează toate cookie-urile până la repornire"
   },
+  "cookieNameAddLabel": {
+    "message": "Adaugă un nume sau un tipar de cookie de păstrat"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Nume sau tipar de cookie, de ex. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Adaugă"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Acoperă $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Nu acoperă niciunul dintre cookie-urile actuale ale site-ului"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Păstrat de $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Păstrează cache-ul"
   },
@@ -1381,6 +1411,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ cookie-uri numite, $PATTERNS$ tipare",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Curăță $TYPES$",
     "placeholders": {
@@ -1485,6 +1528,12 @@
   },
   "helpPatternsBody": {
     "message": "Fiecare site salvat e un tipar pe una dintre cele două liste. Site-urile „Păstrează” nu se curăță niciodată. Site-urile „Păstrează până la închiderea browserului” supraviețuiesc curățărilor normale, dar se curăță la repornire. Un site care nu se potrivește cu niciuna se curăță imediat ce îl părăsești — soarta implicită; regulile sunt excepțiile.\n\nTiparele se potrivesc doar cu numele de gazdă — fără https://, fără căi:\n\n• example.com — exact acel domeniu, nu mail.example.com\n• *.example.com — domeniul și fiecare subdomeniu\n• 192.168.1.100 — acea adresă IP\n• 10.0.0.0/8 — orice IP din intervalul CIDR\n• /^(mail|news)\\.example\\.com$/ — o expresie regulată între bare oblice\n• file:///home/user/notes — pagini deschise din acel dosar local\n\nFiecare regulă poartă și opțiuni per site (extinde-i rândul pe pagina Site-uri salvate): păstrarea doar a cookie-urilor numite în loc de toate și alegeri de date pe tip. O regulă „Creează opțiuni implicite” stabilește opțiunile de pornire pentru fiecare regulă adăugată ulterior.\n\nSfat: ca TOATE cookie-urile să dispară la repornire, adaugă * ca regulă „Păstrează până la închiderea browserului” și marchează-ți site-urile cu adevărat permanente cu „Păstrează”."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Păstrarea doar a unor cookie-uri"
+  },
+  "helpCookieNamesBody": {
+    "message": "O regulă păstrează toate cookie-urile unui site, dacă nu debifezi „Păstrează toate cookie-urile” în opțiunile ei. Atunci păstrează doar cookie-urile pe care le bifezi, iar celelalte cookie-uri ale site-ului sunt curățate.\n\nLista arată numele pe care le păstrează regula și cookie-urile pe care site-ul le-a setat acum. Pentru a păstra un cookie care încă nu există, sau o familie de cookie-uri ale căror nume se schimbă, scrie un nume sau un tipar în caseta de deasupra listei și alege „Adaugă”:\n\n• sid — doar cookie-ul numit sid\n• auth_* — orice cookie al cărui nume începe cu auth_\n• *_session — orice cookie al cărui nume se termină cu _session\n• a\\* — cookie-ul numit a* (\\* este un asterisc real)\n\nNumele țin cont de majuscule. Sub fiecare tipar, lista arată ce cookie-uri actuale ale site-ului acoperă.\n\nVersiunile mai vechi ale acestei extensii, și Cookie AutoDelete, citesc un tipar precum auth_* ca un singur nume de cookie. Regulile cu tipare pe care le imporți acolo nu păstrează nimic pentru acele tipare, așa că acele cookie-uri sunt curățate."
   },
   "helpImportExportTitle": {
     "message": "Import și export"

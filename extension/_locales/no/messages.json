@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Behold alle informasjonskapsler til omstart"
   },
+  "cookieNameAddLabel": {
+    "message": "Legg til et navn eller mønster for informasjonskapsler som skal beholdes"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Navn eller mønster, f.eks. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Legg til"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Dekker $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Dekker ingen av nettstedets nåværende informasjonskapsler"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Beholdt av $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Behold hurtigbuffer"
   },
@@ -1381,6 +1411,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ navngitte informasjonskapsler, $PATTERNS$ mønstre",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Rydder $TYPES$",
     "placeholders": {
@@ -1485,6 +1528,12 @@
   },
   "helpPatternsBody": {
     "message": "Hvert lagret nettsted er et mønster på en av to lister. Behold-nettsteder ryddes aldri. Behold til nettleseren lukkes-nettsteder overlever vanlige ryddinger, men ryddes når nettleseren starter på nytt. Et nettsted som ikke treffer noen av dem, ryddes så snart du forlater det — standardskjebnen; reglene er unntakene.\n\nMønstre treffer bare vertsnavnet — ingen https://, ingen stier:\n\n• example.com — nøyaktig det domenet, ikke mail.example.com\n• *.example.com — domenet og hvert underdomene\n• 192.168.1.100 — den IP-adressen\n• 10.0.0.0/8 — enhver IP i CIDR-området\n• /^(mail|news)\\.example\\.com$/ — et regulært uttrykk mellom skråstreker\n• file:///home/user/notes — sider åpnet fra den lokale mappen\n\nHver regel bærer også valg per nettsted (utvid raden på siden Lagrede nettsteder): behold bare navngitte kapsler i stedet for alle, og datavalg per type. En Opprett standardvalg-regel setter startvalgene for hver regel som legges til senere.\n\nTips: for at ALLE informasjonskapsler skal forsvinne ved omstart, legg til * som en Behold til nettleseren lukkes-regel og merk de virkelig varige nettstedene dine Behold."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Behold bare noen informasjonskapsler"
+  },
+  "helpCookieNamesBody": {
+    "message": "En regel beholder alle informasjonskapslene til et nettsted med mindre du fjerner haken for «Behold alle informasjonskapsler» i innstillingene. Da beholder den bare informasjonskapslene du huker av, og nettstedets andre informasjonskapsler ryddes.\n\nListen viser navnene regelen beholder og informasjonskapslene nettstedet har satt akkurat nå. For å beholde en informasjonskapsel som ikke finnes ennå, eller en familie av informasjonskapsler med skiftende navn, skriver du et navn eller mønster i feltet over listen og velger Legg til:\n\n• sid — bare informasjonskapselen som heter sid\n• auth_* — alle informasjonskapsler der navnet starter med auth_\n• *_session — alle informasjonskapsler der navnet slutter med _session\n• a\\* — informasjonskapselen som heter a* (\\* er en ekte stjerne)\n\nNavn skiller mellom store og små bokstaver. Under hvert mønster viser listen hvilke av nettstedets nåværende informasjonskapsler det dekker.\n\nEldre versjoner av denne utvidelsen, og Cookie AutoDelete, leser et mønster som auth_* som ett navn. Regler med mønstre som du importerer der, beholder ingenting for de mønstrene, så de informasjonskapslene ryddes."
   },
   "helpImportExportTitle": {
     "message": "Import og eksport"

@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "保留全部 Cookie 直到重新啟動"
   },
+  "cookieNameAddLabel": {
+    "message": "新增要保留的 Cookie 名稱或比對模式"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Cookie 名稱或比對模式,例如 auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "新增"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "符合:$NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "不符合此網站目前的任何 Cookie"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "由 $PATTERN$ 保留",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "保留快取"
   },
@@ -1381,6 +1411,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ 個指定名稱的 Cookie,$PATTERNS$ 個比對模式",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "清除 $TYPES$",
     "placeholders": {
@@ -1485,6 +1528,12 @@
   },
   "helpPatternsBody": {
     "message": "每個已儲存的網站都是兩張清單之一上的一個模式。「保留」網站絕不清理。「保留到瀏覽器關閉」網站能撐過平時的清理，但會在瀏覽器重啟時被清理。兩邊都不符合的網站在你離開時就被清理——這是預設命運；規則是例外。\n\n模式只比對主機名稱——不帶 https://，不帶路徑：\n\n• example.com——僅該網域，不含 mail.example.com\n• *.example.com——該網域及每個子網域\n• 192.168.1.100——該 IP 位址\n• 10.0.0.0/8——CIDR 範圍內的任意 IP\n• /^(mail|news)\\.example\\.com$/——斜線之間的正規表示式\n• file:///home/user/notes——從該本機資料夾開啟的頁面\n\n每條規則還帶有逐網站的選項（在「已儲存的網站」頁展開它的列）：只保留指定名稱的 Cookie 而非全部，以及逐類型的網站資料選擇。「建立預設選項」規則決定之後新增規則的初始選項。\n\n提示：想讓所有 Cookie 在重啟時消失，就把 * 加為「保留到瀏覽器關閉」規則，再把真正要永久保留的網站標為「保留」。"
+  },
+  "helpCookieNamesTitle": {
+    "message": "只保留部分 Cookie"
+  },
+  "helpCookieNamesBody": {
+    "message": "規則會保留網站的所有 Cookie,除非你在其選項中取消勾選「保留全部 Cookie」。取消後,它只保留你勾選的 Cookie,網站的其他 Cookie 會被清除。\n\n清單顯示規則保留的名稱,以及網站目前設定的 Cookie。若要保留尚未出現的 Cookie,或名稱會變動的一組 Cookie,請在清單上方的欄位輸入名稱或比對模式,然後選擇「新增」:\n\n• sid — 只保留名為 sid 的 Cookie\n• auth_* — 名稱以 auth_ 開頭的所有 Cookie\n• *_session — 名稱以 _session 結尾的所有 Cookie\n• a\\* — 名為 a* 的 Cookie(\\* 代表真正的星號)\n\n名稱區分大小寫。每個比對模式下方會列出它符合此網站目前的哪些 Cookie。\n\n本擴充功能的舊版本以及 Cookie AutoDelete 會把 auth_* 這類比對模式當成一個 Cookie 名稱。把含比對模式的規則匯入那裡後,這些模式不會保留任何 Cookie,相應的 Cookie 會被清除。"
   },
   "helpImportExportTitle": {
     "message": "匯入與匯出"

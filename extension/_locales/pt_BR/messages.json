@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Manter todos os cookies até reiniciar"
   },
+  "cookieNameAddLabel": {
+    "message": "Adicionar um nome ou padrão de cookie para manter"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Nome ou padrão de cookie, ex.: auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Adicionar"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Abrange $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Não abrange nenhum dos cookies atuais do site"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Mantido por $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Manter cache"
   },
@@ -1381,6 +1411,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ cookies nomeados, $PATTERNS$ padrões",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Apaga $TYPES$",
     "placeholders": {
@@ -1485,6 +1528,12 @@
   },
   "helpPatternsBody": {
     "message": "Cada site salvo é um padrão em uma de duas listas. Sites «Manter» nunca são limpos. Sites «Manter até o navegador fechar» sobrevivem às limpezas normais mas são limpos quando o navegador reinicia. Um site que não corresponde a nenhuma é limpo assim que você sai dele — o destino padrão; as regras são as exceções.\n\nOs padrões olham só o nome do host — sem https://, sem caminhos:\n\n• example.com — exatamente esse domínio, não mail.example.com\n• *.example.com — o domínio e cada subdomínio\n• 192.168.1.100 — esse endereço IP\n• 10.0.0.0/8 — qualquer IP na faixa CIDR\n• /^(mail|news)\\.example\\.com$/ — uma expressão regular entre barras\n• file:///home/user/notes — páginas abertas dessa pasta local\n\nCada regra também carrega opções por site (expanda a linha dela na página Sites salvos): manter só cookies nomeados em vez de todos, e escolhas de dados por tipo. Uma regra «Criar opções padrão» define as opções iniciais de cada regra adicionada depois.\n\nDica: para TODOS os cookies sumirem na reinicialização, adicione * como regra «Manter até o navegador fechar» e marque «Manter» nos sites realmente permanentes."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Manter só alguns cookies"
+  },
+  "helpCookieNamesBody": {
+    "message": "Uma regra mantém todos os cookies de um site, a menos que você desmarque “Manter todos os cookies” nas opções dela. Aí ela mantém só os cookies que você marcar, e os outros cookies do site são limpos.\n\nA lista mostra os nomes que a regra mantém e os cookies que o site definiu agora. Para manter um cookie que ainda não está lá, ou uma família de cookies cujos nomes mudam, digite um nome ou padrão na caixa acima da lista e escolha Adicionar:\n\n• sid — só o cookie chamado sid\n• auth_* — todo cookie cujo nome começa com auth_\n• *_session — todo cookie cujo nome termina com _session\n• a\\* — o cookie chamado a* (\\* é um asterisco de verdade)\n\nOs nomes diferenciam maiúsculas de minúsculas. Abaixo de cada padrão, a lista mostra quais cookies atuais do site ele abrange.\n\nVersões mais antigas desta extensão, e o Cookie AutoDelete, leem um padrão como auth_* como um único nome de cookie. Regras com padrões que você importar lá não mantêm nada para esses padrões, então esses cookies são limpos."
   },
   "helpImportExportTitle": {
     "message": "Importar e exportar"

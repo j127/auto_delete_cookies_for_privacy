@@ -11,6 +11,8 @@
  * SOFTWARE.
  */
 
+import { isCookieNamePattern } from "@/services/cookie-name-patterns";
+
 /**
  * One-line plain-language description of what an expression keeps, shown in
  * the Saved sites table so a row is readable without expanding its options.
@@ -18,6 +20,8 @@
  * The underlying model is subtractive: everything is kept unless listed for
  * cleaning. `cleanAllCookies === false` flips cookies to an allowlist of
  * `cookieNames`; `cleanSiteData` lists the site-data types that get cleaned.
+ * Entries of `cookieNames` with `*` are patterns (#539) and are counted
+ * apart from the exact names, since one pattern can keep many cookies.
  */
 export const expressionOptionsSummary = (expression: Expression): string => {
   const keepsAllCookies =
@@ -27,13 +31,24 @@ export const expressionOptionsSummary = (expression: Expression): string => {
     return browser.i18n.getMessage("summaryKeepsEverythingText");
   }
   const parts: string[] = [];
-  parts.push(
-    keepsAllCookies
-      ? browser.i18n.getMessage("summaryAllCookiesText")
-      : browser.i18n.getMessage("summaryNamedCookiesText", [
-          (expression.cookieNames || []).length.toString(),
-        ])
-  );
+  const cookieNames = expression.cookieNames || [];
+  const patternCount = cookieNames.filter(isCookieNamePattern).length;
+  if (keepsAllCookies) {
+    parts.push(browser.i18n.getMessage("summaryAllCookiesText"));
+  } else if (patternCount === 0) {
+    parts.push(
+      browser.i18n.getMessage("summaryNamedCookiesText", [
+        cookieNames.length.toString(),
+      ])
+    );
+  } else {
+    parts.push(
+      browser.i18n.getMessage("summaryNamedCookiesPatternsText", [
+        (cookieNames.length - patternCount).toString(),
+        patternCount.toString(),
+      ])
+    );
+  }
   if (clearedTypes.length > 0) {
     // SiteDataType values (Cache, IndexedDB, ...) are technical proper nouns
     // and stay untranslated inside the localized sentence.

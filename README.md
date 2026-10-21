@@ -12,6 +12,7 @@ This is a browser extension for Chrome, Brave, and Firefox that automatically de
 - One-click manual cleanup for the current site from the popup or right-click menu
 - Toolbar badge shows how many cookies the current site has set
 - Keep rules support wildcards and regular expressions, and can be exported/imported as files
+- A rule can keep just some of a site's cookies, by name or by pattern (`auth_*` keeps every cookie whose name starts with `auth_`; `\*` is a literal asterisk). Older versions and Cookie AutoDelete read `auth_*` as one literal name, so a rule with patterns imported there cleans those cookies instead of keeping them
 - Each Firefox container can have its own keep rules
 
 ### What Firefox won't let it clear

@@ -21,6 +21,7 @@ import {
 } from "@/typings/enums";
 import { browserCapabilities, hasContainerApi } from "./browser-capabilities";
 import CarriedOpenTabs from "./carried-open-tabs";
+import { cookieNamesInclude } from "./cookie-name-patterns";
 import {
   ADCPCOOKIENAME,
   adcpLog,
@@ -315,7 +316,10 @@ export const isSafeToClean = (
     // Tests the cleanAllCookies flag and if it doesn't include that name or if there is no cookieNames
     (undefinedIsTrue(matchedExpression.cleanAllCookies) ||
       (matchedExpression.cookieNames &&
-        !matchedExpression.cookieNames.includes(cookieProperties.name)))
+        !cookieNamesInclude(
+          matchedExpression.cookieNames,
+          cookieProperties.name
+        )))
   ) {
     adcpLog(
       {
@@ -355,7 +359,7 @@ export const isSafeToClean = (
     matchedExpression &&
     !undefinedIsTrue(matchedExpression.cleanAllCookies) &&
     matchedExpression.cookieNames &&
-    !matchedExpression.cookieNames.includes(cookieProperties.name)
+    !cookieNamesInclude(matchedExpression.cookieNames, cookieProperties.name)
   ) {
     adcpLog(
       {

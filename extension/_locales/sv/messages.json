@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Behåll alla kakor till omstart"
   },
+  "cookieNameAddLabel": {
+    "message": "Lägg till ett kaknamn eller mönster att behålla"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Kaknamn eller mönster, t.ex. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Lägg till"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Täcker $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Täcker ingen av webbplatsens nuvarande kakor"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Behålls av $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Behåll cache"
   },
@@ -1381,6 +1411,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ namngivna kakor, $PATTERNS$ mönster",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Rensar $TYPES$",
     "placeholders": {
@@ -1485,6 +1528,12 @@
   },
   "helpPatternsBody": {
     "message": "Varje sparad webbplats är ett mönster på en av två listor. Behåll-webbplatser städas aldrig. Behåll tills webbläsaren stängs-webbplatser överlever vanliga städningar men städas när webbläsaren startas om. En webbplats som inte matchar någon av dem städas så fort du lämnar den — standardödet; reglerna är undantagen.\n\nMönster matchar bara värdnamnet — inget https://, inga sökvägar:\n\n• example.com — exakt den domänen, inte mail.example.com\n• *.example.com — domänen och varje underdomän\n• 192.168.1.100 — den IP-adressen\n• 10.0.0.0/8 — vilken IP som helst i CIDR-intervallet\n• /^(mail|news)\\.example\\.com$/ — ett reguljärt uttryck mellan snedstreck\n• file:///home/user/notes — sidor öppnade från den lokala mappen\n\nVarje regel bär också alternativ per webbplats (fäll ut dess rad på sidan Sparade webbplatser): behåll bara namngivna kakor i stället för alla, och datatypsval per typ. En Skapa standardalternativ-regel sätter startalternativen för varje regel som läggs till senare.\n\nTips: för att ALLA kakor ska försvinna vid omstart, lägg till * som en Behåll tills webbläsaren stängs-regel och märk dina verkligt permanenta webbplatser Behåll."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Behålla bara vissa kakor"
+  },
+  "helpCookieNamesBody": {
+    "message": "En regel behåller alla en webbplats kakor om du inte avmarkerar ”Behåll alla kakor” i dess alternativ. Då behåller den bara kakorna du markerar, och webbplatsens övriga kakor rensas.\n\nListan visar namnen som regeln behåller och kakorna som webbplatsen har satt just nu. För att behålla en kaka som inte finns än, eller en familj av kakor vars namn ändras, skriver du ett namn eller mönster i rutan ovanför listan och väljer Lägg till:\n\n• sid — bara kakan som heter sid\n• auth_* — varje kaka vars namn börjar med auth_\n• *_session — varje kaka vars namn slutar med _session\n• a\\* — kakan som heter a* (\\* är en riktig asterisk)\n\nNamn är skiftlägeskänsliga. Under varje mönster visar listan vilka av webbplatsens nuvarande kakor det täcker.\n\nÄldre versioner av det här tillägget, och Cookie AutoDelete, läser ett mönster som auth_* som ett enda kaknamn. Regler med mönster som du importerar dit behåller ingenting för de mönstren, så de kakorna rensas."
   },
   "helpImportExportTitle": {
     "message": "Import och export"

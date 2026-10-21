@@ -49,6 +49,10 @@ import StoreUser from "./services/store-user";
 import TabEvents from "./services/tab-events";
 import { ReduxConstants } from "./typings/redux-constants";
 import SettingService from "./services/setting-service";
+import {
+  COOKIE_NAME_PATTERNS_KEY,
+  escapeLegacyCookieNames,
+} from "./services/cookie-name-patterns";
 import { flagJustUpdated } from "./services/update-notice";
 
 let store: AppStore;
@@ -98,6 +102,20 @@ const init = async (): Promise<AppStore> => {
   store.subscribe(saveToStorage);
 
   store.dispatch(validateSettings());
+
+  // Rules saved before cookie-name patterns (#539) named cookies as plain
+  // text: escape any `*` in them once, so they keep only the cookie they
+  // always kept. State and flag go out in one write, so a worker stopped
+  // in between can't skip the escape or run it twice.
+  if (storage[COOKIE_NAME_PATTERNS_KEY] !== true) {
+    escapeLegacyCookieNames(store.getState().lists).forEach((payload) =>
+      store.dispatch({ payload, type: ReduxConstants.UPDATE_EXPRESSION })
+    );
+    await browser.storage.local.set({
+      [COOKIE_NAME_PATTERNS_KEY]: true,
+      state: JSON.stringify(store.getState()),
+    });
+  }
 
   // Rehydrate the per-session tab->domain cache and the recently cleaned
   // sites (RecentCleanup), and re-arm any pending delayed cleanup that was

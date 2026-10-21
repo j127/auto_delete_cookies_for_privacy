@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Hou alle koekies tot herbegin"
   },
+  "cookieNameAddLabel": {
+    "message": "Voeg 'n koekienaam of patroon by om te hou"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Koekienaam of patroon, bv. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Voeg by"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Dek $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Dek geen van die werf se huidige koekies nie"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Gehou deur $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Hou kas"
   },
@@ -1381,6 +1411,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ benoemde koekies, $PATTERNS$ patrone",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Vee $TYPES$ uit",
     "placeholders": {
@@ -1485,6 +1528,12 @@
   },
   "helpPatternsBody": {
     "message": "Elke gestoorde werf is 'n patroon op een van twee lyste. Hou-werwe word nooit skoongemaak nie. Hou-tot-die-blaaier-toemaak-werwe oorleef gewone skoonmake, maar word met herbegin skoongemaak. 'n Werf wat by geeneen pas nie, word skoongemaak sodra jy dit verlaat — die versteklot; reëls is die uitsonderings.\n\nPatrone pas net by die gasheernaam — geen https://, geen paaie nie:\n\n• example.com — presies daardie domein, nie mail.example.com nie\n• *.example.com — die domein en elke subdomein\n• 192.168.1.100 — daardie IP-adres\n• 10.0.0.0/8 — enige IP in die CIDR-reeks\n• /^(mail|news)\\.example\\.com$/ — 'n reëlmatige uitdrukking tussen skuinsstrepe\n• file:///home/user/notes — bladsye wat uit daardie plaaslike gids oopgemaak is\n\nElke reël dra ook opsies per werf (vou sy ry op die Gestoorde werwe-bladsy oop): hou net benoemde koekies pleks van almal, en werfdata-keuses per tipe. 'n Skep verstekopsies-reël bepaal die beginopsies vir elke reël wat daarna bygevoeg word.\n\nWenk: om AL die koekies met herbegin te laat verdwyn, voeg * as 'n Hou-tot-die-blaaier-toemaak-reël by en merk jou werklik permanente werwe as Hou."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Hou net sommige koekies"
+  },
+  "helpCookieNamesBody": {
+    "message": "'n Reël hou al 'n werf se koekies, tensy jy “Hou alle koekies” in sy opsies ontmerk. Dan hou dit net die koekies wat jy merk, en die werf se ander koekies word skoongemaak.\n\nDie lys wys die name wat die reël hou en die koekies wat die werf nou gestel het. Om 'n koekie te hou wat nog nie daar is nie, of 'n familie koekies waarvan die name verander, tik 'n naam of patroon in die blokkie bo die lys en kies Voeg by:\n\n• sid — net die koekie met die naam sid\n• auth_* — elke koekie waarvan die naam met auth_ begin\n• *_session — elke koekie waarvan die naam op _session eindig\n• a\\* — die koekie met die naam a* (\\* is 'n regte sterretjie)\n\nName is hooflettersensitief. Onder elke patroon wys die lys watter van die werf se huidige koekies dit dek.\n\nOuer weergawes van hierdie uitbreiding, en Cookie AutoDelete, lees 'n patroon soos auth_* as een koekienaam. Reëls met patrone wat jy daar invoer, hou niks vir daardie patrone nie, so daardie koekies word skoongemaak."
   },
   "helpImportExportTitle": {
     "message": "Invoer en uitvoer"

@@ -413,6 +413,36 @@
   "keepAllCookiesGreyText": {
     "message": "Alle Cookies bis zum Neustart behalten"
   },
+  "cookieNameAddLabel": {
+    "message": "Cookie-Namen oder Muster zum Behalten hinzufügen"
+  },
+  "cookieNameAddPlaceholder": {
+    "message": "Cookie-Name oder Muster, z. B. auth_*"
+  },
+  "cookieNameAddButton": {
+    "message": "Hinzufügen"
+  },
+  "cookieNamePatternCoversText": {
+    "message": "Erfasst $NAMES$",
+    "placeholders": {
+      "names": {
+        "content": "$1",
+        "example": "auth_a1, auth_b2"
+      }
+    }
+  },
+  "cookieNamePatternCoversNoneText": {
+    "message": "Erfasst keines der aktuellen Cookies der Website"
+  },
+  "cookieNameKeptByPatternText": {
+    "message": "Behalten durch $PATTERN$",
+    "placeholders": {
+      "pattern": {
+        "content": "$1",
+        "example": "auth_*"
+      }
+    }
+  },
   "keepCacheText": {
     "message": "Cache behalten"
   },
@@ -1381,6 +1411,19 @@
       }
     }
   },
+  "summaryNamedCookiesPatternsText": {
+    "message": "$COUNT$ benannte Cookies, $PATTERNS$ Muster",
+    "placeholders": {
+      "count": {
+        "content": "$1",
+        "example": "3"
+      },
+      "patterns": {
+        "content": "$2",
+        "example": "2"
+      }
+    }
+  },
   "summaryClearsTypesText": {
     "message": "Löscht $TYPES$",
     "placeholders": {
@@ -1485,6 +1528,12 @@
   },
   "helpPatternsBody": {
     "message": "Jede gespeicherte Website ist ein Muster auf einer von zwei Listen. „Behalten“-Websites werden nie bereinigt. „Behalten, bis der Browser schließt“-Websites überstehen normale Bereinigungen, werden aber beim Neustart bereinigt. Eine Website, die zu keiner von beiden passt, wird bereinigt, sobald du sie verlässt — das Standard-Schicksal; Regeln sind die Ausnahmen.\n\nMuster gelten nur für den Hostnamen — kein https://, keine Pfade:\n\n• example.com — genau diese Domain, nicht mail.example.com\n• *.example.com — die Domain und jede Subdomain\n• 192.168.1.100 — diese IP-Adresse\n• 10.0.0.0/8 — jede IP im CIDR-Bereich\n• /^(mail|news)\\.example\\.com$/ — ein regulärer Ausdruck zwischen Schrägstrichen\n• file:///home/user/notes — aus diesem lokalen Ordner geöffnete Seiten\n\nJede Regel trägt außerdem Optionen pro Website (klappe ihre Zeile auf der Seite „Gespeicherte Websites“ auf): nur benannte Cookies statt aller behalten sowie Websitedaten-Auswahl pro Typ. Eine Regel „Standardoptionen anlegen“ bestimmt die Ausgangsoptionen für jede danach angelegte Regel.\n\nTipp: Damit ALLE Cookies beim Neustart verschwinden, füge * als „Behalten, bis der Browser schließt“-Regel hinzu und markiere deine wirklich dauerhaften Websites mit „Behalten“."
+  },
+  "helpCookieNamesTitle": {
+    "message": "Nur einige Cookies behalten"
+  },
+  "helpCookieNamesBody": {
+    "message": "Eine Regel behält alle Cookies einer Website, außer du entfernst in ihren Optionen das Häkchen bei „Alle Cookies behalten“. Dann behält sie nur die Cookies, die du ankreuzt, und die übrigen Cookies der Website werden gelöscht.\n\nDie Liste zeigt die Namen, die die Regel behält, und die Cookies, die die Website gerade gesetzt hat. Um ein Cookie zu behalten, das noch nicht da ist, oder eine Gruppe von Cookies mit wechselnden Namen, gib einen Namen oder ein Muster in das Feld über der Liste ein und wähle „Hinzufügen“:\n\n• sid — nur das Cookie namens sid\n• auth_* — jedes Cookie, dessen Name mit auth_ beginnt\n• *_session — jedes Cookie, dessen Name auf _session endet\n• a\\* — das Cookie namens a* (\\* ist ein echtes Sternchen)\n\nBei Namen zählt die Groß- und Kleinschreibung. Unter jedem Muster zeigt die Liste, welche aktuellen Cookies der Website es erfasst.\n\nÄltere Versionen dieser Erweiterung und Cookie AutoDelete lesen ein Muster wie auth_* als einen einzigen Cookie-Namen. Regeln mit Mustern, die du dort importierst, behalten für diese Muster nichts, also werden diese Cookies gelöscht."
   },
   "helpImportExportTitle": {
     "message": "Import und Export"

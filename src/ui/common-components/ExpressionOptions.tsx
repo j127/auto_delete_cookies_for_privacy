@@ -17,6 +17,12 @@ import { useDispatch, useStore } from "react-redux";
 import { updateExpressionUI } from "@/redux/actions";
 import { isPartitionKept, prepareCookie } from "@/services/cleanup-service";
 import {
+  cookieNameMatches,
+  escapeCookieName,
+  isCookieNamePattern,
+  literalCookieName,
+} from "@/services/cookie-name-patterns";
+import {
   toRawStoreId,
   withAllPartitions,
   withAnyFirstPartyDomain,
@@ -48,23 +54,34 @@ const coerceBoolean = (bool: boolean | undefined) => {
 /**
  * A DaisyUI checkbox with a trailing label. The pre-#40 version drew
  * FontAwesome square icons with role="checkbox"; a real input needs no ARIA
- * plumbing.
+ * plumbing. `hint` is a muted line under the label.
  */
 const OptionCheckbox: React.FunctionComponent<{
   id: string;
   checked: boolean;
   onToggle: () => void;
   label: string;
-}> = ({ id, checked, onToggle, label }) => (
-  <label className="flex cursor-pointer items-center gap-2 py-0.5" htmlFor={id}>
+  disabled?: boolean;
+  hint?: string;
+}> = ({ id, checked, onToggle, label, disabled, hint }) => (
+  <label
+    className={`flex items-start gap-2 py-0.5 ${disabled ? "" : "cursor-pointer"}`}
+    htmlFor={id}
+  >
     <input
       type="checkbox"
       id={id}
-      className="checkbox checkbox-sm"
+      className="checkbox mt-0.5 checkbox-sm"
       checked={checked}
+      disabled={disabled}
       onChange={onToggle}
     />
-    <span>{label}</span>
+    <span className="min-w-0 break-all">
+      {label}
+      {hint && (
+        <span className="block text-xs text-base-content/60">{hint}</span>
+      )}
+    </span>
   </label>
 );
 
@@ -73,6 +90,7 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
   const dispatch = useDispatch<any>();
   const store = useStore<State>();
   const [cookies, setCookies] = React.useState<browser.cookies.Cookie[]>([]);
+  const [newCookieName, setNewCookieName] = React.useState("");
 
   const getAllCookies = async () => {
     const exp = expression.expression;
@@ -165,33 +183,95 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
     // eslint-disable-next-line @eslint-react/exhaustive-deps
   }, []);
 
+  /**
+   * The rule's saved cookie names and patterns (#539), plus the names of
+   * the site's current cookies. A pattern row says which current cookies
+   * it covers; a cookie a pattern covers shows as kept by it.
+   */
   const createCookieList = (
     cookieList: browser.cookies.Cookie[],
     exp: Expression
   ) => {
     const originalCookieNames = exp.cookieNames || [];
-    const cookieNamesSet = new Set(originalCookieNames);
+    const patterns = originalCookieNames
+      .filter(isCookieNamePattern)
+      .sort((a, b) => a.localeCompare(b));
+    const exactEntries = new Set(
+      originalCookieNames.filter((entry) => !isCookieNamePattern(entry))
+    );
+    const currentNames = Array.from(
+      new Set(cookieList.map((cookie) => cookie.name))
+    );
     const cookieNames = Array.from(
-      new Set([...(exp.cookieNames || []), ...cookieList.map((a) => a.name)])
+      new Set([
+        ...Array.from(
+          exactEntries,
+          (entry) => literalCookieName(entry) ?? entry
+        ),
+        ...currentNames,
+      ])
     ).sort((a, b) => a.localeCompare(b));
-    return cookieNames.map((name) => {
-      const checked = cookieNamesSet.has(name);
+    const without = (entry: string) =>
+      originalCookieNames.filter((cookieName) => cookieName !== entry);
+
+    const patternRows = patterns.map((pattern) => {
+      const key = `pattern-${exp.id}-${pattern}`;
+      const covered = currentNames
+        .filter((name) => cookieNameMatches(pattern, name))
+        .sort((a, b) => a.localeCompare(b));
+      return (
+        <div className="ms-5" key={key}>
+          <OptionCheckbox
+            id={key}
+            checked={true}
+            label={pattern}
+            hint={
+              covered.length > 0
+                ? browser.i18n.getMessage("cookieNamePatternCoversText", [
+                    covered.join(", "),
+                  ])
+                : browser.i18n.getMessage("cookieNamePatternCoversNoneText")
+            }
+            onToggle={() => {
+              dispatch(
+                updateExpressionUI({ ...exp, cookieNames: without(pattern) })
+              );
+            }}
+          />
+        </div>
+      );
+    });
+
+    const nameRows = cookieNames.map((name) => {
+      // A `*` in a real cookie name is escaped, so ticking that cookie
+      // keeps only it rather than turning its name into a pattern (#539).
+      const entry = escapeCookieName(name);
+      const checked = exactEntries.has(entry);
+      const coveringPattern = checked
+        ? undefined
+        : patterns.find((pattern) => cookieNameMatches(pattern, name));
       const key = `${checked}-${exp.id}-${name}`;
       return (
         <div className="ms-5" key={key}>
           <OptionCheckbox
             id={key}
-            checked={checked}
+            checked={checked || coveringPattern !== undefined}
+            disabled={coveringPattern !== undefined}
             label={name}
+            hint={
+              coveringPattern !== undefined
+                ? browser.i18n.getMessage("cookieNameKeptByPatternText", [
+                    coveringPattern,
+                  ])
+                : undefined
+            }
             onToggle={() => {
               dispatch(
                 updateExpressionUI({
                   ...exp,
                   cookieNames: checked
-                    ? originalCookieNames.filter(
-                        (cookieName) => cookieName !== name
-                      )
-                    : [...originalCookieNames, name],
+                    ? without(entry)
+                    : [...originalCookieNames, entry],
                 })
               );
             }}
@@ -199,6 +279,57 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
         </div>
       );
     });
+    return [...patternRows, ...nameRows];
+  };
+
+  /** Adds a typed cookie name or pattern (`auth_*`) to the rule. */
+  const addCookieName = () => {
+    const entry = newCookieName.trim();
+    const existing = expression.cookieNames || [];
+    if (entry === "") return;
+    if (!existing.includes(entry)) {
+      dispatch(
+        updateExpressionUI({
+          ...expression,
+          cookieNames: [...existing, entry],
+        })
+      );
+    }
+    setNewCookieName("");
+  };
+
+  const addCookieNameForm = () => {
+    const inputId = `${expression.id}-addCookieName`;
+    const label = browser.i18n.getMessage("cookieNameAddLabel");
+    return (
+      <form
+        className="join my-1 ms-5 flex"
+        onSubmit={(e) => {
+          e.preventDefault();
+          addCookieName();
+        }}
+      >
+        <input
+          id={inputId}
+          className="input join-item w-full min-w-0 input-sm"
+          type="text"
+          value={newCookieName}
+          onChange={(e) => setNewCookieName(e.target.value)}
+          placeholder={browser.i18n.getMessage("cookieNameAddPlaceholder")}
+          aria-label={label}
+          title={label}
+          autoComplete="off"
+          spellCheck={false}
+        />
+        <button
+          type="submit"
+          className="btn join-item btn-sm"
+          disabled={newCookieName.trim() === ""}
+        >
+          {browser.i18n.getMessage("cookieNameAddButton")}
+        </button>
+      </form>
+    );
   };
 
   const toggleCleanAllCookies = (checked: boolean) => {
@@ -302,6 +433,7 @@ function ExpressionOptions(props: ExpressionOptionsProps) {
           )
         }
       />
+      {dropList && addCookieNameForm()}
       {dropList && (
         <div className="max-h-36 overflow-auto">
           {createCookieList(cookies, expression)}
