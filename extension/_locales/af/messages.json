@@ -1437,7 +1437,7 @@
     "message": "Alle gestoorde werwe is verwyder."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ inskrywings uit ou houerlyste is by die versteklys ingesmelt.",
+    "message": "$COUNT$ inskrywings uit ou houerlyste is by die versteklys ingesmelt. Daardie reëls geld nou vir alle oortjies.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Invoer en uitvoer"
   },
   "helpImportExportBody": {
-    "message": "Die Invoer / Uitvoer-bladsy rugsteun twee dinge apart: jou gestoorde werwe en jou instellings. Albei is gewone JSON-lêers met tydgestempelde name, sodat herhaalde rugsteune mekaar nie oorskryf nie. Invoer skrap nooit wat jy reeds het nie; presiese duplikate word oorgeslaan en ongeldige inskrywings word met 'n rede verwerp terwyl die res steeds ingevoer word.\n\nUitvoere uit die oorspronklike Cookie AutoDelete voer skoon in — selfde formaat. Uitvoere uit die Firefox-era kan houer-oortjielyste bevat ('n Firefox-funksie wat nie in Chromium bestaan nie); daardie inskrywings word by jou versteklys ingesmelt met duplikate oorgeslaan, en die invoerboodskap sê hoeveel ingesmelt is.\n\nDie terugstel van die instellings na verstek woon ook op daardie bladsy. Dit los jou gestoorde werwe uit."
+    "message": "Die Invoer / Uitvoer-bladsy rugsteun twee dinge apart: jou gestoorde werwe en jou instellings. Albei is gewone JSON-lêers met tydgestempelde name, sodat herhaalde rugsteune mekaar nie oorskryf nie. Invoer skrap nooit wat jy reeds het nie; presiese duplikate word oorgeslaan en ongeldige inskrywings word met 'n rede verwerp terwyl die res steeds ingevoer word.\n\nUitvoere uit die oorspronklike Cookie AutoDelete voer skoon in — selfde formaat. Uitvoere uit die Firefox-era kan houer-oortjielyste bevat. Firefox op 'n rekenaar hou hulle as eie lyste. Chromium en Firefox vir Android het geen houers nie, so daar word daardie inskrywings by jou versteklys ingesmelt met duplikate oorgeslaan, en die invoerboodskap sê hoeveel ingesmelt is. Ingesmelte reëls geld vir alle oortjies, nie net vir een houer s'n nie.\n\nDie terugstel van die instellings na verstek woon ook op daardie bladsy. Dit los jou gestoorde werwe uit."
   },
   "helpLogTitle": {
     "message": "Die skoonmaaklogboek"

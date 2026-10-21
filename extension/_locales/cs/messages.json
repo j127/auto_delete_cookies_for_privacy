@@ -1437,7 +1437,7 @@
     "message": "Všechny uložené weby byly odstraněny."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ položek ze starých kontejnerových seznamů bylo sloučeno do výchozího seznamu.",
+    "message": "$COUNT$ položek ze starých kontejnerových seznamů bylo sloučeno do výchozího seznamu. Tato pravidla teď platí pro všechny karty.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Import a export"
   },
   "helpImportExportBody": {
-    "message": "Stránka Import / Export zálohuje dvě věci odděleně: uložené weby a nastavení. Obojí jsou obyčejné JSON soubory s časovým razítkem v názvu, takže se opakované zálohy nepřepisují. Import nikdy nemaže, co už máte; přesné duplicity se přeskočí a neplatné položky se odmítnou s důvodem, zatímco zbytek se přesto naimportuje.\n\nExporty z původního Cookie AutoDelete se importují čistě — stejný formát. Exporty z éry Firefoxu mohou obsahovat seznamy kontejnerových karet (funkce Firefoxu, která v Chromiu neexistuje); tyto položky se sloučí do výchozího seznamu bez duplicit a zpráva importu řekne, kolik se jich sloučilo.\n\nNa téže stránce je i obnovení výchozího nastavení. Uložených webů se nedotkne."
+    "message": "Stránka Import / Export zálohuje dvě věci odděleně: uložené weby a nastavení. Obojí jsou obyčejné JSON soubory s časovým razítkem v názvu, takže se opakované zálohy nepřepisují. Import nikdy nemaže, co už máte; přesné duplicity se přeskočí a neplatné položky se odmítnou s důvodem, zatímco zbytek se přesto naimportuje.\n\nExporty z původního Cookie AutoDelete se importují čistě — stejný formát. Exporty z éry Firefoxu mohou obsahovat seznamy kontejnerových karet. Firefox na počítači je ponechá jako samostatné seznamy. Chromium a Firefox pro Android kontejnery nemají, takže tam se tyto položky sloučí do výchozího seznamu bez duplicit a zpráva importu řekne, kolik se jich sloučilo. Sloučená pravidla platí pro všechny karty, ne jen pro jeden kontejner.\n\nNa téže stránce je i obnovení výchozího nastavení. Uložených webů se nedotkne."
   },
   "helpLogTitle": {
     "message": "Protokol úklidu"

@@ -1437,7 +1437,7 @@
     "message": "Kaikki tallennetut sivustot poistettiin."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ merkintää vanhoista säiliölistoista yhdistettiin oletuslistaan.",
+    "message": "$COUNT$ merkintää vanhoista säiliölistoista yhdistettiin oletuslistaan. Nämä säännöt koskevat nyt kaikkia välilehtiä.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Tuonti ja vienti"
   },
   "helpImportExportBody": {
-    "message": "Tuonti / Vienti -sivu varmuuskopioi kaksi asiaa erikseen: tallennetut sivustosi ja asetuksesi. Molemmat ovat tavallisia JSON-tiedostoja aikaleimatuin nimin, joten toistuvat varmuuskopiot eivät ylikirjoita toisiaan. Tuonti ei koskaan poista sitä, mitä sinulla jo on; täsmälleen samat kaksoiskappaleet ohitetaan ja virheelliset merkinnät hylätään syineen, kun taas loput tuodaan silti.\n\nAlkuperäisen Cookie AutoDeleten viennit tuontuvat sellaisenaan — sama muoto. Firefox-ajan vienneissä voi olla säiliövälilehtilistoja (Firefox-ominaisuus, jota Chromiumissa ei ole); ne merkinnät yhdistetään oletuslistaasi kaksoiskappaleet ohittaen, ja tuonti-ilmoitus kertoo montako yhdistettiin.\n\nAsetusten palautus oletuksiin asuu myös tuolla sivulla. Se ei koske tallennettuihin sivustoihisi."
+    "message": "Tuonti / Vienti -sivu varmuuskopioi kaksi asiaa erikseen: tallennetut sivustosi ja asetuksesi. Molemmat ovat tavallisia JSON-tiedostoja aikaleimatuin nimin, joten toistuvat varmuuskopiot eivät ylikirjoita toisiaan. Tuonti ei koskaan poista sitä, mitä sinulla jo on; täsmälleen samat kaksoiskappaleet ohitetaan ja virheelliset merkinnät hylätään syineen, kun taas loput tuodaan silti.\n\nAlkuperäisen Cookie AutoDeleten viennit tuontuvat sellaisenaan — sama muoto. Firefox-ajan vienneissä voi olla säiliövälilehtilistoja. Tietokoneen Firefox säilyttää ne omina listoinaan. Chromiumissa ja Android-Firefoxissa ei ole säiliöitä, joten niissä merkinnät yhdistetään oletuslistaasi kaksoiskappaleet ohittaen, ja tuonti-ilmoitus kertoo montako yhdistettiin. Yhdistetyt säännöt koskevat kaikkia välilehtiä, eivät vain yhden säiliön välilehtiä.\n\nAsetusten palautus oletuksiin asuu myös tuolla sivulla. Se ei koske tallennettuihin sivustoihisi."
   },
   "helpLogTitle": {
     "message": "Siivousloki"

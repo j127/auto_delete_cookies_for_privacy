@@ -1437,7 +1437,7 @@
     "message": "Todos os sites salvos foram removidos."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ entradas de antigas listas de contêiner foram mescladas na lista padrão.",
+    "message": "$COUNT$ entradas de antigas listas de contêiner foram mescladas na lista padrão. Essas regras agora valem para todas as abas.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Importar e exportar"
   },
   "helpImportExportBody": {
-    "message": "A página Importar / Exportar faz backup de duas coisas separadamente: seus sites salvos e suas configurações. Ambos são arquivos JSON simples com nomes carimbados com data/hora, então backups repetidos não se sobrescrevem. Importar nunca exclui o que você já tem; duplicatas exatas são puladas e entradas inválidas são rejeitadas com um motivo enquanto o resto é importado mesmo assim.\n\nExportações do Cookie AutoDelete original importam sem problemas — mesmo formato. Exportações da era Firefox podem conter listas de abas contêiner (um recurso do Firefox que não existe no Chromium); essas entradas são mescladas na sua lista padrão, pulando duplicatas, e a mensagem de importação diz quantas foram mescladas.\n\nRestaurar as configurações padrão também fica nessa página. Isso não toca nos seus sites salvos."
+    "message": "A página Importar / Exportar faz backup de duas coisas separadamente: seus sites salvos e suas configurações. Ambos são arquivos JSON simples com nomes carimbados com data/hora, então backups repetidos não se sobrescrevem. Importar nunca exclui o que você já tem; duplicatas exatas são puladas e entradas inválidas são rejeitadas com um motivo enquanto o resto é importado mesmo assim.\n\nExportações do Cookie AutoDelete original importam sem problemas — mesmo formato. Exportações da era Firefox podem conter listas de abas contêiner. O Firefox no computador as mantém como listas próprias. O Chromium e o Firefox para Android não têm contêineres, então lá essas entradas são mescladas na sua lista padrão, pulando duplicatas, e a mensagem de importação diz quantas foram mescladas. Regras mescladas valem para todas as abas, não só para as de um contêiner.\n\nRestaurar as configurações padrão também fica nessa página. Isso não toca nos seus sites salvos."
   },
   "helpLogTitle": {
     "message": "O registro de limpeza"

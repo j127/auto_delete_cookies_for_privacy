@@ -1437,7 +1437,7 @@
     "message": "Tous les sites enregistrés ont été supprimés."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ entrées d'anciennes listes de conteneurs ont été fusionnées dans la liste par défaut.",
+    "message": "$COUNT$ entrées d'anciennes listes de conteneurs ont été fusionnées dans la liste par défaut. Ces règles s'appliquent désormais à tous les onglets.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Import et export"
   },
   "helpImportExportBody": {
-    "message": "La page Import / Export sauvegarde deux choses séparément : vos sites enregistrés et vos réglages. Les deux sont de simples fichiers JSON aux noms horodatés, si bien que des sauvegardes répétées ne s'écrasent pas. L'import ne supprime jamais ce que vous avez déjà ; les doublons exacts sont ignorés, les entrées invalides rejetées avec la raison tandis que le reste s'importe quand même.\n\nLes exports du Cookie AutoDelete d'origine s'importent proprement — même format. Les exports de l'ère Firefox peuvent contenir des listes d'onglets contextuels (une fonction Firefox absente de Chromium) ; ces entrées sont fusionnées dans votre liste par défaut, doublons ignorés, et le message d'import indique combien ont été fusionnées.\n\nLa réinitialisation des réglages par défaut se trouve aussi sur cette page. Elle ne touche pas à vos sites enregistrés."
+    "message": "La page Import / Export sauvegarde deux choses séparément : vos sites enregistrés et vos réglages. Les deux sont de simples fichiers JSON aux noms horodatés, si bien que des sauvegardes répétées ne s'écrasent pas. L'import ne supprime jamais ce que vous avez déjà ; les doublons exacts sont ignorés, les entrées invalides rejetées avec la raison tandis que le reste s'importe quand même.\n\nLes exports du Cookie AutoDelete d'origine s'importent proprement — même format. Les exports de l'ère Firefox peuvent contenir des listes d'onglets contextuels. Firefox sur ordinateur les conserve comme listes à part. Chromium et Firefox pour Android n'ont pas de conteneurs : là, ces entrées sont fusionnées dans votre liste par défaut, doublons ignorés, et le message d'import indique combien ont été fusionnées. Les règles fusionnées s'appliquent à tous les onglets, pas seulement à ceux d'un conteneur.\n\nLa réinitialisation des réglages par défaut se trouve aussi sur cette page. Elle ne touche pas à vos sites enregistrés."
   },
   "helpLogTitle": {
     "message": "Le journal de nettoyage"

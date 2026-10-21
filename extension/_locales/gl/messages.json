@@ -1437,7 +1437,7 @@
     "message": "Elimináronse todos os sitios gardados."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ entradas de antigas listas de contedores fusionáronse na lista predeterminada.",
+    "message": "$COUNT$ entradas de antigas listas de contedores fusionáronse na lista predeterminada. Esas regras aplícanse agora a todas as lapelas.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Importar e exportar"
   },
   "helpImportExportBody": {
-    "message": "A páxina Importar / Exportar respalda dúas cousas por separado: os sitios gardados e a configuración. Ambos son ficheiros JSON simples con nomes con marca de tempo, así que as copias repetidas non se sobrescriben. Importar nunca borra o que xa tes; os duplicados exactos omítense e as entradas incorrectas rexéitanse cun motivo mentres o resto se importa igualmente.\n\nAs exportacións do Cookie AutoDelete orixinal impórtanse sen problemas — mesmo formato. As exportacións da era Firefox poden conter listas de lapelas contedor (unha función de Firefox que non existe en Chromium); esas entradas fusiónanse na túa lista predeterminada omitindo duplicados, e a mensaxe de importación dille cantas se fusionaron.\n\nO restablecemento da configuración predeterminada tamén vive nesa páxina. Non toca os teus sitios gardados."
+    "message": "A páxina Importar / Exportar respalda dúas cousas por separado: os sitios gardados e a configuración. Ambos son ficheiros JSON simples con nomes con marca de tempo, así que as copias repetidas non se sobrescriben. Importar nunca borra o que xa tes; os duplicados exactos omítense e as entradas incorrectas rexéitanse cun motivo mentres o resto se importa igualmente.\n\nAs exportacións do Cookie AutoDelete orixinal impórtanse sen problemas — mesmo formato. As exportacións da era Firefox poden conter listas de lapelas contedor. Firefox nun ordenador consérvaas como listas propias. Chromium e Firefox para Android non teñen contedores, así que alí esas entradas fusiónanse na túa lista predeterminada omitindo duplicados, e a mensaxe de importación dille cantas se fusionaron. As regras fusionadas aplícanse a todas as lapelas, non só ás dun contedor.\n\nO restablecemento da configuración predeterminada tamén vive nesa páxina. Non toca os teus sitios gardados."
   },
   "helpLogTitle": {
     "message": "O rexistro de limpeza"

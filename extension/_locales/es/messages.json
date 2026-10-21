@@ -1437,7 +1437,7 @@
     "message": "Se eliminaron todos los sitios guardados."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ entradas de antiguas listas de contenedores se fusionaron en la lista predeterminada.",
+    "message": "$COUNT$ entradas de antiguas listas de contenedores se fusionaron en la lista predeterminada. Esas reglas ahora se aplican a todas las pestañas.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Importar y exportar"
   },
   "helpImportExportBody": {
-    "message": "La página Importar / Exportar respalda dos cosas por separado: tus sitios guardados y tu configuración. Ambos son archivos JSON simples con nombres con marca de tiempo, así que las copias repetidas no se sobrescriben. Importar nunca borra lo que ya tienes; los duplicados exactos se omiten y las entradas no válidas se rechazan con un motivo mientras el resto se importa igualmente.\n\nLas exportaciones del Cookie AutoDelete original se importan sin problemas — mismo formato. Las exportaciones de la era Firefox pueden contener listas de pestañas contenedoras (una función de Firefox que no existe en Chromium); esas entradas se fusionan en tu lista predeterminada, omitiendo duplicados, y el mensaje de importación te dice cuántas se fusionaron.\n\nRestablecer la configuración predeterminada también vive en esa página. No toca tus sitios guardados."
+    "message": "La página Importar / Exportar respalda dos cosas por separado: tus sitios guardados y tu configuración. Ambos son archivos JSON simples con nombres con marca de tiempo, así que las copias repetidas no se sobrescriben. Importar nunca borra lo que ya tienes; los duplicados exactos se omiten y las entradas no válidas se rechazan con un motivo mientras el resto se importa igualmente.\n\nLas exportaciones del Cookie AutoDelete original se importan sin problemas — mismo formato. Las exportaciones de la era Firefox pueden contener listas de pestañas contenedoras. Firefox en un ordenador las conserva como listas propias. Chromium y Firefox para Android no tienen contenedores, así que allí esas entradas se fusionan en tu lista predeterminada, omitiendo duplicados, y el mensaje de importación te dice cuántas se fusionaron. Las reglas fusionadas se aplican a todas las pestañas, no solo a las de un contenedor.\n\nRestablecer la configuración predeterminada también vive en esa página. No toca tus sitios guardados."
   },
   "helpLogTitle": {
     "message": "El registro de limpieza"

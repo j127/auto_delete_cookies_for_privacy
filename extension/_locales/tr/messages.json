@@ -1437,7 +1437,7 @@
     "message": "Tüm kayıtlı siteler silindi."
   },
   "importFoldedContainersText": {
-    "message": "Eski kapsayıcı listelerinden $COUNT$ kayıt varsayılan listeye birleştirildi.",
+    "message": "Eski kapsayıcı listelerinden $COUNT$ kayıt varsayılan listeye birleştirildi. Bu kurallar artık tüm sekmelerde geçerli.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "İçe ve dışa aktarma"
   },
   "helpImportExportBody": {
-    "message": "İçe / Dışa aktar sayfası iki şeyi ayrı ayrı yedekler: kayıtlı sitelerinizi ve ayarlarınızı. İkisi de adlarında zaman damgası olan düz JSON dosyalarıdır; tekrarlanan yedekler birbirinin üstüne yazmaz. İçe aktarma elinizdekini asla silmez; birebir kopyalar atlanır, geçersiz kayıtlar nedeniyle birlikte reddedilir, gerisi yine de içe aktarılır.\n\nOrijinal Cookie AutoDelete dışa aktarımları sorunsuz içe aktarılır — aynı biçim. Firefox dönemi dışa aktarımlarında kapsayıcı sekme listeleri olabilir (Chromium'da olmayan bir Firefox özelliği); bu kayıtlar kopyalar atlanarak varsayılan listenize birleştirilir ve içe aktarma mesajı kaçının birleştirildiğini söyler.\n\nAyarları varsayılanlara döndürmek de o sayfadadır. Kayıtlı sitelerinize dokunmaz."
+    "message": "İçe / Dışa aktar sayfası iki şeyi ayrı ayrı yedekler: kayıtlı sitelerinizi ve ayarlarınızı. İkisi de adlarında zaman damgası olan düz JSON dosyalarıdır; tekrarlanan yedekler birbirinin üstüne yazmaz. İçe aktarma elinizdekini asla silmez; birebir kopyalar atlanır, geçersiz kayıtlar nedeniyle birlikte reddedilir, gerisi yine de içe aktarılır.\n\nOrijinal Cookie AutoDelete dışa aktarımları sorunsuz içe aktarılır — aynı biçim. Firefox dönemi dışa aktarımlarında kapsayıcı sekme listeleri olabilir. Bilgisayardaki Firefox bunları ayrı listeler olarak tutar. Chromium'da ve Android için Firefox'ta kapsayıcı yoktur; orada bu kayıtlar kopyalar atlanarak varsayılan listenize birleştirilir ve içe aktarma mesajı kaçının birleştirildiğini söyler. Birleştirilen kurallar yalnızca bir kapsayıcıda değil, tüm sekmelerde geçerlidir.\n\nAyarları varsayılanlara döndürmek de o sayfadadır. Kayıtlı sitelerinize dokunmaz."
   },
   "helpLogTitle": {
     "message": "Temizlik günlüğü"

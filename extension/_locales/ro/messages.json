@@ -1437,7 +1437,7 @@
     "message": "Toate site-urile salvate au fost eliminate."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ intrări din vechile liste de containere au fost contopite în lista implicită.",
+    "message": "$COUNT$ intrări din vechile liste de containere au fost contopite în lista implicită. Acele reguli se aplică acum tuturor filelor.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Import și export"
   },
   "helpImportExportBody": {
-    "message": "Pagina Import / Export face backup la două lucruri separat: site-urile salvate și setările. Ambele sunt fișiere JSON simple cu nume marcate temporal, așa că backupurile repetate nu se suprascriu. Importul nu șterge niciodată ce ai deja; duplicatele exacte sunt sărite, iar intrările nevalide sunt respinse cu motiv, restul importându-se oricum.\n\nExporturile din Cookie AutoDelete original se importă curat — același format. Exporturile din era Firefox pot conține liste de file container (o funcție Firefox inexistentă în Chromium); acele intrări se contopesc în lista ta implicită, sărind duplicatele, iar mesajul de import îți spune câte au fost contopite.\n\nResetarea setărilor la valorile implicite locuiește tot pe acea pagină. Nu îți atinge site-urile salvate."
+    "message": "Pagina Import / Export face backup la două lucruri separat: site-urile salvate și setările. Ambele sunt fișiere JSON simple cu nume marcate temporal, așa că backupurile repetate nu se suprascriu. Importul nu șterge niciodată ce ai deja; duplicatele exacte sunt sărite, iar intrările nevalide sunt respinse cu motiv, restul importându-se oricum.\n\nExporturile din Cookie AutoDelete original se importă curat — același format. Exporturile din era Firefox pot conține liste de file container. Firefox pe computer le păstrează ca liste separate. Chromium și Firefox pentru Android nu au containere, așa că acolo acele intrări se contopesc în lista ta implicită, sărind duplicatele, iar mesajul de import îți spune câte au fost contopite. Regulile contopite se aplică tuturor filelor, nu doar celor dintr-un container.\n\nResetarea setărilor la valorile implicite locuiește tot pe acea pagină. Nu îți atinge site-urile salvate."
   },
   "helpLogTitle": {
     "message": "Jurnalul de curățare"

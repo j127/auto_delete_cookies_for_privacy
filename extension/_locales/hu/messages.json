@@ -1437,7 +1437,7 @@
     "message": "Minden mentett webhely törölve lett."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ bejegyzés a régi konténerlistákból beolvadt az alapértelmezett listába.",
+    "message": "$COUNT$ bejegyzés a régi konténerlistákból beolvadt az alapértelmezett listába. Ezek a szabályok mostantól minden lapra érvényesek.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Importálás és exportálás"
   },
   "helpImportExportBody": {
-    "message": "Az Importálás / Exportálás oldal két dolgot ment külön: a mentett webhelyeidet és a beállításaidat. Mindkettő sima JSON-fájl időbélyeges névvel, így az ismételt mentések nem írják felül egymást. Az importálás sosem törli, amid már van; a pontos duplikátumok kimaradnak, az érvénytelen bejegyzések indoklással elutasítódnak, a többi ettől még importálódik.\n\nAz eredeti Cookie AutoDelete exportjai gond nélkül importálhatók — azonos formátum. A Firefox-korszak exportjai tartalmazhatnak konténerlap-listákat (Chromiumban nem létező Firefox-funkció); ezek a bejegyzések az alapértelmezett listádba olvadnak a duplikátumok kihagyásával, és az importüzenet megmondja, hány olvadt be.\n\nA beállítások alapértelmezettre állítása is ezen az oldalon lakik. A mentett webhelyeidhez nem nyúl."
+    "message": "Az Importálás / Exportálás oldal két dolgot ment külön: a mentett webhelyeidet és a beállításaidat. Mindkettő sima JSON-fájl időbélyeges névvel, így az ismételt mentések nem írják felül egymást. Az importálás sosem törli, amid már van; a pontos duplikátumok kimaradnak, az érvénytelen bejegyzések indoklással elutasítódnak, a többi ettől még importálódik.\n\nAz eredeti Cookie AutoDelete exportjai gond nélkül importálhatók — azonos formátum. A Firefox-korszak exportjai tartalmazhatnak konténerlap-listákat. A számítógépes Firefox ezeket külön listaként megtartja. A Chromiumban és az androidos Firefoxban nincsenek konténerek, így ott ezek a bejegyzések az alapértelmezett listádba olvadnak a duplikátumok kihagyásával, és az importüzenet megmondja, hány olvadt be. A beolvasztott szabályok minden lapra érvényesek, nem csak egy konténerre.\n\nA beállítások alapértelmezettre állítása is ezen az oldalon lakik. A mentett webhelyeidhez nem nyúl."
   },
   "helpLogTitle": {
     "message": "A takarítási napló"

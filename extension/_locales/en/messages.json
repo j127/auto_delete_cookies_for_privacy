@@ -1742,7 +1742,7 @@
     "description": "Success alert after the remove-all confirmation"
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ entries from old container lists were merged into the default list.",
+    "message": "$COUNT$ entries from old container lists were merged into the default list. Those rules now apply to all tabs.",
     "description": "Import success detail when Firefox-era container lists are folded into default",
     "placeholders": {
       "count": {
@@ -1874,7 +1874,7 @@
     "description": "Help section title"
   },
   "helpImportExportBody": {
-    "message": "The Import / Export page backs up two things separately: your saved sites and your settings. Both are plain JSON files with timestamped names, so repeated backups don't overwrite each other. Importing never deletes what you already have; exact duplicates are skipped, and invalid entries are rejected with a reason while the rest still import.\n\nExports from the original Cookie AutoDelete import cleanly — same format. Firefox-era exports may contain container-tab lists (a Firefox feature that doesn't exist in Chromium); those entries are merged into your default list, duplicates skipped, and the import message tells you how many were merged.\n\nResetting the settings to their defaults also lives on that page. It leaves your saved sites untouched.",
+    "message": "The Import / Export page backs up two things separately: your saved sites and your settings. Both are plain JSON files with timestamped names, so repeated backups don't overwrite each other. Importing never deletes what you already have; exact duplicates are skipped, and invalid entries are rejected with a reason while the rest still import.\n\nExports from the original Cookie AutoDelete import cleanly — same format. Firefox-era exports may contain container-tab lists. Firefox on a computer keeps them as their own lists. Chromium and Firefox for Android have no containers, so there those entries are merged into your default list, duplicates skipped, and the import message tells you how many were merged. Merged rules apply to all tabs, not just one container's.\n\nResetting the settings to their defaults also lives on that page. It leaves your saved sites untouched.",
     "description": "Help section body: import and export"
   },
   "helpLogTitle": {

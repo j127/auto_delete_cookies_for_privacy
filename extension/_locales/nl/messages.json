@@ -1437,7 +1437,7 @@
     "message": "Alle bewaarde sites zijn verwijderd."
   },
   "importFoldedContainersText": {
-    "message": "$COUNT$ vermeldingen uit oude containerlijsten zijn samengevoegd in de standaardlijst.",
+    "message": "$COUNT$ vermeldingen uit oude containerlijsten zijn samengevoegd in de standaardlijst. Die regels gelden nu voor alle tabbladen.",
     "placeholders": {
       "count": {
         "content": "$1",
@@ -1539,7 +1539,7 @@
     "message": "Importeren en exporteren"
   },
   "helpImportExportBody": {
-    "message": "De pagina Importeren / Exporteren maakt van twee dingen apart een back-up: je bewaarde sites en je instellingen. Beide zijn gewone JSON-bestanden met tijdstempels in de naam, zodat herhaalde back-ups elkaar niet overschrijven. Importeren verwijdert nooit wat je al hebt; exacte duplicaten worden overgeslagen en ongeldige vermeldingen met een reden geweigerd terwijl de rest gewoon wordt geïmporteerd.\n\nExports uit de oorspronkelijke Cookie AutoDelete importeren probleemloos — zelfde formaat. Exports uit het Firefox-tijdperk kunnen containertablijsten bevatten (een Firefox-functie die niet in Chromium bestaat); die vermeldingen worden samengevoegd in je standaardlijst, duplicaten overgeslagen, en het importbericht vertelt hoeveel er zijn samengevoegd.\n\nHet terugzetten van de instellingen naar standaard staat ook op die pagina. Je bewaarde sites blijven daarbij onaangeroerd."
+    "message": "De pagina Importeren / Exporteren maakt van twee dingen apart een back-up: je bewaarde sites en je instellingen. Beide zijn gewone JSON-bestanden met tijdstempels in de naam, zodat herhaalde back-ups elkaar niet overschrijven. Importeren verwijdert nooit wat je al hebt; exacte duplicaten worden overgeslagen en ongeldige vermeldingen met een reden geweigerd terwijl de rest gewoon wordt geïmporteerd.\n\nExports uit de oorspronkelijke Cookie AutoDelete importeren probleemloos — zelfde formaat. Exports uit het Firefox-tijdperk kunnen containertablijsten bevatten. Firefox op een computer houdt ze als eigen lijsten. Chromium en Firefox voor Android hebben geen containers, dus daar worden die vermeldingen samengevoegd in je standaardlijst, duplicaten overgeslagen, en het importbericht vertelt hoeveel er zijn samengevoegd. Samengevoegde regels gelden voor alle tabbladen, niet alleen voor die van één container.\n\nHet terugzetten van de instellingen naar standaard staat ook op die pagina. Je bewaarde sites blijven daarbij onaangeroerd."
   },
   "helpLogTitle": {
     "message": "Het opschoonlogboek"
