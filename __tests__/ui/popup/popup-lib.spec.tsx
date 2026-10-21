@@ -49,3 +49,25 @@ describe("animateFlash", () => {
     expect(jest.getTimerCount()).toBe(0);
   });
 });
+
+describe("popupMinWidth (#534)", () => {
+  it("keeps the 430px design frame on a desktop screen", async () => {
+    const { popupMinWidth, POPUP_FRAME_WIDTH } =
+      await import("@/ui/popup/popup-lib");
+    expect(POPUP_FRAME_WIDTH).toBe(430);
+    expect(popupMinWidth(1920)).toBe(430);
+    expect(popupMinWidth(430)).toBe(430);
+  });
+
+  it("never exceeds a phone's screen width", async () => {
+    const { popupMinWidth } = await import("@/ui/popup/popup-lib");
+    expect(popupMinWidth(412)).toBe(412);
+    expect(popupMinWidth(360)).toBe(360);
+  });
+
+  it("keeps the frame when the screen width is unknown", async () => {
+    const { popupMinWidth } = await import("@/ui/popup/popup-lib");
+    expect(popupMinWidth(undefined)).toBe(430);
+    expect(popupMinWidth(0)).toBe(430);
+  });
+});

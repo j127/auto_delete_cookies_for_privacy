@@ -30,6 +30,8 @@ import {
   checkIfProtected,
   setGlobalIcon,
 } from "./services/browser-action-service";
+import CarriedOpenTabs from "./services/carried-open-tabs";
+import { returnContainersOfOpenTabDomains } from "./services/cleanup-service";
 import ContextMenuEvents from "./services/context-menu-events";
 import CookieEvents from "./services/cookie-events";
 import {
@@ -230,6 +232,21 @@ function handleConnect(p: browser.runtime.Port) {
   cookiePopupPorts.push(p);
 }
 
+/**
+ * Firefox for Android only (a no-op elsewhere): remembers which sites are
+ * open, so tabs it has not restored after the next restart still protect
+ * their sites (#534, src/services/carried-open-tabs.ts). Listing the open
+ * tabs is what records them. Not awaited: it must never hold up the tab
+ * handlers.
+ */
+const recordOpenTabsForRestart = () => {
+  CarriedOpenTabs.appliesHere()
+    .then((applies) =>
+      applies ? returnContainersOfOpenTabDomains(false, false) : undefined
+    )
+    .catch(() => undefined);
+};
+
 const greyCleanup = () => {
   if (getSetting(store.getState(), SettingID.ACTIVE_MODE)) {
     adcpLog(
@@ -262,11 +279,13 @@ browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   TabEvents.onDomainChange(tabId, changeInfo, tab);
   TabEvents.onTabDiscarded(tabId, changeInfo, tab);
   TabEvents.onTabUpdate(tabId, changeInfo, tab);
+  if (changeInfo.url !== undefined) recordOpenTabsForRestart();
 });
 
 browser.tabs.onRemoved.addListener(async (tabId, removeInfo) => {
   await ready;
   TabEvents.onDomainChangeRemove(tabId, removeInfo);
+  recordOpenTabsForRestart();
   await TabEvents.cleanFromTabEvents();
 });
 

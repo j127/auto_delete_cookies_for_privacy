@@ -68,6 +68,35 @@ describe("settings App", () => {
     expect(console.error).not.toHaveBeenCalled();
   });
 
+  it("shortens the brand name instead of running under the theme switcher on a phone (#534)", () => {
+    const { container } = renderApp();
+    const name = container.querySelector("#settingsBrandName") as HTMLElement;
+    expect(name.textContent).toBe("extensionName");
+    // The full name stays available when the ellipsis cuts it.
+    expect(name.title).toBe("extensionName");
+    ["truncate", "min-w-0"].forEach((cls) =>
+      expect(name.classList.contains(cls)).toBe(true)
+    );
+    expect(name.classList.contains("whitespace-nowrap")).toBe(false);
+    ["min-w-0", "flex-1", "w-auto"].forEach((cls) =>
+      expect(name.parentElement?.classList.contains(cls)).toBe(true)
+    );
+    // The switcher side takes only the room it needs.
+    const end = container
+      .querySelector("#themeSwitcher")
+      ?.closest(".navbar-end") as HTMLElement;
+    ["w-auto", "flex-none"].forEach((cls) =>
+      expect(end.classList.contains(cls)).toBe(true)
+    );
+    // The theme label is read out but hidden below the sm breakpoint.
+    const label = container.querySelector("#themeSwitcher")
+      ?.previousElementSibling as HTMLElement;
+    expect(label.textContent).toBe("themeText");
+    ["sr-only", "sm:not-sr-only"].forEach((cls) =>
+      expect(label.classList.contains(cls)).toBe(true)
+    );
+  });
+
   it("applies the sizeSetting value as the document font size", () => {
     renderApp(withSizeSetting(20));
     expect(document.documentElement.style.fontSize).toBe("20px");

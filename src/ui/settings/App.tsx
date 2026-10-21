@@ -66,9 +66,12 @@ const App: React.FunctionComponent = () => {
   return (
     <div className="flex min-h-screen flex-col">
       {/* The brand lives in this full-width bar (05d feedback): the name
-          gets the whole page width instead of wrapping inside the sidebar. */}
+          gets the whole page width instead of wrapping inside the sidebar.
+          On a phone (Firefox for Android, #534) the bar is narrower than
+          the name, so it shortens with an ellipsis instead of running
+          under the theme switcher. */}
       <header className="navbar border-b border-base-300 bg-base-100">
-        <div className="navbar-start gap-1">
+        <div className="navbar-start w-auto min-w-0 flex-1 gap-1">
           <label
             htmlFor="settings-drawer"
             className="btn btn-ghost drawer-button lg:hidden"
@@ -77,11 +80,15 @@ const App: React.FunctionComponent = () => {
             <Icon size="lg" name="bars" />
           </label>
           <img alt="" className="size-7 flex-none" src="../icons/icon_48.png" />
-          <span className="px-2 text-lg font-semibold whitespace-nowrap">
+          <span
+            className="min-w-0 truncate px-2 text-lg font-semibold"
+            id="settingsBrandName"
+            title={browser.i18n.getMessage("extensionName")}
+          >
             {browser.i18n.getMessage("extensionName")}
           </span>
         </div>
-        <div className="navbar-end pe-2">
+        <div className="navbar-end w-auto flex-none pe-2">
           <ThemeSwitcher />
         </div>
       </header>

@@ -78,6 +78,21 @@ run_firefox: build_firefox
     bunx web-ext run --source-dir builds/firefox
   fi
 
+# Needs adb and a phone or emulator with Firefox for Android's "Remote
+# debugging via USB" setting on (docs/testing-firefox.md, Firefox for
+# Android). FIREFOX_APK picks another package (org.mozilla.firefox_beta,
+# org.mozilla.fenix for Nightly, org.mozilla.fennec_fdroid for Fennec
+# F-Droid), ADB_DEVICE one of several attached devices, and ADB_BIN an adb
+# that is not on PATH.
+# Run the Firefox build on Firefox for Android over adb
+run_firefox_android: build_firefox
+  #!/usr/bin/env bash
+  set -euo pipefail
+  args=(--target=firefox-android --source-dir builds/firefox --firefox-apk "${FIREFOX_APK:-org.mozilla.firefox}")
+  if [ -n "${ADB_DEVICE:-}" ]; then args+=(--android-device "$ADB_DEVICE"); fi
+  if [ -n "${ADB_BIN:-}" ]; then args+=(--adb-bin "$ADB_BIN"); fi
+  bunx web-ext run "${args[@]}"
+
 # Lint the Firefox artifact with Mozilla's addons-linter (AMO's gate)
 lint_firefox: build_firefox
   bunx web-ext lint --source-dir builds/firefox

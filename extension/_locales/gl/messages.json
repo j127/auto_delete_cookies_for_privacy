@@ -723,6 +723,10 @@
     "message": "Firefox está configurado para non lembrar nunca o historial, así que todas as xanelas son privadas e as regras desta lista quedan gardadas ata que as quites.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
+  "privateListKeptAndroidText": {
+    "message": "Firefox para Android non avisa as extensións de cando remata a navegación privada, así que as regras de conservación creadas en lapelas privadas quedan gardadas ata que as quites.",
+    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  },
   "questionExpression": {
     "message": "Como funcionan os padróns?"
   },

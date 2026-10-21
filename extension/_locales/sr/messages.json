@@ -723,6 +723,10 @@
     "message": "Firefox је подешен да никад не памти историју, па је сваки прозор приватан, а правила са ове листе остају сачувана док их не уклоните.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
+  "privateListKeptAndroidText": {
+    "message": "Firefox за Android не обавештава проширења када се приватно прегледање заврши, па правила задржавања направљена у приватним картицама остају сачувана док их не уклоните.",
+    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  },
   "questionExpression": {
     "message": "Како раде шаблони?"
   },

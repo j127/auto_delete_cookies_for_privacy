@@ -723,6 +723,10 @@
     "message": "Firefox 設定為永不記錄歷史，因此每個視窗都是無痕視窗，本清單中的規則會一直保存，直到你將其移除。",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
+  "privateListKeptAndroidText": {
+    "message": "Android 版 Firefox 不會告知擴充套件無痕瀏覽何時結束，因此在無痕分頁中建立的保留規則會一直保存，直到你將其移除。",
+    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  },
   "questionExpression": {
     "message": "比對模式如何運作？"
   },

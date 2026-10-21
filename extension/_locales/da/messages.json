@@ -723,6 +723,10 @@
     "message": "Firefox er indstillet til aldrig at huske historik, så alle vinduer er private, og reglerne på denne liste forbliver gemt, indtil du fjerner dem.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
+  "privateListKeptAndroidText": {
+    "message": "Firefox til Android fortæller ikke udvidelser, hvornår privat browsing slutter, så behold-regler oprettet i private faneblade forbliver gemt, indtil du fjerner dem.",
+    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  },
   "questionExpression": {
     "message": "Hvordan virker mønstre?"
   },

@@ -36,6 +36,7 @@ import PopupHero from "./components/PopupHero";
 import ShareMenu from "./components/ShareMenu";
 import SiteCard from "./components/SiteCard";
 import SiteDataPanel from "./components/SiteDataPanel";
+import { popupMinWidth } from "./popup-lib";
 
 /**
  * The 05d-design popup: name bar with Share, state hero, site card, keep
@@ -100,7 +101,11 @@ const App: React.FunctionComponent = () => {
     // Chrome requires min width otherwise the layout is messed up.
     // Fixed at the 05d mockup's 430px frame; the font-size setting scales
     // the text only (the old formula grew the popup to 640px by default).
-    document.documentElement.style.minWidth = "430px";
+    // Never wider than the screen: Firefox for Android opens the popup as
+    // a full-width page, and a phone is often narrower than 430px (#534).
+    document.documentElement.style.minWidth = `${popupMinWidth(
+      window.screen?.width
+    )}px`;
     browser.tabs
       .query({
         active: true,

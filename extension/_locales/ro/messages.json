@@ -723,6 +723,10 @@
     "message": "Firefox este setat să nu rețină niciodată istoricul, așa că fiecare fereastră este privată, iar regulile din această listă rămân salvate până le elimini.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
+  "privateListKeptAndroidText": {
+    "message": "Firefox pentru Android nu anunță extensiile când se încheie navigarea privată, așa că regulile de păstrare create în file private rămân salvate până le elimini.",
+    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  },
   "questionExpression": {
     "message": "Cum funcționează tiparele?"
   },

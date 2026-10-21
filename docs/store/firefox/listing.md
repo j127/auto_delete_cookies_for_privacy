@@ -31,6 +31,11 @@ BUILT FOR FIREFOX
 • Works with First-Party Isolation profiles, and still cleans up isolated leftovers after you turn FPI off.
 • Private-browsing keep lists work as advertised, and private domains never appear in the activity log.
 
+ON FIREFOX FOR ANDROID
+• Firefox's own "Delete browsing data on quit" has no exceptions. Use the keep list instead: turn on automatic cleaning, keep the sites you want to stay signed in to, and turn on "Clean restored tabs on startup" (under Advanced mode). Everything else, partitioned cookies included, is cleared when its tab closes and again each time Firefox starts.
+• Important: in Firefox's settings, leave "Cookies and site data" unselected under "Delete browsing data on quit". Otherwise Firefox deletes the cookies of the sites you kept too.
+• Containers and the right-click menu are not available on Android.
+
 THE POPUP
 • See how many cookies the current site has set, and inspect what else it stores on your device.
 • Clean the current site's data, or run a full cleanup, with one click.
@@ -45,7 +50,7 @@ SWITCHING FROM COOKIE AUTODELETE?
 Auto-Delete Cookies for Privacy is a maintained successor to the archived Cookie AutoDelete. Import your existing Cookie AutoDelete settings export on the Import / Export page: your lists carry over, container lists included.
 
 DETAILS
-• Manifest V3; Firefox 140 (ESR) or newer, desktop only.
+• Manifest V3; Firefox 140 (ESR) or newer on desktop, and Firefox for Android 142 or newer. Containers and the right-click menu are desktop only, because Firefox for Android has neither.
 • Available in 32 languages.
 • Optional cleanup log, statistics, and notifications.
 ```
@@ -58,6 +63,7 @@ DETAILS
 - Support email: `support@moakh.dev`, so people without a GitHub account can reach us. It is the address the extension's Support page shows.
 - Privacy policy: paste `PRIVACY.md` into the listing's privacy-policy field (AMO hosts its own copy).
 - Tags: cookies, privacy, containers, cleaner.
+- Compatibility: Firefox, and Firefox for Android once its check in [docs/testing-firefox.md](../../testing-firefox.md) has a recorded pass (see [runbook.md](runbook.md), step 2). The manifest declares both minimums: 140 on desktop, 142 on Android.
 
 ## Assets
 

@@ -134,3 +134,25 @@ export const CURRENT_BROWSER: BrowserTarget = __BROWSER__;
 /** The capability map of the browser this artifact was built for. */
 export const browserCapabilities: BrowserCapabilities =
   CAPABILITIES[CURRENT_BROWSER];
+
+/*
+ * Runtime API presence: the one place shared code checks whether an API
+ * exists instead of reading the build-time map above. The Firefox artifact
+ * is a single package for Firefox desktop and Firefox for Android (#534),
+ * and Android lacks APIs desktop has: contextualIdentities is undefined
+ * from Firefox for Android 138 on (and did nothing before), and there are
+ * no context menus and no windows API. The map says what the build is for;
+ * these say whether the browser running it has the API at all.
+ */
+
+/**
+ * Whether container tabs can be used here: a build with container support
+ * running in a browser that has the contextualIdentities API.
+ */
+export const hasContainerApi = (): boolean =>
+  browserCapabilities.supportsContextualIdentities &&
+  browser.contextualIdentities !== undefined;
+
+/** Whether the browser has context menus (Firefox for Android does not). */
+export const hasContextMenuApi = (): boolean =>
+  browser.contextMenus !== undefined;
