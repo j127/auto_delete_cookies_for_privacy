@@ -65,6 +65,8 @@ describe("PrivateWindowEvents on Firefox for Android (#537)", () => {
       Object.assign(session, items);
     }) as never);
     listTabs();
+    // Every cached tab still exists unless a test says otherwise.
+    global.browser.tabs.get.mockReset();
     global.browser.runtime.getManifest.mockReturnValue({
       version: "1.3.0",
     } as never);
@@ -139,6 +141,34 @@ describe("PrivateWindowEvents on Firefox for Android (#537)", () => {
       listTabs(normalTab(1));
       await PrivateWindowEvents.onTabRemoved(7);
       expect(privateList()).toBeUndefined();
+    });
+
+    it("erases it when the only other cached id is a tab that is gone (#550)", async () => {
+      // The popup opened from a private tab is cached as private, and
+      // Firefox for Android sends no tabs.onRemoved when it closes.
+      await PrivateWindowEvents.onTabSeen(privateTab(5));
+      await PrivateWindowEvents.onTabSeen(privateTab(9));
+      global.browser.tabs.get.mockImplementation((async (id: number) => {
+        if (id === 9) throw new Error("Invalid tab ID: 9");
+        return privateTab(id);
+      }) as never);
+      listTabs(normalTab(1));
+      await PrivateWindowEvents.onTabRemoved(5);
+      expect(privateList()).toBeUndefined();
+      expect(session[TABS]).toEqual([]);
+    });
+
+    it("keeps it, and drops the stale id, when a live private tab is left", async () => {
+      await PrivateWindowEvents.onTabSeen(privateTab(5));
+      await PrivateWindowEvents.onTabSeen(privateTab(6));
+      await PrivateWindowEvents.onTabSeen(privateTab(9));
+      global.browser.tabs.get.mockImplementation((async (id: number) => {
+        if (id === 9) throw new Error("Invalid tab ID: 9");
+        return privateTab(id);
+      }) as never);
+      await PrivateWindowEvents.onTabRemoved(5);
+      expect(privateList()).toHaveLength(1);
+      expect(session[TABS]).toEqual([6]);
     });
 
     it("does not count the closed tab if the browser still lists it", async () => {
