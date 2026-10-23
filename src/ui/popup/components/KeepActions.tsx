@@ -11,7 +11,6 @@ import {
   removeExpressionUI,
 } from "@/redux/actions";
 import { localFileToRegex } from "@/services/libs";
-import PrivateWindowEvents from "@/services/private-window-events";
 import { animateFlash } from "@/ui/popup/popup-lib";
 
 interface OwnProps {
@@ -25,8 +24,10 @@ interface OwnProps {
    * A private window in a session with no normal window: Firefox never
    * remembers history, so the Private list is never erased and a keep rule
    * made here stays saved (#468). On Firefox for Android, which has no
-   * windows API, no session ever shows a normal window, and the note says
-   * why in that browser's terms instead (#534).
+   * windows API, no session ever shows a normal window, and the note used
+   * to say why in that browser's terms instead (#534). Since #537 the
+   * Private list is erased there when the last private tab closes, so the
+   * popup never sets this on Android.
    */
   keepStaysSaved?: boolean;
 }
@@ -95,11 +96,7 @@ const KeepActions: React.FunctionComponent<OwnProps> = ({
           className="text-center text-xs text-base-content/70"
           id="keepStaysSavedNote"
         >
-          {browser.i18n.getMessage(
-            PrivateWindowEvents.isSupported()
-              ? "keepRuleStaysSavedText"
-              : "privateListKeptAndroidText"
-          )}
+          {browser.i18n.getMessage("keepRuleStaysSavedText")}
         </div>
       )}
       <div className="flex gap-2">

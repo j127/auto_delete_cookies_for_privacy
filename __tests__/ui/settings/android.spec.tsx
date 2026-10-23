@@ -53,7 +53,7 @@ describe("settings pages on Firefox for Android (#534)", () => {
     ]);
   });
 
-  it("says the Private list stays saved because Android never reports the end of private browsing", async () => {
+  it("says the Private list is erased when the last private tab closes (#537)", async () => {
     const { container } = render(
       <Provider store={createStore(() => initialState)}>
         <Expressions />
@@ -65,7 +65,7 @@ describe("settings pages on Firefox for Android (#534)", () => {
     await waitFor(() =>
       expect(
         container.querySelector("#privateListErasedNotice")?.textContent
-      ).toBe("privateListKeptAndroidText")
+      ).toBe("privateListErasedAndroidText")
     );
   });
 

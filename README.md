@@ -24,7 +24,7 @@ On Chrome and Brave, Cache Storage (the Cache API) is cleared together with serv
 The Firefox build also runs on Firefox for Android 142 or newer, and on rebuilds of it such as Fennec F-Droid. A few things work differently there, because Firefox for Android gives extensions less to work with:
 
 - There are no containers and no right-click menu, so those settings are hidden.
-- The extension can't tell when private browsing ends, so sites kept in private tabs stay on the Private keep list until you remove them.
+- There are no windows, so the Private keep list (sites kept in private tabs) is erased when the last private tab closes, and when Firefox starts with no private tab open, rather than when the last private window closes.
 - After a restart, Firefox only tells extensions about the tabs it has loaded again. So that sites in tabs you haven't opened yet don't get logged out, the extension remembers which sites were open and keeps their cookies until you open and close those tabs again. A tab closed from the tab tray without ever being opened keeps its site's cookies until the next "Clean now, including open tabs".
 
 #### Recommended setup: the Keep list instead of "Delete browsing data on quit"

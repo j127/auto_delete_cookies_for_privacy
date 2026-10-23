@@ -723,9 +723,8 @@
     "message": "Firefox được đặt để không bao giờ ghi nhớ lịch sử, nên mọi cửa sổ đều là riêng tư, và các quy tắc trong danh sách này vẫn được lưu cho đến khi bạn xóa chúng.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
-  "privateListKeptAndroidText": {
-    "message": "Firefox cho Android không báo cho tiện ích khi duyệt web riêng tư kết thúc, nên các quy tắc giữ lại được tạo trong thẻ riêng tư vẫn được lưu cho đến khi bạn xóa chúng.",
-    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  "privateListErasedAndroidText": {
+    "message": "Các quy tắc trong danh sách này sẽ bị xóa khi thẻ riêng tư cuối cùng được đóng."
   },
   "questionExpression": {
     "message": "Mẫu hoạt động thế nào?"

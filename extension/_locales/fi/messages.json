@@ -723,9 +723,8 @@
     "message": "Firefox on asetettu olemaan muistamatta historiaa, joten jokainen ikkuna on yksityinen ja tämän listan säännöt pysyvät tallessa, kunnes poistat ne.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
-  "privateListKeptAndroidText": {
-    "message": "Android-Firefox ei kerro laajennuksille, milloin yksityinen selaus päättyy, joten yksityisissä välilehdissä tehdyt säilytyssäännöt pysyvät tallessa, kunnes poistat ne.",
-    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  "privateListErasedAndroidText": {
+    "message": "Tämän listan säännöt poistetaan, kun viimeinen yksityinen välilehti suljetaan."
   },
   "questionExpression": {
     "message": "Miten kuviot toimivat?"

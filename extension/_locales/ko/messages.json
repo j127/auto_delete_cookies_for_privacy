@@ -723,9 +723,8 @@
     "message": "Firefox가 기록을 전혀 저장하지 않도록 설정되어 있어 모든 창이 비공개이며, 이 목록의 규칙은 직접 삭제할 때까지 저장된 채로 남습니다.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
-  "privateListKeptAndroidText": {
-    "message": "Android용 Firefox는 사생활 보호 모드가 끝나는 시점을 확장 기능에 알려 주지 않으므로, 비공개 탭에서 만든 유지 규칙은 직접 삭제할 때까지 저장된 채로 남습니다.",
-    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  "privateListErasedAndroidText": {
+    "message": "이 목록의 규칙은 마지막 비공개 탭을 닫으면 지워집니다."
   },
   "questionExpression": {
     "message": "패턴은 어떻게 동작하나요?"

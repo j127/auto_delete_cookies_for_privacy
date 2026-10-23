@@ -345,7 +345,9 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
             (#468), so a site kept there leaves no record behind, unless
             Firefox never remembers history, where it stays saved. Firefox
             for Android has no windows API, so the end of a private session
-            is never seen there and the list is never erased (#534). */}
+            is never seen there and the list is never erased (#534). Since
+            #537 it is seen through tabs instead: the list is erased when the
+            last private tab closes, and the notice says so in tab terms. */}
         {storeId === "private" && normalWindowSeen !== undefined && (
           <div
             className="alert rounded-none alert-info"
@@ -354,7 +356,7 @@ const Expressions: React.FunctionComponent<OwnProps> = ({ style }) => {
           >
             {browser.i18n.getMessage(
               !PrivateWindowEvents.isSupported()
-                ? "privateListKeptAndroidText"
+                ? "privateListErasedAndroidText"
                 : normalWindowSeen
                   ? "privateListErasedNoticeText"
                   : "privateListKeptNoticeText"

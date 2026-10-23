@@ -723,9 +723,8 @@
     "message": "Firefox is ingesteld om nooit geschiedenis te onthouden, dus elk venster is privé en de regels in deze lijst blijven bewaard totdat je ze verwijdert.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
-  "privateListKeptAndroidText": {
-    "message": "Firefox voor Android laat extensies niet weten wanneer privénavigatie eindigt, dus bewaarregels die in privétabbladen zijn gemaakt blijven bewaard totdat je ze verwijdert.",
-    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  "privateListErasedAndroidText": {
+    "message": "Regels in deze lijst worden gewist wanneer het laatste privétabblad sluit."
   },
   "questionExpression": {
     "message": "Hoe werken patronen?"

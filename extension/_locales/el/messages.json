@@ -723,9 +723,8 @@
     "message": "Ο Firefox είναι ρυθμισμένος να μη θυμάται ποτέ το ιστορικό, οπότε κάθε παράθυρο είναι ιδιωτικό και οι κανόνες αυτής της λίστας παραμένουν αποθηκευμένοι μέχρι να τους αφαιρέσετε.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
-  "privateListKeptAndroidText": {
-    "message": "Ο Firefox για Android δεν ενημερώνει τις επεκτάσεις όταν τελειώνει η ιδιωτική περιήγηση, οπότε οι κανόνες διατήρησης που δημιουργήθηκαν σε ιδιωτικές καρτέλες παραμένουν αποθηκευμένοι μέχρι να τους αφαιρέσετε.",
-    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  "privateListErasedAndroidText": {
+    "message": "Οι κανόνες αυτής της λίστας διαγράφονται όταν κλείνει η τελευταία ιδιωτική καρτέλα."
   },
   "questionExpression": {
     "message": "Πώς λειτουργούν τα μοτίβα;"

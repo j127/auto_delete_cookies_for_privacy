@@ -116,13 +116,17 @@ describe("popup App on Firefox for Android (#534)", () => {
     );
   });
 
-  it("keeps a site into the Private list from a private tab and says why it stays saved", async () => {
+  // Since #537 the Private list is erased when the last private tab closes,
+  // so the popup no longer says a rule kept here stays saved.
+  it("keeps a site into the Private list from a private tab with no stays-saved note", async () => {
     global.browser.tabs.query.mockResolvedValue([androidTab(true)]);
     const { dispatchSpy, getByText } = await renderApp();
-    await waitFor(() =>
-      expect(document.getElementById("keepStaysSavedNote")?.textContent).toBe(
-        "privateListKeptAndroidText"
-      )
+    await waitFor(() => getByText("keepCookiesButtonText"));
+    expect(document.getElementById("keepStaysSavedNote")).toBeNull();
+    // No normal window is ever seen on Android, so the desktop reading
+    // ("Firefox never remembers history") must not be asked for.
+    expect(global.browser.storage.session.get).not.toHaveBeenCalledWith(
+      expect.objectContaining({ normalWindowSeen: false })
     );
     fireEvent.click(getByText("keepCookiesButtonText"));
     expect(dispatchSpy).toHaveBeenCalledWith({

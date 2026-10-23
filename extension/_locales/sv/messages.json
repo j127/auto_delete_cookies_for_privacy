@@ -723,9 +723,8 @@
     "message": "Firefox är inställt på att aldrig spara historik, så alla fönster är privata, och reglerna i den här listan förblir sparade tills du tar bort dem.",
     "description": "Saved sites: notice under the list selector while the Private list is selected and no normal window has been open this session (Firefox set to never remember history), so the Private list is never erased."
   },
-  "privateListKeptAndroidText": {
-    "message": "Firefox för Android talar inte om för tillägg när privat surfning slutar, så behåll-regler som skapats i privata flikar förblir sparade tills du tar bort dem.",
-    "description": "Saved sites notice while the Private list is selected, and popup line under the keep actions in a private tab, on Firefox for Android: it has no windows API, so the extension cannot tell when private browsing ends and never erases the Private list."
+  "privateListErasedAndroidText": {
+    "message": "Reglerna i den här listan raderas när den sista privata fliken stängs."
   },
   "questionExpression": {
     "message": "Hur fungerar mönster?"
