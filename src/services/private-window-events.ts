@@ -234,7 +234,14 @@ export default class PrivateWindowEvents extends StoreUser {
     return PrivateWindowEvents.serialize("onTabRemoved", async () => {
       const ids = await PrivateWindowEvents.getPrivateTabIds();
       if (!ids.includes(tabId)) return;
-      const left = ids.filter((id) => id !== tabId);
+      // Drop cached ids the browser no longer knows. Opened from a private
+      // tab, the extension's own popup is a private tab too, and Firefox for
+      // Android sends no tabs.onRemoved when it closes, so its id would
+      // otherwise keep the Private list alive for the rest of the session
+      // (#550).
+      const left = await PrivateWindowEvents.stillOpen(
+        ids.filter((id) => id !== tabId)
+      );
       if (left.length > 0) {
         await PrivateWindowEvents.setPrivateTabIds(left);
         return;
@@ -312,6 +319,24 @@ export default class PrivateWindowEvents extends StoreUser {
     PrivateWindowEvents.clearPrivateList(
       "the browser session started with no private tab open"
     );
+  }
+
+  /**
+   * The ids among `ids` that still name a tab: tabs.get rejects for a tab
+   * that is gone ("Invalid tab ID"). Only ids the cache already holds are
+   * checked, and private tabs are never restored after a restart, so each
+   * was a loaded tab when it was seen.
+   */
+  protected static async stillOpen(ids: number[]): Promise<number[]> {
+    const open = await Promise.all(
+      ids.map((id) =>
+        Promise.resolve(browser.tabs.get(id)).then(
+          () => true,
+          () => false
+        )
+      )
+    );
+    return ids.filter((_, i) => open[i]);
   }
 
   protected static privateIds(tabs: browser.tabs.Tab[]): number[] {

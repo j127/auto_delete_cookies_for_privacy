@@ -73,6 +73,11 @@ Put `OK`, `FAIL #NNN` (issue number), or `SKIP (reason)` in each channel cell, p
 
 One line per full pass, newest first: `YYYY-MM-DD, vX.Y.Z (or commit): ESR <exact version>, Rel <exact version>; N OK, N SKIP, N FAIL`.
 
+- 2026-10-23 (morning), Firefox for Android check A6 rerun (#550), v1.3.0 (`main` at `05995b6`) and then this branch's fix: Firefox for Android 158.0.1 on the Android 14 emulator (unused Google apps disabled, 6 GB); A6 (a) OK, (b) FAIL on 1.3.0 and OK with the fix, (c) OK.
+  - (a) With a `127.0.0.1` Keep rule open in a normal tab and two private `localhost` tabs, the popup's keep put `*.localhost` in the Private list. The popup showed no "stays saved" note, and Saved sites → Private read `privateListErasedAndroidText`.
+  - (b) On 1.3.0, closing both private tabs from the tray left the Private list in place. The popup, opened from a private tab, is a private tab of its own, and Firefox for Android sends no `tabs.onRemoved` when it closes. Its id stayed in the `privateTabIds` cache (`tabs.get` answered "Invalid tab ID") and kept the list alive. With the fix, a closing tab drops cached ids `tabs.get` no longer knows. On the device, the first close dropped the popup's id, and the last close erased the Private list while Default stayed.
+  - (c) After `am force-stop` and a reinstall with no private tab open, the Private list left over from (b) was gone at startup; Default stayed.
+  - Firefox for Android restarts in private mode when that was the last mode, so the settings page the recipe opens can itself be a private tab (it was here, and it counted as one until closed).
 - 2026-10-23, Firefox for Android check, 1.3.0 (`main` at `fc69853`, after #546, #547 and #548): A6 SKIP (#550). Firefox for Android 158.0.1 on the same Android 14 emulator.
   - #547 changed A6 (the Private keep list is now erased when the last private tab closes). Three attempts to rerun it failed because other jobs on the host starved the emulator. Firefox's UI thread stalled for over 5 s under 83% CPU pressure in the guest, Android killed Firefox as not responding, and web-ext lost its connection. None of the stalls involved the extension.
   - 1.3.0 shipped on the 2026-10-22 pass below for A1–A5, A7 and A8, plus #547's unit tests (`__tests__/android-flavor.ts` specs). #550 tracks the A6 rerun.
