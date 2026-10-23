@@ -66,7 +66,7 @@ global.browser.storage.local.get.mockResolvedValue(
 );
 global.browser.windows.getAll.mockResolvedValue([] as never);
 global.browser.runtime.getManifest.mockReturnValue({
-  version: "1.2.0",
+  version: "2.1.1",
 } as never);
 
 await import("@/background");
@@ -83,20 +83,23 @@ describe("background: the page that opens on install and update", () => {
     global.browser.runtime.openOptionsPage.mockImplementation((async () => {
       order.push("open");
     }) as never);
-    await installedListener({ reason: "update", previousVersion: "1.1.0" });
+    await installedListener({ reason: "update", previousVersion: "1.9.0" });
     expect(order).toEqual(["flag", "open"]);
   });
 
-  it("a minor update opens and flags it", async () => {
+  it("a major update opens and flags it", async () => {
     global.browser.runtime.openOptionsPage.mockClear();
-    await installedListener({ reason: "update", previousVersion: "1.1.4" });
+    await installedListener({ reason: "update", previousVersion: "1.3.0" });
     expect(global.browser.runtime.openOptionsPage).toHaveBeenCalledTimes(1);
   });
 
-  it("a patch update opens nothing and flags nothing", async () => {
+  it.each([
+    ["a minor update", "2.0.4"],
+    ["a patch update", "2.1.0"],
+  ])("%s opens nothing and flags nothing", async (_label, previousVersion) => {
     global.browser.runtime.openOptionsPage.mockClear();
     global.browser.storage.session.set.mockClear();
-    await installedListener({ reason: "update", previousVersion: "1.2.0" });
+    await installedListener({ reason: "update", previousVersion });
     expect(global.browser.runtime.openOptionsPage).not.toHaveBeenCalled();
     expect(global.browser.storage.session.set).not.toHaveBeenCalledWith({
       justUpdated: true,
