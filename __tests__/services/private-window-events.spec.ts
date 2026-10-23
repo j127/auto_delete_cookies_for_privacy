@@ -59,6 +59,19 @@ describe("PrivateWindowEvents", () => {
     expect(PrivateWindowEvents.isSupported()).toBe(true);
   });
 
+  // The tab path is Firefox for Android's (#537); with windows it is inert.
+  it("ignores private tabs where the windows API exists", async () => {
+    session[NORMAL] = true;
+    await PrivateWindowEvents.onTabSeen({
+      id: 5,
+      incognito: true,
+    } as browser.tabs.Tab);
+    await PrivateWindowEvents.onTabRemoved(5);
+    expect(privateList()).toHaveLength(1);
+    expect(global.browser.storage.session.set).not.toHaveBeenCalled();
+    expect(global.browser.tabs.query).not.toHaveBeenCalled();
+  });
+
   describe("in normal mode (a normal window was seen)", () => {
     beforeEach(() => {
       session[NORMAL] = true;

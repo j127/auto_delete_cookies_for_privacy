@@ -44,8 +44,37 @@
  * the last one's close is still being handled cannot have its flag
  * overwritten by that close.
  *
+ * Firefox for Android (#537) has no windows API, so the end of private
+ * browsing is seen through tabs instead. Two more storage.session keys:
+ *
+ * - privateTabIds: the private tabs open right now, as far as the extension
+ *   knows. tabs.onRemoved carries no incognito flag, so the closing tab's
+ *   flag comes from this cache, the way TabEvents keeps its tab -> domain
+ *   cache. Filled by tabs.onCreated / tabs.onUpdated and by init().
+ * - privateTabsStarted: init() has checked this browser session's start.
+ *
+ * When it erases on Android:
+ *
+ * - The last private tab closes (tabs.onRemoved, registered synchronously
+ *   at top level in src/background.ts). Before erasing, tabs.query is asked
+ *   once more for a private tab the cache missed.
+ * - The first background start of a browser session lists no private tab.
+ *   Firefox for Android never restores private tabs after a restart, so
+ *   whatever the Private list holds then is from a session that has ended:
+ *   the counterpart of the desktop "first normal window" rule. tabs.query
+ *   only lists loaded tabs (Mozilla bug 1583281, see ./carried-open-tabs.ts),
+ *   but that only hides restored tabs, which are never private.
+ *
+ * On a wake-up, init() adds the listed private tabs to the cache and
+ * erases nothing. A cached tab that closed without the extension hearing of
+ * it keeps the list until the next browser start: that errs toward keeping
+ * a rule a while longer, never toward erasing one mid-session. Firefox for
+ * Android has no "never remember history" mode (every window private), so
+ * normalWindowSeen plays no part there.
+ *
  * Removal goes through the store's usual REMOVE_LIST action, so the
- * persisted state and the toolbar repaint follow the normal path.
+ * persisted state and the toolbar repaint follow the normal path. It only
+ * drops the Private list's rules: no cookie is cleaned because of it.
  */
 
 import { SettingID } from "@/typings/enums";
@@ -53,7 +82,8 @@ import { ReduxConstants } from "@/typings/redux-constants";
 import { adcpLog, getSetting } from "./libs";
 import StoreUser from "./store-user";
 
-type SessionFlag = "privateSessionOpen" | "normalWindowSeen";
+type SessionFlag =
+  "privateSessionOpen" | "normalWindowSeen" | "privateTabsStarted";
 
 export default class PrivateWindowEvents extends StoreUser {
   /** The Private list's key in state.lists (see getStoreId in libs.ts). */
@@ -66,7 +96,16 @@ export default class PrivateWindowEvents extends StoreUser {
   /** storage.session key: a normal window has been open this session. */
   public static readonly NORMAL_WINDOW_KEY: SessionFlag = "normalWindowSeen";
 
-  /** Whether the windows API exists on this build at all. */
+  /** storage.session key: the open private tabs (Firefox for Android). */
+  public static readonly PRIVATE_TABS_KEY = "privateTabIds";
+
+  /** storage.session key: init() checked this browser session's start (Android). */
+  public static readonly TABS_STARTED_KEY: SessionFlag = "privateTabsStarted";
+
+  /**
+   * Whether the windows API exists. Without it (Firefox for Android) the
+   * private session is followed through tabs instead (#537).
+   */
   public static isSupported(): boolean {
     return browser.windows !== undefined;
   }
@@ -93,7 +132,11 @@ export default class PrivateWindowEvents extends StoreUser {
    * normal window, which a wake-up never is.
    */
   public static init(): Promise<void> {
-    if (!PrivateWindowEvents.isSupported()) return Promise.resolve();
+    if (!PrivateWindowEvents.isSupported()) {
+      return PrivateWindowEvents.serialize("init", () =>
+        PrivateWindowEvents.initTabs()
+      );
+    }
     return PrivateWindowEvents.serialize("init", async () => {
       const windows = await browser.windows.getAll();
       if (windows.some((w) => w.incognito)) {
@@ -165,6 +208,49 @@ export default class PrivateWindowEvents extends StoreUser {
     });
   }
 
+  /**
+   * Android: a tab was created or updated. A private one joins the cache of
+   * open private tabs, so its close can be recognized later. Normal tabs
+   * return before touching storage.
+   */
+  public static onTabSeen(tab: browser.tabs.Tab): Promise<void> {
+    if (PrivateWindowEvents.isSupported()) return Promise.resolve();
+    if (!tab?.incognito || tab.id === undefined) return Promise.resolve();
+    const tabId = tab.id;
+    return PrivateWindowEvents.serialize("onTabSeen", async () => {
+      const ids = await PrivateWindowEvents.getPrivateTabIds();
+      if (ids.includes(tabId)) return;
+      await PrivateWindowEvents.setPrivateTabIds([...ids, tabId]);
+    });
+  }
+
+  /**
+   * Android: a tab closed. When it was the last private tab, private
+   * browsing has ended: erase the Private list. Closing a normal tab, or
+   * one of several private tabs, changes nothing.
+   */
+  public static onTabRemoved(tabId: number): Promise<void> {
+    if (PrivateWindowEvents.isSupported()) return Promise.resolve();
+    return PrivateWindowEvents.serialize("onTabRemoved", async () => {
+      const ids = await PrivateWindowEvents.getPrivateTabIds();
+      if (!ids.includes(tabId)) return;
+      const left = ids.filter((id) => id !== tabId);
+      if (left.length > 0) {
+        await PrivateWindowEvents.setPrivateTabIds(left);
+        return;
+      }
+      // The cache may have missed a private tab: ask once more. The closed
+      // tab is filtered out too, in case it is still listed while the
+      // event is delivered.
+      const listed = PrivateWindowEvents.privateIds(
+        await browser.tabs.query({})
+      ).filter((id) => id !== tabId);
+      await PrivateWindowEvents.setPrivateTabIds(listed);
+      if (listed.length > 0) return;
+      PrivateWindowEvents.clearPrivateList("the last private tab closed");
+    });
+  }
+
   /** Removes the Private list, if there is one, through REMOVE_LIST. */
   public static clearPrivateList(reason: string): void {
     const state = StoreUser.store.getState();
@@ -197,6 +283,58 @@ export default class PrivateWindowEvents extends StoreUser {
     PrivateWindowEvents.clearPrivateList(
       "the first normal window of this session opened with no private window open"
     );
+  }
+
+  /**
+   * Android's init(): records the private tabs listed now. At the first
+   * start of a browser session, with no private tab listed, erases what
+   * the Private list still holds from an earlier session.
+   */
+  protected static async initTabs(): Promise<void> {
+    const listed = PrivateWindowEvents.privateIds(await browser.tabs.query({}));
+    if (
+      await PrivateWindowEvents.getFlag(PrivateWindowEvents.TABS_STARTED_KEY)
+    ) {
+      // A wake-up: keep what the cache knows and add what is listed.
+      const ids = await PrivateWindowEvents.getPrivateTabIds();
+      const merged = Array.from(new Set([...ids, ...listed]));
+      if (merged.length !== ids.length) {
+        await PrivateWindowEvents.setPrivateTabIds(merged);
+      }
+      return;
+    }
+    await PrivateWindowEvents.setFlag(
+      PrivateWindowEvents.TABS_STARTED_KEY,
+      true
+    );
+    await PrivateWindowEvents.setPrivateTabIds(listed);
+    if (listed.length > 0) return;
+    PrivateWindowEvents.clearPrivateList(
+      "the browser session started with no private tab open"
+    );
+  }
+
+  protected static privateIds(tabs: browser.tabs.Tab[]): number[] {
+    return tabs
+      .filter((t) => t.incognito && t.id !== undefined)
+      .map((t) => t.id as number);
+  }
+
+  protected static async getPrivateTabIds(): Promise<number[]> {
+    if (!browser.storage.session) return PrivateWindowEvents.memoryTabIds;
+    const key = PrivateWindowEvents.PRIVATE_TABS_KEY;
+    const data = await browser.storage.session.get({ [key]: [] });
+    return Array.isArray(data[key]) ? (data[key] as number[]) : [];
+  }
+
+  protected static async setPrivateTabIds(ids: number[]): Promise<void> {
+    if (!browser.storage.session) {
+      PrivateWindowEvents.memoryTabIds = ids;
+      return;
+    }
+    await browser.storage.session.set({
+      [PrivateWindowEvents.PRIVATE_TABS_KEY]: ids,
+    });
   }
 
   /**
@@ -252,5 +390,11 @@ export default class PrivateWindowEvents extends StoreUser {
   protected static memory: Record<SessionFlag, boolean> = {
     normalWindowSeen: false,
     privateSessionOpen: false,
+    privateTabsStarted: false,
   };
+
+  // The same fallback for Android's private tab cache. Lost with a restart,
+  // which then counts as a new browser session: init() erases only when no
+  // private tab is listed, so a private session still open survives it.
+  protected static memoryTabIds: number[] = [];
 }

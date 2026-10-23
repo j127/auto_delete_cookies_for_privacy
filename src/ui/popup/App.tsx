@@ -58,7 +58,9 @@ const App: React.FunctionComponent = () => {
   );
   // A private window while the background has seen no normal window this
   // session: Firefox never remembers history, so keep rules made here stay
-  // saved instead of being erased with the private session (#468).
+  // saved instead of being erased with the private session (#468). Never on
+  // Firefox for Android: without windows the list is erased when the last
+  // private tab closes (#537), and no session there shows a normal window.
   const [keepStaysSaved, setKeepStaysSaved] = React.useState(false);
   // Bumped after an external port disconnect so the port effect re-runs and
   // reconnects.
@@ -116,7 +118,7 @@ const App: React.FunctionComponent = () => {
         // Private list, where cleanup checks incognito cookies (#478).
         setStoreId(parseCookieStoreId(tabCookieStoreId(tabs[0])));
         setTab(tabs[0]);
-        if (tabs[0].incognito) {
+        if (tabs[0].incognito && PrivateWindowEvents.isSupported()) {
           PrivateWindowEvents.readNormalWindowSeen().then((seen) =>
             setKeepStaysSaved(!seen)
           );

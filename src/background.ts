@@ -135,6 +135,8 @@ const init = async (): Promise<AppStore> => {
   // nothing: the Private list is erased only when the last private window
   // closes, or when a session shows its first normal window with no
   // private window open (see src/services/private-window-events.ts).
+  // Firefox for Android has no windows, so there it records the open
+  // private tabs and, at a browser start with none open, erases (#537).
   await PrivateWindowEvents.init();
 
   // Cosmetic/optional initialization must never take the whole worker down:
@@ -280,12 +282,18 @@ browser.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {
   TabEvents.onTabDiscarded(tabId, changeInfo, tab);
   TabEvents.onTabUpdate(tabId, changeInfo, tab);
   if (changeInfo.url !== undefined) recordOpenTabsForRestart();
+  // Android only (no-op with the windows API): cache private tabs (#537).
+  await PrivateWindowEvents.onTabSeen(tab);
 });
 
 browser.tabs.onRemoved.addListener(async (tabId, removeInfo) => {
   await ready;
   TabEvents.onDomainChangeRemove(tabId, removeInfo);
   recordOpenTabsForRestart();
+  // Android only: the last private tab closing erases the Private list
+  // (#537). It only drops that list's rules; the cleanup below then runs
+  // as for any closed tab.
+  await PrivateWindowEvents.onTabRemoved(tabId);
   await TabEvents.cleanFromTabEvents();
 });
 
@@ -399,6 +407,15 @@ if (browser.windows) {
   browser.windows.onRemoved.addListener(async (windowId) => {
     await ready;
     await PrivateWindowEvents.onWindowRemoved(windowId);
+  });
+} else {
+  // Firefox for Android (#537): no windows, so private tabs are followed
+  // instead. A new private tab joins the cache of open private tabs here
+  // (tabs.onUpdated and init() fill it too); tabs.onRemoved above erases
+  // the Private list when the last one closes.
+  browser.tabs.onCreated.addListener(async (tab) => {
+    await ready;
+    await PrivateWindowEvents.onTabSeen(tab);
   });
 }
 

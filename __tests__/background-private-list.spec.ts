@@ -66,6 +66,8 @@ b.runtime.onStartup = onStartup;
 b.runtime.onMessage = onMessage;
 b.windows.onCreated = onCreated;
 b.windows.onRemoved = onRemoved;
+const onTabCreated = capture();
+b.tabs.onCreated = onTabCreated;
 
 const keep = (expression: string, storeId: string) => ({
   expression,
@@ -113,6 +115,7 @@ const startupListener = registered(onStartup);
 const messageListener = registered(onMessage);
 const createdListener = registered(onCreated);
 const removedListener = registered(onRemoved);
+const tabCreatedListeners = onTabCreated.addListener.mock.calls.length;
 
 /** Awaits the background's init through the UI bridge, like a page does. */
 const currentState = async (): Promise<State> =>
@@ -133,6 +136,11 @@ const keepPrivately = async (expression: string): Promise<void> => {
 };
 
 describe("background: the Private keep list", () => {
+  // tabs.onCreated is only for Firefox for Android's private tabs (#537).
+  it("registers no tabs.onCreated listener where windows exist", () => {
+    expect(tabCreatedListeners).toBe(0);
+  });
+
   it("init on a wake-up does not erase it", async () => {
     const state = await currentState();
     expect(state.lists.private).toHaveLength(1);
