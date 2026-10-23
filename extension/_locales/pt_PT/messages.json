@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Afixe a extensão para que fique sempre visível: clique no ícone do puzzle na barra de ferramentas do Chrome e depois no pin junto a Auto-Delete Cookies for Privacy."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Afixe a extensão para que fique sempre visível: clique no botão «Extensões» (o ícone do puzzle) na barra de ferramentas do Firefox, clique com o botão direito em Auto-Delete Cookies for Privacy e escolha «Afixar na barra de ferramentas»."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "A extensão está no menu do Firefox: toque no botão do menu, depois em «Extensões» e depois em Auto-Delete Cookies for Privacy. O Firefox para Android não tem barra de ferramentas onde a afixar."
+  },
   "setupOpenProtectionText": {
     "message": "Abrir a página Proteção"
   },
@@ -1503,7 +1509,22 @@
     "message": "Primeiros passos"
   },
   "helpGettingStartedBody": {
-    "message": "As instalações novas começam em modo manual: nada é eliminado até que o diga. É de propósito — construa primeiro a sua lista de manter, para que ligar a limpeza automática depois não o desligue de tudo o que lhe importa.\n\n1. Mantenha os sites que importam. Visite cada site onde ficar desligado seria irritante (e-mail, banco, tudo o que paga), clique no ícone da barra e prima «Manter os cookies deste site». A regra cobre o domínio e todos os subdomínios. Use «Manter até o navegador fechar» para sites que só devem ser lembrados desta vez.\n\n2. Decida o que «limpar» significa. De origem, a limpeza remove os cookies e tudo o resto que um site guarda. Para remover só cookies, desligue «Eliminar todos os dados do site» na página Proteção.\n\n3. Ligue a limpeza automática. Ative «Limpar automaticamente» na página Proteção. A partir daí: feche o último separador de um site e, passado o período de tolerância, os cookies desaparecem — a menos que mantenha o site ou ele ainda esteja aberto noutro lugar.\n\n4. Afixe o ícone na barra de ferramentas. Clique no ícone do puzzle na barra do Chrome e depois no pin junto a Auto-Delete Cookies for Privacy, para que o ícone e o distintivo com a contagem de cookies fiquem sempre visíveis.\n\n5. Opcional: deixe o registo de limpeza ligado, para ver sempre o que foi limpo e porquê."
+    "message": "As instalações novas começam em modo manual: nada é eliminado até que o diga. É de propósito — construa primeiro a sua lista de manter, para que ligar a limpeza automática depois não o desligue de tudo o que lhe importa.\n\n1. Mantenha os sites que importam. Visite cada site onde ficar desligado seria irritante (e-mail, banco, tudo o que paga), clique no ícone da barra e prima «Manter os cookies deste site». A regra cobre o domínio e todos os subdomínios. Use «Manter até o navegador fechar» para sites que só devem ser lembrados desta vez.\n\n2. Decida o que «limpar» significa. De origem, a limpeza remove os cookies e tudo o resto que um site guarda. Para remover só cookies, desligue «Eliminar todos os dados do site» na página Proteção.\n\n3. Ligue a limpeza automática. Ative «Limpar automaticamente» na página Proteção. A partir daí: feche o último separador de um site e, passado o período de tolerância, os cookies desaparecem — a menos que mantenha o site ou ele ainda esteja aberto noutro lugar.\n\n4. $pinStep$\n\n5. Opcional: deixe o registo de limpeza ligado, para ver sempre o que foi limpo e porquê.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Afixe o ícone na barra de ferramentas. Clique no ícone do puzzle na barra do Chrome e depois no pin junto a Auto-Delete Cookies for Privacy, para que o ícone e o distintivo com a contagem de cookies fiquem sempre visíveis."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Afixe o ícone na barra de ferramentas. Clique no botão «Extensões» (o ícone do puzzle) na barra do Firefox, clique com o botão direito em Auto-Delete Cookies for Privacy e escolha «Afixar na barra de ferramentas», para que o ícone e o distintivo com a contagem de cookies fiquem sempre visíveis."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Encontre a extensão no menu. O Firefox para Android não tem barra de ferramentas onde a afixar: toque no botão do menu do Firefox, depois em «Extensões» e depois em Auto-Delete Cookies for Privacy para a abrir."
   },
   "helpCleaningTitle": {
     "message": "Como funciona a limpeza"

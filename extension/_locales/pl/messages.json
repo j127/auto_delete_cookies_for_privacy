@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Przypnij rozszerzenie, aby było zawsze widoczne: kliknij ikonę puzzla na pasku narzędzi Chrome, a potem pinezkę obok Auto-Delete Cookies for Privacy."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Przypnij rozszerzenie, aby było zawsze widoczne: kliknij przycisk „Rozszerzenia” (ikona puzzla) na pasku narzędzi Firefoksa, kliknij prawym przyciskiem Auto-Delete Cookies for Privacy i wybierz „Przypnij do paska narzędzi”."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "Rozszerzenie znajdziesz w menu Firefoksa: stuknij przycisk menu, potem „Rozszerzenia”, a potem Auto-Delete Cookies for Privacy. Firefox na Androida nie ma paska narzędzi, do którego można je przypiąć."
+  },
   "setupOpenProtectionText": {
     "message": "Otwórz stronę Ochrona"
   },
@@ -1503,7 +1509,22 @@
     "message": "Pierwsze kroki"
   },
   "helpGettingStartedBody": {
-    "message": "Świeże instalacje zaczynają w trybie ręcznym: nic nie jest usuwane, dopóki nie każesz. To celowe — najpierw zbuduj listę zachowywania, żeby późniejsze włączenie automatycznego czyszczenia nie wylogowało cię ze wszystkiego, na czym ci zależy.\n\n1. Zachowaj strony, które się liczą. Odwiedź każdą stronę, gdzie wylogowanie byłoby uciążliwe (poczta, bank, wszystko, za co płacisz), kliknij ikonę na pasku i naciśnij „Zachowaj ciasteczka tej strony”. Reguła obejmuje domenę i wszystkie subdomeny. Użyj „Zachowaj do zamknięcia przeglądarki” dla stron, które mają być pamiętane tylko tym razem.\n\n2. Zdecyduj, co znaczy „czyścić”. Fabrycznie czyszczenie usuwa ciasteczka i wszystko inne, co strona przechowuje. Aby usuwać tylko ciasteczka, wyłącz „Usuwaj wszystkie dane strony” na stronie Ochrona.\n\n3. Włącz automatyczne czyszczenie. Przełącz „Czyść automatycznie” na stronie Ochrona. Od tej pory: zamykasz ostatnią kartę strony i po okresie karencji jej ciasteczka znikają — chyba że stronę zachowujesz albo jest wciąż otwarta gdzie indziej.\n\n4. Przypnij ikonę na pasku narzędzi. Kliknij ikonę puzzla na pasku Chrome, a potem pinezkę obok Auto-Delete Cookies for Privacy, aby ikona i plakietka z liczbą ciasteczek były zawsze widoczne.\n\n5. Opcjonalnie: zostaw włączony dziennik czyszczenia, żeby zawsze widzieć, co i dlaczego wyczyszczono."
+    "message": "Świeże instalacje zaczynają w trybie ręcznym: nic nie jest usuwane, dopóki nie każesz. To celowe — najpierw zbuduj listę zachowywania, żeby późniejsze włączenie automatycznego czyszczenia nie wylogowało cię ze wszystkiego, na czym ci zależy.\n\n1. Zachowaj strony, które się liczą. Odwiedź każdą stronę, gdzie wylogowanie byłoby uciążliwe (poczta, bank, wszystko, za co płacisz), kliknij ikonę na pasku i naciśnij „Zachowaj ciasteczka tej strony”. Reguła obejmuje domenę i wszystkie subdomeny. Użyj „Zachowaj do zamknięcia przeglądarki” dla stron, które mają być pamiętane tylko tym razem.\n\n2. Zdecyduj, co znaczy „czyścić”. Fabrycznie czyszczenie usuwa ciasteczka i wszystko inne, co strona przechowuje. Aby usuwać tylko ciasteczka, wyłącz „Usuwaj wszystkie dane strony” na stronie Ochrona.\n\n3. Włącz automatyczne czyszczenie. Przełącz „Czyść automatycznie” na stronie Ochrona. Od tej pory: zamykasz ostatnią kartę strony i po okresie karencji jej ciasteczka znikają — chyba że stronę zachowujesz albo jest wciąż otwarta gdzie indziej.\n\n4. $pinStep$\n\n5. Opcjonalnie: zostaw włączony dziennik czyszczenia, żeby zawsze widzieć, co i dlaczego wyczyszczono.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Przypnij ikonę na pasku narzędzi. Kliknij ikonę puzzla na pasku Chrome, a potem pinezkę obok Auto-Delete Cookies for Privacy, aby ikona i plakietka z liczbą ciasteczek były zawsze widoczne."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Przypnij ikonę na pasku narzędzi. Kliknij przycisk „Rozszerzenia” (ikona puzzla) na pasku Firefoksa, kliknij prawym przyciskiem Auto-Delete Cookies for Privacy i wybierz „Przypnij do paska narzędzi”, aby ikona i plakietka z liczbą ciasteczek były zawsze widoczne."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Znajdź rozszerzenie w menu. Firefox na Androida nie ma paska narzędzi, do którego można je przypiąć: stuknij przycisk menu Firefoksa, potem „Rozszerzenia”, a potem Auto-Delete Cookies for Privacy, aby je otworzyć."
   },
   "helpCleaningTitle": {
     "message": "Jak działa czyszczenie"

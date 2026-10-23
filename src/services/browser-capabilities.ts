@@ -156,3 +156,10 @@ export const hasContainerApi = (): boolean =>
 /** Whether the browser has context menus (Firefox for Android does not). */
 export const hasContextMenuApi = (): boolean =>
   browser.contextMenus !== undefined;
+
+/**
+ * Whether the browser has the windows API. Firefox for Android does not:
+ * it has no windows and no toolbar, so there is nothing to pin the
+ * extension to and private browsing ends with the last private tab.
+ */
+export const hasWindowsApi = (): boolean => browser.windows !== undefined;

@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Ghim tiện ích để nó luôn hiển thị: nhấp biểu tượng mảnh ghép trên thanh công cụ của Chrome, rồi nhấp ghim cạnh Auto-Delete Cookies for Privacy."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Ghim tiện ích để nó luôn hiển thị: nhấp nút Tiện ích mở rộng (biểu tượng mảnh ghép) trên thanh công cụ của Firefox, nhấp chuột phải vào Auto-Delete Cookies for Privacy, rồi chọn Ghim vào thanh công cụ."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "Tiện ích nằm trong menu của Firefox: chạm nút menu, rồi Tiện ích, rồi Auto-Delete Cookies for Privacy. Firefox cho Android không có thanh công cụ để ghim tiện ích."
+  },
   "setupOpenProtectionText": {
     "message": "Mở trang Bảo vệ"
   },
@@ -1503,7 +1509,22 @@
     "message": "Bắt đầu"
   },
   "helpGettingStartedBody": {
-    "message": "Bản cài mới khởi động ở chế độ thủ công: không gì bị xóa cho đến khi bạn ra lệnh. Đây là chủ ý — hãy xây danh sách giữ lại trước, để sau này bật tự động dọn không làm bạn văng khỏi mọi tài khoản quan trọng.\n\n1. Giữ các trang quan trọng. Ghé từng trang mà bị đăng xuất sẽ phiền (email, ngân hàng, mọi thứ trả phí), nhấp biểu tượng trên thanh công cụ rồi nhấn Giữ cookie của trang này. Quy tắc bao trùm tên miền và mọi tên miền phụ. Dùng Giữ đến khi đóng trình duyệt cho trang chỉ cần nhớ bạn lần này.\n\n2. Quyết định dọn nghĩa là gì. Mặc định, dọn xóa cookie và mọi thứ khác một trang lưu. Để chỉ xóa cookie, tắt Xóa toàn bộ dữ liệu trang ở trang Bảo vệ.\n\n3. Bật tự động dọn. Gạt Tự động dọn dẹp ở trang Bảo vệ. Từ đó: đóng thẻ cuối cùng của một trang, hết thời gian ân hạn là cookie của nó biến mất — trừ khi bạn giữ trang đó hoặc nó vẫn mở ở nơi khác.\n\n4. Ghim biểu tượng trên thanh công cụ. Nhấp biểu tượng mảnh ghép trên thanh công cụ của Chrome, rồi nhấp ghim cạnh Auto-Delete Cookies for Privacy, để biểu tượng và huy hiệu đếm cookie luôn hiển thị.\n\n5. Tùy chọn: để nhật ký dọn dẹp bật, để luôn xem được cái gì bị dọn và vì sao."
+    "message": "Bản cài mới khởi động ở chế độ thủ công: không gì bị xóa cho đến khi bạn ra lệnh. Đây là chủ ý — hãy xây danh sách giữ lại trước, để sau này bật tự động dọn không làm bạn văng khỏi mọi tài khoản quan trọng.\n\n1. Giữ các trang quan trọng. Ghé từng trang mà bị đăng xuất sẽ phiền (email, ngân hàng, mọi thứ trả phí), nhấp biểu tượng trên thanh công cụ rồi nhấn Giữ cookie của trang này. Quy tắc bao trùm tên miền và mọi tên miền phụ. Dùng Giữ đến khi đóng trình duyệt cho trang chỉ cần nhớ bạn lần này.\n\n2. Quyết định dọn nghĩa là gì. Mặc định, dọn xóa cookie và mọi thứ khác một trang lưu. Để chỉ xóa cookie, tắt Xóa toàn bộ dữ liệu trang ở trang Bảo vệ.\n\n3. Bật tự động dọn. Gạt Tự động dọn dẹp ở trang Bảo vệ. Từ đó: đóng thẻ cuối cùng của một trang, hết thời gian ân hạn là cookie của nó biến mất — trừ khi bạn giữ trang đó hoặc nó vẫn mở ở nơi khác.\n\n4. $pinStep$\n\n5. Tùy chọn: để nhật ký dọn dẹp bật, để luôn xem được cái gì bị dọn và vì sao.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Ghim biểu tượng trên thanh công cụ. Nhấp biểu tượng mảnh ghép trên thanh công cụ của Chrome, rồi nhấp ghim cạnh Auto-Delete Cookies for Privacy, để biểu tượng và huy hiệu đếm cookie luôn hiển thị."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Ghim biểu tượng trên thanh công cụ. Nhấp nút Tiện ích mở rộng (biểu tượng mảnh ghép) trên thanh công cụ của Firefox, nhấp chuột phải vào Auto-Delete Cookies for Privacy, rồi chọn Ghim vào thanh công cụ, để biểu tượng và huy hiệu đếm cookie luôn hiển thị."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Tìm tiện ích trong menu. Firefox cho Android không có thanh công cụ để ghim tiện ích: chạm nút menu của Firefox, rồi Tiện ích, rồi Auto-Delete Cookies for Privacy để mở nó."
   },
   "helpCleaningTitle": {
     "message": "Cách dọn dẹp hoạt động"

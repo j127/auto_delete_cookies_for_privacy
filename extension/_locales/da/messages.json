@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Fastgør udvidelsen, så den altid er synlig: klik på puslespilsikonet i Chromes værktøjslinje og derefter på nålen ud for Auto-Delete Cookies for Privacy."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Fastgør udvidelsen, så den altid er synlig: klik på knappen Udvidelser (puslespilsikonet) i Firefox' værktøjslinje, højreklik på Auto-Delete Cookies for Privacy, og vælg Fastgør til værktøjslinje."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "Du finder udvidelsen i Firefox' menu: tryk på menuknappen, derefter Udvidelser og så Auto-Delete Cookies for Privacy. Firefox til Android har ingen værktøjslinje at fastgøre den til."
+  },
   "setupOpenProtectionText": {
     "message": "Åbn siden Beskyttelse"
   },
@@ -1503,7 +1509,22 @@
     "message": "Kom godt i gang"
   },
   "helpGettingStartedBody": {
-    "message": "Nye installationer starter i manuel tilstand: intet slettes, før du siger til. Det er med vilje — byg din behold-liste først, så det ikke logger dig ud overalt, når du senere slår automatisk rydning til.\n\n1. Behold de websteder, der betyder noget. Besøg hvert websted, hvor en udlogning ville irritere (e-mail, bank, alt du betaler for), klik på værktøjslinjeikonet og tryk Behold webstedets cookies. Reglen dækker domænet og alle dets underdomæner. Brug Behold, indtil browseren lukkes til websteder, der kun skal huskes denne gang.\n\n2. Beslut, hvad rydning betyder. Fra fabrikken fjerner rydningen cookies og alt andet, et websted gemmer. Slå Slet al webstedsdata fra på siden Beskyttelse for kun at fjerne cookies.\n\n3. Slå automatisk rydning til. Aktivér Ryd automatisk på siden Beskyttelse. Fra da af: luk et websteds sidste fane, og efter fristen er dets cookies væk — medmindre du beholder webstedet, eller det stadig er åbent et andet sted.\n\n4. Fastgør ikonet i værktøjslinjen. Klik på puslespilsikonet i Chromes værktøjslinje og derefter på nålen ud for Auto-Delete Cookies for Privacy, så ikonet og dets cookie-tæller altid er synlige.\n\n5. Valgfrit: lad rydningsloggen være slået til, så du altid kan se, hvad der blev ryddet og hvorfor."
+    "message": "Nye installationer starter i manuel tilstand: intet slettes, før du siger til. Det er med vilje — byg din behold-liste først, så det ikke logger dig ud overalt, når du senere slår automatisk rydning til.\n\n1. Behold de websteder, der betyder noget. Besøg hvert websted, hvor en udlogning ville irritere (e-mail, bank, alt du betaler for), klik på værktøjslinjeikonet og tryk Behold webstedets cookies. Reglen dækker domænet og alle dets underdomæner. Brug Behold, indtil browseren lukkes til websteder, der kun skal huskes denne gang.\n\n2. Beslut, hvad rydning betyder. Fra fabrikken fjerner rydningen cookies og alt andet, et websted gemmer. Slå Slet al webstedsdata fra på siden Beskyttelse for kun at fjerne cookies.\n\n3. Slå automatisk rydning til. Aktivér Ryd automatisk på siden Beskyttelse. Fra da af: luk et websteds sidste fane, og efter fristen er dets cookies væk — medmindre du beholder webstedet, eller det stadig er åbent et andet sted.\n\n4. $pinStep$\n\n5. Valgfrit: lad rydningsloggen være slået til, så du altid kan se, hvad der blev ryddet og hvorfor.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Fastgør ikonet i værktøjslinjen. Klik på puslespilsikonet i Chromes værktøjslinje og derefter på nålen ud for Auto-Delete Cookies for Privacy, så ikonet og dets cookie-tæller altid er synlige."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Fastgør ikonet i værktøjslinjen. Klik på knappen Udvidelser (puslespilsikonet) i Firefox' værktøjslinje, højreklik på Auto-Delete Cookies for Privacy, og vælg Fastgør til værktøjslinje, så ikonet og dets cookie-tæller altid er synlige."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Find udvidelsen i menuen. Firefox til Android har ingen værktøjslinje at fastgøre den til: tryk på Firefox' menuknap, derefter Udvidelser og så Auto-Delete Cookies for Privacy for at åbne den."
   },
   "helpCleaningTitle": {
     "message": "Sådan fungerer rydningen"

@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Épinglez l'extension pour qu'elle reste visible : cliquez sur l'icône puzzle dans la barre d'outils de Chrome, puis sur l'épingle à côté d'Auto-Delete Cookies for Privacy."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Épinglez l'extension pour qu'elle reste visible : cliquez sur le bouton « Extensions » (l'icône puzzle) dans la barre d'outils de Firefox, faites un clic droit sur Auto-Delete Cookies for Privacy, puis choisissez « Épingler à la barre d’outils »."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "L'extension se trouve dans le menu de Firefox : touchez le bouton du menu, puis « Extensions », puis Auto-Delete Cookies for Privacy. Firefox pour Android n'a pas de barre d'outils où l'épingler."
+  },
   "setupOpenProtectionText": {
     "message": "Ouvrir la page Protection"
   },
@@ -1503,7 +1509,22 @@
     "message": "Premiers pas"
   },
   "helpGettingStartedBody": {
-    "message": "Les nouvelles installations démarrent en mode manuel : rien n'est supprimé tant que vous ne le demandez pas. C'est voulu — constituez d'abord votre liste à conserver, pour que l'activation ultérieure du nettoyage automatique ne vous déconnecte pas de tout ce qui compte.\n\n1. Conservez les sites importants. Visitez chaque site où une déconnexion vous agacerait (e-mail, banque, tout ce que vous payez), cliquez sur l'icône de la barre d'outils et appuyez sur « Conserver les cookies de ce site ». La règle couvre le domaine et tous ses sous-domaines. Utilisez « Conserver jusqu'à la fermeture du navigateur » pour les sites à mémoriser seulement cette fois.\n\n2. Décidez ce que « nettoyer » signifie. Par défaut, le nettoyage supprime les cookies et tout ce qu'un site stocke d'autre. Pour ne supprimer que les cookies, désactivez « Supprimer toutes les données de site » sur la page Protection.\n\n3. Activez le nettoyage automatique. Basculez « Nettoyer automatiquement » sur la page Protection. Dès lors : fermez le dernier onglet d'un site, et après le délai de grâce ses cookies disparaissent — sauf si vous conservez le site ou s'il est encore ouvert ailleurs.\n\n4. Épinglez l'icône de la barre d'outils. Cliquez sur l'icône puzzle dans la barre d'outils de Chrome, puis sur l'épingle à côté d'Auto-Delete Cookies for Privacy, pour que l'icône et son compteur de cookies restent visibles.\n\n5. Optionnel : laissez le journal de nettoyage activé, pour toujours voir ce qui a été nettoyé et pourquoi."
+    "message": "Les nouvelles installations démarrent en mode manuel : rien n'est supprimé tant que vous ne le demandez pas. C'est voulu — constituez d'abord votre liste à conserver, pour que l'activation ultérieure du nettoyage automatique ne vous déconnecte pas de tout ce qui compte.\n\n1. Conservez les sites importants. Visitez chaque site où une déconnexion vous agacerait (e-mail, banque, tout ce que vous payez), cliquez sur l'icône de la barre d'outils et appuyez sur « Conserver les cookies de ce site ». La règle couvre le domaine et tous ses sous-domaines. Utilisez « Conserver jusqu'à la fermeture du navigateur » pour les sites à mémoriser seulement cette fois.\n\n2. Décidez ce que « nettoyer » signifie. Par défaut, le nettoyage supprime les cookies et tout ce qu'un site stocke d'autre. Pour ne supprimer que les cookies, désactivez « Supprimer toutes les données de site » sur la page Protection.\n\n3. Activez le nettoyage automatique. Basculez « Nettoyer automatiquement » sur la page Protection. Dès lors : fermez le dernier onglet d'un site, et après le délai de grâce ses cookies disparaissent — sauf si vous conservez le site ou s'il est encore ouvert ailleurs.\n\n4. $pinStep$\n\n5. Optionnel : laissez le journal de nettoyage activé, pour toujours voir ce qui a été nettoyé et pourquoi.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Épinglez l'icône de la barre d'outils. Cliquez sur l'icône puzzle dans la barre d'outils de Chrome, puis sur l'épingle à côté d'Auto-Delete Cookies for Privacy, pour que l'icône et son compteur de cookies restent visibles."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Épinglez l'icône de la barre d'outils. Cliquez sur le bouton « Extensions » (l'icône puzzle) dans la barre d'outils de Firefox, faites un clic droit sur Auto-Delete Cookies for Privacy, puis choisissez « Épingler à la barre d’outils », pour que l'icône et son compteur de cookies restent visibles."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Trouvez l'extension dans le menu. Firefox pour Android n'a pas de barre d'outils où l'épingler : touchez le bouton du menu de Firefox, puis « Extensions », puis Auto-Delete Cookies for Privacy pour l'ouvrir."
   },
   "helpCleaningTitle": {
     "message": "Comment fonctionne le nettoyage"

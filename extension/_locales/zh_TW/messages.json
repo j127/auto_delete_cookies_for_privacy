@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "釘選擴充功能，讓它一直可見：點選 Chrome 工具列中的拼圖圖示，再點選 Auto-Delete Cookies for Privacy 旁的圖釘。"
   },
+  "setupStepPinFirefoxText": {
+    "message": "釘選擴充功能，讓它一直可見：點選 Firefox 工具列中的「擴充套件」按鈕（拼圖圖示），在 Auto-Delete Cookies for Privacy 上按右鍵，再選擇「釘選至工具列」。"
+  },
+  "setupStepMenuAndroidText": {
+    "message": "擴充功能在 Firefox 的選單裡：點選選單按鈕，再點選「擴充套件」，然後點選 Auto-Delete Cookies for Privacy。Android 版 Firefox 沒有可以釘選擴充功能的工具列。"
+  },
   "setupOpenProtectionText": {
     "message": "開啟「防護」頁"
   },
@@ -1503,7 +1509,22 @@
     "message": "快速上手"
   },
   "helpGettingStartedBody": {
-    "message": "全新安裝從手動模式開始：在你下令之前什麼都不會刪。這是刻意的——先建好保留清單，之後再開自動清理就不會被登出所有你在意的網站。\n\n1. 保留重要的網站。逐一造訪那些被登出會很惱人的網站（電子郵件、銀行、所有付費服務），點擊工具列圖示，按「保留此網站的 Cookie」。規則涵蓋該網域及其全部子網域。只需這次記住的網站用「保留到瀏覽器關閉」。\n\n2. 決定「清理」的範圍。預設會刪除 Cookie 以及網站儲存的其餘一切。只想刪除 Cookie，就在「防護」頁關掉「刪除全部網站資料」。\n\n3. 開啟自動清理。在「防護」頁開啟「自動清理」。從此：關掉網站的最後一個分頁，寬限時間一過它的 Cookie 就消失——除非你保留了該網站，或它還在別處開啟。\n\n4. 釘選工具列圖示。點選 Chrome 工具列中的拼圖圖示，再點選 Auto-Delete Cookies for Privacy 旁的圖釘，讓圖示和 Cookie 數量標記一直可見。\n\n5. 可選：讓清理紀錄保持開啟，隨時可以查看清理了什麼、為什麼。"
+    "message": "全新安裝從手動模式開始：在你下令之前什麼都不會刪。這是刻意的——先建好保留清單，之後再開自動清理就不會被登出所有你在意的網站。\n\n1. 保留重要的網站。逐一造訪那些被登出會很惱人的網站（電子郵件、銀行、所有付費服務），點擊工具列圖示，按「保留此網站的 Cookie」。規則涵蓋該網域及其全部子網域。只需這次記住的網站用「保留到瀏覽器關閉」。\n\n2. 決定「清理」的範圍。預設會刪除 Cookie 以及網站儲存的其餘一切。只想刪除 Cookie，就在「防護」頁關掉「刪除全部網站資料」。\n\n3. 開啟自動清理。在「防護」頁開啟「自動清理」。從此：關掉網站的最後一個分頁，寬限時間一過它的 Cookie 就消失——除非你保留了該網站，或它還在別處開啟。\n\n4. $pinStep$\n\n5. 可選：讓清理紀錄保持開啟，隨時可以查看清理了什麼、為什麼。",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "釘選工具列圖示。點選 Chrome 工具列中的拼圖圖示，再點選 Auto-Delete Cookies for Privacy 旁的圖釘，讓圖示和 Cookie 數量標記一直可見。"
+  },
+  "helpPinStepFirefoxText": {
+    "message": "釘選工具列圖示。點選 Firefox 工具列中的「擴充套件」按鈕（拼圖圖示），在 Auto-Delete Cookies for Privacy 上按右鍵，再選擇「釘選至工具列」，讓圖示和 Cookie 數量標記一直可見。"
+  },
+  "helpPinStepAndroidText": {
+    "message": "在選單中找到擴充功能。Android 版 Firefox 沒有可以釘選擴充功能的工具列：點選 Firefox 的選單按鈕，再點選「擴充套件」，然後點選 Auto-Delete Cookies for Privacy 即可開啟。"
   },
   "helpCleaningTitle": {
     "message": "清理如何運作"

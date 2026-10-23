@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Fija la extensión para que siga visible: haz clic en el icono del puzle en la barra de herramientas de Chrome y luego en la chincheta junto a Auto-Delete Cookies for Privacy."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Fija la extensión para que siga visible: haz clic en el botón «Extensiones» (el icono del puzle) de la barra de herramientas de Firefox, haz clic derecho en Auto-Delete Cookies for Privacy y elige «Fijar a la barra de herramientas»."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "Encontrarás la extensión en el menú de Firefox: toca el botón del menú, luego «Extensiones» y luego Auto-Delete Cookies for Privacy. Firefox para Android no tiene barra de herramientas donde fijarla."
+  },
   "setupOpenProtectionText": {
     "message": "Abrir la página Protección"
   },
@@ -1503,7 +1509,22 @@
     "message": "Primeros pasos"
   },
   "helpGettingStartedBody": {
-    "message": "Las instalaciones nuevas empiezan en modo manual: no se borra nada hasta que tú lo digas. Es deliberado — construye primero tu lista de conservación, para que activar después la limpieza automática no te cierre la sesión en todo lo que te importa.\n\n1. Conserva los sitios que importan. Visita cada sitio donde te molestaría perder la sesión (correo, banco, todo lo que pagas), haz clic en el icono de la barra y pulsa «Conservar las cookies de este sitio». La regla cubre el dominio y todos sus subdominios. Usa «Conservar hasta cerrar el navegador» para sitios que solo deban recordarse esta vez.\n\n2. Decide qué significa «limpiar». De fábrica, la limpieza elimina las cookies y todo lo demás que guarda un sitio. Para eliminar solo cookies, apaga «Borrar todos los datos del sitio» en la página Protección.\n\n3. Activa la limpieza automática. Enciende «Limpiar automáticamente» en la página Protección. Desde entonces: cierras la última pestaña de un sitio y, pasado el periodo de gracia, sus cookies desaparecen — salvo que conserves el sitio o siga abierto en otro lugar.\n\n4. Fija el icono en la barra de herramientas. Haz clic en el icono del puzle en la barra de Chrome y luego en la chincheta junto a Auto-Delete Cookies for Privacy, para que el icono y su contador de cookies sigan visibles.\n\n5. Opcional: deja activado el registro de limpieza, para ver siempre qué se limpió y por qué."
+    "message": "Las instalaciones nuevas empiezan en modo manual: no se borra nada hasta que tú lo digas. Es deliberado — construye primero tu lista de conservación, para que activar después la limpieza automática no te cierre la sesión en todo lo que te importa.\n\n1. Conserva los sitios que importan. Visita cada sitio donde te molestaría perder la sesión (correo, banco, todo lo que pagas), haz clic en el icono de la barra y pulsa «Conservar las cookies de este sitio». La regla cubre el dominio y todos sus subdominios. Usa «Conservar hasta cerrar el navegador» para sitios que solo deban recordarse esta vez.\n\n2. Decide qué significa «limpiar». De fábrica, la limpieza elimina las cookies y todo lo demás que guarda un sitio. Para eliminar solo cookies, apaga «Borrar todos los datos del sitio» en la página Protección.\n\n3. Activa la limpieza automática. Enciende «Limpiar automáticamente» en la página Protección. Desde entonces: cierras la última pestaña de un sitio y, pasado el periodo de gracia, sus cookies desaparecen — salvo que conserves el sitio o siga abierto en otro lugar.\n\n4. $pinStep$\n\n5. Opcional: deja activado el registro de limpieza, para ver siempre qué se limpió y por qué.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Fija el icono en la barra de herramientas. Haz clic en el icono del puzle en la barra de Chrome y luego en la chincheta junto a Auto-Delete Cookies for Privacy, para que el icono y su contador de cookies sigan visibles."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Fija el icono en la barra de herramientas. Haz clic en el botón «Extensiones» (el icono del puzle) de la barra de Firefox, haz clic derecho en Auto-Delete Cookies for Privacy y elige «Fijar a la barra de herramientas», para que el icono y su contador de cookies sigan visibles."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Busca la extensión en el menú. Firefox para Android no tiene barra de herramientas donde fijarla: toca el botón del menú de Firefox, luego «Extensiones» y luego Auto-Delete Cookies for Privacy para abrirla."
   },
   "helpCleaningTitle": {
     "message": "Cómo funciona la limpieza"

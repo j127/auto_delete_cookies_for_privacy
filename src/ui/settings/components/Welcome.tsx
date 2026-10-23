@@ -20,6 +20,7 @@ import { ReduxAction } from "@/typings/redux-constants";
 import { SettingID } from "@/typings/enums";
 import { resetCookieDeletedCounter } from "@/redux/actions";
 import { consumeJustUpdated } from "@/services/update-notice";
+import { pinStepKeys } from "@/ui/settings/pin-step";
 
 const displayReleaseNotes = (releases: ReleaseNote[]) => {
   return (
@@ -124,7 +125,7 @@ const Welcome: React.FunctionComponent<OwnProps> = ({ style, switchTabs }) => {
           <ol className="list-decimal ps-6 text-sm">
             <li>{browser.i18n.getMessage("setupStepProtectionText")}</li>
             <li>{browser.i18n.getMessage("setupStepActiveModeText")}</li>
-            <li>{browser.i18n.getMessage("setupStepPinText")}</li>
+            <li>{browser.i18n.getMessage(pinStepKeys().setup)}</li>
           </ol>
           <button
             type="button"

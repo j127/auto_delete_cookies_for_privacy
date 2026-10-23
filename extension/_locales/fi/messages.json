@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Kiinnitä laajennus, jotta se pysyy näkyvissä: napsauta Chromen työkalupalkin palapelikuvaketta ja sitten nastaa Auto-Delete Cookies for Privacy -kohdan vieressä."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Kiinnitä laajennus, jotta se pysyy näkyvissä: napsauta Firefoxin työkalupalkin Laajennukset-painiketta (palapelikuvake), napsauta hiiren oikealla Auto-Delete Cookies for Privacy -kohtaa ja valitse Kiinnitä työkalupalkkiin."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "Laajennus löytyy Firefoxin valikosta: napauta valikkopainiketta, sitten Laajennukset ja sitten Auto-Delete Cookies for Privacy. Android-Firefoxissa ei ole työkalupalkkia, johon sen voisi kiinnittää."
+  },
   "setupOpenProtectionText": {
     "message": "Avaa Suojaus-sivu"
   },
@@ -1503,7 +1509,22 @@
     "message": "Alkuun pääseminen"
   },
   "helpGettingStartedBody": {
-    "message": "Uudet asennukset alkavat manuaalitilassa: mitään ei poisteta ennen kuin käsket. Se on tarkoituksellista — rakenna ensin säilytyslistasi, jottei automaattisiivouksen kytkeminen myöhemmin kirjaa sinua ulos kaikkialta, missä sillä on väliä.\n\n1. Säilytä tärkeät sivustot. Käy jokaisella sivustolla, jolla uloskirjautuminen harmittaisi (sähköposti, pankki, kaikki maksullinen), napsauta työkalupalkin kuvaketta ja paina Säilytä tämän sivuston evästeet. Sääntö kattaa verkkotunnuksen ja kaikki aliverkkotunnukset. Käytä Säilytä selaimen sulkemiseen asti sivustoille, joiden pitää muistaa sinut vain tämän kerran.\n\n2. Päätä, mitä siivoaminen tarkoittaa. Oletuksena siivous poistaa evästeet ja kaiken muun, mitä sivusto tallentaa. Jos haluat poistaa vain evästeet, kytke Poista kaikki sivustotiedot pois Suojaus-sivulla.\n\n3. Kytke automaattisiivous päälle. Kytke Siivoa automaattisesti Suojaus-sivulla. Siitä lähtien: sulje sivuston viimeinen välilehti, ja viiveajan jälkeen sen evästeet ovat poissa — paitsi jos säilytät sivuston tai se on yhä auki muualla.\n\n4. Kiinnitä työkalupalkin kuvake. Napsauta Chromen työkalupalkin palapelikuvaketta ja sitten nastaa Auto-Delete Cookies for Privacy -kohdan vieressä, jotta kuvake ja sen evästelaskuri pysyvät näkyvissä.\n\n5. Valinnaista: pidä siivousloki päällä, niin näet aina, mitä siivottiin ja miksi."
+    "message": "Uudet asennukset alkavat manuaalitilassa: mitään ei poisteta ennen kuin käsket. Se on tarkoituksellista — rakenna ensin säilytyslistasi, jottei automaattisiivouksen kytkeminen myöhemmin kirjaa sinua ulos kaikkialta, missä sillä on väliä.\n\n1. Säilytä tärkeät sivustot. Käy jokaisella sivustolla, jolla uloskirjautuminen harmittaisi (sähköposti, pankki, kaikki maksullinen), napsauta työkalupalkin kuvaketta ja paina Säilytä tämän sivuston evästeet. Sääntö kattaa verkkotunnuksen ja kaikki aliverkkotunnukset. Käytä Säilytä selaimen sulkemiseen asti sivustoille, joiden pitää muistaa sinut vain tämän kerran.\n\n2. Päätä, mitä siivoaminen tarkoittaa. Oletuksena siivous poistaa evästeet ja kaiken muun, mitä sivusto tallentaa. Jos haluat poistaa vain evästeet, kytke Poista kaikki sivustotiedot pois Suojaus-sivulla.\n\n3. Kytke automaattisiivous päälle. Kytke Siivoa automaattisesti Suojaus-sivulla. Siitä lähtien: sulje sivuston viimeinen välilehti, ja viiveajan jälkeen sen evästeet ovat poissa — paitsi jos säilytät sivuston tai se on yhä auki muualla.\n\n4. $pinStep$\n\n5. Valinnaista: pidä siivousloki päällä, niin näet aina, mitä siivottiin ja miksi.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Kiinnitä työkalupalkin kuvake. Napsauta Chromen työkalupalkin palapelikuvaketta ja sitten nastaa Auto-Delete Cookies for Privacy -kohdan vieressä, jotta kuvake ja sen evästelaskuri pysyvät näkyvissä."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Kiinnitä työkalupalkin kuvake. Napsauta Firefoxin työkalupalkin Laajennukset-painiketta (palapelikuvake), napsauta hiiren oikealla Auto-Delete Cookies for Privacy -kohtaa ja valitse Kiinnitä työkalupalkkiin, jotta kuvake ja sen evästelaskuri pysyvät näkyvissä."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Etsi laajennus valikosta. Android-Firefoxissa ei ole työkalupalkkia, johon sen voisi kiinnittää: napauta Firefoxin valikkopainiketta, sitten Laajennukset ja sitten Auto-Delete Cookies for Privacy avataksesi sen."
   },
   "helpCleaningTitle": {
     "message": "Miten siivous toimii"
