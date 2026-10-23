@@ -1,6 +1,18 @@
 {
   "releases": [
     {
+      "version": "1.3.0",
+      "notes": [
+        "Firefox for Android is now supported, including Fennec and other browsers that install add-ons from addons.mozilla.org. Firefox for Android's own \"Delete browsing data on quit\" has no per-site exceptions, so the Keep list fills that gap: kept sites keep their cookies and everything else is cleared. Turn off Firefox's own delete-on-quit for cookies, or it removes kept sites too. Containers and context menus don't exist on Android, so those settings are hidden there, and container lists in a backup from desktop Firefox are merged into the Default list, as on Chrome. Sites kept from private tabs are forgotten when the last private tab closes, or at the next browser start.",
+        "Keep rules that keep only some cookies can now use patterns for cookie names: \"auth_*\" keeps every cookie whose name starts with \"auth_\" (\"\\*\" is a real asterisk). Type a name or pattern in the box above a rule's cookie list; each pattern shows which of the site's cookies it covers.",
+        "Heads-up for exports: older versions of this extension and Cookie AutoDelete read \"auth_*\" as one literal cookie name, so a rule with patterns imported there cleans those cookies instead of keeping them. Rules already saved keep working as before: on update, any \"*\" in a saved cookie name is escaped so it still means that one cookie. Only importing an older export that names a cookie with a real \"*\" reads it as a pattern; write \"\\*\" for a literal asterisk.",
+        "Firefox: the settings page and Help now say that Firefox can't delete a site's cache, Cache Storage or file-system storage automatically, and how to clear them yourself in the meantime (or try Brave, where the extension does).",
+        "The Overview and Help pages now explain how to pin the extension in your own browser: Chrome's puzzle icon, Firefox's Extensions button, or Firefox for Android's menu.",
+        "Updates are quieter: the settings page now opens by itself only after a new major version. Release notes for every version stay here on the Overview page.",
+        "Internal: the Firefox test matrix records a full Firefox for Android pass, and the store permission notes describe how site data is cleared on Chromium browsers."
+      ]
+    },
+    {
       "version": "1.2.3",
       "notes": [
         "Firefox: a keep rule in one container no longer keeps a site's Local Storage and IndexedDB from being cleaned outside that container. For example, if you keep YouTube in a container, the data of YouTube videos embedded on other sites is now cleaned when those sites close, and the container keeps its own YouTube data. A site's service worker data still stays everywhere while any container keeps the site, because Firefox can only clear it in all containers at once.",
