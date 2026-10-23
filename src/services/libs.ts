@@ -119,28 +119,24 @@ export const convertVersionToNumber = (version?: string): number => {
 };
 
 /**
- * Whether an update is worth opening the settings page for: the major or
- * minor number changed. A patch release (1.2.0 to 1.2.1) is only a bug fix,
- * so it does not interrupt the user. When either version is missing or does
- * not parse, answers true: an unknown update is shown rather than hidden.
+ * Whether an update is worth opening the settings page for: the major number
+ * changed. Patch releases (1.2.0 to 1.2.1) and feature releases (1.2.3 to
+ * 1.3.0) stay quiet so updates don't keep interrupting people; the Overview
+ * page still lists their release notes. When either version is missing or
+ * does not parse, answers true: an unknown update is shown rather than hidden.
  */
-export const isMinorOrMajorUpdate = (
+export const isMajorUpdate = (
   previousVersion?: string,
   currentVersion?: string
 ): boolean => {
   const parse = (version?: string) =>
-    (version ?? "")
-      .split(".")
-      .slice(0, 2)
-      .map((part) => parseInt(part, 10));
-  const [prevMajor, prevMinor] = parse(previousVersion);
-  const [curMajor, curMinor] = parse(currentVersion);
-  if (
-    [prevMajor, prevMinor, curMajor, curMinor].some((n) => !Number.isInteger(n))
-  ) {
+    parseInt((version ?? "").split(".")[0], 10);
+  const prevMajor = parse(previousVersion);
+  const curMajor = parse(currentVersion);
+  if (!Number.isInteger(prevMajor) || !Number.isInteger(curMajor)) {
     return true;
   }
-  return prevMajor !== curMajor || prevMinor !== curMinor;
+  return prevMajor !== curMajor;
 };
 
 /**

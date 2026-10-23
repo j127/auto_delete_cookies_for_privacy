@@ -25,7 +25,7 @@ import {
   ADCPCOOKIENAME,
   adcpLog,
   convertVersionToNumber,
-  isMinorOrMajorUpdate,
+  isMajorUpdate,
   createPartialTabInfo,
   eventListenerActions,
   extractMainDomain,
@@ -269,21 +269,23 @@ describe("Library Functions", () => {
     });
   });
 
-  describe("isMinorOrMajorUpdate()", () => {
+  describe("isMajorUpdate()", () => {
     it("is false for a patch update", () => {
-      expect(isMinorOrMajorUpdate("1.2.0", "1.2.1")).toBe(false);
-      expect(isMinorOrMajorUpdate("1.0.9", "1.0.10")).toBe(false);
+      expect(isMajorUpdate("1.2.0", "1.2.1")).toBe(false);
+      expect(isMajorUpdate("1.0.9", "1.0.10")).toBe(false);
     });
-    it("is true when the minor number changes", () => {
-      expect(isMinorOrMajorUpdate("1.1.4", "1.2.0")).toBe(true);
+    it("is false when only the minor number changes", () => {
+      expect(isMajorUpdate("1.1.4", "1.2.0")).toBe(false);
+      expect(isMajorUpdate("1.2.3", "1.3.0")).toBe(false);
     });
     it("is true when the major number changes", () => {
-      expect(isMinorOrMajorUpdate("1.9.0", "2.0.0")).toBe(true);
+      expect(isMajorUpdate("1.9.0", "2.0.0")).toBe(true);
+      expect(isMajorUpdate("9.4.2", "10.0.0")).toBe(true);
     });
     it("is true when a version is missing or unparsable", () => {
-      expect(isMinorOrMajorUpdate(undefined, "1.2.0")).toBe(true);
-      expect(isMinorOrMajorUpdate("1.2.0", undefined)).toBe(true);
-      expect(isMinorOrMajorUpdate("beta", "1.2.0")).toBe(true);
+      expect(isMajorUpdate(undefined, "1.2.0")).toBe(true);
+      expect(isMajorUpdate("1.2.0", undefined)).toBe(true);
+      expect(isMajorUpdate("beta", "1.2.0")).toBe(true);
     });
   });
 
