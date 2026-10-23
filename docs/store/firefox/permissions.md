@@ -16,7 +16,7 @@ Reviewer-facing justifications for every permission in the generated Firefox man
 
 ### `browsingData`
 
-> Unless the user turns it off, cleaned sites also lose their other stored data (IndexedDB, LocalStorage, service workers, plugin data) via browsingData.remove with hostname scoping, including the data a site keeps on its other pages and same-site frames, and the data that frames from other sites keep inside its pages. Cache is excluded on Firefox because Firefox cannot clear cache per site. Cache Storage and file-system (origin private file system) data are not removed on Firefox either, because Firefox's browsingData API has no data type for them.
+> Unless the user turns it off, cleaned sites also lose their other stored data (IndexedDB, LocalStorage, service workers, plugin data) via browsingData.remove with hostname scoping, including the data a site keeps on its other pages and same-site frames, and the data that frames from other sites keep inside its pages. Cache is excluded on Firefox because Firefox cannot clear cache per site. Cache Storage and file-system (origin private file system) data are not removed on Firefox either, because Firefox's browsingData API has no data type for them. Firefox never calls browsingData.remove with the cookies data type: it scopes removals by hostname and cookies are removed through the cookies API only.
 
 ### `contextualIdentities`
 

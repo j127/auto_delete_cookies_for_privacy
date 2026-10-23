@@ -16,7 +16,7 @@ The dashboard asks for a justification per permission, one field at a time.
 
 ### `browsingData`
 
-> Unless the user turns it off, the extension also clears other site data for cleaned sites (cache, IndexedDB, LocalStorage, plugin data, service workers, plus the Cache Storage and file-system data that go with them). browsingData.remove with origin scoping is the only API that removes these data types.
+> Unless the user turns it off, the extension also clears other site data for cleaned sites (cache, IndexedDB, LocalStorage, plugin data, service workers, plus the Cache Storage and file-system data that go with them). browsingData.remove with origin scoping is the only API that removes these data types. On Chrome, Edge and Brave, once a cleaned site has no cookies left on any of its hosts, the extension also calls browsingData.remove with the cookies data type for that site, to clear per-site data the browser files under cookies that the cookies API cannot return. It runs only when no cookies remain for the site, so kept cookies are never removed, and only in the regular (non-incognito) profile.
 
 ### `storage`
 
