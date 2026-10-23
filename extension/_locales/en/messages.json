@@ -1581,6 +1581,14 @@
     "message": "Pin the extension so it stays visible: click the puzzle icon in Chrome's toolbar, then the pin next to Auto-Delete Cookies for Privacy.",
     "description": "Overview activation card, step 3. The extension name stays untranslated."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Pin the extension so it stays visible: click the Extensions button (the puzzle icon) in Firefox's toolbar, right-click Auto-Delete Cookies for Privacy, then choose “Pin to Toolbar”.",
+    "description": "Overview activation card, step 3 on desktop Firefox (Chrome shows setupStepPinText). “Pin to Toolbar” is the label of Firefox's own menu item; use Firefox's translation of it. The extension name stays untranslated."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "Find the extension in Firefox's menu: tap the menu button, then Extensions, then Auto-Delete Cookies for Privacy. Firefox for Android has no toolbar to pin it to.",
+    "description": "Overview activation card, step 3 on Firefox for Android, which has no toolbar pin: the extension is opened from Firefox's main menu. “Extensions” is the label of that menu entry; use Firefox for Android's translation of it. The extension name stays untranslated."
+  },
   "setupOpenProtectionText": {
     "message": "Open the Protection page",
     "description": "Overview activation card: button that jumps to the Protection section"
@@ -1828,8 +1836,26 @@
     "description": "Help section title"
   },
   "helpGettingStartedBody": {
-    "message": "Fresh installs start in manual mode: nothing is deleted until you say so. That's deliberate — build your keep list first, so turning on automatic cleaning later doesn't log you out of everything you care about.\n\n1. Keep the sites that matter. Visit each site where being logged out would annoy you (email, bank, anything you pay for), click the toolbar icon, and press “Keep cookies for this site”. The rule covers the domain and all its subdomains. Use “Keep until browser closes” for sites that should only be remembered this sitting.\n\n2. Decide what “clean” means. Out of the box, cleaning removes cookies and everything else a site stores. To remove cookies only, turn off “Delete all site data” on the Protection page.\n\n3. Turn on automatic cleaning. Flip “Clean automatically” on the Protection page. From then on: close a site's last tab, and after the grace period its cookies are gone — unless you keep the site or it's still open elsewhere.\n\n4. Pin the toolbar icon. Click the puzzle icon in Chrome's toolbar, then the pin next to Auto-Delete Cookies for Privacy, so the icon and its cookie-count badge stay visible.\n\n5. Optional: keep the cleanup log on, so you can always see what was cleaned and why.",
-    "description": "Help section body: getting started"
+    "message": "Fresh installs start in manual mode: nothing is deleted until you say so. That's deliberate — build your keep list first, so turning on automatic cleaning later doesn't log you out of everything you care about.\n\n1. Keep the sites that matter. Visit each site where being logged out would annoy you (email, bank, anything you pay for), click the toolbar icon, and press “Keep cookies for this site”. The rule covers the domain and all its subdomains. Use “Keep until browser closes” for sites that should only be remembered this sitting.\n\n2. Decide what “clean” means. Out of the box, cleaning removes cookies and everything else a site stores. To remove cookies only, turn off “Delete all site data” on the Protection page.\n\n3. Turn on automatic cleaning. Flip “Clean automatically” on the Protection page. From then on: close a site's last tab, and after the grace period its cookies are gone — unless you keep the site or it's still open elsewhere.\n\n4. $pinStep$\n\n5. Optional: keep the cleanup log on, so you can always see what was cleaned and why.",
+    "description": "Help section body: getting started. $pinStep$ is item 4, filled from helpPinStepText (Chrome), helpPinStepFirefoxText (desktop Firefox) or helpPinStepAndroidText (Firefox for Android).",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Pin the toolbar icon. Click the puzzle icon in Chrome's toolbar, then the pin next to Auto-Delete Cookies for Privacy, so the icon and its cookie-count badge stay visible.",
+    "description": "Help, getting started: item 4 on Chrome (fills $pinStep$ in helpGettingStartedBody). The extension name stays untranslated."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Pin the toolbar icon. Click the Extensions button (the puzzle icon) in Firefox's toolbar, right-click Auto-Delete Cookies for Privacy, then choose “Pin to Toolbar”, so the icon and its cookie-count badge stay visible.",
+    "description": "Help, getting started: item 4 on desktop Firefox (fills $pinStep$ in helpGettingStartedBody). “Pin to Toolbar” is the label of Firefox's own menu item; use Firefox's translation of it. The extension name stays untranslated."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Find the extension in the menu. Firefox for Android has no toolbar to pin it to: tap Firefox's menu button, then Extensions, then Auto-Delete Cookies for Privacy to open it.",
+    "description": "Help, getting started: item 4 on Firefox for Android, which has no toolbar pin (fills $pinStep$ in helpGettingStartedBody). “Extensions” is the label of Firefox for Android's menu entry. The extension name stays untranslated."
   },
   "helpCleaningTitle": {
     "message": "How cleaning works",

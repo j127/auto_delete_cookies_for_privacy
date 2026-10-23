@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Uzantıyı sabitleyin ki hep görünür kalsın: Chrome araç çubuğundaki yapboz simgesine, ardından Auto-Delete Cookies for Privacy yanındaki raptiyeye tıklayın."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Uzantıyı sabitleyin ki hep görünür kalsın: Firefox araç çubuğundaki Uzantılar düğmesine (yapboz simgesi) tıklayın, Auto-Delete Cookies for Privacy üzerine sağ tıklayın ve Araç çubuğuna sabitle'yi seçin."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "Uzantıyı Firefox menüsünde bulabilirsiniz: menü düğmesine, ardından Uzantılar'a, sonra Auto-Delete Cookies for Privacy öğesine dokunun. Android için Firefox'ta sabitlenecek bir araç çubuğu yoktur."
+  },
   "setupOpenProtectionText": {
     "message": "Koruma sayfasını aç"
   },
@@ -1503,7 +1509,22 @@
     "message": "Başlarken"
   },
   "helpGettingStartedBody": {
-    "message": "Yeni kurulumlar elle modda başlar: siz söyleyene dek hiçbir şey silinmez. Bu bilinçli bir tercih — önce koruma listenizi kurun ki sonradan otomatik temizliği açmak sizi önem verdiğiniz her yerden çıkışa zorlamasın.\n\n1. Önemli siteleri koruyun. Çıkış yapmanın can sıkacağı her siteyi (e-posta, banka, ücretli her şey) ziyaret edin, araç çubuğu simgesine tıklayın ve Bu sitenin çerezlerini koru düğmesine basın. Kural, alan adını ve tüm alt alan adlarını kapsar. Yalnızca bu seferlik hatırlanması gereken siteler için Tarayıcı kapanana dek koru kullanın.\n\n2. Temizlemenin ne demek olduğuna karar verin. Kutudan çıktığı hâliyle temizlik çerezleri ve bir sitenin depoladığı diğer her şeyi siler. Yalnızca çerezleri silmek için Koruma sayfasındaki Tüm site verilerini sil anahtarını kapatın.\n\n3. Otomatik temizliği açın. Koruma sayfasında Otomatik temizle anahtarını açın. Artık: bir sitenin son sekmesini kapatın, bekleme süresi geçince çerezleri gider — siteyi korumuyorsanız veya başka yerde açık değilse.\n\n4. Araç çubuğu simgesini sabitleyin. Chrome araç çubuğundaki yapboz simgesine, ardından Auto-Delete Cookies for Privacy yanındaki raptiyeye tıklayın; böylece simge ve çerez sayısı rozeti hep görünür kalır.\n\n5. İsteğe bağlı: temizlik günlüğünü açık tutun; neyin neden temizlendiğini her zaman görebilirsiniz."
+    "message": "Yeni kurulumlar elle modda başlar: siz söyleyene dek hiçbir şey silinmez. Bu bilinçli bir tercih — önce koruma listenizi kurun ki sonradan otomatik temizliği açmak sizi önem verdiğiniz her yerden çıkışa zorlamasın.\n\n1. Önemli siteleri koruyun. Çıkış yapmanın can sıkacağı her siteyi (e-posta, banka, ücretli her şey) ziyaret edin, araç çubuğu simgesine tıklayın ve Bu sitenin çerezlerini koru düğmesine basın. Kural, alan adını ve tüm alt alan adlarını kapsar. Yalnızca bu seferlik hatırlanması gereken siteler için Tarayıcı kapanana dek koru kullanın.\n\n2. Temizlemenin ne demek olduğuna karar verin. Kutudan çıktığı hâliyle temizlik çerezleri ve bir sitenin depoladığı diğer her şeyi siler. Yalnızca çerezleri silmek için Koruma sayfasındaki Tüm site verilerini sil anahtarını kapatın.\n\n3. Otomatik temizliği açın. Koruma sayfasında Otomatik temizle anahtarını açın. Artık: bir sitenin son sekmesini kapatın, bekleme süresi geçince çerezleri gider — siteyi korumuyorsanız veya başka yerde açık değilse.\n\n4. $pinStep$\n\n5. İsteğe bağlı: temizlik günlüğünü açık tutun; neyin neden temizlendiğini her zaman görebilirsiniz.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Araç çubuğu simgesini sabitleyin. Chrome araç çubuğundaki yapboz simgesine, ardından Auto-Delete Cookies for Privacy yanındaki raptiyeye tıklayın; böylece simge ve çerez sayısı rozeti hep görünür kalır."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Araç çubuğu simgesini sabitleyin. Firefox araç çubuğundaki Uzantılar düğmesine (yapboz simgesi) tıklayın, Auto-Delete Cookies for Privacy üzerine sağ tıklayın ve Araç çubuğuna sabitle'yi seçin; böylece simge ve çerez sayısı rozeti hep görünür kalır."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Uzantıyı menüde bulun. Android için Firefox'ta sabitlenecek bir araç çubuğu yoktur: açmak için Firefox'un menü düğmesine, ardından Uzantılar'a, sonra Auto-Delete Cookies for Privacy öğesine dokunun."
   },
   "helpCleaningTitle": {
     "message": "Temizlik nasıl işler"

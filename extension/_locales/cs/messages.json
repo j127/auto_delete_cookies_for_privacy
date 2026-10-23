@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Připněte rozšíření, ať zůstane viditelné: klikněte na ikonu puzzle na liště Chromu a pak na špendlík vedle Auto-Delete Cookies for Privacy."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Připněte rozšíření, ať zůstane viditelné: klikněte na tlačítko „Rozšíření“ (ikona puzzle) na liště Firefoxu, klikněte pravým tlačítkem na Auto-Delete Cookies for Privacy a zvolte „Připnout na lištu“."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "Rozšíření najdete v nabídce Firefoxu: klepněte na tlačítko nabídky, pak na „Rozšíření“ a pak na Auto-Delete Cookies for Privacy. Firefox pro Android nemá lištu, na kterou by šlo připnout."
+  },
   "setupOpenProtectionText": {
     "message": "Otevřít stránku Ochrana"
   },
@@ -1503,7 +1509,22 @@
     "message": "Začínáme"
   },
   "helpGettingStartedBody": {
-    "message": "Čerstvé instalace startují v ručním režimu: nic se nemaže, dokud neřeknete. Je to záměr — nejdřív si sestavte seznam ponechání, aby vás pozdější zapnutí automatického úklidu neodhlásilo všude, kde vám na tom záleží.\n\n1. Ponechte si důležité weby. Navštivte každý web, kde by vás odhlášení štvalo (e-mail, banka, cokoli placeného), klikněte na ikonu v liště a stiskněte „Ponechat cookies tohoto webu“. Pravidlo pokrývá doménu a všechny subdomény. Pro weby, které si vás mají pamatovat jen tentokrát, použijte „Ponechat do zavření prohlížeče“.\n\n2. Rozhodněte, co znamená „uklidit“. Z výroby úklid maže cookies i vše ostatní, co si web ukládá. Chcete-li mazat jen cookies, vypněte „Mazat všechna data webu“ na stránce Ochrana.\n\n3. Zapněte automatický úklid. Přepněte „Uklízet automaticky“ na stránce Ochrana. Od té chvíle: zavřete poslední kartu webu a po ochranné lhůtě jsou jeho cookies pryč — pokud web neponecháváte nebo není otevřen jinde.\n\n4. Připněte ikonu na liště. Klikněte na ikonu puzzle na liště Chromu a pak na špendlík vedle Auto-Delete Cookies for Privacy, aby ikona i odznak s počtem cookies zůstaly viditelné.\n\n5. Volitelně: nechte protokol úklidu zapnutý, ať vždy vidíte, co a proč se uklidilo."
+    "message": "Čerstvé instalace startují v ručním režimu: nic se nemaže, dokud neřeknete. Je to záměr — nejdřív si sestavte seznam ponechání, aby vás pozdější zapnutí automatického úklidu neodhlásilo všude, kde vám na tom záleží.\n\n1. Ponechte si důležité weby. Navštivte každý web, kde by vás odhlášení štvalo (e-mail, banka, cokoli placeného), klikněte na ikonu v liště a stiskněte „Ponechat cookies tohoto webu“. Pravidlo pokrývá doménu a všechny subdomény. Pro weby, které si vás mají pamatovat jen tentokrát, použijte „Ponechat do zavření prohlížeče“.\n\n2. Rozhodněte, co znamená „uklidit“. Z výroby úklid maže cookies i vše ostatní, co si web ukládá. Chcete-li mazat jen cookies, vypněte „Mazat všechna data webu“ na stránce Ochrana.\n\n3. Zapněte automatický úklid. Přepněte „Uklízet automaticky“ na stránce Ochrana. Od té chvíle: zavřete poslední kartu webu a po ochranné lhůtě jsou jeho cookies pryč — pokud web neponecháváte nebo není otevřen jinde.\n\n4. $pinStep$\n\n5. Volitelně: nechte protokol úklidu zapnutý, ať vždy vidíte, co a proč se uklidilo.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Připněte ikonu na liště. Klikněte na ikonu puzzle na liště Chromu a pak na špendlík vedle Auto-Delete Cookies for Privacy, aby ikona i odznak s počtem cookies zůstaly viditelné."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Připněte ikonu na liště. Klikněte na tlačítko „Rozšíření“ (ikona puzzle) na liště Firefoxu, klikněte pravým tlačítkem na Auto-Delete Cookies for Privacy a zvolte „Připnout na lištu“, aby ikona i odznak s počtem cookies zůstaly viditelné."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Najděte rozšíření v nabídce. Firefox pro Android nemá lištu, na kterou by šlo připnout: klepněte na tlačítko nabídky Firefoxu, pak na „Rozšíření“ a pak na Auto-Delete Cookies for Privacy, čímž ho otevřete."
   },
   "helpCleaningTitle": {
     "message": "Jak úklid funguje"

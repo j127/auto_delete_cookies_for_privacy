@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Rögzítsd a bővítményt, hogy látható maradjon: kattints a puzzle ikonra a Chrome eszköztárán, majd a gombostűre az Auto-Delete Cookies for Privacy mellett."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Rögzítsd a bővítményt, hogy látható maradjon: kattints a Firefox eszköztárán a Kiegészítők gombra (a puzzle ikonra), kattints jobb gombbal az Auto-Delete Cookies for Privacy elemre, és válaszd a Rögzítés az eszköztárra lehetőséget."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "A bővítményt a Firefox menüjében találod: koppints a menügombra, majd a Kiegészítők pontra, aztán az Auto-Delete Cookies for Privacy elemre. Az androidos Firefoxban nincs eszköztár, amire rögzíteni lehetne."
+  },
   "setupOpenProtectionText": {
     "message": "A Védelem oldal megnyitása"
   },
@@ -1503,7 +1509,22 @@
     "message": "Első lépések"
   },
   "helpGettingStartedBody": {
-    "message": "A friss telepítések kézi módban indulnak: semmi sem törlődik, amíg nem szólsz. Ez szándékos — előbb építsd fel a megtartási listádat, hogy az automatikus takarítás későbbi bekapcsolása ne jelentkeztessen ki mindenhonnan, ami számít.\n\n1. Tartsd meg a fontos webhelyeket. Látogass el minden webhelyre, ahol a kijelentkezés bosszantana (e-mail, bank, minden fizetős), kattints az eszköztárikonra, és nyomd meg A webhely sütijeinek megtartása gombot. A szabály lefedi a domaint és az összes aldomainjét. A csak most megjegyzendő webhelyekhez használd a Megtartás a böngésző bezárásáig lehetőséget.\n\n2. Döntsd el, mit jelentsen a takarítás. Gyárilag a takarítás a sütiket és minden mást töröl, amit egy webhely tárol. Ha csak sütiket törölnél, kapcsold ki a Minden webhelyadat törlése kapcsolót a Védelem oldalon.\n\n3. Kapcsold be az automatikus takarítást. Kapcsold be az Automatikus takarítást a Védelem oldalon. Ezután: zárd be a webhely utolsó lapját, és a türelmi idő után a sütijei eltűnnek — hacsak nem tartod meg a webhelyet, vagy nincs nyitva máshol.\n\n4. Rögzítsd az eszköztár ikonját. Kattints a puzzle ikonra a Chrome eszköztárán, majd a gombostűre az Auto-Delete Cookies for Privacy mellett, hogy az ikon és a sütiszámláló jelvény látható maradjon.\n\n5. Nem kötelező: hagyd bekapcsolva a takarítási naplót, hogy mindig lásd, mi és miért lett takarítva."
+    "message": "A friss telepítések kézi módban indulnak: semmi sem törlődik, amíg nem szólsz. Ez szándékos — előbb építsd fel a megtartási listádat, hogy az automatikus takarítás későbbi bekapcsolása ne jelentkeztessen ki mindenhonnan, ami számít.\n\n1. Tartsd meg a fontos webhelyeket. Látogass el minden webhelyre, ahol a kijelentkezés bosszantana (e-mail, bank, minden fizetős), kattints az eszköztárikonra, és nyomd meg A webhely sütijeinek megtartása gombot. A szabály lefedi a domaint és az összes aldomainjét. A csak most megjegyzendő webhelyekhez használd a Megtartás a böngésző bezárásáig lehetőséget.\n\n2. Döntsd el, mit jelentsen a takarítás. Gyárilag a takarítás a sütiket és minden mást töröl, amit egy webhely tárol. Ha csak sütiket törölnél, kapcsold ki a Minden webhelyadat törlése kapcsolót a Védelem oldalon.\n\n3. Kapcsold be az automatikus takarítást. Kapcsold be az Automatikus takarítást a Védelem oldalon. Ezután: zárd be a webhely utolsó lapját, és a türelmi idő után a sütijei eltűnnek — hacsak nem tartod meg a webhelyet, vagy nincs nyitva máshol.\n\n4. $pinStep$\n\n5. Nem kötelező: hagyd bekapcsolva a takarítási naplót, hogy mindig lásd, mi és miért lett takarítva.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Rögzítsd az eszköztár ikonját. Kattints a puzzle ikonra a Chrome eszköztárán, majd a gombostűre az Auto-Delete Cookies for Privacy mellett, hogy az ikon és a sütiszámláló jelvény látható maradjon."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Rögzítsd az eszköztár ikonját. Kattints a Firefox eszköztárán a Kiegészítők gombra (a puzzle ikonra), kattints jobb gombbal az Auto-Delete Cookies for Privacy elemre, és válaszd a Rögzítés az eszköztárra lehetőséget, hogy az ikon és a sütiszámláló jelvény látható maradjon."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Keresd meg a bővítményt a menüben. Az androidos Firefoxban nincs eszköztár, amire rögzíteni lehetne: koppints a Firefox menügombjára, majd a Kiegészítők pontra, aztán az Auto-Delete Cookies for Privacy elemre a megnyitásához."
   },
   "helpCleaningTitle": {
     "message": "Így működik a takarítás"

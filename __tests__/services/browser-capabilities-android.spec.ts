@@ -6,14 +6,19 @@ import { installAndroidFlavor } from "../android-flavor";
 
 vi.stubGlobal("__BROWSER__", "firefox");
 vi.resetModules();
-const { browserCapabilities, hasContainerApi, hasContextMenuApi } =
-  await import("@/services/browser-capabilities");
+const {
+  browserCapabilities,
+  hasContainerApi,
+  hasContextMenuApi,
+  hasWindowsApi,
+} = await import("@/services/browser-capabilities");
 const { tabCookieStoreId } = await import("@/services/libs");
 
 describe("runtime API presence on Firefox for Android (#534)", () => {
   it("reports containers and context menus while desktop Firefox has them", () => {
     expect(hasContainerApi()).toBe(true);
     expect(hasContextMenuApi()).toBe(true);
+    expect(hasWindowsApi()).toBe(true);
   });
 
   describe("once the APIs are gone", () => {
@@ -28,6 +33,10 @@ describe("runtime API presence on Firefox for Android (#534)", () => {
 
     it("reports no context menus", () => {
       expect(hasContextMenuApi()).toBe(false);
+    });
+
+    it("reports no windows API", () => {
+      expect(hasWindowsApi()).toBe(false);
     });
 
     it("keys a tab without cookieStoreId by Firefox's store ids", () => {

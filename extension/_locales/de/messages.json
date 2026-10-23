@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Hefte die Erweiterung an, damit sie sichtbar bleibt: Klick auf das Puzzle-Symbol in der Chrome-Symbolleiste, dann auf die Stecknadel neben Auto-Delete Cookies for Privacy."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Hefte die Erweiterung an, damit sie sichtbar bleibt: Klick in der Firefox-Symbolleiste auf die Schaltfläche „Erweiterungen“ (das Puzzle-Symbol), klick mit der rechten Maustaste auf Auto-Delete Cookies for Privacy und wähle „An Symbolleiste anheften“."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "Die Erweiterung findest du im Firefox-Menü: Tippe auf die Menü-Schaltfläche, dann auf „Erweiterungen“ und dann auf Auto-Delete Cookies for Privacy. Firefox für Android hat keine Symbolleiste zum Anheften."
+  },
   "setupOpenProtectionText": {
     "message": "Schutz-Seite öffnen"
   },
@@ -1503,7 +1509,22 @@
     "message": "Erste Schritte"
   },
   "helpGettingStartedBody": {
-    "message": "Neue Installationen starten im manuellen Modus: Nichts wird gelöscht, bis du es sagst. Das ist Absicht — lege zuerst deine Behalten-Liste an, damit dich das spätere Einschalten der automatischen Bereinigung nicht überall abmeldet.\n\n1. Behalte die Websites, die zählen. Besuche jede Website, bei der eine Abmeldung nerven würde (E-Mail, Bank, alles Bezahlte), klicke auf das Symbolleisten-Symbol und drücke „Cookies dieser Website behalten“. Die Regel umfasst die Domain und alle Subdomains. Nutze „Behalten, bis der Browser schließt“ für Websites, die nur diese Sitzung im Gedächtnis bleiben sollen.\n\n2. Entscheide, was „bereinigen“ bedeutet. Ab Werk entfernt die Bereinigung Cookies und alles Übrige, was eine Website speichert. Um nur Cookies zu entfernen, schalte „Alle Websitedaten löschen“ auf der Schutz-Seite aus.\n\n3. Schalte die automatische Bereinigung ein. Aktiviere „Automatisch bereinigen“ auf der Schutz-Seite. Ab dann gilt: letzter Tab einer Website zu, und nach der Karenzzeit sind ihre Cookies weg — außer du behältst die Website oder sie ist woanders noch offen.\n\n4. Hefte das Symbol an die Symbolleiste. Klick auf das Puzzle-Symbol in der Chrome-Symbolleiste und dann auf die Stecknadel neben Auto-Delete Cookies for Privacy, damit das Symbol samt Cookie-Zähler sichtbar bleibt.\n\n5. Optional: Lass das Bereinigungsprotokoll an, damit du immer nachsehen kannst, was bereinigt wurde und warum."
+    "message": "Neue Installationen starten im manuellen Modus: Nichts wird gelöscht, bis du es sagst. Das ist Absicht — lege zuerst deine Behalten-Liste an, damit dich das spätere Einschalten der automatischen Bereinigung nicht überall abmeldet.\n\n1. Behalte die Websites, die zählen. Besuche jede Website, bei der eine Abmeldung nerven würde (E-Mail, Bank, alles Bezahlte), klicke auf das Symbolleisten-Symbol und drücke „Cookies dieser Website behalten“. Die Regel umfasst die Domain und alle Subdomains. Nutze „Behalten, bis der Browser schließt“ für Websites, die nur diese Sitzung im Gedächtnis bleiben sollen.\n\n2. Entscheide, was „bereinigen“ bedeutet. Ab Werk entfernt die Bereinigung Cookies und alles Übrige, was eine Website speichert. Um nur Cookies zu entfernen, schalte „Alle Websitedaten löschen“ auf der Schutz-Seite aus.\n\n3. Schalte die automatische Bereinigung ein. Aktiviere „Automatisch bereinigen“ auf der Schutz-Seite. Ab dann gilt: letzter Tab einer Website zu, und nach der Karenzzeit sind ihre Cookies weg — außer du behältst die Website oder sie ist woanders noch offen.\n\n4. $pinStep$\n\n5. Optional: Lass das Bereinigungsprotokoll an, damit du immer nachsehen kannst, was bereinigt wurde und warum.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Hefte das Symbol an die Symbolleiste. Klick auf das Puzzle-Symbol in der Chrome-Symbolleiste und dann auf die Stecknadel neben Auto-Delete Cookies for Privacy, damit das Symbol samt Cookie-Zähler sichtbar bleibt."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Hefte das Symbol an die Symbolleiste. Klick in der Firefox-Symbolleiste auf die Schaltfläche „Erweiterungen“ (das Puzzle-Symbol), klick mit der rechten Maustaste auf Auto-Delete Cookies for Privacy und wähle „An Symbolleiste anheften“, damit das Symbol samt Cookie-Zähler sichtbar bleibt."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Finde die Erweiterung im Menü. Firefox für Android hat keine Symbolleiste zum Anheften: Tippe auf die Menü-Schaltfläche von Firefox, dann auf „Erweiterungen“ und dann auf Auto-Delete Cookies for Privacy, um sie zu öffnen."
   },
   "helpCleaningTitle": {
     "message": "So funktioniert die Bereinigung"

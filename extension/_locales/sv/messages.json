@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Fäst tillägget så att det alltid syns: klicka på pusselikonen i Chromes verktygsfält och sedan på nålen bredvid Auto-Delete Cookies for Privacy."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Fäst tillägget så att det alltid syns: klicka på knappen Tillägg (pusselikonen) i Firefox verktygsfält, högerklicka på Auto-Delete Cookies for Privacy och välj Fäst i verktygsfält."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "Du hittar tillägget i Firefox meny: tryck på menyknappen, sedan Tillägg och sedan Auto-Delete Cookies for Privacy. Firefox för Android har inget verktygsfält att fästa det i."
+  },
   "setupOpenProtectionText": {
     "message": "Öppna sidan Skydd"
   },
@@ -1503,7 +1509,22 @@
     "message": "Kom igång"
   },
   "helpGettingStartedBody": {
-    "message": "Nyinstallationer startar i manuellt läge: inget raderas förrän du säger till. Det är avsiktligt — bygg din behåll-lista först, så loggar inte den automatiska städningen ut dig överallt när du slår på den senare.\n\n1. Behåll webbplatserna som betyder något. Besök varje webbplats där en utloggning skulle störa (e-post, bank, allt du betalar för), klicka på verktygsfältsikonen och tryck Behåll webbplatsens kakor. Regeln täcker domänen och alla underdomäner. Använd Behåll tills webbläsaren stängs för webbplatser som bara ska minnas dig den här gången.\n\n2. Bestäm vad städa betyder. Från början tar städningen bort kakor och allt annat en webbplats lagrar. Slå av Radera all webbplatsdata på sidan Skydd för att bara ta bort kakor.\n\n3. Slå på den automatiska städningen. Aktivera Städa automatiskt på sidan Skydd. Därefter: stäng en webbplats sista flik, och efter fristen är dess kakor borta — om du inte behåller webbplatsen eller den är öppen någon annanstans.\n\n4. Fäst ikonen i verktygsfältet. Klicka på pusselikonen i Chromes verktygsfält och sedan på nålen bredvid Auto-Delete Cookies for Privacy, så att ikonen och kakräknaren alltid syns.\n\n5. Valfritt: låt städloggen vara på, så kan du alltid se vad som städades och varför."
+    "message": "Nyinstallationer startar i manuellt läge: inget raderas förrän du säger till. Det är avsiktligt — bygg din behåll-lista först, så loggar inte den automatiska städningen ut dig överallt när du slår på den senare.\n\n1. Behåll webbplatserna som betyder något. Besök varje webbplats där en utloggning skulle störa (e-post, bank, allt du betalar för), klicka på verktygsfältsikonen och tryck Behåll webbplatsens kakor. Regeln täcker domänen och alla underdomäner. Använd Behåll tills webbläsaren stängs för webbplatser som bara ska minnas dig den här gången.\n\n2. Bestäm vad städa betyder. Från början tar städningen bort kakor och allt annat en webbplats lagrar. Slå av Radera all webbplatsdata på sidan Skydd för att bara ta bort kakor.\n\n3. Slå på den automatiska städningen. Aktivera Städa automatiskt på sidan Skydd. Därefter: stäng en webbplats sista flik, och efter fristen är dess kakor borta — om du inte behåller webbplatsen eller den är öppen någon annanstans.\n\n4. $pinStep$\n\n5. Valfritt: låt städloggen vara på, så kan du alltid se vad som städades och varför.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Fäst ikonen i verktygsfältet. Klicka på pusselikonen i Chromes verktygsfält och sedan på nålen bredvid Auto-Delete Cookies for Privacy, så att ikonen och kakräknaren alltid syns."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Fäst ikonen i verktygsfältet. Klicka på knappen Tillägg (pusselikonen) i Firefox verktygsfält, högerklicka på Auto-Delete Cookies for Privacy och välj Fäst i verktygsfält, så att ikonen och kakräknaren alltid syns."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Hitta tillägget i menyn. Firefox för Android har inget verktygsfält att fästa det i: tryck på Firefox menyknapp, sedan Tillägg och sedan Auto-Delete Cookies for Privacy för att öppna det."
   },
   "helpCleaningTitle": {
     "message": "Så fungerar städningen"

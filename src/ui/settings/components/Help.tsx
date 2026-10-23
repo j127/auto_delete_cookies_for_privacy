@@ -8,6 +8,7 @@ import MessageWithLink, {
   BRAVE_LINK,
   type MessageLink,
 } from "@/ui/common-components/MessageWithLink";
+import { pinStepKeys } from "@/ui/settings/pin-step";
 
 interface OwnProps {
   style?: React.CSSProperties;
@@ -23,8 +24,15 @@ const HELP_SECTIONS: {
   titleKey: string;
   bodyKey: string;
   link?: MessageLink;
+  /** Message keys whose text fills the body's placeholders, in order. */
+  substitutionKeys?: () => string[];
 }[] = [
-  { titleKey: "helpGettingStartedTitle", bodyKey: "helpGettingStartedBody" },
+  {
+    titleKey: "helpGettingStartedTitle",
+    bodyKey: "helpGettingStartedBody",
+    // Item 4 says how to pin the extension, which differs per browser (#536).
+    substitutionKeys: () => [pinStepKeys().help],
+  },
   { titleKey: "helpCleaningTitle", bodyKey: "helpCleaningBody" },
   {
     titleKey: "helpSiteDataTitle",
@@ -49,7 +57,7 @@ const Help: React.FunctionComponent<OwnProps> = ({ style }) => (
     </p>
     <div className="overflow-hidden rounded-box border border-base-300 bg-base-100">
       <div className="divide-y divide-base-300">
-        {HELP_SECTIONS.map(({ titleKey, bodyKey, link }) => (
+        {HELP_SECTIONS.map(({ titleKey, bodyKey, link, substitutionKeys }) => (
           <details className="group/help" key={titleKey}>
             <summary className="flex cursor-pointer items-center gap-2 px-4 py-3 font-semibold">
               <Icon
@@ -62,6 +70,11 @@ const Help: React.FunctionComponent<OwnProps> = ({ style }) => (
             <div className="px-4 pb-4 text-sm whitespace-pre-line text-base-content/80">
               {link ? (
                 <MessageWithLink link={link} messageKey={bodyKey} />
+              ) : substitutionKeys ? (
+                browser.i18n.getMessage(
+                  bodyKey,
+                  substitutionKeys().map((key) => browser.i18n.getMessage(key))
+                )
               ) : (
                 browser.i18n.getMessage(bodyKey)
               )}

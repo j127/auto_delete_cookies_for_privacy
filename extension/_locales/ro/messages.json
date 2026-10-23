@@ -1309,6 +1309,12 @@
   "setupStepPinText": {
     "message": "Fixează extensia ca să rămână vizibilă: apasă pictograma puzzle din bara de instrumente Chrome, apoi piuneza de lângă Auto-Delete Cookies for Privacy."
   },
+  "setupStepPinFirefoxText": {
+    "message": "Fixează extensia ca să rămână vizibilă: apasă butonul „Extensii” (pictograma puzzle) din bara de instrumente Firefox, dă clic dreapta pe Auto-Delete Cookies for Privacy și alege „Fixează în bara de instrumente”."
+  },
+  "setupStepMenuAndroidText": {
+    "message": "Extensia se află în meniul Firefox: atinge butonul de meniu, apoi „Extensii”, apoi Auto-Delete Cookies for Privacy. Firefox pentru Android nu are o bară de instrumente în care s-o fixezi."
+  },
   "setupOpenProtectionText": {
     "message": "Deschide pagina Protecție"
   },
@@ -1503,7 +1509,22 @@
     "message": "Primii pași"
   },
   "helpGettingStartedBody": {
-    "message": "Instalările noi pornesc în mod manual: nimic nu se șterge până nu spui tu. E intenționat — construiește-ți mai întâi lista de păstrare, ca activarea ulterioară a curățării automate să nu te delogheze de peste tot unde contează.\n\n1. Păstrează site-urile care contează. Vizitează fiecare site unde delogarea te-ar deranja (e-mail, bancă, tot ce plătești), apasă pictograma din bară și butonul „Păstrează cookie-urile acestui site”. Regula acoperă domeniul și toate subdomeniile. Folosește „Păstrează până la închiderea browserului” pentru site-urile care trebuie ținute minte doar de data asta.\n\n2. Decide ce înseamnă „curățare”. Din fabrică, curățarea elimină cookie-urile și tot restul pe care un site îl stochează. Ca să elimini doar cookie-uri, oprește „Șterge toate datele de site” pe pagina Protecție.\n\n3. Pornește curățarea automată. Comută „Curăță automat” pe pagina Protecție. De atunci: închizi ultima filă a unui site și, după perioada de grație, cookie-urile lui dispar — doar dacă nu păstrezi site-ul sau e încă deschis altundeva.\n\n4. Fixează pictograma în bara de instrumente. Apasă pictograma puzzle din bara Chrome, apoi piuneza de lângă Auto-Delete Cookies for Privacy, ca pictograma și insigna cu numărul de cookie-uri să rămână vizibile.\n\n5. Opțional: lasă jurnalul de curățare pornit, ca să vezi mereu ce s-a curățat și de ce."
+    "message": "Instalările noi pornesc în mod manual: nimic nu se șterge până nu spui tu. E intenționat — construiește-ți mai întâi lista de păstrare, ca activarea ulterioară a curățării automate să nu te delogheze de peste tot unde contează.\n\n1. Păstrează site-urile care contează. Vizitează fiecare site unde delogarea te-ar deranja (e-mail, bancă, tot ce plătești), apasă pictograma din bară și butonul „Păstrează cookie-urile acestui site”. Regula acoperă domeniul și toate subdomeniile. Folosește „Păstrează până la închiderea browserului” pentru site-urile care trebuie ținute minte doar de data asta.\n\n2. Decide ce înseamnă „curățare”. Din fabrică, curățarea elimină cookie-urile și tot restul pe care un site îl stochează. Ca să elimini doar cookie-uri, oprește „Șterge toate datele de site” pe pagina Protecție.\n\n3. Pornește curățarea automată. Comută „Curăță automat” pe pagina Protecție. De atunci: închizi ultima filă a unui site și, după perioada de grație, cookie-urile lui dispar — doar dacă nu păstrezi site-ul sau e încă deschis altundeva.\n\n4. $pinStep$\n\n5. Opțional: lasă jurnalul de curățare pornit, ca să vezi mereu ce s-a curățat și de ce.",
+    "placeholders": {
+      "pinStep": {
+        "content": "$1",
+        "example": "Pin the toolbar icon. Click the puzzle icon…"
+      }
+    }
+  },
+  "helpPinStepText": {
+    "message": "Fixează pictograma în bara de instrumente. Apasă pictograma puzzle din bara Chrome, apoi piuneza de lângă Auto-Delete Cookies for Privacy, ca pictograma și insigna cu numărul de cookie-uri să rămână vizibile."
+  },
+  "helpPinStepFirefoxText": {
+    "message": "Fixează pictograma în bara de instrumente. Apasă butonul „Extensii” (pictograma puzzle) din bara Firefox, dă clic dreapta pe Auto-Delete Cookies for Privacy și alege „Fixează în bara de instrumente”, ca pictograma și insigna cu numărul de cookie-uri să rămână vizibile."
+  },
+  "helpPinStepAndroidText": {
+    "message": "Găsește extensia în meniu. Firefox pentru Android nu are o bară de instrumente în care s-o fixezi: atinge butonul de meniu Firefox, apoi „Extensii”, apoi Auto-Delete Cookies for Privacy ca s-o deschizi."
   },
   "helpCleaningTitle": {
     "message": "Cum funcționează curățarea"
