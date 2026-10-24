@@ -10,7 +10,7 @@ This is a browser extension for Chrome, Brave, and Firefox that automatically de
 - Two kinds of keep rules: **Keep** (never cleaned) and **Keep until browser closes**
 - Clears other leftovers too, unless you turn that off: LocalStorage, IndexedDB, cache, service workers, plugin data
 - One-click manual cleanup for the current site from the popup or right-click menu
-- Turn automatic cleaning off from the popup for an hour, until the browser restarts, or until you turn it back on; Alt+Shift+D turns it off and on (change the key on your browser's extension shortcuts page)
+- Turn automatic cleaning off from the popup for an hour, until the browser restarts, or until you turn it back on; you can also give it a keyboard shortcut on your browser's extension shortcuts page (`chrome://extensions/shortcuts`, or Firefox's Add-ons page → gear → Manage Extension Shortcuts). It has no key until you pick one
 - Toolbar badge shows how many cookies the current site has set
 - Keep rules support wildcards and regular expressions, and can be exported/imported as files
 - A rule can keep just some of a site's cookies, by name or by pattern (`auth_*` keeps every cookie whose name starts with `auth_`; `\*` is a literal asterisk). Older versions and Cookie AutoDelete read `auth_*` as one literal name, so a rule with patterns imported there cleans those cookies instead of keeping them

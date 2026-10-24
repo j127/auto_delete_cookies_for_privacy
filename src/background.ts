@@ -435,8 +435,8 @@ browser.alarms.onAlarm.addListener(async (alarm) => {
   }
 });
 
-// The keyboard shortcut (#555). Firefox for Android has no commands API,
-// hence the guard.
+// The keyboard shortcut (#555), which has no key until the user assigns
+// one. Firefox for Android has no commands API, hence the guard.
 if (browser.commands) {
   browser.commands.onCommand.addListener(async (command) => {
     await ready;

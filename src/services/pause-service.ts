@@ -14,7 +14,11 @@ export const RESUME_ON_RESTART = -1;
 
 export const PAUSE_HOUR_MS = 60 * 60 * 1000;
 
-/** The manifest `commands` entry that toggles automatic cleaning. */
+/**
+ * The manifest `commands` entry that toggles automatic cleaning. It ships
+ * without a suggested key: users assign one on the browser's extension
+ * shortcuts page, so it never takes a key a site or the user relies on.
+ */
 export const TOGGLE_ACTIVE_MODE_COMMAND = "toggle-active-mode";
 
 /** The popup's three ways to turn automatic cleaning off (#555). */
