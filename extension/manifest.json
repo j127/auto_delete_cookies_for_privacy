@@ -24,9 +24,6 @@
   },
   "commands": {
     "toggle-active-mode": {
-      "suggested_key": {
-        "default": "Alt+Shift+D"
-      },
       "description": "__MSG_commandToggleActiveModeText__"
     }
   },

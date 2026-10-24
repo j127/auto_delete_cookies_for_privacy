@@ -183,9 +183,17 @@ describe("PauseService", () => {
       expect(manifest.commands[TOGGLE_ACTIVE_MODE_COMMAND]).toBeDefined();
     });
 
-    it("has a suggested key and a translated description", () => {
+    it("suggests no key, so it never takes one a site or the user relies on", () => {
+      // Users pick their own on the browser's extension shortcuts page.
+      // A default key would win over a site's own use of it, and on macOS
+      // Option+Shift+D would stop typing its character.
+      expect(
+        manifest.commands[TOGGLE_ACTIVE_MODE_COMMAND].suggested_key
+      ).toBeUndefined();
+    });
+
+    it("has a translated description for the shortcuts page", () => {
       const command = manifest.commands[TOGGLE_ACTIVE_MODE_COMMAND];
-      expect(command.suggested_key.default).toBe("Alt+Shift+D");
       const key = /^__MSG_(\w+)__$/.exec(command.description)?.[1];
       expect(key && en[key]?.message).toBeTruthy();
     });
