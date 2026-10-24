@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Автоматически ничего не удаляется."
   },
+  "popupPauseChoicesText": {
+    "message": "Выключить автоудаление"
+  },
+  "popupPauseHourText": {
+    "message": "На 1 час"
+  },
+  "popupPauseRestartText": {
+    "message": "До перезапуска браузера"
+  },
+  "popupPauseOffText": {
+    "message": "Пока не включу снова"
+  },
+  "popupPauseCancelText": {
+    "message": "Отмена"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Включится снова в $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Включится снова после перезапуска браузера."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Включить или выключить автоматическую чистку"
+  },
   "popupHeroKeepingText": {
     "message": "Куки этого сайта сохраняются"
   },

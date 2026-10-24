@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Автоматично нічого не видаляється."
   },
+  "popupPauseChoicesText": {
+    "message": "Вимкнути автовидалення"
+  },
+  "popupPauseHourText": {
+    "message": "На 1 годину"
+  },
+  "popupPauseRestartText": {
+    "message": "До перезапуску браузера"
+  },
+  "popupPauseOffText": {
+    "message": "Доки не ввімкну знову"
+  },
+  "popupPauseCancelText": {
+    "message": "Скасувати"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Увімкнеться знову о $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Увімкнеться знову після перезапуску браузера."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Увімкнути або вимкнути автоматичне чищення"
+  },
   "popupHeroKeepingText": {
     "message": "Куки цього сайту зберігаються"
   },

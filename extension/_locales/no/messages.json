@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Ingenting slettes automatisk."
   },
+  "popupPauseChoicesText": {
+    "message": "Slå av autosletting"
+  },
+  "popupPauseHourText": {
+    "message": "I 1 time"
+  },
+  "popupPauseRestartText": {
+    "message": "Til nettleseren startes på nytt"
+  },
+  "popupPauseOffText": {
+    "message": "Til jeg slår den på igjen"
+  },
+  "popupPauseCancelText": {
+    "message": "Avbryt"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Slås på igjen kl. $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Slås på igjen når nettleseren startes på nytt."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Slå automatisk rydding av eller på"
+  },
   "popupHeroKeepingText": {
     "message": "Beholder nettstedets informasjonskapsler"
   },

@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Tidak ada yang dihapus otomatis."
   },
+  "popupPauseChoicesText": {
+    "message": "Matikan hapus otomatis"
+  },
+  "popupPauseHourText": {
+    "message": "Selama 1 jam"
+  },
+  "popupPauseRestartText": {
+    "message": "Sampai peramban dimulai ulang"
+  },
+  "popupPauseOffText": {
+    "message": "Sampai saya menyalakannya lagi"
+  },
+  "popupPauseCancelText": {
+    "message": "Batal"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Menyala lagi pukul $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Menyala lagi saat peramban dimulai ulang."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Nyalakan atau matikan pembersihan otomatis"
+  },
   "popupHeroKeepingText": {
     "message": "Menyimpan cookie situs ini"
   },

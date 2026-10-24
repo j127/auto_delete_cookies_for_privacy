@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Niks word outomaties geskrap nie."
   },
+  "popupPauseChoicesText": {
+    "message": "Skakel outoskrap af"
+  },
+  "popupPauseHourText": {
+    "message": "Vir 1 uur"
+  },
+  "popupPauseRestartText": {
+    "message": "Tot die blaaier herbegin"
+  },
+  "popupPauseOffText": {
+    "message": "Totdat ek dit weer aanskakel"
+  },
+  "popupPauseCancelText": {
+    "message": "Kanselleer"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Skakel weer aan om $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Skakel weer aan wanneer die blaaier herbegin."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Skakel outomatiese skoonmaak aan of af"
+  },
   "popupHeroKeepingText": {
     "message": "Hou hierdie werf se koekies"
   },

@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Semmi sem törlődik automatikusan."
   },
+  "popupPauseChoicesText": {
+    "message": "Automatikus törlés kikapcsolása"
+  },
+  "popupPauseHourText": {
+    "message": "1 órára"
+  },
+  "popupPauseRestartText": {
+    "message": "A böngésző újraindításáig"
+  },
+  "popupPauseOffText": {
+    "message": "Amíg vissza nem kapcsolom"
+  },
+  "popupPauseCancelText": {
+    "message": "Mégse"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Visszakapcsol: $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "A böngésző újraindításakor visszakapcsol."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Automatikus takarítás be- vagy kikapcsolása"
+  },
   "popupHeroKeepingText": {
     "message": "A webhely sütijeit megtartjuk"
   },

@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Nada se borra automáticamente."
   },
+  "popupPauseChoicesText": {
+    "message": "Desactivar el borrado automático"
+  },
+  "popupPauseHourText": {
+    "message": "Durante 1 hora"
+  },
+  "popupPauseRestartText": {
+    "message": "Hasta reiniciar el navegador"
+  },
+  "popupPauseOffText": {
+    "message": "Hasta que lo vuelva a activar"
+  },
+  "popupPauseCancelText": {
+    "message": "Cancelar"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Se reactiva a las $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Se reactiva al reiniciar el navegador."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Activar o desactivar la limpieza automática"
+  },
   "popupHeroKeepingText": {
     "message": "Conservando las cookies de este sitio"
   },

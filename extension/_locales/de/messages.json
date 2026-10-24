@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Nichts wird automatisch gelöscht."
   },
+  "popupPauseChoicesText": {
+    "message": "Auto-Löschen ausschalten"
+  },
+  "popupPauseHourText": {
+    "message": "Für 1 Stunde"
+  },
+  "popupPauseRestartText": {
+    "message": "Bis zum Browser-Neustart"
+  },
+  "popupPauseOffText": {
+    "message": "Bis ich es wieder einschalte"
+  },
+  "popupPauseCancelText": {
+    "message": "Abbrechen"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Schaltet sich um $TIME$ wieder ein.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Schaltet sich beim Browser-Neustart wieder ein."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Automatische Bereinigung ein- oder ausschalten"
+  },
   "popupHeroKeepingText": {
     "message": "Cookies dieser Website werden behalten"
   },

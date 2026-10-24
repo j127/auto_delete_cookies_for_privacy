@@ -82,12 +82,16 @@ const apis = {
       "removePluginData",
     ],
   },
+  // Keyboard shortcuts; Firefox for Android has none (#555).
+  commands: {
+    events: ["onCommand"],
+  },
   cookies: {
     fn: ["get", "getAll", "getAllCookieStores", "remove", "set"],
     events: ["onChanged"],
   },
   i18n: {
-    fn: ["getMessage"],
+    fn: ["getMessage", "getUILanguage"],
   },
   contextMenus: {
     fn: ["create", "refresh", "remove", "removeAll", "update"],

@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Τίποτα δεν διαγράφεται αυτόματα."
   },
+  "popupPauseChoicesText": {
+    "message": "Απενεργοποίηση αυτόματης διαγραφής"
+  },
+  "popupPauseHourText": {
+    "message": "Για 1 ώρα"
+  },
+  "popupPauseRestartText": {
+    "message": "Έως την επανεκκίνηση του προγράμματος περιήγησης"
+  },
+  "popupPauseOffText": {
+    "message": "Μέχρι να την ενεργοποιήσω ξανά"
+  },
+  "popupPauseCancelText": {
+    "message": "Ακύρωση"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Ενεργοποιείται ξανά στις $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Ενεργοποιείται ξανά με την επανεκκίνηση του προγράμματος περιήγησης."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Ενεργοποίηση ή απενεργοποίηση αυτόματου καθαρισμού"
+  },
   "popupHeroKeepingText": {
     "message": "Διατηρούνται τα cookies αυτού του ιστότοπου"
   },
