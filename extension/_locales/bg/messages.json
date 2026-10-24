@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Нищо не се изтрива автоматично."
   },
+  "popupPauseChoicesText": {
+    "message": "Изключване на автоизтриването"
+  },
+  "popupPauseHourText": {
+    "message": "За 1 час"
+  },
+  "popupPauseRestartText": {
+    "message": "До рестарт на браузъра"
+  },
+  "popupPauseOffText": {
+    "message": "Докато не го включа отново"
+  },
+  "popupPauseCancelText": {
+    "message": "Отказ"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Включва се отново в $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Включва се отново при рестарт на браузъра."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Включване или изключване на автоматичното чистене"
+  },
   "popupHeroKeepingText": {
     "message": "Бисквитките на този сайт се запазват"
   },

@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Automaticky se nic nemaže."
   },
+  "popupPauseChoicesText": {
+    "message": "Vypnout automatické mazání"
+  },
+  "popupPauseHourText": {
+    "message": "Na 1 hodinu"
+  },
+  "popupPauseRestartText": {
+    "message": "Do restartu prohlížeče"
+  },
+  "popupPauseOffText": {
+    "message": "Dokud ho znovu nezapnu"
+  },
+  "popupPauseCancelText": {
+    "message": "Zrušit"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Znovu se zapne v $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Znovu se zapne po restartu prohlížeče."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Zapnout nebo vypnout automatický úklid"
+  },
   "popupHeroKeepingText": {
     "message": "Cookies tohoto webu se ponechávají"
   },

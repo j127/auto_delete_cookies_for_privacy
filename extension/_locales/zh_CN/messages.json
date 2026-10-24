@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "不会自动删除任何东西。"
   },
+  "popupPauseChoicesText": {
+    "message": "关闭自动删除"
+  },
+  "popupPauseHourText": {
+    "message": "1 小时"
+  },
+  "popupPauseRestartText": {
+    "message": "直到浏览器重启"
+  },
+  "popupPauseOffText": {
+    "message": "直到我重新开启"
+  },
+  "popupPauseCancelText": {
+    "message": "取消"
+  },
+  "popupHeroResumesAtText": {
+    "message": "将于 $TIME$ 重新开启。",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "浏览器重启后重新开启。"
+  },
+  "commandToggleActiveModeText": {
+    "message": "开启或关闭自动清理"
+  },
   "popupHeroKeepingText": {
     "message": "正在保留此站点的 Cookie"
   },

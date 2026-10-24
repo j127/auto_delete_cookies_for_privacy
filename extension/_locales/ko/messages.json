@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "자동으로 삭제되는 것은 없습니다."
   },
+  "popupPauseChoicesText": {
+    "message": "자동 삭제 끄기"
+  },
+  "popupPauseHourText": {
+    "message": "1시간 동안"
+  },
+  "popupPauseRestartText": {
+    "message": "브라우저 재시작까지"
+  },
+  "popupPauseOffText": {
+    "message": "다시 켤 때까지"
+  },
+  "popupPauseCancelText": {
+    "message": "취소"
+  },
+  "popupHeroResumesAtText": {
+    "message": "$TIME$에 다시 켜집니다.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "브라우저를 재시작하면 다시 켜집니다."
+  },
+  "commandToggleActiveModeText": {
+    "message": "자동 정리 켜기/끄기"
+  },
   "popupHeroKeepingText": {
     "message": "이 사이트의 쿠키를 유지하는 중"
   },

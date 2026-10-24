@@ -127,12 +127,15 @@ const ImportExport: React.FunctionComponent<OwnProps> = ({ style }) => {
           return;
         }
         // from { name, value } to name:{ name, value }
-        const newSettings: MapToSettingObject = (
+        const newSettings: { [k: string]: Setting } = (
           jsonImport.settings as unknown as Setting[]
         ).reduce((a: { [k: string]: Setting }, c: Setting) => {
           a[c.name] = c;
           return a;
         }, {});
+        // A pause is never exported (see exportCoreSettings); one in a
+        // hand-edited file is ignored rather than started.
+        delete newSettings[SettingID.RESUME_ACTIVE_MODE];
         const settingKeys = Object.keys(newSettings);
         const unknownKeys = settingKeys.filter(
           (key) => !initialSettingKeys.includes(key)
@@ -180,7 +183,12 @@ const ImportExport: React.FunctionComponent<OwnProps> = ({ style }) => {
 
   const exportCoreSettings = () => {
     // Convert from name:{name, value} to {name, value}
-    const exportSettings: Setting[] = Object.values(settings);
+    // Without the pause (#555): it is a moment's state, not a preference,
+    // and older versions and Cookie AutoDelete reject a file naming a
+    // setting they don't know.
+    const exportSettings: Setting[] = Object.values(settings).filter(
+      (s) => s.name !== SettingID.RESUME_ACTIVE_MODE
+    );
     const r = downloadObjectAsJSON(
       { settings: exportSettings },
       "CoreSettings"

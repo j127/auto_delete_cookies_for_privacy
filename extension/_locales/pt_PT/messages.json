@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Nada é eliminado automaticamente."
   },
+  "popupPauseChoicesText": {
+    "message": "Desligar a eliminação automática"
+  },
+  "popupPauseHourText": {
+    "message": "Durante 1 hora"
+  },
+  "popupPauseRestartText": {
+    "message": "Até o navegador reiniciar"
+  },
+  "popupPauseOffText": {
+    "message": "Até eu voltar a ligar"
+  },
+  "popupPauseCancelText": {
+    "message": "Cancelar"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Volta a ligar às $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Volta a ligar quando o navegador reiniciar."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Ligar ou desligar a limpeza automática"
+  },
   "popupHeroKeepingText": {
     "message": "A manter os cookies deste site"
   },

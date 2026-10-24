@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Niente viene cancellato automaticamente."
   },
+  "popupPauseChoicesText": {
+    "message": "Disattiva la cancellazione automatica"
+  },
+  "popupPauseHourText": {
+    "message": "Per 1 ora"
+  },
+  "popupPauseRestartText": {
+    "message": "Fino al riavvio del browser"
+  },
+  "popupPauseOffText": {
+    "message": "Finché non la riattivo"
+  },
+  "popupPauseCancelText": {
+    "message": "Annulla"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Si riattiva alle $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Si riattiva al riavvio del browser."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Attiva o disattiva la pulizia automatica"
+  },
   "popupHeroKeepingText": {
     "message": "I cookie di questo sito vengono conservati"
   },

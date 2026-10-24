@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Nimic nu se șterge automat."
   },
+  "popupPauseChoicesText": {
+    "message": "Oprește ștergerea automată"
+  },
+  "popupPauseHourText": {
+    "message": "Pentru 1 oră"
+  },
+  "popupPauseRestartText": {
+    "message": "Până la repornirea browserului"
+  },
+  "popupPauseOffText": {
+    "message": "Până o pornesc din nou"
+  },
+  "popupPauseCancelText": {
+    "message": "Anulează"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Se reactivează la $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Se reactivează la repornirea browserului."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Pornește sau oprește curățarea automată"
+  },
   "popupHeroKeepingText": {
     "message": "Se păstrează cookie-urile acestui site"
   },

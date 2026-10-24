@@ -69,6 +69,47 @@ describe("ImportExport", () => {
     expect(success.textContent).toContain("CAD_CoreSettings_");
   });
 
+  it("leaves a pause out of the export (#555)", () => {
+    // Older versions and Cookie AutoDelete reject unknown settings.
+    let href = "";
+    const click = jest
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(function (this: HTMLAnchorElement) {
+        href = this.getAttribute("href") ?? "";
+      });
+    const { getByText } = renderPage();
+    fireEvent.click(getByText("exportSettingsText"));
+    click.mockRestore();
+    const exported = JSON.parse(
+      decodeURIComponent(href.slice(href.indexOf(",") + 1))
+    ) as { settings: Setting[] };
+    const names = exported.settings.map((x) => x.name);
+    expect(names).toContain(SettingID.ACTIVE_MODE);
+    expect(names).not.toContain(SettingID.RESUME_ACTIVE_MODE);
+  });
+
+  it("ignores a pause in an imported file (#555)", async () => {
+    const { dispatchSpy, fileInputs, container } = renderPage();
+    const file = jsonFile({
+      settings: [
+        { name: SettingID.ACTIVE_MODE, value: true },
+        { name: SettingID.RESUME_ACTIVE_MODE, value: -1 },
+      ],
+    });
+    fireEvent.change(fileInputs()[0], { target: { files: [file] } });
+
+    await waitFor(() => {
+      expect(
+        container.querySelector(".alert-success") as HTMLElement
+      ).not.toBeNull();
+    });
+    expect(dispatchSpy).toHaveBeenCalledTimes(1);
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      payload: { name: SettingID.ACTIVE_MODE, value: true },
+      type: ReduxConstants.UPDATE_SETTING,
+    });
+  });
+
   it("imports known settings and dispatches only the changed values", async () => {
     const { dispatchSpy, fileInputs, container } = renderPage();
     const file = jsonFile({
