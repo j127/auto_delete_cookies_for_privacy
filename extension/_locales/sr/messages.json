@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Ништа се не брише аутоматски."
   },
+  "popupPauseChoicesText": {
+    "message": "Искључи аутоматско брисање"
+  },
+  "popupPauseHourText": {
+    "message": "На 1 сат"
+  },
+  "popupPauseRestartText": {
+    "message": "До поновног покретања прегледача"
+  },
+  "popupPauseOffText": {
+    "message": "Док га поново не укључим"
+  },
+  "popupPauseCancelText": {
+    "message": "Откажи"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Поново се укључује у $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Поново се укључује при поновном покретању прегледача."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Укључи или искључи аутоматско чишћење"
+  },
   "popupHeroKeepingText": {
     "message": "Колачићи овог сајта се задржавају"
   },

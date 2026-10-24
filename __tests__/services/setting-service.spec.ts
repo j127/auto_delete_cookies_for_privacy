@@ -198,6 +198,35 @@ describe("SettingService", () => {
       expect(global.browser.alarms.clear).toHaveBeenCalledTimes(1);
       expect(spyBrowserActions.setGlobalIcon).toHaveBeenCalledWith(false);
     });
+    it("should forget a pause when active mode is turned back on (#555)", async () => {
+      TestStore.changeSetting(SettingID.RESUME_ACTIVE_MODE, -1);
+      await SettingService.onSettingsChange();
+      TestStore.changeSetting(SettingID.ACTIVE_MODE, true);
+      await SettingService.onSettingsChange();
+      expect(
+        store.getState().settings[SettingID.RESUME_ACTIVE_MODE].value
+      ).toBe(0);
+    });
+    it("should keep a pause while active mode turns off (#555)", async () => {
+      TestStore.changeSetting(SettingID.ACTIVE_MODE, true);
+      await SettingService.onSettingsChange();
+      TestStore.changeSetting(SettingID.RESUME_ACTIVE_MODE, -1);
+      await SettingService.onSettingsChange();
+      TestStore.changeSetting(SettingID.ACTIVE_MODE, false);
+      await SettingService.onSettingsChange();
+      expect(
+        store.getState().settings[SettingID.RESUME_ACTIVE_MODE].value
+      ).toBe(-1);
+    });
+    it("should arm the resume alarm when a timed pause starts (#555)", async () => {
+      const when = Date.now() + 60 * 60 * 1000;
+      TestStore.changeSetting(SettingID.RESUME_ACTIVE_MODE, when);
+      await SettingService.onSettingsChange();
+      expect(global.browser.alarms.create).toHaveBeenCalledWith(
+        "resumeActiveModeAlarm",
+        { when }
+      );
+    });
     it("should clear contextMenus if recently disabled", async () => {
       TestStore.changeSetting(SettingID.CONTEXT_MENUS, false);
       await SettingService.onSettingsChange();

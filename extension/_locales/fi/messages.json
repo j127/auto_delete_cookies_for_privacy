@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Mitään ei poisteta automaattisesti."
   },
+  "popupPauseChoicesText": {
+    "message": "Kytke automaattipoisto pois"
+  },
+  "popupPauseHourText": {
+    "message": "1 tunniksi"
+  },
+  "popupPauseRestartText": {
+    "message": "Selaimen uudelleenkäynnistykseen asti"
+  },
+  "popupPauseOffText": {
+    "message": "Kunnes kytken sen takaisin päälle"
+  },
+  "popupPauseCancelText": {
+    "message": "Peruuta"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Kytkeytyy takaisin päälle klo $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Kytkeytyy takaisin päälle, kun selain käynnistyy uudelleen."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Kytke automaattinen siivous päälle tai pois"
+  },
   "popupHeroKeepingText": {
     "message": "Tämän sivuston evästeet säilytetään"
   },

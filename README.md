@@ -10,6 +10,7 @@ This is a browser extension for Chrome, Brave, and Firefox that automatically de
 - Two kinds of keep rules: **Keep** (never cleaned) and **Keep until browser closes**
 - Clears other leftovers too, unless you turn that off: LocalStorage, IndexedDB, cache, service workers, plugin data
 - One-click manual cleanup for the current site from the popup or right-click menu
+- Turn automatic cleaning off from the popup for an hour, until the browser restarts, or until you turn it back on; Alt+Shift+D turns it off and on (change the key on your browser's extension shortcuts page)
 - Toolbar badge shows how many cookies the current site has set
 - Keep rules support wildcards and regular expressions, and can be exported/imported as files
 - A rule can keep just some of a site's cookies, by name or by pattern (`auth_*` keeps every cookie whose name starts with `auth_`; `\*` is a literal asterisk). Older versions and Cookie AutoDelete read `auth_*` as one literal name, so a rule with patterns imported there cleans those cookies instead of keeping them
@@ -23,7 +24,7 @@ On Chrome and Brave, Cache Storage (the Cache API) is cleared together with serv
 
 The Firefox build also runs on Firefox for Android 142 or newer, and on rebuilds of it such as Fennec F-Droid. A few things work differently there, because Firefox for Android gives extensions less to work with:
 
-- There are no containers and no right-click menu, so those settings are hidden.
+- There are no containers and no right-click menu, so those settings are hidden. There are no keyboard shortcuts either; use the switch in the popup.
 - There are no windows, so the Private keep list (sites kept in private tabs) is erased when the last private tab closes, and when Firefox starts with no private tab open, rather than when the last private window closes.
 - After a restart, Firefox only tells extensions about the tabs it has loaded again. So that sites in tabs you haven't opened yet don't get logged out, the extension remembers which sites were open and keeps their cookies until you open and close those tabs again. A tab closed from the tab tray without ever being opened keeps its site's cookies until the next "Clean now, including open tabs".
 

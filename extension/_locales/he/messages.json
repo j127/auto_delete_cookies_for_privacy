@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "שום דבר לא נמחק אוטומטית."
   },
+  "popupPauseChoicesText": {
+    "message": "כיבוי מחיקה אוטומטית"
+  },
+  "popupPauseHourText": {
+    "message": "לשעה אחת"
+  },
+  "popupPauseRestartText": {
+    "message": "עד הפעלה מחדש של הדפדפן"
+  },
+  "popupPauseOffText": {
+    "message": "עד שאפעיל אותה שוב"
+  },
+  "popupPauseCancelText": {
+    "message": "ביטול"
+  },
+  "popupHeroResumesAtText": {
+    "message": "תופעל שוב ב־$TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "תופעל שוב כשהדפדפן יופעל מחדש."
+  },
+  "commandToggleActiveModeText": {
+    "message": "הפעלה או כיבוי של ניקוי אוטומטי"
+  },
   "popupHeroKeepingText": {
     "message": "העוגיות של האתר הזה נשמרות"
   },

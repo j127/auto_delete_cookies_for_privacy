@@ -122,6 +122,12 @@ export const initialState: State = {
       name: SettingID.NUM_COOKIES_ICON,
       value: true,
     },
+    // Set only while automatic cleaning is paused from the popup (#555);
+    // see src/services/pause-service.ts for the values.
+    [SettingID.RESUME_ACTIVE_MODE]: {
+      name: SettingID.RESUME_ACTIVE_MODE,
+      value: 0,
+    },
     [SettingID.SITEDATA_EMPTY_ON_ENABLE]: {
       name: SettingID.SITEDATA_EMPTY_ON_ENABLE,
       // Off by default: the enable-time since-zero wipe is a global,

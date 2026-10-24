@@ -290,6 +290,51 @@ describe("popup App", () => {
     expect(global.browser.runtime.connect).toHaveBeenCalledTimes(1);
   });
 
+  describe("the auto-delete switch (#555)", () => {
+    const switchEl = () =>
+      document.getElementById("activeModeSwitch") as HTMLInputElement;
+
+    it("pausing for an hour sends the resume time, then turns cleaning off", async () => {
+      jest.useFakeTimers({ toFake: ["Date"] });
+      jest.setSystemTime(1_000_000);
+      const { dispatchSpy, getByText } = await renderApp({
+        settings: settingsWith({ [SettingID.ACTIVE_MODE]: true }),
+      });
+      fireEvent.click(switchEl());
+      fireEvent.click(getByText("popupPauseHourText"));
+      expect(dispatchSpy.mock.calls.map((c) => c[0])).toEqual([
+        {
+          payload: {
+            name: SettingID.RESUME_ACTIVE_MODE,
+            value: 1_000_000 + 60 * 60 * 1000,
+          },
+          type: "UPDATE_SETTING",
+        },
+        {
+          payload: { name: SettingID.ACTIVE_MODE, value: false },
+          type: "UPDATE_SETTING",
+        },
+      ]);
+      jest.useRealTimers();
+    });
+
+    it("turns cleaning on in one click while it is off", async () => {
+      const { dispatchSpy } = await renderApp();
+      fireEvent.click(switchEl());
+      expect(dispatchSpy).toHaveBeenCalledWith({
+        payload: { name: SettingID.ACTIVE_MODE, value: true },
+        type: "UPDATE_SETTING",
+      });
+    });
+
+    it("shows when an until-restart pause ends", async () => {
+      const { getByText } = await renderApp({
+        settings: settingsWith({ [SettingID.RESUME_ACTIVE_MODE]: -1 }),
+      });
+      expect(getByText("popupHeroResumesOnRestartText")).toBeTruthy();
+    });
+  });
+
   it("whitelists the wildcarded main domain from the primary keep action", async () => {
     const { dispatchSpy, getByText } = await renderApp();
     expect(getByText("keepCookiesCaptionText[example.com]")).toBeTruthy();

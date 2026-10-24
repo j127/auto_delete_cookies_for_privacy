@@ -23,6 +23,7 @@ import {
 } from "./libs";
 import { checkIfProtected, setGlobalIcon } from "./browser-action-service";
 import ContextMenuEvents from "./context-menu-events";
+import PauseService, { RESUME_NEVER } from "./pause-service";
 import { ReduxConstants } from "@/typings/redux-constants";
 
 export default class SettingService extends StoreUser {
@@ -106,11 +107,35 @@ export default class SettingService extends StoreUser {
         // cleanup can't fire after the user turned Automatic Cleaning off.
         await browser.storage.session?.remove("pendingCleanup");
       }
+      if (
+        active &&
+        SettingService.current[SettingID.RESUME_ACTIVE_MODE] &&
+        SettingService.getCurrent(SettingID.RESUME_ACTIVE_MODE) !== RESUME_NEVER
+      ) {
+        // Turned back on before a pause ended (#555): forget the pause, so
+        // its alarm or the next browser start doesn't act on it.
+        StoreUser.store.dispatch({
+          payload: {
+            name: SettingID.RESUME_ACTIVE_MODE,
+            value: RESUME_NEVER,
+          },
+          type: ReduxConstants.UPDATE_SETTING,
+        });
+      }
       await setGlobalIcon(active);
       ContextMenuEvents.updateMenuItemCheckbox(
         ContextMenuEvents.MenuID.ACTIVE_MODE,
         active
       );
+    }
+
+    // Pause (#555) changes. Compared with ?. because a state saved before
+    // the setting existed lacks it until validateSettings() adds it.
+    if (
+      previous[SettingID.RESUME_ACTIVE_MODE]?.value !==
+      SettingService.current[SettingID.RESUME_ACTIVE_MODE]?.value
+    ) {
+      await PauseService.sync();
     }
 
     // Context Menu Changes
