@@ -1,7 +1,7 @@
 {
   "releases": [
     {
-      "version": "1.3.3",
+      "version": "1.3.4",
       "notes": [
         "The popup now has a switch for automatic cleaning. Turning it off asks for how long: for 1 hour, until the browser restarts, or until you turn it back on. The popup says when cleaning comes back, and the toolbar icon stays grey until then.",
         "You can also give that switch a keyboard shortcut on your browser's extension shortcuts page (chrome://extensions/shortcuts, or Firefox's Add-ons page, gear menu, Manage Extension Shortcuts). It has no key until you pick one, so it never takes a key a site or you already use. Firefox for Android has no keyboard shortcuts."
