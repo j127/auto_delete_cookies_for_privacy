@@ -107,9 +107,15 @@ const PopupHero: React.FunctionComponent<OwnProps> = ({
             src={`../icons/icon_48${activeMode ? "" : "_greyscale"}.png`}
           />
         </span>
-        <div className="min-w-0 flex-1">
-          <div className="truncate text-base font-bold">{title}</div>
-          <div className="truncate text-sm text-base-content/70">
+        {/* Wraps instead of truncating: a cut-off subtitle hid when a
+            pause ends ("…when the browser restar…") at phone width, and
+            long translations and domains lost more. overflow-wrap:
+            anywhere still breaks a domain longer than the line. */}
+        <div className="min-w-0 flex-1 [overflow-wrap:anywhere]">
+          <div className="text-base font-bold" id="popupHeroTitle">
+            {title}
+          </div>
+          <div className="text-sm text-base-content/70" id="popupHeroSubtitle">
             {subtitle}
           </div>
         </div>
