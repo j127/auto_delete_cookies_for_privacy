@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "لا شيء يُحذف تلقائيًا."
   },
+  "popupPauseChoicesText": {
+    "message": "إيقاف الحذف التلقائي"
+  },
+  "popupPauseHourText": {
+    "message": "لمدة ساعة"
+  },
+  "popupPauseRestartText": {
+    "message": "حتى إعادة تشغيل المتصفح"
+  },
+  "popupPauseOffText": {
+    "message": "حتى أعيد تشغيله بنفسي"
+  },
+  "popupPauseCancelText": {
+    "message": "إلغاء"
+  },
+  "popupHeroResumesAtText": {
+    "message": "يعود للعمل في $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "يعود للعمل عند إعادة تشغيل المتصفح."
+  },
+  "commandToggleActiveModeText": {
+    "message": "تشغيل التنظيف التلقائي أو إيقافه"
+  },
   "popupHeroKeepingText": {
     "message": "يجري إبقاء كوكيز هذا الموقع"
   },

@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Nic nie jest usuwane automatycznie."
   },
+  "popupPauseChoicesText": {
+    "message": "Wyłącz automatyczne usuwanie"
+  },
+  "popupPauseHourText": {
+    "message": "Na 1 godzinę"
+  },
+  "popupPauseRestartText": {
+    "message": "Do restartu przeglądarki"
+  },
+  "popupPauseOffText": {
+    "message": "Dopóki go nie włączę"
+  },
+  "popupPauseCancelText": {
+    "message": "Anuluj"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Włączy się ponownie o $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Włączy się ponownie po restarcie przeglądarki."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Włącz lub wyłącz automatyczne czyszczenie"
+  },
   "popupHeroKeepingText": {
     "message": "Ciasteczka tej strony są zachowywane"
   },

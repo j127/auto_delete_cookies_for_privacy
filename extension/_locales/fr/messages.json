@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Rien n'est supprimé automatiquement."
   },
+  "popupPauseChoicesText": {
+    "message": "Désactiver la suppression auto"
+  },
+  "popupPauseHourText": {
+    "message": "Pendant 1 heure"
+  },
+  "popupPauseRestartText": {
+    "message": "Jusqu'au redémarrage du navigateur"
+  },
+  "popupPauseOffText": {
+    "message": "Jusqu'à ce que je la réactive"
+  },
+  "popupPauseCancelText": {
+    "message": "Annuler"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Se réactive à $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Se réactive au redémarrage du navigateur."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Activer ou désactiver le nettoyage automatique"
+  },
   "popupHeroKeepingText": {
     "message": "Les cookies de ce site sont conservés"
   },

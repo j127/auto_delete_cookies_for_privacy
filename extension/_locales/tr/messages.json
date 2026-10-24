@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Hiçbir şey otomatik silinmiyor."
   },
+  "popupPauseChoicesText": {
+    "message": "Otomatik silmeyi kapat"
+  },
+  "popupPauseHourText": {
+    "message": "1 saatliğine"
+  },
+  "popupPauseRestartText": {
+    "message": "Tarayıcı yeniden başlatılana dek"
+  },
+  "popupPauseOffText": {
+    "message": "Ben yeniden açana dek"
+  },
+  "popupPauseCancelText": {
+    "message": "İptal"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Yeniden açılma saati: $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Tarayıcı yeniden başlatılınca yeniden açılır."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Otomatik temizlemeyi aç veya kapat"
+  },
   "popupHeroKeepingText": {
     "message": "Bu sitenin çerezleri korunuyor"
   },

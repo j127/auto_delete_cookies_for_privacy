@@ -42,6 +42,9 @@ import {
   getSetting,
 } from "./services/libs";
 import ContextualIdentityEvents from "./services/contextual-identity-events";
+import PauseService, {
+  TOGGLE_ACTIVE_MODE_COMMAND,
+} from "./services/pause-service";
 import PermissionService from "./services/permission-service";
 import PrivateWindowEvents from "./services/private-window-events";
 import RecentCleanup from "./services/recent-cleanup";
@@ -123,6 +126,10 @@ const init = async (): Promise<AppStore> => {
   await TabEvents.hydrateFromSession();
   await RecentCleanup.hydrateFromSession();
   await AlarmEvents.recoverPendingCleanup();
+
+  // A timed pause (#555): re-arm its alarm, or end the pause if its time
+  // passed while the worker or the browser was down.
+  await PauseService.sync();
 
   // Container name/color cache (Firefox only; inert on Chrome). Runs on
   // every start: session-hydrate first, then live refresh.
@@ -423,8 +430,19 @@ browser.alarms.onAlarm.addListener(async (alarm) => {
   await ready;
   if (alarm.name === AlarmEvents.ACTIVE_MODE_ALARM) {
     await AlarmEvents.runPendingCleanup();
+  } else if (alarm.name === PauseService.RESUME_ALARM) {
+    PauseService.onAlarm();
   }
 });
+
+// The keyboard shortcut (#555). Firefox for Android has no commands API,
+// hence the guard.
+if (browser.commands) {
+  browser.commands.onCommand.addListener(async (command) => {
+    await ready;
+    if (command === TOGGLE_ACTIVE_MODE_COMMAND) PauseService.toggle();
+  });
+}
 
 browser.runtime.onStartup.addListener(async () => {
   await ready;
@@ -434,6 +452,9 @@ browser.runtime.onStartup.addListener(async () => {
   store.dispatch({
     type: ReduxConstants.ON_STARTUP,
   });
+  // Ends an until-restart pause (#555) first, so this start's cleanup runs
+  // as it would have without the pause.
+  PauseService.onStartup();
   if (getSetting(store.getState(), SettingID.ACTIVE_MODE) === true) {
     if (getSetting(store.getState(), SettingID.ENABLE_GREYLIST) === true) {
       greyCleanup();

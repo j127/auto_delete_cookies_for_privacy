@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Không có gì bị xóa tự động."
   },
+  "popupPauseChoicesText": {
+    "message": "Tắt tự động xóa"
+  },
+  "popupPauseHourText": {
+    "message": "Trong 1 giờ"
+  },
+  "popupPauseRestartText": {
+    "message": "Đến khi trình duyệt khởi động lại"
+  },
+  "popupPauseOffText": {
+    "message": "Đến khi tôi bật lại"
+  },
+  "popupPauseCancelText": {
+    "message": "Hủy"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Bật lại lúc $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Bật lại khi trình duyệt khởi động lại."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Bật hoặc tắt tự động dọn dẹp"
+  },
   "popupHeroKeepingText": {
     "message": "Đang giữ cookie của trang này"
   },

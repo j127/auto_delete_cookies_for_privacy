@@ -1357,6 +1357,44 @@
     "message": "Nothing is deleted automatically.",
     "description": "Popup hero subtitle while automatic cleaning is disabled"
   },
+  "popupPauseChoicesText": {
+    "message": "Turn auto-delete off",
+    "description": "Popup: label over the choices shown when the auto-delete switch is turned off"
+  },
+  "popupPauseHourText": {
+    "message": "For 1 hour",
+    "description": "Popup: turn auto-delete off for one hour"
+  },
+  "popupPauseRestartText": {
+    "message": "Until browser restart",
+    "description": "Popup: turn auto-delete off until the browser restarts"
+  },
+  "popupPauseOffText": {
+    "message": "Until I turn it back on",
+    "description": "Popup: turn auto-delete off with no end time"
+  },
+  "popupPauseCancelText": {
+    "message": "Cancel",
+    "description": "Popup: close the turn-off choices and keep auto-delete on"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Turns back on at $TIME$.",
+    "description": "Popup hero subtitle while auto-delete is off for an hour; $TIME$ is a clock time",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Turns back on when the browser restarts.",
+    "description": "Popup hero subtitle while auto-delete is off until the browser restarts"
+  },
+  "commandToggleActiveModeText": {
+    "message": "Turn automatic cleaning on or off",
+    "description": "Keyboard shortcut description in the browser's extension shortcuts page"
+  },
   "popupHeroKeepingText": {
     "message": "Keeping this site's cookies",
     "description": "Popup hero title when a keep rule matches the current site"

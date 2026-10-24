@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "不會自動刪除任何東西。"
   },
+  "popupPauseChoicesText": {
+    "message": "關閉自動刪除"
+  },
+  "popupPauseHourText": {
+    "message": "1 小時"
+  },
+  "popupPauseRestartText": {
+    "message": "直到瀏覽器重新啟動"
+  },
+  "popupPauseOffText": {
+    "message": "直到我重新開啟"
+  },
+  "popupPauseCancelText": {
+    "message": "取消"
+  },
+  "popupHeroResumesAtText": {
+    "message": "將於 $TIME$ 重新開啟。",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "瀏覽器重新啟動後重新開啟。"
+  },
+  "commandToggleActiveModeText": {
+    "message": "開啟或關閉自動清理"
+  },
   "popupHeroKeepingText": {
     "message": "正在保留此網站的 Cookie"
   },

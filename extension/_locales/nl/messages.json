@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Er wordt niets automatisch verwijderd."
   },
+  "popupPauseChoicesText": {
+    "message": "Automatisch verwijderen uitzetten"
+  },
+  "popupPauseHourText": {
+    "message": "1 uur"
+  },
+  "popupPauseRestartText": {
+    "message": "Tot de browser herstart"
+  },
+  "popupPauseOffText": {
+    "message": "Tot ik het weer aanzet"
+  },
+  "popupPauseCancelText": {
+    "message": "Annuleren"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Gaat om $TIME$ weer aan.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Gaat weer aan wanneer de browser herstart."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Automatisch opschonen aan- of uitzetten"
+  },
   "popupHeroKeepingText": {
     "message": "Cookies van deze site worden bewaard"
   },

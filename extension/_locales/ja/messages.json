@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "自動では何も削除されません。"
   },
+  "popupPauseChoicesText": {
+    "message": "自動削除をオフにする"
+  },
+  "popupPauseHourText": {
+    "message": "1 時間"
+  },
+  "popupPauseRestartText": {
+    "message": "ブラウザー再起動まで"
+  },
+  "popupPauseOffText": {
+    "message": "自分でオンにするまで"
+  },
+  "popupPauseCancelText": {
+    "message": "キャンセル"
+  },
+  "popupHeroResumesAtText": {
+    "message": "$TIME$ に再びオンになります。",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "ブラウザーの再起動時に再びオンになります。"
+  },
+  "commandToggleActiveModeText": {
+    "message": "自動クリーンアップのオン/オフを切り替え"
+  },
   "popupHeroKeepingText": {
     "message": "このサイトの Cookie を保持中"
   },

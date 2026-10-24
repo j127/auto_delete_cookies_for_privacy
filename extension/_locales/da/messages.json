@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Intet slettes automatisk."
   },
+  "popupPauseChoicesText": {
+    "message": "Slå autosletning fra"
+  },
+  "popupPauseHourText": {
+    "message": "I 1 time"
+  },
+  "popupPauseRestartText": {
+    "message": "Indtil browseren genstartes"
+  },
+  "popupPauseOffText": {
+    "message": "Indtil jeg slår den til igen"
+  },
+  "popupPauseCancelText": {
+    "message": "Annuller"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Slås til igen kl. $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Slås til igen, når browseren genstartes."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Slå automatisk rydning til eller fra"
+  },
   "popupHeroKeepingText": {
     "message": "Beholder webstedets cookies"
   },

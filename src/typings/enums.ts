@@ -62,6 +62,9 @@ export enum SettingID {
   OLD_GREY_CLEAN_LOCALSTORAGE = "greyCleanLocalstorage",
   OLD_WHITE_CLEAN_LOCALSTORAGE = "whiteCleanLocalstorage",
   POPUP_ADVANCED = "showAdvancedPopupControls",
+  // When a paused automatic cleaning turns itself back on (#555): 0 = not
+  // paused, -1 = at the next browser start, else a Date.now() timestamp.
+  RESUME_ACTIVE_MODE = "resumeActiveModeAt",
   SITEDATA_EMPTY_ON_ENABLE = "siteDataEmptyOnEnable",
   SIZE_POPUP = "sizePopup",
   SIZE_SETTING = "sizeSetting",

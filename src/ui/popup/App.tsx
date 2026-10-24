@@ -11,7 +11,8 @@
  * SOFTWARE.
  */
 import * as React from "react";
-import { useSelector, useStore } from "react-redux";
+import { useDispatch, useSelector, useStore } from "react-redux";
+import { updateSetting } from "@/redux/actions";
 import ContextualIdentityEvents from "@/services/contextual-identity-events";
 import PrivateWindowEvents from "@/services/private-window-events";
 import { browserCapabilities } from "@/services/browser-capabilities";
@@ -26,6 +27,11 @@ import {
   parseCookieStoreId,
   tabCookieStoreId,
 } from "@/services/libs";
+import {
+  getResumeAt,
+  pauseSettings,
+  type PauseLength,
+} from "@/services/pause-service";
 import { ListType, SettingID } from "@/typings/enums";
 import AdvancedControls from "./components/AdvancedControls";
 import KeepActions from "./components/KeepActions";
@@ -49,6 +55,7 @@ const App: React.FunctionComponent = () => {
   const settings = useSelector((s: State) => s.settings);
   const lists = useSelector((s: State) => s.lists);
   const store = useStore();
+  const dispatch = useDispatch<any>();
 
   const [cookieCount, setCookieCount] = React.useState(0);
   const [tab, setTab] = React.useState<browser.tabs.Tab | undefined>(undefined);
@@ -229,6 +236,7 @@ const App: React.FunctionComponent = () => {
     matchedExpressions[0];
 
   const activeMode = Boolean(settings[SettingID.ACTIVE_MODE].value);
+  const resumeAt = getResumeAt({ settings } as State);
   const advanced = Boolean(settings[SettingID.POPUP_ADVANCED]?.value);
   const cleanDelay = (settings[SettingID.CLEAN_DELAY].value as number) || 15;
 
@@ -248,6 +256,14 @@ const App: React.FunctionComponent = () => {
         activeMode={activeMode}
         domain={domain}
         matchedListType={matched?.listType as ListType | undefined}
+        onPause={(length: PauseLength) =>
+          pauseSettings(length).forEach((s) => dispatch(updateSetting(s)))
+        }
+        // Turning it on is enough: the background then forgets any pause.
+        onTurnOn={() =>
+          dispatch(updateSetting({ name: SettingID.ACTIVE_MODE, value: true }))
+        }
+        resumeAt={resumeAt}
       />
       <SiteCard
         cleanDelay={cleanDelay}

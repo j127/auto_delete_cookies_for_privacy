@@ -1126,6 +1126,36 @@
   "popupHeroOffSubText": {
     "message": "Inget raderas automatiskt."
   },
+  "popupPauseChoicesText": {
+    "message": "Stäng av autoradering"
+  },
+  "popupPauseHourText": {
+    "message": "I 1 timme"
+  },
+  "popupPauseRestartText": {
+    "message": "Tills webbläsaren startas om"
+  },
+  "popupPauseOffText": {
+    "message": "Tills jag slår på den igen"
+  },
+  "popupPauseCancelText": {
+    "message": "Avbryt"
+  },
+  "popupHeroResumesAtText": {
+    "message": "Slås på igen kl. $TIME$.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "3:45 PM"
+      }
+    }
+  },
+  "popupHeroResumesOnRestartText": {
+    "message": "Slås på igen när webbläsaren startas om."
+  },
+  "commandToggleActiveModeText": {
+    "message": "Slå på eller av automatisk städning"
+  },
   "popupHeroKeepingText": {
     "message": "Behåller webbplatsens kakor"
   },
