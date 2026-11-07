@@ -16,8 +16,8 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.13.0",
     "ipaddr.js": "^2.5.0",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "react-redux": "^9.3.0",
     "redux": "^5.0.1",
     "tldts": "7.4.18",
