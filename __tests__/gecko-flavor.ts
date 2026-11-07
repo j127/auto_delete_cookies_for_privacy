@@ -26,7 +26,8 @@
  *   firstPartyDomain under FPI, exact partitionKey) and resolves null on
  *   a miss, like Gecko.
  * - browsingData.remove({ origins }) → rejects (Firefox has no origins
- *   key); hostnames resolves.
+ *   key); hostnames resolves when every entry is a valid URL host
+ *   ("host" or "host:port", IPv6 in brackets) and rejects otherwise.
  *
  * Install per file AFTER stubbing __BROWSER__ to "firefox"; the Chrome
  * flavor never installs this, keeping every existing spec untouched.
@@ -149,6 +150,24 @@ export const installGeckoCookieMock = (
         return Promise.reject(
           new Error('Firefox does not support the "origins" removal option')
         );
+      }
+      // The schema's "hostname" format is URL host syntax, host plus
+      // optional port (Mozilla bug 1797376): a bare IPv6 address fails it,
+      // and the whole call rejects (checked on Firefox 159, #574).
+      for (const [index, host] of (removalOptions.hostnames ?? []).entries()) {
+        let valid: boolean;
+        try {
+          valid = new URL(`http://${host}`).host === host;
+        } catch {
+          valid = false;
+        }
+        if (!valid) {
+          return Promise.reject(
+            new Error(
+              `Type error for parameter options (Error processing hostnames.${index}: Error: Invalid hostname ${host}) for browsingData.remove.`
+            )
+          );
+        }
       }
       return Promise.resolve(undefined);
     }

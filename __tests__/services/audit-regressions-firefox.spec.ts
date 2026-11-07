@@ -267,6 +267,35 @@ describe("audit regressions on the Gecko-semantics jar", () => {
     expect(cleaned).toEqual(["sub.x.example"]);
   });
 
+  // #574: Firefox rejects a bare IPv6 hostname, and the whole removal
+  // with it, so every other host in the same call stayed uncleaned.
+  it("an IPv6 host goes in brackets, ported entries included", async () => {
+    installGeckoCookieMock();
+    const reason = (domain: string, value = "v"): CleanReasonObject => ({
+      cached: false,
+      cleanCookie: true,
+      cookie: {
+        ...fxCookie({ domain, name: "ADCPBrowsingDataCleanup", value }),
+        hostname: domain,
+        mainDomain: domain,
+        preparedCookieDomain: `http://[${domain}]/`,
+      },
+      openTabStatus: OpenTabStatus.TabsWasNotIgnored,
+      reason: ReasonClean.NoMatchedExpression,
+    });
+    const cleaned = await cleanSiteData(
+      initialState,
+      SiteDataType.LOCALSTORAGE,
+      [reason("::1", "ADCPBrowsingDataCleanup:8443"), reason("x.example")],
+      false
+    );
+    expect(cleaned).toEqual(["::1", "x.example"]);
+    const [scope] = global.browser.browsingData.remove.mock.calls[0];
+    expect(scope.hostnames).toEqual(
+      expect.arrayContaining(["[::1]", "[::1]:8443", "x.example"])
+    );
+  });
+
   it("bug 6a: cleans cookies of a container store that has no open tab", async () => {
     const jar = installGeckoCookieMock();
     when(global.browser.contextualIdentities.query)

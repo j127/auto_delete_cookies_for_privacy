@@ -20,6 +20,7 @@ const {
   cleanSiteData,
   clearCookiesForThisDomain,
   clearCookieTypeSiteData,
+  clearSiteDataForThisDomain,
   isDomainProtectedInStore,
   otherBrowsingDataCleanup,
   siteDataWipeStore,
@@ -329,6 +330,75 @@ describe("browsingData scoping on Firefox", () => {
     for (const host of scope.hostnames) {
       expect(host).not.toMatch(/^https?:/);
     }
+  });
+
+  // #574: Firefox matches hostnames against the storage's host AND port,
+  // so storage on a non-default port is only reached through "host:port".
+  it("adds host:port for a marker set on a non-default port", async () => {
+    const marker = cleanReason("nas.x.example", "nas.x.example");
+    marker.cookie.name = "ADCPBrowsingDataCleanup";
+    marker.cookie.value = "ADCPBrowsingDataCleanup:5001";
+    await cleanSiteData(
+      initialState,
+      SiteDataType.INDEXEDDB,
+      [marker, cleanReason("x.example", "x.example")],
+      false
+    );
+    expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+    const [scope] = global.browser.browsingData.remove.mock.calls[0];
+    expect(scope.hostnames).toEqual(
+      expect.arrayContaining([
+        "nas.x.example",
+        "nas.x.example:5001",
+        "x.example",
+        "x.example:5001",
+      ])
+    );
+  });
+
+  it("names the tab's port and every marker's port in a manual site wipe", async () => {
+    // The manual wipe shows a notification on success, titled with the
+    // manifest version.
+    when(global.browser.runtime.getManifest)
+      .calledWith()
+      .mockReturnValue({ version: "1.0.0" } as never);
+    when(global.browser.cookies.getAll)
+      .calledWith({
+        domain: "x.example",
+        firstPartyDomain: null,
+        name: "ADCPBrowsingDataCleanup",
+        storeId: "firefox-default",
+      })
+      .mockResolvedValue([
+        {
+          domain: "x.example",
+          name: "ADCPBrowsingDataCleanup",
+          value: "ADCPBrowsingDataCleanup:5000",
+        },
+        {
+          domain: "nas.x.example",
+          name: "ADCPBrowsingDataCleanup",
+          value: "ADCPBrowsingDataCleanup:5001",
+        },
+      ] as never);
+    const ok = await clearSiteDataForThisDomain(
+      initialState,
+      SiteDataType.LOCALSTORAGE,
+      "x.example",
+      "8080",
+      "firefox-default"
+    );
+    expect(ok).toBe(true);
+    const [scope] = global.browser.browsingData.remove.mock.calls[0];
+    expect(scope.hostnames).toEqual(
+      expect.arrayContaining([
+        "x.example",
+        "x.example:8080",
+        "x.example:5000",
+        "nas.x.example",
+        "nas.x.example:5001",
+      ])
+    );
   });
 
   it("skips cache cleanup entirely (not host-scopable on Firefox)", async () => {
