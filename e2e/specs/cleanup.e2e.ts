@@ -401,14 +401,8 @@ describe("row 13: site-data (localStorage) cleanup", () => {
     expect(cookiesCleaned).toBe(true);
 
     // The hostnames-scoped browsingData wipe (audit bug 5 territory):
-    // assert through the activity log that the extension issued the wipe
-    // with localhost in scope and the call succeeded. The end state of
-    // localStorage itself is NOT asserted here: Gecko's hostname matching
-    // does not clear storage for port-carrying lab origins like
-    // localhost:PORT (verified directly — a global wipe clears it, the
-    // hostname-scoped one resolves ok but leaves it), which cannot hit
-    // real default-port domains; the manual matrix row still covers a
-    // real domain.
+    // the activity log shows the extension issued the wipe with localhost
+    // in scope and the call succeeded.
     const wipeLogged = await waitUntil(async () => {
       const state = (await probe(session, { kind: "getState" })) as {
         activityLog?: {
@@ -420,5 +414,19 @@ describe("row 13: site-data (localStorage) cleanup", () => {
       );
     }, 20000);
     expect(wipeLogged).toBe(true);
+
+    // And the storage itself is gone. The fixture serves on localhost:PORT,
+    // and Gecko matches hostnames against host AND port, so a bare
+    // "localhost" leaves it alone (verified on Firefox 159). The page's
+    // marker cookie records the port, and the wipe names "localhost:PORT"
+    // too (#574).
+    // Read back on the fixture's landing page, which writes nothing.
+    let left: string | null = "1";
+    await whileOpen(`${fixture.primary}/read`, async () => {
+      left = (await session.driver.executeScript(
+        'return localStorage.getItem("e2e_ls");'
+      )) as string | null;
+    });
+    expect(left).toBeNull();
   }, 120000);
 });

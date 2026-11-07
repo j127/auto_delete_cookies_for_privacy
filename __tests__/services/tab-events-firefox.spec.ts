@@ -139,6 +139,83 @@ describe("TabEvents.getAllCookieActions marker cookie on Firefox", () => {
     expect(global.browser.cookies.set).not.toHaveBeenCalled();
   });
 
+  // #574: storage on a non-default port is only cleared when the removal
+  // names the port, so the marker records the port it was set from.
+  describe("on a non-default port", () => {
+    const nasTab: browser.tabs.Tab = {
+      ...firefoxTab,
+      url: "https://nas.cookie.net:5001/webman/index.cgi",
+    };
+    const marker = (value: string): browser.cookies.Cookie => ({
+      domain: "nas.cookie.net",
+      firstPartyDomain: "",
+      hostOnly: true,
+      httpOnly: false,
+      name: "ADCPBrowsingDataCleanup",
+      path: "/x",
+      sameSite: "no_restriction",
+      secure: true,
+      session: false,
+      storeId: "firefox-default",
+      value,
+    });
+    const siteCookies = (cookies: browser.cookies.Cookie[]) =>
+      when(global.browser.cookies.getAll)
+        .calledWith({
+          domain: "nas.cookie.net",
+          storeId: "firefox-default",
+          firstPartyDomain: null,
+          partitionKey: {},
+        })
+        .mockResolvedValue(cookies as never);
+
+    beforeEach(() => {
+      when(global.browser.storage.session.get)
+        .calledWith(FPI_SESSION_KEY)
+        .mockResolvedValue({ [FPI_SESSION_KEY]: false } as never);
+    });
+
+    it("records the port in the marker's value", async () => {
+      siteCookies([]);
+      await TabEvents.getAllCookieActions(nasTab);
+      expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
+      expect(global.browser.cookies.set).toHaveBeenCalledWith(
+        expect.objectContaining({
+          name: "ADCPBrowsingDataCleanup",
+          url: nasTab.url,
+          value: "ADCPBrowsingDataCleanup:5001",
+        })
+      );
+    });
+
+    it("still sets the ported marker when the host only has a default-port one", async () => {
+      siteCookies([marker("ADCPBrowsingDataCleanup")]);
+      await TabEvents.getAllCookieActions(nasTab);
+      expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
+      expect(global.browser.cookies.set.mock.calls[0][0].value).toBe(
+        "ADCPBrowsingDataCleanup:5001"
+      );
+    });
+
+    it("does not set a second marker for the same port", async () => {
+      siteCookies([marker("ADCPBrowsingDataCleanup:5001")]);
+      await TabEvents.getAllCookieActions(nasTab);
+      expect(global.browser.cookies.set).not.toHaveBeenCalled();
+    });
+
+    it("keeps the bare value on a default port", async () => {
+      siteCookies([marker("ADCPBrowsingDataCleanup:5001")]);
+      await TabEvents.getAllCookieActions({
+        ...nasTab,
+        url: "https://nas.cookie.net/",
+      });
+      expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
+      expect(global.browser.cookies.set.mock.calls[0][0].value).toBe(
+        "ADCPBrowsingDataCleanup"
+      );
+    });
+  });
+
   // #504: the same host can hold a marker as a cross-site frame of another
   // site. That one is cleaned with the embedding site, so the page still
   // needs a marker of its own.
@@ -222,6 +299,44 @@ describe("TabEvents.onFrameResponse on Firefox", () => {
         storeId: "firefox-container-1",
         url: "https://devicebind.cookie.net/x",
       })
+    );
+  });
+
+  it("records a frame's non-default port in its marker (#574)", async () => {
+    await TabEvents.onFrameResponse(
+      frame("https://devicebind.cookie.net:8443/x")
+    );
+    expect(global.browser.cookies.set).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: "https://devicebind.cookie.net:8443/x",
+        value: "ADCPBrowsingDataCleanup:8443",
+      })
+    );
+  });
+
+  it("does not re-mark a frame host that has a marker for the same port", async () => {
+    when(global.browser.cookies.getAll)
+      .calledWith({
+        domain: "devicebind.cookie.net",
+        firstPartyDomain: null,
+        name: "ADCPBrowsingDataCleanup",
+        storeId: "firefox-container-1",
+      })
+      .mockResolvedValue([
+        {
+          domain: "devicebind.cookie.net",
+          name: "ADCPBrowsingDataCleanup",
+          value: "ADCPBrowsingDataCleanup:8443",
+        },
+      ] as never);
+    await TabEvents.onFrameResponse(
+      frame("https://devicebind.cookie.net:8443/x")
+    );
+    await TabEvents.onFrameResponse(frame("https://devicebind.cookie.net/x"));
+    // Only the default-port load needed a marker of its own.
+    expect(global.browser.cookies.set).toHaveBeenCalledTimes(1);
+    expect(global.browser.cookies.set.mock.calls[0][0].value).toBe(
+      "ADCPBrowsingDataCleanup"
     );
   });
 

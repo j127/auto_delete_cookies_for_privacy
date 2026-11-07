@@ -45,6 +45,8 @@ import {
   isInPartitionOf,
   isMarkerCookieFor,
   localFileToRegex,
+  markerCookiePort,
+  markerCookieValue,
   matchIPInExpression,
   parseCookieStoreId,
   prepareCleanupDomains,
@@ -860,6 +862,42 @@ describe("Library Functions", () => {
     });
   });
 
+  describe("markerCookieValue() and markerCookiePort()", () => {
+    it("keeps the bare name for a default port", () => {
+      expect(markerCookieValue()).toBe(ADCPCOOKIENAME);
+      expect(markerCookieValue("")).toBe(ADCPCOOKIENAME);
+    });
+
+    it("round-trips a non-default port", () => {
+      const value = markerCookieValue("5001");
+      expect(value).toBe(`${ADCPCOOKIENAME}:5001`);
+      expect(markerCookiePort({ name: ADCPCOOKIENAME, value })).toBe("5001");
+    });
+
+    it("reads no port from markers written before ports were recorded", () => {
+      expect(
+        markerCookiePort({ name: ADCPCOOKIENAME, value: ADCPCOOKIENAME })
+      ).toBe("");
+      expect(markerCookiePort({ name: ADCPCOOKIENAME })).toBe("");
+    });
+
+    it("reads no port from other cookies or malformed values", () => {
+      expect(
+        markerCookiePort({ name: "session", value: `${ADCPCOOKIENAME}:5001` })
+      ).toBe("");
+      for (const value of [
+        `${ADCPCOOKIENAME}:`,
+        `${ADCPCOOKIENAME}:0`,
+        `${ADCPCOOKIENAME}:65536`,
+        `${ADCPCOOKIENAME}:50a`,
+        `${ADCPCOOKIENAME}:5001:1`,
+        "other:5001",
+      ]) {
+        expect(markerCookiePort({ name: ADCPCOOKIENAME, value })).toBe("");
+      }
+    });
+  });
+
   describe("isMarkerCookieFor()", () => {
     const marker = { domain: "sub.example.com", name: ADCPCOOKIENAME };
 
@@ -889,6 +927,26 @@ describe("Library Functions", () => {
       expect(isMarkerCookieFor({ ...marker, domain: "[::1]" }, "::1")).toBe(
         true
       );
+    });
+
+    // #574: a host used on several ports has one marker per port.
+    it("matches the port the marker was set from", () => {
+      const ported = { ...marker, value: markerCookieValue("5001") };
+      expect(
+        isMarkerCookieFor(ported, "sub.example.com", undefined, "5001")
+      ).toBe(true);
+      expect(isMarkerCookieFor(ported, "sub.example.com")).toBe(false);
+      expect(
+        isMarkerCookieFor(ported, "sub.example.com", undefined, "5000")
+      ).toBe(false);
+      expect(
+        isMarkerCookieFor(
+          { ...marker, value: ADCPCOOKIENAME },
+          "sub.example.com",
+          undefined,
+          "5001"
+        )
+      ).toBe(false);
     });
 
     // #504: a host has one marker of its own and one per site that embeds
@@ -1481,8 +1539,35 @@ describe("Library Functions", () => {
       ]);
     });
 
-    it("returns bare IPs untouched", () => {
+    it("returns bare IPv4 addresses untouched", () => {
       expect(prepareCleanupHostnames("127.0.0.1")).toEqual(["127.0.0.1"]);
+    });
+
+    // Firefox rejects a bare "::1" (its hostname format is URL host
+    // syntax), and with it the whole removal.
+    it("puts IPv6 addresses in brackets", () => {
+      expect(prepareCleanupHostnames("::1")).toEqual(["[::1]"]);
+      expect(prepareCleanupHostnames("[::1]")).toEqual(["[::1]"]);
+    });
+
+    // #574: Firefox matches entries against host AND port.
+    it("adds a host:port entry for every host when there is a port", () => {
+      expect(prepareCleanupHostnames("nas.domain.com", "5001")).toEqual([
+        "nas.domain.com",
+        "domain.com",
+        "www.domain.com",
+        "nas.domain.com:5001",
+        "domain.com:5001",
+        "www.domain.com:5001",
+      ]);
+      expect(prepareCleanupHostnames("192.168.1.8", "5000")).toEqual([
+        "192.168.1.8",
+        "192.168.1.8:5000",
+      ]);
+      expect(prepareCleanupHostnames("::1", "8443")).toEqual([
+        "[::1]",
+        "[::1]:8443",
+      ]);
     });
 
     it("returns nothing for a blank domain", () => {

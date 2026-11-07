@@ -54,8 +54,10 @@ export const FRAME_SITE_HOSTS = {
 /**
  * Port-less hostnames for the cross-site frame row (#504): two sites that
  * embed the same frame host. Gecko's storage wipe matches a storage's host
- * with its port, and cookies carry none, so only storage on port-less
- * origins is ever cleared; proxyPrefs gets such origins to this server.
+ * with its port, and cookies carry none, so when this row was written only
+ * storage on port-less origins was ever cleared; proxyPrefs gets such
+ * origins to this server. (Since #574 marker cookies record their port,
+ * and the wipe names "host:port" too.)
  */
 export const EMBED_HOSTS = {
   page: "www.adcp.test",
