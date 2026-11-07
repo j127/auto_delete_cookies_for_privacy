@@ -526,21 +526,56 @@ const normalizeHost = (host: string): string =>
     .toLowerCase();
 
 /**
+ * The value of a marker cookie set from a page or frame on port ("" for
+ * the scheme's default port). Cookies carry no port, but storage does:
+ * a NAS at 192.168.1.8:5000 keeps its storage under that port, and a
+ * browsingData removal only reaches it when it names the port (#574). So
+ * a marker set on a non-default port records the port in its value, and
+ * cleanup reads it back with markerCookiePort.
+ */
+export const markerCookieValue = (port = ""): string =>
+  port === "" ? ADCPCOOKIENAME : `${ADCPCOOKIENAME}:${port}`;
+
+/**
+ * The port a marker cookie was set from (markerCookieValue), or "" for a
+ * marker from a default port, a marker written before ports were recorded
+ * (its value is the bare name), and any cookie that is not a marker.
+ */
+export const markerCookiePort = (cookie: {
+  name: string;
+  value?: string;
+}): string => {
+  const prefix = `${ADCPCOOKIENAME}:`;
+  const value = cookie.value ?? "";
+  if (cookie.name !== ADCPCOOKIENAME || !value.startsWith(prefix)) return "";
+  const digits = value.slice(prefix.length);
+  if (!/^\d{1,5}$/.test(digits)) return "";
+  const port = Number(digits);
+  return port >= 1 && port <= 65535 ? String(port) : "";
+};
+
+/**
  * Whether a cookie is this extension's marker cookie for exactly host.
  * A host has one marker as a page or same-site frame, which is
  * unpartitioned, and one more per site that embeds it as a cross-site
  * frame, partitioned under that site (#504). They are told apart by
  * topUrl: omitted for the host's own marker, or the embedding page's url
- * for the marker in that page's partition (isInPartitionOf).
+ * for the marker in that page's partition (isInPartitionOf). Each port
+ * the host is used on has a marker of its own (markerCookieValue), so
+ * port ("" for the default port) must match as well.
  */
 export const isMarkerCookieFor = (
-  cookie: Pick<browser.cookies.Cookie, "domain" | "name" | "partitionKey">,
+  cookie: Pick<browser.cookies.Cookie, "domain" | "name" | "partitionKey"> & {
+    value?: string;
+  },
   host: string,
-  topUrl?: string
+  topUrl?: string,
+  port = ""
 ): boolean =>
   cookie.name === ADCPCOOKIENAME &&
   host !== "" &&
   normalizeHost(cookie.domain) === normalizeHost(host) &&
+  markerCookiePort(cookie) === port &&
   (topUrl === undefined
     ? !cookie.partitionKey?.topLevelSite
     : isInPartitionOf(cookie, topUrl));
@@ -893,25 +928,46 @@ export const prepareCleanupDomains = (domain: string, port = ""): string[] => {
  * www variant, the practical mitigation for the exact-host subdomain gap
  * (audit bug 5: upstream sent only the bare main domain, so storage on
  * real subdomains was never cleared).
+ *
+ * Despite the key's name, Firefox matches each entry against the storage
+ * origin's host AND port (`principal.hostPort` in ext-browsingData.js), and
+ * its schema accepts "host:port" (Mozilla bug 1797376). A bare host never
+ * reaches the localStorage or IndexedDB of the same host on a non-default
+ * port (#574), so with a port every entry is also sent as "host:port".
+ * The bare entries stay: service workers are matched by host alone.
+ * IPv6 addresses go in brackets; Firefox rejects a bare "::1", and the
+ * whole removal with it.
+ * @param port A non-default port the host's storage may sit on, or "".
  */
-export const prepareCleanupHostnames = (domain: string): string[] => {
-  const d = trimDot(domain.trim());
+export const prepareCleanupHostnames = (
+  domain: string,
+  port = ""
+): string[] => {
+  const d = trimDot(domain.trim()).replace(/^\[(.*)\]$/, "$1");
   if (d === "") return [];
-  if (ipaddr.IPv4.isValidFourPartDecimal(d) || ipaddr.IPv6.isValid(d)) {
-    return [d];
+  let hosts: string[];
+  if (ipaddr.IPv4.isValidFourPartDecimal(d)) {
+    hosts = [d];
+  } else if (ipaddr.IPv6.isValid(d)) {
+    hosts = [`[${d}]`];
+  } else {
+    const mainDomain = extractMainDomain(d);
+    hosts = [...new Set([d, mainDomain, `www.${mainDomain}`])];
   }
-  const mainDomain = extractMainDomain(d);
-  return [...new Set([d, mainDomain, `www.${mainDomain}`])];
+  return port === ""
+    ? hosts
+    : [...hosts, ...hosts.map((host) => `${host}:${port}`)];
 };
 
 /**
  * Per-target browsingData scope list: origins on Chrome, hostnames on
- * Firefox. The port only matters for origins — hostnames carry none.
+ * Firefox. Both carry the port when there is one: Chrome as ported
+ * origins, Firefox as "host:port" entries (prepareCleanupHostnames).
  */
 export const prepareCleanupScope = (domain: string, port = ""): string[] =>
   browserCapabilities.browsingDataScoping === "origins"
     ? prepareCleanupDomains(domain, port)
-    : prepareCleanupHostnames(domain);
+    : prepareCleanupHostnames(domain, port);
 
 /**
  * Puts the domain in the right format for browser.cookies.remove()

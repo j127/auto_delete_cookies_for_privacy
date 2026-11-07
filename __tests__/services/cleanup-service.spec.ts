@@ -32,6 +32,7 @@ import {
   clearSiteDataForThisDomain,
   filterSiteData,
   getSiteDataMarkerHosts,
+  getSiteDataMarkers,
   isSafeToClean,
   otherBrowsingDataCleanup,
   prepareCookie,
@@ -938,6 +939,45 @@ describe("CleanupService", () => {
         expect(call[0]).not.toHaveProperty("cookieStoreId");
       }
     });
+
+    // #574: cookies carry no port, so only a marker set from a page on a
+    // non-default port can put that port's origins in the scope.
+    it("adds the ported origins of a marker set on a non-default port", async () => {
+      when(global.browser.browsingData.remove)
+        .calledWith(expect.any(Object), expect.any(Object))
+        .mockResolvedValue(undefined as never);
+      const reason = (
+        cookie: Partial<CookiePropertiesCleanup>
+      ): CleanReasonObject => ({
+        cached: false,
+        cleanCookie: true,
+        cookie: { ...mockCookie, storeId: "0", ...cookie },
+        openTabStatus: OpenTabStatus.TabsWasNotIgnored,
+        reason: ReasonClean.NoMatchedExpression,
+      });
+      const result = await cleanSiteData(
+        initialState,
+        SiteDataType.LOCALSTORAGE,
+        [
+          reason({ domain: "192.168.1.8", name: "id" }),
+          reason({
+            domain: "192.168.1.8",
+            name: ADCPCOOKIENAME,
+            value: `${ADCPCOOKIENAME}:5001`,
+          }),
+        ],
+        false
+      );
+      expect(result).toEqual(["192.168.1.8", "192.168.1.8"]);
+      expect(global.browser.browsingData.remove).toHaveBeenCalledTimes(1);
+      const [scope] = global.browser.browsingData.remove.mock.calls[0];
+      expect(scope.origins).toEqual([
+        "http://192.168.1.8",
+        "https://192.168.1.8",
+        "http://192.168.1.8:5001",
+        "https://192.168.1.8:5001",
+      ]);
+    });
   });
 
   describe("clearCookiesForThisDomain()", () => {
@@ -1316,6 +1356,59 @@ describe("CleanupService", () => {
     it("returns nothing for a blank hostname", async () => {
       expect(await getSiteDataMarkerHosts("  ")).toEqual([]);
     });
+
+    // #574: one marker per port; the notification names each host once.
+    it("names a host once whatever ports its markers came from", async () => {
+      when(global.browser.cookies.getAll)
+        .calledWith(lookup)
+        .mockResolvedValue([
+          { ...marker("nas.example.com"), value: `${ADCPCOOKIENAME}:5000` },
+          { ...marker("nas.example.com"), value: `${ADCPCOOKIENAME}:5001` },
+        ] as never);
+      expect(await getSiteDataMarkerHosts("example.com", "0")).toEqual([
+        "nas.example.com",
+      ]);
+    });
+  });
+
+  describe("getSiteDataMarkers()", () => {
+    const lookup = {
+      domain: "example.com",
+      name: ADCPCOOKIENAME,
+      storeId: "0",
+    };
+
+    it("lists each host and port with a marker once, '' for a default port", async () => {
+      when(global.browser.cookies.getAll)
+        .calledWith(lookup)
+        .mockResolvedValue([
+          {
+            domain: "nas.example.com",
+            name: ADCPCOOKIENAME,
+            value: `${ADCPCOOKIENAME}:5001`,
+          },
+          {
+            domain: "nas.example.com",
+            name: ADCPCOOKIENAME,
+            value: `${ADCPCOOKIENAME}:5001`,
+          },
+          {
+            domain: "nas.example.com",
+            name: ADCPCOOKIENAME,
+            value: ADCPCOOKIENAME,
+          },
+          {
+            domain: ".example.com",
+            name: ADCPCOOKIENAME,
+            value: `${ADCPCOOKIENAME}:8080`,
+          },
+        ] as never);
+      expect(await getSiteDataMarkers("www.example.com", "0")).toEqual([
+        { host: "nas.example.com", port: "5001" },
+        { host: "nas.example.com", port: "" },
+        { host: "example.com", port: "8080" },
+      ]);
+    });
   });
 
   describe("clearSiteDataForThisDomain() with marker hosts (#464)", () => {
@@ -1360,6 +1453,39 @@ describe("CleanupService", () => {
           ])
         );
       }
+    });
+
+    // #574: a marker records the port it was set from.
+    it("wipes the ported origins of the site's markers", async () => {
+      when(global.browser.cookies.getAll)
+        .calledWith({
+          domain: "example.com",
+          name: ADCPCOOKIENAME,
+          storeId: "0",
+        })
+        .mockResolvedValueOnce([
+          {
+            domain: "devicebind.example.com",
+            name: ADCPCOOKIENAME,
+            value: `${ADCPCOOKIENAME}:8443`,
+          },
+        ] as never);
+      global.browser.browsingData.remove.mockClear();
+      await clearSiteDataForThisDomain(
+        initialState,
+        SiteDataType.LOCALSTORAGE,
+        "example.com",
+        "",
+        "0"
+      );
+      const [scope] = global.browser.browsingData.remove.mock.calls[0];
+      expect(scope.origins).toEqual(
+        expect.arrayContaining([
+          "https://example.com",
+          "https://devicebind.example.com",
+          "https://devicebind.example.com:8443",
+        ])
+      );
     });
 
     it("names hosts, not origins, in the notification", async () => {

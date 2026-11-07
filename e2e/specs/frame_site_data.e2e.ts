@@ -14,11 +14,14 @@
  * The session resolves two .test hostnames to the fixture server through
  * network.dns.localDomains: www.adcp.test serves a page with a Domain
  * cookie on adcp.test, a devicebind.adcp.test frame that writes
- * localStorage, and a cross-site 127.0.0.1 frame. As in row 13, the
- * storage end state is not asserted: Gecko's hostname-scoped wipe leaves
- * port-carrying origins alone, which real sites never are. The spec checks
- * the marker cookies and the cleanup log, which records the hosts whose
- * storage the extension asked Firefox to clear.
+ * localStorage, and a cross-site 127.0.0.1 frame. The storage end state is
+ * not asserted here. When this spec was written, Gecko's hostname-scoped
+ * wipe left the fixture's port-carrying origins alone; it matches host AND
+ * port, and the wipe named bare hosts only. Since #574 marker cookies
+ * record their port and the wipe names "host:port" too, and row 13 checks
+ * the end state on localhost:PORT. This spec checks the marker cookies and
+ * the cleanup log, which records the hosts whose storage the extension
+ * asked Firefox to clear.
  *
  * The cross-site frame's host gets a marker as well since #504, in the
  * partition of the page's site and never one of its own; row 22

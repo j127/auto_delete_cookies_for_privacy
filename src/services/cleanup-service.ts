@@ -30,6 +30,7 @@ import {
   getMatchedExpressions,
   getSetting,
   isAWebpage,
+  markerCookiePort,
   prepareCleanupScope,
   prepareCookieDomain,
   removeCookieAtEveryScheme,
@@ -783,15 +784,17 @@ export const clearLocalStorageForThisDomain = async (
 };
 
 /**
- * Every host of the site (same registrable domain as hostname) that holds
- * a marker cookie in storeId: the pages and same-site frames whose storage
- * a site-wide manual wipe must reach, on top of the hostname itself. Empty
- * when the lookup fails; the wipe then still covers the hostname.
+ * Every host and port of the site (same registrable domain as hostname)
+ * that holds a marker cookie in storeId: the pages and same-site frames
+ * whose storage a site-wide manual wipe must reach, on top of the hostname
+ * itself. The port is the one the marker was set from ("" for a default
+ * port, markerCookiePort). Empty when the lookup fails; the wipe then
+ * still covers the hostname.
  */
-export const getSiteDataMarkerHosts = async (
+export const getSiteDataMarkers = async (
   hostname: string,
   storeId?: string
-): Promise<string[]> => {
+): Promise<{ host: string; port: string }[]> => {
   const mainDomain = extractMainDomain(trimDot(hostname.trim()));
   if (mainDomain === "") return [];
   try {
@@ -803,19 +806,29 @@ export const getSiteDataMarkerHosts = async (
           storeId,
         })
       )) ?? [];
-    return [
-      ...new Set(
-        markers
-          .map((c) => trimDot(c.domain.trim()).toLowerCase())
-          .filter(
-            (host) => host !== "" && extractMainDomain(host) === mainDomain
-          )
-      ),
-    ];
+    const found = new Map<string, { host: string; port: string }>();
+    for (const c of markers) {
+      const host = trimDot(c.domain.trim()).toLowerCase();
+      if (host === "" || extractMainDomain(host) !== mainDomain) continue;
+      const port = markerCookiePort(c);
+      found.set(`${host}|${port}`, { host, port });
+    }
+    return [...found.values()];
   } catch {
     return [];
   }
 };
+
+/**
+ * The hosts of getSiteDataMarkers, each once whatever ports it was used
+ * on: what a site-wide wipe names in its notification.
+ */
+export const getSiteDataMarkerHosts = async (
+  hostname: string,
+  storeId?: string
+): Promise<string[]> => [
+  ...new Set((await getSiteDataMarkers(hostname, storeId)).map((m) => m.host)),
+];
 
 export const clearSiteDataForThisDomain = async (
   state: State,
@@ -840,13 +853,19 @@ export const clearSiteDataForThisDomain = async (
   // frames carry marker cookies, #464) are part of "this site" too. Like
   // the rest of the manual actions, keep rules don't apply: the click
   // asks for this site's data to go.
-  const markerHosts = (await getSiteDataMarkerHosts(hostname, storeId)).filter(
-    (host) => host !== hostname.trim()
-  );
+  // Markers also carry the port they were set from (#574), so the wipe
+  // reaches the storage of every port the site's hosts were used on,
+  // including this host's other ports.
+  const markers = await getSiteDataMarkers(hostname, storeId);
+  const markerHosts = [
+    ...new Set(
+      markers.map((m) => m.host).filter((host) => host !== hostname.trim())
+    ),
+  ];
   const domains = [
     ...new Set([
       ...prepareCleanupScope(hostname, port),
-      ...markerHosts.flatMap((host) => prepareCleanupScope(host)),
+      ...markers.flatMap((m) => prepareCleanupScope(m.host, m.port)),
     ]),
   ];
   // Notifications name hosts; the scope lists up to four origins each.
@@ -1302,8 +1321,12 @@ export const cleanSiteData = async (
   embeddedByStore: ReadonlyMap<string, ReadonlySet<string>> = new Map()
 ): Promise<string[]> => {
   // The domains to wipe, per store the wipe is limited to; the undefined
-  // key is a wipe that reaches every store.
-  const domainsByStore = new Map<string | undefined, string[]>();
+  // key is a wipe that reaches every store. Each domain comes with the
+  // port its marker cookie was set from ("" for other cookies).
+  const domainsByStore = new Map<
+    string | undefined,
+    { domain: string; port: string }[]
+  >();
   for (const obj of cleanReasonObjects) {
     if (!filterSiteData(obj, siteData, debug)) continue;
     const domain = obj.cookie.domain;
@@ -1329,18 +1352,19 @@ export const cleanSiteData = async (
     if (isProtected) continue;
     domainsByStore.set(wipeStore, [
       ...(domainsByStore.get(wipeStore) ?? []),
-      domain,
+      { domain, port: markerCookiePort(obj.cookie) },
     ]);
   }
 
   const cleaned: string[] = [];
-  for (const [wipeStore, domains] of domainsByStore) {
+  for (const [wipeStore, entries] of domainsByStore) {
     const cleanList: string[] = [];
-    for (const domain of domains) {
-      // No port available here: these domains come from cookies, and cookies
-      // are host-scoped. Storage on non-default-port origins is only covered
-      // by the manual per-site actions, which read the port from the tab URL.
-      cleanList.push(...prepareCleanupScope(domain));
+    for (const { domain, port } of entries) {
+      // Cookies are host-scoped, so a site's own cookies carry no port.
+      // Its marker cookies do (markerCookieValue): one per port its pages
+      // and frames loaded from, so storage on a non-default port, a NAS at
+      // 192.168.1.8:5000 say, is in the scope as well (#574).
+      cleanList.push(...prepareCleanupScope(domain, port));
     }
     if (cleanList.length === 0) continue;
     const r = await removeSiteData(
@@ -1353,7 +1377,7 @@ export const cleanSiteData = async (
       wipeStore
     );
     if (r) {
-      cleaned.push(...domains);
+      cleaned.push(...entries.map((entry) => entry.domain));
     }
   }
   return cleaned;

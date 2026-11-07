@@ -84,6 +84,9 @@ export const SITE_COOKIE = "adcp_site";
 /** The cookie a held /held response sets once released. */
 export const LATE_COOKIE = "adcp_late";
 
+/** The host-only cookie of the /nas page, served on a non-default port. */
+export const NAS_COOKIE = "adcp_nas";
+
 /** What each page writes; names a check can look for. */
 export const STORAGE_NAMES = {
   localStorage: "adcp-probe",
@@ -268,6 +271,21 @@ const handle = (
       // Drain the (empty) body so the request counts as fully received.
       req.resume();
       held.push({ res, site: siteOf(host) });
+      return;
+    case "/nas":
+      // A NAS-style page (#574), opened as http://127.0.0.1:PORT so its
+      // origin keeps the port: a host-only cookie and all three kinds of
+      // storage. Loopback counts as a secure context, so caches exist.
+      html(
+        res,
+        `<h1>${host}</h1>
+         <script>${STORE_SCRIPT}
+           store().then(
+             () => { document.title = "ready"; },
+             (e) => { document.title = "error: " + e; });
+         </script>`,
+        { "set-cookie": `${NAS_COOKIE}=1; Path=/; Max-Age=86400` }
+      );
       return;
     case "/plain":
       res.writeHead(200, { "content-type": "text/plain; charset=utf-8" });

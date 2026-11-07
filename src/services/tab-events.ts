@@ -27,10 +27,12 @@ import {
   getAllCookiesForDomain,
   getExactHostname,
   getHostname,
+  getPort,
   getSetting,
   hasSiteDataCleanupEnabled,
   isAWebpage,
   isMarkerCookieFor,
+  markerCookieValue,
   topLevelSiteOf,
   uid,
   withAllPartitions,
@@ -307,6 +309,8 @@ export default class TabEvents extends StoreUser {
     // some other host of the site (a frame's, say) must not count as this
     // host's own.
     const exactHost = getExactHostname(tab.url);
+    // Each port the host is used on gets a marker of its own (#574).
+    const port = getPort(tab.url);
     // Chrome tabs carry no cookieStoreId, so an incognito tab's marker
     // used to land in the REGULAR store (cookies.set's default): a hidden,
     // year-long record of a private visit that also surfaced in the
@@ -326,11 +330,14 @@ export default class TabEvents extends StoreUser {
         {
           firstPartyDomain: extractMainDomain(getHostname(tab.url)),
           host: exactHost,
+          port,
           storeId: tab.cookieStoreId,
           url: tab.url,
         },
         async () =>
-          internalCookies.some((c) => isMarkerCookieFor(c, exactHost)),
+          internalCookies.some((c) =>
+            isMarkerCookieFor(c, exactHost, undefined, port)
+          ),
         debug
       );
     }
@@ -399,6 +406,7 @@ export default class TabEvents extends StoreUser {
     if (!isHttpUrl(details.url)) return;
     const frameHost = getExactHostname(details.url);
     if (frameHost === "") return;
+    const framePort = getPort(details.url);
     const state = StoreUser.store.getState();
     if (!hasSiteDataCleanupEnabled(state)) return;
     const debug = getSetting(state, SettingID.DEBUG_MODE) as boolean;
@@ -450,6 +458,7 @@ export default class TabEvents extends StoreUser {
       {
         firstPartyDomain: extractMainDomain(frameHost),
         host: frameHost,
+        port: framePort,
         storeId,
         topLevelSite,
         url: details.url,
@@ -467,22 +476,27 @@ export default class TabEvents extends StoreUser {
           (await browser.cookies.getAll(
             embedderUrl === undefined ? lookup : withAllPartitions(lookup)
           )) ?? [];
-        return found.some((c) => isMarkerCookieFor(c, frameHost, embedderUrl));
+        return found.some((c) =>
+          isMarkerCookieFor(c, frameHost, embedderUrl, framePort)
+        );
       },
       debug
     );
   };
 
   /**
-   * Sets the hidden ADCP marker cookie on one exact host unless it already
-   * has one. Cleanup puts the site data of every host that owns a cookie
-   * in its scope, so the marker is what gets a host's storage cleaned when
-   * the site keeps its own cookies elsewhere (or sets none). The random
-   * path keeps the browser from ever sending it to the site, and isSafeToClean
-   * weighs keep rules and open tabs for it like for any cookie.
+   * Sets the hidden ADCP marker cookie on one exact host and port unless
+   * it already has one. Cleanup puts the site data of every host that owns
+   * a cookie in its scope, so the marker is what gets a host's storage
+   * cleaned when the site keeps its own cookies elsewhere (or sets none).
+   * The random path keeps the browser from ever sending it to the site, and
+   * isSafeToClean weighs keep rules and open tabs for it like for any
+   * cookie. A non-default port goes in the marker's value
+   * (markerCookieValue), since storage on that port is only cleared when
+   * the removal names it (#574).
    *
-   * Requests for the same store, partition and host share one write: a
-   * lookup that runs while another is still setting the marker would miss
+   * Requests for the same store, partition, host and port share one write:
+   * a lookup that runs while another is still setting the marker would miss
    * it and set a second one (every marker has its own path). Never throws:
    * a failed lookup or write only means this host's storage is not
    * cleaned.
@@ -493,6 +507,11 @@ export default class TabEvents extends StoreUser {
       url: string;
       /** The url's exact host, as getExactHostname returns it. */
       host: string;
+      /**
+       * The url's non-default port (getPort), or "". Recorded in the
+       * marker's value (markerCookieValue) so cleanup can name the port.
+       */
+      port: string;
       /** Raw cookie store id; undefined means the browser's default. */
       storeId: string | undefined;
       /** The first-party domain to set under First-Party Isolation. */
@@ -507,7 +526,7 @@ export default class TabEvents extends StoreUser {
     hasMarker: () => Promise<boolean>,
     debug: boolean
   ): Promise<void> {
-    const key = `${target.storeId ?? ""}|${target.topLevelSite ?? ""}|${target.host}`;
+    const key = `${target.storeId ?? ""}|${target.topLevelSite ?? ""}|${target.host}|${target.port}`;
     if (TabEvents.markersInFlight.has(key)) return;
     TabEvents.markersInFlight.add(key);
     try {
@@ -525,7 +544,7 @@ export default class TabEvents extends StoreUser {
         name: ADCPCOOKIENAME,
         path: `/${uid()}`,
         storeId: target.storeId,
-        value: ADCPCOOKIENAME,
+        value: markerCookieValue(target.port),
       };
       // Under FPI, cookies.set without firstPartyDomain rejects; with FPI
       // off, a non-empty firstPartyDomain rejects — hence the probe. The
