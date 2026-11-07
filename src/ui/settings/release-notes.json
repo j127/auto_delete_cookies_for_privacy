@@ -1,6 +1,15 @@
 {
   "releases": [
     {
+      "version": "1.3.5",
+      "notes": [
+        "Sites on their own port, such as a NAS at 192.168.1.8:5000, a router page or a local development server, now have their stored data deleted too. It used to stay behind, and the site stayed listed with its port in the browser's site data settings. Sites you visit on a port are picked up from your next visit.",
+        "Firefox: deleting site data no longer fails for sites at an IPv6 address such as [::1], or for the other sites cleaned at the same time.",
+        "The Public Suffix List used to tell sites apart was updated: customer sites on AWS Bedrock AgentCore, AWS Transfer and NAVER Cloud storage are now cleaned separately, and three retired domains (gitapp.si, knightpoint.systems and perspecta.cloud) are no longer split per site.",
+        "Internal: dependency updates, including Bun 1.4.4 and a newer interface library that keeps loading spinners, dividers and mixed checkboxes visible in Windows High Contrast mode."
+      ]
+    },
+    {
       "version": "1.3.4",
       "notes": [
         "The popup now has a switch for automatic cleaning. Turning it off asks for how long: for 1 hour, until the browser restarts, or until you turn it back on. The popup says when cleaning comes back, and the toolbar icon stays grey until then.",
