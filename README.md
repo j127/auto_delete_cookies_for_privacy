@@ -16,9 +16,11 @@ This is a browser extension for Chrome, Brave, and Firefox that automatically de
 - A rule can keep just some of a site's cookies, by name or by pattern (`auth_*` keeps every cookie whose name starts with `auth_`; `\*` is a literal asterisk). Older versions and Cookie AutoDelete read `auth_*` as one literal name, so a rule with patterns imported there cleans those cookies instead of keeping them
 - Each Firefox container can have its own keep rules
 
-### What Firefox won't let it clear
+### What the browser won't let it clear
 
 On Chrome and Brave, Cache Storage (the Cache API) is cleared together with service workers, and file-system storage (the origin private file system) together with IndexedDB. Firefox gives extensions no way to delete those two for a single site, and it can only clear its cache for the whole browser, so on Firefox all three stay behind after a cleanup. To remove them for one site, click the padlock in the address bar and choose "Clear cookies and site data…" (this also deletes the site's cookies). The Firefox side is tracked in Mozilla's [bug 1526246](https://bugzilla.mozilla.org/show_bug.cgi?id=1526246) (Cache API) and [bug 1535763](https://bugzilla.mozilla.org/show_bug.cgi?id=1535763) (clearing all of a site's storage).
+
+On Chrome and Edge, a site can stay in the browser's site data list (`chrome://settings/content/all`) at about 100 bytes with no cookies after a cleanup. That is usually Private State Tokens: anti-fraud tokens some sites store, designed so they can't be used to track you across sites. Chrome gives extensions no way to delete them: none of the `browsingData` API's data types covers them, so only the browser's own deletion does. To remove them, click the trash icon next to the site in that list, or use Delete browsing data (Ctrl+Shift+Delete, or Cmd+Shift+Delete on a Mac). Sites issue these tokens only some of the time, so the leftover can come and go. To check, open DevTools → Application → Private state tokens.
 
 ### Firefox for Android
 
