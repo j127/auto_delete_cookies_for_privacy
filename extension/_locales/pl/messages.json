@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "sesyjne"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Filtruj ciasteczka"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Brak pasujących ciasteczek"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Usuń ciasteczko $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "nie usunięto"
+  },
   "siteDataExpiresText": {
     "message": "wygasa $date$",
     "placeholders": {

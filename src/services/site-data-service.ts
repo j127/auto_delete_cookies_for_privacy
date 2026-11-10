@@ -17,7 +17,14 @@
  * browser.scripting.executeScript.
  */
 
-import { ADCPCOOKIENAME, getAllCookiesForDomain, getHostname } from "./libs";
+import {
+  ADCPCOOKIENAME,
+  cookieStillStored,
+  getAllCookiesForDomain,
+  getHostname,
+  prepareCookieDomain,
+  removeCookieAtEveryScheme,
+} from "./libs";
 
 const utf8Length = (s: string): number => new TextEncoder().encode(s).length;
 
@@ -151,6 +158,16 @@ export const collectSiteData = async (
       ...(cookie.session ? {} : { expirationDate: cookie.expirationDate }),
       secure: cookie.secure,
       httpOnly: cookie.httpOnly,
+      domain: cookie.domain,
+      path: cookie.path,
+      hostOnly: cookie.hostOnly,
+      storeId: cookie.storeId,
+      ...(cookie.partitionKey?.topLevelSite !== undefined && {
+        partitionKey: cookie.partitionKey,
+      }),
+      ...(cookie.firstPartyDomain !== undefined && {
+        firstPartyDomain: cookie.firstPartyDomain,
+      }),
     }));
 
   let results: Awaited<ReturnType<typeof browser.scripting.executeScript>>;
@@ -168,4 +185,35 @@ export const collectSiteData = async (
     (results?.[0]?.result as SiteDataPageInventory | undefined) ?? null;
 
   return { available: true, hostname, cookies, page };
+};
+
+/**
+ * Deletes one cookie from the popup's cookie list (#592): exactly that
+ * cookie, with its store, partition and first-party domain, through the
+ * same removal the cleanup uses. Chrome's cookies.remove matches by url and
+ * name, so a same-name cookie on a parent domain that the url would be
+ * sent can go with it; that is the API's limit, as during a cleanup.
+ * Resolves true once the cookie is no longer stored: Chrome resolves even
+ * when nothing was removed, so the store is read again to be sure.
+ */
+export const removeSiteCookie = async (
+  cookie: SiteDataCookieEntry
+): Promise<boolean> => {
+  const details = {
+    name: cookie.name,
+    storeId: cookie.storeId,
+    url: prepareCookieDomain(cookie as unknown as browser.cookies.Cookie),
+    ...(cookie.firstPartyDomain !== undefined && {
+      firstPartyDomain: cookie.firstPartyDomain,
+    }),
+    ...(cookie.partitionKey !== undefined && {
+      partitionKey: cookie.partitionKey,
+    }),
+  };
+  try {
+    await removeCookieAtEveryScheme(details, cookie);
+  } catch {
+    return false;
+  }
+  return !(await cookieStillStored(details, cookie));
 };

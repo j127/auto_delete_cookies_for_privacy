@@ -4,7 +4,10 @@
  */
 import * as React from "react";
 import { useStore } from "react-redux";
-import { collectSiteData } from "@/services/site-data-service";
+import {
+  collectSiteData,
+  removeSiteCookie,
+} from "@/services/site-data-service";
 
 interface OwnProps {
   tab: browser.tabs.Tab;
@@ -14,6 +17,11 @@ interface OwnProps {
    * panel re-collects so deletions are immediately visible.
    */
   dataVersion: number;
+  /**
+   * Advanced mode: each cookie row gets a button that deletes that one
+   * cookie (#592).
+   */
+  canDelete?: boolean;
 }
 
 /** 1536 -> "1.5 kB"; sizes are estimates, one decimal is plenty. */
@@ -41,6 +49,8 @@ type CategoryRow = {
   /** Bytes for the category where known (summed items or usageDetails). */
   bytes: number | null;
   details: string[];
+  /** The cookies row's entries, rendered by CookieList. */
+  cookies?: ReadonlyArray<SiteDataCookieEntry>;
 };
 
 const cookieDetail = (cookie: SiteDataCookieEntry): string => {
@@ -77,6 +87,7 @@ const buildRows = (inventory: SiteDataInventory): CategoryRow[] => {
       count: cookies.length,
       bytes: sumBytes(cookies),
       details: cookies.map(cookieDetail),
+      cookies,
     },
     {
       key: "localStorage",
@@ -119,6 +130,136 @@ const buildRows = (inventory: SiteDataInventory): CategoryRow[] => {
   ];
 };
 
+/** The cookie list shows its filter box from this many cookies on (#592). */
+export const COOKIE_FILTER_THRESHOLD = 10;
+
+/**
+ * The filter's matching: case-insensitive, and blind to spaces, dots,
+ * underscores and hyphens, so "sessionid" finds "session_id" and
+ * "SESSION-ID". A plain "contains" rather than fuzzy matching, which
+ * turns up noise among short technical cookie names.
+ */
+export const normalizeForFilter = (text: string): string =>
+  text.toLowerCase().replace(/[\s._-]+/g, "");
+
+export const matchesCookieFilter = (
+  cookie: SiteDataCookieEntry,
+  query: string
+): boolean => {
+  const wanted = normalizeForFilter(query);
+  return (
+    wanted === "" ||
+    normalizeForFilter(cookie.name).includes(wanted) ||
+    normalizeForFilter(cookie.domain).includes(wanted)
+  );
+};
+
+/** One string per stored cookie: same-name cookies differ in the rest. */
+const cookieIdentity = (cookie: SiteDataCookieEntry): string =>
+  [
+    cookie.storeId,
+    cookie.domain,
+    cookie.path,
+    cookie.name,
+    cookie.partitionKey?.topLevelSite ?? "",
+    String(cookie.partitionKey?.hasCrossSiteAncestor ?? ""),
+    cookie.firstPartyDomain ?? "",
+  ].join("|");
+
+/** Where a cookie lives, for its row's tooltip. */
+const cookieWhere = (cookie: SiteDataCookieEntry): string =>
+  `${cookie.domain}${cookie.path}${
+    cookie.partitionKey?.topLevelSite
+      ? ` (${cookie.partitionKey.topLevelSite})`
+      : ""
+  }`;
+
+/**
+ * The cookies row's list (#592): a filter box once the list is long, and
+ * in advanced mode a button per cookie that deletes exactly that cookie.
+ */
+const CookieList: React.FunctionComponent<{
+  cookies: ReadonlyArray<SiteDataCookieEntry>;
+  canDelete: boolean;
+  onDeleted: () => void;
+}> = ({ cookies, canDelete, onDeleted }) => {
+  const [query, setQuery] = React.useState("");
+  const [busy, setBusy] = React.useState<string | undefined>(undefined);
+  const [failed, setFailed] = React.useState<ReadonlySet<string>>(
+    () => new Set()
+  );
+  const shown = cookies.filter((cookie) => matchesCookieFilter(cookie, query));
+
+  const remove = async (cookie: SiteDataCookieEntry) => {
+    const id = cookieIdentity(cookie);
+    setBusy(id);
+    const removed = await removeSiteCookie(cookie);
+    setBusy(undefined);
+    if (removed) {
+      onDeleted();
+    } else {
+      setFailed((previous) => new Set(previous).add(id));
+    }
+  };
+
+  return (
+    <div className="px-3 pb-2" id="cookieList">
+      {/* Stays while it holds a query, even once deletions shorten the
+          list below the threshold: a hidden box would keep filtering. */}
+      {(cookies.length >= COOKIE_FILTER_THRESHOLD || query !== "") && (
+        <input
+          aria-label={msg("siteDataFilterCookiesText")}
+          className="input mb-1 w-full input-xs"
+          id="cookieFilter"
+          onChange={(event) => setQuery(event.target.value)}
+          placeholder={msg("siteDataFilterCookiesText")}
+          type="search"
+          value={query}
+        />
+      )}
+      {shown.length === 0 ? (
+        <p className="py-0.5 text-xs text-base-content/60">
+          {msg("siteDataNoMatchingCookiesText")}
+        </p>
+      ) : (
+        <ul className="max-h-40 overflow-auto font-mono text-xs">
+          {shown.map((cookie) => {
+            const id = cookieIdentity(cookie);
+            return (
+              <li
+                className="flex items-center gap-1 py-0.5"
+                key={id}
+                title={cookieWhere(cookie)}
+              >
+                <span className="min-w-0 flex-1 truncate">
+                  {cookieDetail(cookie)}
+                </span>
+                {failed.has(id) && (
+                  <span className="shrink-0 text-error">
+                    {msg("siteDataDeleteFailedText")}
+                  </span>
+                )}
+                {canDelete && (
+                  <button
+                    aria-label={msg("siteDataDeleteCookieTitle", [cookie.name])}
+                    className="btn h-5 min-h-0 shrink-0 btn-ghost px-1 btn-xs"
+                    disabled={busy === id}
+                    onClick={() => void remove(cookie)}
+                    title={msg("siteDataDeleteCookieTitle", [cookie.name])}
+                    type="button"
+                  >
+                    ×
+                  </button>
+                )}
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
+  );
+};
+
 /**
  * The read-only counterpart of the popup's clean buttons (#112): what the
  * visited site currently stores, per category. Collapsed by default so the
@@ -128,9 +269,10 @@ const buildRows = (inventory: SiteDataInventory): CategoryRow[] => {
 const SiteDataPanel: React.FunctionComponent<OwnProps> = ({
   tab,
   dataVersion,
+  canDelete = false,
 }) => {
   const store = useStore();
-  // undefined = collecting (loading state).
+  // undefined = the first collect hasn't landed yet (loading state).
   const [inventory, setInventory] = React.useState<
     SiteDataInventory | undefined
   >(undefined);
@@ -138,10 +280,11 @@ const SiteDataPanel: React.FunctionComponent<OwnProps> = ({
 
   React.useEffect(() => {
     let cancelled = false;
-    // Back to the loading state before every (re-)collect; the extra render
-    // is the point.
-    // eslint-disable-next-line @eslint-react/set-state-in-effect
-    setInventory(undefined);
+    // The loading state shows only until the first collect lands. A
+    // re-collect (the refresh button, a clean, a deleted cookie) keeps the
+    // current inventory on screen until the new one replaces it: going back
+    // to the loading state first rebuilt every row, which closed the open
+    // ones and cleared the cookie filter after each change (#592).
     collectSiteData(store.getState() as State, tab)
       // collectSiteData resolves { available: false } for everything it
       // anticipates; this catch only guards against the unexpected so the
@@ -194,17 +337,25 @@ const SiteDataPanel: React.FunctionComponent<OwnProps> = ({
                 {row.count === null ? msg("siteDataUnknownText") : row.count}
               </span>
             </summary>
-            {row.details.length > 0 && (
-              <ul className="max-h-40 overflow-auto px-3 pb-2 font-mono text-xs">
-                {row.details.map((line, i) => (
-                  // Stateless read-only lines that can repeat, so the index is
-                  // the only stable identity.
-                  // eslint-disable-next-line @eslint-react/no-array-index-key
-                  <li key={`${row.key}-${i}`} className="truncate py-0.5">
-                    {line}
-                  </li>
-                ))}
-              </ul>
+            {row.cookies && row.cookies.length > 0 ? (
+              <CookieList
+                canDelete={canDelete}
+                cookies={row.cookies}
+                onDeleted={() => setManualRefresh((n) => n + 1)}
+              />
+            ) : (
+              row.details.length > 0 && (
+                <ul className="max-h-40 overflow-auto px-3 pb-2 font-mono text-xs">
+                  {row.details.map((line, i) => (
+                    // Stateless read-only lines that can repeat, so the index is
+                    // the only stable identity.
+                    // eslint-disable-next-line @eslint-react/no-array-index-key
+                    <li key={`${row.key}-${i}`} className="truncate py-0.5">
+                      {line}
+                    </li>
+                  ))}
+                </ul>
+              )
             )}
           </details>
         ))}

@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "sesi"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Saring cookie"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Tidak ada cookie yang cocok"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Hapus cookie $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "tidak terhapus"
+  },
   "siteDataExpiresText": {
     "message": "kedaluwarsa $date$",
     "placeholders": {

@@ -22,6 +22,21 @@ type SiteDataCookieEntry = Readonly<{
   expirationDate?: number;
   secure: boolean;
   httpOnly: boolean;
+  /**
+   * Where the cookie lives, to tell same-name cookies apart and to remove
+   * exactly this one from the popup (#592).
+   */
+  domain: string;
+  path: string;
+  hostOnly: boolean;
+  storeId: string;
+  /** Present only on partitioned cookies (CHIPS, Total Cookie Protection). */
+  partitionKey?: Readonly<{
+    topLevelSite?: string;
+    hasCrossSiteAncestor?: boolean;
+  }>;
+  /** Firefox only: the first-party domain under first-party isolation. */
+  firstPartyDomain?: string;
 }>;
 
 type SiteDataStorageEntry = Readonly<{

@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "جلسة"
   },
+  "siteDataFilterCookiesText": {
+    "message": "تصفية الكوكيز"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "لا توجد كوكيز مطابقة"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "احذف الكوكي $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "لم يُحذف"
+  },
   "siteDataExpiresText": {
     "message": "تنتهي في $date$",
     "placeholders": {

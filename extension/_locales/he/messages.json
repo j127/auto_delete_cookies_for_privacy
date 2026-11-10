@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "סשן"
   },
+  "siteDataFilterCookiesText": {
+    "message": "סינון עוגיות"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "אין עוגיות תואמות"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "מחיקת העוגייה $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "לא נמחקה"
+  },
   "siteDataExpiresText": {
     "message": "תוקף עד $date$",
     "placeholders": {

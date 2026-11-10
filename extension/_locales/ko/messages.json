@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "세션"
   },
+  "siteDataFilterCookiesText": {
+    "message": "쿠키 필터"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "일치하는 쿠키가 없습니다"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "쿠키 $name$ 삭제",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "삭제되지 않음"
+  },
   "siteDataExpiresText": {
     "message": "$date$ 만료",
     "placeholders": {

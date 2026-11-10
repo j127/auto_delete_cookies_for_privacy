@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "relační"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Filtrovat cookies"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Žádné cookies neodpovídají"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Smazat cookie $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "nesmazáno"
+  },
   "siteDataExpiresText": {
     "message": "vyprší $date$",
     "placeholders": {

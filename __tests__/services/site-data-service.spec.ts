@@ -5,6 +5,7 @@ import { initialState } from "@/redux/state";
 import {
   collectPageStorage,
   collectSiteData,
+  removeSiteCookie,
 } from "@/services/site-data-service";
 
 // jsdom on purpose (unlike the other services specs): collectPageStorage
@@ -115,6 +116,12 @@ describe("collectSiteData()", () => {
     expect(inventory.available).toBe(true);
     expect(inventory.hostname).toBe("domain.com");
     // "id" (2) + "é" (2 bytes in UTF-8) = 4.
+    const where = {
+      domain: "domain.com",
+      path: "/",
+      hostOnly: true,
+      storeId: "default",
+    };
     expect(inventory.cookies).toEqual([
       {
         name: "id",
@@ -122,6 +129,7 @@ describe("collectSiteData()", () => {
         session: true,
         secure: false,
         httpOnly: false,
+        ...where,
       },
       {
         name: "keep",
@@ -130,6 +138,7 @@ describe("collectSiteData()", () => {
         expirationDate: 1893456000,
         secure: true,
         httpOnly: true,
+        ...where,
       },
     ]);
     expect(inventory.page).toEqual(pagePayload);
@@ -145,6 +154,122 @@ describe("collectSiteData()", () => {
       cookies: [],
       page: null,
     });
+  });
+});
+
+describe("collectSiteData() cookie identity (#592)", () => {
+  it("keeps the partition and first-party domain, and drops an empty partition key", async () => {
+    global.browser.cookies.getAll.mockResolvedValue([
+      {
+        ...cookieFor({ name: "chips" }),
+        partitionKey: { topLevelSite: "https://top.example" },
+      },
+      { ...cookieFor({ name: "plain" }), partitionKey: {} },
+      { ...cookieFor({ name: "fpi" }), firstPartyDomain: "domain.com" },
+    ] as never);
+    global.browser.scripting.executeScript.mockResolvedValue([
+      { frameId: 0, result: pagePayload },
+    ] as never);
+
+    const { cookies } = await collectSiteData(initialState, baseTab);
+
+    const byName = Object.fromEntries(
+      (cookies ?? []).map((cookie) => [cookie.name, cookie])
+    );
+    expect(byName.chips.partitionKey).toEqual({
+      topLevelSite: "https://top.example",
+    });
+    expect(byName.plain).not.toHaveProperty("partitionKey");
+    expect(byName.fpi.firstPartyDomain).toBe("domain.com");
+    expect(byName.plain).not.toHaveProperty("firstPartyDomain");
+  });
+});
+
+describe("removeSiteCookie() (#592)", () => {
+  const entry = (
+    over: Partial<SiteDataCookieEntry> = {}
+  ): SiteDataCookieEntry => ({
+    name: "sid",
+    sizeBytes: 10,
+    session: true,
+    secure: true,
+    httpOnly: true,
+    domain: ".domain.com",
+    path: "/app",
+    hostOnly: false,
+    storeId: "0",
+    ...over,
+  });
+
+  beforeEach(() => {
+    global.browser.cookies.remove.mockReset();
+    global.browser.cookies.getAll.mockReset();
+  });
+
+  it("removes exactly that cookie and reports it gone", async () => {
+    global.browser.cookies.remove.mockResolvedValue({ name: "sid" } as never);
+    global.browser.cookies.getAll.mockResolvedValue([] as never);
+    await expect(removeSiteCookie(entry())).resolves.toBe(true);
+    expect(global.browser.cookies.remove).toHaveBeenCalledTimes(1);
+    expect(global.browser.cookies.remove).toHaveBeenCalledWith({
+      name: "sid",
+      storeId: "0",
+      url: "https://domain.com/app",
+    });
+  });
+
+  it("passes the partition key and first-party domain through", async () => {
+    global.browser.cookies.remove.mockResolvedValue({ name: "sid" } as never);
+    global.browser.cookies.getAll.mockResolvedValue([] as never);
+    const partitionKey = {
+      topLevelSite: "https://top.example",
+      hasCrossSiteAncestor: false,
+    };
+    await removeSiteCookie(
+      entry({ partitionKey, firstPartyDomain: "domain.com" })
+    );
+    expect(global.browser.cookies.remove).toHaveBeenCalledWith(
+      expect.objectContaining({ partitionKey, firstPartyDomain: "domain.com" })
+    );
+  });
+
+  it("reports a cookie the browser kept as not deleted", async () => {
+    global.browser.cookies.remove.mockResolvedValue({ name: "sid" } as never);
+    global.browser.cookies.getAll.mockResolvedValue([
+      {
+        ...cookieFor({ name: "sid", secure: true }),
+        domain: ".domain.com",
+        path: "/app",
+        hostOnly: false,
+        storeId: "0",
+      },
+    ] as never);
+    await expect(removeSiteCookie(entry())).resolves.toBe(false);
+  });
+
+  it("reports a rejected removal as not deleted", async () => {
+    global.browser.cookies.remove.mockRejectedValue(new Error("bad url"));
+    await expect(removeSiteCookie(entry())).resolves.toBe(false);
+  });
+
+  it("tries the https url too for a non-Secure cookie still stored after the http one", async () => {
+    const stored = {
+      ...cookieFor({ name: "sid" }),
+      domain: ".domain.com",
+      path: "/app",
+      hostOnly: false,
+      storeId: "0",
+    };
+    global.browser.cookies.remove.mockResolvedValue({ name: "sid" } as never);
+    global.browser.cookies.getAll
+      .mockResolvedValueOnce([stored] as never)
+      .mockResolvedValue([] as never);
+    await expect(removeSiteCookie(entry({ secure: false }))).resolves.toBe(
+      true
+    );
+    expect(
+      global.browser.cookies.remove.mock.calls.map(([d]) => d.url)
+    ).toEqual(["http://domain.com/app", "https://domain.com/app"]);
   });
 });
 

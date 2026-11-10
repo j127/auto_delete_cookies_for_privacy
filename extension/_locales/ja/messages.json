@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "セッション"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Cookie を絞り込む"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "一致する Cookie はありません"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Cookie「$name$」を削除",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "削除されませんでした"
+  },
   "siteDataExpiresText": {
     "message": "$date$ に期限切れ",
     "placeholders": {

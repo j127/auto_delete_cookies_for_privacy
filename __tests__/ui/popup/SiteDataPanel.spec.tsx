@@ -6,14 +6,29 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 import { initialState } from "@/redux/state";
-import { collectSiteData } from "@/services/site-data-service";
+import {
+  collectSiteData,
+  removeSiteCookie,
+} from "@/services/site-data-service";
 import SiteDataPanel, {
+  COOKIE_FILTER_THRESHOLD,
   formatBytes,
+  matchesCookieFilter,
+  normalizeForFilter,
 } from "@/ui/popup/components/SiteDataPanel";
 
 vi.mock("@/services/site-data-service", () => ({
   collectSiteData: vi.fn(),
+  removeSiteCookie: vi.fn(),
 }));
+
+/** Where a fixture cookie lives (#592). */
+const where = {
+  domain: "example.com",
+  path: "/",
+  hostOnly: true,
+  storeId: "0",
+};
 
 const tabFixture = {
   active: true,
@@ -36,6 +51,7 @@ const fullInventory: SiteDataInventory = {
       session: true,
       secure: true,
       httpOnly: true,
+      ...where,
     },
     {
       name: "theme",
@@ -44,6 +60,7 @@ const fullInventory: SiteDataInventory = {
       expirationDate: 1893456000,
       secure: false,
       httpOnly: false,
+      ...where,
     },
   ],
   page: {
@@ -85,11 +102,15 @@ describe("SiteDataPanel", () => {
     );
   });
 
-  const renderPanel = (dataVersion = 0) => {
+  const renderPanel = (dataVersion = 0, canDelete = false) => {
     const store = createStore(() => initialState);
     const view = render(
       <Provider store={store}>
-        <SiteDataPanel dataVersion={dataVersion} tab={tabFixture} />
+        <SiteDataPanel
+          canDelete={canDelete}
+          dataVersion={dataVersion}
+          tab={tabFixture}
+        />
       </Provider>
     );
     const rerenderWith = (version: number) =>
@@ -194,6 +215,218 @@ describe("SiteDataPanel", () => {
       getByText("siteDataNotAvailableText");
     });
     expect(console.error).not.toHaveBeenCalled();
+  });
+});
+
+describe("SiteDataPanel cookie list (#592)", () => {
+  const cookie = (
+    name: string,
+    over: Partial<SiteDataCookieEntry> = {}
+  ): SiteDataCookieEntry => ({
+    name,
+    sizeBytes: 10,
+    session: true,
+    secure: true,
+    httpOnly: false,
+    ...where,
+    ...over,
+  });
+
+  const inventoryWith = (
+    cookies: SiteDataCookieEntry[]
+  ): SiteDataInventory => ({ ...fullInventory, cookies });
+
+  const manyCookies = (): SiteDataCookieEntry[] => [
+    cookie("session_id"),
+    cookie("_ga", { domain: ".tracker-example.com" }),
+    ...Array.from({ length: COOKIE_FILTER_THRESHOLD - 2 }, (_, i) =>
+      cookie(`pref_${i}`)
+    ),
+  ];
+
+  const renderList = async (
+    cookies: SiteDataCookieEntry[],
+    canDelete = false
+  ) => {
+    vi.mocked(collectSiteData).mockResolvedValue(inventoryWith(cookies));
+    const store = createStore(() => initialState);
+    const view = render(
+      <Provider store={store}>
+        <SiteDataPanel canDelete={canDelete} dataVersion={0} tab={tabFixture} />
+      </Provider>
+    );
+    await waitFor(() => {
+      view.getByText("cookiesText");
+    });
+    const items = () =>
+      [...view.container.querySelectorAll("#cookieList li")].map(
+        (li) => (li.querySelector("span") as HTMLElement).textContent ?? ""
+      );
+    return { ...view, items };
+  };
+
+  beforeEach(() => {
+    global.browser.i18n.getMessage.mockImplementation(
+      (key: string, subs?: string[]) =>
+        subs && subs.length ? `${key}:${subs.join(",")}` : key
+    );
+    vi.mocked(collectSiteData).mockReset();
+    vi.mocked(removeSiteCookie).mockReset();
+  });
+
+  it("has no filter box on a short list", async () => {
+    const { container } = await renderList([cookie("a"), cookie("b")]);
+    expect(container.querySelector("#cookieFilter")).toBeNull();
+  });
+
+  it("filters a long list by name, ignoring case and separators", async () => {
+    const { container, items } = await renderList(manyCookies());
+    const filter = container.querySelector("#cookieFilter") as HTMLInputElement;
+    expect(filter).not.toBeNull();
+    expect(filter.placeholder).toBe("siteDataFilterCookiesText");
+    expect(items()).toHaveLength(COOKIE_FILTER_THRESHOLD);
+
+    fireEvent.change(filter, { target: { value: "SESSION-ID" } });
+    expect(items()).toEqual([expect.stringMatching(/^session_id /)]);
+  });
+
+  it("filters by the cookie's domain too", async () => {
+    const { container, items } = await renderList(manyCookies());
+    fireEvent.change(container.querySelector("#cookieFilter") as Element, {
+      target: { value: "tracker" },
+    });
+    expect(items()).toEqual([expect.stringMatching(/^_ga /)]);
+  });
+
+  it("says so when nothing matches", async () => {
+    const { container, getByText } = await renderList(manyCookies());
+    fireEvent.change(container.querySelector("#cookieFilter") as Element, {
+      target: { value: "nothing-like-this" },
+    });
+    getByText("siteDataNoMatchingCookiesText");
+    expect(container.querySelectorAll("#cookieList li")).toHaveLength(0);
+  });
+
+  it("shows each cookie's domain and path in its tooltip", async () => {
+    const { container } = await renderList([
+      cookie("sid"),
+      cookie("sid", {
+        partitionKey: { topLevelSite: "https://top.example" },
+      }),
+    ]);
+    const titles = [...container.querySelectorAll("#cookieList li")].map((li) =>
+      li.getAttribute("title")
+    );
+    expect(titles).toEqual([
+      "example.com/",
+      "example.com/ (https://top.example)",
+    ]);
+  });
+
+  it("offers no delete buttons outside advanced mode", async () => {
+    const { container } = await renderList([cookie("sid")]);
+    expect(container.querySelectorAll("#cookieList li button")).toHaveLength(0);
+  });
+
+  it("deletes exactly the clicked cookie in advanced mode, then re-collects", async () => {
+    const partitioned = cookie("sid", {
+      partitionKey: { topLevelSite: "https://top.example" },
+    });
+    const { getAllByLabelText } = await renderList(
+      [cookie("sid"), partitioned],
+      true
+    );
+    vi.mocked(removeSiteCookie).mockResolvedValue(true);
+    const buttons = getAllByLabelText("siteDataDeleteCookieTitle:sid");
+    expect(buttons).toHaveLength(2);
+    fireEvent.click(buttons[1]);
+    await waitFor(() => {
+      expect(vi.mocked(collectSiteData)).toHaveBeenCalledTimes(2);
+    });
+    expect(vi.mocked(removeSiteCookie)).toHaveBeenCalledTimes(1);
+    expect(vi.mocked(removeSiteCookie)).toHaveBeenCalledWith(partitioned);
+  });
+
+  it("keeps an open row and the filter through a re-collect", async () => {
+    const cookies = manyCookies();
+    vi.mocked(collectSiteData).mockResolvedValue(inventoryWith(cookies));
+    const store = createStore(() => initialState);
+    const panel = (version: number) => (
+      <Provider store={store}>
+        <SiteDataPanel
+          canDelete={true}
+          dataVersion={version}
+          tab={tabFixture}
+        />
+      </Provider>
+    );
+    const view = render(panel(0));
+    await waitFor(() => {
+      view.getByText("cookiesText");
+    });
+    const cookieRow = () =>
+      view.container
+        .querySelector("#cookieList")
+        ?.closest("details") as HTMLDetailsElement;
+    cookieRow().open = true;
+    fireEvent.change(view.container.querySelector("#cookieFilter") as Element, {
+      target: { value: "pref" },
+    });
+
+    // A cookie went away (deleted, or the site removed it): re-collect.
+    vi.mocked(collectSiteData).mockResolvedValue(
+      inventoryWith(cookies.filter((c) => c.name !== "pref_0"))
+    );
+    view.rerender(panel(1));
+    await waitFor(() => {
+      expect(vi.mocked(collectSiteData)).toHaveBeenCalledTimes(2);
+    });
+    await waitFor(() => {
+      expect(view.container.querySelectorAll("#cookieList li")).toHaveLength(
+        COOKIE_FILTER_THRESHOLD - 3
+      );
+    });
+    expect(view.queryByText("siteDataLoadingText")).toBeNull();
+    expect(cookieRow().open).toBe(true);
+    expect(
+      (view.container.querySelector("#cookieFilter") as HTMLInputElement).value
+    ).toBe("pref");
+  });
+
+  it("marks a cookie the browser didn't delete", async () => {
+    const { getByLabelText, getByText } = await renderList(
+      [cookie("stubborn")],
+      true
+    );
+    vi.mocked(removeSiteCookie).mockResolvedValue(false);
+    fireEvent.click(getByLabelText("siteDataDeleteCookieTitle:stubborn"));
+    await waitFor(() => {
+      getByText("siteDataDeleteFailedText");
+    });
+    expect(vi.mocked(collectSiteData)).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe("cookie filter matching (#592)", () => {
+  const entry = (name: string, domain = "example.com") =>
+    ({ name, domain }) as SiteDataCookieEntry;
+
+  it("normalizes case, spaces, dots, underscores and hyphens away", () => {
+    expect(normalizeForFilter(" Session_ID-x.y ")).toBe("sessionidxy");
+  });
+
+  it("matches everything for an empty or separator-only query", () => {
+    expect(matchesCookieFilter(entry("a"), "")).toBe(true);
+    expect(matchesCookieFilter(entry("a"), " _-. ")).toBe(true);
+  });
+
+  it("matches names and domains as substrings, not as fuzzy guesses", () => {
+    expect(matchesCookieFilter(entry("__Secure-3PSID"), "3psid")).toBe(true);
+    expect(
+      matchesCookieFilter(entry("x", "accounts.google.com"), "google")
+    ).toBe(true);
+    // A fuzzy subsequence would match these; a substring does not.
+    expect(matchesCookieFilter(entry("session"), "ssn")).toBe(false);
   });
 });
 

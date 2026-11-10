@@ -13,6 +13,7 @@ This is a browser extension for Chrome, Brave, and Firefox that automatically de
 - Turn automatic cleaning off from the popup for an hour, until the browser restarts, or until you turn it back on; you can also give it a keyboard shortcut on your browser's extension shortcuts page (`chrome://extensions/shortcuts`, or Firefox's Add-ons page → gear → Manage Extension Shortcuts). It has no key until you pick one
 - Toolbar badge shows how many cookies the current site has set
 - Keep rules support wildcards and regular expressions, and can be exported/imported as files
+- In advanced mode, delete a single cookie from the popup's list of the site's cookies; a list of 10 or more cookies gets a filter box
 - A rule can keep just some of a site's cookies, by name or by pattern (`auth_*` keeps every cookie whose name starts with `auth_`; `\*` is a literal asterisk). Older versions and Cookie AutoDelete read `auth_*` as one literal name, so a rule with patterns imported there cleans those cookies instead of keeping them
 - Each Firefox container can have its own keep rules
 

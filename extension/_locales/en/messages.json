@@ -1223,6 +1223,28 @@
     "message": "session",
     "description": "Popup site-data inspector: marks a cookie that lasts until the browser closes"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Filter cookies",
+    "description": "Popup site-data inspector: placeholder and label of the box that filters the cookie list"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "No cookies match",
+    "description": "Popup site-data inspector: shown when the filter matches no cookie"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Delete the cookie $name$",
+    "description": "Popup site-data inspector (advanced mode): tooltip and accessible name of the button that deletes one cookie. $NAME$ is the cookie's name.",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "not deleted",
+    "description": "Popup site-data inspector: short marker on a cookie row when the browser didn't delete that cookie"
+  },
   "siteDataExpiresText": {
     "message": "expires $date$",
     "description": "Popup site-data inspector: cookie expiry marker. $DATE$ is a locale-formatted date.",

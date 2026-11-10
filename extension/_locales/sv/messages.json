@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "session"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Filtrera kakor"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Inga kakor matchar"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Radera kakan $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "inte raderad"
+  },
   "siteDataExpiresText": {
     "message": "går ut $date$",
     "placeholders": {

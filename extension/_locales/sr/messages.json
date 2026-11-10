@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "сесијски"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Филтрирај колачиће"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Нема одговарајућих колачића"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Обриши колачић $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "није обрисан"
+  },
   "siteDataExpiresText": {
     "message": "истиче $date$",
     "placeholders": {

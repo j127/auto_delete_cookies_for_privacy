@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "сеансовая"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Фильтр куки"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Нет подходящих куки"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Удалить куки $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "не удалено"
+  },
   "siteDataExpiresText": {
     "message": "истекает $date$",
     "placeholders": {

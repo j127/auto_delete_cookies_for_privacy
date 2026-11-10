@@ -1026,7 +1026,7 @@ const partitionKeyId = (
     ? ""
     : `${key.topLevelSite}|${key.hasCrossSiteAncestor ?? ""}`;
 
-const cookieStillStored = async (
+export const cookieStillStored = async (
   details: CookieRemoveDetails,
   cookie: Pick<browser.cookies.Cookie, "domain" | "path"> & {
     hostOnly?: boolean;

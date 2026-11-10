@@ -27,6 +27,7 @@ THE POPUP
 • See how many cookies the current site has set, and inspect what else it stores on your device (local storage, databases, caches, service workers).
 • Clean the current site's data, or run a full cleanup, with one click.
 • Add the current site to your keep list without leaving the page.
+• Filter a long cookie list, and in advanced mode delete a single cookie.
 
 PRIVATE BY DESIGN
 • Deletes data, collects none: no analytics, no telemetry, no accounts, and no network requests.

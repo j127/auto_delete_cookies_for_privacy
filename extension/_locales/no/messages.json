@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "økt"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Filtrer informasjonskapsler"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Ingen informasjonskapsler samsvarer"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Slett informasjonskapselen $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "ikke slettet"
+  },
   "siteDataExpiresText": {
     "message": "utløper $date$",
     "placeholders": {

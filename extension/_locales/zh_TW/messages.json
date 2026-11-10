@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "工作階段"
   },
+  "siteDataFilterCookiesText": {
+    "message": "篩選 Cookie"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "沒有符合的 Cookie"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "刪除 Cookie $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "未刪除"
+  },
   "siteDataExpiresText": {
     "message": "$date$ 到期",
     "placeholders": {

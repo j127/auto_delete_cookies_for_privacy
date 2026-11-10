@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "istunto"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Suodata evästeitä"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Yksikään eväste ei vastaa hakua"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Poista eväste $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "ei poistettu"
+  },
   "siteDataExpiresText": {
     "message": "vanhenee $date$",
     "placeholders": {
