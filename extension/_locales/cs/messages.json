@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Zapnout nebo vypnout automatický úklid"
   },
+  "commandCleanNowText": {
+    "message": "Uklidit teď (otevřené karty zůstanou beze změny)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Uklidit teď, včetně otevřených karet"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Smazat cookies aktuálního webu"
+  },
+  "commandKeepSiteText": {
+    "message": "Ponechat cookies aktuálního webu"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Ponechat cookies aktuálního webu do zavření prohlížeče"
+  },
   "popupHeroKeepingText": {
     "message": "Cookies tohoto webu se ponechávají"
   },

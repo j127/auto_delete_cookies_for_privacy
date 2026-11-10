@@ -14,6 +14,8 @@ import {
   FIREFOX_STRICT_MIN_VERSION,
   serializeManifest,
 } from "../../scripts/firefox_manifest";
+import { ShortcutCommand } from "@/services/command-events";
+import { TOGGLE_ACTIVE_MODE_COMMAND } from "@/services/pause-service";
 
 /**
  * Minimal Chrome-shaped fixture. The suite also runs the transform against
@@ -205,6 +207,30 @@ describe("buildFirefoxManifest with the committed manifest", () => {
     expect(result.action).toEqual(chromeManifest.action);
     expect(result.options_ui).toEqual(chromeManifest.options_ui);
     expect(result.host_permissions).toEqual(chromeManifest.host_permissions);
+  });
+
+  // The pause shortcut (#555) and the popup-action shortcuts (#588).
+  it("declares every keyboard command, with no key, in both manifests", () => {
+    const en: Record<string, unknown> = JSON.parse(
+      readFileSync(
+        new URL("../../extension/_locales/en/messages.json", import.meta.url),
+        { encoding: "utf8" }
+      )
+    );
+    const commands = chromeManifest.commands as Record<
+      string,
+      { description: string; suggested_key?: unknown }
+    >;
+    expect(Object.keys(commands).sort()).toEqual(
+      [TOGGLE_ACTIVE_MODE_COMMAND, ...Object.values(ShortcutCommand)].sort()
+    );
+    for (const command of Object.values(commands)) {
+      expect(command).not.toHaveProperty("suggested_key");
+      const key = /^__MSG_(\w+)__$/.exec(command.description)?.[1];
+      expect(key).toBeDefined();
+      expect(en).toHaveProperty(key as string);
+    }
+    expect(buildFirefoxManifest(chromeManifest).commands).toEqual(commands);
   });
 });
 

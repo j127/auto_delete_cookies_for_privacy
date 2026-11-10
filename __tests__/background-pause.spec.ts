@@ -126,6 +126,24 @@ describe("background: pausing automatic cleaning (#555)", () => {
     expect(setting(SettingID.ACTIVE_MODE)).toBe(true);
   });
 
+  // The popup's common actions (#588) share the same listener; their
+  // behavior is covered in __tests__/services/command-events.spec.ts.
+  it("hands the popup-action commands their tab", async () => {
+    await onCommand("keep-site", {
+      incognito: false,
+      url: "https://example.com/",
+    });
+    expect(BackgroundStore.get().getState().lists.default).toEqual([
+      expect.objectContaining({ expression: "*.example.com" }),
+    ]);
+    await onCommand("clean-now");
+    expect(cookieCleanup).toHaveBeenCalledWith({
+      greyCleanup: false,
+      ignoreOpenTabs: false,
+    });
+    expect(setting(SettingID.ACTIVE_MODE)).toBe(true);
+  });
+
   it("the resume alarm ends a timed pause", async () => {
     BackgroundStore.get().dispatch({
       payload: {

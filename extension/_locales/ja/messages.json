@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "自動クリーンアップのオン/オフを切り替え"
   },
+  "commandCleanNowText": {
+    "message": "今すぐクリーンアップ（開いているタブはそのまま）"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "今すぐクリーンアップ（開いているタブも含む）"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "現在のサイトの Cookie を削除"
+  },
+  "commandKeepSiteText": {
+    "message": "現在のサイトの Cookie を保持"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "現在のサイトの Cookie をブラウザーを閉じるまで保持"
+  },
   "popupHeroKeepingText": {
     "message": "このサイトの Cookie を保持中"
   },

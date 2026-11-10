@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Slå automatisk rydding av eller på"
   },
+  "commandCleanNowText": {
+    "message": "Rydd nå (åpne faner berøres ikke)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Rydd nå, inkludert åpne faner"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Slett informasjonskapslene til det gjeldende nettstedet"
+  },
+  "commandKeepSiteText": {
+    "message": "Behold informasjonskapslene til det gjeldende nettstedet"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Behold informasjonskapslene til det gjeldende nettstedet til nettleseren lukkes"
+  },
   "popupHeroKeepingText": {
     "message": "Beholder nettstedets informasjonskapsler"
   },

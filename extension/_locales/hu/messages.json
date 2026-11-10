@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Automatikus takarítás be- vagy kikapcsolása"
   },
+  "commandCleanNowText": {
+    "message": "Takarítás most (a nyitott lapok érintetlenek maradnak)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Takarítás most, a nyitott lapokkal együtt"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Az aktuális webhely sütijeinek törlése"
+  },
+  "commandKeepSiteText": {
+    "message": "Az aktuális webhely sütijeinek megtartása"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Az aktuális webhely sütijeinek megtartása a böngésző bezárásáig"
+  },
   "popupHeroKeepingText": {
     "message": "A webhely sütijeit megtartjuk"
   },

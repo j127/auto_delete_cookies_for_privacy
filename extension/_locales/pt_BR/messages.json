@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Ligar ou desligar a limpeza automática"
   },
+  "commandCleanNowText": {
+    "message": "Limpar agora (sem mexer nas abas abertas)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Limpar agora, incluindo abas abertas"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Excluir os cookies do site atual"
+  },
+  "commandKeepSiteText": {
+    "message": "Manter os cookies do site atual"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Manter os cookies do site atual até o navegador fechar"
+  },
   "popupHeroKeepingText": {
     "message": "Mantendo os cookies deste site"
   },

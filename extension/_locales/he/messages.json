@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "הפעלה או כיבוי של ניקוי אוטומטי"
   },
+  "commandCleanNowText": {
+    "message": "ניקוי עכשיו (בלי לגעת בכרטיסיות פתוחות)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "ניקוי עכשיו, כולל כרטיסיות פתוחות"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "מחיקת העוגיות של האתר הנוכחי"
+  },
+  "commandKeepSiteText": {
+    "message": "שמירת העוגיות של האתר הנוכחי"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "שמירת העוגיות של האתר הנוכחי עד לסגירת הדפדפן"
+  },
   "popupHeroKeepingText": {
     "message": "העוגיות של האתר הזה נשמרות"
   },

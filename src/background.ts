@@ -32,6 +32,7 @@ import {
 } from "./services/browser-action-service";
 import CarriedOpenTabs from "./services/carried-open-tabs";
 import { returnContainersOfOpenTabDomains } from "./services/cleanup-service";
+import CommandEvents from "./services/command-events";
 import ContextMenuEvents from "./services/context-menu-events";
 import CookieEvents from "./services/cookie-events";
 import {
@@ -437,10 +438,13 @@ browser.alarms.onAlarm.addListener(async (alarm) => {
 
 // The keyboard shortcut (#555), which has no key until the user assigns
 // one. Firefox for Android has no commands API, hence the guard.
+// The popup's common actions (#588) are commands too, also with no key;
+// the browser passes the tab the command was used in.
 if (browser.commands) {
-  browser.commands.onCommand.addListener(async (command) => {
+  browser.commands.onCommand.addListener(async (command, tab) => {
     await ready;
     if (command === TOGGLE_ACTIVE_MODE_COMMAND) PauseService.toggle();
+    else await CommandEvents.onCommand(command, tab);
   });
 }
 

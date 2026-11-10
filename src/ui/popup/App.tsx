@@ -16,14 +16,13 @@ import { updateSetting } from "@/redux/actions";
 import ContextualIdentityEvents from "@/services/contextual-identity-events";
 import PrivateWindowEvents from "@/services/private-window-events";
 import { browserCapabilities } from "@/services/browser-capabilities";
+import { keepTargetFor } from "@/services/keep-target";
 import {
   ADCPCOOKIENAME,
   effectiveListKey,
-  extractMainDomain,
   getAllCookiesForDomain,
   getHostname,
   getMatchedExpressions,
-  isAnIP,
   parseCookieStoreId,
   tabCookieStoreId,
 } from "@/services/libs";
@@ -207,19 +206,10 @@ const App: React.FunctionComponent = () => {
     return "Loading";
   }
 
-  const hostname = getHostname(tab.url);
-  const mainDomain = extractMainDomain(hostname);
-  const addableHostnames = [
-    hostname === mainDomain ? undefined : `*.${mainDomain}`,
-    hostname,
-  ].filter(Boolean) as string[];
-  if (hostname !== "" && !isAnIP(tab.url) && !hostname.startsWith("file:")) {
-    addableHostnames.push(`*.${hostname}`);
-  }
-
-  const domain = mainDomain || hostname;
-  const keepExpression =
-    addableHostnames.find((h) => h === `*.${domain}`) ?? hostname;
+  // Shared with the keyboard shortcuts (#588), which add the same rule.
+  const { addableHostnames, domain, hostname, keepExpression } = keepTargetFor(
+    tab.url
+  );
 
   // Keep/Clean and the hero/badge all work against the list that GOVERNS
   // this tab's store: container tabs use their own list only while the

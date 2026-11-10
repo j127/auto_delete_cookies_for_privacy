@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Skakel outomatiese skoonmaak aan of af"
   },
+  "commandCleanNowText": {
+    "message": "Maak nou skoon (oop oortjies bly ongeskonde)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Maak nou skoon, insluitend oop oortjies"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Skrap die huidige werf se koekies"
+  },
+  "commandKeepSiteText": {
+    "message": "Hou die huidige werf se koekies"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Hou die huidige werf se koekies tot die blaaier toemaak"
+  },
   "popupHeroKeepingText": {
     "message": "Hou hierdie werf se koekies"
   },

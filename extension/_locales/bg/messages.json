@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Включване или изключване на автоматичното чистене"
   },
+  "commandCleanNowText": {
+    "message": "Почисти сега (отворените раздели остават незасегнати)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Почисти сега, включително отворените раздели"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Изтрий бисквитките на текущия сайт"
+  },
+  "commandKeepSiteText": {
+    "message": "Запази бисквитките на текущия сайт"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Запази бисквитките на текущия сайт до затваряне на браузъра"
+  },
   "popupHeroKeepingText": {
     "message": "Бисквитките на този сайт се запазват"
   },

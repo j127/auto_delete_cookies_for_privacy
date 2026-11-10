@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Automatische Bereinigung ein- oder ausschalten"
   },
+  "commandCleanNowText": {
+    "message": "Jetzt bereinigen (offene Tabs bleiben unberührt)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Jetzt bereinigen, inklusive offener Tabs"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Cookies der aktuellen Website löschen"
+  },
+  "commandKeepSiteText": {
+    "message": "Cookies der aktuellen Website behalten"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Cookies der aktuellen Website behalten, bis der Browser schließt"
+  },
   "popupHeroKeepingText": {
     "message": "Cookies dieser Website werden behalten"
   },

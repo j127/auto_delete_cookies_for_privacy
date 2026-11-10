@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Slå automatisk rydning til eller fra"
   },
+  "commandCleanNowText": {
+    "message": "Ryd nu (åbne faner røres ikke)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Ryd nu, inklusive åbne faner"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Slet det aktuelle websteds cookies"
+  },
+  "commandKeepSiteText": {
+    "message": "Behold det aktuelle websteds cookies"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Behold det aktuelle websteds cookies, indtil browseren lukkes"
+  },
   "popupHeroKeepingText": {
     "message": "Beholder webstedets cookies"
   },

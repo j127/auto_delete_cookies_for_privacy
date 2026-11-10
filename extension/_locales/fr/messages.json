@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Activer ou désactiver le nettoyage automatique"
   },
+  "commandCleanNowText": {
+    "message": "Nettoyer maintenant (sans toucher aux onglets ouverts)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Nettoyer maintenant, y compris les onglets ouverts"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Supprimer les cookies du site actuel"
+  },
+  "commandKeepSiteText": {
+    "message": "Conserver les cookies du site actuel"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Conserver les cookies du site actuel jusqu'à la fermeture du navigateur"
+  },
   "popupHeroKeepingText": {
     "message": "Les cookies de ce site sont conservés"
   },

@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Automatisch opschonen aan- of uitzetten"
   },
+  "commandCleanNowText": {
+    "message": "Nu opschonen (open tabbladen blijven ongemoeid)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Nu opschonen, inclusief open tabbladen"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Cookies van de huidige site verwijderen"
+  },
+  "commandKeepSiteText": {
+    "message": "Cookies van de huidige site bewaren"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Cookies van de huidige site bewaren tot de browser sluit"
+  },
   "popupHeroKeepingText": {
     "message": "Cookies van deze site worden bewaard"
   },

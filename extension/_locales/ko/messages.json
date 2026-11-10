@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "자동 정리 켜기/끄기"
   },
+  "commandCleanNowText": {
+    "message": "지금 정리(열린 탭은 그대로 둠)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "지금 정리(열린 탭 포함)"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "현재 사이트의 쿠키 삭제"
+  },
+  "commandKeepSiteText": {
+    "message": "현재 사이트의 쿠키 유지"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "브라우저를 닫을 때까지 현재 사이트의 쿠키 유지"
+  },
   "popupHeroKeepingText": {
     "message": "이 사이트의 쿠키를 유지하는 중"
   },

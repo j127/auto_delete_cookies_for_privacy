@@ -62,3 +62,34 @@ describe("the pause shortcut (#555, #558)", () => {
     expect((await shortcutOf()) || "").toBe("");
   });
 });
+
+describe("the popup-action shortcuts (#588)", () => {
+  const ACTIONS = [
+    "clean-now",
+    "clean-now-including-open-tabs",
+    "delete-site-cookies",
+    "keep-site",
+    "keep-site-until-browser-closes",
+  ];
+
+  it("are registered with no key and a translated description", async () => {
+    const commands = (await inProbe(
+      session,
+      `const all = await browser.commands.getAll();
+       return all
+         .filter((c) => args[0].includes(c.name))
+         .map((c) => ({
+           name: c.name,
+           shortcut: c.shortcut || "",
+           description: c.description || "",
+         }));`,
+      ACTIONS
+    )) as { name: string; shortcut: string; description: string }[];
+    expect(commands.map((c) => c.name).sort()).toEqual([...ACTIONS].sort());
+    for (const command of commands) {
+      expect(command.shortcut).toBe("");
+      expect(command.description).not.toBe("");
+      expect(command.description).not.toContain("__MSG_");
+    }
+  });
+});

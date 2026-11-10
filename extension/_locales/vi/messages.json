@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Bật hoặc tắt tự động dọn dẹp"
   },
+  "commandCleanNowText": {
+    "message": "Dọn ngay (không đụng đến thẻ đang mở)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Dọn ngay, kể cả thẻ đang mở"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Xóa cookie của trang hiện tại"
+  },
+  "commandKeepSiteText": {
+    "message": "Giữ cookie của trang hiện tại"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Giữ cookie của trang hiện tại đến khi đóng trình duyệt"
+  },
   "popupHeroKeepingText": {
     "message": "Đang giữ cookie của trang này"
   },
