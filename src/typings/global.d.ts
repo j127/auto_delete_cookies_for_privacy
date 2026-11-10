@@ -31,6 +31,17 @@ type StoreIdToExpressionList = Readonly<{
 
 type MapToSettingObject = Readonly<{ [setting: string]: Setting }>;
 
+/**
+ * A snapshot from keep-list sync (#587): the lists it names are replaced
+ * and the settings it names updated, in one state change.
+ */
+type SyncedData = Readonly<{
+  lists: StoreIdToExpressionList;
+  settings: ReadonlyArray<
+    Readonly<{ name: string; value: boolean | number | string }>
+  >;
+}>;
+
 type CacheMap = Readonly<{ [key: string]: any }>;
 
 type GetState = () => State;

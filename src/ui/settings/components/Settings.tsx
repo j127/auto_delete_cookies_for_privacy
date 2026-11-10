@@ -20,11 +20,13 @@ import {
   CURRENT_BROWSER,
   hasContainerApi,
   hasContextMenuApi,
+  hasSyncStorageApi,
 } from "@/services/browser-capabilities";
 import type { BrowserTarget } from "@/services/browser-capabilities";
 import CheckboxSetting from "@/ui/common-components/CheckboxSetting";
 import SelectInput from "@/ui/common-components/SelectInput";
 import SiteDataControl from "./SiteDataControl";
+import SyncStatusLine from "./SyncStatusLine";
 
 interface OwnProps {
   style?: React.CSSProperties;
@@ -235,6 +237,32 @@ const Settings: React.FunctionComponent<OwnProps> = ({ style }) => {
                 updateSetting={(payload) => onUpdateSetting(payload)}
               />
             </SettingRow>
+          )}
+        </SettingGroup>
+      )}
+
+      {/* Keep-list sync through the browser account (#587); hidden where
+          the browser has no extension sync storage. */}
+      {hasSyncStorageApi() && (
+        <SettingGroup title={browser.i18n.getMessage("settingGroupSync")}>
+          <SettingRow>
+            <CheckboxSetting
+              text={browser.i18n.getMessage("syncEnabledText")}
+              description={browser.i18n.getMessage("syncEnabledDescText")}
+              settingObject={
+                settings[SettingID.SYNC_ENABLED] ?? {
+                  name: SettingID.SYNC_ENABLED,
+                  value: false,
+                }
+              }
+              updateSetting={(payload) => onUpdateSetting(payload)}
+            />
+          </SettingRow>
+          <p className="px-4 py-2.5 text-sm text-base-content/70">
+            {browser.i18n.getMessage("syncPrivacyText")}
+          </p>
+          {settings[SettingID.SYNC_ENABLED]?.value === true && (
+            <SyncStatusLine />
           )}
         </SettingGroup>
       )}

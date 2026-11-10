@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Delogat de pe un site? În ordinea probabilității: site-ul nu are regulă de păstrare (sau doar numele de gazdă exact are una, în timp ce autentificarea stă pe un subdomeniu — folosește forma *.example.com); e un site de până-la-repornire și browserul a repornit; o regulă potrivită păstrează doar cookie-uri numite și cookie-ul de autentificare nu e bifat; sau cookie-ul site-ului pur și simplu a expirat. Nu ghici — jurnalul de curățare numește exact regula care a acționat.\n\nCookie-urile reapar imediat după curățare? Site-ul e aproape mereu încă deschis într-o filă — site-urile deschise recreează cookie-uri după plac și oricum sunt protejate.\n\nCurățarea n-a rulat? Verifică în ordine: curățarea automată e pornită (antetul popupului o spune); site-ul nu e deschis în altă filă; perioada de grație a trecut; nicio regulă de păstrare nu se potrivește; nu era o filă adormită (acelea contează ca închise doar cu acea setare avansată pornită).\n\nAi activat curățarea datelor de site, dar datele vechi tot acolo sunt? Browserul permite ștergerea acestor tipuri doar pentru site-urile pe care le vizitezi din nou; resturile rămân până la următoarea vizită.\n\nChrome sau Edge încă arată un site de circa 100 de octeți fără cookie-uri? De obicei sunt Private State Tokens: tokenuri antifraudă pe care le salvează unele site-uri, concepute astfel încât să nu poată fi folosite ca să te urmărească de la un site la altul. Browserele nu le permit extensiilor să le șteargă. Ca să le elimini, dă clic pe pictograma coș de gunoi de lângă site în lista de date ale site-urilor din browser (chrome://settings/content/all în Chrome) sau folosește Șterge datele de navigare (Ctrl+Shift+Delete sau Cmd+Shift+Delete pe Mac).\n\nIncognito? Doar dacă permiți: pagina de extensii a browserului → Permite în incognito. Incognito are propriul depozit de cookie-uri și propriile site-uri salvate și nu ajunge niciodată în jurnal. Site-urile sale salvate se șterg când se închide ultima fereastră privată, cu excepția cazului în care Firefox este setat să nu rețină niciodată istoricul; atunci rămân salvate.\n\nTot blocat? Pagina de Asistență are versiunea, un bloc de depanare copiabil, linkul pentru rapoarte de erori și butonul „Trimite un raport de eroare prin e-mail” dacă nu ai cont GitHub. Modul de depanare (Avansat) face extensia să povestească fiecare decizie în consola service workerului, cu valorile cookie-urilor mascate."
+  },
+  "settingGroupSync": {
+    "message": "Sincronizare"
+  },
+  "syncEnabledText": {
+    "message": "Sincronizează lista de păstrare și setările"
+  },
+  "syncEnabledDescText": {
+    "message": "Păstrează lista ta implicită și setările de curățare la fel pe fiecare dispozitiv conectat la același cont de browser care are această opțiune activată. Listele pentru navigarea privată și pentru containere, comutatorul de curățare automată și jurnalul de curățare rămân pe fiecare dispozitiv în parte."
+  },
+  "syncPrivacyText": {
+    "message": "Browserul tău transportă datele sincronizate prin propriul tău cont de browser. Extensia în sine nu trimite nimic nicăieri."
+  },
+  "syncStatusWaitingText": {
+    "message": "Se așteaptă prima sincronizare…"
+  },
+  "syncStatusOkText": {
+    "message": "Ultima sincronizare: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Sincronizarea e întreruptă: lista ta de păstrare și setările au nevoie de $used$, dar sincronizarea browserului permite $quota$. Elimină câteva reguli ca să continue.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Sincronizarea e întreruptă: alt dispozitiv are o versiune mai nouă a acestei extensii. Actualizeaz-o aici ca să continue sincronizarea."
+  },
+  "syncStatusErrorText": {
+    "message": "Ultima sincronizare a eșuat: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

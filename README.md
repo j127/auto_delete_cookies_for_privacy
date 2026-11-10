@@ -15,6 +15,7 @@ This is a browser extension for Chrome, Brave, and Firefox that automatically de
 - Keep rules support wildcards and regular expressions, and can be exported/imported as files
 - A rule can keep just some of a site's cookies, by name or by pattern (`auth_*` keeps every cookie whose name starts with `auth_`; `\*` is a literal asterisk). Older versions and Cookie AutoDelete read `auth_*` as one literal name, so a rule with patterns imported there cleans those cookies instead of keeping them
 - Each Firefox container can have its own keep rules
+- Optional sync (off by default) keeps the Default keep list and the cleaning settings the same on every device signed in to the same browser account: Chrome with Chrome, Firefox with Firefox. The Private list, container lists, and the automatic-cleaning switch stay on each device. Your browser carries the data through its own sync service; the extension still makes no network requests
 
 ### What the browser won't let it clear
 

@@ -1964,5 +1964,63 @@
   "helpTroubleshootingBody": {
     "message": "Logged out of a site? In order of likelihood: the site has no keep rule (or only its exact hostname does, while the login lives on a subdomain — use the *.example.com form); it's an until-restart site and the browser restarted; a matching rule keeps only named cookies and the login cookie isn't checked; or the site's own cookie expired. Don't guess — the cleanup log names the exact rule that fired.\n\nCookies reappear right after cleaning? The site is almost always still open in some tab — open sites re-create cookies at will and are protected anyway.\n\nCleanup didn't run? Check in order: automatic cleaning is on (the popup header says so); the site isn't open in another tab; the grace period has passed; no keep rule matches; it wasn't a sleeping tab (those only count as closed if that Advanced setting is on).\n\nEnabled site-data cleaning but old data is still there? The browser only lets the extension clear those types for sites you visit again; leftovers stay until the next visit.\n\nChrome or Edge still lists a site at about 100 bytes with no cookies? That is usually Private State Tokens: anti-fraud tokens some sites store, designed so they can't be used to track you across sites. Browsers don't let extensions delete them. To remove them, click the trash icon next to the site in the browser's site data list (chrome://settings/content/all in Chrome), or use Delete browsing data (Ctrl+Shift+Delete, or Cmd+Shift+Delete on a Mac).\n\nIncognito? Only if you allow it: your browser's extension page → Allow in Incognito/Private. Incognito keeps its own cookie store and saved sites, and is never written to the log. Its saved sites are erased when the last private window closes, unless Firefox is set to never remember history; then they stay saved.\n\nStill stuck? The Support page has the version, a copyable debug block, the link for bug reports, and an “Email a bug report” button if you don't have a GitHub account. Debug mode (Advanced) makes the extension narrate every decision to the service-worker console, with cookie values masked.",
     "description": "Help section body: troubleshooting and FAQ"
+  },
+  "settingGroupSync": {
+    "message": "Sync",
+    "description": "Settings page: heading of the group with the keep-list sync switch"
+  },
+  "syncEnabledText": {
+    "message": "Sync keep list and settings",
+    "description": "Settings page: label of the switch that syncs the keep list and settings through the browser account"
+  },
+  "syncEnabledDescText": {
+    "message": "Keeps your Default list and cleaning settings the same on every device that's signed in to the same browser account and has this turned on. Lists for private browsing and containers, the automatic cleaning switch, and the cleanup log stay on each device.",
+    "description": "Settings page: what the sync switch does, and what stays on each device"
+  },
+  "syncPrivacyText": {
+    "message": "Your browser carries the synced data through your own browser account. The extension itself sends nothing anywhere.",
+    "description": "Settings page, sync group: who carries the synced data"
+  },
+  "syncStatusWaitingText": {
+    "message": "Waiting for the first sync…",
+    "description": "Settings page, sync group: status before the first sync finished"
+  },
+  "syncStatusOkText": {
+    "message": "Last synced: $time$",
+    "description": "Settings page, sync group: status after a sync. $TIME$ is a locale-formatted date and time.",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Sync is paused: your keep list and settings need $used$, but browser sync allows $quota$. Remove some rules to resume.",
+    "description": "Settings page, sync group: sync paused because the data is over the browser's sync quota. $USED$ and $QUOTA$ are sizes like '147 kB'.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Sync is paused: another device has a newer version of this extension. Update it here to keep syncing.",
+    "description": "Settings page, sync group: sync paused because another device wrote a newer data format"
+  },
+  "syncStatusErrorText": {
+    "message": "The last sync failed: $error$",
+    "description": "Settings page, sync group: the browser refused the last sync. $ERROR$ is the browser's error message (English).",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

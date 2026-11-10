@@ -272,4 +272,63 @@ describe("Settings", () => {
     renderSettings(advancedOn);
     expect(console.error).not.toHaveBeenCalled();
   });
+
+  describe("Sync group (#587)", () => {
+    const syncOn = withSettings({
+      [SettingID.SYNC_ENABLED]: { name: SettingID.SYNC_ENABLED, value: true },
+    });
+
+    beforeEach(() => {
+      global.browser.storage.local.get.mockResolvedValue({});
+    });
+
+    it("offers the switch and the privacy note, without a status while off", () => {
+      const { getByText, container } = renderSettings();
+      const title = getByText("settingGroupSync");
+      expect(title.tagName).toBe("H2");
+      getByText("syncEnabledText");
+      getByText("syncEnabledDescText");
+      getByText("syncPrivacyText");
+      expect(container.querySelector("#syncStatus")).toBeNull();
+    });
+
+    it("turns sync on for this device", () => {
+      const { dispatchSpy, getByText } = renderSettings();
+      fireEvent.click(getByText("syncEnabledText"));
+      expect(dispatchSpy).toHaveBeenCalledWith({
+        payload: { name: SettingID.SYNC_ENABLED, value: true },
+        type: ReduxConstants.UPDATE_SETTING,
+      });
+    });
+
+    it("shows the status line while sync is on", () => {
+      const { container } = renderSettings(syncOn);
+      expect(
+        (container.querySelector("#syncStatus") as HTMLElement).textContent
+      ).toBe("syncStatusWaitingText");
+    });
+
+    it("treats a state saved before the setting existed as off", () => {
+      const older = { ...initialState.settings } as Record<string, Setting>;
+      delete older[SettingID.SYNC_ENABLED];
+      const { getByText, container } = renderSettings({
+        ...initialState,
+        settings: older,
+      });
+      getByText("syncEnabledText");
+      expect(container.querySelector("#syncStatus")).toBeNull();
+    });
+
+    it("is hidden where the browser has no sync storage", () => {
+      const original = global.browser.storage.sync;
+      try {
+        delete (global.browser.storage as unknown as Record<string, unknown>)
+          .sync;
+        const { queryByText } = renderSettings();
+        expect(queryByText("settingGroupSync")).toBeNull();
+      } finally {
+        global.browser.storage.sync = original;
+      }
+    });
+  });
 });

@@ -49,6 +49,7 @@ import PermissionService from "./services/permission-service";
 import PrivateWindowEvents from "./services/private-window-events";
 import RecentCleanup from "./services/recent-cleanup";
 import StoreUser from "./services/store-user";
+import SyncService from "./services/sync-service";
 import TabEvents from "./services/tab-events";
 import { ReduxConstants } from "./typings/redux-constants";
 import SettingService from "./services/setting-service";
@@ -137,6 +138,12 @@ const init = async (): Promise<AppStore> => {
 
   // Host-permission revocation guard (event-driven; one check per start).
   await PermissionService.checkHostPermissions();
+
+  // Keep-list sync (#587). Not awaited: reading the browser's sync storage
+  // must not hold up the events queued behind `ready`, and its tasks run in
+  // order with the storage events below.
+  void SyncService.start();
+  store.subscribe(SyncService.onStoreChange);
 
   // Records which kinds of window are open (#468). On a wake-up it erases
   // nothing: the Private list is erased only when the last private window
@@ -425,6 +432,13 @@ if (browser.windows) {
     await PrivateWindowEvents.onTabSeen(tab);
   });
 }
+
+// Keep-list sync (#587): another device's change arrives as a change to the
+// sync storage area (and this device's own writes echo here too).
+browser.storage.onChanged.addListener(async (changes, areaName) => {
+  await ready;
+  await SyncService.onStorageChanged(changes, areaName);
+});
 
 browser.alarms.onAlarm.addListener(async (alarm) => {
   await ready;

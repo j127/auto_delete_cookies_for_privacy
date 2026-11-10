@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Keluar dari sebuah situs? Urut dari yang paling mungkin: situsnya tidak punya aturan simpan (atau hanya nama host persisnya yang punya, sedangkan login ada di subdomain — pakai bentuk *.example.com); ia situs sampai-mulai-ulang dan peramban dimulai ulang; aturan yang cocok hanya menyimpan cookie bernama dan cookie login tidak dicentang; atau cookie situsnya memang kedaluwarsa. Jangan menebak — log pembersihan menyebut persis aturan yang bekerja.\n\nCookie muncul lagi tepat setelah pembersihan? Situsnya hampir pasti masih terbuka di suatu tab — situs terbuka bebas membuat cookie kapan saja dan memang dilindungi.\n\nPembersihan tidak jalan? Periksa berurutan: pembersihan otomatis menyala (kepala popup menandakannya); situs tidak terbuka di tab lain; masa tenggang sudah lewat; tidak ada aturan simpan yang cocok; itu bukan tab tidur (tab tidur hanya dihitung tertutup jika pengaturan lanjutan itu menyala).\n\nSudah menyalakan pembersihan data situs tapi data lama masih ada? Peramban hanya mengizinkan penghapusan jenis-jenis itu untuk situs yang Anda kunjungi lagi; sisanya bertahan sampai kunjungan berikutnya.\n\nChrome atau Edge masih menampilkan situs sekitar 100 byte tanpa cookie? Biasanya itu Private State Tokens: token antipenipuan yang disimpan sebagian situs, yang dirancang agar tidak bisa dipakai untuk melacak Anda antarsitus. Peramban tidak mengizinkan ekstensi menghapusnya. Untuk menghapusnya, klik ikon tempat sampah di samping situs pada daftar data situs di peramban (chrome://settings/content/all di Chrome), atau gunakan Hapus data penjelajahan (Ctrl+Shift+Delete, atau Cmd+Shift+Delete di Mac).\n\nPenyamaran? Hanya jika Anda izinkan: halaman ekstensi peramban → Izinkan dalam mode penyamaran. Mode penyamaran punya penyimpanan cookie dan situs tersimpan sendiri, dan tidak pernah masuk log. Situs tersimpannya dihapus saat jendela pribadi terakhir ditutup, kecuali Firefox diatur untuk tidak pernah mengingat riwayat; dalam hal itu situs tersebut tetap tersimpan.\n\nMasih buntu? Halaman Dukungan memuat versi, blok debug yang bisa disalin, tautan laporan bug, dan tombol 'Kirim laporan bug lewat email' jika Anda tidak punya akun GitHub. Mode debug (Lanjutan) membuat ekstensi menceritakan tiap keputusan ke konsol service worker, dengan nilai cookie disamarkan."
+  },
+  "settingGroupSync": {
+    "message": "Sinkronisasi"
+  },
+  "syncEnabledText": {
+    "message": "Sinkronkan daftar simpan dan pengaturan"
+  },
+  "syncEnabledDescText": {
+    "message": "Menjaga daftar bawaan dan pengaturan pembersihan Anda tetap sama di setiap perangkat yang masuk ke akun browser yang sama dan mengaktifkan opsi ini. Daftar untuk penjelajahan pribadi dan kontainer, sakelar pembersihan otomatis, serta log pembersihan tetap tersimpan di masing-masing perangkat."
+  },
+  "syncPrivacyText": {
+    "message": "Browser Anda membawa data yang disinkronkan melalui akun browser Anda sendiri. Ekstensi ini sendiri tidak mengirim apa pun ke mana pun."
+  },
+  "syncStatusWaitingText": {
+    "message": "Menunggu sinkronisasi pertama…"
+  },
+  "syncStatusOkText": {
+    "message": "Terakhir disinkronkan: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Sinkronisasi dijeda: daftar simpan dan pengaturan Anda memerlukan $used$, tetapi sinkronisasi browser hanya mengizinkan $quota$. Hapus beberapa aturan untuk melanjutkan.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Sinkronisasi dijeda: perangkat lain memakai versi ekstensi ini yang lebih baru. Perbarui ekstensi di sini agar sinkronisasi berlanjut."
+  },
+  "syncStatusErrorText": {
+    "message": "Sinkronisasi terakhir gagal: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

@@ -38,6 +38,9 @@ export default class SettingService extends StoreUser {
     }
     const previous = SettingService.current;
     SettingService.current = StoreUser.store.getState().settings;
+    // Read before the first await: the flag is only up for the synchronous
+    // dispatch that applies a change from another device (#587).
+    const fromSync = SettingService.applyingSyncedChange;
 
     // BrowsingData Settings Check
     for (const siteData of SITEDATATYPES) {
@@ -58,7 +61,10 @@ export default class SettingService extends StoreUser {
         // The since-zero wipe is OPT-IN (the setting defaults off since
         // the Firefox port) and the settings UI confirms each enable
         // while it is on — never an implicit global erase (audit bug 14).
+        // A site-data type switched on by another device through sync
+        // (#587) never wipes here: nobody confirmed it on this device.
         if (
+          fromSync ||
           SettingService.getCurrent(SettingID.SITEDATA_EMPTY_ON_ENABLE) !== true
         ) {
           adcpLog(
@@ -191,6 +197,12 @@ export default class SettingService extends StoreUser {
       });
     }
   }
+
+  /**
+   * Up only while SyncService dispatches a change that came from another
+   * device (#587), so onSettingsChange can tell it apart from a local one.
+   */
+  public static applyingSyncedChange = false;
 
   protected static current: MapToSettingObject;
   protected static delaySave = false;

@@ -136,6 +136,9 @@ const ImportExport: React.FunctionComponent<OwnProps> = ({ style }) => {
         // A pause is never exported (see exportCoreSettings); one in a
         // hand-edited file is ignored rather than started.
         delete newSettings[SettingID.RESUME_ACTIVE_MODE];
+        // The sync switch is this device's own choice (#587): a file from
+        // another device must not turn it on or off here.
+        delete newSettings[SettingID.SYNC_ENABLED];
         const settingKeys = Object.keys(newSettings);
         const unknownKeys = settingKeys.filter(
           (key) => !initialSettingKeys.includes(key)
@@ -186,8 +189,12 @@ const ImportExport: React.FunctionComponent<OwnProps> = ({ style }) => {
     // Without the pause (#555): it is a moment's state, not a preference,
     // and older versions and Cookie AutoDelete reject a file naming a
     // setting they don't know.
+    // Without the sync switch either (#587): it is per device, and the same
+    // older versions would reject the file over it.
     const exportSettings: Setting[] = Object.values(settings).filter(
-      (s) => s.name !== SettingID.RESUME_ACTIVE_MODE
+      (s) =>
+        s.name !== SettingID.RESUME_ACTIVE_MODE &&
+        s.name !== SettingID.SYNC_ENABLED
     );
     const r = downloadObjectAsJSON(
       { settings: exportSettings },

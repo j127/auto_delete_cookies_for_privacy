@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Utloggad från en webbplats? I sannolikhetsordning: webbplatsen har ingen behåll-regel (eller bara dess exakta värdnamn har en, medan inloggningen bor på en underdomän — använd formen *.example.com); det är en till-omstart-webbplats och webbläsaren startades om; en matchande regel behåller bara namngivna kakor och inloggningskakan är inte ikryssad; eller webbplatsens egen kaka gick ut. Gissa inte — städloggen namnger exakt vilken regel som slog till.\n\nKakor dyker upp direkt efter städningen? Webbplatsen är nästan alltid fortfarande öppen i någon flik — öppna webbplatser skapar kakor när de vill och är skyddade ändå.\n\nStädningen kördes inte? Kontrollera i ordning: automatisk städning är på (popupens rubrik säger det); webbplatsen är inte öppen i en annan flik; fristen har gått ut; ingen behåll-regel matchar; det var inte en sovande flik (de räknas bara som stängda om den avancerade inställningen är på).\n\nSlog på webbplatsdatastädning men gammal data ligger kvar? Webbläsaren låter tillägget bara rensa de typerna för webbplatser du besöker igen; kvarlämningar ligger kvar till nästa besök.\n\nVisar Chrome eller Edge fortfarande en webbplats på ungefär 100 byte utan kakor? Det är oftast Private State Tokens: bedrägeriskyddstoken som vissa webbplatser sparar, utformade så att de inte kan användas för att spåra dig mellan webbplatser. Webbläsare låter inte tillägg radera dem. Ta bort dem genom att klicka på papperskorgsikonen bredvid webbplatsen i webbläsarens lista över webbplatsdata (chrome://settings/content/all i Chrome), eller använd Rensa webbinformation (Ctrl+Shift+Delete, eller Cmd+Shift+Delete på en Mac).\n\nInkognito? Bara om du tillåter det: webbläsarens tilläggsida → Tillåt i inkognito. Inkognito har sitt eget kaklager och egna sparade webbplatser, och skrivs aldrig till loggen. Dess sparade webbplatser raderas när det sista privata fönstret stängs, om inte Firefox är inställt på att aldrig spara historik; då förblir de sparade.\n\nFortfarande fast? Supportsidan har versionen, ett kopierbart felsökningsblock, länken för buggrapporter och knappen Skicka en buggrapport via e-post om du inte har något GitHub-konto. Felsökningsläget (Avancerat) får tillägget att berätta varje beslut i service worker-konsolen, med kakvärden maskerade."
+  },
+  "settingGroupSync": {
+    "message": "Synkronisering"
+  },
+  "syncEnabledText": {
+    "message": "Synkronisera behåll-lista och inställningar"
+  },
+  "syncEnabledDescText": {
+    "message": "Håller din standardlista och dina städinställningar lika på alla enheter som är inloggade på samma webbläsarkonto och har detta aktiverat. Listorna för privat surfning och containrar, reglaget för automatisk städning och städloggen stannar på varje enhet."
+  },
+  "syncPrivacyText": {
+    "message": "Din webbläsare för de synkroniserade uppgifterna via ditt eget webbläsarkonto. Själva tillägget skickar ingenting någonstans."
+  },
+  "syncStatusWaitingText": {
+    "message": "Väntar på den första synkroniseringen …"
+  },
+  "syncStatusOkText": {
+    "message": "Senast synkroniserad: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Synkroniseringen är pausad: din behåll-lista och dina inställningar behöver $used$, men webbläsarsynkroniseringen tillåter $quota$. Ta bort några regler för att fortsätta.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Synkroniseringen är pausad: en annan enhet har en nyare version av det här tillägget. Uppdatera det här för att fortsätta synkronisera."
+  },
+  "syncStatusErrorText": {
+    "message": "Den senaste synkroniseringen misslyckades: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

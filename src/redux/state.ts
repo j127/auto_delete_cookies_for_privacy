@@ -153,6 +153,12 @@ export const initialState: State = {
       name: SettingID.STAT_LOGGING,
       value: true,
     },
+    // Off by default: syncing hands the keep list to the browser's sync
+    // service, so each device opts in (#587).
+    [SettingID.SYNC_ENABLED]: {
+      name: SettingID.SYNC_ENABLED,
+      value: false,
+    },
     [SettingID.OLD_WHITE_CLEAN_LOCALSTORAGE]: {
       id: "DEPRECATED - use default expressions",
       name: SettingID.OLD_WHITE_CLEAN_LOCALSTORAGE,

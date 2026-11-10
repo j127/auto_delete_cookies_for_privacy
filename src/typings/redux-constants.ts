@@ -29,6 +29,9 @@ export const enum ReduxConstants {
   CLEAR_ACTIVITY_LOG = "CLEAR_ACTIVITY_LOG",
   REMOVE_ACTIVITY_LOG = "REMOVE_ACTIVITY_LOG",
   RESET_ALL = "RESET_ALL",
+  // Background only: replaces the synced lists and settings with a snapshot
+  // from the browser's sync storage in one state change (#587).
+  APPLY_SYNCED_DATA = "APPLY_SYNCED_DATA",
 }
 
 export type ReduxAction =
@@ -48,7 +51,8 @@ export type ReduxAction =
   | ADD_ACTIVITY_LOG
   | CLEAR_ACTIVITY_LOG
   | REMOVE_ACTIVITY_LOG
-  | RESET_ALL;
+  | RESET_ALL
+  | APPLY_SYNCED_DATA;
 
 export type ADD_EXPRESSION = Readonly<{
   type: ReduxConstants.ADD_EXPRESSION;
@@ -112,4 +116,8 @@ export type REMOVE_ACTIVITY_LOG = Readonly<{
 }>;
 export type CLEAR_ACTIVITY_LOG = Readonly<{
   type: ReduxConstants.CLEAR_ACTIVITY_LOG;
+}>;
+export type APPLY_SYNCED_DATA = Readonly<{
+  type: ReduxConstants.APPLY_SYNCED_DATA;
+  payload: SyncedData;
 }>;

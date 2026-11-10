@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Desconectado dun sitio? Por orde de probabilidade: o sitio non ten regra de conservación (ou só a ten o nome de servidor exacto, mentres o inicio de sesión vive nun subdominio — usa a forma *.example.com); é un sitio ata-reiniciar e o navegador reiniciouse; unha regra coincidente só conserva cookies con nome e a cookie de sesión non está marcada; ou a cookie do sitio simplemente caducou. Non adiviñes — o rexistro de limpeza nomea a regra exacta que actuou.\n\nAs cookies reaparecen xusto despois de limpar? O sitio case sempre segue aberto nalgunha lapela — os sitios abertos recrean cookies á vontade e ademais están protexidos.\n\nNon se executou a limpeza? Comproba por orde: a limpeza automática está activada (a cabeceira da xanela emerxente dío); o sitio non está aberto noutra lapela; o período de graza pasou; ningunha regra de conservación coincide; non era unha lapela durmida (esas só contan como pechadas se ese axuste avanzado está activado).\n\nActivaches a limpeza de datos do sitio pero os datos vellos seguen aí? O navegador só permite borrar eses tipos para sitios que volvas visitar; os restos quedan ata a próxima visita.\n\nChrome ou Edge aínda mostra un sitio con uns 100 bytes e sen cookies? Adoitan ser Private State Tokens: tokens contra a fraude que gardan algúns sitios, deseñados para que non se poidan usar para seguirte dun sitio a outro. Os navegadores non deixan que as extensións os borren. Para quitalos, preme a icona da papeleira xunto ao sitio na lista de datos de sitios do navegador (chrome://settings/content/all en Chrome) ou usa Borrar datos de navegación (Ctrl+Shift+Delete, ou Cmd+Shift+Delete nun Mac).\n\nIncógnito? Só se o permites: páxina de extensións do teu navegador → Permitir en incógnito. O incógnito ten o seu propio almacén de cookies e sitios gardados, e nunca se escribe no rexistro. Os seus sitios gardados bórranse cando se pecha a última xanela privada, agás que Firefox estea configurado para non lembrar nunca o historial; entón quedan gardados.\n\nSegues atascado? A páxina de Asistencia ten a versión, un bloque de depuración copiable, a ligazón para informar de erros e o botón 'Enviar un informe de erro por correo' se non tes conta de GitHub. O modo de depuración (Avanzado) fai que a extensión narre cada decisión na consola do service worker, cos valores das cookies enmascarados."
+  },
+  "settingGroupSync": {
+    "message": "Sincronización"
+  },
+  "syncEnabledText": {
+    "message": "Sincronizar a lista de conservación e a configuración"
+  },
+  "syncEnabledDescText": {
+    "message": "Mantén a túa lista predeterminada e a configuración de limpeza iguais en cada dispositivo que teña a sesión iniciada na mesma conta do navegador e teña isto activado. As listas de navegación privada e de contedores, o interruptor de limpeza automática e o rexistro de limpeza quedan en cada dispositivo."
+  },
+  "syncPrivacyText": {
+    "message": "O teu navegador leva os datos sincronizados a través da túa propia conta do navegador. A extensión en si non envía nada a ningures."
+  },
+  "syncStatusWaitingText": {
+    "message": "Agardando a primeira sincronización…"
+  },
+  "syncStatusOkText": {
+    "message": "Última sincronización: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "A sincronización está en pausa: a túa lista de conservación e a configuración ocupan $used$, pero a sincronización do navegador permite $quota$. Elimina algunhas regras para continuar.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "A sincronización está en pausa: outro dispositivo ten unha versión máis recente desta extensión. Actualízaa aquí para seguir sincronizando."
+  },
+  "syncStatusErrorText": {
+    "message": "A última sincronización fallou: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

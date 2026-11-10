@@ -167,6 +167,20 @@ describe("SettingService", () => {
         { serviceWorkers: true, cacheStorage: true }
       );
     });
+    it("should NOT wipe when another device turned the site data on through sync (#587)", async () => {
+      // The wipe is confirmed in the settings page of the device that
+      // switched the type on; a synced enable was confirmed nowhere here.
+      TestStore.changeSetting(SettingID.SITEDATA_EMPTY_ON_ENABLE, true);
+      await SettingService.onSettingsChange();
+      TestStore.changeSetting(SettingID.CLEANUP_CACHE, false);
+      await SettingService.onSettingsChange();
+      TestStore.changeSetting(SettingID.CLEANUP_CACHE, true);
+      SettingService.applyingSyncedChange = true;
+      const pending = SettingService.onSettingsChange();
+      SettingService.applyingSyncedChange = false;
+      await pending;
+      expect(global.browser.browsingData.remove).not.toHaveBeenCalled();
+    });
     it("should NOT clean that site data on enable with the default settings (wipe is opt-in)", async () => {
       // No implicit wipe on first run, upgrade, or plain enables: the
       // empty-on-enable setting defaults off (audit bug 14).

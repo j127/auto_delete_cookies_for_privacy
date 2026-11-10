@@ -158,6 +158,13 @@ export const hasContextMenuApi = (): boolean =>
   browser.contextMenus !== undefined;
 
 /**
+ * Whether the browser offers extension sync storage (#587). Both desktop
+ * browsers do; the check keeps the sync switch hidden anywhere it's missing.
+ */
+export const hasSyncStorageApi = (): boolean =>
+  browser.storage !== undefined && browser.storage.sync !== undefined;
+
+/**
  * Whether the browser has the windows API. Firefox for Android does not:
  * it has no windows and no toolbar, so there is nothing to pin the
  * extension to and private browsing ends with the last private tab.
