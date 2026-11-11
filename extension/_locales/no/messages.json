@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Logget ut av et nettsted? I sannsynlighetsrekkefølge: nettstedet har ingen behold-regel (eller bare det eksakte vertsnavnet har en, mens innloggingen bor på et underdomene — bruk formen *.example.com); det er et til-omstart-nettsted og nettleseren startet på nytt; en regel med treff beholder bare navngitte kapsler og innloggingskapselen er ikke krysset av; eller nettstedets egen kapsel utløp. Ikke gjett — ryddeloggen navngir nøyaktig regelen som slo til.\n\nInformasjonskapsler dukker opp igjen rett etter rydding? Nettstedet er nesten alltid fortsatt åpent i en fane — åpne nettsteder gjenskaper kapsler når de vil og er beskyttet uansett.\n\nRyddingen kjørte ikke? Sjekk i rekkefølge: automatisk rydding er på (popupens overskrift sier det); nettstedet er ikke åpent i en annen fane; fristen er ute; ingen behold-regel treffer; det var ikke en sovende fane (de regnes bare som lukkede hvis den avanserte innstillingen er på).\n\nSlo på nettstedsdatarydding, men gammel data ligger der fortsatt? Nettleseren lar bare utvidelsen rydde de typene for nettsteder du besøker igjen; rester blir til neste besøk.\n\nViser Chrome eller Edge fortsatt et nettsted på rundt 100 byte uten informasjonskapsler? Det er som regel Private State Tokens: tokener mot svindel som noen nettsteder lagrer, laget slik at de ikke kan brukes til å spore deg på tvers av nettsteder. Nettlesere lar ikke utvidelser slette dem. Fjern dem ved å klikke på søppelbøtteikonet ved siden av nettstedet i nettleserens liste over nettstedsdata (chrome://settings/content/all i Chrome), eller bruk Slett nettlesingsdata (Ctrl+Shift+Delete, eller Cmd+Shift+Delete på Mac).\n\nInkognito? Bare hvis du tillater det: nettleserens utvidelsesside → Tillat i inkognito. Inkognito har sitt eget kapsellager og egne lagrede nettsteder, og skrives aldri til loggen. De lagrede nettstedene slettes når det siste private vinduet lukkes, med mindre Firefox er satt til aldri å huske historikk; da forblir de lagret.\n\nFortsatt fast? Støttesiden har versjonen, en kopierbar feilsøkingsblokk, lenken for feilrapporter og knappen Send en feilrapport på e-post hvis du ikke har en GitHub-konto. Feilsøkingsmodusen (Avansert) får utvidelsen til å fortelle hver beslutning i service worker-konsollen, med kapselverdier maskert."
+  },
+  "settingGroupSync": {
+    "message": "Synkronisering"
+  },
+  "syncEnabledText": {
+    "message": "Synkroniser behold-liste og innstillinger"
+  },
+  "syncEnabledDescText": {
+    "message": "Holder standardlisten og ryddeinnstillingene dine like på alle enheter som er logget på den samme nettleserkontoen og har dette slått på. Lister for privat surfing og containere, bryteren for automatisk rydding og ryddeloggen blir på hver enhet."
+  },
+  "syncPrivacyText": {
+    "message": "Nettleseren din frakter de synkroniserte dataene gjennom din egen nettleserkonto. Selve utvidelsen sender ingenting noe sted."
+  },
+  "syncStatusWaitingText": {
+    "message": "Venter på den første synkroniseringen …"
+  },
+  "syncStatusOkText": {
+    "message": "Sist synkronisert: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Synkroniseringen er satt på pause: behold-listen og innstillingene dine trenger $used$, men nettlesersynkronisering tillater $quota$. Fjern noen regler for å fortsette.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Synkroniseringen er satt på pause: en annen enhet har en nyere versjon av denne utvidelsen. Oppdater den her for å fortsette å synkronisere."
+  },
+  "syncStatusErrorText": {
+    "message": "Den siste synkroniseringen mislyktes: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

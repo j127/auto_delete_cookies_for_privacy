@@ -69,6 +69,9 @@ export enum SettingID {
   SIZE_POPUP = "sizePopup",
   SIZE_SETTING = "sizeSetting",
   STAT_LOGGING = "statLogging",
+  // Keep-list sync through the browser account (#587). Per device: the
+  // switch itself never syncs.
+  SYNC_ENABLED = "syncEnabled",
 }
 
 export enum ListType {

@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Wylogowało cię ze strony? W kolejności prawdopodobieństwa: strona nie ma reguły zachowywania (albo ma ją tylko dokładny host, a logowanie mieszka na subdomenie — użyj formy *.example.com); to strona do-restartu, a przeglądarka się zrestartowała; pasująca reguła zachowuje tylko nazwane ciasteczka, a ciasteczko logowania nie jest zaznaczone; albo ciasteczko strony po prostu wygasło. Nie zgaduj — dziennik czyszczenia wskazuje dokładną regułę, która zadziałała.\n\nCiasteczka wracają zaraz po czyszczeniu? Strona prawie zawsze jest wciąż otwarta w jakiejś karcie — otwarte strony tworzą ciasteczka do woli i i tak są chronione.\n\nCzyszczenie nie zaszło? Sprawdź po kolei: automatyczne czyszczenie jest włączone (nagłówek okienka to mówi); strona nie jest otwarta w innej karcie; okres karencji minął; żadna reguła zachowywania nie pasuje; to nie była uśpiona karta (te liczą się jako zamknięte tylko przy włączonym tym ustawieniu zaawansowanym).\n\nWłączono czyszczenie danych stron, a stare dane wciąż są? Przeglądarka pozwala usuwać te typy tylko dla stron odwiedzanych ponownie; pozostałości zostają do następnej wizyty.\n\nChrome lub Edge wciąż pokazuje stronę z około 100 bajtami i bez ciasteczek? Zwykle są to Private State Tokens: tokeny chroniące przed oszustwami, które zapisują niektóre strony, zaprojektowane tak, by nie dało się ich użyć do śledzenia użytkownika między stronami. Przeglądarki nie pozwalają rozszerzeniom ich usuwać. Aby je usunąć, kliknij ikonę kosza obok strony na liście danych stron w przeglądarce (chrome://settings/content/all w Chrome) albo użyj opcji Wyczyść dane przeglądania (Ctrl+Shift+Delete lub Cmd+Shift+Delete na Macu).\n\nIncognito? Tylko jeśli pozwolisz: strona rozszerzeń przeglądarki → Zezwalaj w trybie incognito. Incognito ma własny magazyn ciasteczek i własne zapisane strony, i nigdy nie trafia do dziennika. Jego zapisane strony są usuwane po zamknięciu ostatniego okna prywatnego, chyba że Firefox jest ustawiony tak, by nigdy nie pamiętać historii; wtedy pozostają zapisane.\n\nWciąż utknięcie? Strona Wsparcie ma wersję, kopiowalny blok diagnostyczny, odnośnik do zgłaszania błędów i przycisk 'Zgłoś błąd e-mailem', jeśli nie masz konta na GitHubie. Tryb debugowania (Zaawansowane) każe rozszerzeniu opowiadać każdą decyzję w konsoli service workera, z zamaskowanymi wartościami ciasteczek."
+  },
+  "settingGroupSync": {
+    "message": "Synchronizacja"
+  },
+  "syncEnabledText": {
+    "message": "Synchronizuj listę zachowywania i ustawienia"
+  },
+  "syncEnabledDescText": {
+    "message": "Utrzymuje twoją listę domyślną i ustawienia czyszczenia takie same na każdym urządzeniu zalogowanym na to samo konto przeglądarki, na którym ta opcja jest włączona. Listy dla przeglądania prywatnego i kontenerów, przełącznik automatycznego czyszczenia oraz dziennik czyszczenia pozostają osobno na każdym urządzeniu."
+  },
+  "syncPrivacyText": {
+    "message": "Przeglądarka przenosi zsynchronizowane dane przez twoje własne konto przeglądarki. Samo rozszerzenie niczego nigdzie nie wysyła."
+  },
+  "syncStatusWaitingText": {
+    "message": "Oczekiwanie na pierwszą synchronizację…"
+  },
+  "syncStatusOkText": {
+    "message": "Ostatnia synchronizacja: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Synchronizacja wstrzymana: twoja lista zachowywania i ustawienia zajmują $used$, a synchronizacja przeglądarki pozwala na $quota$. Usuń kilka reguł, aby wznowić.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Synchronizacja wstrzymana: inne urządzenie ma nowszą wersję tego rozszerzenia. Zaktualizuj je tutaj, aby dalej synchronizować."
+  },
+  "syncStatusErrorText": {
+    "message": "Ostatnia synchronizacja nie powiodła się: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

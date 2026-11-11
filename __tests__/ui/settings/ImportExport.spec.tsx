@@ -110,6 +110,47 @@ describe("ImportExport", () => {
     });
   });
 
+  it("leaves the sync switch out of the export (#587)", () => {
+    // Per device, and the same older versions would reject the file.
+    let href = "";
+    const click = jest
+      .spyOn(HTMLAnchorElement.prototype, "click")
+      .mockImplementation(function (this: HTMLAnchorElement) {
+        href = this.getAttribute("href") ?? "";
+      });
+    const { getByText } = renderPage();
+    fireEvent.click(getByText("exportSettingsText"));
+    click.mockRestore();
+    const exported = JSON.parse(
+      decodeURIComponent(href.slice(href.indexOf(",") + 1))
+    ) as { settings: Setting[] };
+    const names = exported.settings.map((x) => x.name);
+    expect(names).toContain(SettingID.CLEAN_DELAY);
+    expect(names).not.toContain(SettingID.SYNC_ENABLED);
+  });
+
+  it("ignores the sync switch in an imported file (#587)", async () => {
+    const { dispatchSpy, fileInputs, container } = renderPage();
+    const file = jsonFile({
+      settings: [
+        { name: SettingID.ACTIVE_MODE, value: true },
+        { name: SettingID.SYNC_ENABLED, value: true },
+      ],
+    });
+    fireEvent.change(fileInputs()[0], { target: { files: [file] } });
+
+    await waitFor(() => {
+      expect(
+        container.querySelector(".alert-success") as HTMLElement
+      ).not.toBeNull();
+    });
+    expect(dispatchSpy).toHaveBeenCalledTimes(1);
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      payload: { name: SettingID.ACTIVE_MODE, value: true },
+      type: ReduxConstants.UPDATE_SETTING,
+    });
+  });
+
   it("imports known settings and dispatches only the changed values", async () => {
     const { dispatchSpy, fileInputs, container } = renderPage();
     const file = jsonFile({

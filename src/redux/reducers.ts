@@ -132,6 +132,33 @@ export const lists = (
       delete newListObject[action.payload.toString()];
       return newListObject;
     }
+    case ReduxConstants.APPLY_SYNCED_DATA: {
+      // Each named list is replaced wholesale (#587), with the same ids,
+      // dedupe (first rule per expression wins) and ordering as the add
+      // path, but sorted once: a long synced list must not re-sort after
+      // every rule. Built from scratch rather than removed first, so no
+      // reader ever sees the list empty in between.
+      const newListObject = { ...state };
+      for (const [key, rules] of Object.entries(action.payload.lists)) {
+        const seen = new Set<string>();
+        const rebuilt = rules
+          .filter((rule) => {
+            if (seen.has(rule.expression)) return false;
+            seen.add(rule.expression);
+            return true;
+          })
+          .map((rule) =>
+            newExpressionObject({}, { payload: { ...rule, storeId: key } })
+          )
+          .sort(sortExpressionAlgorithm);
+        if (rebuilt.length === 0) {
+          delete newListObject[key];
+        } else {
+          newListObject[key] = rebuilt;
+        }
+      }
+      return newListObject;
+    }
 
     case ReduxConstants.CLEAR_EXPRESSIONS:
     case ReduxConstants.RESET_ALL:
@@ -154,6 +181,15 @@ export const settings = (
       newObject[action.payload.name] = {
         ...action.payload,
       };
+      return newObject;
+    }
+
+    case ReduxConstants.APPLY_SYNCED_DATA: {
+      // Only the value travels; a setting's other fields stay as they are.
+      const newObject = { ...state };
+      for (const { name, value } of action.payload.settings) {
+        newObject[name] = { ...(state[name] ?? { name }), value };
+      }
       return newObject;
     }
 

@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Desligado de um site? Por ordem de probabilidade: o site não tem regra de manter (ou só o nome de anfitrião exato tem, enquanto o início de sessão vive num subdomínio — use a forma *.example.com); é um site até-reiniciar e o navegador reiniciou; uma regra correspondente mantém só cookies nomeados e o cookie de sessão não está assinalado; ou o cookie do site simplesmente expirou. Não adivinhe — o registo de limpeza nomeia a regra exata que atuou.\n\nOs cookies reaparecem logo após a limpeza? O site está quase sempre ainda aberto nalgum separador — sites abertos recriam cookies à vontade e estão protegidos de qualquer forma.\n\nA limpeza não correu? Verifique por ordem: a limpeza automática está ligada (o cabeçalho do popup di-lo); o site não está aberto noutro separador; o período de tolerância passou; nenhuma regra de manter corresponde; não era um separador adormecido (esses só contam como fechados se essa definição avançada estiver ligada).\n\nAtivou a limpeza de dados do site mas os dados antigos continuam lá? O navegador só deixa apagar esses tipos em sites que visite de novo; os restos ficam até à próxima visita.\n\nO Chrome ou o Edge ainda mostra um site com cerca de 100 bytes e sem cookies? Normalmente são Private State Tokens: tokens antifraude que alguns sites guardam, concebidos para não poderem ser usados para o seguir entre sites. Os navegadores não deixam as extensões apagá-los. Para os remover, clique no ícone do caixote do lixo junto ao site na lista de dados de sites do navegador (chrome://settings/content/all no Chrome), ou use Limpar dados de navegação (Ctrl+Shift+Delete, ou Cmd+Shift+Delete num Mac).\n\nAnónimo? Só se o permitir: página de extensões do navegador → Permitir em modo anónimo. O modo anónimo tem o seu próprio armazenamento de cookies e sites guardados, e nunca entra no registo. Esses sites guardados são apagados quando a última janela privada é fechada, a menos que o Firefox esteja configurado para nunca memorizar o histórico; nesse caso, continuam guardados.\n\nAinda preso? A página Suporte tem a versão, um bloco de depuração copiável, a ligação para relatar erros e o botão 'Comunicar um erro por e-mail' se não tiver conta no GitHub. O modo de depuração (Avançado) faz a extensão narrar cada decisão na consola do service worker, com os valores dos cookies mascarados."
+  },
+  "settingGroupSync": {
+    "message": "Sincronização"
+  },
+  "syncEnabledText": {
+    "message": "Sincronizar lista de manter e definições"
+  },
+  "syncEnabledDescText": {
+    "message": "Mantém a sua lista predefinida e as suas definições de limpeza iguais em todos os dispositivos com sessão iniciada na mesma conta do navegador e com esta opção ativada. As listas de navegação privada e de contentores, o interruptor de limpeza automática e o registo de limpeza ficam em cada dispositivo."
+  },
+  "syncPrivacyText": {
+    "message": "O seu navegador transporta os dados sincronizados através da sua própria conta do navegador. A extensão em si não envia nada para lado nenhum."
+  },
+  "syncStatusWaitingText": {
+    "message": "A aguardar a primeira sincronização…"
+  },
+  "syncStatusOkText": {
+    "message": "Última sincronização: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Sincronização em pausa: a sua lista de manter e as suas definições precisam de $used$, mas a sincronização do navegador permite $quota$. Remova algumas regras para retomar.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Sincronização em pausa: outro dispositivo tem uma versão mais recente desta extensão. Atualize-a aqui para continuar a sincronizar."
+  },
+  "syncStatusErrorText": {
+    "message": "A última sincronização falhou: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

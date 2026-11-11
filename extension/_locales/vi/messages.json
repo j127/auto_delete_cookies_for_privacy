@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Bị đăng xuất khỏi một trang? Theo thứ tự khả năng: trang không có quy tắc giữ (hoặc chỉ đúng tên máy chủ có, trong khi đăng nhập nằm ở tên miền phụ — dùng dạng *.example.com); nó là trang đến-khi-khởi-động-lại và trình duyệt vừa khởi động lại; quy tắc khớp chỉ giữ cookie chỉ định tên mà cookie đăng nhập chưa được đánh dấu; hoặc cookie của trang đơn giản là hết hạn. Đừng đoán — nhật ký dọn dẹp nêu đích danh quy tắc đã kích hoạt.\n\nCookie xuất hiện lại ngay sau khi dọn? Trang gần như chắc chắn vẫn mở ở thẻ nào đó — trang đang mở tha hồ tạo lại cookie và đằng nào cũng được bảo vệ.\n\nDọn không chạy? Kiểm tra theo thứ tự: tự động dọn đang bật (đầu cửa sổ bật lên có ghi); trang không mở ở thẻ khác; thời gian ân hạn đã qua; không quy tắc giữ nào khớp; đó không phải thẻ ngủ (thẻ ngủ chỉ tính là đóng khi cài đặt nâng cao đó bật).\n\nĐã bật dọn dữ liệu trang mà dữ liệu cũ vẫn còn? Trình duyệt chỉ cho xóa các loại đó với trang bạn ghé lại; phần sót nằm đó đến lần ghé sau.\n\nChrome hoặc Edge vẫn hiện một trang khoảng 100 byte mà không có cookie? Đó thường là Private State Tokens: mã chống gian lận mà một số trang lưu, được thiết kế để không thể dùng theo dõi bạn qua các trang. Trình duyệt không cho tiện ích xóa chúng. Để xóa, bấm biểu tượng thùng rác cạnh trang trong danh sách dữ liệu trang của trình duyệt (chrome://settings/content/all trong Chrome), hoặc dùng Xóa dữ liệu duyệt web (Ctrl+Shift+Delete, hoặc Cmd+Shift+Delete trên Mac).\n\nẨn danh? Chỉ khi bạn cho phép: trang tiện ích của trình duyệt → Cho phép ở chế độ ẩn danh. Chế độ ẩn danh có kho cookie và trang đã lưu riêng, và không bao giờ được ghi vào nhật ký. Các trang đã lưu đó sẽ bị xóa khi cửa sổ riêng tư cuối cùng được đóng, trừ khi Firefox được đặt để không bao giờ ghi nhớ lịch sử; khi đó chúng vẫn được lưu.\n\nVẫn bí? Trang Hỗ trợ có số phiên bản, khối gỡ lỗi sao chép được, liên kết báo lỗi và nút 'Báo lỗi qua email' nếu bạn không có tài khoản GitHub. Chế độ gỡ lỗi (Nâng cao) khiến tiện ích thuật lại từng quyết định vào console của service worker, với giá trị cookie được che."
+  },
+  "settingGroupSync": {
+    "message": "Đồng bộ"
+  },
+  "syncEnabledText": {
+    "message": "Đồng bộ danh sách giữ lại và cài đặt"
+  },
+  "syncEnabledDescText": {
+    "message": "Giữ danh sách mặc định và cài đặt dọn dẹp của bạn giống nhau trên mọi thiết bị đăng nhập cùng một tài khoản trình duyệt và đã bật tùy chọn này. Danh sách cho duyệt web riêng tư và vùng chứa, công tắc dọn dẹp tự động và nhật ký dọn dẹp vẫn ở riêng trên từng thiết bị."
+  },
+  "syncPrivacyText": {
+    "message": "Trình duyệt của bạn chuyển dữ liệu đã đồng bộ qua chính tài khoản trình duyệt của bạn. Bản thân tiện ích không gửi gì đi đâu cả."
+  },
+  "syncStatusWaitingText": {
+    "message": "Đang chờ lần đồng bộ đầu tiên…"
+  },
+  "syncStatusOkText": {
+    "message": "Đồng bộ lần cuối: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Đã tạm dừng đồng bộ: danh sách giữ lại và cài đặt của bạn cần $used$, nhưng đồng bộ của trình duyệt chỉ cho phép $quota$. Hãy xóa bớt một số quy tắc để tiếp tục.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Đã tạm dừng đồng bộ: một thiết bị khác đang dùng phiên bản mới hơn của tiện ích này. Hãy cập nhật tiện ích ở đây để tiếp tục đồng bộ."
+  },
+  "syncStatusErrorText": {
+    "message": "Lần đồng bộ gần nhất không thành công: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Disconnesso da un sito? In ordine di probabilità: il sito non ha una regola di conservazione (o ce l'ha solo per l'hostname esatto, mentre l'accesso vive su un sottodominio — usa la forma *.example.com); è un sito fino-al-riavvio e il browser si è riavviato; una regola corrispondente conserva solo cookie con nome e il cookie di accesso non è spuntato; oppure il cookie del sito è semplicemente scaduto. Non tirare a indovinare — il registro delle pulizie nomina la regola esatta che è scattata.\n\nI cookie ricompaiono subito dopo la pulizia? Il sito è quasi sempre ancora aperto in qualche scheda — i siti aperti ricreano i cookie a piacere e sono comunque protetti.\n\nLa pulizia non è partita? Controlla in ordine: la pulizia automatica è attiva (l'intestazione del popup lo dice); il sito non è aperto in un'altra scheda; il periodo di tolleranza è passato; nessuna regola di conservazione corrisponde; non era una scheda sospesa (contano come chiuse solo se quell'impostazione avanzata è attiva).\n\nHai attivato la pulizia dei dati del sito ma i dati vecchi sono ancora lì? Il browser permette di cancellare quei tipi solo per i siti che visiti di nuovo; i residui restano fino alla prossima visita.\n\nChrome o Edge mostra ancora un sito di circa 100 byte senza cookie? Di solito sono Private State Tokens: token antifrode che alcuni siti salvano, progettati in modo da non poter essere usati per seguirti da un sito all'altro. I browser non permettono alle estensioni di eliminarli. Per rimuoverli, fai clic sull'icona del cestino accanto al sito nell'elenco dei dati dei siti del browser (chrome://settings/content/all in Chrome), oppure usa Cancella dati di navigazione (Ctrl+Shift+Delete, o Cmd+Shift+Delete su Mac).\n\nIncognito? Solo se lo permetti: pagina delle estensioni del tuo browser → Consenti in incognito. L'incognito ha il suo archivio cookie e i suoi siti salvati, e non finisce mai nel registro. I suoi siti salvati vengono cancellati quando si chiude l'ultima finestra privata, a meno che Firefox non sia impostato per non salvare mai la cronologia; in quel caso restano salvati.\n\nAncora bloccato? La pagina Supporto ha la versione, un blocco di debug copiabile, il link per le segnalazioni e il pulsante 'Segnala un bug via email' se non hai un account GitHub. La modalità debug (Avanzato) fa raccontare all'estensione ogni decisione nella console del service worker, con i valori dei cookie mascherati."
+  },
+  "settingGroupSync": {
+    "message": "Sincronizzazione"
+  },
+  "syncEnabledText": {
+    "message": "Sincronizza lista di conservazione e impostazioni"
+  },
+  "syncEnabledDescText": {
+    "message": "Mantiene la tua lista predefinita e le impostazioni di pulizia uguali su ogni dispositivo connesso allo stesso account del browser e con questa opzione attiva. Le liste per la navigazione anonima e per i contenitori, l'interruttore della pulizia automatica e il registro delle pulizie restano su ciascun dispositivo."
+  },
+  "syncPrivacyText": {
+    "message": "Il browser trasporta i dati sincronizzati attraverso il tuo account del browser. L'estensione in sé non invia nulla da nessuna parte."
+  },
+  "syncStatusWaitingText": {
+    "message": "In attesa della prima sincronizzazione…"
+  },
+  "syncStatusOkText": {
+    "message": "Ultima sincronizzazione: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Sincronizzazione in pausa: la lista di conservazione e le impostazioni occupano $used$, ma la sincronizzazione del browser consente $quota$. Rimuovi alcune regole per riprendere.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Sincronizzazione in pausa: un altro dispositivo ha una versione più recente di questa estensione. Aggiornala qui per continuare a sincronizzare."
+  },
+  "syncStatusErrorText": {
+    "message": "L'ultima sincronizzazione non è riuscita: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

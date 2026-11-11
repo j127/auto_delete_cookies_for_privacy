@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Desconectado de um site? Em ordem de probabilidade: o site não tem regra de manter (ou só o hostname exato tem, enquanto o login mora num subdomínio — use a forma *.example.com); é um site até-reiniciar e o navegador reiniciou; uma regra correspondente mantém só cookies nomeados e o cookie de login não está marcado; ou o cookie do site simplesmente expirou. Não adivinhe — o registro de limpeza nomeia a regra exata que agiu.\n\nCookies reaparecem logo após a limpeza? O site quase sempre ainda está aberto em alguma aba — sites abertos recriam cookies à vontade e são protegidos de qualquer forma.\n\nA limpeza não rodou? Verifique em ordem: a limpeza automática está ligada (o cabeçalho do popup diz); o site não está aberto em outra aba; o período de carência passou; nenhuma regra de manter corresponde; não era uma aba adormecida (essas só contam como fechadas se aquela configuração avançada estiver ligada).\n\nAtivou a limpeza de dados do site mas os dados antigos continuam lá? O navegador só deixa apagar esses tipos em sites que você visitar de novo; sobras ficam até a próxima visita.\n\nO Chrome ou o Edge ainda mostra um site com cerca de 100 bytes e sem cookies? Geralmente são Private State Tokens: tokens antifraude que alguns sites guardam, projetados para não poderem ser usados para rastrear você entre sites. Os navegadores não deixam as extensões apagá-los. Para removê-los, clique no ícone de lixeira ao lado do site na lista de dados de sites do navegador (chrome://settings/content/all no Chrome), ou use Limpar dados de navegação (Ctrl+Shift+Delete, ou Cmd+Shift+Delete no Mac).\n\nAnônimo? Só se você permitir: página de extensões do seu navegador → Permitir no modo anônimo. O modo anônimo tem seu próprio armazenamento de cookies e sites salvos, e nunca entra no registro. Esses sites salvos são apagados quando a última janela privada é fechada, a menos que o Firefox esteja configurado para nunca lembrar o histórico; nesse caso, continuam salvos.\n\nAinda travado? A página Suporte tem a versão, um bloco de depuração copiável, o link para relatar bugs e o botão 'Relatar um bug por e-mail' se você não tiver conta no GitHub. O modo de depuração (Avançado) faz a extensão narrar cada decisão no console do service worker, com os valores dos cookies mascarados."
+  },
+  "settingGroupSync": {
+    "message": "Sincronização"
+  },
+  "syncEnabledText": {
+    "message": "Sincronizar lista de manter e configurações"
+  },
+  "syncEnabledDescText": {
+    "message": "Mantém sua lista padrão e suas configurações de limpeza iguais em todos os dispositivos conectados à mesma conta do navegador que tenham esta opção ativada. As listas de navegação privada e de contêineres, a chave de limpeza automática e o registro de limpeza ficam em cada dispositivo."
+  },
+  "syncPrivacyText": {
+    "message": "Seu navegador leva os dados sincronizados pela sua própria conta do navegador. A extensão em si não envia nada para lugar nenhum."
+  },
+  "syncStatusWaitingText": {
+    "message": "Aguardando a primeira sincronização…"
+  },
+  "syncStatusOkText": {
+    "message": "Última sincronização: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Sincronização pausada: sua lista de manter e suas configurações precisam de $used$, mas a sincronização do navegador permite $quota$. Remova algumas regras para retomar.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Sincronização pausada: outro dispositivo tem uma versão mais recente desta extensão. Atualize-a aqui para continuar sincronizando."
+  },
+  "syncStatusErrorText": {
+    "message": "A última sincronização falhou: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

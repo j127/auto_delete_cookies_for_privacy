@@ -84,4 +84,18 @@ describe("runtime API presence on the Chrome build", () => {
       global.browser.contextMenus = menus;
     }
   });
+
+  it("reports sync storage by the API's presence (#587)", async () => {
+    const { hasSyncStorageApi } =
+      await import("@/services/browser-capabilities");
+    expect(hasSyncStorageApi()).toBe(true);
+    const syncArea = global.browser.storage.sync;
+    try {
+      delete (global.browser.storage as unknown as Record<string, unknown>)
+        .sync;
+      expect(hasSyncStorageApi()).toBe(false);
+    } finally {
+      global.browser.storage.sync = syncArea;
+    }
+  });
 });

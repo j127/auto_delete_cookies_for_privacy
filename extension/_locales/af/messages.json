@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "By 'n werf uitgeteken? In volgorde van waarskynlikheid: die werf het geen hou-reël nie (of net sy presiese gasheernaam het een, terwyl die aanmelding op 'n subdomein woon — gebruik die vorm *.example.com); dit is 'n tot-herbegin-werf en die blaaier het herbegin; 'n passende reël hou net benoemde koekies en die aanmeldkoekie is nie gemerk nie; of die werf se eie koekie het verval. Moenie raai nie — die skoonmaaklogboek noem die presiese reël wat afgegaan het.\n\nKoekies verskyn net ná die skoonmaak weer? Die werf is byna altyd nog in 'n oortjie oop — oop werwe herskep koekies na willekeur en word in elk geval beskerm.\n\nSkoonmaak het nie gebeur nie? Kyk in volgorde: outomatiese skoonmaak is aan (die opspringer se opskrif sê so); die werf is nie in 'n ander oortjie oop nie; die grasietydperk is verby; geen hou-reël pas nie; dit was nie 'n slapende oortjie nie (dié tel net as gesluit as daardie gevorderde instelling aan is).\n\nWerfdata-skoonmaak aangeskakel maar ou data is nog daar? Die blaaier laat die uitbreiding net toe om daardie tipes te skrap vir werwe wat jy weer besoek; oorblyfsels bly tot die volgende besoek.\n\nChrome of Edge wys steeds 'n werf van omtrent 100 grepe sonder koekies? Dit is gewoonlik Private State Tokens: teen-bedrog-tekens wat sommige werwe stoor, so ontwerp dat hulle nie gebruik kan word om jou oor werwe heen te volg nie. Blaaiers laat nie uitbreidings toe om hulle te skrap nie. Om hulle te verwyder, klik die asblik-ikoon langs die werf in die blaaier se lys van werfdata (chrome://settings/content/all in Chrome), of gebruik Vee blaaierdata uit (Ctrl+Shift+Delete, of Cmd+Shift+Delete op 'n Mac).\n\nInkognito? Net as jy dit toelaat: jou blaaier se uitbreidingsbladsy → Laat toe in inkognito. Inkognito het sy eie koekiestoor en gestoorde werwe, en word nooit in die logboek geskryf nie. Sy gestoorde werwe word uitgevee wanneer die laaste privaat venster toegemaak word, tensy Firefox gestel is om nooit geskiedenis te onthou nie; dan bly hulle gestoor.\n\nNog steeds vas? Die Ondersteuning-bladsy het die weergawe, 'n kopieerbare ontfoutblok, die skakel vir foutverslae en 'n 'E-pos 'n foutverslag'-knoppie as jy nie 'n GitHub-rekening het nie. Ontfoutmodus (Gevorderd) laat die uitbreiding elke besluit in die service worker-konsole vertel, met koekiewaardes gemasker."
+  },
+  "settingGroupSync": {
+    "message": "Sinkronisering"
+  },
+  "syncEnabledText": {
+    "message": "Sinkroniseer hou-lys en instellings"
+  },
+  "syncEnabledDescText": {
+    "message": "Hou jou versteklys en skoonmaakinstellings dieselfde op elke toestel wat by dieselfde blaaierrekening aangemeld is en dit aangeskakel het. Lyste vir privaat blaai en houers, die skakelaar vir outomatiese skoonmaak en die skoonmaaklogboek bly op elke toestel."
+  },
+  "syncPrivacyText": {
+    "message": "Jou blaaier dra die gesinkroniseerde data deur jou eie blaaierrekening. Die uitbreiding self stuur niks nêrens heen nie."
+  },
+  "syncStatusWaitingText": {
+    "message": "Wag vir die eerste sinkronisering…"
+  },
+  "syncStatusOkText": {
+    "message": "Laas gesinkroniseer: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Sinkronisering is onderbreek: jou hou-lys en instellings het $used$ nodig, maar blaaiersinkronisering laat $quota$ toe. Verwyder 'n paar reëls om voort te gaan.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Sinkronisering is onderbreek: 'n ander toestel het 'n nuwer weergawe van hierdie uitbreiding. Werk dit hier by om aan te hou sinkroniseer."
+  },
+  "syncStatusErrorText": {
+    "message": "Die laaste sinkronisering het misluk: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

@@ -30,7 +30,7 @@ THE POPUP
 
 PRIVATE BY DESIGN
 • Deletes data, collects none: no analytics, no telemetry, no accounts, and no network requests.
-• Everything is processed and stored locally in your browser.
+• Everything is processed and stored locally in your browser. Optional sync (off by default) keeps your keep list the same on all your devices through your own browser account.
 • Open source: https://github.com/j127/auto_delete_cookies_for_privacy
 
 SWITCHING FROM COOKIE AUTODELETE?

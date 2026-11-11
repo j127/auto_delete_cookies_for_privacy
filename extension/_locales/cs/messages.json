@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Odhlásilo vás to z webu? V pořadí pravděpodobnosti: web nemá pravidlo ponechání (nebo ho má jen přesný hostitel, zatímco přihlášení žije na subdoméně — použijte tvar *.example.com); je to web do-restartu a prohlížeč se restartoval; odpovídající pravidlo ponechává jen jmenované cookies a přihlašovací cookie není zaškrtnutá; nebo cookie webu prostě vypršela. Nehádejte — protokol úklidu jmenuje přesné pravidlo, které zafungovalo.\n\nCookies se hned po úklidu objevují znovu? Web je téměř jistě stále otevřen na nějaké kartě — otevřené weby si cookies vytvářejí, kdy chtějí, a beztak jsou chráněné.\n\nÚklid neproběhl? Zkontrolujte popořadě: automatický úklid je zapnutý (hlavička vyskakovacího okna to říká); web není otevřen na jiné kartě; ochranná lhůta uplynula; žádné pravidlo ponechání neodpovídá; nešlo o uspanou kartu (ty se počítají jako zavřené, jen když je to pokročilé nastavení zapnuté).\n\nZapnuli jste mazání dat webů a stará data tam pořád jsou? Prohlížeč dovolí mazat tyto typy jen u webů, které znovu navštívíte; pozůstatky zůstanou do další návštěvy.\n\nChrome nebo Edge pořád ukazuje web s asi 100 bajty a bez cookies? Obvykle jde o Private State Tokens: tokeny proti podvodům, které některé weby ukládají a které jsou navržené tak, aby se nedaly použít k vašemu sledování napříč weby. Prohlížeče rozšířením nedovolí je smazat. Odstraníte je ikonou koše vedle webu v seznamu dat webů v prohlížeči (chrome://settings/content/all v Chrome) nebo přes Vymazat údaje o prohlížení (Ctrl+Shift+Delete, na Macu Cmd+Shift+Delete).\n\nAnonymní režim? Jen když ho povolíte: stránka rozšíření vašeho prohlížeče → Povolit v anonymním režimu. Anonymní režim má vlastní úložiště cookies i vlastní uložené weby a do protokolu se nikdy nezapisuje. Jeho uložené weby se smažou, když zavřete poslední anonymní okno, pokud Firefox není nastavený tak, aby si nikdy nepamatoval historii; pak zůstanou uložené.\n\nPořád nic? Stránka Podpora má verzi, kopírovatelný ladicí blok, odkaz na hlášení chyb a tlačítko „Poslat hlášení chyby e-mailem“, pokud nemáte účet na GitHubu. Ladicí režim (Pokročilé) přiměje rozšíření vyprávět každé rozhodnutí do konzole service workeru, s maskovanými hodnotami cookies."
+  },
+  "settingGroupSync": {
+    "message": "Synchronizace"
+  },
+  "syncEnabledText": {
+    "message": "Synchronizovat seznam ponechání a nastavení"
+  },
+  "syncEnabledDescText": {
+    "message": "Udržuje váš výchozí seznam a nastavení úklidu stejné na každém zařízení, které je přihlášené ke stejnému účtu prohlížeče a má tuto volbu zapnutou. Seznamy pro anonymní prohlížení a kontejnery, přepínač automatického úklidu a protokol úklidu zůstávají na každém zařízení zvlášť."
+  },
+  "syncPrivacyText": {
+    "message": "Synchronizovaná data přenáší váš prohlížeč přes váš vlastní účet prohlížeče. Samotné rozšíření nikam nic neposílá."
+  },
+  "syncStatusWaitingText": {
+    "message": "Čeká se na první synchronizaci…"
+  },
+  "syncStatusOkText": {
+    "message": "Naposledy synchronizováno: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Synchronizace je pozastavena: seznam ponechání a nastavení potřebují $used$, ale synchronizace prohlížeče povoluje $quota$. Odeberte některá pravidla, aby mohla pokračovat.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Synchronizace je pozastavena: jiné zařízení má novější verzi tohoto rozšíření. Aktualizujte ho i zde, aby synchronizace pokračovala."
+  },
+  "syncStatusErrorText": {
+    "message": "Poslední synchronizace selhala: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

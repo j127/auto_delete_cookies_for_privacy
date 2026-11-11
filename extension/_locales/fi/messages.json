@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Kirjattiin ulos sivustolta? Todennäköisyysjärjestyksessä: sivustolla ei ole säilytyssääntöä (tai vain sen tarkalla isäntänimellä on, kun kirjautuminen asuu aliverkkotunnuksella — käytä muotoa *.example.com); se on uudelleenkäynnistykseen-asti-sivusto ja selain käynnistyi uudelleen; osunut sääntö säilyttää vain nimetyt evästeet eikä kirjautumiseväste ole rastittuna; tai sivuston oma eväste yksinkertaisesti vanheni. Älä arvaile — siivousloki nimeää täsmälleen säännön, joka laukesi.\n\nEvästeet ilmestyvät heti siivouksen jälkeen? Sivusto on lähes aina yhä auki jossakin välilehdessä — avoimet sivustot luovat evästeitä mielensä mukaan ja ovat joka tapauksessa suojattuja.\n\nSiivous ei tapahtunut? Tarkista järjestyksessä: automaattisiivous on päällä (ponnahdusikkunan otsake kertoo sen); sivusto ei ole auki toisessa välilehdessä; viiveaika on kulunut; mikään säilytyssääntö ei osu; kyse ei ollut nukkuvasta välilehdestä (ne lasketaan suljetuiksi vain, jos kyseinen edistynyt asetus on päällä).\n\nKytkit sivustotietojen siivouksen mutta vanhat tiedot ovat yhä siellä? Selain sallii näiden tyyppien pyyhkimisen vain sivustoilta, joilla vierailet uudelleen; jäänteet pysyvät seuraavaan käyntiin asti.\n\nNäyttääkö Chrome tai Edge yhä sivuston, jolla on noin 100 tavua eikä evästeitä? Kyse on yleensä Private State Tokens -tunnuksista, petosten torjuntaan tarkoitetuista tunnuksista, joita jotkin sivustot tallentavat ja jotka on suunniteltu niin, ettei niillä voi seurata sinua sivustolta toiselle. Selaimet eivät anna laajennusten poistaa niitä. Poista ne napsauttamalla roskakorikuvaketta sivuston vieressä selaimen sivustotietoluettelossa (chrome://settings/content/all Chromessa) tai käytä Poista selaustiedot -toimintoa (Ctrl+Shift+Delete tai Macilla Cmd+Shift+Delete).\n\nIncognito? Vain jos sallit sen: selaimesi laajennussivu → Salli incognito-tilassa. Incognitolla on oma evästesäilönsä ja omat tallennetut sivustonsa, eikä sitä koskaan kirjata lokiin. Sen tallennetut sivustot poistetaan, kun viimeinen yksityinen ikkuna suljetaan, paitsi jos Firefox on asetettu olemaan muistamatta historiaa; silloin ne pysyvät tallessa.\n\nYhä jumissa? Tuki-sivulla on versio, kopioitava virheenjäljityslohko, linkki virheraportteihin ja Lähetä virheraportti sähköpostilla -painike, jos sinulla ei ole GitHub-tiliä. Virheenjäljitystila (Edistynyt) saa laajennuksen selostamaan jokaisen päätöksen service workerin konsoliin evästearvot peitettyinä."
+  },
+  "settingGroupSync": {
+    "message": "Synkronointi"
+  },
+  "syncEnabledText": {
+    "message": "Synkronoi säilytyslista ja asetukset"
+  },
+  "syncEnabledDescText": {
+    "message": "Pitää oletuslistasi ja siivousasetuksesi samoina jokaisella laitteella, joka on kirjautunut samaan selaintiliin ja jossa tämä on päällä. Yksityisen selauksen ja säilöjen listat, automaattisen siivouksen kytkin ja siivousloki pysyvät kullakin laitteella erikseen."
+  },
+  "syncPrivacyText": {
+    "message": "Selaimesi kuljettaa synkronoidut tiedot oman selaintilisi kautta. Laajennus itse ei lähetä mitään minnekään."
+  },
+  "syncStatusWaitingText": {
+    "message": "Odotetaan ensimmäistä synkronointia…"
+  },
+  "syncStatusOkText": {
+    "message": "Viimeksi synkronoitu: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "Synkronointi on keskeytetty: säilytyslistasi ja asetuksesi vievät $used$, mutta selaimen synkronointi sallii $quota$. Poista joitakin sääntöjä jatkaaksesi.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "Synkronointi on keskeytetty: toisella laitteella on tämän laajennuksen uudempi versio. Päivitä se tälläkin laitteella, jotta synkronointi jatkuu."
+  },
+  "syncStatusErrorText": {
+    "message": "Viimeisin synkronointi epäonnistui: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

@@ -1608,5 +1608,54 @@
   },
   "helpTroubleshootingBody": {
     "message": "Kijelentkeztetett egy webhelyről? Valószínűségi sorrendben: a webhelynek nincs megtartási szabálya (vagy csak a pontos gépnevének van, míg a bejelentkezés egy aldomainen él — használd a *.example.com formát); újraindításig-webhely, és a böngésző újraindult; egy egyező szabály csak megnevezett sütiket tart meg, és a bejelentkezési süti nincs bepipálva; vagy a webhely sütije egyszerűen lejárt. Ne találgass — a takarítási napló megnevezi a pontosan kiváltó szabályt.\n\nA sütik rögtön a takarítás után visszatérnek? A webhely szinte mindig nyitva van még valamelyik lapon — a nyitott webhelyek kedvükre újragyártják a sütiket, és amúgy is védettek.\n\nNem futott le a takarítás? Ellenőrizd sorban: az automatikus takarítás be van kapcsolva (a felugró fejléce mutatja); a webhely nincs nyitva másik lapon; a türelmi idő letelt; egyetlen megtartási szabály sem egyezik; nem alvó lap volt (azok csak akkor számítanak bezártnak, ha az a haladó beállítás be van kapcsolva).\n\nBekapcsoltad a webhelyadat-takarítást, de a régi adatok még ott vannak? A böngésző csak az újra meglátogatott webhelyeknél engedi e típusok törlését; a maradványok a következő látogatásig maradnak.\n\nA Chrome vagy az Edge még mindig mutat egy körülbelül 100 bájtos webhelyet sütik nélkül? Ez általában Private State Tokens: csalás elleni tokenek, amelyeket egyes webhelyek tárolnak, és úgy tervezték őket, hogy ne lehessen velük követni téged webhelyek között. A böngészők nem engedik, hogy a bővítmények töröljék őket. Eltávolításukhoz kattints a kuka ikonra a webhely mellett a böngésző webhelyadat-listájában (chrome://settings/content/all a Chrome-ban), vagy használd a Böngészési adatok törlése funkciót (Ctrl+Shift+Delete, Macen Cmd+Shift+Delete).\n\nInkognitó? Csak ha engedélyezed: a böngésző bővítményoldala → Engedélyezés inkognitóban. Az inkognitónak saját sütitárolója és saját mentett webhelyei vannak, és sosem kerül naplóba. A mentett webhelyei törlődnek, amikor bezárod az utolsó privát ablakot, kivéve ha a Firefox úgy van beállítva, hogy soha ne jegyezze meg az előzményeket; ekkor mentve maradnak.\n\nMég mindig elakadtál? A Támogatás oldalon ott a verzió, egy másolható hibakeresési blokk, a hibajelentések hivatkozása, és ha nincs GitHub-fiókod, a Hibajelentés küldése e-mailben gomb. A hibakeresési mód (Haladó) rábírja a bővítményt, hogy minden döntését elmesélje a service worker konzoljában, maszkolt sütiértékekkel."
+  },
+  "settingGroupSync": {
+    "message": "Szinkronizálás"
+  },
+  "syncEnabledText": {
+    "message": "Megtartási lista és beállítások szinkronizálása"
+  },
+  "syncEnabledDescText": {
+    "message": "Az alapértelmezett listádat és a takarítási beállításaidat ugyanúgy tartja minden olyan eszközön, amely ugyanabba a böngészőfiókba van bejelentkezve, és ezt bekapcsolta. A privát böngészés és a konténerek listái, az automatikus takarítás kapcsolója és a takarítási napló eszközönként külön marad."
+  },
+  "syncPrivacyText": {
+    "message": "A böngésződ a saját böngészőfiókodon keresztül viszi át a szinkronizált adatokat. Maga a bővítmény semmit nem küld sehova."
+  },
+  "syncStatusWaitingText": {
+    "message": "Várakozás az első szinkronizálásra…"
+  },
+  "syncStatusOkText": {
+    "message": "Utoljára szinkronizálva: $time$",
+    "placeholders": {
+      "time": {
+        "content": "$1",
+        "example": "11/10/2026, 9:41:00 AM"
+      }
+    }
+  },
+  "syncStatusTooLargeText": {
+    "message": "A szinkronizálás szünetel: a megtartási listád és a beállításaid $used$ helyet igényelnek, de a böngésző szinkronizálása csak $quota$ helyet enged. Távolíts el néhány szabályt a folytatáshoz.",
+    "placeholders": {
+      "used": {
+        "content": "$1",
+        "example": "147 kB"
+      },
+      "quota": {
+        "content": "$2",
+        "example": "100 kB"
+      }
+    }
+  },
+  "syncStatusNewerText": {
+    "message": "A szinkronizálás szünetel: egy másik eszközön ennek a bővítménynek újabb verziója fut. Frissítsd itt is, hogy a szinkronizálás folytatódjon."
+  },
+  "syncStatusErrorText": {
+    "message": "A legutóbbi szinkronizálás sikertelen volt: $error$",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "QUOTA_BYTES quota exceeded"
+      }
+    }
   }
 }

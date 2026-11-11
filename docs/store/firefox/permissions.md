@@ -24,7 +24,7 @@ Reviewer-facing justifications for every permission in the generated Firefox man
 
 ### `storage`
 
-> Stores settings and keep lists locally (storage.local) and small per-session working state (storage.session) so the suspended event page can resume a pending cleanup and remember container names. Nothing is synced or transmitted.
+> Stores settings and keep lists locally (storage.local) and small per-session working state (storage.session) so the suspended event page can resume a pending cleanup and remember container names. Only if the user turns on the optional sync setting (off by default) does it also keep a copy of the Default keep list and cleaning settings in storage.sync, which Firefox Sync carries, end-to-end encrypted, to the user's own Mozilla account. The extension itself transmits nothing and makes no network requests.
 
 ### `alarms`
 
@@ -68,4 +68,4 @@ The generated manifest declares:
 
 Matching statement for the AMO data-collection section and reviewer notes:
 
-> This extension collects and transmits no data of any kind: no personal data, no browsing history, no telemetry, no analytics, no crash reports. It makes no network requests. All processing happens locally; the only stored data is the user's own settings and keep lists in browser-local extension storage. This matches the manifest's `data_collection_permissions: { required: ["none"] }` declaration and the privacy policy (`PRIVACY.md`).
+> This extension collects and transmits no data of any kind: no personal data, no browsing history, no telemetry, no analytics, no crash reports. It makes no network requests. All processing happens locally; the only stored data is the user's own settings and keep lists in browser-local extension storage, plus, only if the user turns on optional sync, a copy of the Default keep list and cleaning settings in storage.sync, which Firefox Sync carries to the user's own Mozilla account and which never reaches the developer. This matches the manifest's `data_collection_permissions: { required: ["none"] }` declaration and the privacy policy (`PRIVACY.md`).

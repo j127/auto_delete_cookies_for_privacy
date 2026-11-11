@@ -20,7 +20,7 @@ The dashboard asks for a justification per permission, one field at a time.
 
 ### `storage`
 
-> Stores the user's settings and keep lists locally (storage.local) and small per-session working state (storage.session) so a suspended Manifest V3 service worker can resume a pending cleanup. Nothing is synced or transmitted.
+> Stores the user's settings and keep lists locally (storage.local) and small per-session working state (storage.session) so a suspended Manifest V3 service worker can resume a pending cleanup. Only if the user turns on the optional sync setting (off by default) does it also keep a copy of the Default keep list and cleaning settings in storage.sync, which Chrome syncs to the user's own Google account. The extension itself transmits nothing and makes no network requests.
 
 ### `alarms`
 
