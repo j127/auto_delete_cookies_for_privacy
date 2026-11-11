@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "oturumluk"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Çerezleri filtrele"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Eşleşen çerez yok"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "$name$ çerezini sil",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "silinmedi"
+  },
   "siteDataExpiresText": {
     "message": "$date$ tarihinde doluyor",
     "placeholders": {

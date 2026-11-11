@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "session"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Filtrer cookies"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Ingen cookies matcher"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Slet cookien $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "ikke slettet"
+  },
   "siteDataExpiresText": {
     "message": "udløber $date$",
     "placeholders": {

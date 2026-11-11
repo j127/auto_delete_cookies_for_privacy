@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "sessie"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Filtreer koekies"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Geen koekies pas nie"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Skrap die koekie $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "nie geskrap nie"
+  },
   "siteDataExpiresText": {
     "message": "verval $date$",
     "placeholders": {

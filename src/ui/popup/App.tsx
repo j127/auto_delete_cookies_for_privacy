@@ -262,7 +262,7 @@ const App: React.FunctionComponent = () => {
         hostname={hostname}
         matchedListType={matched?.listType as ListType | undefined}
       />
-      <SiteDataPanel dataVersion={dataVersion} tab={tab} />
+      <SiteDataPanel canDelete={advanced} dataVersion={dataVersion} tab={tab} />
       {advanced && (
         <AdvancedControls
           addableHostnames={addableHostnames}

@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "sesiune"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Filtrează cookie-urile"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Niciun cookie nu se potrivește"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Șterge cookie-ul $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "neșters"
+  },
   "siteDataExpiresText": {
     "message": "expiră la $date$",
     "placeholders": {

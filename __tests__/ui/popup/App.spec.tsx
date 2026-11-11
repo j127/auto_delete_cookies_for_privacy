@@ -8,6 +8,7 @@ import { createStore } from "redux";
 import { initialState } from "@/redux/state";
 import { ListType, SettingID } from "@/typings/enums";
 import App from "@/ui/popup/App";
+import { collectSiteData } from "@/services/site-data-service";
 
 vi.mock("@/services/cleanup-service", () => ({
   clearCookiesForThisDomain: vi.fn().mockResolvedValue(true),
@@ -19,6 +20,7 @@ vi.mock("@/services/cleanup-service", () => ({
 // (the real collector would hit unmocked cookies/scripting APIs).
 vi.mock("@/services/site-data-service", () => ({
   collectSiteData: vi.fn().mockResolvedValue({ available: false }),
+  removeSiteCookie: vi.fn().mockResolvedValue(true),
 }));
 
 interface FakePort {
@@ -419,6 +421,50 @@ describe("popup App", () => {
     });
     const actions = document.getElementById("popupActions") as HTMLElement;
     expect(actions.classList.contains("successAnimated")).toBe(true);
+  });
+
+  describe("single-cookie delete in the site-data panel (#592)", () => {
+    const withOneCookie = {
+      available: true,
+      hostname: "example.com",
+      cookies: [
+        {
+          name: "sid",
+          sizeBytes: 3,
+          session: true,
+          secure: true,
+          httpOnly: true,
+          domain: "example.com",
+          path: "/",
+          hostOnly: true,
+          storeId: "0",
+        },
+      ],
+      page: null,
+    } as SiteDataInventory;
+
+    afterEach(() => {
+      vi.mocked(collectSiteData).mockResolvedValue({ available: false });
+    });
+
+    it("is offered in advanced mode", async () => {
+      vi.mocked(collectSiteData).mockResolvedValue(withOneCookie);
+      await renderApp({
+        settings: settingsWith({ [SettingID.POPUP_ADVANCED]: true }),
+      });
+      await waitFor(() =>
+        expect(document.querySelector("#cookieList button")).toBeTruthy()
+      );
+    });
+
+    it("is not offered otherwise", async () => {
+      vi.mocked(collectSiteData).mockResolvedValue(withOneCookie);
+      await renderApp();
+      await waitFor(() =>
+        expect(document.querySelector("#cookieList li")).toBeTruthy()
+      );
+      expect(document.querySelector("#cookieList button")).toBeNull();
+    });
   });
 
   it("hides every advanced control by default", async () => {

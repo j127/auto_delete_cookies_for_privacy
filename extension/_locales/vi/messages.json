@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "phiên"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Lọc cookie"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Không có cookie nào khớp"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Xóa cookie $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "chưa xóa được"
+  },
   "siteDataExpiresText": {
     "message": "hết hạn $date$",
     "placeholders": {

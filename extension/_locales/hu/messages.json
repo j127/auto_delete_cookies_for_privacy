@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "munkamenet"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Sütik szűrése"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Nincs egyező süti"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "A(z) $name$ süti törlése",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "nem törlődött"
+  },
   "siteDataExpiresText": {
     "message": "lejár: $date$",
     "placeholders": {

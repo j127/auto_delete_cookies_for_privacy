@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "sesión"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Filtrar cookies"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Ninguna cookie coincide"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Borrar la cookie $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "no se borró"
+  },
   "siteDataExpiresText": {
     "message": "caduca el $date$",
     "placeholders": {

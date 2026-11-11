@@ -1019,6 +1019,24 @@
   "siteDataSessionCookieText": {
     "message": "сесийна"
   },
+  "siteDataFilterCookiesText": {
+    "message": "Филтриране на бисквитките"
+  },
+  "siteDataNoMatchingCookiesText": {
+    "message": "Няма съвпадащи бисквитки"
+  },
+  "siteDataDeleteCookieTitle": {
+    "message": "Изтриване на бисквитката $name$",
+    "placeholders": {
+      "name": {
+        "content": "$1",
+        "example": "_ga"
+      }
+    }
+  },
+  "siteDataDeleteFailedText": {
+    "message": "не е изтрита"
+  },
   "siteDataExpiresText": {
     "message": "изтича на $date$",
     "placeholders": {
