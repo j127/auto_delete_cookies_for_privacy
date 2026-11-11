@@ -4,10 +4,10 @@
  */
 
 /**
- * The popup's cookie list (#592) in a real Firefox: on a site with more
- * cookies than the filter threshold, the filter narrows the list, and in
- * advanced mode the delete button removes exactly the clicked cookie. A
- * same-name cookie in another partition stays, and so do the rest.
+ * Matrix row 24, the popup's cookie list (#592), in a real Firefox: on a
+ * site with more cookies than the filter threshold, the filter narrows the
+ * list, and in advanced mode the delete button removes exactly the clicked
+ * cookie. A same-name cookie in another partition stays, and so do the rest.
  *
  * The popup is the real popup/popup.html in a frame inside the probe tab
  * while the site's tab is the active one, as in extension_pages.e2e.ts.
@@ -152,7 +152,7 @@ afterAll(async () => {
   await fixture?.stop();
 });
 
-describe("the popup's cookie list (#592)", () => {
+describe("the popup's cookie list (#592, row 24)", () => {
   it("lists the same-name twin as its own row", async () => {
     expect(await storedNamed(TARGET)).toHaveLength(2);
     const target = (await rows()).filter((r) => r.text.startsWith(TARGET));
