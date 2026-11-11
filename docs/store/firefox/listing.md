@@ -23,6 +23,7 @@ HOW IT WORKS
 • Close a site's tabs and, after a short grace period you control, its cookies are gone.
 • Clean the rest of a site's footprint too (on unless you turn it off): IndexedDB, LocalStorage, service workers, and plugin data. (Firefox doesn't let extensions clear a single site's cache, Cache Storage, or file-system storage, so those stay on Firefox; its own "Clear cookies and site data" in the padlock menu removes them.)
 • Keep lists protect the sites you choose: keep a site's data permanently, or only until the browser closes.
+• Optional sync (off by default) keeps your keep list and cleaning settings the same on every Firefox signed in to your Mozilla account. Container lists stay on each device.
 • Nothing is cleaned automatically until you switch automatic cleaning on — and manual cleaning works even while it is off.
 
 BUILT FOR FIREFOX
@@ -41,10 +42,11 @@ THE POPUP
 • Clean the current site's data, or run a full cleanup, with one click.
 • Add the current site to your keep list without leaving the page.
 • Filter a long cookie list, and in advanced mode delete a single cookie.
+• On desktop, optional keyboard shortcuts for the same actions: clean up, keep the current site, or turn automatic cleaning on and off. None is set until you assign it.
 
 PRIVATE BY DESIGN
 • Deletes data, collects none: no analytics, no telemetry, no accounts, and no network requests.
-• Everything is processed and stored locally in your browser. Optional sync (off by default) keeps your keep list the same on all your devices through your own browser account.
+• Everything is processed and stored locally in your browser. Optional sync goes through your own browser account, and the developer never receives your data.
 • Open source: https://github.com/j127/auto_delete_cookies_for_privacy
 
 SWITCHING FROM COOKIE AUTODELETE?

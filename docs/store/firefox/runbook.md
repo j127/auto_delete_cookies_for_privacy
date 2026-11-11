@@ -49,5 +49,5 @@ Choose **Listed** on the first upload page ("On this site"). Listed means AMO ho
 ## 7. After approval
 
 - Verify the listing page shows the right screenshots, policy, and localized summaries.
-- Tag-driven releases continue to produce matched Firefox/source zips; each future version upload repeats steps 2–3 and 5 only (listing copy persists).
+- Tag-driven releases continue to produce matched Firefox/source zips; each future version upload repeats steps 2–3 and 5. The listing copy persists between versions, so step 4 is needed only when something changed: re-paste the description and summary when [listing.md](listing.md) changed since the last upload, and the privacy policy when `PRIVACY.md` did, because AMO keeps its own copy of both.
 - Record the AMO listing URL in the repo README once live.
