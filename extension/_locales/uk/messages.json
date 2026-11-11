@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Увімкнути або вимкнути автоматичне чищення"
   },
+  "commandCleanNowText": {
+    "message": "Очистити зараз (відкриті вкладки лишаються недоторканими)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Очистити зараз, разом із відкритими вкладками"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Видалити куки поточного сайту"
+  },
+  "commandKeepSiteText": {
+    "message": "Зберігати куки поточного сайту"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Зберігати куки поточного сайту до закриття браузера"
+  },
   "popupHeroKeepingText": {
     "message": "Куки цього сайту зберігаються"
   },

@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Kytke automaattinen siivous päälle tai pois"
   },
+  "commandCleanNowText": {
+    "message": "Siivoa nyt (avoimiin välilehtiin ei kosketa)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Siivoa nyt, myös avoimet välilehdet"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Poista nykyisen sivuston evästeet"
+  },
+  "commandKeepSiteText": {
+    "message": "Säilytä nykyisen sivuston evästeet"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Säilytä nykyisen sivuston evästeet selaimen sulkemiseen asti"
+  },
   "popupHeroKeepingText": {
     "message": "Tämän sivuston evästeet säilytetään"
   },

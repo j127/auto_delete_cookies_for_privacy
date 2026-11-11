@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Nyalakan atau matikan pembersihan otomatis"
   },
+  "commandCleanNowText": {
+    "message": "Bersihkan sekarang (tab terbuka tidak disentuh)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Bersihkan sekarang, termasuk tab terbuka"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Hapus cookie situs saat ini"
+  },
+  "commandKeepSiteText": {
+    "message": "Simpan cookie situs saat ini"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Simpan cookie situs saat ini sampai peramban ditutup"
+  },
   "popupHeroKeepingText": {
     "message": "Menyimpan cookie situs ini"
   },

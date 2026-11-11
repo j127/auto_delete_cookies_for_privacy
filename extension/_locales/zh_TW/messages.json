@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "開啟或關閉自動清理"
   },
+  "commandCleanNowText": {
+    "message": "立即清理（不動開啟中的分頁）"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "立即清理，包括開啟中的分頁"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "刪除目前網站的 Cookie"
+  },
+  "commandKeepSiteText": {
+    "message": "保留目前網站的 Cookie"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "保留目前網站的 Cookie 直到瀏覽器關閉"
+  },
   "popupHeroKeepingText": {
     "message": "正在保留此網站的 Cookie"
   },

@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Włącz lub wyłącz automatyczne czyszczenie"
   },
+  "commandCleanNowText": {
+    "message": "Wyczyść teraz (otwarte karty pozostają nietknięte)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Wyczyść teraz, łącznie z otwartymi kartami"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Usuń ciasteczka bieżącej strony"
+  },
+  "commandKeepSiteText": {
+    "message": "Zachowaj ciasteczka bieżącej strony"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Zachowaj ciasteczka bieżącej strony do zamknięcia przeglądarki"
+  },
   "popupHeroKeepingText": {
     "message": "Ciasteczka tej strony są zachowywane"
   },

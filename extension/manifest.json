@@ -25,6 +25,21 @@
   "commands": {
     "toggle-active-mode": {
       "description": "__MSG_commandToggleActiveModeText__"
+    },
+    "clean-now": {
+      "description": "__MSG_commandCleanNowText__"
+    },
+    "clean-now-including-open-tabs": {
+      "description": "__MSG_commandCleanIncludingOpenTabsText__"
+    },
+    "delete-site-cookies": {
+      "description": "__MSG_commandDeleteSiteCookiesText__"
+    },
+    "keep-site": {
+      "description": "__MSG_commandKeepSiteText__"
+    },
+    "keep-site-until-browser-closes": {
+      "description": "__MSG_commandKeepSiteUntilCloseText__"
     }
   },
   "options_ui": {

@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "تشغيل التنظيف التلقائي أو إيقافه"
   },
+  "commandCleanNowText": {
+    "message": "نظّف الآن (تبقى الألسنة المفتوحة كما هي)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "نظّف الآن، بما فيها الألسنة المفتوحة"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "احذف كوكيز الموقع الحالي"
+  },
+  "commandKeepSiteText": {
+    "message": "أبقِ كوكيز الموقع الحالي"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "أبقِ كوكيز الموقع الحالي حتى إغلاق المتصفح"
+  },
   "popupHeroKeepingText": {
     "message": "يجري إبقاء كوكيز هذا الموقع"
   },

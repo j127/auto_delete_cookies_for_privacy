@@ -1395,6 +1395,26 @@
     "message": "Turn automatic cleaning on or off",
     "description": "Keyboard shortcut description in the browser's extension shortcuts page"
   },
+  "commandCleanNowText": {
+    "message": "Clean now (open tabs are left alone)",
+    "description": "Keyboard shortcut description in the browser's extension shortcuts page: the popup's Clean now, which leaves open tabs alone"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Clean now, including open tabs",
+    "description": "Keyboard shortcut description in the browser's extension shortcuts page: clean now, including the sites of open tabs"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Delete the current site's cookies",
+    "description": "Keyboard shortcut description in the browser's extension shortcuts page: delete the cookies of the site in the current tab"
+  },
+  "commandKeepSiteText": {
+    "message": "Keep cookies for the current site",
+    "description": "Keyboard shortcut description in the browser's extension shortcuts page: add a Keep rule for the site in the current tab"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Keep the current site's cookies until the browser closes",
+    "description": "Keyboard shortcut description in the browser's extension shortcuts page: add a Keep-until-the-browser-closes rule for the site in the current tab"
+  },
   "popupHeroKeepingText": {
     "message": "Keeping this site's cookies",
     "description": "Popup hero title when a keep rule matches the current site"

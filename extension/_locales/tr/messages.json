@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Otomatik temizlemeyi aç veya kapat"
   },
+  "commandCleanNowText": {
+    "message": "Şimdi temizle (açık sekmelere dokunulmaz)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Şimdi temizle, açık sekmeler dâhil"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Geçerli sitenin çerezlerini sil"
+  },
+  "commandKeepSiteText": {
+    "message": "Geçerli sitenin çerezlerini koru"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Geçerli sitenin çerezlerini tarayıcı kapanana dek koru"
+  },
   "popupHeroKeepingText": {
     "message": "Bu sitenin çerezleri korunuyor"
   },

@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Ενεργοποίηση ή απενεργοποίηση αυτόματου καθαρισμού"
   },
+  "commandCleanNowText": {
+    "message": "Καθαρισμός τώρα (οι ανοιχτές καρτέλες μένουν ανέγγιχτες)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Καθαρισμός τώρα, μαζί με τις ανοιχτές καρτέλες"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Διαγραφή cookies του τρέχοντος ιστότοπου"
+  },
+  "commandKeepSiteText": {
+    "message": "Διατήρηση cookies του τρέχοντος ιστότοπου"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Διατήρηση cookies του τρέχοντος ιστότοπου έως το κλείσιμο του προγράμματος περιήγησης"
+  },
   "popupHeroKeepingText": {
     "message": "Διατηρούνται τα cookies αυτού του ιστότοπου"
   },

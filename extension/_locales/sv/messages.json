@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Slå på eller av automatisk städning"
   },
+  "commandCleanNowText": {
+    "message": "Städa nu (öppna flikar lämnas orörda)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Städa nu, inklusive öppna flikar"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Radera den aktuella webbplatsens kakor"
+  },
+  "commandKeepSiteText": {
+    "message": "Behåll den aktuella webbplatsens kakor"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Behåll den aktuella webbplatsens kakor tills webbläsaren stängs"
+  },
   "popupHeroKeepingText": {
     "message": "Behåller webbplatsens kakor"
   },

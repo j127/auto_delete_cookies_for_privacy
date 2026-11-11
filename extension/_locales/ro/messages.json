@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Pornește sau oprește curățarea automată"
   },
+  "commandCleanNowText": {
+    "message": "Curăță acum (filele deschise rămân neatinse)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Curăță acum, inclusiv filele deschise"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Șterge cookie-urile site-ului curent"
+  },
+  "commandKeepSiteText": {
+    "message": "Păstrează cookie-urile site-ului curent"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Păstrează cookie-urile site-ului curent până la închiderea browserului"
+  },
   "popupHeroKeepingText": {
     "message": "Se păstrează cookie-urile acestui site"
   },

@@ -1156,6 +1156,21 @@
   "commandToggleActiveModeText": {
     "message": "Укључи или искључи аутоматско чишћење"
   },
+  "commandCleanNowText": {
+    "message": "Очисти сада (отворене картице остају нетакнуте)"
+  },
+  "commandCleanIncludingOpenTabsText": {
+    "message": "Очисти сада, укључујући отворене картице"
+  },
+  "commandDeleteSiteCookiesText": {
+    "message": "Обриши колачиће тренутног сајта"
+  },
+  "commandKeepSiteText": {
+    "message": "Задржи колачиће тренутног сајта"
+  },
+  "commandKeepSiteUntilCloseText": {
+    "message": "Задржи колачиће тренутног сајта до затварања прегледача"
+  },
   "popupHeroKeepingText": {
     "message": "Колачићи овог сајта се задржавају"
   },
