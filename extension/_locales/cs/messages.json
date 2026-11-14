@@ -1441,7 +1441,7 @@
     "message": "Co pokrývá"
   },
   "patternDomainMeaningText": {
-    "message": "Přesně tato doména"
+    "message": "Tato doména, s www i bez něj"
   },
   "patternSubdomainsMeaningText": {
     "message": "Doména a každá subdoména"
@@ -1610,7 +1610,7 @@
     "message": "Pravidla ponechání a vzory"
   },
   "helpPatternsBody": {
-    "message": "Každý uložený web je vzor na jednom ze dvou seznamů. Weby „Ponechat“ se neuklízejí nikdy. Weby „Ponechat do zavření prohlížeče“ přežijí běžné úklidy, ale při restartu se uklidí. Web, který neodpovídá žádnému, se uklidí, jakmile ho opustíte — to je výchozí osud; pravidla jsou výjimky.\n\nVzory se porovnávají jen s názvem hostitele — žádné https://, žádné cesty:\n\n• example.com — přesně tato doména, ne mail.example.com\n• *.example.com — doména a každá subdoména\n• 192.168.1.100 — tato IP adresa\n• 10.0.0.0/8 — libovolná IP v rozsahu CIDR\n• /^(mail|news)\\.example\\.com$/ — regulární výraz mezi lomítky\n• file:///home/user/notes — stránky otevřené z této místní složky\n\nKaždé pravidlo nese i volby pro daný web (rozbalte jeho řádek na stránce Uložené weby): ponechávat jen jmenované cookies místo všech a volby dat podle typu. Pravidlo „Vytvořit výchozí volby“ určuje výchozí volby každého později přidaného pravidla.\n\nTip: aby při restartu zmizely VŠECHNY cookies, přidejte * jako pravidlo „Ponechat do zavření prohlížeče“ a opravdu trvalé weby označte „Ponechat“."
+    "message": "Každý uložený web je vzor na jednom ze dvou seznamů. Weby „Ponechat“ se neuklízejí nikdy. Weby „Ponechat do zavření prohlížeče“ přežijí běžné úklidy, ale při restartu se uklidí. Web, který neodpovídá žádnému, se uklidí, jakmile ho opustíte — to je výchozí osud; pravidla jsou výjimky.\n\nVzory se porovnávají jen s názvem hostitele — žádné https://, žádné cesty:\n\n• example.com — tato doména a www.example.com, ale ne mail.example.com\n• *.example.com — doména a každá subdoména\n• 192.168.1.100 — tato IP adresa\n• 10.0.0.0/8 — libovolná IP v rozsahu CIDR\n• /^(mail|news)\\.example\\.com$/ — regulární výraz mezi lomítky\n• file:///home/user/notes — stránky otevřené z této místní složky\n\nKaždé pravidlo nese i volby pro daný web (rozbalte jeho řádek na stránce Uložené weby): ponechávat jen jmenované cookies místo všech a volby dat podle typu. Pravidlo „Vytvořit výchozí volby“ určuje výchozí volby každého později přidaného pravidla.\n\nTip: aby při restartu zmizely VŠECHNY cookies, přidejte * jako pravidlo „Ponechat do zavření prohlížeče“ a opravdu trvalé weby označte „Ponechat“."
   },
   "helpCookieNamesTitle": {
     "message": "Ponechání jen některých cookies"

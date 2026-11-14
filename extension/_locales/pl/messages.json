@@ -1441,7 +1441,7 @@
     "message": "Co obejmuje"
   },
   "patternDomainMeaningText": {
-    "message": "Dokładnie ta domena"
+    "message": "Ta domena, z www lub bez"
   },
   "patternSubdomainsMeaningText": {
     "message": "Domena i każda subdomena"
@@ -1610,7 +1610,7 @@
     "message": "Reguły zachowywania i wzorce"
   },
   "helpPatternsBody": {
-    "message": "Każda zapisana strona to wzorzec na jednej z dwóch list. Strony „Zachowaj” nie są nigdy czyszczone. Strony „Zachowaj do zamknięcia przeglądarki” przeżywają zwykłe czyszczenia, ale są czyszczone przy restarcie. Strona niepasująca do żadnej jest czyszczona, gdy tylko ją opuścisz — domyślny los; reguły to wyjątki.\n\nWzorce dotyczą tylko nazwy hosta — bez https://, bez ścieżek:\n\n• example.com — dokładnie ta domena, nie mail.example.com\n• *.example.com — domena i każda subdomena\n• 192.168.1.100 — ten adres IP\n• 10.0.0.0/8 — dowolny adres z zakresu CIDR\n• /^(mail|news)\\.example\\.com$/ — wyrażenie regularne między ukośnikami\n• file:///home/user/notes — strony otwarte z tego lokalnego katalogu\n\nKażda reguła niesie też opcje per strona (rozwiń jej wiersz na stronie Zapisane strony): zachowywanie tylko nazwanych ciasteczek zamiast wszystkich i wybory danych per typ. Reguła „Utwórz opcje domyślne” ustala opcje startowe każdej reguły dodanej później.\n\nWskazówka: aby WSZYSTKIE ciasteczka znikały przy restarcie, dodaj * jako regułę „Zachowaj do zamknięcia przeglądarki”, a naprawdę stałe strony oznacz „Zachowaj”."
+    "message": "Każda zapisana strona to wzorzec na jednej z dwóch list. Strony „Zachowaj” nie są nigdy czyszczone. Strony „Zachowaj do zamknięcia przeglądarki” przeżywają zwykłe czyszczenia, ale są czyszczone przy restarcie. Strona niepasująca do żadnej jest czyszczona, gdy tylko ją opuścisz — domyślny los; reguły to wyjątki.\n\nWzorce dotyczą tylko nazwy hosta — bez https://, bez ścieżek:\n\n• example.com — ta domena i www.example.com, ale nie mail.example.com\n• *.example.com — domena i każda subdomena\n• 192.168.1.100 — ten adres IP\n• 10.0.0.0/8 — dowolny adres z zakresu CIDR\n• /^(mail|news)\\.example\\.com$/ — wyrażenie regularne między ukośnikami\n• file:///home/user/notes — strony otwarte z tego lokalnego katalogu\n\nKażda reguła niesie też opcje per strona (rozwiń jej wiersz na stronie Zapisane strony): zachowywanie tylko nazwanych ciasteczek zamiast wszystkich i wybory danych per typ. Reguła „Utwórz opcje domyślne” ustala opcje startowe każdej reguły dodanej później.\n\nWskazówka: aby WSZYSTKIE ciasteczka znikały przy restarcie, dodaj * jako regułę „Zachowaj do zamknięcia przeglądarki”, a naprawdę stałe strony oznacz „Zachowaj”."
   },
   "helpCookieNamesTitle": {
     "message": "Zachowywanie tylko niektórych ciasteczek"

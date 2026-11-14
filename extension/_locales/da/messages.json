@@ -1441,7 +1441,7 @@
     "message": "Hvad det dækker"
   },
   "patternDomainMeaningText": {
-    "message": "Præcis dette domæne"
+    "message": "Dette domæne, med eller uden www"
   },
   "patternSubdomainsMeaningText": {
     "message": "Domænet og hvert underdomæne"
@@ -1610,7 +1610,7 @@
     "message": "Behold-regler og mønstre"
   },
   "helpPatternsBody": {
-    "message": "Hvert gemt websted er et mønster på en af to lister. Behold-websteder ryddes aldrig. Behold, indtil browseren lukkes-websteder overlever almindelige rydninger, men ryddes når browseren genstarter. Et websted, der ikke matcher nogen af dem, ryddes, så snart du forlader det — standardskæbnen; reglerne er undtagelserne.\n\nMønstre matcher kun værtsnavnet — intet https://, ingen stier:\n\n• example.com — præcis det domæne, ikke mail.example.com\n• *.example.com — domænet og hvert underdomæne\n• 192.168.1.100 — den IP-adresse\n• 10.0.0.0/8 — enhver IP i CIDR-intervallet\n• /^(mail|news)\\.example\\.com$/ — et regulært udtryk mellem skråstreger\n• file:///home/user/notes — sider åbnet fra den lokale mappe\n\nHver regel bærer også indstillinger pr. websted (fold dens række ud på siden Gemte websteder): behold kun navngivne cookies i stedet for alle, og datavalg pr. type. En Opret standardindstillinger-regel sætter startindstillingerne for hver regel, der tilføjes senere.\n\nTip: for at få ALLE cookies til at forsvinde ved genstart, tilføj * som en Behold, indtil browseren lukkes-regel og markér dine virkelig permanente websteder Behold."
+    "message": "Hvert gemt websted er et mønster på en af to lister. Behold-websteder ryddes aldrig. Behold, indtil browseren lukkes-websteder overlever almindelige rydninger, men ryddes når browseren genstarter. Et websted, der ikke matcher nogen af dem, ryddes, så snart du forlader det — standardskæbnen; reglerne er undtagelserne.\n\nMønstre matcher kun værtsnavnet — intet https://, ingen stier:\n\n• example.com — det domæne og www.example.com, men ikke mail.example.com\n• *.example.com — domænet og hvert underdomæne\n• 192.168.1.100 — den IP-adresse\n• 10.0.0.0/8 — enhver IP i CIDR-intervallet\n• /^(mail|news)\\.example\\.com$/ — et regulært udtryk mellem skråstreger\n• file:///home/user/notes — sider åbnet fra den lokale mappe\n\nHver regel bærer også indstillinger pr. websted (fold dens række ud på siden Gemte websteder): behold kun navngivne cookies i stedet for alle, og datavalg pr. type. En Opret standardindstillinger-regel sætter startindstillingerne for hver regel, der tilføjes senere.\n\nTip: for at få ALLE cookies til at forsvinde ved genstart, tilføj * som en Behold, indtil browseren lukkes-regel og markér dine virkelig permanente websteder Behold."
   },
   "helpCookieNamesTitle": {
     "message": "Behold kun nogle cookies"

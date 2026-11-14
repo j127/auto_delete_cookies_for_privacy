@@ -1441,7 +1441,7 @@
     "message": "Neyi kapsar"
   },
   "patternDomainMeaningText": {
-    "message": "Tam olarak bu alan adı"
+    "message": "Bu alan adı, www ile ya da www olmadan"
   },
   "patternSubdomainsMeaningText": {
     "message": "Alan adı ve her alt alan adı"
@@ -1610,7 +1610,7 @@
     "message": "Koruma kuralları ve desenler"
   },
   "helpPatternsBody": {
-    "message": "Kayıtlı her site, iki listeden birindeki bir desendir. Koru siteleri asla temizlenmez. Tarayıcı kapanana dek koru siteleri olağan temizliklerden sağ çıkar ama tarayıcı yeniden başladığında temizlenir. İkisiyle de eşleşmeyen bir site, ayrıldığınız anda temizlenir — varsayılan kader budur; kurallar istisnadır.\n\nDesenler yalnızca ana bilgisayar adıyla eşleşir — https:// yok, yol yok:\n\n• example.com — tam olarak o alan adı, mail.example.com değil\n• *.example.com — alan adı ve her alt alan adı\n• 192.168.1.100 — o IP adresi\n• 10.0.0.0/8 — CIDR aralığındaki herhangi bir IP\n• /^(mail|news)\\.example\\.com$/ — eğik çizgiler arasında bir düzenli ifade\n• file:///home/user/notes — o yerel klasörden açılan sayfalar\n\nHer kural ayrıca site bazlı seçenekler taşır (Kayıtlı siteler sayfasında satırını genişletin): hepsi yerine yalnızca adlandırılmış çerezleri koruma ve tür bazında site verisi seçimleri. Varsayılan seçenekleri oluştur kuralı, sonradan eklenen her kuralın başlangıç seçeneklerini belirler.\n\nİpucu: TÜM çerezlerin yeniden başlatmada yok olması için * ögesini Tarayıcı kapanana dek koru kuralı olarak ekleyin ve gerçekten kalıcı sitelerinizi Koru olarak işaretleyin."
+    "message": "Kayıtlı her site, iki listeden birindeki bir desendir. Koru siteleri asla temizlenmez. Tarayıcı kapanana dek koru siteleri olağan temizliklerden sağ çıkar ama tarayıcı yeniden başladığında temizlenir. İkisiyle de eşleşmeyen bir site, ayrıldığınız anda temizlenir — varsayılan kader budur; kurallar istisnadır.\n\nDesenler yalnızca ana bilgisayar adıyla eşleşir — https:// yok, yol yok:\n\n• example.com — o alan adı ve www.example.com, ama mail.example.com değil\n• *.example.com — alan adı ve her alt alan adı\n• 192.168.1.100 — o IP adresi\n• 10.0.0.0/8 — CIDR aralığındaki herhangi bir IP\n• /^(mail|news)\\.example\\.com$/ — eğik çizgiler arasında bir düzenli ifade\n• file:///home/user/notes — o yerel klasörden açılan sayfalar\n\nHer kural ayrıca site bazlı seçenekler taşır (Kayıtlı siteler sayfasında satırını genişletin): hepsi yerine yalnızca adlandırılmış çerezleri koruma ve tür bazında site verisi seçimleri. Varsayılan seçenekleri oluştur kuralı, sonradan eklenen her kuralın başlangıç seçeneklerini belirler.\n\nİpucu: TÜM çerezlerin yeniden başlatmada yok olması için * ögesini Tarayıcı kapanana dek koru kuralı olarak ekleyin ve gerçekten kalıcı sitelerinizi Koru olarak işaretleyin."
   },
   "helpCookieNamesTitle": {
     "message": "Yalnızca bazı çerezleri korumak"

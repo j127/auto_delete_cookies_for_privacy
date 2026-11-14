@@ -1441,7 +1441,7 @@
     "message": "Wat dit dek"
   },
   "patternDomainMeaningText": {
-    "message": "Presies hierdie domein"
+    "message": "Hierdie domein, met of sonder www"
   },
   "patternSubdomainsMeaningText": {
     "message": "Die domein en elke subdomein"
@@ -1610,7 +1610,7 @@
     "message": "Hou-reëls en patrone"
   },
   "helpPatternsBody": {
-    "message": "Elke gestoorde werf is 'n patroon op een van twee lyste. Hou-werwe word nooit skoongemaak nie. Hou-tot-die-blaaier-toemaak-werwe oorleef gewone skoonmake, maar word met herbegin skoongemaak. 'n Werf wat by geeneen pas nie, word skoongemaak sodra jy dit verlaat — die versteklot; reëls is die uitsonderings.\n\nPatrone pas net by die gasheernaam — geen https://, geen paaie nie:\n\n• example.com — presies daardie domein, nie mail.example.com nie\n• *.example.com — die domein en elke subdomein\n• 192.168.1.100 — daardie IP-adres\n• 10.0.0.0/8 — enige IP in die CIDR-reeks\n• /^(mail|news)\\.example\\.com$/ — 'n reëlmatige uitdrukking tussen skuinsstrepe\n• file:///home/user/notes — bladsye wat uit daardie plaaslike gids oopgemaak is\n\nElke reël dra ook opsies per werf (vou sy ry op die Gestoorde werwe-bladsy oop): hou net benoemde koekies pleks van almal, en werfdata-keuses per tipe. 'n Skep verstekopsies-reël bepaal die beginopsies vir elke reël wat daarna bygevoeg word.\n\nWenk: om AL die koekies met herbegin te laat verdwyn, voeg * as 'n Hou-tot-die-blaaier-toemaak-reël by en merk jou werklik permanente werwe as Hou."
+    "message": "Elke gestoorde werf is 'n patroon op een van twee lyste. Hou-werwe word nooit skoongemaak nie. Hou-tot-die-blaaier-toemaak-werwe oorleef gewone skoonmake, maar word met herbegin skoongemaak. 'n Werf wat by geeneen pas nie, word skoongemaak sodra jy dit verlaat — die versteklot; reëls is die uitsonderings.\n\nPatrone pas net by die gasheernaam — geen https://, geen paaie nie:\n\n• example.com — daardie domein en www.example.com, maar nie mail.example.com nie\n• *.example.com — die domein en elke subdomein\n• 192.168.1.100 — daardie IP-adres\n• 10.0.0.0/8 — enige IP in die CIDR-reeks\n• /^(mail|news)\\.example\\.com$/ — 'n reëlmatige uitdrukking tussen skuinsstrepe\n• file:///home/user/notes — bladsye wat uit daardie plaaslike gids oopgemaak is\n\nElke reël dra ook opsies per werf (vou sy ry op die Gestoorde werwe-bladsy oop): hou net benoemde koekies pleks van almal, en werfdata-keuses per tipe. 'n Skep verstekopsies-reël bepaal die beginopsies vir elke reël wat daarna bygevoeg word.\n\nWenk: om AL die koekies met herbegin te laat verdwyn, voeg * as 'n Hou-tot-die-blaaier-toemaak-reël by en merk jou werklik permanente werwe as Hou."
   },
   "helpCookieNamesTitle": {
     "message": "Hou net sommige koekies"

@@ -1441,7 +1441,7 @@
     "message": "Vad det täcker"
   },
   "patternDomainMeaningText": {
-    "message": "Exakt den här domänen"
+    "message": "Den här domänen, med eller utan www"
   },
   "patternSubdomainsMeaningText": {
     "message": "Domänen och varje underdomän"
@@ -1610,7 +1610,7 @@
     "message": "Behåll-regler och mönster"
   },
   "helpPatternsBody": {
-    "message": "Varje sparad webbplats är ett mönster på en av två listor. Behåll-webbplatser städas aldrig. Behåll tills webbläsaren stängs-webbplatser överlever vanliga städningar men städas när webbläsaren startas om. En webbplats som inte matchar någon av dem städas så fort du lämnar den — standardödet; reglerna är undantagen.\n\nMönster matchar bara värdnamnet — inget https://, inga sökvägar:\n\n• example.com — exakt den domänen, inte mail.example.com\n• *.example.com — domänen och varje underdomän\n• 192.168.1.100 — den IP-adressen\n• 10.0.0.0/8 — vilken IP som helst i CIDR-intervallet\n• /^(mail|news)\\.example\\.com$/ — ett reguljärt uttryck mellan snedstreck\n• file:///home/user/notes — sidor öppnade från den lokala mappen\n\nVarje regel bär också alternativ per webbplats (fäll ut dess rad på sidan Sparade webbplatser): behåll bara namngivna kakor i stället för alla, och datatypsval per typ. En Skapa standardalternativ-regel sätter startalternativen för varje regel som läggs till senare.\n\nTips: för att ALLA kakor ska försvinna vid omstart, lägg till * som en Behåll tills webbläsaren stängs-regel och märk dina verkligt permanenta webbplatser Behåll."
+    "message": "Varje sparad webbplats är ett mönster på en av två listor. Behåll-webbplatser städas aldrig. Behåll tills webbläsaren stängs-webbplatser överlever vanliga städningar men städas när webbläsaren startas om. En webbplats som inte matchar någon av dem städas så fort du lämnar den — standardödet; reglerna är undantagen.\n\nMönster matchar bara värdnamnet — inget https://, inga sökvägar:\n\n• example.com — den domänen och www.example.com, men inte mail.example.com\n• *.example.com — domänen och varje underdomän\n• 192.168.1.100 — den IP-adressen\n• 10.0.0.0/8 — vilken IP som helst i CIDR-intervallet\n• /^(mail|news)\\.example\\.com$/ — ett reguljärt uttryck mellan snedstreck\n• file:///home/user/notes — sidor öppnade från den lokala mappen\n\nVarje regel bär också alternativ per webbplats (fäll ut dess rad på sidan Sparade webbplatser): behåll bara namngivna kakor i stället för alla, och datatypsval per typ. En Skapa standardalternativ-regel sätter startalternativen för varje regel som läggs till senare.\n\nTips: för att ALLA kakor ska försvinna vid omstart, lägg till * som en Behåll tills webbläsaren stängs-regel och märk dina verkligt permanenta webbplatser Behåll."
   },
   "helpCookieNamesTitle": {
     "message": "Behålla bara vissa kakor"

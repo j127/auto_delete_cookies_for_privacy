@@ -1441,7 +1441,7 @@
     "message": "Ce qu'il couvre"
   },
   "patternDomainMeaningText": {
-    "message": "Exactement ce domaine"
+    "message": "Ce domaine, avec ou sans www"
   },
   "patternSubdomainsMeaningText": {
     "message": "Le domaine et chaque sous-domaine"
@@ -1610,7 +1610,7 @@
     "message": "Règles de conservation et motifs"
   },
   "helpPatternsBody": {
-    "message": "Chaque site enregistré est un motif sur l'une de deux listes. Les sites « Conserver » ne sont jamais nettoyés. Les sites « Conserver jusqu'à la fermeture » survivent aux nettoyages normaux mais sont nettoyés au redémarrage du navigateur. Un site qui ne correspond à aucune des deux est nettoyé dès que vous le quittez — le sort par défaut ; les règles sont les exceptions.\n\nLes motifs ne portent que sur le nom d'hôte — pas de https://, pas de chemins :\n\n• example.com — exactement ce domaine, pas mail.example.com\n• *.example.com — le domaine et chaque sous-domaine\n• 192.168.1.100 — cette adresse IP\n• 10.0.0.0/8 — toute IP de la plage CIDR\n• /^(mail|news)\\.example\\.com$/ — une expression régulière entre barres obliques\n• file:///home/user/notes — les pages ouvertes depuis ce dossier local\n\nChaque règle porte aussi des options par site (dépliez sa ligne sur la page Sites enregistrés) : ne conserver que des cookies nommés plutôt que tous, et des choix de données de site par type. Une règle « Créer les options par défaut » fixe les options de départ de chaque règle ajoutée ensuite.\n\nAstuce : pour que TOUS les cookies disparaissent au redémarrage, ajoutez * comme règle « Conserver jusqu'à la fermeture » et marquez « Conserver » vos sites vraiment permanents."
+    "message": "Chaque site enregistré est un motif sur l'une de deux listes. Les sites « Conserver » ne sont jamais nettoyés. Les sites « Conserver jusqu'à la fermeture » survivent aux nettoyages normaux mais sont nettoyés au redémarrage du navigateur. Un site qui ne correspond à aucune des deux est nettoyé dès que vous le quittez — le sort par défaut ; les règles sont les exceptions.\n\nLes motifs ne portent que sur le nom d'hôte — pas de https://, pas de chemins :\n\n• example.com — ce domaine et www.example.com, mais pas mail.example.com\n• *.example.com — le domaine et chaque sous-domaine\n• 192.168.1.100 — cette adresse IP\n• 10.0.0.0/8 — toute IP de la plage CIDR\n• /^(mail|news)\\.example\\.com$/ — une expression régulière entre barres obliques\n• file:///home/user/notes — les pages ouvertes depuis ce dossier local\n\nChaque règle porte aussi des options par site (dépliez sa ligne sur la page Sites enregistrés) : ne conserver que des cookies nommés plutôt que tous, et des choix de données de site par type. Une règle « Créer les options par défaut » fixe les options de départ de chaque règle ajoutée ensuite.\n\nAstuce : pour que TOUS les cookies disparaissent au redémarrage, ajoutez * comme règle « Conserver jusqu'à la fermeture » et marquez « Conserver » vos sites vraiment permanents."
   },
   "helpCookieNamesTitle": {
     "message": "Ne conserver que certains cookies"

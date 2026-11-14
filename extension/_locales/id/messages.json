@@ -1441,7 +1441,7 @@
     "message": "Apa yang dicakup"
   },
   "patternDomainMeaningText": {
-    "message": "Persis domain ini"
+    "message": "Domain ini, dengan atau tanpa www"
   },
   "patternSubdomainsMeaningText": {
     "message": "Domain dan setiap subdomain"
@@ -1610,7 +1610,7 @@
     "message": "Aturan simpan dan pola"
   },
   "helpPatternsBody": {
-    "message": "Setiap situs tersimpan adalah pola di salah satu dari dua daftar. Situs Simpan tidak pernah dibersihkan. Situs Simpan sampai peramban ditutup selamat dari pembersihan biasa tapi dibersihkan saat mulai ulang. Situs yang tidak cocok dengan keduanya dibersihkan begitu Anda meninggalkannya — nasib bawaan; aturan adalah pengecualiannya.\n\nPola hanya mencocokkan nama host — tanpa https://, tanpa path:\n\n• example.com — persis domain itu, bukan mail.example.com\n• *.example.com — domain dan setiap subdomain\n• 192.168.1.100 — alamat IP itu\n• 10.0.0.0/8 — IP mana pun dalam rentang CIDR\n• /^(mail|news)\\.example\\.com$/ — ekspresi reguler di antara garis miring\n• file:///home/user/notes — halaman yang dibuka dari folder lokal itu\n\nSetiap aturan juga membawa opsi per situs (bentangkan barisnya di halaman Situs tersimpan): menyimpan hanya cookie bernama alih-alih semuanya, dan pilihan data situs per jenis. Aturan Buat opsi bawaan menetapkan opsi awal untuk setiap aturan yang ditambahkan setelahnya.\n\nTip: agar SEMUA cookie lenyap saat mulai ulang, tambahkan * sebagai aturan Simpan sampai peramban ditutup dan tandai situs yang benar-benar permanen dengan Simpan."
+    "message": "Setiap situs tersimpan adalah pola di salah satu dari dua daftar. Situs Simpan tidak pernah dibersihkan. Situs Simpan sampai peramban ditutup selamat dari pembersihan biasa tapi dibersihkan saat mulai ulang. Situs yang tidak cocok dengan keduanya dibersihkan begitu Anda meninggalkannya — nasib bawaan; aturan adalah pengecualiannya.\n\nPola hanya mencocokkan nama host — tanpa https://, tanpa path:\n\n• example.com — domain itu dan www.example.com, tetapi bukan mail.example.com\n• *.example.com — domain dan setiap subdomain\n• 192.168.1.100 — alamat IP itu\n• 10.0.0.0/8 — IP mana pun dalam rentang CIDR\n• /^(mail|news)\\.example\\.com$/ — ekspresi reguler di antara garis miring\n• file:///home/user/notes — halaman yang dibuka dari folder lokal itu\n\nSetiap aturan juga membawa opsi per situs (bentangkan barisnya di halaman Situs tersimpan): menyimpan hanya cookie bernama alih-alih semuanya, dan pilihan data situs per jenis. Aturan Buat opsi bawaan menetapkan opsi awal untuk setiap aturan yang ditambahkan setelahnya.\n\nTip: agar SEMUA cookie lenyap saat mulai ulang, tambahkan * sebagai aturan Simpan sampai peramban ditutup dan tandai situs yang benar-benar permanen dengan Simpan."
   },
   "helpCookieNamesTitle": {
     "message": "Menyimpan hanya sebagian cookie"

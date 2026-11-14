@@ -1441,7 +1441,7 @@
     "message": "Que abarca"
   },
   "patternDomainMeaningText": {
-    "message": "Exactamente este dominio"
+    "message": "Este dominio, con ou sen www"
   },
   "patternSubdomainsMeaningText": {
     "message": "O dominio e cada subdominio"
@@ -1610,7 +1610,7 @@
     "message": "Regras de conservación e padróns"
   },
   "helpPatternsBody": {
-    "message": "Cada sitio gardado é un padrón nunha de dúas listas. Os sitios Conservar nunca se limpan. Os sitios Conservar ata pechar o navegador sobreviven ás limpezas normais pero límpanse ao reiniciar. Un sitio que non coincide con ningunha límpase en canto o abandonas — o destino por defecto; as regras son as excepcións.\n\nOs padróns só miran o nome de servidor — sen https://, sen rutas:\n\n• example.com — exactamente ese dominio, non mail.example.com\n• *.example.com — o dominio e cada subdominio\n• 192.168.1.100 — ese enderezo IP\n• 10.0.0.0/8 — calquera IP do rango CIDR\n• /^(mail|news)\\.example\\.com$/ — unha expresión regular entre barras\n• file:///home/user/notes — páxinas abertas desde ese cartafol local\n\nCada regra leva ademais opcións por sitio (desprega a súa fila na páxina Sitios gardados): conservar só cookies con nome no canto de todas, e escollas de datos por tipo. Unha regra Crear opcións predeterminadas fixa as opcións iniciais de cada regra engadida despois.\n\nConsello: para que TODAS as cookies desaparezan ao reiniciar, engade * como regra Conservar ata pechar o navegador e marca Conservar nos teus sitios realmente permanentes."
+    "message": "Cada sitio gardado é un padrón nunha de dúas listas. Os sitios Conservar nunca se limpan. Os sitios Conservar ata pechar o navegador sobreviven ás limpezas normais pero límpanse ao reiniciar. Un sitio que non coincide con ningunha límpase en canto o abandonas — o destino por defecto; as regras son as excepcións.\n\nOs padróns só miran o nome de servidor — sen https://, sen rutas:\n\n• example.com — ese dominio e www.example.com, pero non mail.example.com\n• *.example.com — o dominio e cada subdominio\n• 192.168.1.100 — ese enderezo IP\n• 10.0.0.0/8 — calquera IP do rango CIDR\n• /^(mail|news)\\.example\\.com$/ — unha expresión regular entre barras\n• file:///home/user/notes — páxinas abertas desde ese cartafol local\n\nCada regra leva ademais opcións por sitio (desprega a súa fila na páxina Sitios gardados): conservar só cookies con nome no canto de todas, e escollas de datos por tipo. Unha regra Crear opcións predeterminadas fixa as opcións iniciais de cada regra engadida despois.\n\nConsello: para que TODAS as cookies desaparezan ao reiniciar, engade * como regra Conservar ata pechar o navegador e marca Conservar nos teus sitios realmente permanentes."
   },
   "helpCookieNamesTitle": {
     "message": "Conservar só algunhas cookies"

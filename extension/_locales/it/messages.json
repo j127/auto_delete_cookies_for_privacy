@@ -1441,7 +1441,7 @@
     "message": "Cosa copre"
   },
   "patternDomainMeaningText": {
-    "message": "Esattamente questo dominio"
+    "message": "Questo dominio, con o senza www"
   },
   "patternSubdomainsMeaningText": {
     "message": "Il dominio e ogni sottodominio"
@@ -1610,7 +1610,7 @@
     "message": "Regole di conservazione e pattern"
   },
   "helpPatternsBody": {
-    "message": "Ogni sito salvato è un pattern su una di due liste. I siti «Conserva» non vengono mai puliti. I siti «Conserva fino alla chiusura» sopravvivono alle pulizie normali ma vengono puliti al riavvio del browser. Un sito che non corrisponde a nessuna delle due viene pulito appena lo lasci — il destino predefinito; le regole sono le eccezioni.\n\nI pattern guardano solo il nome host — niente https://, niente percorsi:\n\n• example.com — esattamente quel dominio, non mail.example.com\n• *.example.com — il dominio e ogni sottodominio\n• 192.168.1.100 — quell'indirizzo IP\n• 10.0.0.0/8 — qualsiasi IP nell'intervallo CIDR\n• /^(mail|news)\\.example\\.com$/ — un'espressione regolare tra barre\n• file:///home/user/notes — pagine aperte da quella cartella locale\n\nOgni regola porta anche opzioni per sito (espandi la sua riga nella pagina Siti salvati): conservare solo cookie con nome invece di tutti, e scelte sui dati per tipo. Una regola «Crea opzioni predefinite» stabilisce le opzioni di partenza per ogni regola aggiunta dopo.\n\nSuggerimento: per far sparire TUTTI i cookie al riavvio, aggiungi * come regola «Conserva fino alla chiusura» e marca «Conserva» i siti davvero permanenti."
+    "message": "Ogni sito salvato è un pattern su una di due liste. I siti «Conserva» non vengono mai puliti. I siti «Conserva fino alla chiusura» sopravvivono alle pulizie normali ma vengono puliti al riavvio del browser. Un sito che non corrisponde a nessuna delle due viene pulito appena lo lasci — il destino predefinito; le regole sono le eccezioni.\n\nI pattern guardano solo il nome host — niente https://, niente percorsi:\n\n• example.com — quel dominio e www.example.com, ma non mail.example.com\n• *.example.com — il dominio e ogni sottodominio\n• 192.168.1.100 — quell'indirizzo IP\n• 10.0.0.0/8 — qualsiasi IP nell'intervallo CIDR\n• /^(mail|news)\\.example\\.com$/ — un'espressione regolare tra barre\n• file:///home/user/notes — pagine aperte da quella cartella locale\n\nOgni regola porta anche opzioni per sito (espandi la sua riga nella pagina Siti salvati): conservare solo cookie con nome invece di tutti, e scelte sui dati per tipo. Una regola «Crea opzioni predefinite» stabilisce le opzioni di partenza per ogni regola aggiunta dopo.\n\nSuggerimento: per far sparire TUTTI i cookie al riavvio, aggiungi * come regola «Conserva fino alla chiusura» e marca «Conserva» i siti davvero permanenti."
   },
   "helpCookieNamesTitle": {
     "message": "Conservare solo alcuni cookie"
