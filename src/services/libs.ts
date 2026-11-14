@@ -471,6 +471,16 @@ export const getContainerExpressionDefault = (
 };
 
 /**
+ * A hostname without a leading "www." (or www1., wwws. and the like).
+ * Keep rules treat the www host and the bare domain as one site, so both
+ * sides of a rule match drop it: the host being checked (getHostname does
+ * it for urls, getMatchedExpressions for every other host) and a
+ * plain-domain rule typed with it (#603).
+ */
+export const stripWwwPrefix = (hostname: string): string =>
+  hostname.replace(/^www[a-z0-9]?\./i, "");
+
+/**
  * Returns the host name of the url.
  *   - https://en.wikipedia.org/wiki/Cat ==> en.wikipedia.org
  *
@@ -489,10 +499,7 @@ export const getHostname = (urlToGetHostName: string | undefined): string => {
   }
   try {
     // Strip "www." if the URL starts with it.
-    const hostname = new URL(urlToGetHostName).hostname.replace(
-      /^www[a-z0-9]?\./,
-      ""
-    );
+    const hostname = stripWwwPrefix(new URL(urlToGetHostName).hostname);
     // Remove enclosing [ ] from IPv6 for ipaddr parsing
     if (hostname.startsWith("[") && hostname.endsWith("]")) {
       return hostname.slice(1, -1);
@@ -617,15 +624,21 @@ export const getMatchedExpressions = (
   const expressions = lists[storeId] || [];
   if (expressions.length === 0) return expressions;
   if (!input || input.trim().length == 0) return search ? expressions : [];
+  // Matching treats www.example.com and example.com as one site, the way
+  // cookie cleanup always has (getHostname): the host loses a leading www.
+  // here too, so callers that pass a raw host (the site-data guards) get
+  // the same answer as cleanup did for the host's cookies (#603). The
+  // search box filters on what was typed.
+  const host = search ? input : stripWwwPrefix(input);
   // Check if input is a valid IP Address (IPv4 or IPv6) (non-CIDR)
   // This takes care of IPv4-mapped IPv6 address (converts to IPv4 counterpart)
-  let iip = ipaddr.isValid(input) ? ipaddr.process(input) : undefined;
+  let iip = ipaddr.isValid(host) ? ipaddr.process(host) : undefined;
   // If initial test passes, do further checks.
   // This makes sure the IP Address is a full four part decimal.
   if (
     iip &&
     iip.kind() == "ipv4" &&
-    !ipaddr.IPv4.isValidFourPartDecimal(input)
+    !ipaddr.IPv4.isValidFourPartDecimal(host)
   ) {
     iip = undefined;
   }
@@ -637,8 +650,24 @@ export const getMatchedExpressions = (
     } // Input not an IP.  Fallback to Regexp
     return search
       ? getSearchResults(exp, input)
-      : new RegExp(globExpressionToRegExp(exp)).test(input);
+      : new RegExp(globExpressionToRegExp(matchableExpression(exp))).test(host);
   });
+};
+
+/**
+ * A rule as getMatchedExpressions matches it. A plain-domain rule typed
+ * with a leading www. would never match otherwise, since every host it is
+ * compared with has lost its www. already; it reads as the bare domain,
+ * which covers the www host as well (#603). Regular expressions between
+ * slashes are left as written, and so is a rule whose www. is followed by
+ * a wildcard: www.* would otherwise turn into *, a rule that keeps every
+ * site.
+ */
+const matchableExpression = (exp: string): string => {
+  const trimmed = exp.trim();
+  const isRegExp = trimmed.slice(0, 1) === "/" && trimmed.slice(-1) === "/";
+  const stripped = stripWwwPrefix(trimmed);
+  return isRegExp || stripped.startsWith("*") ? trimmed : stripped;
 };
 
 /**
@@ -938,10 +967,15 @@ export const prepareCleanupDomains = (domain: string, port = ""): string[] => {
  * IPv6 addresses go in brackets; Firefox rejects a bare "::1", and the
  * whole removal with it.
  * @param port A non-default port the host's storage may sit on, or "".
+ * @param includeSiteHosts false leaves the registrable domain and its www
+ * host out: they are hosts of their own, and a keep rule may cover them
+ * while it does not cover the observed host (an exact rule for
+ * youtube.com and a cleaned m.youtube.com, #603).
  */
 export const prepareCleanupHostnames = (
   domain: string,
-  port = ""
+  port = "",
+  includeSiteHosts = true
 ): string[] => {
   const d = trimDot(domain.trim()).replace(/^\[(.*)\]$/, "$1");
   if (d === "") return [];
@@ -952,7 +986,9 @@ export const prepareCleanupHostnames = (
     hosts = [`[${d}]`];
   } else {
     const mainDomain = extractMainDomain(d);
-    hosts = [...new Set([d, mainDomain, `www.${mainDomain}`])];
+    hosts = includeSiteHosts
+      ? [...new Set([d, mainDomain, `www.${mainDomain}`])]
+      : [d];
   }
   return port === ""
     ? hosts
@@ -963,11 +999,18 @@ export const prepareCleanupHostnames = (
  * Per-target browsingData scope list: origins on Chrome, hostnames on
  * Firefox. Both carry the port when there is one: Chrome as ported
  * origins, Firefox as "host:port" entries (prepareCleanupHostnames).
+ * includeSiteHosts only matters on Firefox, the one target whose scope
+ * adds the registrable domain; Chrome's only adds the host's www twin,
+ * which every keep rule treats as the same host.
  */
-export const prepareCleanupScope = (domain: string, port = ""): string[] =>
+export const prepareCleanupScope = (
+  domain: string,
+  port = "",
+  includeSiteHosts = true
+): string[] =>
   browserCapabilities.browsingDataScoping === "origins"
     ? prepareCleanupDomains(domain, port)
-    : prepareCleanupHostnames(domain, port);
+    : prepareCleanupHostnames(domain, port, includeSiteHosts);
 
 /**
  * Puts the domain in the right format for browser.cookies.remove()
