@@ -1441,7 +1441,7 @@
     "message": "Wat het dekt"
   },
   "patternDomainMeaningText": {
-    "message": "Precies dit domein"
+    "message": "Dit domein, met of zonder www"
   },
   "patternSubdomainsMeaningText": {
     "message": "Het domein en elk subdomein"
@@ -1610,7 +1610,7 @@
     "message": "Bewaarregels en patronen"
   },
   "helpPatternsBody": {
-    "message": "Elke bewaarde site is een patroon op een van twee lijsten. 'Bewaren'-sites worden nooit opgeschoond. 'Bewaren tot de browser sluit'-sites overleven normale opschoningen maar worden bij herstart opgeschoond. Een site die met geen van beide overeenkomt wordt opgeschoond zodra je hem verlaat — het standaardlot; regels zijn de uitzonderingen.\n\nPatronen kijken alleen naar de hostnaam — geen https://, geen paden:\n\n• example.com — precies dat domein, niet mail.example.com\n• *.example.com — het domein en elk subdomein\n• 192.168.1.100 — dat IP-adres\n• 10.0.0.0/8 — elk IP in het CIDR-bereik\n• /^(mail|news)\\.example\\.com$/ — een reguliere expressie tussen schuine strepen\n• file:///home/user/notes — pagina's geopend uit die lokale map\n\nElke regel draagt ook opties per site (klap zijn rij open op de pagina Bewaarde sites): alleen benoemde cookies bewaren in plaats van allemaal, en keuzes per gegevenstype. Een regel 'Standaardopties aanmaken' bepaalt de startopties voor elke regel die daarna wordt toegevoegd.\n\nTip: om ALLE cookies bij herstart te laten verdwijnen, voeg * toe als 'Bewaren tot de browser sluit'-regel en markeer je echt permanente sites als 'Bewaren'."
+    "message": "Elke bewaarde site is een patroon op een van twee lijsten. 'Bewaren'-sites worden nooit opgeschoond. 'Bewaren tot de browser sluit'-sites overleven normale opschoningen maar worden bij herstart opgeschoond. Een site die met geen van beide overeenkomt wordt opgeschoond zodra je hem verlaat — het standaardlot; regels zijn de uitzonderingen.\n\nPatronen kijken alleen naar de hostnaam — geen https://, geen paden:\n\n• example.com — dat domein en www.example.com, maar niet mail.example.com\n• *.example.com — het domein en elk subdomein\n• 192.168.1.100 — dat IP-adres\n• 10.0.0.0/8 — elk IP in het CIDR-bereik\n• /^(mail|news)\\.example\\.com$/ — een reguliere expressie tussen schuine strepen\n• file:///home/user/notes — pagina's geopend uit die lokale map\n\nElke regel draagt ook opties per site (klap zijn rij open op de pagina Bewaarde sites): alleen benoemde cookies bewaren in plaats van allemaal, en keuzes per gegevenstype. Een regel 'Standaardopties aanmaken' bepaalt de startopties voor elke regel die daarna wordt toegevoegd.\n\nTip: om ALLE cookies bij herstart te laten verdwijnen, voeg * toe als 'Bewaren tot de browser sluit'-regel en markeer je echt permanente sites als 'Bewaren'."
   },
   "helpCookieNamesTitle": {
     "message": "Slechts enkele cookies bewaren"

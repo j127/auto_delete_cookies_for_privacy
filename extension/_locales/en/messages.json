@@ -1752,7 +1752,7 @@
     "description": "Pattern-syntax help table column header for the explanation"
   },
   "patternDomainMeaningText": {
-    "message": "Exactly this domain",
+    "message": "This domain, with or without www",
     "description": "Pattern-syntax help: plain domain example"
   },
   "patternSubdomainsMeaningText": {
@@ -1964,7 +1964,7 @@
     "description": "Help section title"
   },
   "helpPatternsBody": {
-    "message": "Every saved site is a pattern on one of two lists. “Keep” sites are never cleaned. “Keep until browser closes” sites survive normal cleanups but are cleaned when the browser restarts. A site matching neither is cleaned as soon as you leave it — the default fate; rules are the exceptions.\n\nPatterns match the hostname only — no https://, no paths:\n\n• example.com — exactly that domain, not mail.example.com\n• *.example.com — the domain and every subdomain\n• 192.168.1.100 — that IP address\n• 10.0.0.0/8 — any IP in the CIDR range\n• /^(mail|news)\\.example\\.com$/ — a regular expression between slashes\n• file:///home/user/notes — pages opened from that local folder\n\nEvery rule also carries per-site options (expand its row on the Saved sites page): keep only named cookies instead of all of them, and per-type site-data choices. A “Create default options” rule sets the starting options for every rule added afterwards.\n\nTip: to make ALL cookies vanish on restart, add * as a “Keep until browser closes” rule and mark your truly permanent sites “Keep”.",
+    "message": "Every saved site is a pattern on one of two lists. “Keep” sites are never cleaned. “Keep until browser closes” sites survive normal cleanups but are cleaned when the browser restarts. A site matching neither is cleaned as soon as you leave it — the default fate; rules are the exceptions.\n\nPatterns match the hostname only — no https://, no paths:\n\n• example.com — that domain and www.example.com, but not mail.example.com\n• *.example.com — the domain and every subdomain\n• 192.168.1.100 — that IP address\n• 10.0.0.0/8 — any IP in the CIDR range\n• /^(mail|news)\\.example\\.com$/ — a regular expression between slashes\n• file:///home/user/notes — pages opened from that local folder\n\nEvery rule also carries per-site options (expand its row on the Saved sites page): keep only named cookies instead of all of them, and per-type site-data choices. A “Create default options” rule sets the starting options for every rule added afterwards.\n\nTip: to make ALL cookies vanish on restart, add * as a “Keep until browser closes” rule and mark your truly permanent sites “Keep”.",
     "description": "Help section body: keep rules and patterns"
   },
   "helpCookieNamesTitle": {

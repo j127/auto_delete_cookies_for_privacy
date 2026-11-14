@@ -1441,7 +1441,7 @@
     "message": "Mit fed le"
   },
   "patternDomainMeaningText": {
-    "message": "Pontosan ez a domain"
+    "message": "Ez a domain, www-vel vagy anélkül"
   },
   "patternSubdomainsMeaningText": {
     "message": "A domain és minden aldomain"
@@ -1610,7 +1610,7 @@
     "message": "Megtartási szabályok és minták"
   },
   "helpPatternsBody": {
-    "message": "Minden mentett webhely egy minta a két lista egyikén. A Megtartás webhelyek sosem takarítódnak. A Bezárásig megtartott webhelyek túlélik a rendes takarításokat, de a böngésző újraindulásakor takarítódnak. Az egyikre sem illő webhely rögtön takarítódik, ahogy elhagyod — ez az alapértelmezett sors; a szabályok a kivételek.\n\nA minták csak a gépnévre illeszkednek — se https://, se útvonalak:\n\n• example.com — pontosan ez a domain, a mail.example.com nem\n• *.example.com — a domain és minden aldomain\n• 192.168.1.100 — ez az IP-cím\n• 10.0.0.0/8 — bármely IP a CIDR-tartományban\n• /^(mail|news)\\.example\\.com$/ — reguláris kifejezés perjelek között\n• file:///home/user/notes — az ebből a helyi mappából megnyitott oldalak\n\nMinden szabály webhelyenkénti beállításokat is hordoz (nyisd le a sorát a Mentett webhelyek oldalon): csak megnevezett sütik megtartása az összes helyett, és típusonkénti webhelyadat-választás. Az Alapértelmezett beállítások létrehozása szabály adja a később hozzáadott szabályok kiinduló beállításait.\n\nTipp: hogy MINDEN süti eltűnjön újraindításkor, add hozzá a * mintát Bezárásig megtartás szabályként, és a tényleg állandó webhelyeidet jelöld Megtartásra."
+    "message": "Minden mentett webhely egy minta a két lista egyikén. A Megtartás webhelyek sosem takarítódnak. A Bezárásig megtartott webhelyek túlélik a rendes takarításokat, de a böngésző újraindulásakor takarítódnak. Az egyikre sem illő webhely rögtön takarítódik, ahogy elhagyod — ez az alapértelmezett sors; a szabályok a kivételek.\n\nA minták csak a gépnévre illeszkednek — se https://, se útvonalak:\n\n• example.com — ez a domain és a www.example.com, de a mail.example.com nem\n• *.example.com — a domain és minden aldomain\n• 192.168.1.100 — ez az IP-cím\n• 10.0.0.0/8 — bármely IP a CIDR-tartományban\n• /^(mail|news)\\.example\\.com$/ — reguláris kifejezés perjelek között\n• file:///home/user/notes — az ebből a helyi mappából megnyitott oldalak\n\nMinden szabály webhelyenkénti beállításokat is hordoz (nyisd le a sorát a Mentett webhelyek oldalon): csak megnevezett sütik megtartása az összes helyett, és típusonkénti webhelyadat-választás. Az Alapértelmezett beállítások létrehozása szabály adja a később hozzáadott szabályok kiinduló beállításait.\n\nTipp: hogy MINDEN süti eltűnjön újraindításkor, add hozzá a * mintát Bezárásig megtartás szabályként, és a tényleg állandó webhelyeidet jelöld Megtartásra."
   },
   "helpCookieNamesTitle": {
     "message": "Csak néhány süti megtartása"

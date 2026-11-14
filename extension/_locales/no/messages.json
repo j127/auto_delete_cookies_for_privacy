@@ -1441,7 +1441,7 @@
     "message": "Hva det dekker"
   },
   "patternDomainMeaningText": {
-    "message": "Nøyaktig dette domenet"
+    "message": "Dette domenet, med eller uten www"
   },
   "patternSubdomainsMeaningText": {
     "message": "Domenet og hvert underdomene"
@@ -1610,7 +1610,7 @@
     "message": "Behold-regler og mønstre"
   },
   "helpPatternsBody": {
-    "message": "Hvert lagret nettsted er et mønster på en av to lister. Behold-nettsteder ryddes aldri. Behold til nettleseren lukkes-nettsteder overlever vanlige ryddinger, men ryddes når nettleseren starter på nytt. Et nettsted som ikke treffer noen av dem, ryddes så snart du forlater det — standardskjebnen; reglene er unntakene.\n\nMønstre treffer bare vertsnavnet — ingen https://, ingen stier:\n\n• example.com — nøyaktig det domenet, ikke mail.example.com\n• *.example.com — domenet og hvert underdomene\n• 192.168.1.100 — den IP-adressen\n• 10.0.0.0/8 — enhver IP i CIDR-området\n• /^(mail|news)\\.example\\.com$/ — et regulært uttrykk mellom skråstreker\n• file:///home/user/notes — sider åpnet fra den lokale mappen\n\nHver regel bærer også valg per nettsted (utvid raden på siden Lagrede nettsteder): behold bare navngitte kapsler i stedet for alle, og datavalg per type. En Opprett standardvalg-regel setter startvalgene for hver regel som legges til senere.\n\nTips: for at ALLE informasjonskapsler skal forsvinne ved omstart, legg til * som en Behold til nettleseren lukkes-regel og merk de virkelig varige nettstedene dine Behold."
+    "message": "Hvert lagret nettsted er et mønster på en av to lister. Behold-nettsteder ryddes aldri. Behold til nettleseren lukkes-nettsteder overlever vanlige ryddinger, men ryddes når nettleseren starter på nytt. Et nettsted som ikke treffer noen av dem, ryddes så snart du forlater det — standardskjebnen; reglene er unntakene.\n\nMønstre treffer bare vertsnavnet — ingen https://, ingen stier:\n\n• example.com — det domenet og www.example.com, men ikke mail.example.com\n• *.example.com — domenet og hvert underdomene\n• 192.168.1.100 — den IP-adressen\n• 10.0.0.0/8 — enhver IP i CIDR-området\n• /^(mail|news)\\.example\\.com$/ — et regulært uttrykk mellom skråstreker\n• file:///home/user/notes — sider åpnet fra den lokale mappen\n\nHver regel bærer også valg per nettsted (utvid raden på siden Lagrede nettsteder): behold bare navngitte kapsler i stedet for alle, og datavalg per type. En Opprett standardvalg-regel setter startvalgene for hver regel som legges til senere.\n\nTips: for at ALLE informasjonskapsler skal forsvinne ved omstart, legg til * som en Behold til nettleseren lukkes-regel og merk de virkelig varige nettstedene dine Behold."
   },
   "helpCookieNamesTitle": {
     "message": "Behold bare noen informasjonskapsler"

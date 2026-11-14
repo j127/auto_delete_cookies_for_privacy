@@ -1441,7 +1441,7 @@
     "message": "Mitä se kattaa"
   },
   "patternDomainMeaningText": {
-    "message": "Täsmälleen tämä verkkotunnus"
+    "message": "Tämä verkkotunnus, www-etuliitteen kanssa tai ilman"
   },
   "patternSubdomainsMeaningText": {
     "message": "Verkkotunnus ja jokainen aliverkkotunnus"
@@ -1610,7 +1610,7 @@
     "message": "Säilytyssäännöt ja kuviot"
   },
   "helpPatternsBody": {
-    "message": "Jokainen tallennettu sivusto on kuvio jommallakummalla kahdesta listasta. Säilytä-sivustoja ei siivota koskaan. Säilytä selaimen sulkemiseen asti -sivustot selviävät tavallisista siivouksista, mutta siivotaan uudelleenkäynnistyksessä. Sivusto, joka ei osu kumpaankaan, siivotaan heti kun poistut siltä — se on oletuskohtalo; säännöt ovat poikkeuksia.\n\nKuviot vertautuvat vain isäntänimeen — ei https://-alkua, ei polkuja:\n\n• example.com — täsmälleen tuo verkkotunnus, ei mail.example.com\n• *.example.com — verkkotunnus ja jokainen aliverkkotunnus\n• 192.168.1.100 — tuo IP-osoite\n• 10.0.0.0/8 — mikä tahansa IP CIDR-alueella\n• /^(mail|news)\\.example\\.com$/ — säännöllinen lauseke kauttaviivojen välissä\n• file:///home/user/notes — tuosta paikallisesta kansiosta avatut sivut\n\nJokaisella säännöllä on myös sivustokohtaiset valinnat (laajenna sen rivi Tallennetut sivustot -sivulla): säilytä vain nimetyt evästeet kaikkien sijaan ja tyyppikohtaiset sivustotietovalinnat. Luo oletusvalinnat -sääntö määrää aloitusvalinnat jokaiselle myöhemmin lisätylle säännölle.\n\nVinkki: jotta KAIKKI evästeet katoaisivat uudelleenkäynnistyksessä, lisää * Säilytä selaimen sulkemiseen asti -sääntönä ja merkitse todella pysyvät sivustosi Säilytä-tilaan."
+    "message": "Jokainen tallennettu sivusto on kuvio jommallakummalla kahdesta listasta. Säilytä-sivustoja ei siivota koskaan. Säilytä selaimen sulkemiseen asti -sivustot selviävät tavallisista siivouksista, mutta siivotaan uudelleenkäynnistyksessä. Sivusto, joka ei osu kumpaankaan, siivotaan heti kun poistut siltä — se on oletuskohtalo; säännöt ovat poikkeuksia.\n\nKuviot vertautuvat vain isäntänimeen — ei https://-alkua, ei polkuja:\n\n• example.com — tuo verkkotunnus ja www.example.com, mutta ei mail.example.com\n• *.example.com — verkkotunnus ja jokainen aliverkkotunnus\n• 192.168.1.100 — tuo IP-osoite\n• 10.0.0.0/8 — mikä tahansa IP CIDR-alueella\n• /^(mail|news)\\.example\\.com$/ — säännöllinen lauseke kauttaviivojen välissä\n• file:///home/user/notes — tuosta paikallisesta kansiosta avatut sivut\n\nJokaisella säännöllä on myös sivustokohtaiset valinnat (laajenna sen rivi Tallennetut sivustot -sivulla): säilytä vain nimetyt evästeet kaikkien sijaan ja tyyppikohtaiset sivustotietovalinnat. Luo oletusvalinnat -sääntö määrää aloitusvalinnat jokaiselle myöhemmin lisätylle säännölle.\n\nVinkki: jotta KAIKKI evästeet katoaisivat uudelleenkäynnistyksessä, lisää * Säilytä selaimen sulkemiseen asti -sääntönä ja merkitse todella pysyvät sivustosi Säilytä-tilaan."
   },
   "helpCookieNamesTitle": {
     "message": "Vain joidenkin evästeiden säilyttäminen"

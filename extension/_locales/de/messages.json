@@ -1441,7 +1441,7 @@
     "message": "Was es abdeckt"
   },
   "patternDomainMeaningText": {
-    "message": "Genau diese Domain"
+    "message": "Diese Domain, mit oder ohne www"
   },
   "patternSubdomainsMeaningText": {
     "message": "Die Domain und jede Subdomain"
@@ -1610,7 +1610,7 @@
     "message": "Behalten-Regeln und Muster"
   },
   "helpPatternsBody": {
-    "message": "Jede gespeicherte Website ist ein Muster auf einer von zwei Listen. „Behalten“-Websites werden nie bereinigt. „Behalten, bis der Browser schließt“-Websites überstehen normale Bereinigungen, werden aber beim Neustart bereinigt. Eine Website, die zu keiner von beiden passt, wird bereinigt, sobald du sie verlässt — das Standard-Schicksal; Regeln sind die Ausnahmen.\n\nMuster gelten nur für den Hostnamen — kein https://, keine Pfade:\n\n• example.com — genau diese Domain, nicht mail.example.com\n• *.example.com — die Domain und jede Subdomain\n• 192.168.1.100 — diese IP-Adresse\n• 10.0.0.0/8 — jede IP im CIDR-Bereich\n• /^(mail|news)\\.example\\.com$/ — ein regulärer Ausdruck zwischen Schrägstrichen\n• file:///home/user/notes — aus diesem lokalen Ordner geöffnete Seiten\n\nJede Regel trägt außerdem Optionen pro Website (klappe ihre Zeile auf der Seite „Gespeicherte Websites“ auf): nur benannte Cookies statt aller behalten sowie Websitedaten-Auswahl pro Typ. Eine Regel „Standardoptionen anlegen“ bestimmt die Ausgangsoptionen für jede danach angelegte Regel.\n\nTipp: Damit ALLE Cookies beim Neustart verschwinden, füge * als „Behalten, bis der Browser schließt“-Regel hinzu und markiere deine wirklich dauerhaften Websites mit „Behalten“."
+    "message": "Jede gespeicherte Website ist ein Muster auf einer von zwei Listen. „Behalten“-Websites werden nie bereinigt. „Behalten, bis der Browser schließt“-Websites überstehen normale Bereinigungen, werden aber beim Neustart bereinigt. Eine Website, die zu keiner von beiden passt, wird bereinigt, sobald du sie verlässt — das Standard-Schicksal; Regeln sind die Ausnahmen.\n\nMuster gelten nur für den Hostnamen — kein https://, keine Pfade:\n\n• example.com — diese Domain und www.example.com, aber nicht mail.example.com\n• *.example.com — die Domain und jede Subdomain\n• 192.168.1.100 — diese IP-Adresse\n• 10.0.0.0/8 — jede IP im CIDR-Bereich\n• /^(mail|news)\\.example\\.com$/ — ein regulärer Ausdruck zwischen Schrägstrichen\n• file:///home/user/notes — aus diesem lokalen Ordner geöffnete Seiten\n\nJede Regel trägt außerdem Optionen pro Website (klappe ihre Zeile auf der Seite „Gespeicherte Websites“ auf): nur benannte Cookies statt aller behalten sowie Websitedaten-Auswahl pro Typ. Eine Regel „Standardoptionen anlegen“ bestimmt die Ausgangsoptionen für jede danach angelegte Regel.\n\nTipp: Damit ALLE Cookies beim Neustart verschwinden, füge * als „Behalten, bis der Browser schließt“-Regel hinzu und markiere deine wirklich dauerhaften Websites mit „Behalten“."
   },
   "helpCookieNamesTitle": {
     "message": "Nur einige Cookies behalten"
