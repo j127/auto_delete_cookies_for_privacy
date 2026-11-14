@@ -1325,19 +1325,19 @@ export const cleanSiteData = async (
   // port its marker cookie was set from ("" for other cookies).
   const domainsByStore = new Map<
     string | undefined,
-    { domain: string; port: string }[]
+    { domain: string; port: string; includeSiteHosts: boolean }[]
   >();
   for (const obj of cleanReasonObjects) {
     if (!filterSiteData(obj, siteData, debug)) continue;
     const domain = obj.cookie.domain;
     if (domain.trim() === "") continue;
     const wipeStore = siteDataWipeStore(siteData, obj.cookie.storeId);
-    const isProtected =
+    const isProtected = (host: string): boolean =>
       wipeStore === undefined
         ? isDomainProtectedInAnyStore(
             state,
             openTabDomains,
-            domain,
+            host,
             siteData,
             embeddedMainDomains
           )
@@ -1345,26 +1345,33 @@ export const cleanSiteData = async (
             state,
             wipeStore,
             openTabDomains,
-            domain,
+            host,
             siteData,
             embeddedByStore.get(wipeStore) ?? embeddedMainDomains
           );
-    if (isProtected) continue;
+    if (isProtected(domain)) continue;
+    // On Firefox the wipe also names the registrable domain and its www
+    // host (prepareCleanupHostnames). A keep rule may cover those while it
+    // does not cover this host: an exact rule for youtube.com and a cleaned
+    // m.youtube.com. They stay out of the scope then (#603).
+    const includeSiteHosts = !isProtected(
+      extractMainDomain(trimDot(domain.trim()))
+    );
     domainsByStore.set(wipeStore, [
       ...(domainsByStore.get(wipeStore) ?? []),
-      { domain, port: markerCookiePort(obj.cookie) },
+      { domain, port: markerCookiePort(obj.cookie), includeSiteHosts },
     ]);
   }
 
   const cleaned: string[] = [];
   for (const [wipeStore, entries] of domainsByStore) {
     const cleanList: string[] = [];
-    for (const { domain, port } of entries) {
+    for (const { domain, port, includeSiteHosts } of entries) {
       // Cookies are host-scoped, so a site's own cookies carry no port.
       // Its marker cookies do (markerCookieValue): one per port its pages
       // and frames loaded from, so storage on a non-default port, a NAS at
       // 192.168.1.8:5000 say, is in the scope as well (#574).
-      cleanList.push(...prepareCleanupScope(domain, port));
+      cleanList.push(...prepareCleanupScope(domain, port, includeSiteHosts));
     }
     if (cleanList.length === 0) continue;
     const r = await removeSiteData(

@@ -58,6 +58,7 @@ import {
   siteDataToBrowser,
   siteDataToRemovalTypes,
   sleep,
+  stripWwwPrefix,
   tabCookieStoreId,
   throwErrorNotification,
   toRawStoreId,
@@ -836,6 +837,24 @@ describe("Library Functions", () => {
     });
   });
 
+  describe("stripWwwPrefix()", () => {
+    it("drops a leading www. and the www1./wwws. variants getHostname drops", () => {
+      expect(stripWwwPrefix("www.example.com")).toBe("example.com");
+      expect(stripWwwPrefix("www1.example.com")).toBe("example.com");
+      expect(stripWwwPrefix("wwws.mint.com")).toBe("mint.com");
+      expect(stripWwwPrefix("WWW.Example.com")).toBe("Example.com");
+    });
+
+    it("leaves other hosts alone", () => {
+      expect(stripWwwPrefix("example.com")).toBe("example.com");
+      expect(stripWwwPrefix("mail.example.com")).toBe("mail.example.com");
+      expect(stripWwwPrefix("awww.example.com")).toBe("awww.example.com");
+      expect(stripWwwPrefix("sub.www.example.com")).toBe("sub.www.example.com");
+      // A single-label intranet host named www has no dot to strip.
+      expect(stripWwwPrefix("www")).toBe("www");
+    });
+  });
+
   describe("getExactHostname()", () => {
     it("keeps a leading www, unlike getHostname", () => {
       expect(getExactHostname("https://www.example.com/a")).toBe(
@@ -1523,6 +1542,63 @@ describe("Library Functions", () => {
     });
   });
 
+  // #603: cookie cleanup always matched rules against the host with its
+  // www. dropped (getHostname). The matcher now does that itself, so a
+  // caller holding a raw host gets the same answer, and a rule typed as
+  // www.example.com is no longer a rule that matches nothing.
+  describe("getMatchedExpressions() treats www and the bare domain as one site", () => {
+    const rule = (expression: string): StoreIdToExpressionList => ({
+      default: [{ expression, listType: ListType.WHITE, storeId: "default" }],
+    });
+    const count = (expression: string, host: string): number =>
+      getMatchedExpressions(rule(expression), "default", host).length;
+
+    it("lets a rule for the bare domain match the raw www host", () => {
+      expect(count("example.com", "www.example.com")).toBe(1);
+      expect(count("example.com", "example.com")).toBe(1);
+    });
+
+    it("reads a rule typed with www. as the bare domain", () => {
+      expect(count("www.example.com", "example.com")).toBe(1);
+      expect(count("www.example.com", "www.example.com")).toBe(1);
+      expect(
+        count("www.example.com", getHostname("https://www.example.com/"))
+      ).toBe(1);
+      expect(count(" www.example.com ", "example.com")).toBe(1);
+    });
+
+    it("still leaves other subdomains out", () => {
+      expect(count("example.com", "mail.example.com")).toBe(0);
+      expect(count("www.example.com", "mail.example.com")).toBe(0);
+    });
+
+    it("keeps wildcard rules as they were", () => {
+      expect(count("*.example.com", "www.example.com")).toBe(1);
+      expect(count("*.example.com", "mail.example.com")).toBe(1);
+    });
+
+    it("never turns a www. rule into one that keeps every site", () => {
+      expect(count("www.*", "example.com")).toBe(0);
+      expect(count("www.*.com", "example.com")).toBe(0);
+      expect(count("www.example.*", "example.org")).toBe(1);
+    });
+
+    it("gives regular expressions the host cookie cleanup gives them", () => {
+      // Cookie hosts have always reached a regex rule without their www.
+      expect(count("/^example\\.com$/", "www.example.com")).toBe(1);
+      expect(count("/^www\\./", "www.example.com")).toBe(0);
+    });
+
+    it("leaves the search box filtering on what was typed", () => {
+      expect(
+        getMatchedExpressions(rule("www.example.com"), "default", "www.", true)
+      ).toHaveLength(1);
+      expect(
+        getMatchedExpressions(rule("example.com"), "default", "www.", true)
+      ).toHaveLength(0);
+    });
+  });
+
   describe("prepareCleanupHostnames()", () => {
     it("carries the observed host, registrable domain, and www variant", () => {
       expect(prepareCleanupHostnames("sub.domain.com")).toEqual([
@@ -1573,6 +1649,20 @@ describe("Library Functions", () => {
     it("returns nothing for a blank domain", () => {
       expect(prepareCleanupHostnames("  ")).toEqual([]);
     });
+
+    // #603: a keep rule can cover the registrable domain but not the host.
+    it("leaves the site's own hosts out when asked to", () => {
+      expect(prepareCleanupHostnames("m.youtube.com", "", false)).toEqual([
+        "m.youtube.com",
+      ]);
+      expect(prepareCleanupHostnames("nas.domain.com", "5001", false)).toEqual([
+        "nas.domain.com",
+        "nas.domain.com:5001",
+      ]);
+      expect(prepareCleanupHostnames("127.0.0.1", "", false)).toEqual([
+        "127.0.0.1",
+      ]);
+    });
   });
 
   describe("prepareCleanupScope() on Chrome (default flavor)", () => {
@@ -1581,6 +1671,14 @@ describe("Library Functions", () => {
         prepareCleanupDomains("sub.domain.com", "8080")
       );
       expect(prepareCleanupScope("domain.com")[0]).toMatch(/^http:\/\//);
+    });
+
+    // Chrome's scope never adds the registrable domain, so there is
+    // nothing for includeSiteHosts to leave out (#603).
+    it("ignores includeSiteHosts", () => {
+      expect(prepareCleanupScope("m.youtube.com", "", false)).toEqual(
+        prepareCleanupDomains("m.youtube.com")
+      );
     });
   });
 
