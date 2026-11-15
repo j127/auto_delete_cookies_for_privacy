@@ -326,6 +326,12 @@ describe("SiteDataPanel cookie list (#592)", () => {
     expect(sizer.className).toContain("invisible");
     expect(sizer.className).toContain("h-0");
     expect(sizer.className).toContain("overflow-hidden");
+    // Both reserve a scrollbar's width, so an always-visible scrollbar on
+    // the full list doesn't make it wider than the copy.
+    expect(sizer.className).toContain("[scrollbar-gutter:stable]");
+    expect(
+      (container.querySelector("#cookieList ul") as HTMLElement).className
+    ).toContain("[scrollbar-gutter:stable]");
     const copies = [...sizer.children].map((row) => row.textContent ?? "");
     expect(copies).toHaveLength(COOKIE_FILTER_THRESHOLD + 1);
     expect(copies.some((text) => text.startsWith(`${long} `))).toBe(true);

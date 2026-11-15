@@ -222,7 +222,7 @@ const CookieList: React.FunctionComponent<{
           {msg("siteDataNoMatchingCookiesText")}
         </p>
       ) : (
-        <ul className="max-h-40 overflow-auto font-mono text-xs">
+        <ul className="max-h-40 [scrollbar-gutter:stable] overflow-auto font-mono text-xs">
           {shown.map((cookie) => {
             const id = cookieIdentity(cookie);
             return (
@@ -259,11 +259,15 @@ const CookieList: React.FunctionComponent<{
       {/* While the filter holds text, an invisible, zero-height copy of
           every row keeps the list as wide as the full list. The popup is
           as wide as its content, so long cookie names widen it; without
-          this, filtering them out shrank the popup under the typing. */}
+          this, filtering them out shrank the popup under the typing. Both
+          reserve a scrollbar's width (scrollbar-gutter): where scrollbars
+          always show, as on Windows and Linux, the full list's scrollbar
+          widens it, and the copy, or a filtered list too short to scroll,
+          must be as wide. */}
       {query !== "" && (
         <div
           aria-hidden="true"
-          className="invisible h-0 overflow-hidden font-mono text-xs"
+          className="invisible h-0 [scrollbar-gutter:stable] overflow-hidden font-mono text-xs"
           id="cookieListSizer"
         >
           {/* Same markup as a real row, so the copy is exactly as wide;
