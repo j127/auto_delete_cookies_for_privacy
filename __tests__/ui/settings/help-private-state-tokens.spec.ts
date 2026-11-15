@@ -8,6 +8,11 @@ import { readdirSync, readFileSync } from "fs";
 // Private State Tokens, which no extension can delete (#578, found in
 // discussion #573). Help → Troubleshooting and the README say so and say how
 // to remove them. These tests keep that note in every locale.
+//
+// The same paragraph also covers Edge's small per-address record (#464): the
+// extension only clears it once a site has no cookies left, so a keep rule
+// leaves it on the site's other addresses. The domain names in its example
+// stay untranslated, so the tests look for them.
 
 const LOCALES_ROOT = new URL("../../../extension/_locales/", import.meta.url);
 const README = new URL("../../../README.md", import.meta.url);
@@ -44,6 +49,16 @@ describe.each(LOCALES)("%s Help troubleshooting", (locale) => {
     expect(paragraphs).toHaveLength(7);
     expect(paragraphs[4]).toContain(TERM);
   });
+
+  it("explains Edge's record on a site whose cookies a keep rule holds", () => {
+    const paragraph = paragraphs[4];
+    expect(paragraph).toContain("accounts.google.com");
+    expect(paragraph).toContain("mail.google.com");
+    // The example comes after the Private State Tokens part, not before it.
+    expect(paragraph.indexOf("accounts.google.com")).toBeGreaterThan(
+      paragraph.indexOf("Cmd+Shift+Delete")
+    );
+  });
 });
 
 describe("README", () => {
@@ -56,5 +71,14 @@ describe("README", () => {
     expect(body).toContain(TERM);
     expect(body).toContain(SITE_LIST);
     expect(body).toContain("Ctrl+Shift+Delete");
+  });
+
+  it("explains Edge's record on a kept site and how to remove it safely", () => {
+    const section = readme.split("### What the browser won't let it clear")[1];
+    const body = section.split("\n### ")[0];
+    expect(body).toContain("`accounts.google.com`");
+    expect(body).toContain("`mail.google.com`");
+    expect(body).toContain("See all cookies and site data");
+    expect(body).toContain('"Remove all"');
   });
 });
