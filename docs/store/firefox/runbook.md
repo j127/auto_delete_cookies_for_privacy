@@ -27,7 +27,7 @@ Choose **Listed** on the first upload page ("On this site"). Listed means AMO ho
 ## 4. Describe the add-on
 
 - Fill the listing fields from [listing.md](listing.md) (name, summary, description, category Privacy & Security, license MIT, homepage/support = the GitHub repo, support email = `support@moakh.dev`).
-- Paste `PRIVACY.md` into the privacy-policy field. It isn't on Edit Product Page: open Manage Authors & License, tick the Privacy Policy checkbox, and paste into the box it reveals.
+- Privacy policy: Optional: AMO requires a privacy policy only from add-ons that transmit data, and this one transmits none (sync goes through Firefox's own storage, not the extension). The listing has none so far; the support links lead to `PRIVACY.md` on GitHub. To add one anyway: it isn't on Edit Product Page; open Manage Authors & License, tick the Privacy Policy checkbox, and paste `PRIVACY.md` into the box it reveals.
 - On Edit Product Page → Media, upload the listing icon and the screenshots with their captions, as the Assets section of [listing.md](listing.md) lists them. The icon is not taken from the manifest.
 - Data collection section: declare **no data collected/transmitted**, consistent with the manifest's `data_collection_permissions: { required: ["none"] }` (statement text in [permissions.md](permissions.md)).
 
@@ -49,5 +49,5 @@ Choose **Listed** on the first upload page ("On this site"). Listed means AMO ho
 ## 7. After approval
 
 - Verify the listing page shows the right screenshots, policy, and localized summaries.
-- Tag-driven releases continue to produce matched Firefox/source zips; each future version upload repeats steps 2–3 and 5. The listing copy persists between versions, so step 4 is needed only when something changed: re-paste the description and summary when [listing.md](listing.md) changed since the last upload, and the privacy policy when `PRIVACY.md` did, because AMO keeps its own copy of both.
+- Tag-driven releases continue to produce matched Firefox/source zips; each future version upload repeats steps 2–3 and 5. The listing copy persists between versions, so step 4 is needed only when something changed: re-paste the description and summary when [listing.md](listing.md) changed since the last upload, and, if the listing has a privacy policy, re-paste it when `PRIVACY.md` changed, because AMO keeps its own copy of both.
 - Record the AMO listing URL in the repo README once live.
