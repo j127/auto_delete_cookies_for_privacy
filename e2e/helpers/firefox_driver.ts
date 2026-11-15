@@ -32,11 +32,13 @@ const GECKODRIVER_PORT = 4447;
  * known browser/driver pair (bump together with `firefox-version` in
  * ci.yml, which since #427 takes one pinned Firefox per channel from the
  * e2e-firefox job's matrix). GECKODRIVER_VERSION overrides the pin (node-geckodriver's own
- * env knob, honored here too). The download cache is a versionless path,
- * so wipe the cache (GECKODRIVER_CACHE_DIR, default OS temp dir) if a
- * stale local binary shadows a pin change. CI points that variable at a
- * directory it caches between runs and keys on this constant, so there a
- * pin change fetches a fresh binary on its own (.github/workflows/ci.yml).
+ * env knob, honored here too). Since node-geckodriver 6.1.1 the download
+ * cache names each binary by version (geckodriver-<version> under
+ * GECKODRIVER_CACHE_DIR, default OS temp dir), so a pin change fetches a
+ * fresh binary locally too; before that the path was versionless and a
+ * stale binary could shadow a new pin. CI points that variable at a
+ * directory it caches between runs and keys on this constant, so the
+ * cache holds just the pinned binary (.github/workflows/ci.yml).
  */
 export const PINNED_GECKODRIVER_VERSION = "0.37.1";
 
@@ -50,7 +52,7 @@ export const geckodriverDownloadVersion = (): string =>
 
 /**
  * node-geckodriver forwards arbitrary camelCase params as --kebab-case
- * CLI flags, but 6.1.1's GeckodriverParameters type doesn't declare
+ * CLI flags, but 8.0.0's GeckodriverParameters type doesn't declare
  * allowSystemAccess yet; widen the type instead of casting the call.
  */
 type GeckodriverStartParams = Parameters<typeof startGeckodriver>[0] & {
