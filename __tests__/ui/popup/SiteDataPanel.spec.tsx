@@ -307,6 +307,46 @@ describe("SiteDataPanel cookie list (#592)", () => {
     expect(container.querySelectorAll("#cookieList li")).toHaveLength(0);
   });
 
+  it("keeps the full list's width while filtering, with a hidden copy of every row", async () => {
+    // The popup is as wide as its content: rows the filter hides must still
+    // count, or filtering out a long cookie name shrinks the popup.
+    const long = `wide_${"x".repeat(120)}`;
+    const { container, items } = await renderList(
+      [...manyCookies(), cookie(long)],
+      true
+    );
+    expect(container.querySelector("#cookieListSizer")).toBeNull();
+
+    fireEvent.change(container.querySelector("#cookieFilter") as Element, {
+      target: { value: "session" },
+    });
+    expect(items()).toEqual([expect.stringMatching(/^session_id /)]);
+    const sizer = container.querySelector("#cookieListSizer") as HTMLElement;
+    expect(sizer.getAttribute("aria-hidden")).toBe("true");
+    expect(sizer.className).toContain("invisible");
+    expect(sizer.className).toContain("h-0");
+    expect(sizer.className).toContain("overflow-hidden");
+    const copies = [...sizer.children].map((row) => row.textContent ?? "");
+    expect(copies).toHaveLength(COOKIE_FILTER_THRESHOLD + 1);
+    expect(copies.some((text) => text.startsWith(`${long} `))).toBe(true);
+    // The copy holds the delete button's width too, with buttons that keyboard
+    // focus skips (and that the invisible class keeps from being clicked).
+    const copyButtons = [...sizer.querySelectorAll("button")];
+    expect(copyButtons).toHaveLength(COOKIE_FILTER_THRESHOLD + 1);
+    expect(copyButtons.every((b) => b.tabIndex === -1)).toBe(true);
+
+    // Still there when nothing matches, so the box doesn't narrow either.
+    fireEvent.change(container.querySelector("#cookieFilter") as Element, {
+      target: { value: "nothing-like-this" },
+    });
+    expect(container.querySelector("#cookieListSizer")).not.toBeNull();
+
+    fireEvent.change(container.querySelector("#cookieFilter") as Element, {
+      target: { value: "" },
+    });
+    expect(container.querySelector("#cookieListSizer")).toBeNull();
+  });
+
   it("shows each cookie's domain and path in its tooltip", async () => {
     const { container } = await renderList([
       cookie("sid"),

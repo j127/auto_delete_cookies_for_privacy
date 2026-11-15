@@ -256,6 +256,39 @@ const CookieList: React.FunctionComponent<{
           })}
         </ul>
       )}
+      {/* While the filter holds text, an invisible, zero-height copy of
+          every row keeps the list as wide as the full list. The popup is
+          as wide as its content, so long cookie names widen it; without
+          this, filtering them out shrank the popup under the typing. */}
+      {query !== "" && (
+        <div
+          aria-hidden="true"
+          className="invisible h-0 overflow-hidden font-mono text-xs"
+          id="cookieListSizer"
+        >
+          {/* Same markup as a real row, so the copy is exactly as wide;
+              invisible content can't be clicked or focused. */}
+          {cookies.map((cookie) => (
+            <div
+              className="flex items-center gap-1 py-0.5"
+              key={cookieIdentity(cookie)}
+            >
+              <span className="min-w-0 flex-1 truncate">
+                {cookieDetail(cookie)}
+              </span>
+              {canDelete && (
+                <button
+                  className="btn h-5 min-h-0 shrink-0 btn-ghost px-1 btn-xs"
+                  tabIndex={-1}
+                  type="button"
+                >
+                  ×
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

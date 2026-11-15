@@ -9,6 +9,11 @@
  * clicked cookie. A same-name CHIPS cookie partitioned under another site
  * stays, and so do the rest. The popup is the real popup/popup.html in a
  * frame inside the probe page while the site's tab is the active one.
+ *
+ * The real popup is as wide as its content, so a long cookie name widens
+ * it. Filtering that name out must not shrink it under the typing: the
+ * width test measures the popup document's preferred (max-content) width
+ * with and without the filter.
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { updateSettings, waitFor } from "../helpers/chrome_cdp";
@@ -19,6 +24,8 @@ const COUNT = 12;
 const name = (i: number) => `e2e_list_${String(i).padStart(2, "0")}`;
 const TARGET = name(7);
 const TWIN_SITE = `https://${OTHER_SITE}`;
+// Wide enough to make the popup wider than its 430px minimum.
+const WIDE = `e2e_wide_${"w".repeat(150)}`;
 
 let run: ChromiumRun | undefined;
 
@@ -32,6 +39,57 @@ const rows = () =>
        hasButton: li.querySelector("button") !== null,
      }))`
   );
+
+/** Types into the popup's filter box the way React sees typing. */
+const setFilter = (value: string) =>
+  run!.session.probeEval(`(() => {
+    const frame = document.getElementById("e2ePopupFrame");
+    const input = frame.contentDocument.getElementById("cookieFilter");
+    const setValue = Object.getOwnPropertyDescriptor(
+      frame.contentWindow.HTMLInputElement.prototype, "value"
+    ).set;
+    setValue.call(input, ${JSON.stringify(value)});
+    input.dispatchEvent(new frame.contentWindow.Event("input", { bubbles: true }));
+    return true;
+  })()`);
+
+/**
+ * The width the popup document asks for: its max-content width, which is
+ * what sizes a real popup (the frame here has a fixed width). The frame is
+ * made tall for the measurement, so a page scrollbar that comes and goes
+ * with the list's height doesn't count.
+ */
+const preferredWidth = () =>
+  run!.session.probeEval<number>(`(() => {
+    const frame = document.getElementById("e2ePopupFrame");
+    const root = frame.contentDocument.documentElement;
+    const height = frame.style.height;
+    frame.style.height = "5000px";
+    // Lay out the probe page first, so the frame's document sees its new
+    // height before it is measured.
+    void frame.offsetHeight;
+    const previous = root.style.width;
+    root.style.width = "max-content";
+    const width = root.getBoundingClientRect().width;
+    root.style.width = previous;
+    frame.style.height = height;
+    return width;
+  })()`);
+
+/**
+ * The preferred width once it holds still: the popup can still be laying
+ * out its rows when a test starts, so two readings in a row must agree.
+ */
+const settledWidth = async (): Promise<number> => {
+  let last = await preferredWidth();
+  for (let i = 0; i < 25; i++) {
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    const now = await preferredWidth();
+    if (Math.abs(now - last) < 0.5) return now;
+    last = now;
+  }
+  throw new Error(`the popup's width never settled (last ${last})`);
+};
 
 const storedNamed = (cookieName: string) =>
   run!.session.probeEval<{ partition: string | null }[]>(
@@ -60,6 +118,10 @@ beforeAll(async () => {
         secure: true, sameSite: "no_restriction",
       });
     }
+    await chrome.cookies.set({
+      url, name: ${JSON.stringify(WIDE)}, value: "v",
+      secure: true, sameSite: "no_restriction",
+    });
     // The target's twin, partitioned under another site (CHIPS).
     await chrome.cookies.set({
       url, name: ${JSON.stringify(TARGET)}, value: "twin",
@@ -92,7 +154,7 @@ beforeAll(async () => {
       list.closest("details").open = true;
       return true;
     })()`);
-    return opened && (await rows()).length >= COUNT + 1;
+    return opened && (await rows()).length >= COUNT + 2;
   }, 20000);
   if (!listed) throw new Error("the popup never listed the cookies");
 }, 180000);
@@ -109,6 +171,21 @@ describe("the popup's cookie list (#592)", () => {
     expect(
       target.filter((r) => r.title.includes(`(${TWIN_SITE})`))
     ).toHaveLength(1);
+  });
+
+  it("keeps the popup's width while the filter hides the long name", async () => {
+    const before = await settledWidth();
+    expect(before).toBeGreaterThan(430);
+    await setFilter("e2e-list");
+    expect(
+      await waitFor(async () => (await rows()).length === COUNT + 1, 10000),
+      "the filter hid the long name"
+    ).toBeTruthy();
+    expect(await settledWidth()).toBeCloseTo(before, 0);
+    await setFilter("");
+    expect(
+      await waitFor(async () => (await rows()).length === COUNT + 2, 10000)
+    ).toBeTruthy();
   });
 
   it("filters the list, ignoring case and separators", async () => {
