@@ -1,6 +1,18 @@
 {
   "releases": [
     {
+      "version": "1.4.0",
+      "notes": [
+        "New: optional sync. Turn on Sync in the settings to keep your Default keep list and cleaning settings the same on every device signed in to the same browser account (Chrome with Chrome, desktop Firefox with desktop Firefox; Firefox for Android doesn't sync extension data, so the setting isn't offered there). It's off by default, the Private and container lists stay on each device, and your browser carries the data through its own sync service: the extension itself still sends nothing anywhere.",
+        "New: optional keyboard shortcuts for Clean now, Clean now including open tabs, Delete this site's cookies, Keep this site, and Keep this site until the browser closes. None has a key until you pick one on your browser's extension shortcuts page. Firefox for Android has no keyboard shortcuts.",
+        "The popup's cookie list gets a filter box once a site has 10 or more cookies, and in advanced mode a button that deletes a single cookie. Open sections and the filter now stay put when the list refreshes.",
+        "Keep rules now protect a site's stored data as reliably as its cookies. On Firefox, a rule for exactly youtube.com no longer loses YouTube's stored data when a subdomain such as m.youtube.com is cleaned, and a rule kept in one container protects the www. address in other containers too. A rule typed as www.example.com now works like example.com; before, it matched nothing.",
+        "The pattern help on the Saved sites page and in Help now says that a rule for example.com also covers www.example.com (but not other subdomains such as mail.example.com). It used to say \"exactly that domain\", which made it look as if www. pages would be cleaned.",
+        "Help → Troubleshooting now explains the small entry (about 100 bytes, no cookies) that Chrome and Edge can keep listing for some sites after a cleanup. Usually it holds Private State Tokens, which browsers don't let extensions delete. On Edge it can also be a small record Edge keeps for each address of a site, which the extension can clear only once none of the site's cookies are kept. Help says how to remove either yourself without losing the cookies you keep.",
+        "Internal: dependency updates, including the Redux libraries and the stylesheet tooling, and the test matrix and store descriptions now cover sync and the shortcuts."
+      ]
+    },
+    {
       "version": "1.3.5",
       "notes": [
         "Sites on their own port, such as a NAS at 192.168.1.8:5000, a router page or a local development server, now have their stored data deleted too. It used to stay behind, and the site stayed listed with its port in the browser's site data settings. Sites you visit on a port are picked up from your next visit.",
