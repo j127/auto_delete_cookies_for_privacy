@@ -66,7 +66,7 @@ DETAILS
 - License: MIT (matches the repo LICENSE).
 - Support site / homepage: the GitHub repo URL.
 - Support email: `support@moakh.dev`, so people without a GitHub account can reach us. It is the address the extension's Support page shows.
-- Privacy policy: paste `PRIVACY.md` into the listing's privacy-policy field (AMO hosts its own copy).
+- Privacy policy: paste `PRIVACY.md` into the listing's privacy-policy field (AMO hosts its own copy). It isn't on Edit Product Page: open Manage Authors & License, tick the Privacy Policy checkbox, and paste into the box it reveals.
 - Tags: cookies, privacy, containers, cleaner.
 - Compatibility: Firefox, and Firefox for Android once its check in [docs/testing-firefox.md](../../testing-firefox.md) has a recorded pass (see [runbook.md](runbook.md), step 2). The manifest declares both minimums: 140 on desktop, 142 on Android.
 
