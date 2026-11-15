@@ -16,7 +16,7 @@ This is a browser extension for Chrome, Brave, and Firefox that automatically de
 - In advanced mode, delete a single cookie from the popup's list of the site's cookies; a list of 10 or more cookies gets a filter box
 - A rule can keep just some of a site's cookies, by name or by pattern (`auth_*` keeps every cookie whose name starts with `auth_`; `\*` is a literal asterisk). Older versions and Cookie AutoDelete read `auth_*` as one literal name, so a rule with patterns imported there cleans those cookies instead of keeping them
 - Each Firefox container can have its own keep rules
-- Optional sync (off by default) keeps the Default keep list and the cleaning settings the same on every device signed in to the same browser account: Chrome with Chrome, Firefox with Firefox. The Private list, container lists, and the automatic-cleaning switch stay on each device. Your browser carries the data through its own sync service; the extension still makes no network requests
+- Optional sync (off by default) keeps the Default keep list and the cleaning settings the same on every device signed in to the same browser account: Chrome with Chrome, desktop Firefox with desktop Firefox. The Private list, container lists, and the automatic-cleaning switch stay on each device. Your browser carries the data through its own sync service; the extension still makes no network requests
 
 ### What the browser won't let it clear
 
@@ -31,6 +31,7 @@ Edge can also keep a small record of about 100 bytes for each address of a site,
 The Firefox build also runs on Firefox for Android 142 or newer, and on rebuilds of it such as Fennec F-Droid. A few things work differently there, because Firefox for Android gives extensions less to work with:
 
 - There are no containers and no right-click menu, so those settings are hidden. There are no keyboard shortcuts either; use the switch in the popup.
+- Firefox for Android doesn't sync extension data with the Mozilla account, so the sync setting is hidden too.
 - There are no windows, so the Private keep list (sites kept in private tabs) is erased when the last private tab closes, and when Firefox starts with no private tab open, rather than when the last private window closes.
 - After a restart, Firefox only tells extensions about the tabs it has loaded again. So that sites in tabs you haven't opened yet don't get logged out, the extension remembers which sites were open and keeps their cookies until you open and close those tabs again. A tab closed from the tab tray without ever being opened keeps its site's cookies until the next "Clean now, including open tabs".
 

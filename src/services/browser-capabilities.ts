@@ -160,9 +160,18 @@ export const hasContextMenuApi = (): boolean =>
 /**
  * Whether the browser offers extension sync storage (#587). Both desktop
  * browsers do; the check keeps the sync switch hidden anywhere it's missing.
+ *
+ * Firefox for Android has storage.sync, but it only stores locally: nothing
+ * reaches the Mozilla account (MDN's compatibility data says so, Android's
+ * sync engines have none for extension storage, and Mozilla's bug 1625257
+ * is still open). Offering the switch there would show "Last synced" while
+ * nothing leaves the phone, so the windows API, which only Android lacks,
+ * hides it there too. Revisit if that bug is fixed.
  */
 export const hasSyncStorageApi = (): boolean =>
-  browser.storage !== undefined && browser.storage.sync !== undefined;
+  browser.storage !== undefined &&
+  browser.storage.sync !== undefined &&
+  hasWindowsApi();
 
 /**
  * Whether the browser has the windows API. Firefox for Android does not:

@@ -98,4 +98,19 @@ describe("runtime API presence on the Chrome build", () => {
       global.browser.storage.sync = syncArea;
     }
   });
+
+  it("reports no sync storage on Firefox for Android, where it never leaves the device", async () => {
+    const { hasSyncStorageApi } =
+      await import("@/services/browser-capabilities");
+    // Android has storage.sync but no windows API; its storage.sync only
+    // stores locally, so the sync switch must not be offered there.
+    const windows = global.browser.windows;
+    try {
+      delete (global.browser as unknown as Record<string, unknown>).windows;
+      expect(global.browser.storage.sync).toBeDefined();
+      expect(hasSyncStorageApi()).toBe(false);
+    } finally {
+      global.browser.windows = windows;
+    }
+  });
 });

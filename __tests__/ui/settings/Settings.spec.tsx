@@ -330,5 +330,19 @@ describe("Settings", () => {
         global.browser.storage.sync = original;
       }
     });
+
+    it("is hidden on Firefox for Android, whose sync storage stays on the device", () => {
+      // Android: storage.sync exists but only stores locally; the missing
+      // windows API is how the code tells Android from desktop Firefox.
+      const windows = global.browser.windows;
+      try {
+        delete (global.browser as unknown as Record<string, unknown>).windows;
+        const { queryByText } = renderSettings(syncOn);
+        expect(queryByText("settingGroupSync")).toBeNull();
+        expect(queryByText("syncEnabledText")).toBeNull();
+      } finally {
+        global.browser.windows = windows;
+      }
+    });
   });
 });
