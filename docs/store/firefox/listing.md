@@ -23,6 +23,7 @@ HOW IT WORKS
 • Close a site's tabs and, after a short grace period you control, its cookies are gone.
 • Clean the rest of a site's footprint too (on unless you turn it off): IndexedDB, LocalStorage, service workers, and plugin data. (Firefox doesn't let extensions clear a single site's cache, Cache Storage, or file-system storage, so those stay on Firefox; its own "Clear cookies and site data" in the padlock menu removes them.)
 • Keep lists protect the sites you choose: keep a site's data permanently, or only until the browser closes.
+• A keep rule can keep just some of a site's cookies, by name or by pattern (auth_* keeps every cookie whose name starts with auth_).
 • Optional sync (off by default) keeps your keep list and cleaning settings the same on every desktop Firefox signed in to your Mozilla account. Container lists stay on each device.
 • Nothing is cleaned automatically until you switch automatic cleaning on — and manual cleaning works even while it is off.
 
@@ -38,6 +39,7 @@ ON FIREFOX FOR ANDROID
 • Containers and the right-click menu are not available on Android, and neither is sync: Firefox for Android doesn't sync extension data with your Mozilla account.
 
 THE POPUP
+• Pause automatic cleaning from the popup for an hour, until the browser restarts, or until you turn it back on.
 • See how many cookies the current site has set, and inspect what else it stores on your device.
 • Clean the current site's data, or run a full cleanup, with one click.
 • Add the current site to your keep list without leaving the page.
@@ -64,7 +66,7 @@ DETAILS
 - License: MIT (matches the repo LICENSE).
 - Support site / homepage: the GitHub repo URL.
 - Support email: `support@moakh.dev`, so people without a GitHub account can reach us. It is the address the extension's Support page shows.
-- Privacy policy: paste `PRIVACY.md` into the listing's privacy-policy field (AMO hosts its own copy).
+- Privacy policy: Optional: AMO requires a privacy policy only from add-ons that transmit data, and this one transmits none (sync goes through Firefox's own storage, not the extension). The listing has none so far; `PRIVACY.md` is in the GitHub repo the listing links to. To add one anyway: it isn't on Edit Product Page; open Manage Authors & License, tick the Privacy Policy checkbox, and paste `PRIVACY.md` into the box it reveals.
 - Tags: cookies, privacy, containers, cleaner.
 - Compatibility: Firefox, and Firefox for Android once its check in [docs/testing-firefox.md](../../testing-firefox.md) has a recorded pass (see [runbook.md](runbook.md), step 2). The manifest declares both minimums: 140 on desktop, 142 on Android.
 

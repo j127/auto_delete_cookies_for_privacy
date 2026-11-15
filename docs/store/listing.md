@@ -21,10 +21,12 @@ HOW IT WORKS
 • Close a site's tabs and, after a short grace period you control, its cookies are gone.
 • Clean the rest of a site's footprint too (on unless you turn it off): cache, IndexedDB, LocalStorage, service workers, and plugin data, along with Cache Storage and file-system storage.
 • Keep lists protect the sites you choose: keep a site's data permanently, or only until the browser closes.
+• A keep rule can keep just some of a site's cookies, by name or by pattern (auth_* keeps every cookie whose name starts with auth_).
 • Optional sync (off by default) keeps your keep list and cleaning settings the same on every device where your browser is signed in to the same account.
 • Nothing is cleaned automatically until you switch automatic cleaning on — and manual cleaning works even while it is off.
 
 THE POPUP
+• Pause automatic cleaning from the popup for an hour, until the browser restarts, or until you turn it back on.
 • See how many cookies the current site has set, and inspect what else it stores on your device (local storage, databases, caches, service workers).
 • Clean the current site's data, or run a full cleanup, with one click.
 • Add the current site to your keep list without leaving the page.
