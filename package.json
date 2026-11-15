@@ -14,7 +14,7 @@
     "node": "^24.15.0"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^2.13.0",
+    "@reduxjs/toolkit": "^2.14.0",
     "ipaddr.js": "^2.5.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
@@ -26,7 +26,7 @@
   "devDependencies": {
     "@eslint-react/eslint-plugin": "5.28.8",
     "@eslint/js": "10.0.1",
-    "@tailwindcss/cli": "4.3.3",
+    "@tailwindcss/cli": "4.3.5",
     "@testing-library/dom": "10.4.2",
     "@testing-library/react": "^16.3.3",
     "@types/bun": "1.4.4",
@@ -35,11 +35,11 @@
     "@types/react-dom": "^19",
     "@types/selenium-webdriver": "4.35.7",
     "@types/webextension-polyfill": "0.12.6",
-    "@vitest/coverage-v8": "5.0.5",
+    "@vitest/coverage-v8": "5.1.0",
     "daisyui": "5.7.50",
     "eslint": "^10",
     "eslint-config-prettier": "10.1.8",
-    "geckodriver": "6.1.1",
+    "geckodriver": "8.0.0",
     "globals": "17.14.0",
     "jest-date-mock": "^1.0.10",
     "jest-when": "4.0.3",
@@ -47,11 +47,11 @@
     "prettier": "^3.9.10",
     "prettier-plugin-tailwindcss": "0.8.1",
     "selenium-webdriver": "4.52.0",
-    "tailwindcss": "4.3.3",
+    "tailwindcss": "4.3.5",
     "typescript": "6.0.3",
     "typescript-eslint": "^8.72.1",
-    "vite": "8.3.5",
-    "vitest": "5.0.5",
+    "vite": "8.3.6",
+    "vitest": "5.1.0",
     "web-ext": "10.8.0"
   },
   "repository": {

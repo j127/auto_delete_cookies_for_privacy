@@ -176,8 +176,8 @@ jobs:
       # the first spec file, and a transient 504 there failed this job on
       # 2026-09-21 (#398). The download now retries, and the binary is
       # cached so a healthy run does not depend on that request at all.
-      # node-geckodriver's cache path carries no version, so the key is
-      # what makes a pin change fetch a fresh binary; the pin is read out
+      # node-geckodriver names the cached binary by version, and keying the
+      # cache on the pin keeps it to that one binary; the pin is read out
       # of the helper rather than written here a second time
       # (__tests__/ci-workflow.spec.ts checks that this still matches).
       - name: Read the pinned geckodriver version
