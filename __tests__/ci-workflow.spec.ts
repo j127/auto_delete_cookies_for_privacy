@@ -109,8 +109,9 @@ describe("e2e-firefox job", () => {
   });
 
   it("keys the cache on that version, so a pin change fetches a fresh binary", () => {
-    // node-geckodriver's cache path carries no version: a stale binary
-    // would otherwise shadow a new pin.
+    // Before node-geckodriver 6.1.1 the cache path carried no version and a
+    // stale binary could shadow a new pin; the key still keeps the cache to
+    // the pinned binary instead of piling up every past one.
     expect(E2E_JOB).toMatch(
       /key: geckodriver-\$\{\{ runner\.os \}\}-\$\{\{ steps\.geckodriver\.outputs\.version \}\}/
     );
