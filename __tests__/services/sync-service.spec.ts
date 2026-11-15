@@ -217,6 +217,21 @@ describe("while sync is off", () => {
       (browser.storage as { sync?: unknown }).sync = original;
     }
   });
+
+  it("is off on Firefox for Android even if the setting is on", () => {
+    // Android's storage.sync never reaches the account; the missing windows
+    // API marks Android. A setting turned on there must not start syncing.
+    const original = browser.windows;
+    (browser as { windows?: unknown }).windows = undefined;
+    try {
+      store.dispatch(
+        updateSetting({ name: SettingID.SYNC_ENABLED, value: true })
+      );
+      expect(SyncService.isEnabled(store.getState())).toBe(false);
+    } finally {
+      (browser as { windows?: unknown }).windows = original;
+    }
+  });
 });
 
 describe("turning sync on", () => {

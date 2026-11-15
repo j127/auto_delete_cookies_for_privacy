@@ -23,7 +23,7 @@ The Firefox build declares this in the manifest itself: `data_collection_permiss
 Sync is off by default, and each device turns it on for itself in the settings. While it is on, the extension keeps a copy of your Default keep list and your cleaning settings in the browser's extension sync storage (`storage.sync`), and your browser's own sync service carries that copy to the other devices signed in to the same browser account:
 
 - On Chrome, Chrome Sync stores it with your Google account. It is encrypted in transit; with a sync passphrase set in Chrome, it is encrypted end to end.
-- On Firefox, Firefox Sync stores it with your Mozilla account, encrypted end to end.
+- On desktop Firefox, Firefox Sync stores it with your Mozilla account, encrypted end to end. Firefox for Android doesn't sync extension data, so the extension doesn't offer sync there.
 
 The extension itself still sends nothing anywhere, and the developer never receives the synced data. What syncs is the rules you added to the Default list and the settings that control cleaning. The Private list, Firefox container lists, the automatic-cleaning switch, the activity log, and the statistics never sync. Turning sync off stops this device from syncing; the copy in your browser account stays for your other devices until you remove it with your browser's own controls for synced data.
 
