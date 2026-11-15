@@ -27,7 +27,7 @@ Choose **Listed** on the first upload page ("On this site"). Listed means AMO ho
 ## 4. Describe the add-on
 
 - Fill the listing fields from [listing.md](listing.md) (name, summary, description, category Privacy & Security, license MIT, homepage/support = the GitHub repo, support email = `support@moakh.dev`).
-- Privacy policy: Optional: AMO requires a privacy policy only from add-ons that transmit data, and this one transmits none (sync goes through Firefox's own storage, not the extension). The listing has none so far; the support links lead to `PRIVACY.md` on GitHub. To add one anyway: it isn't on Edit Product Page; open Manage Authors & License, tick the Privacy Policy checkbox, and paste `PRIVACY.md` into the box it reveals.
+- Privacy policy: Optional: AMO requires a privacy policy only from add-ons that transmit data, and this one transmits none (sync goes through Firefox's own storage, not the extension). The listing has none so far; `PRIVACY.md` is in the GitHub repo the listing links to. To add one anyway: it isn't on Edit Product Page; open Manage Authors & License, tick the Privacy Policy checkbox, and paste `PRIVACY.md` into the box it reveals.
 - On Edit Product Page → Media, upload the listing icon and the screenshots with their captions, as the Assets section of [listing.md](listing.md) lists them. The icon is not taken from the manifest.
 - Data collection section: declare **no data collected/transmitted**, consistent with the manifest's `data_collection_permissions: { required: ["none"] }` (statement text in [permissions.md](permissions.md)).
 

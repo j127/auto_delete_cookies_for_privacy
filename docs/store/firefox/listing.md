@@ -66,7 +66,7 @@ DETAILS
 - License: MIT (matches the repo LICENSE).
 - Support site / homepage: the GitHub repo URL.
 - Support email: `support@moakh.dev`, so people without a GitHub account can reach us. It is the address the extension's Support page shows.
-- Privacy policy: Optional: AMO requires a privacy policy only from add-ons that transmit data, and this one transmits none (sync goes through Firefox's own storage, not the extension). The listing has none so far; the support links lead to `PRIVACY.md` on GitHub. To add one anyway: it isn't on Edit Product Page; open Manage Authors & License, tick the Privacy Policy checkbox, and paste `PRIVACY.md` into the box it reveals.
+- Privacy policy: Optional: AMO requires a privacy policy only from add-ons that transmit data, and this one transmits none (sync goes through Firefox's own storage, not the extension). The listing has none so far; `PRIVACY.md` is in the GitHub repo the listing links to. To add one anyway: it isn't on Edit Product Page; open Manage Authors & License, tick the Privacy Policy checkbox, and paste `PRIVACY.md` into the box it reveals.
 - Tags: cookies, privacy, containers, cleaner.
 - Compatibility: Firefox, and Firefox for Android once its check in [docs/testing-firefox.md](../../testing-firefox.md) has a recorded pass (see [runbook.md](runbook.md), step 2). The manifest declares both minimums: 140 on desktop, 142 on Android.
 
