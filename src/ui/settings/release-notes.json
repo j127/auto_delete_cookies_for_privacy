@@ -1,6 +1,13 @@
 {
   "releases": [
     {
+      "version": "1.4.1",
+      "notes": [
+        "The popup no longer gets narrower while you type in the cookie filter. Before, filtering out a long cookie name made the popup shrink under your typing.",
+        "Internal: the Firefox test matrix records the 1.4.0 test pass of sync and the cookie list, and the store descriptions mention keep rules for just some cookies and the popup's pause switch."
+      ]
+    },
+    {
       "version": "1.4.0",
       "notes": [
         "New: optional sync. Turn on Sync in the settings to keep your Default keep list and cleaning settings the same on every device signed in to the same browser account (Chrome with Chrome, desktop Firefox with desktop Firefox; Firefox for Android doesn't sync extension data, so the setting isn't offered there). It's off by default, the Private and container lists stay on each device, and your browser carries the data through its own sync service: the extension itself still sends nothing anywhere.",
