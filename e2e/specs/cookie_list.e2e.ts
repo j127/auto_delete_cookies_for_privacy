@@ -11,6 +11,11 @@
  *
  * The popup is the real popup/popup.html in a frame inside the probe tab
  * while the site's tab is the active one, as in extension_pages.e2e.ts.
+ *
+ * The real popup is as wide as its content, so a long cookie name widens
+ * it. Filtering that name out must not shrink it under the typing: the
+ * width test measures the popup document's preferred (max-content) width
+ * with and without the filter.
  */
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import {
@@ -35,6 +40,8 @@ const busyCookie = (i: number): string =>
   `e2e_busy_${String(i).padStart(2, "0")}_${"tracking_identifier".repeat(4)}`;
 
 const TARGET = busyCookie(7);
+// Longer than every busy name, and wide enough to widen the popup.
+const WIDE = `e2e_wide_${"w".repeat(150)}`;
 
 type Row = { text: string; title: string; hasButton: boolean };
 
@@ -65,6 +72,59 @@ const storedNamed = async (
      return all.map((c) => ({ partition: c.partitionKey?.topLevelSite ?? null }));`,
     name
   )) as { partition: string | null }[];
+
+/** Types into the popup's filter box the way React sees typing. */
+const setFilter = (value: string) =>
+  inProbe(
+    session,
+    `const frame = document.getElementById("e2ePopupFrame");
+     const input = frame.contentDocument.getElementById("cookieFilter");
+     const setValue = Object.getOwnPropertyDescriptor(
+       frame.contentWindow.HTMLInputElement.prototype,
+       "value"
+     ).set;
+     setValue.call(input, args[0]);
+     input.dispatchEvent(new frame.contentWindow.Event("input", { bubbles: true }));
+     return true;`,
+    value
+  );
+
+/**
+ * The width the popup document asks for: its max-content width, which is
+ * what sizes a real popup (the frame here has a fixed width). The frame is
+ * made tall for the measurement, so a page scrollbar that comes and goes
+ * with the list's height doesn't count.
+ */
+const preferredWidth = async (): Promise<number> =>
+  (await inProbe(
+    session,
+    `const frame = document.getElementById("e2ePopupFrame");
+     const root = frame.contentDocument.documentElement;
+     const height = frame.style.height;
+     frame.style.height = "5000px";
+     void frame.offsetHeight;
+     const previous = root.style.width;
+     root.style.width = "max-content";
+     const width = root.getBoundingClientRect().width;
+     root.style.width = previous;
+     frame.style.height = height;
+     return width;`
+  )) as number;
+
+/**
+ * The preferred width once it holds still: the popup can still be laying
+ * out its rows when a test starts, so two readings in a row must agree.
+ */
+const settledWidth = async (): Promise<number> => {
+  let last = await preferredWidth();
+  for (let i = 0; i < 25; i++) {
+    await new Promise((resolve) => setTimeout(resolve, 200));
+    const now = await preferredWidth();
+    if (Math.abs(now - last) < 0.5) return now;
+    last = now;
+  }
+  throw new Error(`the popup's width never settled (last ${last})`);
+};
 
 const busyCount = async (): Promise<number> =>
   (await inProbe(
@@ -115,6 +175,7 @@ beforeAll(async () => {
        value: "twin",
        partitionKey: { topLevelSite: "http://127.0.0.1" },
      });
+     await browser.cookies.set({ url: args[3] + "/", name: args[4], value: "v" });
      const frame = document.createElement("iframe");
      frame.id = "e2ePopupFrame";
      frame.style.cssText = "width: 430px; height: 600px; border: 0; display: block;";
@@ -128,7 +189,8 @@ beforeAll(async () => {
     `${fixture.primary}/busy`,
     BUSY_COOKIE_COUNT,
     TARGET,
-    fixture.primary
+    fixture.primary,
+    WIDE
   );
   // Open the panel and its Cookies row once the inventory is in.
   const listed = await waitUntil(async () => {
@@ -160,6 +222,27 @@ describe("the popup's cookie list (#592, row 24)", () => {
     expect(
       target.filter((r) => r.title.includes("(http://127.0.0.1)"))
     ).toHaveLength(1);
+  });
+
+  it("keeps the popup's width while the filter hides the long name", async () => {
+    const before = await settledWidth();
+    expect(before).toBeGreaterThan(430);
+    await setFilter("e2e-busy");
+    expect(
+      await waitUntil(
+        async () => (await rows()).length === BUSY_COOKIE_COUNT + 1,
+        10000
+      ),
+      "the filter hid the long name"
+    ).toBe(true);
+    expect(await settledWidth()).toBeCloseTo(before, 0);
+    await setFilter("");
+    expect(
+      await waitUntil(
+        async () => (await rows()).length === BUSY_COOKIE_COUNT + 2,
+        10000
+      )
+    ).toBe(true);
   });
 
   it("filters the list, ignoring case and separators", async () => {
