@@ -27,7 +27,7 @@
         "@types/selenium-webdriver": "4.35.7",
         "@types/webextension-polyfill": "0.12.6",
         "@vitest/coverage-v8": "5.1.0",
-        "daisyui": "5.7.50",
+        "daisyui": "5.8.0",
         "eslint": "^10",
         "eslint-config-prettier": "10.1.8",
         "geckodriver": "8.0.0",
@@ -664,7 +664,7 @@
 
     "csstype": ["csstype@3.2.3", "", {}, "sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ=="],
 
-    "daisyui": ["daisyui@5.7.50", "", {}, "sha512-+/LRqnTCoc7s/bJEKKwtJSwzeXCVdAmRdNmZeZzgHCaQ9PJyl7j+2V2U32GQDMyD+VDkP9e/+JGoC72Y1hLk7w=="],
+    "daisyui": ["daisyui@5.8.0", "", {}, "sha512-pIdff0OLXTgCNvbRZlY2W2qjCnJd7DgRLyTpzhHgg+JqMzVDsQoRzJXyDKyPCOUYvTFHlOt97+JCeGyxQav4Zw=="],
 
     "data-urls": ["data-urls@8.0.0", "", { "dependencies": { "whatwg-mimetype": "^5.0.0", "whatwg-url": "^17.1.2" } }, "sha512-JQUCCK+/CAGbGGx618PlFZMXH81Jtj7t73CHv9dd/zVWvxgGT2zLFRjnKb+Ng46GIwcy+f7f88qd4duqllK+WQ=="],
 
@@ -818,7 +818,7 @@
 
     "fx-runner": ["fx-runner@1.7.0", "", { "dependencies": { "commander": "^12.1.0", "shell-quote": "1.11.0", "which": "^4.0.0", "winreg": "0.0.12" }, "bin": { "fx-runner": "bin/fx-runner" } }, "sha512-TK6IKWV+G1W6Ic6HtKw1B1AlZrX6JXZ4BEd3JabNxQuqgvmcWBOykLBvKxCWG34qspcFRFk1rtEk6YdNFtVA1A=="],
 
-    "geckodriver": ["geckodriver@8.0.0", "", { "dependencies": { "@zip.js/zip.js": "^2.23.0", "decamelize": "^6.0.1", "modern-tar": "^0.8.5", "undici": "^8.11.2" }, "peerDependencies": { "@wdio/logger": "^9.18.0 || ^10.0.0" }, "hasInstallScript": true, "bin": { "geckodriver": "bin/geckodriver.js" } }, "sha512-2jGCA6deI5MAjODxmHljPqvaUccGbeeqMUHXlW4k3FNDp4YDpxSI+P5QG+w5KIsnCeuGEfTTNi2euKqHI1eD6Q=="],
+    "geckodriver": ["geckodriver@8.0.0", "", { "dependencies": { "@zip.js/zip.js": "^2.23.0", "decamelize": "^6.0.1", "modern-tar": "^0.8.5", "undici": "^8.11.2" }, "peerDependencies": { "@wdio/logger": "^9.18.0 || ^10.0.0" }, "bin": { "geckodriver": "bin/geckodriver.js" } }, "sha512-2jGCA6deI5MAjODxmHljPqvaUccGbeeqMUHXlW4k3FNDp4YDpxSI+P5QG+w5KIsnCeuGEfTTNi2euKqHI1eD6Q=="],
 
     "gensync": ["gensync@1.0.0-beta.2", "", {}, "sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg=="],
 
